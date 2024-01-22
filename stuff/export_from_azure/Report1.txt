@@ -1,0 +1,89 @@
+Die Ausführung war erfolgreich.
+
+- Datenflusstask wird initialisiert (Erfolg)
+
+- Verbindungen werden initialisiert (Erfolg)
+
+- SQL-Befehl wird festgelegt (Erfolg)
+
+- Quellverbindung wird festgelegt (Erfolg)
+
+- Zielverbindung wird festgelegt (Erfolg)
+
+- Überprüfung wird ausgeführt (Warnung)
+	Meldungen
+	* Warnung 0x80049304: 1-Datenflusstask: Warnung: Der globale freigegebene Speicher konnte nicht geöffnet werden, um mit der Leistungs-DLL zu kommunizieren; es sind keine Datenfluss-Leistungsindikatoren verfügbar. Führen Sie dieses Paket als Administrator oder auf der Systemkonsole aus, um das Problem zu beheben.
+	 (SQL Server-Import/Export-Assistent)
+	
+
+- Ausführung vorbereiten (Erfolg)
+
+- Vor der Ausführung (Erfolg)
+
+- Wird ausgeführt (Erfolg)
+
+- Es wird kopiert in "`IMPORT_Komponistenliste`" (Erfolg)
+	* 32 Zeilen übertragen
+
+- Es wird kopiert in "`Komponist`" (Erfolg)
+	* 27 Zeilen übertragen
+
+- Es wird kopiert in "`Musikstueck`" (Erfolg)
+	* 87 Zeilen übertragen
+
+- Es wird kopiert in "`Musikstueck_tmp`" (Erfolg)
+	* 29 Zeilen übertragen
+
+- Es wird kopiert in "`Sammlung`" (Erfolg)
+	* 9 Zeilen übertragen
+
+- Es wird kopiert in "`Satz`" (Erfolg)
+	* 78 Zeilen übertragen
+
+- Es wird kopiert in "`Satz_backup`" (Erfolg)
+	* 73 Zeilen übertragen
+
+- Es wird kopiert in "`Satz_backup2`" (Erfolg)
+	* 73 Zeilen übertragen
+
+- Es wird kopiert in "`Satz_backup3`" (Erfolg)
+	* 73 Zeilen übertragen
+
+- Es wird kopiert in "`Verlag`" (Erfolg)
+	* 10 Zeilen übertragen
+
+- Nach der Ausführung (Erfolg)
+	Meldungen
+	* Informationen 0x4004300b: 1-Datenflusstask: 'Ziel - IMPORT_Komponistenliste' schrieb 32 Zeilen.
+	 (SQL Server-Import/Export-Assistent)
+	
+	* Informationen 0x4004300b: 1-Datenflusstask: 'Ziel 1 - Komponist' schrieb 27 Zeilen.
+	 (SQL Server-Import/Export-Assistent)
+	
+	* Informationen 0x4004300b: 1-Datenflusstask: 'Ziel 2 - Musikstueck' schrieb 87 Zeilen.
+	 (SQL Server-Import/Export-Assistent)
+	
+	* Informationen 0x4004300b: 1-Datenflusstask: 'Ziel 3 - Musikstueck_tmp' schrieb 29 Zeilen.
+	 (SQL Server-Import/Export-Assistent)
+	
+	* Informationen 0x4004300b: 1-Datenflusstask: 'Ziel 4 - Sammlung' schrieb 9 Zeilen.
+	 (SQL Server-Import/Export-Assistent)
+	
+	* Informationen 0x4004300b: 2-Datenflusstask: 'Ziel 5 - Satz' schrieb 78 Zeilen.
+	 (SQL Server-Import/Export-Assistent)
+	
+	* Informationen 0x4004300b: 2-Datenflusstask: 'Ziel 6 - Satz_backup' schrieb 73 Zeilen.
+	 (SQL Server-Import/Export-Assistent)
+	
+	* Informationen 0x4004300b: 2-Datenflusstask: 'Ziel 7 - Satz_backup2' schrieb 73 Zeilen.
+	 (SQL Server-Import/Export-Assistent)
+	
+	* Informationen 0x4004300b: 2-Datenflusstask: 'Ziel 8 - Satz_backup3' schrieb 73 Zeilen.
+	 (SQL Server-Import/Export-Assistent)
+	
+	* Informationen 0x4004300b: 2-Datenflusstask: 'Ziel 9 - Verlag' schrieb 10 Zeilen.
+	 (SQL Server-Import/Export-Assistent)
+	
+
+
+
