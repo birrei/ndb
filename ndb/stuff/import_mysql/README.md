@@ -53,5 +53,14 @@ on mt.Titel like concat("%", km.Komponist_Name, "%")
     
 -- where mt.Titel like "%Bois%"
 
-
 ```
+
+# Export als SQL (DDL und Inhalte)
+
+Erzeugte Datei: dbs8693768.sql
+
+# Import localhost
+
+XAMPP / MySQL, DB "test" -> dbs8693768.sql. Hat geklappt, allerdings sind die Tabellennamen nun alle klein geschreiben (z.B. Musikstueck -> musikstueck). Da die Kleinschreibung allgemein empfohlen wird, lasse ich das so. 
+
+

@@ -1,2 +1,0 @@
-# ndb
-Noten-Datenbank
