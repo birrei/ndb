@@ -1,6 +1,13 @@
-# Import per phpMyadmin 
+#  Migration Azure SQL DB -> MySQL 
 
-Import der csv-Dateien über phpMyAdmin, Tabellen umbenennen  
+## Export aus Azure SQL DB 
+... (über SSMS Export-Funktion, Export zu Excel)
+
+## Import per phpMyadmin 
+
+Import der csv-Dateien über phpMyAdmin  
+Tabelleninhalte prüfen (Korrekturen in Excel, z.T. falsche Struktur übertragen)
+Tabellen umbenennen  
 
 ```
 RENAME TABLE `TABLE 2` TO `Musikstueck`;   
@@ -11,7 +18,7 @@ RENAME TABLE `TABLE 6` TO `Satz`;
 RENAME TABLE `TABLE 7` TO `Verlag`;   
 ```
 
-# IDs in Schlüssel- und Idendity-Felder umwandeln 
+## IDs in Schlüssel-/IDENDITIY -Felder umwandeln 
 
 ```
 ALTER TABLE `Komponist` 
@@ -36,7 +43,7 @@ ALTER TABLE `Verlag`
 
 ```
 
-# Inhalte prüfen 
+## Tabelle musikstueck_tmp prüfen  
 ```
  -- Prüfen: ist Inhalt von Tabelle Musikstueck_tmp bereits in Tabelle Musikstueck erfasst?  
  select * 
@@ -55,17 +62,78 @@ on mt.Titel like concat("%", km.Komponist_Name, "%")
 
 ```
 
-# Export als SQL (DDL und Inhalte)
+## Export als SQL (DDL und Inhalte)
 
 Erzeugte Datei: dbs8693768.sql
 
-# Import localhost
+##  Import localhost
 
-XAMPP / MySQL, DB "test" -> dbs8693768.sql. Hat geklappt, allerdings sind die Tabellennamen nun alle klein geschreiben (z.B. Musikstueck -> musikstueck). Da die Kleinschreibung allgemein empfohlen wird, lasse ich das so. 
+XAMPP / MySQL, DB "test" -> dbs8693768.sql. Hat geklappt, allerdings sind die Tabellennamen nun alle klein geschrieben (z.B. Musikstueck -> musikstueck). Da die Kleinschreibung  empfohlen wird, lasse ich das so. 
+
+##  Import Dev  (Web.de)
+Datenbank-Namen anpassen: Anfangsbuchstaben klein 
+
+## DEV: Korrekturen 
+### Integration "Unbekannt" - Einträge 
+Fehlende IDs 0 für "unbekannt" ergänzen 
+Identity - Eintrag anschließend updaten 
+```
+insert into verlag (ID, Name, Bemerkung) values(0,"nv","falls unbekannt") 
+
+```
+
+Update "unbekannt"- Einträge auf ID=-1
 
 
-# Import Dev DB
-Entsprechend des lokalen Imports -> Datenbank-Namen anpassen: Anfangsbuchstaben klein 
+### Fremdschlüssel-Einschänkungen definieren   
+(ggf. Datentypen korrigieren)
+
+1) Sammlung > Verlag
+```
+ALTER TABLE `sammlung` ADD  FOREIGN KEY (`VerlagID`) REFERENCES `verlag`(`ID`) ON DELETE RESTRICT ON UPDATE RESTRICT;
+```
+2) Satz > Musikstueck  
+```
+ALTER TABLE `satz` ADD FOREIGN KEY (`MusikstueckID`) REFERENCES `musikstueck`(`ID`) ON DELETE RESTRICT ON UPDATE RESTRICT;
+```
+
+3) Musikstueck > Komponist  
+```
+ALTER TABLE `musikstueck` ADD  FOREIGN KEY (`KomponistID`) REFERENCES `komponist`(`ID`) ON DELETE RESTRICT ON UPDATE RESTRICT;
+```
+
+
+# Anhang 
+## Abfragen 
+
+```
+-- sammlung ohne verlag 
+select * 
+from sammlung s 
+left join verlag v on s.VerlagID = v.ID
+where v.ID is null 
+
+-- satz ohne musikstück  
+select * 
+from satz s 
+left join musikstueck m 
+on s.MusikstueckID = m.ID 
+where m.ID is null 
+
+-- musikstueck KonponistID nicht in komponist 
+select * 
+from musikstueck m 
+left join komponist k 
+on m.KomponistID = k.ID
+where k.ID is null 
+
+
+
+```
+
+
+
+
 
 
 
