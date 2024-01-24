@@ -64,3 +64,10 @@ Erzeugte Datei: dbs8693768.sql
 XAMPP / MySQL, DB "test" -> dbs8693768.sql. Hat geklappt, allerdings sind die Tabellennamen nun alle klein geschreiben (z.B. Musikstueck -> musikstueck). Da die Kleinschreibung allgemein empfohlen wird, lasse ich das so. 
 
 
+# Import Dev DB
+Entsprechend des lokalen Imports -> Datenbank-Namen anpassen: Anfangsbuchstaben klein 
+
+
+
+
+
