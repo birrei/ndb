@@ -18,4 +18,8 @@ CREATE  OR REPLACE VIEW musikstuecke_v AS
       musikstueck  AS m 
       LEFT join  sammlung  AS sa on m.SammlungID = sa.ID 
       LEFT join  komponist  AS k on m.KomponistID = k.ID 
-      LEFT join  verlag  AS v on sa.VErlagID = v.ID 
+      LEFT join  verlag  AS v on sa.VerlagID = v.ID 
+
+
+
+

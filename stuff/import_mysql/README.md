@@ -103,6 +103,10 @@ ALTER TABLE `musikstueck` ADD  FOREIGN KEY (`KomponistID`) REFERENCES `komponist
 ```
 
 
+
+
+
+
 # Anhang 
 ## Abfragen 
 
@@ -130,6 +134,8 @@ where k.ID is null
 
 
 ```
+
+
 
 
 

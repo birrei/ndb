@@ -2,7 +2,25 @@
 include("dbconnect.php");
 
 $table=$_GET['table'];
-$query = 'SELECT * FROM '.$table.' order by ID desc'; // jede Tabelle hat ein ID-Feld
+
+if (isset($_GET['sortcol'])) {
+    $sortcol=$_GET['sortcol'];
+}
+else {
+    $sortcol='ID';
+}
+
+if (isset($_GET['sortorder'])) {
+    $sortorder=$_GET['sortorder'];
+}
+else 
+{
+    $sortorder='asc';
+}
+
+$query = 'select * from '.$table.' order by '.$sortcol.' '.$sortorder;
+
+// echo $query; 
 
 $res = mysqli_query($db, $query);
 $data = $res->fetch_all(MYSQLI_ASSOC);
