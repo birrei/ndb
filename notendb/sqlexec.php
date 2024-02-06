@@ -69,10 +69,8 @@ if (isset($_POST['aktion']) and $_POST['aktion']=='ausfuehren') {
     }
 }
 
-
+include('foot.php');
 ?>
-</body>
-</html>
 
 
 

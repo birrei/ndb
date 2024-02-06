@@ -17,9 +17,9 @@ left join besetzung b on mb.BesetzungID = b.ID
 WHERE m.ID = 36 -- alle Jahre wieder 
 
 -- ... wie zuvor, aber Daten aus  besetzung.Name auf eine Zeile zusammengezogen 
-SELECT m.ID, m.Name, m.Besetzung
-    , GROUP_CONCAT(b.Name order by b.Name SEPARATOR '; ')     
+SELECT m.ID, m.Name
+    , GROUP_CONCAT(distinct b.Name order by b.Name SEPARATOR '; ')  as Besetzung_b  
 from musikstueck m 
 left join musikstueck_besetzung mb on m.ID = mb.MusikstueckID
 left join besetzung b on mb.BesetzungID = b.ID
-WHERE m.ID = 36 -- alle Jahre wieder 
+-- WHERE m.ID = 36 -- alle Jahre wieder 
