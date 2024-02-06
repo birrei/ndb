@@ -10,10 +10,10 @@ include('head.php');
 <td>
     <form action="" method="post">
         <label>SQL: 
-            <textarea name="abfrage" id="abfrage" cols="50" rows="10"></textarea>
+            <textarea name="abfrage" id="abfrage" cols="70" rows="10"></textarea>
         </label>
         <input type="hidden" name="aktion" value="ausfuehren">    
-        <input type="submit" value="speichern">
+        <input type="submit" value="ausfuehren">
     </form>
 </td>
 </tr>
@@ -32,14 +32,13 @@ if (isset($_POST['aktion']) and $_POST['aktion']=='ausfuehren') {
             echo '<p>'.$db->affected_rows . ' Zeilen betroffen</p>';
         }
 
-        $sqlstring = substr($sql, 0,6); 
-        $sqlstring = strtolower($sqlstring);
+        $sqlstring = strtolower($sql);
 
         // echo '<p>' . $sqlstring ; 
 
-        if($sqlstring=="select" )
+        if(substr($sqlstring, 0,6)=="select" or substr($sqlstring, 0,4)=="show")
         {
-            echo '$res OK ';
+            // echo '$res OK ';
             $data = $res->fetch_all(MYSQLI_ASSOC);
        
             echo '<table>';

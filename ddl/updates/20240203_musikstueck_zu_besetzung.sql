@@ -1,30 +1,52 @@
 /* 
-Anforderung: Eigenschaften müssen einzeln filterbar sein. Einem Musikstück müssen mehrere Besetzungen zuordenbar sein 
--> Neue Tabellen "besetzung", "musikstueck_besetzung"   
+Erstellung Tabelle "besetzung"
+Erstellung Tabelle "musikstueck_besetzung"
+Befüllung Tabelle "besetzung" aus Feld Inhalt von "musikstueck.Besetzung"
+Befüllung Tabelle "musikstueck_besetzung"
+Entfernung Spalte "musikstueck.Besetzung" (auf Prod erst nach  Absprache mit AG)
 */
 
 /* Tabelle "besetzung" */
 
-CREATE TABLE besetzung  
-	(`ID` int(11) UNSIGNED NOT NULL AUTO_INCREMENT 
-     , Name VARCHAR(100) NOT NULL 
-     , PRIMARY KEY (`ID`)
-    )
-    ENGINE = InnoDB; 
-
-/* Tabelle "musikstueck_besetzung" (Verknüpfungstabelle zwischen musikstueck und besetzung) */ 
-
-CREATE TABLE `musikstueck_besetzung` 
-   (`MusikstueckID` int(11) UNSIGNED  NOT NULL 
-   , `BesetzungID` int(11) UNSIGNED  NOT NULL 
-   ) 
-   ENGINE = InnoDB;
-
-ALTER TABLE `musikstueck_besetzung` ADD PRIMARY KEY(`MusikstueckID`, `BesetzungID`);
+    CREATE TABLE besetzung  
+        (`ID` int(11) UNSIGNED NOT NULL AUTO_INCREMENT 
+        , Name VARCHAR(100) NOT NULL 
+        , PRIMARY KEY (`ID`)
+        )
+        ENGINE = InnoDB; 
 
 
-/* Befüllung der Tabelle Besetzung (aus den Inhalten von Spalte musikstueck.Besetzung) 
-Geprüft: Im Feld "Besetzung" gibt es max. 3 separate Einträge 
+/* Verknüpfungstabelle "musikstueck_besetzung" */ 
+
+    CREATE TABLE `musikstueck_besetzung` 
+    (
+    `ID` int(11) UNSIGNED NOT NULL AUTO_INCREMENT     
+    , `MusikstueckID` int(11) UNSIGNED  NOT NULL 
+    , `BesetzungID` int(11) UNSIGNED  NOT NULL 
+        , PRIMARY KEY (`ID`)   
+    ) 
+    ENGINE = InnoDB;
+
+    ALTER TABLE `musikstueck_besetzung` 
+    ADD CONSTRAINT uc_musikstueck_besetzung 
+    UNIQUE (MusikstueckID,BesetzungID);
+
+
+    /* fkeys */ 
+    ALTER TABLE `musikstueck_besetzung` 
+        ADD  FOREIGN KEY (`MusikstueckID`) 
+        REFERENCES `musikstueck`(`ID`) 
+        ON DELETE RESTRICT ON UPDATE RESTRICT;
+
+    ALTER TABLE `musikstueck_besetzung` 
+        ADD  FOREIGN KEY (`BesetzungID`) 
+        REFERENCES `besetzung`(`ID`) 
+        ON DELETE RESTRICT ON UPDATE RESTRICT;
+
+/* 
+Befüllung der Tabelle Besetzung 
+Quelle: Inhalt Spalte musikstueck.Besetzung, dort sind mehrere Besetzungen durch Semikolons geteilt eingetragen.
+Pro Feld gibt es max. 3 separate Einträge 
 */ 
 
 /*
@@ -96,14 +118,10 @@ and m.Besetzung <> ''
 -- and b.Name is nULL -- Test fehlende Zuordnung   
 
 
-/* fkeys */ 
-ALTER TABLE `musikstueck_besetzung` ADD  FOREIGN KEY (`MusikstueckID`) REFERENCES `musikstueck`(`ID`) ON DELETE RESTRICT ON UPDATE RESTRICT;
-
-ALTER TABLE `musikstueck_besetzung` ADD  FOREIGN KEY (`BesetzungID`) REFERENCES `besetzung`(`ID`) ON DELETE RESTRICT ON UPDATE RESTRICT;
-
 
 /* 
 Spalte musikstueck.Besetzung löschen 
+
 
 */
 
