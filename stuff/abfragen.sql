@@ -22,4 +22,5 @@ SELECT m.ID, m.Name
 from musikstueck m 
 left join musikstueck_besetzung mb on m.ID = mb.MusikstueckID
 left join besetzung b on mb.BesetzungID = b.ID
+group by m.ID 
 -- WHERE m.ID = 36 -- alle Jahre wieder 
