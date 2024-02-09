@@ -42,15 +42,18 @@ echo '<tr>';
 foreach ($res->fetch_fields() as $column) {
     echo '<th>'.htmlspecialchars($column->name).'</th>';
 }
+echo '<th>Aktion</th>';
 echo '</tr>';
 echo '</thead>';
 // If there is data then display each row
 if ($data) {
     foreach ($data as $row) {
+        $ID=$row["ID"]; 
         echo '<tr>';
         foreach ($row as $cell) {
             echo '<td>'.htmlspecialchars($cell).'</td>';
         }
+        echo '<td><a href="edit_'.$table.'.php?ID='.$ID.'">Bearbeiten</a></td>';
         echo '</tr>';
     }
 } else {
