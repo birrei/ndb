@@ -27,6 +27,7 @@ include('head.php');
   <tr> 
     <td class="eingabe"></td> 
     <td class="eingabe"><input type="submit" value="Eintragen"></td>
+</tr>
 </table> 
 
 </form>
