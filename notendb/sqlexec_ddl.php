@@ -6,7 +6,8 @@ Die SQL-commands müssen durch ; voneinander getrennt sein.
 include('head.php');
 include("dbconnect.php"); // nur wenn benötigt 
 
-$file_name='ddl.sql'; 
+// $file_name='ddl_tables.sql'; // initiale installation 
+$file_name='ddl_views.sql'; //  
 $sqltext = file_get_contents($file_name, true);
 $cmds = explode(';', $sqltext);
 foreach($cmds as $cmd){

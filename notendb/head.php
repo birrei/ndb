@@ -13,6 +13,7 @@
    <link rel='stylesheet' type='text/css' href='style.css'/>
 </head>
 <body>
+<p><a href="index.php">Startseite</a></p>     
 <hr>
 <?php 
 ?> 

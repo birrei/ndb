@@ -56,12 +56,14 @@ if ("POST" == $_SERVER["REQUEST_METHOD"]) {
     if ($insert->execute()) {
         $id = $db->lastInsertId();
         echo '<p>Der Datensatz wurde mit ID '.$id.' eingefuegt.</p>';
-        echo '<p><a href="bearbeiten.php?ID=' . $id . '">Datensatz bearbeiten</a></p>';
-        echo '<p><a href="show_table.php?table=verlag&&sortcol=ID&sortorder=desc" target="_blank">Tabellendaten anzeigen</a> (neues Fenster)</p>';     
+        echo '<p><a href="edit_verlag.php?ID=' . $id . '">Datensatz bearbeiten</a></p>';
+        echo '<p><a href="show_table.php?table=verlag&&sortcol=ID&sortorder=desc">Tabellendaten anzeigen</a></p>';     
  
     }
     else {
-        print_r($insert->errorInfo());
+        echo '<p>Fehler! <br/>'.$insert->errorInfo().'</p>'; 
+        // print_r($insert->errorInfo());
+        // XXX Nutzer-Info anzeigen 
     }
 }
 

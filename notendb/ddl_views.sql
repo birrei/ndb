@@ -46,7 +46,7 @@ select
 /* Testviews */
 
 
-create view test_musikstueck_ohne_Besetzung_v 
+create OR REPLACE view test_musikstueck_ohne_Besetzung_v 
 AS 
 select m.* 
 from musikstueck m 

@@ -1,5 +1,6 @@
 <?php
 include("dbconnect.php");
+include('head.php');
 
 $table=$_GET['table'];
 
@@ -25,16 +26,7 @@ $query = 'select * from '.$table.' order by '.$sortcol.' '.$sortorder;
 $res = mysqli_query($db, $query);
 $data = $res->fetch_all(MYSQLI_ASSOC);
     
-?>
-<html xmlns='http://www.w3.org/1999/xhtml' xml:lang='en'>
-<head>
-   <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1"/>
-   <title><?php echo $table; ?> (Ansicht)</title>
-   <link rel='stylesheet' type='text/css' href='style.css'/>
-</head>
-<body>
-<?php 
-
+echo '<h2>Tabelle: '.$table.'</h2>';
 echo '<table>';
 // Display table header
 echo '<thead>';
@@ -63,5 +55,5 @@ echo '</table>';
 echo '</body>';
 echo '</html>';
 
-
+include('foot.php');
 ?>

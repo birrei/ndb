@@ -93,22 +93,24 @@ if (isset($_POST["senden"])) {
           echo '<p>'.$update->rowCount().' Zeilen geändert </p>';     
         }
         else {
-          print_r($update->errorInfo());            
+          // print_r($update->errorInfo());
+          echo '<p>Fehler! <br/>'.$update->errorInfo().'</p>';             
        }
      }
 
     if ($_POST["option"] == 'delete')
-    {
-      // Datensatz löschen      
-      $delete = $db->prepare("delete from `verlag` where `ID`=:ID");  
-      if ($delete->execute([':ID' => $_POST["ID"]]))
       {
-        echo '<p>Der Datensatz wurde gelöscht.</p>';
+        // Datensatz löschen      
+        $delete = $db->prepare("delete from `verlag` where `ID`=:ID");  
+        
+        try {
+          $delete->execute([':ID' => $_POST["ID"]]); 
+          echo '<p>Der Datensatz wurde gelöscht.</p>';
+        }
+        catch (PDOException $e) {
+          echo '<p>Der Datensatz konnte nicht gelöscht werden:<br />'.$e->getMessage().'</p>';
+        }
       }
-      else {
-        print_r($delete->errorInfo());            
-      }
-    }
 }
 
 echo '<a href="show_table.php?table='.$table.'&sortorder=desc">Tabelle anzeigen</a>'; 

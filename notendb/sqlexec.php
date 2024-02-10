@@ -62,7 +62,7 @@ if (isset($_POST['aktion']) and $_POST['aktion']=='ausfuehren') {
 
         }
          else {
-            echo '<p>'.$res->field_count.'">No records in the table!</p>';
+            // echo '<p>'.$res->field_count.'">No records in the table!</p>';
         }
 
 
