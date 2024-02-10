@@ -1,4 +1,4 @@
-CREATE OR REPLACE VIEW musikstuecke_v AS 
+CREATE OR REPLACE VIEW musikstuecke2_v AS 
 select 
 	m.Name AS Name
 	,m.Nummer AS Nr
@@ -10,7 +10,6 @@ select
     , m.Epoche
     , m.Verwendungszweck
     , m.Gattung
-   -- , b.Name as Besetzung 
     , GROUP_CONCAT(DISTINCT b.Name order by b.Name SEPARATOR '; ') Besetzung_c  /* c fuer concant */      
     , s.Name as Satz 
     , s.Nr as SatzNr
