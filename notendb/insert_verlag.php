@@ -26,7 +26,7 @@ include('head.php');
 
   <tr> 
     <td class="eingabe"></td> 
-    <td class="eingabe"><input type="submit" value="Eintragen"></td>
+    <td class="eingabe"><input type="submit" value="Speichern"></td>
 </tr>
 </table> 
 
@@ -55,8 +55,7 @@ if ("POST" == $_SERVER["REQUEST_METHOD"]) {
     
     if ($insert->execute()) {
         $id = $db->lastInsertId();
-        echo '<p>Der Datensatz wurde mit ID '.$id.' eingefuegt.</p>';
-        echo '<p><a href="edit_verlag.php?ID=' . $id . '">Datensatz bearbeiten</a></p>';
+        echo '<p>Der Datensatz wurde mit ID '.$id.' eingefuegt. <a href="edit_verlag.php?ID=' . $id . '">Datensatz bearbeiten</a></p>';
         echo '<p><a href="show_table.php?table=verlag&&sortcol=ID&sortorder=desc">Tabellendaten anzeigen</a></p>';     
  
     }

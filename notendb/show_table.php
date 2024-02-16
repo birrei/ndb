@@ -26,7 +26,7 @@ $query = 'select * from '.$table.' order by '.$sortcol.' '.$sortorder;
 $res = mysqli_query($db, $query);
 $data = $res->fetch_all(MYSQLI_ASSOC);
     
-echo '<h2>Tabelle: '.$table.'</h2>';
+// echo '<h2>Tabelle: '.$table.'</h2>';
 echo '<table>';
 // Display table header
 echo '<thead>';

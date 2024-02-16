@@ -8,6 +8,8 @@ echo '<h2>Verlag bearbeiten</h2>';
 
 if (isset($_GET["ID"])) {
 
+  $ID=$_GET["ID"]; 
+
   include("dbconnect_pdo.php"); // nur wenn benötigt 
 
   $select = $db->prepare("SELECT `ID`, `Name`, `Bemerkung` 
@@ -48,16 +50,14 @@ if (isset($_GET["ID"])) {
 
           <tr> 
             <td class="eingabe"></td> 
-            <td class="eingabe"><input type="submit" name="senden" value="Senden">
-            <label><input type="radio" name="option" value="edit" checked="checked">Ändern</label>
-            <label><input type="radio" name="option" value="delete" required="required">Löschen</label>      
-            
+            <td class="eingabe"><input type="submit" name="senden" value="Speichern">
+
             </td>
           </tr> 
 
         </table> 
+        <input type="hidden" name="option" value="edit">        
         <input type="hidden" name="ID" value="' . $verlag["ID"] . '">
-       </p>
     
         </form>
         '; 
@@ -69,6 +69,7 @@ if (isset($_GET["ID"])) {
 
 // Nach Absenden des Formulars 
 if (isset($_POST["senden"])) {
+  $ID=$_POST["ID"];   
   include("dbconnect_pdo.php");
   if ($_POST["option"] == 'edit') 
     {
@@ -78,10 +79,6 @@ if (isset($_POST["senden"])) {
                             `Name`     = :Name,
                             `Bemerkung` = :Bemerkung
                             WHERE `ID` = :ID"); 
-
-      // echo '<p>ID: '. $_POST["ID"].'</p>';                
-      // echo '<p>Name: '. $_POST["Name"].'</p>';  
-      // echo '<p>Bemerkung: '. $_POST["Bemerkung"].'</p>';  
 
       $update->bindParam(':ID', $_POST["ID"], PDO::PARAM_INT);
       $update->bindParam(':Name', $_POST["Name"]);
@@ -98,22 +95,24 @@ if (isset($_POST["senden"])) {
        }
      }
 
-    if ($_POST["option"] == 'delete')
-      {
-        // Datensatz löschen      
-        $delete = $db->prepare("delete from `verlag` where `ID`=:ID");  
+     // löschen nicht erlaubt 
+     
+    // if ($_POST["option"] == 'delete')
+    //   {
+    //     // Datensatz löschen      
+    //     $delete = $db->prepare("delete from `verlag` where `ID`=:ID");  
         
-        try {
-          $delete->execute([':ID' => $_POST["ID"]]); 
-          echo '<p>Der Datensatz wurde gelöscht.</p>';
-        }
-        catch (PDOException $e) {
-          echo '<p>Der Datensatz konnte nicht gelöscht werden:<br />'.$e->getMessage().'</p>';
-        }
-      }
+    //     try {
+    //       $delete->execute([':ID' => $_POST["ID"]]); 
+    //       echo '<p>Der Datensatz wurde gelöscht.</p>';
+    //     }
+    //     catch (PDOException $e) {
+    //       echo '<p>Der Datensatz konnte nicht gelöscht werden:<br />'.$e->getMessage().'</p>';
+    //     }
+    //   }
 }
 
-echo '<a href="show_table.php?table='.$table.'&sortorder=desc">Tabelle anzeigen</a>'; 
+echo '<p><a href="show_table.php?table='.$table.'&sortorder=desc">Tabelle anzeigen</a></p>'; 
 
 include('foot.php');
 

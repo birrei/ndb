@@ -4,7 +4,7 @@ Neue Spalte "musikstueck.JahrAuffuehrung". Datentyp integer in der Annahme, dass
 
 ## 02.02.2023, 06.02.2024 - Termin mit AG
  * Erfassung Live  
- * Die Spalte  "musikstueck.JahrAuffuehrung" soll mehrere "Aufführungsjahre" aufnehmen können. Vorläufige Lösung: zu varchar ändern.
+ * Die Spalte "musikstueck.JahrAuffuehrung" soll mehrere "Aufführungsjahre" aufnehmen können. Vorläufige Lösung: zu varchar ändern.
  * Besetzung - Eigenschaften müssen einzeln filterbar sein. Umsetzung eingeplant 
 
 ## Fortsetzung Anpassungen 
@@ -12,10 +12,12 @@ Neue Spalte "musikstueck.JahrAuffuehrung". Datentyp integer in der Annahme, dass
  * 03.02. Umsetzung Musikstück / Besetzung (auf prod abgeschlossen), Siehe ..\ddl\updates\20240203_musikstueck_zu_besetzung.sql
  * 05.03.2024 Optimierung der Scripte list_tables.php, show_table.php 
  * 08./09.02.2024, Basisentwurf:  Formular Einfügen und Bearbeiten/Löschen von Daten in Tabelle (erster einfacher Prototyp ist Tabelle "verlag") 
+ * 10.02. Auswahl-Elemente: wenn Wert unbekannt, dann muss es leer sein (Prototyp bei Sammlung > VerlagID ) 
 
- ## Notizen: 
-  * Testviews für Anzeige nicht vollständiger Erfassungen 
+ ## offene Aufgaben: 
+  * Testviews für Anzeige unvollständig erfasster Daten 
   * View musikstueck_v - mit einzelnen Besetzungen. Die Variante mit group_concat als musikstueck_v anlegen. 
-
+  * Doku, Hinweis auf Verwendung PDO, damit theoret. auf andere Datenbanksysteme übertragbar 
+   
 
     
