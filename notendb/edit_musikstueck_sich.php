@@ -49,8 +49,6 @@ if (isset($_GET["ID"])) {
         </label>
          </tr> 
 
-
-
           <tr>    
             <label>
             <td class="eingabe">Name:</td>  
@@ -122,17 +120,16 @@ if (isset($_GET["ID"])) {
         </tr> 
 
         </tr> 
-
-         <tr>    
+          <tr>    
           <label>
           <td class="eingabe">Aufführungsjahre:</td>  
           <td class="eingabe"><input type="text" name="JahrAuffuehrung" value="'.$musikstueck["JahrAuffuehrung"].'" size="45" maxlength="80" autofocus="autofocus"></td>
           </label>
         </tr>         
-        
-        <tr> 
+            <tr> 
             <td class="eingabe"></td> 
             <td class="eingabe"><input type="submit" name="senden" value="Speichern">
+     
           </td>
           </tr> 
 
@@ -141,58 +138,85 @@ if (isset($_GET["ID"])) {
 
               </form>
 
- 
+              <tr> 
+              <td class="eingabe">Besetzung(en):
+               <br> <a href="insert_musikstueck_besetzung.php?MusikstueckID='.$musikstueck["ID"].'" target="_blank">[Besetzung hinzufügen]</a> 
+             </td> 
+              <td class="eingabe">
 
-            <tr> 
-              <td class="eingabe">Besetzung(en):</td> 
-              <td class="eingabe"><iframe src="edit_musikstueck_list_besetzungen.php?MusikstueckID='.$musikstueck["ID"].'" width="500" height="200" name="Besetzungen"></iframe>
-            </td>
-            </tr> 
+              '; 
+              $stmt = $db->prepare("SELECT b.ID
+                                , b.Name                              
+                          FROM `musikstueck` m 
+                                inner join musikstueck_besetzung mb 
+                                  on m.ID=mb.MusikstueckID          
+                                inner join besetzung b
+                                  on b.ID=mb.BesetzungID  
+                          WHERE mb.MusikstueckID = :ID
+                          ORDER by b.Name "
+                  );
+              $stmt->bindParam(':ID', $musikstueck["ID"], PDO::PARAM_INT); 
+
+              // $stmt->errorInfo();
+              try {
+                $stmt->execute(); 
+                $html_table= get_html_table($stmt); // s. snippets.php
+                echo $html_table;  
+              }
+              catch (PDOException $e) {
+                echo '<p>Ein Fehler ist aufgetreten.</p>';
+                // echo '<p>'.$e->getMessage().'</p>';
+                // echo '<p>debugDumpParams: '.$stmt->debugDumpParams(); 
+              }
+
+          echo '
   
-       
-       
-            <tr> 
-            <td class="eingabe">Sätze:</td> 
-            <td class="eingabe">
-    
-            '; 
-            $stmt = $db->prepare("SELECT 
-                              ID, 
-                              Nr, 
-                              Name, 
-                              Tonart,
-                              Taktart,
-                              Tempobezeichnung,
-                              Spieldauer,
-                              Schwierigkeitsgrad,
-                              Lagen,
-                              Stricharten,
-                              Notenwerte,
-                              Erprobt, 
-                              Bemerkung
-                        from satz 
-                        WHERE MusikstueckID = :ID
-                        ORDER by Nr "
-                );
-            $stmt->bindParam(':ID', $musikstueck["ID"], PDO::PARAM_INT); 
-    
-            // $stmt->errorInfo();
-            try {
-              $stmt->execute(); 
-              $html_table= get_html_table($stmt, 'satz', true); // s. snippets.php
-              echo $html_table;  
-            }
-            catch (PDOException $e) {
-              echo '<p>Ein Fehler ist aufgetreten.</p>';
-              echo '<p>'.$e->getMessage().'</p>';
-             // echo '<p>debugDumpParams: '.$stmt->debugDumpParams(); 
-            }
-    
-        echo '
-        <br> <a href="insert_satz.php?MusikstueckID='.$musikstueck["ID"].'" target="_blank">[Satz hinzufügen]</a> 
-             
-        </td>
-        </tr>                     
+          </td>
+        </tr>    
+        
+        
+        <tr> 
+        <td class="eingabe">Sätze:</td> 
+        <td class="eingabe">
+
+        '; 
+        $stmt = $db->prepare("SELECT 
+                          ID, 
+                          Nr, 
+                          Name, 
+                          Tonart,
+                          Taktart,
+                          Tempobezeichnung,
+                          Spieldauer,
+                          Schwierigkeitsgrad,
+                          Lagen,
+                          Stricharten,
+                          Notenwerte,
+                          Erprobt, 
+                          Bemerkung
+                    from satz 
+                    WHERE MusikstueckID = :ID
+                    ORDER by Nr "
+            );
+        $stmt->bindParam(':ID', $musikstueck["ID"], PDO::PARAM_INT); 
+
+        // $stmt->errorInfo();
+        try {
+          $stmt->execute(); 
+          $html_table= get_html_table($stmt, 'satz', true); // s. snippets.php
+          echo $html_table;  
+        }
+        catch (PDOException $e) {
+          echo '<p>Ein Fehler ist aufgetreten.</p>';
+          echo '<p>'.$e->getMessage().'</p>';
+         // echo '<p>debugDumpParams: '.$stmt->debugDumpParams(); 
+        }
+
+    echo '
+    <br> <a href="insert_satz.php?MusikstueckID='.$musikstueck["ID"].'" target="_blank">[Satz hinzufügen]</a> 
+         
+    </td>
+    </tr>               
 
         </table> 
 
@@ -268,6 +292,7 @@ if (isset($_POST["senden"])) {
     //   }
    
 }
+
 
 echo '<p> <a href="show_table.php?table='.$table.'&sortorder=desc">Tabelle anzeigen</a></p>'; 
 

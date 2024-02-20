@@ -34,6 +34,7 @@ include('head.php');
 
 <?php
 
+$ID=''; 
 $Name=''; 
 $Bemerkung='';
 
@@ -54,9 +55,10 @@ if ("POST" == $_SERVER["REQUEST_METHOD"]) {
     $insert->bindValue(':Bemerkung', $Bemerkung);
     
     if ($insert->execute()) {
-        $id = $db->lastInsertId();
-        echo '<p>Der Datensatz wurde mit ID '.$id.' eingefuegt. <a href="edit_verlag.php?ID=' . $id . '">Datensatz bearbeiten</a></p>';
-        echo '<p><a href="show_table.php?table=verlag&&sortcol=ID&sortorder=desc">Tabellendaten anzeigen</a></p>';     
+        $ID = $db->lastInsertId();
+        echo '<p>Der Datensatz wurde mit ID '.$ID.' eingefuegt. <a href="edit_verlag.php?ID='.$ID.'">Datensatz bearbeiten</a></p>';
+        echo '<p><a href="show_table.php?table=verlag&&sortcol=ID&sortorder=desc">Tabellendaten anzeigen</a></p>';
+  
  
     }
     else {

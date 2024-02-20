@@ -4,11 +4,9 @@ include('head.php');
 
 $table=$_GET['table'];
 
+$sortcol='';
 if (isset($_GET['sortcol'])) {
     $sortcol=$_GET['sortcol'];
-}
-else {
-    $sortcol='ID';
 }
 
 if (isset($_GET['sortorder'])) {
@@ -19,7 +17,7 @@ else
     $sortorder='asc';
 }
 
-$query = 'select * from '.$table.' order by '.$sortcol.' '.$sortorder;
+$query = 'select * from '.$table.($sortcol!='' ?' order by '.$sortcol.' '.$sortorder:'');
 
 // echo $query; 
 
@@ -34,18 +32,18 @@ echo '<tr>';
 foreach ($res->fetch_fields() as $column) {
     echo '<th>'.htmlspecialchars($column->name).'</th>';
 }
-echo '<th>Aktion</th>';
+// echo '<th>Aktion</th>';
 echo '</tr>';
 echo '</thead>';
 // If there is data then display each row
 if ($data) {
     foreach ($data as $row) {
-        $ID=$row["ID"]; 
+        // $ID=$row["ID"]; 
         echo '<tr>';
         foreach ($row as $cell) {
             echo '<td>'.htmlspecialchars($cell).'</td>';
         }
-        echo '<td><a href="edit_'.$table.'.php?ID='.$ID.'">Bearbeiten</a></td>';
+       // echo '<td><a href="edit_'.$table.'.php?ID='.$ID.'">Bearbeiten</a></td>';
         echo '</tr>';
     }
 } else {

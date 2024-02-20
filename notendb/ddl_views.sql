@@ -100,19 +100,42 @@ select
 
 
 /* distinct views  */ 
+    /* Musikstueck */ 
 
     create or REPLACE view tmp_Gattungen as 
     select distinct Gattung from musikstueck
     where Gattung is not null 
+    and Gattung <> ''
     order by Gattung ; 
 
     create or REPLACE view tmp_Verwendungszwecke as 
     select distinct Verwendungszweck from musikstueck 
     where Verwendungszweck is not null 
+   and Verwendungszweck <> ''
     order by Verwendungszweck ; 
 
     create or REPLACE view tmp_Epochen as 
     select distinct Epoche from musikstueck 
     where Epoche is not null 
+    and Epoche <> ''
     order by Epoche ; 
 
+
+    /* Satz */ 
+
+    create or REPLACE view tmp_Stricharten as 
+    select distinct Stricharten from satz 
+    where Stricharten is not null 
+    and  Stricharten <> ''
+    order by Stricharten ; 
+
+
+
+
+/* sonst */ 
+
+
+    CREATE OR REPLACE FUNCTION SPLIT_STRING(str VARCHAR(255), delim VARCHAR(12), pos INT)
+    RETURNS VARCHAR(255)
+    RETURN TRIM(REPLACE(SUBSTRING(SUBSTRING_INDEX(str, delim, pos),
+        CHAR_LENGTH(SUBSTRING_INDEX(str, delim, pos-1)) + 1),delim, ''));

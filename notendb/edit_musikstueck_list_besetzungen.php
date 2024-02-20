@@ -4,6 +4,7 @@ include('head_raw.php');
 include("dbconnect_pdo.php"); 
 include("snippets.php");
 
+
 if (isset($_GET["MusikstueckID"])) {
   // echo '<p>Musikstueck_ID: '.$_GET["MusikstueckID"];
   $query="SELECT b.ID
@@ -31,6 +32,7 @@ if (isset($_GET["MusikstueckID"])) {
     // echo '<p>'.$e->getMessage().'</p>';
     // echo '<p>debugDumpParams: '.$stmt->debugDumpParams(); 
   }
+  echo '<p> <a href="edit_musikstueck_insert_musikstueck_besetzung.php?MusikstueckID='.$_GET["MusikstueckID"].'">[Besetzung ergänzen]</a></p>'; 
 
 }
 include('foot_raw.php');
