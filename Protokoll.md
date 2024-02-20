@@ -14,10 +14,13 @@ Neue Spalte "musikstueck.JahrAuffuehrung". Datentyp integer in der Annahme, dass
  * 08./09.02.2024, Basisentwurf:  Formular Einfügen und Bearbeiten/Löschen von Daten in Tabelle (erster einfacher Prototyp ist Tabelle "verlag") 
  * 10.02. Auswahl-Elemente: wenn Wert unbekannt, dann muss es leer sein (Prototyp bei Sammlung > VerlagID ) 
 
- ## offene Aufgaben: 
-  * Testviews für Anzeige unvollständig erfasster Daten 
-  * View musikstueck_v - mit einzelnen Besetzungen. Die Variante mit group_concat als musikstueck_v anlegen. 
-  * Doku, Hinweis auf Verwendung PDO, damit theoret. auf andere Datenbanksysteme übertragbar 
+## Notizen 
+  * Zuordnung (asoc): iframe, Unterdatensätze: neues Fenster  
+
+## offene Aufgaben: 
+ * Testviews für Anzeige unvollständig erfasster Daten 
+ * View musikstueck_v - mit einzelnen Besetzungen. Die Variante mit group_concat als musikstueck_v anlegen. 
+ * Doku, Hinweis auf Verwendung PDO, damit theoret. auf andere Datenbanksysteme übertragbar 
    
 
     
