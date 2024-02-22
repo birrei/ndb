@@ -9,7 +9,7 @@
 
  * index.php - Startseite
  * list_tables.php - Alle Tabellen und Views werden aufgelistet. Die Liste enthält Links, über die die Tabelle af Seite show_table.php angezeigt wird (Übergabe Parameter "table")
- * show_table.php - Zeigt die Daten der Tabelle an, deren Name als Parameter übergeben wird. Weitere optionale Parameter: 
+ * show_table2.php - Zeigt die Daten der Tabelle an, deren Name als Parameter übergeben wird. Weitere optionale Parameter: 
   * "sortcol": Spalte, nach der die Anzeige sortiert werden (default: "ID", diese Spalte gibt es in jeder Tabelle)
   * "sortorder": Sortierrichtung (default: ASC")
  * sqlexec.php - einfaches Script zur Ausführung von SQL-commands 

@@ -4,6 +4,7 @@ include('head.php');
 
 $table=$_GET['table'];
 
+
 $sortcol='';
 if (isset($_GET['sortcol'])) {
     $sortcol=$_GET['sortcol'];
@@ -16,6 +17,12 @@ else
 {
     $sortorder='asc';
 }
+
+$show_edit_link=false; // nur true setzen, wenn Tabelle eine Spalte ID besitzt und ein Bearbeitungsformular vorhanden ist 
+if (isset($_GET['show_edit_link'])) {
+    $show_edit_link=true;
+}
+
 
 $query = 'select * from '.$table.($sortcol!='' ?' order by '.$sortcol.' '.$sortorder:'');
 
@@ -31,10 +38,12 @@ echo '<thead>';
 echo '<tr>';
 foreach ($res->fetch_fields() as $column) {
     echo '<th>'.htmlspecialchars($column->name).'</th>';
+
 }
-// echo '<th>Aktion</th>';
+echo ($show_edit_link?'<th>Aktion</th>':''); 
 echo '</tr>';
 echo '</thead>';
+
 // If there is data then display each row
 if ($data) {
     foreach ($data as $row) {
@@ -43,8 +52,8 @@ if ($data) {
         foreach ($row as $cell) {
             echo '<td>'.htmlspecialchars($cell).'</td>';
         }
-       // echo '<td><a href="edit_'.$table.'.php?ID='.$ID.'">Bearbeiten</a></td>';
-        echo '</tr>';
+         echo ($show_edit_link?'<td><a href="edit_'.$table.'.php?ID='.$row["ID"].'">Bearbeiten</a></td>':''); 
+         echo '</tr>';
     }
 } else {
     echo '<tr><td colspan="'.$res->field_count.'">No records in the table!</td></tr>';

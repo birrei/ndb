@@ -1,6 +1,8 @@
 
 <?php 
 include('head.php');
+include('snippets.php'); 
+$table='komponist'; 
 ?> 
 
 <h1>Komponist erfassen</h1> 
@@ -73,24 +75,23 @@ if ("POST" == $_SERVER["REQUEST_METHOD"]) {
                         `Bemerkung`     = :Bemerkung"
   );
 
-    $insert->bindParam(':Vorname', $Vorname);
-    $insert->bindParam(':Nachname', $Nachname);
-    $insert->bindParam(':Geburtsjahr', $Geburtsjahr);
-    $insert->bindParam(':Sterbejahr', $Sterbejahr);
-    $insert->bindParam(':Bemerkung', $Bemerkung);
-    
-    if ($insert->execute()) {
-        $id = $db->lastInsertId();
-        echo '<p>Der Datensatz wurde mit ID '.$id.' eingefuegt. <a href="edit_komponist.php?ID=' . $id . '">Datensatz bearbeiten</a></p>';
-        echo '<p></p>';
-        echo '<p><a href="show_table.php?table=komponist&sortcol=ID&sortorder=desc">Tabellendaten anzeigen</a></p>';     
- 
+  $insert->bindParam(':Vorname', $Vorname);
+  $insert->bindParam(':Nachname', $Nachname);
+  $insert->bindParam(':Geburtsjahr', $Geburtsjahr);
+  $insert->bindParam(':Sterbejahr', $Sterbejahr);
+  $insert->bindParam(':Bemerkung', $Bemerkung);
+  
+  if ($insert->execute()) {
+      $ID = $db->lastInsertId();
+      $count_affected_rows= $insert->rowCount(); 
+      echo get_html_user_action_info($table, 'insert', $count_affected_rows,$ID);  
+      echo get_html_editlink($table,$ID); 
     }
-    else {
-        echo '<p>Fehler! <br/>'.$insert->errorInfo().'</p>'; 
-
-    }
+  else {
+      echo '<p>Fehler! <br/>'.$insert->errorInfo().'</p>'; 
+  }
 }
+echo get_html_showtablelink('komponist'); 
 
 include('foot.php');
 

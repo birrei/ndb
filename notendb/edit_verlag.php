@@ -21,46 +21,45 @@ if (isset($_GET["ID"])) {
   $select->execute(); // Führt die Anweisung aus.
   $verlag = $select->fetch();
   if ($select->rowCount() == 1) {
+    echo '
+    <form action="edit_verlag.php" method="post">
 
-        echo '
-        <form action="edit_verlag.php" method="post">
+    <table class="eingabe"> 
+      <tr>    
+      <label>
+      <td class="eingabe">ID:</td>  
+      <td class="eingabe">'.$verlag["ID"].'</td>
+      </label>
+        </tr> 
 
-        <table class="eingabe"> 
-        <tr>    
+      <tr>    
         <label>
-        <td class="eingabe">ID:</td>  
-        <td class="eingabe">'.$verlag["ID"].'</td>
+        <td class="eingabe">Name:</td>  
+        <td class="eingabe"><input type="text" name="Name" value="'.$verlag["Name"].'" size="45" maxlength="80" required="required" autofocus="autofocus"></td>
         </label>
-         </tr> 
-
-          <tr>    
-            <label>
-            <td class="eingabe">Name:</td>  
-            <td class="eingabe"><input type="text" name="Name" value="'.$verlag["Name"].'" size="45" maxlength="80" required="required" autofocus="autofocus"></td>
-            </label>
-          </tr> 
+      </tr> 
 
 
-          <tr>    
-            <label>
-            <td class="eingabe">Bemerkung:</td>  
-            <td class="eingabe"><input type="text" name="Bemerkung" value="'.$verlag["Bemerkung"].'" size="45" maxlength="80" autofocus="autofocus"></td>
-            </label>
-          </tr> 
+      <tr>    
+        <label>
+        <td class="eingabe">Bemerkung:</td>  
+        <td class="eingabe"><input type="text" name="Bemerkung" value="'.$verlag["Bemerkung"].'" size="45" maxlength="80" autofocus="autofocus"></td>
+        </label>
+      </tr> 
 
-          <tr> 
-            <td class="eingabe"></td> 
-            <td class="eingabe"><input type="submit" name="senden" value="Speichern">
+      <tr> 
+        <td class="eingabe"></td> 
+        <td class="eingabe"><input type="submit" name="senden" value="Speichern">
 
-            </td>
-          </tr> 
+        </td>
+      </tr> 
 
-        </table> 
-        <input type="hidden" name="option" value="edit">        
-        <input type="hidden" name="ID" value="' . $verlag["ID"] . '">
-    
-        </form>
-        '; 
+    </table> 
+    <input type="hidden" name="option" value="edit">        
+    <input type="hidden" name="ID" value="' . $verlag["ID"] . '">
+
+    </form>
+    '; 
   }
   else {
     echo '<p>Dieser Datensatz ist nicht vorhanden!</p>';
@@ -112,7 +111,7 @@ if (isset($_POST["senden"])) {
     //   }
 }
 
-echo '<p><a href="show_table.php?table='.$table.'&sortorder=desc">Tabelle anzeigen</a></p>'; 
+echo get_html_showtablelink($table); 
 
 include('foot.php');
 

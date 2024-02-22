@@ -89,7 +89,7 @@ if ("POST" == $_SERVER["REQUEST_METHOD"]) {
     if ($insert->execute()) {
         $ID = $db->lastInsertId();
         echo '<p>Der Datensatz wurde mit ID '.$ID.' eingefuegt. <a href="edit_satz.php?ID='.$ID.'"><b>Bearbeitung fortsetzen</b></a></p>';
-        // echo '<p><a href="show_table.php?table=satz&sortcol=ID&sortorder=desc">Tabellendaten anzeigen</a></p>';
+        // echo '<p><a href="show_table2.php?table=satz&sortcol=ID&sortorder=desc">Tabellendaten anzeigen</a></p>';
     }
     else {
         echo '<p>Fehler! <br/>'.$insert->errorInfo().'</p>'; 

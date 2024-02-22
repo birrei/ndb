@@ -159,8 +159,7 @@ if (isset($_POST["senden"])) {
 }
 
 
-echo '<p> <a href="show_table.php?table='.$table.'&sortorder=desc">Tabelle anzeigen</a></p>'; 
-
+echo get_html_showtablelink($table); 
 
 include('foot.php');
 

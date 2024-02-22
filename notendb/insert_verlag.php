@@ -1,6 +1,7 @@
 
 <?php 
 include('head.php');
+include('snippets.php'); 
 ?> 
 
 <h1>Verlag erfassen</h1> 
@@ -57,8 +58,8 @@ if ("POST" == $_SERVER["REQUEST_METHOD"]) {
     if ($insert->execute()) {
         $ID = $db->lastInsertId();
         echo '<p>Der Datensatz wurde mit ID '.$ID.' eingefuegt. <a href="edit_verlag.php?ID='.$ID.'">Datensatz bearbeiten</a></p>';
-        echo '<p><a href="show_table.php?table=verlag&&sortcol=ID&sortorder=desc">Tabellendaten anzeigen</a></p>';
-  
+        // echo '<p><a href="show_table2.php?table=verlag">Tabellendaten anzeigen</a></p>';
+
  
     }
     else {
@@ -67,6 +68,9 @@ if ("POST" == $_SERVER["REQUEST_METHOD"]) {
         // XXX Nutzer-Info anzeigen 
     }
 }
+
+echo get_html_showtablelink('verlag'); 
+  
 
 include('foot.php');
 

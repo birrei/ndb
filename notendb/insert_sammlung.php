@@ -1,6 +1,7 @@
 
 <?php 
 include('head.php');
+include('snippets.php'); 
 ?> 
 
 <h1>Sammlung erfassen</h1> 
@@ -101,7 +102,6 @@ if ("POST" == $_SERVER["REQUEST_METHOD"]) {
   if ($insert->execute()) {
       $id = $db->lastInsertId();
       echo '<p>Der Datensatz wurde mit ID '.$id.' eingefuegt. <a href="edit_sammlung.php?ID=' . $id . '">Datensatz bearbeiten</a></p>';
-      echo '<p><a href="show_table.php?table=sammlung&&sortcol=ID&sortorder=desc">Tabellendaten anzeigen</a></p>';     
   }
   else {
       echo '<p>Fehler! <br/>'.$insert->errorInfo().'</p>'; 
@@ -109,6 +109,7 @@ if ("POST" == $_SERVER["REQUEST_METHOD"]) {
       // XXX Nutzer-Info anzeigen 
   }
 }
+echo get_html_showtablelink('sammlung'); 
 
 include('foot.php');
 

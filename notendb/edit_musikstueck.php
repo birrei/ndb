@@ -149,50 +149,13 @@ if (isset($_GET["ID"])) {
             </td>
             </tr> 
   
-       
-       
             <tr> 
-            <td class="eingabe">Sätze:</td> 
-            <td class="eingabe">
-    
-            '; 
-            $stmt = $db->prepare("SELECT 
-                              ID, 
-                              Nr, 
-                              Name, 
-                              Tonart,
-                              Taktart,
-                              Tempobezeichnung,
-                              Spieldauer,
-                              Schwierigkeitsgrad,
-                              Lagen,
-                              Stricharten,
-                              Notenwerte,
-                              Erprobt, 
-                              Bemerkung
-                        from satz 
-                        WHERE MusikstueckID = :ID
-                        ORDER by Nr "
-                );
-            $stmt->bindParam(':ID', $musikstueck["ID"], PDO::PARAM_INT); 
-    
-            // $stmt->errorInfo();
-            try {
-              $stmt->execute(); 
-              $html_table= get_html_table($stmt, 'satz', true); // s. snippets.php
-              echo $html_table;  
-            }
-            catch (PDOException $e) {
-              echo '<p>Ein Fehler ist aufgetreten.</p>';
-              echo '<p>'.$e->getMessage().'</p>';
-             // echo '<p>debugDumpParams: '.$stmt->debugDumpParams(); 
-            }
-    
-        echo '
-        <br> <a href="insert_satz.php?MusikstueckID='.$musikstueck["ID"].'" target="_blank">[Satz hinzufügen]</a> 
-             
-        </td>
-        </tr>                     
+              <td class="eingabe">Sätze: </td> 
+              <td class="eingabe"><iframe src="edit_musikstueck_list_saetze.php?MusikstueckID='.$musikstueck["ID"].'" width="1000" height="400" name="Saetze"></iframe>
+            </td>
+            </tr> 
+  
+                          
 
         </table> 
 
@@ -204,7 +167,6 @@ if (isset($_GET["ID"])) {
   }
 }
 
-// Nach Absenden des Formulars 
 if (isset($_POST["senden"])) {
   include("dbconnect_pdo.php");
   if ($_POST["option"] == 'edit') 
@@ -242,8 +204,7 @@ if (isset($_POST["senden"])) {
 
       // $update->debugDumpParams(); 
 
-      if ($update->execute())
-        {
+      if ($update->execute()){
           // $update->debugDumpParams(); 
           echo '<p>'.$update->rowCount().' Zeilen geändert. <a href="edit_musikstueck.php?ID='.$_POST["ID"].'">Datensatz erneut bearbeiten</a></p>';     
         }
@@ -253,24 +214,10 @@ if (isset($_POST["senden"])) {
        }
      }
 
-    // if ($_POST["option"] == 'delete')
-    //   {
-    //     // Datensatz löschen      
-    //     $delete = $db->prepare("delete from `sammlung` where `ID`=:ID");  
-        
-    //     try {
-    //       $delete->execute([':ID' => $_POST["ID"]]); 
-    //       echo '<p>Der Datensatz wurde gelöscht.</p>';
-    //     }
-    //     catch (PDOException $e) {
-    //       echo '<p>Der Datensatz konnte nicht gelöscht werden.<br />'.$e->getMessage().'</p>';
-    //     }
-    //   }
    
 }
 
-echo '<p> <a href="show_table.php?table='.$table.'&sortorder=desc">Tabelle anzeigen</a></p>'; 
-
+echo get_html_showtablelink($table); 
 
 include('foot.php');
 

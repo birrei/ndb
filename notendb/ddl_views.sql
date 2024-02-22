@@ -1,5 +1,4 @@
 CREATE OR REPLACE VIEW musikstuecke_v AS 
-
 select 
 /* musikstueck */
 	m.Name AS Name
@@ -118,7 +117,8 @@ select
     select distinct Epoche from musikstueck 
     where Epoche is not null 
     and Epoche <> ''
-    order by Epoche ; 
+    order by Epoche 
+    ; 
 
 
     /* Satz */ 
@@ -127,15 +127,6 @@ select
     select distinct Stricharten from satz 
     where Stricharten is not null 
     and  Stricharten <> ''
-    order by Stricharten ; 
+    order by Stricharten 
 
-
-
-
-/* sonst */ 
-
-
-    CREATE OR REPLACE FUNCTION SPLIT_STRING(str VARCHAR(255), delim VARCHAR(12), pos INT)
-    RETURNS VARCHAR(255)
-    RETURN TRIM(REPLACE(SUBSTRING(SUBSTRING_INDEX(str, delim, pos),
-        CHAR_LENGTH(SUBSTRING_INDEX(str, delim, pos-1)) + 1),delim, ''));
+/* ! am Ende der Datei kein Semikolon verwenden */ 

@@ -294,7 +294,7 @@ if (isset($_POST["senden"])) {
 }
 
 
-echo '<p> <a href="show_table.php?table='.$table.'&sortorder=desc">Tabelle anzeigen</a></p>'; 
+echo '<p> <a href="show_table2.php?table='.$table.'&sortorder=desc">Tabelle anzeigen</a></p>'; 
 
 
 include('foot.php');

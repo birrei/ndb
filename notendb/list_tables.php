@@ -21,7 +21,7 @@ if ($data) {
     foreach ($data as $row) {
         echo '<tr>';
         foreach ($row as $cell) {
-            echo '<td><a href="show_table.php?table='.$cell.'&sortorder=desc">'.$cell.'</a></td>';
+            echo '<td><a href="show_table2.php?table='.$cell.'">'.$cell.'</a></td>';
         }
         echo '</tr>';
     }

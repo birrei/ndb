@@ -52,33 +52,35 @@ if (isset($_GET["ID"])) {
         </label>
          </tr> 
 
+
+         <tr>    
+         <label>
+         <td class="eingabe">Musikstück:</td>  
+         <td class="eingabe">
+         '; 
+
+         /* Auswahlliste Musikstueck (ohne echte Auswahl, es wird nur das vorbelegte Musikstüeck angezeigt )  */
+         $select = $db->query("SELECT DISTINCT `ID` as MusikstueckID, `Name` FROM `musikstueck` WHERE ID=".$satz["MusikstueckID"]);
+         $options = $select->fetchAll(PDO::FETCH_KEY_PAIR);
+         $html = get_html_select2($options, 'MusikstueckID', $satz["MusikstueckID"], true); // s. snippets.php
+         echo $html.' </label></tr>';
+   
+         
+         echo '
+         <tr>    
+         <label>
+         <td class="eingabe">Nr:</td>  
+         <td class="eingabe"><input type="text" name="Nr" value="'.$satz["Nr"].'" size="45" maxlength="80"  autofocus="autofocus" required></td>
+         </label>
+       </tr> 
+
           <tr>    
             <label>
             <td class="eingabe">Name:</td>  
-            <td class="eingabe"><input type="text" name="Name" value="'.$satz["Name"].'" size="45" maxlength="80" required="required" autofocus="autofocus"></td>
+            <td class="eingabe"><input type="text" name="Name" value="'.$satz["Name"].'" size="45" maxlength="80" autofocus="autofocus"></td>
             </label>
           </tr> 
 
-          <tr>    
-          <label>
-          <td class="eingabe">Sammlung:</td>  
-          <td class="eingabe">
-          '; 
-
-          /* Auswahlliste Musikstueck (ohne echte Auswahl, es wird nur das vorbelegte Musikstüeck angezeigt )  */
-          $select = $db->query("SELECT DISTINCT `ID` as MusikstueckID, `Name` FROM `musikstueck` WHERE ID=".$satz["MusikstueckID"]);
-          $options = $select->fetchAll(PDO::FETCH_KEY_PAIR);
-          $html = get_html_select2($options, 'MusikstueckID', $satz["MusikstueckID"], true); // s. snippets.php
-          echo $html.' </label></tr>';
-    
-          
-          echo '
-          <tr>    
-            <label>
-            <td class="eingabe">Nr:</td>  
-            <td class="eingabe"><input type="text" name="Nr" value="'.$satz["Nr"].'" size="45" maxlength="80"  autofocus="autofocus"></td>
-            </label>
-          </tr> 
 
           <tr>    
             <label>
@@ -126,12 +128,14 @@ if (isset($_GET["ID"])) {
             </label>
           </tr> 
 
+          <!-- 
           <tr>    
             <label>
-            <td class="eingabe">Stricharten:</td>  
-            <td class="eingabe"><input type="text" name="Stricharten" value="'.$satz["Stricharten"].'" size="45" maxlength="80" autofocus="autofocus"></td>
+            <td class="eingabe">obsolete! Stricharten:</td>  
+            <td class="eingabe"><input type="text" name="Stricharten" value=" size="45" maxlength="80" autofocus="autofocus"></td>
             </label>
           </tr> 
+          --> 
 
           <tr>    
             <label>
@@ -171,6 +175,11 @@ if (isset($_GET["ID"])) {
 
               </form>
 
+              <tr> 
+              <td class="eingabe">Stricharten:</td> 
+              <td class="eingabe"><iframe src="edit_satz_list_stricharten.php?SatzID='.$satz["ID"].'" width="500" height="200" name="Stricharten"></iframe>
+            </td>
+            </tr> 
         
            
 
@@ -201,7 +210,7 @@ if (isset($_POST["senden"])) {
                             Spieldauer=:Spieldauer, 
                             Schwierigkeitsgrad=:Schwierigkeitsgrad, 
                             Lagen=:Lagen, 
-                            Stricharten=:Stricharten, 
+                            -- Stricharten=:Stricharten, 
                             Notenwerte=:Notenwerte, 
                             Erprobt=:Erprobt, 
                             Bemerkung=:Bemerkung
@@ -217,7 +226,7 @@ if (isset($_POST["senden"])) {
       $update->bindParam(':Spieldauer', $_POST["Spieldauer"]);
       $update->bindParam(':Schwierigkeitsgrad', $_POST["Schwierigkeitsgrad"]);
       $update->bindParam(':Lagen', $_POST["Lagen"]);
-      $update->bindParam(':Stricharten', $_POST["Stricharten"]);
+      // $update->bindParam(':Stricharten', $_POST["Stricharten"]);
       $update->bindParam(':Notenwerte', $_POST["Notenwerte"]);
       $update->bindParam(':Erprobt', $_POST["Erprobt"]);
       $update->bindParam(':Bemerkung', $_POST["Bemerkung"]);
@@ -238,8 +247,6 @@ if (isset($_POST["senden"])) {
    
 }
 
-
-echo '<p> <a href="show_table.php?table='.$table.'&sortorder=desc">Tabelle anzeigen</a></p>'; 
 
 
 include('foot.php');

@@ -1,7 +1,6 @@
 
 <?php 
-// ALT, wegräumen 
-include('head.php');
+include('head_raw.php');
 include("dbconnect_pdo.php");
 include("snippets.php");
 
@@ -13,18 +12,9 @@ if (isset($_POST["MusikstueckID"])) {
   $MusikstueckID= $_POST["MusikstueckID"];
 }
 
-
-
 ?> 
 
-<!-- Formular soll nur von edit_musikstueck.php aus abrufbar sein  --> 
-<h1>Musikstück Besetzung(en) erfassen</h1> 
-<p> Hinweis: nach dem Speichern eines neuen Datensatzes wird das Formular geleert. 
-  Bei Bedarf können weitere Besetzungen erfasst werden. 
-  Nach Zuordnung der Besetzung(en) kann das Fenster geschlossen werden. 
-</p> 
-
-<form action="insert_musikstueck_besetzung.php" method="post">
+<form action="edit_musikstueck_add_besetzung.php" method="post">
 
 <table class="eingabe"> 
 
@@ -41,7 +31,11 @@ if (isset($_POST["MusikstueckID"])) {
         ?>
     </td>
     </label>
+
+
      <input type="hidden" name="MusikstueckID" value="<?php echo $MusikstueckID; ?>"> 
+    
+
    <tr> 
     <td class="eingabe"></td> 
     <td class="eingabe"><input type="submit" value="Speichern"></td>
@@ -69,7 +63,7 @@ if ("POST" == $_SERVER["REQUEST_METHOD"]) {
 
   try {
     $insert->execute(); 
-    $ID = $db->lastInsertId();
+    $id = $db->lastInsertId();
     echo '<p>Der Datensatz wurde mit ID '.$id.' eingefuegt.'; 
   }
   catch (PDOException $e) {
@@ -79,7 +73,8 @@ if ("POST" == $_SERVER["REQUEST_METHOD"]) {
   }
 
 }
+echo '<p> <a href="edit_musikstueck_list_besetzungen.php?MusikstueckID='.$MusikstueckID.'">[Besetzungen anzeigen]</a></p>'; 
 
-include('foot.php');
+include('foot_raw.php');
 
 ?>

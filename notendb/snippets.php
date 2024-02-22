@@ -63,18 +63,38 @@ function get_html_table($stmt, $edit_table_name='', $edit_newpage=false) {
     }
     return $html;
 }
+function get_html_user_action_info($table_name, $action_name, $stmt_row_count=0,$ID=0){
+    /* info zu einer neuen / aktualieserten / gelöschten ID einer Tabelle */ 
+    $html=''; 
+
+    $html.= '<p>Es wurden '.$stmt_row_count. ' Zeile(n) in Tabelle '.ucfirst($table_name) ; 
+    switch ($action_name){
+        case 'insert': 
+            $html.= ' eingefügt.';  
+            break; 
+        case 'update': 
+            $html.= ' aktualisiert.';  
+            break;      
+        case 'delete': 
+            $html.= ' gelöscht.';  
+            break;      
+    }
+    if ($ID > 0 ) {
+        $html.= ' (ID '.$ID.')'; 
+    }
+    $html.= '</p>'; 
+    return $html; 
+}
+function get_html_editlink($table_name, $ID){
+    return '<p><a href="edit_'.$table_name.'.php?ID=' . $ID . '">[Tabelle '.ucfirst($table_name).' ID '.$ID.' bearbeiten]</a></p>';  
+}
 
 
-// function get_html_select($options = [], $keyname='') {
-//     $html = '';
-//     if (sizeof($options) > 0) {
-//     $html = '<select name="'.$keyname.'">' . PHP_EOL;
-//     foreach($options as $key => $title) {
-//         $html .= ' <option value="' . $key . '">' . $title . '</option>'. PHP_EOL;
-//         }
-//     $html .= '</select>';
-//     }
-//     return $html;
-//     }
+function get_html_showtablelink($table_name){
+     return '<p><a href="show_table2.php?table=' . $table_name . '">[Tabelle '.ucfirst($table_name).' anzeigen]</a></p>';  
+}
+
+
+
   
 ?>

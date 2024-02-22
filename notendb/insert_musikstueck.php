@@ -164,7 +164,6 @@ if ("POST" == $_SERVER["REQUEST_METHOD"]) {
   if ($insert->execute()) {
       $id = $db->lastInsertId();
       echo '<p>Der Datensatz wurde mit ID '.$id.' eingefuegt. <a href="edit_musikstueck.php?ID=' . $id . '"><b>Bearbeitung fortsetzen</b></a></p>';
-      echo '<p><a href="show_table.php?table=musikstueck&&sortcol=ID&sortorder=desc">Tabellendaten anzeigen</a></p>';     
   }
   else {
       echo '<p>Fehler! <br/>'.$insert->errorInfo().'</p>'; 
@@ -172,7 +171,7 @@ if ("POST" == $_SERVER["REQUEST_METHOD"]) {
       // XXX Nutzer-Info anzeigen 
   }
 }
-
+echo get_html_showtablelink('musikstueck'); 
 include('foot.php');
 
 ?>
