@@ -5,6 +5,7 @@ include('head.php');
 include("dbconnect_pdo.php");
 include("snippets.php");
 
+
 $MusikstueckID=''; 
 if (isset($_GET["MusikstueckID"])) {
   $MusikstueckID= $_GET["MusikstueckID"];
@@ -71,6 +72,12 @@ if ("POST" == $_SERVER["REQUEST_METHOD"]) {
     $insert->execute(); 
     $ID = $db->lastInsertId();
     echo '<p>Der Datensatz wurde mit ID '.$id.' eingefuegt.'; 
+
+    $ID = $db->lastInsertId();
+    $count_affected_rows= $insert->rowCount(); 
+    echo get_html_user_action_info($table, 'insert', $count_affected_rows,$ID);  
+    echo get_html_editlink($table,$ID)
+
   }
   catch (PDOException $e) {
     echo '<p>Ein Fehler ist aufgetreten.<br />Evt. haben Sie versucht, eine gleiche Besetzung mehrfach zuzuordnen</p>';
@@ -79,6 +86,7 @@ if ("POST" == $_SERVER["REQUEST_METHOD"]) {
   }
 
 }
+echo get_html_showtablelink('komponist'); 
 
 include('foot.php');
 
