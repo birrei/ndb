@@ -76,13 +76,13 @@ if ("POST" == $_SERVER["REQUEST_METHOD"]) {
     $ID = $db->lastInsertId();
     $count_affected_rows= $insert->rowCount(); 
     echo get_html_user_action_info($table, 'insert', $count_affected_rows,$ID);  
-    // echo get_html_editlink($table, $ID); 
+    // echo get_html_editlink($table,$ID);
   }
   catch (PDOException $e) {
-    echo '<p>Ein Fehler ist aufgetreten.<br />Evt. haben Sie versucht, eine gleiche Besetzung mehrfach zuzuordnen</p>';
-    // echo '<p>'.$e->getMessage().'</p>';
-    // echo '<p>debugDumpParams: '.$stmt->debugDumpParams(); 
+    echo get_html_user_error_info(); 
+    echo get_html_error_info($insert, $e); 
   }
+
 }
 echo '<p> <a href="edit_musikstueck_list_besetzungen.php?MusikstueckID='.$MusikstueckID.'">[Besetzungen anzeigen]</a></p>'; 
 

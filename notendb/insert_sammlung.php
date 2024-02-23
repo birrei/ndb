@@ -102,20 +102,19 @@ if ("POST" == $_SERVER["REQUEST_METHOD"]) {
   $insert->bindValue(':Standort', $Standort);         
   $insert->bindValue(':Bemerkung', $Bemerkung);
   
-  if ($insert->execute()) {
+
+  try {
+    $insert->execute(); 
     $ID = $db->lastInsertId();
     $count_affected_rows= $insert->rowCount(); 
     echo get_html_user_action_info($table, 'insert', $count_affected_rows,$ID);  
-    echo get_html_editlink($table,$ID); 
-
-      // $id = $db->lastInsertId();
-      // echo '<p>Der Datensatz wurde mit ID '.$id.' eingefuegt. <a href="edit_sammlung.php?ID=' . $id . '">Datensatz bearbeiten</a></p>';
-  
-    }
-  else {
-      echo '<p>Fehler! <br/>'.$insert->errorInfo().'</p>'; 
-      // print_r($insert->errorInfo()); 
+    echo get_html_editlink($table,$ID);
   }
+  catch (PDOException $e) {
+    echo get_html_user_error_info(); 
+    echo get_html_error_info($insert, $e); 
+  }
+
 }
 echo get_html_showtablelink($table); 
 

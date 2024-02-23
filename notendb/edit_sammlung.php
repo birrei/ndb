@@ -88,30 +88,13 @@ if (isset($_GET["ID"])) {
               <input type="hidden" name="option" value="edit">      
               </form>
 
-          <tr> 
-              <td class="eingabe"> </td> 
-              <td class="eingabe">
-              <a href="insert_musikstueck.php?SammlungID='.$sammlung["ID"].'" target="_blank">[neues Musikstueck erfassen]</a><br> <br>
-              <br>Musikstuecke:
-              <br>  <br>  
-              '; 
-              $stmt = $db->prepare("SELECT `ID`
-                                , `Name`
-                                , `Nummer`
-                                , m.Bearbeiter
-                                , m.Epoche
-                                , m.Verwendungszweck
-                                , m.Gattung                                 
-                          FROM `musikstueck` m 
-                          WHERE `SammlungID` = :SammlungID
-                          ORDER by Nummer "
-                  );
-              $stmt->bindParam(':SammlungID', $sammlung["ID"], PDO::PARAM_INT); 
-              $stmt->execute(); 
-              $html_table= get_html_table($stmt, 'musikstueck', true); // s. snippets.php
-              echo $html_table;    
-          echo '</td>
-        </tr> 
+              <tr> 
+              <td class="eingabe">Musikstücke:</td> 
+              <td class="eingabe"><iframe src="edit_sammlung_list_musikstuecke.php?SammlungID='.$sammlung["ID"].'" width="500" height="200" name="Besetzungen"></iframe>
+            </td>
+            </tr> 
+
+   
         </table> 
 
         '; 
@@ -122,7 +105,6 @@ if (isset($_GET["ID"])) {
   }
 }
 
-// Nach Absenden des Formulars 
 if (isset($_POST["senden"])) {
   include("dbconnect_pdo.php");
   $ID=$_POST["ID"]; 
@@ -143,17 +125,17 @@ if (isset($_POST["senden"])) {
       $update->bindParam(':Bestellnummer', $_POST["Bestellnummer"]);            
       $update->bindParam(':Bemerkung', $_POST["Bemerkung"]);
 
-      if ($update->execute()){
-          $count_affected_rows= $update->rowCount(); 
-          echo get_html_user_action_info($table, 'update', $count_affected_rows,$ID);  
-          echo get_html_editlink($table, $ID); 
-          // $update->debugDumpParams(); 
-        }
-        else {
-          // print_r($update->errorInfo());
-          echo '<p>Fehler! <br/>'.$update->errorInfo().'</p>';             
-       }
-     }
+      try {
+        $update->execute(); 
+        $count_affected_rows= $update->rowCount(); 
+        echo get_html_user_action_info($table, 'update', $count_affected_rows,$ID);  
+        echo get_html_editlink($table,$ID);
+      }
+      catch (PDOException $e) {
+        echo get_html_user_error_info(); 
+        echo get_html_error_info($update, $e); 
+      }
+    }
 }
 
 echo get_html_showtablelink($table); 

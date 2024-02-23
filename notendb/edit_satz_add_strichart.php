@@ -4,6 +4,8 @@ include('head_raw.php');
 include("dbconnect_pdo.php");
 include("snippets.php");
 
+$table='satz_strichart'; 
+
 $SatzID=''; 
 if (isset($_GET["SatzID"])) {
   $SatzID= $_GET["SatzID"];
@@ -70,13 +72,14 @@ if ("POST" == $_SERVER["REQUEST_METHOD"]) {
 
   try {
     $insert->execute(); 
-    $id = $db->lastInsertId();
-    echo '<p>Der Datensatz wurde mit ID '.$id.' eingefuegt.</p>'; 
+    $ID = $db->lastInsertId();
+    $count_affected_rows= $insert->rowCount(); 
+    echo get_html_user_action_info($table, 'insert', $count_affected_rows,$ID);  
+    // echo get_html_editlink($table,$ID);
   }
   catch (PDOException $e) {
-    echo '<p>Ein Fehler ist aufgetreten.<br />';
-    // echo $e->getMessage();
-    // echo $insert->debugDumpParams(); 
+    echo get_html_user_error_info(); 
+    echo get_html_error_info($insert, $e); 
   }
 }
 echo '<p> <a href="edit_satz_list_stricharten.php?SatzID='.$SatzID.'">[Stricharten anzeigen]</a></p>'; 

@@ -42,35 +42,34 @@ $Bemerkung='';
 
 // Wurde das Formular abgesendet?
 if ("POST" == $_SERVER["REQUEST_METHOD"]) {
-    
-    $Name=$_POST["Name"]; 
-    $Bemerkung=$_POST["Bemerkung"]; 
+  include("dbconnect_pdo.php"); // nur wenn benötigt 
+  
+  $Name=$_POST["Name"]; 
+  $Bemerkung=$_POST["Bemerkung"]; 
 
-    include("dbconnect_pdo.php"); // nur wenn benötigt 
+  $insert = $db->prepare("INSERT INTO `verlag` SET
+    `Name`     = :Name,
+    `Bemerkung`     = :Bemerkung"
+  );
 
-    $insert = $db->prepare("INSERT INTO `verlag` SET
-     `Name`     = :Name,
-     `Bemerkung`     = :Bemerkung"
-    );
+  $insert->bindValue(':Name', $Name);
+  $insert->bindValue(':Bemerkung', $Bemerkung);
 
-    $insert->bindValue(':Name', $Name);
-    $insert->bindValue(':Bemerkung', $Bemerkung);
-    
-    if ($insert->execute()) {
-        $ID = $db->lastInsertId();
-        $count_affected_rows= $insert->rowCount(); 
-        echo get_html_user_action_info($table, 'insert', $count_affected_rows,$ID);  
-        echo get_html_editlink($table,$ID); 
-    }
-    else {
-        echo '<p>Fehler! <br/>'.$insert->errorInfo().'</p>'; 
-        // print_r($insert->errorInfo());
-        // XXX Nutzer-Info anzeigen 
-    }
+  try {
+    $insert->execute(); 
+    $ID = $db->lastInsertId();
+    $count_affected_rows= $insert->rowCount(); 
+    echo get_html_user_action_info($table, 'insert', $count_affected_rows,$ID);  
+    echo get_html_editlink($table,$ID);
+  }
+  catch (PDOException $e) {
+    echo get_html_user_error_info(); 
+    echo get_html_error_info($insert, $e); 
+  }
+
 }
 
 echo get_html_showtablelink($table); 
-  
 
 include('foot.php');
 

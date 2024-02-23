@@ -169,9 +169,7 @@ if (isset($_GET["ID"])) {
 
 if (isset($_POST["senden"])) {
   include("dbconnect_pdo.php");
-  if ($_POST["option"] == 'edit') 
-    {
-      // Datensatz ändern     
+  if ($_POST["option"] == 'edit') {
       $update = $db->prepare("UPDATE `musikstueck` 
                             SET
                             `Name`     = :Name,
@@ -202,21 +200,17 @@ if (isset($_POST["senden"])) {
       $update->bindParam(':Verwendungszweck', $_POST["Verwendungszweck"]);            
       $update->bindParam(':JahrAuffuehrung', $_POST["JahrAuffuehrung"]);
 
-      // $update->debugDumpParams(); 
-
-      if ($update->execute()){
-          // $update->debugDumpParams(); 
-          $count_affected_rows= $update->rowCount(); 
-          echo get_html_user_action_info($table, 'update', $count_affected_rows,$ID);  
-          echo get_html_editlink($table, $ID);         
-        }
-        else {
-          // print_r($update->errorInfo());
-          echo '<p>Fehler! <br/>'.$update->errorInfo().'</p>';             
-       }
-     }
-
-   
+      try {
+        $update->execute(); 
+        $count_affected_rows= $update->rowCount(); 
+        echo get_html_user_action_info($table, 'update', $count_affected_rows,$ID);  
+        echo get_html_editlink($table,$ID);
+      }
+      catch (PDOException $e) {
+        echo get_html_user_error_info(); 
+        echo get_html_error_info($update, $e); 
+      }
+  }
 }
 
 echo get_html_showtablelink($table); 

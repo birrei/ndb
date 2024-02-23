@@ -63,6 +63,7 @@ function get_html_table($stmt, $edit_table_name='', $edit_newpage=false) {
     }
     return $html;
 }
+
 function get_html_user_action_info($table_name, $action_name, $stmt_row_count=0,$ID=0){
     /* info zu einer neuen / aktualieserten / gelöschten ID einer Tabelle */ 
     $html=''; 
@@ -89,12 +90,22 @@ function get_html_editlink($table_name, $ID, $edit_newpage=false){
     return '<p><a href="edit_'.$table_name.'.php?ID=' . $ID . '" ' . ($edit_newpage!='' ?'target="_blank"':''). '>[Tabelle '.ucfirst($table_name).' ID '.$ID.' bearbeiten]</a></p>';  
 }
 
-
 function get_html_showtablelink($table_name){
      return '<p><a href="show_table2.php?table=' . $table_name . '">[Tabelle '.ucfirst($table_name).' anzeigen]</a></p>';  
 }
-
-
+function get_html_error_info($stmt, PDOException $e) {
+    $html='<p style="color: red;">'; 
+    $html.=$e->getMessage(); 
+    $html.='<br>';     
+    $html.='</p>'; 
+    // $stmt->debugDumpParams();  // ausgabe-Methode, kein Text 
+    return $html;     
+}
+function get_html_user_error_info() {
+    $html=''; 
+    $html.='<p style="color: red;">Ein Fehler ist aufgetreten.</p>'; 
+    return $html; 
+}
 
   
 ?>

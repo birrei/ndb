@@ -161,17 +161,32 @@ if ("POST" == $_SERVER["REQUEST_METHOD"]) {
   $insert->bindValue(':Gattung', $Gattung);
   $insert->bindValue(':JahrAuffuehrung', $JahrAuffuehrung);
 
-  if ($insert->execute()) {
-      $ID = $db->lastInsertId();
-      $count_affected_rows= $insert->rowCount(); 
-      echo get_html_user_action_info($table, 'insert', $count_affected_rows,$ID);  
-      echo get_html_editlink($table,$ID);   
+
+  try {
+    $insert->execute(); 
+    $ID = $db->lastInsertId();
+    $count_affected_rows= $insert->rowCount(); 
+    echo get_html_user_action_info($table, 'insert', $count_affected_rows,$ID);  
+    echo get_html_editlink($table,$ID);
   }
-  else {
-      echo '<p>Fehler! <br/>'.$insert->errorInfo().'</p>'; 
-      // print_r($insert->errorInfo());
-      // XXX Nutzer-Info anzeigen 
+  catch (PDOException $e) {
+    echo get_html_user_error_info(); 
+    echo get_html_error_info($insert, $e); 
   }
+
+  
+  
+  // if ($insert->execute()) {
+  //     $ID = $db->lastInsertId();
+  //     $count_affected_rows= $insert->rowCount(); 
+  //     echo get_html_user_action_info($table, 'insert', $count_affected_rows,$ID);  
+  //     echo get_html_editlink($table,$ID);   
+  // }
+  // else {
+  //     echo '<p>Fehler! <br/>'.$insert->errorInfo().'</p>'; 
+  //     // print_r($insert->errorInfo());
+  //     // XXX Nutzer-Info anzeigen 
+  // }
 }
 echo get_html_showtablelink($table); 
 include('foot.php');

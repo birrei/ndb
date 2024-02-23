@@ -192,61 +192,56 @@ if (isset($_GET["ID"])) {
   }
 }
 
-// Nach Absenden des Formulars 
 if (isset($_POST["senden"])) {
   include("dbconnect_pdo.php");
-  if ($_POST["option"] == 'edit') 
-    {
-      $ID=$_POST["ID"];      
-      // Datensatz ändern     
-      $update = $db->prepare("UPDATE `satz` 
-                            SET
-                            Name=:Name, 
-                            Nr=:Nr, 
-                            MusikstueckID=:MusikstueckID, 
-                            Tonart=:Tonart, 
-                            Taktart=:Taktart, 
-                            Tempobezeichnung=:Tempobezeichnung, 
-                            Spieldauer=:Spieldauer, 
-                            Schwierigkeitsgrad=:Schwierigkeitsgrad, 
-                            Lagen=:Lagen, 
-                            -- Stricharten=:Stricharten, 
-                            Notenwerte=:Notenwerte, 
-                            Erprobt=:Erprobt, 
-                            Bemerkung=:Bemerkung
-                            WHERE `ID` = :ID"); 
+  if ($_POST["option"] == 'edit') {
+    $ID=$_POST["ID"];      
+    $update = $db->prepare("UPDATE `satz` 
+                          SET
+                          Name=:Name, 
+                          Nr=:Nr, 
+                          MusikstueckID=:MusikstueckID, 
+                          Tonart=:Tonart, 
+                          Taktart=:Taktart, 
+                          Tempobezeichnung=:Tempobezeichnung, 
+                          Spieldauer=:Spieldauer, 
+                          Schwierigkeitsgrad=:Schwierigkeitsgrad, 
+                          Lagen=:Lagen, 
+                          -- Stricharten=:Stricharten, 
+                          Notenwerte=:Notenwerte, 
+                          Erprobt=:Erprobt, 
+                          Bemerkung=:Bemerkung
+                          WHERE `ID` = :ID"); 
 
-      $update->bindParam(':ID', $_POST["ID"]);
-      $update->bindParam(':Name', $_POST["Name"]);
-      $update->bindParam(':Nr', $_POST["Nr"]);
-      $update->bindParam(':MusikstueckID', $_POST["MusikstueckID"]);
-      $update->bindParam(':Tonart', $_POST["Tonart"]);
-      $update->bindParam(':Taktart', $_POST["Taktart"]);
-      $update->bindParam(':Tempobezeichnung', $_POST["Tempobezeichnung"]);
-      $update->bindParam(':Spieldauer', $_POST["Spieldauer"]);
-      $update->bindParam(':Schwierigkeitsgrad', $_POST["Schwierigkeitsgrad"]);
-      $update->bindParam(':Lagen', $_POST["Lagen"]);
-      // $update->bindParam(':Stricharten', $_POST["Stricharten"]);
-      $update->bindParam(':Notenwerte', $_POST["Notenwerte"]);
-      $update->bindParam(':Erprobt', $_POST["Erprobt"]);
-      $update->bindParam(':Bemerkung', $_POST["Bemerkung"]);
+    $update->bindParam(':ID', $_POST["ID"]);
+    $update->bindParam(':Name', $_POST["Name"]);
+    $update->bindParam(':Nr', $_POST["Nr"]);
+    $update->bindParam(':MusikstueckID', $_POST["MusikstueckID"]);
+    $update->bindParam(':Tonart', $_POST["Tonart"]);
+    $update->bindParam(':Taktart', $_POST["Taktart"]);
+    $update->bindParam(':Tempobezeichnung', $_POST["Tempobezeichnung"]);
+    $update->bindParam(':Spieldauer', $_POST["Spieldauer"]);
+    $update->bindParam(':Schwierigkeitsgrad', $_POST["Schwierigkeitsgrad"]);
+    $update->bindParam(':Lagen', $_POST["Lagen"]);
+    // $update->bindParam(':Stricharten', $_POST["Stricharten"]); // obsolete 
+    $update->bindParam(':Notenwerte', $_POST["Notenwerte"]);
+    $update->bindParam(':Erprobt', $_POST["Erprobt"]);
+    $update->bindParam(':Bemerkung', $_POST["Bemerkung"]);
 
-      if ($update->execute()){
-        $count_affected_rows= $update->rowCount(); 
-        echo get_html_user_action_info($table, 'update', $count_affected_rows,$ID);  
-        echo get_html_editlink($table, $ID); 
-          // $update->debugDumpParams(); 
-        }
-        else {
-          // print_r($update->errorInfo());
-          echo '<p>Fehler! <br/>'.$update->errorInfo().'</p>';             
-       }
-     }
-     echo get_html_showtablelink($table);        
+    try {
+      $update->execute(); 
+      $count_affected_rows= $update->rowCount(); 
+      echo get_html_user_action_info($table, 'update', $count_affected_rows,$ID);  
+      echo get_html_editlink($table,$ID);
+    }
+    catch (PDOException $e) {
+      echo get_html_user_error_info(); 
+      echo get_html_error_info($update, $e); 
+    }
+
+    echo get_html_showtablelink($table);        
 }
-
-
-
+}
 include('foot.php');
 
 ?>

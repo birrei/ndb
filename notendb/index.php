@@ -26,7 +26,7 @@ include('head.php');
 <tr>
     <td><b>Musikstück</b></td>
     <td><a href="show_table2.php?table=musikstueck">Daten anzeigen</a></td>
-    <td><a href="insert_musikstueck.php">Neu erfassen</a></td>
+    <td>Erfassung über Sammlung</td>
 </tr>
 
 <tr>

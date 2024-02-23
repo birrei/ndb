@@ -33,12 +33,8 @@ if (isset($_POST["MusikstueckID"])) {
     <td class="eingabe"><input type="text" name="Name" size="45" maxlength="80">  (falls vom Musikstück abweichend, sonst leer lassen)</td>
      </label>
    </tr> 
-
-
-
-     <input type="hidden" name="MusikstueckID" value="<?php echo $MusikstueckID; ?>"> 
-    
-
+    <input type="hidden" name="MusikstueckID" value="<?php echo $MusikstueckID; ?>"> 
+  
    <tr> 
     <td class="eingabe"></td> 
     <td class="eingabe"><input type="submit" value="Speichern"></td>
@@ -66,20 +62,20 @@ if ("POST" == $_SERVER["REQUEST_METHOD"]) {
   $insert->bindValue(':Nr', $Nr);
   $insert->bindValue(':Name', $Name);
 
-  if ($insert->execute()) {
-      $ID = $db->lastInsertId();
-      $count_affected_rows= $insert->rowCount(); 
-      echo get_html_user_action_info($table, 'insert', $count_affected_rows,$ID);  
-      echo get_html_editlink($table,$ID,True);
-    }
-    else {
-        echo '<p>Fehler! <br/>'.$insert->errorInfo().'</p>'; 
-        // print_r($insert->errorInfo());
-    }
+
+  try {
+    $insert->execute(); 
+    $ID = $db->lastInsertId();
+    $count_affected_rows= $insert->rowCount(); 
+    echo get_html_user_action_info($table, 'insert', $count_affected_rows,$ID);  
+    echo get_html_editlink($table,$ID);
+  }
+  catch (PDOException $e) {
+    echo get_html_user_error_info(); 
+    echo get_html_error_info($insert, $e); 
+  }
  }
 echo '<p> <a href="edit_musikstueck_list_saetze.php?MusikstueckID='.$MusikstueckID.'">[Sätze anzeigen]</a></p>'; 
-
-// echo get_html_showtablelink($table); // hier nicht geeignet 
 
 include('foot_raw.php');
 

@@ -31,6 +31,4 @@
  * 22.02.2024: Bearbeitungsformulare "Stricharten", "Besetzung" 
  * 22.02.2024: Neue Version show_table2.php 
  * 22.02.2024: Optimierung der insert_- edit_-Dateien (Nutzer-Meldungen in functions auslagern) 
- 
-
- 23.02.2024: 
+ * 23.02.2024: Sammlung -> Unterformular Musikstück (immer von Sammlung aus anlegen / bearbeiten)
