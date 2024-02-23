@@ -43,8 +43,7 @@ include('head.php');
 <tr>
     <td><b>Stricharten</b></td>
     <td><a href="show_table2.php?table=strichart">Daten anzeigen</a></td>
-    <td>Erfassung noch nicht verfügbar, bitte bei Bedarf phpMyAdmin verwenden. 
-        <br />Die Zuordnung von Stricharten erfolgt über das Satz-Formular</td>
+    <td><a href="insert_strichart.php">Neu erfassung</a></td>
 </tr>
 
 
