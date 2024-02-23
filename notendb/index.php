@@ -38,8 +38,7 @@ include('head.php');
 <tr>
     <td><b>Besetzungen</b></td>
     <td><a href="show_table2.php?table=besetzung">Daten anzeigen</a></td>
-    <td>Erfassung noch nicht verfügbar, bitte bei Bedarf phpMyAdmin verwenden. 
-        <br />Die Zuordnung von Besetzungen erfolgt über das Musikstueck-Formular</td>
+    <td><a href="insert_besetzung.php">Neu erfassen</a></td>
 </tr>
 <tr>
     <td><b>Stricharten</b></td>
