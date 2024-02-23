@@ -23,7 +23,19 @@ if (isset($_POST["SatzID"])) {
     <td class="eingabe">
         <!-- Auswahlliste Strichart  --> 
         <?php 
-              $select = $db->query("SELECT ID, Name  FROM `strichart` order by `Name`");
+              $select = $db->prepare("SELECT 
+                              ID, 
+                              Name  
+                              FROM `strichart`
+                              WHERE ID NOT IN (
+                                    SELECT DISTINCT StrichartID 
+                                    FROM satz_strichart
+                                    WHERE SatzID=:SatzID
+                              ) 
+                              order by `Name`");
+              $select->bindParam(':SatzID',$SatzID, PDO::PARAM_INT); 
+              $select->execute();                 
+              // $select = $db->query("SELECT ID, Name  FROM `strichart` order by `Name`");
               $options = $select->fetchAll(PDO::FETCH_KEY_PAIR);            
               $html = get_html_select2($options, 'StrichartID', '', true); // s. snippets.php
               echo $html;
@@ -62,9 +74,9 @@ if ("POST" == $_SERVER["REQUEST_METHOD"]) {
     echo '<p>Der Datensatz wurde mit ID '.$id.' eingefuegt.</p>'; 
   }
   catch (PDOException $e) {
-    // echo '<p>Ein Fehler ist aufgetreten.<br />Evt. haben Sie versucht, eine gleiche Besetzung mehrfach zuzuordnen</p>';
-    echo $e->getMessage();
-    echo $insert->debugDumpParams(); 
+    echo '<p>Ein Fehler ist aufgetreten.<br />';
+    // echo $e->getMessage();
+    // echo $insert->debugDumpParams(); 
   }
 }
 echo '<p> <a href="edit_satz_list_stricharten.php?SatzID='.$SatzID.'">[Stricharten anzeigen]</a></p>'; 

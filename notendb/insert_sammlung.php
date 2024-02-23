@@ -2,6 +2,9 @@
 <?php 
 include('head.php');
 include('snippets.php'); 
+
+$table='sammlung'; 
+
 ?> 
 
 <h1>Sammlung erfassen</h1> 
@@ -23,7 +26,7 @@ include('snippets.php');
         <!-- Auswahlliste Verlag  --> 
         <?php 
               include("dbconnect_pdo.php");
-              include("snippets.php");
+              // include("snippets.php");
 
               $select = $db->query("SELECT DISTINCT `ID` as VerlagID, `Name` FROM `verlag` order by `Name`");
               $options = $select->fetchAll(PDO::FETCH_KEY_PAIR);
@@ -100,16 +103,21 @@ if ("POST" == $_SERVER["REQUEST_METHOD"]) {
   $insert->bindValue(':Bemerkung', $Bemerkung);
   
   if ($insert->execute()) {
-      $id = $db->lastInsertId();
-      echo '<p>Der Datensatz wurde mit ID '.$id.' eingefuegt. <a href="edit_sammlung.php?ID=' . $id . '">Datensatz bearbeiten</a></p>';
-  }
+    $ID = $db->lastInsertId();
+    $count_affected_rows= $insert->rowCount(); 
+    echo get_html_user_action_info($table, 'insert', $count_affected_rows,$ID);  
+    echo get_html_editlink($table,$ID); 
+
+      // $id = $db->lastInsertId();
+      // echo '<p>Der Datensatz wurde mit ID '.$id.' eingefuegt. <a href="edit_sammlung.php?ID=' . $id . '">Datensatz bearbeiten</a></p>';
+  
+    }
   else {
       echo '<p>Fehler! <br/>'.$insert->errorInfo().'</p>'; 
-      // print_r($insert->errorInfo());
-      // XXX Nutzer-Info anzeigen 
+      // print_r($insert->errorInfo()); 
   }
 }
-echo get_html_showtablelink('sammlung'); 
+echo get_html_showtablelink($table); 
 
 include('foot.php');
 

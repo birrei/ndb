@@ -91,7 +91,7 @@ if ("POST" == $_SERVER["REQUEST_METHOD"]) {
       echo '<p>Fehler! <br/>'.$insert->errorInfo().'</p>'; 
   }
 }
-echo get_html_showtablelink('komponist'); 
+echo get_html_showtablelink($table); 
 
 include('foot.php');
 

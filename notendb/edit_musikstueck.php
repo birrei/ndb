@@ -150,7 +150,7 @@ if (isset($_GET["ID"])) {
             </tr> 
   
             <tr> 
-              <td class="eingabe">Sätze: </td> 
+              <td class="eingabe">Sätze:<br>(Anzeige ausgewählte Felder)</td> 
               <td class="eingabe"><iframe src="edit_musikstueck_list_saetze.php?MusikstueckID='.$musikstueck["ID"].'" width="1000" height="400" name="Saetze"></iframe>
             </td>
             </tr> 
@@ -206,7 +206,9 @@ if (isset($_POST["senden"])) {
 
       if ($update->execute()){
           // $update->debugDumpParams(); 
-          echo '<p>'.$update->rowCount().' Zeilen geändert. <a href="edit_musikstueck.php?ID='.$_POST["ID"].'">Datensatz erneut bearbeiten</a></p>';     
+          $count_affected_rows= $update->rowCount(); 
+          echo get_html_user_action_info($table, 'update', $count_affected_rows,$ID);  
+          echo get_html_editlink($table, $ID);         
         }
         else {
           // print_r($update->errorInfo());

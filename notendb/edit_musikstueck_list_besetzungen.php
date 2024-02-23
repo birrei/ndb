@@ -6,6 +6,7 @@ include("snippets.php");
 
 if (isset($_GET["MusikstueckID"])) {
   // echo '<p>Musikstueck_ID: '.$_GET["MusikstueckID"];
+  $MusikstueckID=$_GET["MusikstueckID"]; 
   $query="SELECT b.ID
               , b.Name                              
         FROM `musikstueck` m 
@@ -19,7 +20,7 @@ if (isset($_GET["MusikstueckID"])) {
  // echo $query; 
   
   $stmt = $db->prepare($query); // statement-Objekt 
-  $stmt->bindParam(':MusikstueckID', $_GET["MusikstueckID"], PDO::PARAM_INT); 
+  $stmt->bindParam(':MusikstueckID', $MusikstueckID, PDO::PARAM_INT); 
 
   try {
     $stmt->execute(); 
@@ -31,7 +32,7 @@ if (isset($_GET["MusikstueckID"])) {
     // echo '<p>'.$e->getMessage().'</p>';
     // echo '<p>debugDumpParams: '.$stmt->debugDumpParams(); 
   }
-  echo '<p> <a href="edit_musikstueck_add_besetzung.php?MusikstueckID='.$_GET["MusikstueckID"].'">[Besetzung hinzufügen]</a></p>'; 
+  echo '<p> <a href="edit_musikstueck_add_besetzung.php?MusikstueckID='.$MusikstueckID.'">[Besetzung hinzufügen]</a></p>'; 
 
 }
 include('foot_raw.php');

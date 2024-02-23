@@ -4,6 +4,8 @@ include('head_raw.php');
 include("dbconnect_pdo.php");
 include("snippets.php");
 
+$table='musikstueck_besetzung'; 
+
 $MusikstueckID=''; 
 if (isset($_GET["MusikstueckID"])) {
   $MusikstueckID= $_GET["MusikstueckID"];
@@ -24,7 +26,16 @@ if (isset($_POST["MusikstueckID"])) {
     <td class="eingabe">
         <!-- Auswahlliste Besetzung  --> 
         <?php 
-              $select = $db->query("SELECT ID, Name  FROM `besetzung` order by `Name`");
+              // $select = $db->query("SELECT ID, Name  FROM `besetzung` order by `Name`");
+              $select = $db->prepare("SELECT ID, Name  FROM `besetzung` 
+                                    WHERE ID NOT IN
+                                      (SELECT DISTINCT BesetzungID 
+                                      FROM musikstueck_besetzung 
+                                      where MusikstueckID=:MusikstueckID 
+                                      ) 
+                                    order by `Name`");
+              $select->bindParam(':MusikstueckID',$MusikstueckID, PDO::PARAM_INT); 
+              $select->execute(); 
               $options = $select->fetchAll(PDO::FETCH_KEY_PAIR);            
               $html = get_html_select2($options, 'BesetzungID', '', true); // s. snippets.php
               echo $html;
@@ -49,7 +60,6 @@ if (isset($_POST["MusikstueckID"])) {
 
 // Wurde das Formular abgesendet?
 if ("POST" == $_SERVER["REQUEST_METHOD"]) {
-  include("dbconnect_pdo.php"); // nur wenn benötigt     
 
   $MusikstueckID=$_POST["MusikstueckID"];           
   $BesetzungID=$_POST["BesetzungID"];           
@@ -63,15 +73,16 @@ if ("POST" == $_SERVER["REQUEST_METHOD"]) {
 
   try {
     $insert->execute(); 
-    $id = $db->lastInsertId();
-    echo '<p>Der Datensatz wurde mit ID '.$id.' eingefuegt.'; 
+    $ID = $db->lastInsertId();
+    $count_affected_rows= $insert->rowCount(); 
+    echo get_html_user_action_info($table, 'insert', $count_affected_rows,$ID);  
+    // echo get_html_editlink($table, $ID); 
   }
   catch (PDOException $e) {
     echo '<p>Ein Fehler ist aufgetreten.<br />Evt. haben Sie versucht, eine gleiche Besetzung mehrfach zuzuordnen</p>';
     // echo '<p>'.$e->getMessage().'</p>';
     // echo '<p>debugDumpParams: '.$stmt->debugDumpParams(); 
   }
-
 }
 echo '<p> <a href="edit_musikstueck_list_besetzungen.php?MusikstueckID='.$MusikstueckID.'">[Besetzungen anzeigen]</a></p>'; 
 

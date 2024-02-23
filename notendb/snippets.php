@@ -85,8 +85,8 @@ function get_html_user_action_info($table_name, $action_name, $stmt_row_count=0,
     $html.= '</p>'; 
     return $html; 
 }
-function get_html_editlink($table_name, $ID){
-    return '<p><a href="edit_'.$table_name.'.php?ID=' . $ID . '">[Tabelle '.ucfirst($table_name).' ID '.$ID.' bearbeiten]</a></p>';  
+function get_html_editlink($table_name, $ID, $edit_newpage=false){
+    return '<p><a href="edit_'.$table_name.'.php?ID=' . $ID . '" ' . ($edit_newpage!='' ?'target="_blank"':''). '>[Tabelle '.ucfirst($table_name).' ID '.$ID.' bearbeiten]</a></p>';  
 }
 
 

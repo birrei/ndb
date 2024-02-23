@@ -1,6 +1,7 @@
 
 <?php 
 include('head.php');
+include('snippets.php'); 
 
 $table='verlag'; 
 
@@ -83,10 +84,11 @@ if (isset($_POST["senden"])) {
       $update->bindParam(':Name', $_POST["Name"]);
       $update->bindParam(':Bemerkung', $_POST["Bemerkung"]);
 
-      if ($update->execute())
-        {
-          // $update->debugDumpParams(); 
-          echo '<p>'.$update->rowCount().' Zeilen geändert </p>';     
+      if ($update->execute()){
+          $count_affected_rows= $update->rowCount(); 
+          echo get_html_user_action_info($table, 'update', $count_affected_rows,$ID);  
+          echo get_html_editlink($table, $ID); 
+          // $update->debugDumpParams();           
         }
         else {
           // print_r($update->errorInfo());
@@ -94,21 +96,6 @@ if (isset($_POST["senden"])) {
        }
      }
 
-     // löschen nicht erlaubt 
-     
-    // if ($_POST["option"] == 'delete')
-    //   {
-    //     // Datensatz löschen      
-    //     $delete = $db->prepare("delete from `verlag` where `ID`=:ID");  
-        
-    //     try {
-    //       $delete->execute([':ID' => $_POST["ID"]]); 
-    //       echo '<p>Der Datensatz wurde gelöscht.</p>';
-    //     }
-    //     catch (PDOException $e) {
-    //       echo '<p>Der Datensatz konnte nicht gelöscht werden:<br />'.$e->getMessage().'</p>';
-    //     }
-    //   }
 }
 
 echo get_html_showtablelink($table); 

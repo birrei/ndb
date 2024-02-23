@@ -12,6 +12,8 @@ if (isset($_POST["SammlungID"])) {
   $SammlungID= $_POST["SammlungID"];
 }
 
+$table='musikstueck'; 
+
 ?> 
 
 <h1>Musikstück erfassen (Start) </h1> 
@@ -46,7 +48,7 @@ if (isset($_POST["SammlungID"])) {
     <td class="eingabe">
         <!-- Auswahlliste Sammlung. Falls Seite aus  edit_sammlung.php heraus aufgerufen wird, soll SammlungID vorbelegt ein  --> 
         <?php 
-              $select = $db->query("SELECT DISTINCT `ID` as SammlungID, `Name` FROM `sammlung` order by `Name`");
+              $select = $db->query("SELECT DISTINCT `ID` as SammlungID, `Name` FROM `sammlung` where Name IS NOT NULL and Name <> '' order by `Name`");
               $options = $select->fetchAll(PDO::FETCH_KEY_PAIR);        
               $html = get_html_select2($options, 'SammlungID', $SammlungID, true); // s. snippets.php
               echo $html;
@@ -108,8 +110,6 @@ if (isset($_POST["SammlungID"])) {
 </tr>
 </table> 
 
-<p> Hinweis: nach dem Speichern des neuen Datensatzes werden die Formularfelder geleert
-   bei Bedarf kann der nächste Datensatz erfasst werden </p> 
 
 </form>
 
@@ -162,8 +162,10 @@ if ("POST" == $_SERVER["REQUEST_METHOD"]) {
   $insert->bindValue(':JahrAuffuehrung', $JahrAuffuehrung);
 
   if ($insert->execute()) {
-      $id = $db->lastInsertId();
-      echo '<p>Der Datensatz wurde mit ID '.$id.' eingefuegt. <a href="edit_musikstueck.php?ID=' . $id . '"><b>Bearbeitung fortsetzen</b></a></p>';
+      $ID = $db->lastInsertId();
+      $count_affected_rows= $insert->rowCount(); 
+      echo get_html_user_action_info($table, 'insert', $count_affected_rows,$ID);  
+      echo get_html_editlink($table,$ID);   
   }
   else {
       echo '<p>Fehler! <br/>'.$insert->errorInfo().'</p>'; 
@@ -171,7 +173,7 @@ if ("POST" == $_SERVER["REQUEST_METHOD"]) {
       // XXX Nutzer-Info anzeigen 
   }
 }
-echo get_html_showtablelink('musikstueck'); 
+echo get_html_showtablelink($table); 
 include('foot.php');
 
 ?>

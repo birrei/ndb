@@ -113,7 +113,6 @@ if (isset($_GET["ID"])) {
           </tr> 
 
 
-
           <tr>    
             <label>
             <td class="eingabe">Schwierigkeitsgrad:</td>  
@@ -128,14 +127,14 @@ if (isset($_GET["ID"])) {
             </label>
           </tr> 
 
-          <!-- 
-          <tr>    
-            <label>
-            <td class="eingabe">obsolete! Stricharten:</td>  
-            <td class="eingabe"><input type="text" name="Stricharten" value=" size="45" maxlength="80" autofocus="autofocus"></td>
-            </label>
-          </tr> 
-          --> 
+                <!-- obsolete
+                <tr>    
+                  <label>
+                  <td class="eingabe">Stricharten:</td>  
+                  <td class="eingabe"><input type="text" name="Stricharten" value=" size="45" maxlength="80" autofocus="autofocus"></td>
+                  </label>
+                </tr> 
+                --> 
 
           <tr>    
             <label>
@@ -157,7 +156,7 @@ if (isset($_GET["ID"])) {
           <tr>    
             <label>
             <td class="eingabe">Bemerkung:</td>  
-            <td class="eingabe"><input type="text" name="Bemerkung" value="'.$satz["Bemerkung"].'" size="45" maxlength="80" autofocus="autofocus"></td>
+            <td class="eingabe"><input type="text" name="Bemerkung" value="'.$satz["Bemerkung"].'" size="100" maxlength="80" autofocus="autofocus"></td>
             </label>
           </tr> 
 
@@ -198,6 +197,7 @@ if (isset($_POST["senden"])) {
   include("dbconnect_pdo.php");
   if ($_POST["option"] == 'edit') 
     {
+      $ID=$_POST["ID"];      
       // Datensatz ändern     
       $update = $db->prepare("UPDATE `satz` 
                             SET
@@ -231,20 +231,18 @@ if (isset($_POST["senden"])) {
       $update->bindParam(':Erprobt', $_POST["Erprobt"]);
       $update->bindParam(':Bemerkung', $_POST["Bemerkung"]);
 
-
-      if ($update->execute())
-        {
+      if ($update->execute()){
+        $count_affected_rows= $update->rowCount(); 
+        echo get_html_user_action_info($table, 'update', $count_affected_rows,$ID);  
+        echo get_html_editlink($table, $ID); 
           // $update->debugDumpParams(); 
-          echo '<p>'.$update->rowCount().' Zeilen geändert. <a href="edit_satz.php?ID='.$_POST["ID"].'">Datensatz erneut bearbeiten</a></p>';     
         }
         else {
           // print_r($update->errorInfo());
           echo '<p>Fehler! <br/>'.$update->errorInfo().'</p>';             
        }
      }
-
-
-   
+     echo get_html_showtablelink($table);        
 }
 
 

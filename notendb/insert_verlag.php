@@ -2,6 +2,7 @@
 <?php 
 include('head.php');
 include('snippets.php'); 
+$table='verlag'; 
 ?> 
 
 <h1>Verlag erfassen</h1> 
@@ -57,10 +58,9 @@ if ("POST" == $_SERVER["REQUEST_METHOD"]) {
     
     if ($insert->execute()) {
         $ID = $db->lastInsertId();
-        echo '<p>Der Datensatz wurde mit ID '.$ID.' eingefuegt. <a href="edit_verlag.php?ID='.$ID.'">Datensatz bearbeiten</a></p>';
-        // echo '<p><a href="show_table2.php?table=verlag">Tabellendaten anzeigen</a></p>';
-
- 
+        $count_affected_rows= $insert->rowCount(); 
+        echo get_html_user_action_info($table, 'insert', $count_affected_rows,$ID);  
+        echo get_html_editlink($table,$ID); 
     }
     else {
         echo '<p>Fehler! <br/>'.$insert->errorInfo().'</p>'; 
@@ -69,7 +69,7 @@ if ("POST" == $_SERVER["REQUEST_METHOD"]) {
     }
 }
 
-echo get_html_showtablelink('verlag'); 
+echo get_html_showtablelink($table); 
   
 
 include('foot.php');

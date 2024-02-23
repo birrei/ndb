@@ -40,7 +40,7 @@ else {
       echo '<p>Keine Sätze vorhanden</p>'; 
 }
 echo '<p> <a href="edit_musikstueck_add_satz.php?MusikstueckID='.$_GET["MusikstueckID"].'">Satz hinzufügen</a></p>'; 
-echo '<p> <a href="edit_musikstueck_list_saetze.php?MusikstueckID='.$_GET["MusikstueckID"].'">Satz hinzufügen</a></p>'; 
+echo '<p> <a href="edit_musikstueck_list_saetze.php?MusikstueckID='.$_GET["MusikstueckID"].'">Sätze anzeigen</a></p>'; 
  
  
 

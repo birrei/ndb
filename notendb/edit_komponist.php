@@ -20,7 +20,6 @@ if (isset($_GET["ID"])) {
   $select->execute(); // Führt die Anweisung aus.
   $komponist = $select->fetch();
   if ($select->rowCount() == 1) {
-
     echo '
     <form action="edit_komponist.php" method="post">
 

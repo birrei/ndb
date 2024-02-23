@@ -1,16 +1,19 @@
 
 
 ## offene Aufgaben: 
- * Startseite, "Daten anzeigen" -> geöffnete Seite soll Bearbeitungslink anzeigen 
+ 
+ * Musikstück, Auswahl Sammlung: Filter einschränken 
  * Anzeige Tabellen mit Sortierspalten im Spaltenkopf 
  * Seite für: Testviews für Anzeige unvollständig erfasster Daten 
  * View musikstueck_v - mit einzelnen Besetzungen. Die Variante mit group_concat als musikstueck_v2 anlegen. 
  * Doku, Hinweis auf Verwendung PDO, damit theoret. auf andere Datenbanksysteme übertragbar 
-
+ * Iframe, erstes Eingabefeld im Formular mit autofokus? 
+ * Seite für Löschungen 
 
 
  ## Erledigte Aufgaben 
   * Besetzung - Eigenschaften müssen einzeln filterbar sein. 
+  * Startseite, "Daten anzeigen" -> geöffnete Seite soll Bearbeitungslink anzeigen 
 
 ## Notizen 
  * Erfassung Zuordnung (asoc) im iframe. Erfassung Unterdatensätze in neuem Fenster  
@@ -29,3 +32,5 @@
  * 22.02.2024: Neue Version show_table2.php 
  * 22.02.2024: Optimierung der insert_- edit_-Dateien (Nutzer-Meldungen in functions auslagern) 
  
+
+ 23.02.2024: 
