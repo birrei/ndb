@@ -3,6 +3,7 @@
 include('head_raw.php');
 include("dbconnect_pdo.php");
 include("snippets.php");
+
 $table='musikstueck'; 
 
 $SammlungID=''; 
