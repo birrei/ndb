@@ -13,9 +13,7 @@ $Besetzungen=[];
 <table class="eingabe"> 
 
 <tr>    
-    <label>
-    <td class="eingabe">Besetzung:</td>  
-    <td class="eingabe">
+    <td class="eingabe">Wähle ein oder mehrere Besetzungen aus: <br>  <br>  
         <!-- select Besetzung  --> 
         <?php 
 
@@ -29,12 +27,8 @@ $Besetzungen=[];
     </label>
      </tr> 
 
-  <tr> 
-    <td class="eingabe"></td> 
-    <td class="eingabe"><input type="submit" value="Suchen"></td>
-</tr>
 </table> 
-
+<td class="eingabe"><input type="submit" value="Suchen"></td>
 </form>
 
 <?php
