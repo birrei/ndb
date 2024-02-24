@@ -4,10 +4,11 @@ include('head.php');
 
 <h1> Notendatenbank   </h1> 
 
-<p> Erfassung Ablauf: 
+<h2>Tabellen anzeigen, Erfassung </h2>
+
+
     
 <table>
-
 <tr>
     <td><b>Komponist</b></td>
     <td><a href="show_table2.php?table=komponist">Daten anzeigen</a></td>

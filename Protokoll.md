@@ -1,5 +1,4 @@
 
-
 ## offene Aufgaben: 
  * Anzeige Tabellen mit Sortierspalten im Spaltenkopf 
  * Seite für: Testviews für Anzeige unvollständig erfasster Daten 
@@ -7,10 +6,10 @@
  * Doku, Hinweis auf Verwendung PDO, damit theoret. auf andere Datenbanksysteme übertragbar 
  * Iframe: erstes Eingabefeld im Formular mit autofokus? (recherche ... scheint nicht so einfach)
  * Seite für Löschungen 
-
+ * Suche-Seite: Nach Suchvorgang soll Auswahl im multiple-Filterfeld erhalten bleiben. 
 
 ## Notizen 
- * Erfassung Zuordnung (asoc) im iframe. Erfassung Unterdatensätze in neuem Fenster  
+ * Erfassung Zuordnung (asoc) im iframe. Unterdatensätze: für größere Tabellen: insert im iframe, Bearbeitung in neuem Fenster  
  * Erfassung (insert_*.php): Nur obligatorische Felder (z.B. Name, Nr) erfassen und dann speichern. Fortsetzung im Bearbeitungsformular (edit_*.php)
 
 ## Protokoll 
@@ -29,4 +28,4 @@
  * 23.02.2024: Erfassung / Bearbeitung Stammdatentabelle "Besetzungen" 
  * 23.02.2024: Erfassung / Bearbeitung Stammdatentabelle "Stricharten" 
  * 23.02.2024: (hat sich erledig, da jetzt Unterformular: Musikstück, Auswahl Sammlung: Filter einschränken)  
-
+* 23.02.2024: Suchformular, Prototyp für Suche von Musikstücken nach Besetzungen

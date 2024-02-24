@@ -1,21 +1,22 @@
 <?php 
  
-function get_html_select2($options = [], $keyname='',$key_selected='', $add_null_option=true) {
+function get_html_select2($options = [], $keyname='',$key_selected='', $add_null_option=true,$multiple=false) {
     // key_selected ist bei edit_*.php- Formularen befüllt, bei insert_*.php leer 
     $html = '';
-    if (sizeof($options) > 0) {
-    $html = '<select name="'.$keyname.'" required>' . PHP_EOL;
-    if($add_null_option) {
-        $html .= '<option value="" '.($key_selected=='' ? 'selected' : ''). '></option>'. PHP_EOL;
-    }
-    
-    foreach($options as $key => $title) {
-        $html .= ' <option value="' . $key . '" '.($key_selected==$key ? 'selected' : ''). '>' . $title . '</option>'. PHP_EOL;
+    $row_count=sizeof($options); 
+    if ($row_count > 0) {
+        // $html = '<select name="'.$keyname.'" required '.($multiple? ' multiple ' : '').'>' . PHP_EOL;
+        $html = '<select name="'.$keyname.'" '.($multiple? ' multiple size="'.$row_count.'"' : '').'>' . PHP_EOL;    
+        if($add_null_option) {
+            $html .= '<option value="" '.($key_selected=='' ? 'selected' : ''). '></option>'. PHP_EOL;
         }
-    $html .= '</select>';
+        
+        foreach($options as $key => $title) {
+            $html .= ' <option value="' . $key . '"'.($key_selected==$key ? ' selected' : ''). '>' . $title . '</option>'. PHP_EOL;
+            }
+        $html .= '</select>';
     }
     return $html;
-
 }
 function get_html_table($stmt, $edit_table_name='', $edit_newpage=false) {
     /* 
@@ -98,7 +99,7 @@ function get_html_error_info($stmt, PDOException $e) {
     $html.=$e->getMessage(); 
     $html.='<br>';     
     $html.='</p>'; 
-    // $stmt->debugDumpParams();  // ausgabe-Methode, kein Text 
+    $stmt->debugDumpParams();  // ausgabe-Methode, kein Text 
     return $html;     
 }
 function get_html_user_error_info() {
