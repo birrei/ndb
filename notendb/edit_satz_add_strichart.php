@@ -42,8 +42,10 @@ if (isset($_POST["SatzID"])) {
               $html = get_html_select2($options, 'StrichartID', '', true); // s. snippets.php
               echo $html;
         ?>
+                <a href="insert_strichart.php" target="_blank">[Neue Strichart erfassen]</a>  
     </td>
     </label>
+     </tr>
 
     <input type="hidden" name="SatzID" value="<?php echo $SatzID; ?>"> 
     

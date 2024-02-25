@@ -40,9 +40,12 @@ if (isset($_POST["MusikstueckID"])) {
               $html = get_html_select2($options, 'BesetzungID', '', true); // s. snippets.php
               echo $html;
         ?>
+        <a href="insert_besetzung.php" target="_blank">[Neue Besetzung erfassen]</a>  
     </td>
-    </label>
+    </tr>
 
+    </label>
+</tr>
 
      <input type="hidden" name="MusikstueckID" value="<?php echo $MusikstueckID; ?>"> 
     

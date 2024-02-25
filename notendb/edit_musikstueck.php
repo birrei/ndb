@@ -49,7 +49,12 @@ if (isset($_GET["ID"])) {
         </label>
          </tr> 
 
-
+         <tr>    
+         <label>
+         <td class="eingabe">Nummer:</td>  
+         <td class="eingabe"><input type="text" name="Nummer" value="'.$musikstueck["Nummer"].'" size="45" maxlength="80"  autofocus="autofocus"></td>
+         </label>
+       </tr> 
 
           <tr>    
             <label>
@@ -66,7 +71,8 @@ if (isset($_GET["ID"])) {
            $select = $db->query("SELECT DISTINCT `ID` as KomponistID, CONCAT(`Nachname`, ', ', `Vorname`) as Name FROM `komponist` order by `Nachname`");
           $options = $select->fetchAll(PDO::FETCH_KEY_PAIR);            
           $html = get_html_select2($options, 'KomponistID', $musikstueck["KomponistID"], true); // s. snippets.php
-          echo $html.' </label></tr>';
+          echo $html.' </label>        
+              <a href="insert_komponist.php" target="_blank">[Komponist erfassen]</a>  </td></tr>';
 
           echo  '<tr>    
           <label>
@@ -80,12 +86,7 @@ if (isset($_GET["ID"])) {
           echo $html.' </label></tr>';
           
           echo '
-          <tr>    
-            <label>
-            <td class="eingabe">Nummer:</td>  
-            <td class="eingabe"><input type="text" name="Nummer" value="'.$musikstueck["Nummer"].'" size="45" maxlength="80"  autofocus="autofocus"></td>
-            </label>
-          </tr> 
+
 
 
           <tr>    
@@ -145,7 +146,7 @@ if (isset($_GET["ID"])) {
 
             <tr> 
               <td class="eingabe">Besetzung(en):</td> 
-              <td class="eingabe"><iframe src="edit_musikstueck_list_besetzungen.php?MusikstueckID='.$musikstueck["ID"].'" width="500" height="200" name="Besetzungen"></iframe>
+              <td class="eingabe"><iframe src="edit_musikstueck_list_besetzungen.php?MusikstueckID='.$musikstueck["ID"].'" width="1000" height="200" name="Besetzungen"></iframe>
             </td>
             </tr> 
   

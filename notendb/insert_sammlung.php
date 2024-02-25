@@ -12,16 +12,12 @@ $table='sammlung';
 <form action="insert_sammlung.php" method="post">
 
 <table class="eingabe"> 
-  <tr>    
-    <label>
-    <td class="eingabe">Name:</td>  
-    <td class="eingabe"><input type="text" name="Name" size="45" maxlength="80" required="required" autofocus="autofocus"></td>
-     </label>
-   </tr> 
 
    <tr>    
     <label>
-    <td class="eingabe">Verlag:</td>  
+    <td class="eingabe">Verlag:<br> 
+
+    </td>  
     <td class="eingabe">
         <!-- Auswahlliste Verlag  --> 
         <?php 
@@ -33,10 +29,19 @@ $table='sammlung';
               
               $html = get_html_select2($options, 'VerlagID', '', true); // s. snippets.php
               echo $html;
+
         ?>
-    </td>
+          <a href="insert_verlag.php" target="_blank">[Verlag erfassen]</a>
+  </td>
     </label>
      </tr> 
+
+     <tr>    
+    <label>
+    <td class="eingabe">Name:</td>  
+    <td class="eingabe"><input type="text" name="Name" size="45" maxlength="80" required="required" autofocus="autofocus"></td>
+     </label>
+   </tr> 
 
     
    <tr>    

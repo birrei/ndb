@@ -16,12 +16,10 @@ $Besetzungen=[];
     <td class="eingabe">Wähle ein oder mehrere Besetzungen aus: <br>  <br>  
         <!-- select Besetzung  --> 
         <?php 
-
-              $select = $db->query("SELECT DISTINCT `ID` as BesetzungID, `Name` FROM `besetzung` order by `Name`");
-              $options = $select->fetchAll(PDO::FETCH_KEY_PAIR);
-              
-              $html = get_html_select2($options, 'Besetzungen[]', '', false, true); // s. snippets.php
-              echo $html;
+          $select = $db->query("SELECT DISTINCT `ID` as BesetzungID, `Name` FROM `besetzung` order by `Name`");
+          $options = $select->fetchAll(PDO::FETCH_KEY_PAIR);
+          $html = get_html_select2($options, 'Besetzungen[]', '', false, true); // s. snippets.php
+          echo $html;
         ?>
     </td>
     </label>
@@ -36,8 +34,6 @@ $Besetzungen=[];
   $filterBesetzung=''; 
   
   if ("POST" == $_SERVER["REQUEST_METHOD"]) {
-
-
     if (isset($_REQUEST['Besetzungen'])) {
       $Besetzungen = $_REQUEST['Besetzungen'];   
       $filterBesetzung = 'IN ('.implode(',', $Besetzungen).')'; 

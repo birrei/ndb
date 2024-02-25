@@ -35,7 +35,7 @@ else {
       echo '<p>Keine Sätze vorhanden</p>'; 
 }
 echo '<p> <a href="edit_sammlung_add_musikstueck.php?SammlungID='.$_GET["SammlungID"].'">Musikstück hinzufügen</a></p>'; 
-// echo '<p> <a href="edit_sammlung_list_musikstuecke.php?SammlungID='.$_GET["SammlungID"].'">Musikstücke anzeigen</a></p>'; 
+echo '<p> <a href="edit_sammlung_list_musikstuecke.php?SammlungID='.$_GET["SammlungID"].'">Aktualisieren</a></p>'; 
  
  
 

@@ -95,6 +95,9 @@ and m.Besetzung <> ''
 /* 
 Spalte musikstueck.Besetzung löschen 
 
+ALTER TABLE `musikstueck` DROP `Besetzung`;"
+
+
 select m.* 
 from musikstueck m left join musikstueck_besetzung mb on m.ID = mb.MusikstueckID 
 where mb.ID is null 

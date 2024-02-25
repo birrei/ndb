@@ -32,15 +32,13 @@ if (isset($_GET["MusikstueckID"])) {
   }
   catch (PDOException $e) {
     echo '<p>Ein Fehler ist aufgetreten.</p>';
-    // echo '<p>'.$e->getMessage().'</p>';
-    // echo '<p>'.$stmt->debugDumpParams(); 
-    }
+  }
 }
 else {
       echo '<p>Keine Sätze vorhanden</p>'; 
 }
 echo '<p> <a href="edit_musikstueck_add_satz.php?MusikstueckID='.$_GET["MusikstueckID"].'">Satz hinzufügen</a></p>'; 
-// echo '<p> <a href="edit_musikstueck_list_saetze.php?MusikstueckID='.$_GET["MusikstueckID"].'">Sätze anzeigen</a></p>'; 
+echo '<p> <a href="edit_musikstueck_list_saetze.php?MusikstueckID='.$_GET["MusikstueckID"].'">Aktualisieren</a></p>'; 
  
  
 

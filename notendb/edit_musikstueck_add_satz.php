@@ -68,7 +68,7 @@ if ("POST" == $_SERVER["REQUEST_METHOD"]) {
     $ID = $db->lastInsertId();
     $count_affected_rows= $insert->rowCount(); 
     echo get_html_user_action_info($table, 'insert', $count_affected_rows,$ID);  
-    echo get_html_editlink($table,$ID);
+    echo get_html_editlink($table,$ID, true);
   }
   catch (PDOException $e) {
     echo get_html_user_error_info(); 

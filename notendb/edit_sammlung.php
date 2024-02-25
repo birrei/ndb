@@ -90,7 +90,7 @@ if (isset($_GET["ID"])) {
 
               <tr> 
               <td class="eingabe">Musikstücke:</td> 
-              <td class="eingabe"><iframe src="edit_sammlung_list_musikstuecke.php?SammlungID='.$sammlung["ID"].'" width="500" height="200" name="Besetzungen"></iframe>
+              <td class="eingabe"><iframe src="edit_sammlung_list_musikstuecke.php?SammlungID='.$sammlung["ID"].'" width="500" height="400" name="Besetzungen"></iframe>
             </td>
             </tr> 
 

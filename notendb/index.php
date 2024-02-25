@@ -6,16 +6,7 @@ include('head.php');
 
 
 <table>
-<tr>
-    <td><b>Komponist</b></td>
-    <td><a href="show_table2.php?table=komponist">Daten anzeigen</a></td>
-    <td><a href="insert_komponist.php">Neu erfassen</a></td>
-</tr>
-<tr>
-    <td><b>Verlag</b></td>
-    <td><a href="show_table2.php?table=verlag">Daten anzeigen</a></td>
-    <td><a href="insert_verlag.php">Neu erfassen</a></td>
-</tr>
+
 <tr>
     <td><b>Sammlung</b></td>
     <td><a href="show_table2.php?table=sammlung">Daten anzeigen</a></td>
@@ -32,6 +23,16 @@ include('head.php');
     <td><a href="show_table2.php?table=satz">Daten anzeigen</a></td>
     <td>Erfassung über Musikstück</td>
 </tr>
+<tr>
+    <td><b>Komponist</b></td>
+    <td><a href="show_table2.php?table=komponist">Daten anzeigen</a></td>
+    <td><a href="insert_komponist.php">Neu erfassen</a></td>
+</tr>
+<tr>
+    <td><b>Verlag</b></td>
+    <td><a href="show_table2.php?table=verlag">Daten anzeigen</a></td>
+    <td><a href="insert_verlag.php">Neu erfassen</a></td>
+</tr>
 
 <tr>
     <td><b>Besetzungen</b></td>
@@ -43,7 +44,6 @@ include('head.php');
     <td><a href="show_table2.php?table=strichart">Daten anzeigen</a></td>
     <td><a href="insert_strichart.php">Neu erfassung</a></td>
 </tr>
-
 
 </table>
 

@@ -94,6 +94,9 @@ function get_html_editlink($table_name, $ID, $edit_newpage=false){
 function get_html_showtablelink($table_name){
      return '<p><a href="show_table2.php?table=' . $table_name . '">[Tabelle '.ucfirst($table_name).' anzeigen]</a></p>';  
 }
+// function get_html_insertlink($table_name, $newpage=false){
+//     return '<a href="insert_'.$table_name.'.php" ' . ($newpage!='' ?'target="_blank"':''). '>['.ucfirst($table_name).' erfassen]</a>';  
+// }
 function get_html_error_info($stmt, PDOException $e) {
     $html='<p style="color: red;">'; 
     $html.=$e->getMessage(); 
