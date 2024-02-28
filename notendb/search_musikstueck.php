@@ -5,19 +5,19 @@ include('snippets.php');
 include("dbconnect_pdo.php");
 
 $table='besetzung'; 
+
 $Besetzungen=[]; 
 $Verwendungszwecke=[]; 
 
-?> 
-
-<?php 
-  if ("POST" == $_SERVER["REQUEST_METHOD"]) {
-    if (isset($_REQUEST['Besetzungen'])) {
-        echo '<p>'.$_REQUEST['Besetzungen'].[0]; 
-
-    }
+if ("POST" == $_SERVER["REQUEST_METHOD"]) {
+  if (isset($_REQUEST['Besetzungen'])) {
+    $Besetzungen = $_REQUEST['Besetzungen'];      
   }
-?>
+  if (isset($_REQUEST['Verwendungszwecke'])) {
+    $Verwendungszwecke = $_REQUEST['Verwendungszwecke'];   
+  }  
+}
+?> 
 
 <form action="search_musikstueck.php" method="post">
 
@@ -29,7 +29,7 @@ $Verwendungszwecke=[];
         <?php 
           $select = $db->query("SELECT DISTINCT `ID` as BesetzungID, `Name` FROM `besetzung` order by `Name`");
           $options = $select->fetchAll(PDO::FETCH_KEY_PAIR);
-          $html = get_html_select2($options, 'Besetzungen[]', '', false, true); // s. snippets.php
+          $html = get_html_select_multi('Besetzung', $options, 'Besetzungen[]', $Besetzungen); // s. snippets.php
           echo $html;
         ?>
     </td>
@@ -39,17 +39,24 @@ $Verwendungszwecke=[];
         <?php 
           $select = $db->query("SELECT DISTINCT `ID` as BesetzungID, `Name` FROM `verwendungszweck` order by `Name`");
           $options = $select->fetchAll(PDO::FETCH_KEY_PAIR);
-          $html = get_html_select2($options, 'Verwendungszwecke[]', '', false, true); // s. snippets.php
+          $html = get_html_select_multi('Verwendungszweck', $options, 'Verwendungszwecke[]',$Verwendungszwecke); // s. snippets.php
           echo $html;
         ?>
     </td>
-        
   
   </tr> 
 
 </table> 
+<hr />
+
 <td class="eingabe"><input type="submit" value="Suchen"></td>
 </form>
+
+<p> Hinweise: Für die Auswahl mehrerer Kategorie-Einträge innerhalb einer Auswahlbox muss gleichzeitg die STRG-Taste gedrückt sein. 
+   Filtereinträge innerhalb einer Kategorie werden per ODER verknüpft 
+  (eine der gewählten Bedingungen trifft zu). Die Kombination der Kategorien erfolgt über UND-Verknüpfung. 
+
+
 
 <?php
   $filter=false; // Prüfung, ob ein Filter gesetzt ist (wenn nicht -> keine Daten anzeigen)  
@@ -58,9 +65,9 @@ $Verwendungszwecke=[];
   
   if ("POST" == $_SERVER["REQUEST_METHOD"]) {
     if (isset($_REQUEST['Besetzungen'])) {
-      $Besetzungen = $_REQUEST['Besetzungen'];   
+      $Besetzungen = $_REQUEST['Besetzungen'];
       $filterBesetzung = 'IN ('.implode(',', $Besetzungen).')'; 
-      $filter=true; 
+      $filter=true;  
     }
     if (isset($_REQUEST['Verwendungszwecke'])) {
       $Verwendungszwecke = $_REQUEST['Verwendungszwecke'];   

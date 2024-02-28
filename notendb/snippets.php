@@ -1,16 +1,18 @@
 <?php 
  
-function get_html_select2($options = [], $keyname='',$key_selected='', $add_null_option=true,$multiple=false) {
+function get_html_select2($options = [], $keyname='',$key_selected='', $add_null_option=true) {
+/* 
+    // Einfache Auswahlbox 
     // key_selected ist bei edit_*.php- Formularen befüllt, bei insert_*.php leer 
+*/
     $html = '';
     $row_count=sizeof($options); 
     if ($row_count > 0) {
         // $html = '<select name="'.$keyname.'" required '.($multiple? ' multiple ' : '').'>' . PHP_EOL;
-        $html = '<select name="'.$keyname.'" '.($multiple? ' multiple size="'.$row_count.'"' : '').'>' . PHP_EOL;    
+        $html = '<select name="'.$keyname.'">' . PHP_EOL;    
         if($add_null_option) {
             $html .= '<option value="" '.($key_selected=='' ? 'selected' : ''). '></option>'. PHP_EOL;
         }
-        
         foreach($options as $key => $title) {
             $html .= ' <option value="' . $key . '"'.($key_selected==$key ? ' selected' : ''). '>' . $title . '</option>'. PHP_EOL;
             }
@@ -18,9 +20,29 @@ function get_html_select2($options = [], $keyname='',$key_selected='', $add_null
     }
     return $html;
 }
+function get_html_select_multi($id, $options = [], $keyname='',$options_selected = []) {
+    $html = '';
+    $row_count=sizeof($options); 
+    if ($row_count > 0) {
+        $html = '<select id='.$id.' name="'.$keyname.'" multiple size="'.$row_count.'">' . PHP_EOL;     
+        foreach($options as $key => $title) {
+            $html .= ' <option value="' . $key .'" '.(in_array($key,$options_selected)?' selected':'').'>' . $title . '</option>'. PHP_EOL;
+         }
+        $html .= '</select>';
+    }
+    $html .='<br/><input type="button" id="btnReset_'.$id.'" value="Reset Filter" onclick="Reset_'.$id.'();" />  
+    <script type="text/javascript">  
+        function Reset_'.$id.'() {  
+            var dropDown = document.getElementById("'.$id.'");  
+            dropDown.selectedIndex = -1;  
+        }  
+    </script>';
+
+    return $html;
+}
 function get_html_table($stmt, $edit_table_name='', $edit_newpage=false) {
     /* 
-    * $edit_table_name <> '': die zugrundeliegende Abfrage muss Spalte "ID" für diese Tabelle enthalten 
+    * $edit_table_name <> '': die zugrundeliegende Abfrage muss Spalte "ID" für Tabelle enthalten 
     * edit_newpage=true:  dem Bearbeitungs-Link wird ein target="_blank" hinzugefügt 
     */ 
     $result = $stmt->fetchAll(PDO::FETCH_ASSOC);
