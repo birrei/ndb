@@ -1,0 +1,26 @@
+-- DROP VIEW IF EXISTS test_musikstueck_ohne_besetzung_v;
+-- DROP VIEW IF EXISTS test_musikstueck_ohne_komponist_v;
+-- DROP VIEW IF EXISTS test_musikstueck_ohne_satz_v;
+-- DROP VIEW IF EXISTS test_sammlung_ohne_musikstueck_v;
+-- DROP VIEW IF EXISTS test_sammlung_ohne_verlag_v;
+-- DROP VIEW IF EXISTS test_satz_ohne_musikstueck_v;
+-- DROP VIEW IF EXISTS tmp_epochen;
+-- DROP VIEW IF EXISTS tmp_gattungen;
+-- DROP VIEW IF EXISTS v_musikstuecke;
+
+
+-- DROP VIEW IF EXISTS musikstuecke_v;
+-- DROP VIEW IF EXISTS test_musikstueck_ohne_Besetzung_v;
+-- DROP VIEW IF EXISTS tmp_Epochen;
+-- DROP VIEW IF EXISTS tmp_Gattungen;
+-- DROP VIEW IF EXISTS tmp_Stricharten;
+-- DROP VIEW IF EXISTS tmp_Stricharten_split;
+-- DROP VIEW IF EXISTS v_musikstuecke;
+-- DROP VIEW IF EXISTS v_test_musikstueck_ohne_Besetzung;
+-- DROP VIEW IF EXISTS v_test_musikstueck_ohne_komponist;
+-- DROP VIEW IF EXISTS v_test_musikstueck_ohne_satz;
+-- DROP VIEW IF EXISTS v_test_sammlung_ohne_musikstueck;
+-- DROP VIEW IF EXISTS v_test_sammlung_ohne_verlag;
+-- DROP VIEW IF EXISTS v_test_satz_ohne_musikstueck;
+-- DROP VIEW IF EXISTS v_tmp_Epochen;
+-- DROP VIEW IF EXISTS v_tmp_Gattungen;

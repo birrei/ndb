@@ -7,7 +7,8 @@ include('snippets.php');
 
 $table=$_GET['table'];
 
-$query = 'SELECT * FROM '.$table.' ORDER by ID DESC';
+// $query = 'SELECT * FROM '.$table.' ORDER by ID DESC';
+$query = 'SELECT * FROM '.$table;
 
 $select = $db->prepare($query);
 
@@ -18,8 +19,8 @@ try {
 }
 catch (PDOException $e) {
     echo '<p>Ein Fehler ist aufgetreten.</p>'; 
-    // echo '<p>'.$e->getMessage().'</p>';
-    // echo '<p>debugDumpParams: '.$stmt->debugDumpParams(); 
+    echo '<p>'.$e->getMessage().'</p>';
+    echo '<p>debugDumpParams: '.$select->debugDumpParams(); 
 }
 
 include('foot.php');

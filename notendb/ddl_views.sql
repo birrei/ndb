@@ -1,18 +1,19 @@
-CREATE OR REPLACE VIEW musikstuecke_v AS 
-select 
-/* musikstueck */
-	m.Name AS Name
-	,m.Nummer AS Nr
+CREATE OR REPLACE VIEW v_musikstuecke AS 
+
+SELECT  
+	 sa.Name AS Sammlung /* sammlung */ 
+
+	, m.Name AS Name
+	, m.Nummer AS Nr
     , m.Opus 
 	, CONCAT(COALESCE(k.Vorname, '') , ' ', COALESCE(k.Nachname, '')) as Komponist /* komponist */
-	, sa.Name AS Sammlung /* sammlung */ 
+
 	, v.Name AS Verlag /* verlag */
     , m.Bearbeiter
     , m.Epoche
-    , m.Verwendungszweck
+    , vz.Name as Verwendungszweck 
     , m.Gattung
     , b.Name as Besetzung /* besetzung */
-
  /* satz */     
     , s.Name as Satz 
     , s.Nr as SatzNr
@@ -22,17 +23,19 @@ select
     , s.Spieldauer
     , s.Schwierigkeitsgrad
     , s.Lagen 
-    , s.Stricharten 
+/*    --  , s.Stricharten */
+    , st.Name as Strichart 
     , s.Erprobt 
     , s.Notenwerte
-
 /* ids */
     , sa.ID AS SammlungID 
     , k.ID AS KomponistID
     , b.ID as BesetzungID
+    , vz.ID as VerwendungszweckID
     , v.ID as VerlagID 
-	, m.ID as MusikstueckID
+	-- , m.ID as MusikstueckID
     , s.ID as SatzID 
+    , ss.ID as StrichartID 
     , m.ID 
    FROM 
     musikstueck  AS m 
@@ -42,14 +45,19 @@ select
     LEFT join  verlag  AS v on sa.VerlagID = v.ID 
     left join musikstueck_besetzung mb on m.ID = mb.MusikstueckID
     left join besetzung b on mb.BesetzungID = b.ID
+    left join musikstueck_verwendungszweck mv on m.ID = mv.MusikstueckID 
+    left join verwendungszweck vz on mv.VerwendungszweckID=vz.ID 
+    left join satz_strichart ss on ss.SatzID=ss.ID
+    left join strichart st on ss.StrichartID = st.ID 
 
-
+-- where m.ID=1
+order by sa.ID, m.Nummer, b.ID, vz.ID,  s.Nr
 ; 
 
-/* Testviews */
+-- /* Testviews */
 
 
-    create OR REPLACE view test_musikstueck_ohne_Besetzung_v 
+    create OR REPLACE view v_test_musikstueck_ohne_Besetzung
     AS 
     select m.* 
     from musikstueck m 
@@ -58,7 +66,7 @@ select
     where mb.ID is null 
     ; 
 
-    CREATE OR REPLACE VIEW test_musikstueck_ohne_komponist_v AS
+    CREATE OR REPLACE VIEW v_test_musikstueck_ohne_komponist AS
     select m.* 
     from musikstueck m 
     left join komponist k 
@@ -66,7 +74,7 @@ select
     where k.ID is null 
     ; 
 
-    CREATE  OR REPLACE VIEW test_musikstueck_ohne_satz_v 
+    CREATE  OR REPLACE VIEW v_test_musikstueck_ohne_satz
     AS 
     select m.*
     from  musikstueck m 
@@ -76,7 +84,7 @@ select
 
     ;
 
-    CREATE OR REPLACE VIEW test_sammlung_ohne_verlag_v AS 
+    CREATE OR REPLACE VIEW v_test_sammlung_ohne_verlag AS 
     select s.* 
     from sammlung s 
     left join verlag v on s.VerlagID = v.ID
@@ -84,49 +92,86 @@ select
 
     ;
 
-    CREATE  OR REPLACE VIEW test_satz_ohne_musikstueck_v AS 
+    CREATE  OR REPLACE VIEW v_test_satz_ohne_musikstueck AS 
     select s.*
     from satz s 
     left join musikstueck m 
     on s.MusikstueckID = m.ID 
     where m.ID is null; 
 
-    CREATE OR REPLACE VIEW test_sammlung_ohne_musikstueck_v AS 
+    CREATE OR REPLACE VIEW v_test_sammlung_ohne_musikstueck AS 
     select s.* 
     from sammlung s 
     left join musikstueck m on s.ID = m.SammlungID 
     where m.ID is null ; 
 
 
-/* distinct views  */ 
-    /* Musikstueck */ 
+/* tmp. distinct views  */ 
 
-    create or REPLACE view tmp_Gattungen as 
-    select distinct Gattung from musikstueck
+    create or REPLACE view v_tmp_Standorte as 
+    select distinct 0 as ID, Standort from sammlung
+    where Standort is not null 
+    and Standort <> ''
+    order by Standort ; 
+
+/* Musikstueck */ 
+
+    create or REPLACE view v_tmp_Gattungen as 
+    select distinct 0 as ID, Gattung from musikstueck
     where Gattung is not null 
     and Gattung <> ''
     order by Gattung ; 
 
-    create or REPLACE view tmp_Verwendungszwecke as 
-    select distinct Verwendungszweck from musikstueck 
-    where Verwendungszweck is not null 
-   and Verwendungszweck <> ''
-    order by Verwendungszweck ; 
-
-    create or REPLACE view tmp_Epochen as 
-    select distinct Epoche from musikstueck 
+    create or REPLACE view v_tmp_Epochen as 
+    select distinct 0 as ID, Epoche from musikstueck 
     where Epoche is not null 
     and Epoche <> ''
-    order by Epoche 
-    ; 
+    order by Epoche; 
+
+/* satz */
+    create or REPLACE view v_tmp_Tonart as 
+    select distinct 0 as ID, Tonart from satz  
+    where Tonart is not null 
+    and Tonart <> ''
+    order by Tonart; 
 
 
-    /* Satz */ 
+    create or REPLACE view v_tmp_Taktart as 
+    select distinct 0 as ID, Taktart from satz  
+    where Taktart is not null 
+    and Taktart <> ''
+    order by Taktart; 
 
-    create or REPLACE view tmp_Stricharten as 
-    select distinct Stricharten from satz 
-    where Stricharten is not null 
-    and  Stricharten <> ''
-    order by Stricharten 
+    create or REPLACE view v_tmp_Tempobezeichnung as 
+    select distinct 0 as ID, Tempobezeichnung from satz  
+    where Tempobezeichnung is not null 
+    and Tempobezeichnung <> ''
+    order by Tempobezeichnung; 
+  
+    create or REPLACE view v_tmp_Schwierigkeitsgrad as 
+    select distinct 0 as ID, Schwierigkeitsgrad from satz  
+    where Schwierigkeitsgrad is not null 
+    and Schwierigkeitsgrad <> ''
+    order by Schwierigkeitsgrad; 
+   
+    create or REPLACE view v_tmp_Lagen as 
+    select distinct 0 as ID, Lagen from satz  
+    where Lagen is not null 
+    and Lagen <> ''
+    order by Lagen; 
 
-/* ! am Ende der Datei kein Semikolon verwenden */ 
+  
+     create or REPLACE view v_tmp_Erprobt as 
+    select distinct 0 as ID, Erprobt from satz  
+    where Erprobt is not null 
+    and Erprobt <> ''
+    order by Erprobt; 
+        
+     create or REPLACE view v_tmp_Notenwerte as 
+    select distinct 0 as ID, Notenwerte from satz  
+    where Notenwerte is not null 
+    and Notenwerte <> ''
+    order by Notenwerte
+    -- ; 
+
+-- /* ! am Ende der Datei kein Semikolon verwenden */ 

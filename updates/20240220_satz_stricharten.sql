@@ -106,3 +106,6 @@ Umwandlung Feld satz.Stricharten zu Unterauswahl
 -- order by s.ID 
 
 
+/* altes Feld "stricharten" entfernen */
+
+ALTER TABLE `satz` DROP `Stricharten`;

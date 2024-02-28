@@ -26,6 +26,9 @@ if (isset($_POST['aktion']) and $_POST['aktion']=='ausfuehren') {
     $sql = "";
     if (isset($_POST['abfrage'])) {
         $sql = trim($_POST['abfrage']);
+ 
+        // $sql=explode(';', $trim($_POST['abfrage']));
+
         echo '<p>'.$sql .'</p>';
 
         if ($res = mysqli_query($db, $sql)) {

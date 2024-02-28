@@ -114,7 +114,7 @@
 
 
 
-/* Verwendungszweck "(unbestimmt) entfernen */ 
+/* Verwendungszweck "(unbestimmt)"" entfernen */ 
 
 -- SELECT * FROM verwendungszweck where Name='(unbestimmt)'
 /* ID 1 */ 
