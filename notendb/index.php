@@ -24,26 +24,38 @@ include('head.php');
     <td>Erfassung über Musikstück</td>
 </tr>
 <tr>
-    <td><b>Komponist</b></td>
-    <td><a href="show_table2.php?table=komponist">Daten anzeigen</a></td>
-    <td><a href="insert_komponist.php">Neu erfassen</a></td>
-</tr>
-<tr>
     <td><b>Verlag</b></td>
     <td><a href="show_table2.php?table=verlag">Daten anzeigen</a></td>
     <td><a href="insert_verlag.php">Neu erfassen</a></td>
 </tr>
 
 <tr>
-    <td><b>Besetzungen</b></td>
+    <td><b>Komponist</b></td>
+    <td><a href="show_table2.php?table=komponist">Daten anzeigen</a></td>
+    <td><a href="insert_komponist.php">Neu erfassen</a></td>
+</tr>
+
+<tr>
+    <td><b>Verwendungszweck</b></td>
+    <td><a href="show_table2.php?table=verwendungszweck">Daten anzeigen</a></td>
+    <td><a href="insert_verwendungszweck.php">Neu erfassen</a></td>
+</tr>
+
+<tr>
+    <td><b>Besetzung</b></td>
     <td><a href="show_table2.php?table=besetzung">Daten anzeigen</a></td>
     <td><a href="insert_besetzung.php">Neu erfassen</a></td>
 </tr>
+
 <tr>
     <td><b>Stricharten</b></td>
     <td><a href="show_table2.php?table=strichart">Daten anzeigen</a></td>
-    <td><a href="insert_strichart.php">Neu erfassung</a></td>
+    <td><a href="insert_strichart.php">Neu erfassen</a></td>
 </tr>
+
+
+
+
 
 </table>
 

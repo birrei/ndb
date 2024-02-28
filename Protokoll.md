@@ -29,3 +29,4 @@
  * 23.02.2024: Erfassung / Bearbeitung Stammdatentabelle "Stricharten" 
  * 23.02.2024: (hat sich erledig, da jetzt Unterformular: Musikstück, Auswahl Sammlung: Filter einschränken)  
 * 23.02.2024: Suchformular, Prototyp für Suche von Musikstücken nach Besetzungen
+* 27.02.2024: Musikstück > Verwendungszweck - Mehrfachauswahl einrichten 

@@ -6,14 +6,25 @@ include("dbconnect_pdo.php");
 
 $table='besetzung'; 
 $Besetzungen=[]; 
+$Verwendungszwecke=[]; 
 
 ?> 
+
+<?php 
+  if ("POST" == $_SERVER["REQUEST_METHOD"]) {
+    if (isset($_REQUEST['Besetzungen'])) {
+        echo '<p>'.$_REQUEST['Besetzungen'].[0]; 
+
+    }
+  }
+?>
+
 <form action="search_musikstueck.php" method="post">
 
 <table class="eingabe"> 
 
 <tr>    
-    <td class="eingabe">Wähle ein oder mehrere Besetzungen aus: <br>  <br>  
+    <td class="eingabe">Wähle eine oder mehrere Besetzungen aus: <br>  <br>  
         <!-- select Besetzung  --> 
         <?php 
           $select = $db->query("SELECT DISTINCT `ID` as BesetzungID, `Name` FROM `besetzung` order by `Name`");
@@ -22,8 +33,19 @@ $Besetzungen=[];
           echo $html;
         ?>
     </td>
-    </label>
-     </tr> 
+ 
+    <td class="eingabe">Wähle einen oder mehrere Verwendungszwecke aus: <br>  <br>  
+        <!-- select Verwendungszweck  --> 
+        <?php 
+          $select = $db->query("SELECT DISTINCT `ID` as BesetzungID, `Name` FROM `verwendungszweck` order by `Name`");
+          $options = $select->fetchAll(PDO::FETCH_KEY_PAIR);
+          $html = get_html_select2($options, 'Verwendungszwecke[]', '', false, true); // s. snippets.php
+          echo $html;
+        ?>
+    </td>
+        
+  
+  </tr> 
 
 </table> 
 <td class="eingabe"><input type="submit" value="Suchen"></td>
@@ -32,6 +54,7 @@ $Besetzungen=[];
 <?php
   $filter=false; // Prüfung, ob ein Filter gesetzt ist (wenn nicht -> keine Daten anzeigen)  
   $filterBesetzung=''; 
+  $filterVerwendungszweck='';   
   
   if ("POST" == $_SERVER["REQUEST_METHOD"]) {
     if (isset($_REQUEST['Besetzungen'])) {
@@ -39,20 +62,30 @@ $Besetzungen=[];
       $filterBesetzung = 'IN ('.implode(',', $Besetzungen).')'; 
       $filter=true; 
     }
- 
+    if (isset($_REQUEST['Verwendungszwecke'])) {
+      $Verwendungszwecke = $_REQUEST['Verwendungszwecke'];   
+      $filterVerwendungszweck = 'IN ('.implode(',', $Verwendungszwecke).')'; 
+      $filter=true; 
+    }
   }
 
   if ($filter ) {
-      $query='SELECT m.ID,s.Name as Sammlung, m.Name as Musikstueck, b.Name as Besetzung
-              from musikstueck m
-              LEFT JOIN musikstueck_besetzung mb
-              on m.ID = mb.MusikstueckID
-              LEFT JOIN besetzung b
-              on mb.BesetzungID = b.ID
-              LEFT JOIN sammlung s
-              on s.ID = m.SammlungID           
+      $query='SELECT m.ID
+                ,s.Name as Sammlung
+                , s.Standort
+                , m.Nummer as Nr
+                , m.Name as Musikstueck
+                , b.Name as Besetzung
+                , v.Name as Verwendungszweck 
+              FROM musikstueck m
+              LEFT JOIN sammlung s on s.ID = m.SammlungID 
+              LEFT JOIN musikstueck_besetzung mb on m.ID = mb.MusikstueckID
+              LEFT JOIN besetzung b on mb.BesetzungID = b.ID
+              LEFT JOIN musikstueck_verwendungszweck mv on m.ID = mv.MusikstueckID 
+              LEFT JOIN verwendungszweck v on mv.VerwendungszweckID=v.ID               
               WHERE 1=1 
-                  '.($filterBesetzung!='' ?' AND mb.BesetzungID '.$filterBesetzung:'').'
+                '.($filterBesetzung!=''?' AND mb.BesetzungID '.$filterBesetzung:'').'
+                '.($filterVerwendungszweck!=''?' AND mv.VerwendungszweckID '.$filterVerwendungszweck:'').'          
               ORDER BY s.Name, m.Nummer'; 
 
       // echo '<pre>'.$query.'</pre>'; 
@@ -62,7 +95,7 @@ $Besetzungen=[];
       try {
         $stmt->execute(); 
         // $html_table= get_html_table($stmt, 'musikstueck', false); 
-        $html_table= get_html_table($stmt);  // Ohne Bearbeiten-Link         
+        $html_table= get_html_table($stmt, 'musikstueck', true);  // Ohne Bearbeiten-Link         
         echo $html_table;  
       }
       catch (PDOException $e) {

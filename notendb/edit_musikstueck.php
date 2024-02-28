@@ -27,7 +27,6 @@ if (isset($_GET["ID"])) {
                         ,`KomponistID`
                         ,`Bearbeiter`
                         ,`Epoche`
-                        ,`Verwendungszweck`
                         ,`Gattung`
                         ,`JahrAuffuehrung`
             FROM `musikstueck`
@@ -109,12 +108,7 @@ if (isset($_GET["ID"])) {
             <td class="eingabe"><input type="text" name="Epoche" value="'.$musikstueck["Epoche"].'" size="45" maxlength="80" autofocus="autofocus"></td>
             </label>
           </tr> 
-          <tr>    
-          <label>
-          <td class="eingabe">Verwendungszweck:</td>  
-          <td class="eingabe"><input type="text" name="Verwendungszweck" value="'.$musikstueck["Verwendungszweck"].'" size="45" maxlength="80" autofocus="autofocus"></td>
-          </label>
-        </tr> 
+
           <tr>    
           <label>
           <td class="eingabe">Gattung:</td>  
@@ -143,6 +137,12 @@ if (isset($_GET["ID"])) {
               </form>
 
  
+              <tr> 
+              <td class="eingabe">Verwendungszweck(e):</td> 
+              <td class="eingabe"><iframe src="edit_musikstueck_list_verwendungszwecke.php?MusikstueckID='.$musikstueck["ID"].'" width="1000" height="200" name="Besetzungen"></iframe>
+            </td>
+            </tr> 
+                
 
             <tr> 
               <td class="eingabe">Besetzung(en):</td> 
@@ -181,7 +181,6 @@ if (isset($_POST["senden"])) {
                             `Gattung`     = :Gattung,                               
                             `Bearbeiter`     = :Bearbeiter,   
                             `Epoche`     = :Epoche,   
-                            `Verwendungszweck`     = :Verwendungszweck,   
                             `JahrAuffuehrung` = :JahrAuffuehrung
                             WHERE `ID` = :ID"); 
 
@@ -197,8 +196,7 @@ if (isset($_POST["senden"])) {
 
       $update->bindParam(':Bearbeiter', $_POST["Bearbeiter"]);            
       $update->bindParam(':Epoche', $_POST["Epoche"]);
-
-      $update->bindParam(':Verwendungszweck', $_POST["Verwendungszweck"]);            
+          
       $update->bindParam(':JahrAuffuehrung', $_POST["JahrAuffuehrung"]);
 
       try {
