@@ -75,7 +75,7 @@ order by sa.ID, m.Nummer, b.ID, vz.ID,  s.Nr
 
 /* Musikstück */
 
-    create OR REPLACE view v_test_musikstueck_ohne_Besetzung
+    create OR REPLACE view v_test_musikstueck_ohne_besetzung
     AS 
     select m.ID, m.Name 
     from musikstueck m 
