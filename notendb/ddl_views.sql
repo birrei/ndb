@@ -54,12 +54,30 @@ SELECT
 order by sa.ID, m.Nummer, b.ID, vz.ID,  s.Nr
 ; 
 
--- /* Testviews */
 
+/* Testviews */
+
+/* Sammlung */
+
+    CREATE OR REPLACE VIEW v_test_sammlung_ohne_musikstueck AS 
+    select s.ID, s.Name
+    from sammlung s 
+    left join musikstueck m on s.ID = m.SammlungID 
+    where m.ID is null ; 
+
+    CREATE OR REPLACE VIEW v_test_sammlung_ohne_verlag AS 
+    select s.ID, s.Name
+    from sammlung s 
+    left join verlag v on s.VerlagID = v.ID
+    where v.ID is null 
+
+    ;
+
+/* Musikstück */
 
     create OR REPLACE view v_test_musikstueck_ohne_Besetzung
     AS 
-    select m.* 
+    select m.ID, m.Name 
     from musikstueck m 
     left join musikstueck_besetzung mb 
     on m.ID = mb.MusikstueckID 
@@ -67,7 +85,7 @@ order by sa.ID, m.Nummer, b.ID, vz.ID,  s.Nr
     ; 
 
     CREATE OR REPLACE VIEW v_test_musikstueck_ohne_komponist AS
-    select m.* 
+    select m.ID, m.Name 
     from musikstueck m 
     left join komponist k 
     on m.KomponistID = k.ID
@@ -76,19 +94,11 @@ order by sa.ID, m.Nummer, b.ID, vz.ID,  s.Nr
 
     CREATE  OR REPLACE VIEW v_test_musikstueck_ohne_satz
     AS 
-    select m.*
+    select m.ID, m.Name 
     from  musikstueck m 
     left join satz s 
     on s.MusikstueckID = m.ID 
     where s.ID is null 
-
-    ;
-
-    CREATE OR REPLACE VIEW v_test_sammlung_ohne_verlag AS 
-    select s.* 
-    from sammlung s 
-    left join verlag v on s.VerlagID = v.ID
-    where v.ID is null 
 
     ;
 
@@ -99,14 +109,11 @@ order by sa.ID, m.Nummer, b.ID, vz.ID,  s.Nr
     on s.MusikstueckID = m.ID 
     where m.ID is null; 
 
-    CREATE OR REPLACE VIEW v_test_sammlung_ohne_musikstueck AS 
-    select s.* 
-    from sammlung s 
-    left join musikstueck m on s.ID = m.SammlungID 
-    where m.ID is null ; 
 
 
 /* tmp. distinct views  */ 
+
+/* Sammlung */ 
 
     create or REPLACE view v_tmp_Standorte as 
     select distinct 0 as ID, Standort from sammlung
@@ -161,7 +168,7 @@ order by sa.ID, m.Nummer, b.ID, vz.ID,  s.Nr
     order by Lagen; 
 
   
-     create or REPLACE view v_tmp_Erprobt as 
+    create or REPLACE view v_tmp_Erprobt as 
     select distinct 0 as ID, Erprobt from satz  
     where Erprobt is not null 
     and Erprobt <> ''

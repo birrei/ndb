@@ -52,10 +52,6 @@ if ("POST" == $_SERVER["REQUEST_METHOD"]) {
 <td class="eingabe"><input type="submit" value="Suchen"></td>
 </form>
 
-<p> Hinweise: Für die Auswahl mehrerer Kategorie-Einträge innerhalb einer Auswahlbox muss gleichzeitg die STRG-Taste gedrückt sein. 
-   Filtereinträge innerhalb einer Kategorie werden per ODER verknüpft 
-  (eine der gewählten Bedingungen trifft zu). Die Kombination der Kategorien erfolgt über UND-Verknüpfung. 
-
 
 
 <?php
@@ -97,7 +93,6 @@ if ("POST" == $_SERVER["REQUEST_METHOD"]) {
 
       // echo '<pre>'.$query.'</pre>'; 
       $stmt = $db->prepare($query); 
-      // $stmt->bindParam(':SammlungID', $_GET["SammlungID"], PDO::PARAM_INT); 
 
       try {
         $stmt->execute(); 
