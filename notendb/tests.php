@@ -21,10 +21,7 @@ $tests[] = array('name' => 'Musikstücke ohne Besetzung'
           );
 
 
-           
-
-
-echo '<h1>Tests</h1>'; 
+echo '<h2>Tests</h2>'; 
 
 foreach ($tests as $test)
 {
@@ -35,9 +32,11 @@ foreach ($tests as $test)
     
     try {
       $stmt->execute(); 
-      $html_table= get_html_table($stmt, $test['table'] , true); 
-      echo '<h3>'.$test['name'].'</h3>';   
-      echo $html_table;  
+      if ($stmt->rowCount() > 0)  {
+        echo '<h3>'.$test['name'].'</h3>';           
+        $html_table= get_html_table($stmt, $test['table'] , true); 
+        echo $html_table;  
+      }
     }
     catch (PDOException $e) {
       echo get_html_user_error_info(); 

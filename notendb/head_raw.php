@@ -12,7 +12,7 @@
    </title>
    <link rel='stylesheet' type='text/css' href='style.css'/>
 </head>
-<body>
+<body style="margin: 0px">
 <?php 
 ?> 
 

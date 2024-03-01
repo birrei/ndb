@@ -11,13 +11,10 @@
     Noten-Datenbank 
    </title>
    <link rel='stylesheet' type='text/css' href='style.css'/>
-   <!-- <script>
-    var  editwindow = window.open('', '', 'top=300, left=300, width=200, height=200');
-   </script>   -->
-</head>
+  </head>
 <body>
-<p><a href="index.php">Startseite</a></p>     
-<hr> 
+<!-- <p><a href="index.php">Startseite</a></p>     
+<hr>  -->
 <?php 
 ?> 
 

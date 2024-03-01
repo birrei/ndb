@@ -3,24 +3,37 @@ include("dbconnect_pdo.php");
 include('head.php');
 include('snippets.php');
 
-/* nur für Tabellen mit ID-Spalte verwenden */ 
-
 $table=$_GET['table'];
 
-// $query = 'SELECT * FROM '.$table.' ORDER by ID DESC';
-$query = 'SELECT * FROM '.$table;
+$sortcol='';
+if (isset($_GET['sortcol'])) {
+    $sortcol=$_GET['sortcol'];
+}
+if (isset($_GET['sortorder'])) {
+    $sortorder=$_GET['sortorder'];
+}
+else {
+    $sortorder='ASC';
+}
+
+$show_edit_link=false; // nur true setzen, wenn Tabelle eine Spalte ID besitzt und ein Bearbeitungsformular vorhanden ist 
+if (isset($_GET['show_edit_link'])) {
+    $show_edit_link=true;
+}
+
+$query = 'SELECT * FROM '.$table.($sortcol!='' ?' ORDER BY '.$sortcol.' '.$sortorder:'');
+echo '<pre>'.$query.'</pre>'; 
 
 $select = $db->prepare($query);
 
 try {
     $select->execute(); 
-    $html_table= get_html_table($select, $table, true); // s. snippets.php
+    $html_table= get_html_table($select, $table, true); 
     echo $html_table;  
 }
 catch (PDOException $e) {
-    echo '<p>Ein Fehler ist aufgetreten.</p>'; 
-    echo '<p>'.$e->getMessage().'</p>';
-    echo '<p>debugDumpParams: '.$select->debugDumpParams(); 
+    echo get_html_user_error_info(); 
+    echo get_html_error_info($stmt, $e);      
 }
 
 include('foot.php');

@@ -30,7 +30,7 @@ function get_html_select_multi($id, $options = [], $keyname='',$options_selected
          }
         $html .= '</select>';
     }
-    $html .='<br/><input type="button" id="btnReset_'.$id.'" value="Reset Filter" onclick="Reset_'.$id.'();" />  
+    $html .='<br/><input type="button" id="btnReset_'.$id.'" value="Filter zurücksetzen" onclick="Reset_'.$id.'();" />  
     <script type="text/javascript">  
         function Reset_'.$id.'() {  
             var dropDown = document.getElementById("'.$id.'");  
