@@ -29,7 +29,6 @@ if (isset($_GET["ID"])) {
                 ,`Spieldauer`
                 ,`Schwierigkeitsgrad`
                 ,`Lagen`
-                ,`Stricharten`
                 ,`Notenwerte`
                 ,`Erprobt`
                 ,`Bemerkung`
@@ -207,7 +206,6 @@ if (isset($_POST["senden"])) {
                           Spieldauer=:Spieldauer, 
                           Schwierigkeitsgrad=:Schwierigkeitsgrad, 
                           Lagen=:Lagen, 
-                          -- Stricharten=:Stricharten, 
                           Notenwerte=:Notenwerte, 
                           Erprobt=:Erprobt, 
                           Bemerkung=:Bemerkung

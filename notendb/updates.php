@@ -3,9 +3,14 @@ include('head.php');
 ?>
 
 <pre>
+  Info zum 01.03.2024 
+  
+  * 01.03.2024
+    * Startseite: alle hinterlegten Links im neuen Fenster, Startseite bleibt offen 
+
   * 29.02.2024
     * <a href="tests.php">Tests-Seite</a> 
-    * <a href="help.php">Hilfe-Seite</a> (erste Notizen)
+    * <a href="help.php">Hilfe-Seite</a> (erste Notizen, weiteres folgt)
     * Überarbeitung Fußleiste 
     * Diese Updates-Seite 
 
