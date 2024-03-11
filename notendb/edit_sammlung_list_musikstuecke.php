@@ -7,12 +7,15 @@ include("snippets.php");
 
 if (isset($_GET["SammlungID"])) {
   // echo '<p>Musikstueck_ID: '.$_GET["SammlungID"];
-  $query="SELECT ID, 
-          Nummer, 
-          Name       
-        from musikstueck   
-        WHERE SammlungID = :SammlungID 
-        ORDER by Nummer"; 
+  $query="SELECT m.ID, 
+          m.Nummer, 
+          m.Name, 
+          CONCAT(COALESCE(k.Vorname, '') , ' ', COALESCE(k.Nachname, '')) as Komponist           
+        from musikstueck m
+        left join komponist k
+          on m.KomponistID = k.ID  
+        WHERE m.SammlungID = :SammlungID 
+        ORDER by m.Nummer"; 
 
  // echo $query; 
   
@@ -23,7 +26,6 @@ if (isset($_GET["SammlungID"])) {
     $stmt->execute(); 
     $html_table= get_html_table($stmt, 'musikstueck', true); // s. snippets.php
     echo $html_table;  
-
   }
   catch (PDOException $e) {
     echo '<p>Ein Fehler ist aufgetreten.</p>';

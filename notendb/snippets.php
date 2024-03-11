@@ -9,7 +9,7 @@ function get_html_select2($options = [], $keyname='',$key_selected='', $add_null
     $row_count=sizeof($options); 
     if ($row_count > 0) {
         // $html = '<select name="'.$keyname.'" required '.($multiple? ' multiple ' : '').'>' . PHP_EOL;
-        $html = '<select name="'.$keyname.'">' . PHP_EOL;    
+        $html = '<select name="'.$keyname.'" autofocus>' . PHP_EOL;    
         if($add_null_option) {
             $html .= '<option value="" '.($key_selected=='' ? 'selected' : ''). '></option>'. PHP_EOL;
         }
@@ -87,32 +87,32 @@ function get_html_table($stmt, $edit_table_name='', $edit_newpage=false) {
     return $html;
 }
 
-function get_html_user_action_info($table_name, $action_name, $stmt_row_count=0,$ID=0){
+function get_html_user_action_info($table_name, $action_name, $stmt_row_count=0,$ID=0, $edit_newpage=false){
     /* info zu einer neuen / aktualieserten / gelöschten ID einer Tabelle */ 
     $html=''; 
+    $html.= 'Es wurde '.$stmt_row_count.' Zeile'; ;  
 
-    $html.= '<p>Es wurden '.$stmt_row_count. ' Zeile(n) in Tabelle '.ucfirst($table_name) ; 
     switch ($action_name){
         case 'insert': 
-            $html.= ' eingefügt.';  
+            $html.= ' eingefügt '; 
+            $html.=  '<a href="edit_'.$table_name.'.php?ID=' . $ID . '"' . ($edit_newpage!='' ?' target="_blank"':''). '>[Zeile bearbeiten]</a></p>';  
+
             break; 
         case 'update': 
-            $html.= ' aktualisiert.';  
+            $html.= ' aktualisiert ';  
+            $html.=  '<a href="edit_'.$table_name.'.php?ID=' . $ID . '">[Zeile bearbeiten]</a></p>';  
+
             break;      
         case 'delete': 
             $html.= ' gelöscht.';  
             break;      
     }
-    if ($ID > 0 ) {
-        $html.= ' (ID '.$ID.')'; 
-    }
-    $html.= '</p>'; 
+    // if ($ID > 0 ) {
+    //     $html.= ' (ID '.$ID.')'; 
+    // }
+   //  $html.= '</p>'; 
     return $html; 
 }
-function get_html_editlink($table_name, $ID, $edit_newpage=false){
-    return '<p><a href="edit_'.$table_name.'.php?ID=' . $ID . '" ' . ($edit_newpage!='' ?'target="_blank"':''). '>[Tabelle '.ucfirst($table_name).' ID '.$ID.' bearbeiten]</a></p>';  
-}
-
 function get_html_showtablelink($table_name){
      return '<p><a href="show_table2.php?table=' . $table_name . '">[Tabelle '.ucfirst($table_name).' anzeigen]</a></p>';  
 }
@@ -132,6 +132,31 @@ function get_html_user_error_info() {
     $html.='<p style="color: red;">Ein Fehler ist aufgetreten.</p>'; 
     return $html; 
 }
+function get_html_editlink($table_name, $ID, $edit_newpage=false){
+    return '<p><a href="edit_'.$table_name.'.php?ID=' . $ID . '" ' . ($edit_newpage!='' ?'target="_blank"':''). '>[Tabelle '.ucfirst($table_name).' ID '.$ID.' bearbeiten]</a></p>';  
+}
 
-  
+// function get_html_reload_form_link($table_name, $action_type, $ID=0){
+//     // return '<p><a href="'.$action_type.'_'.$table_name.'.php">[dieses Formular neu laden]</a></p>';  
+// }  
+
+// function get_html_reload_link(){
+//     return '<a href="javascript:location.reload()" tabindex="-1">[dieses Formular neu laden]</a>';   
+// }  
+
+function get_html_insert_link2($table_name){
+    /* 
+    Link zur Ergänzung neben Ausahl-Box, wo ein Eintrag neu ergänzt werden muss 
+     Für die Ergänzung wird für die insert_-Seite eine neue Seite geöffnet, die dann wieder geschlossen werden soll. 
+     Die aktuelle Seite soll neu geladen werden, um den neuen Eintrag für die Auswahl verfügbar zu machen
+    */
+    return '
+    <a href="insert_'.$table_name.'.php" target="_blank" tabindex="-1">['.ucfirst($table_name).' erfassen]</a>  | 
+    <a href="javascript:location.reload()" tabindex="-1">[dieses Seite neu laden]</a>
+    
+    ';   
+}  
+
+
+
 ?>

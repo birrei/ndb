@@ -22,7 +22,7 @@ if (isset($_GET['show_edit_link'])) {
 }
 
 $query = 'SELECT * FROM '.$table.($sortcol!='' ?' ORDER BY '.$sortcol.' '.$sortorder:'');
-echo '<pre>'.$query.'</pre>'; 
+// echo '<pre>'.$query.'</pre>'; 
 
 $select = $db->prepare($query);
 

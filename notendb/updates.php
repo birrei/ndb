@@ -5,6 +5,12 @@ include('head.php');
 <pre>
   Info zum 01.03.2024 
   
+  * 05.03.2024: 
+    * Hilfeseite Fortsetzung 
+    * (Erst-) Erfassungs-Formulare: Link "Tabelle anzeigen" wirder entfernt, da zu verwirrend, in Praxis bisher nicht verwendet) 
+
+------------------------
+
   * 01.03.2024
     * Startseite: alle hinterlegten Links im neuen Fenster, Startseite bleibt offen 
 

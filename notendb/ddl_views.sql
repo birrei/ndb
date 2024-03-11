@@ -77,16 +77,18 @@ order by sa.ID, m.Nummer, b.ID, vz.ID,  s.Nr
 
     create OR REPLACE view v_test_musikstueck_ohne_besetzung
     AS 
-    select m.ID, m.Name 
-    from musikstueck m 
+    select m.ID, m.Name as Musikstueck_Name, s.Name as Sammlung_Name 
+    from sammlung s 
+    left join musikstueck m on s.ID = m.SammlungID 
     left join musikstueck_besetzung mb 
     on m.ID = mb.MusikstueckID 
     where mb.ID is null 
     ; 
 
     CREATE OR REPLACE VIEW v_test_musikstueck_ohne_komponist AS
-    select m.ID, m.Name 
-    from musikstueck m 
+    select m.ID, m.Name as Musikstueck_Name, s.Name as Sammlung_Name 
+    from sammlung s 
+    left join musikstueck m on s.ID = m.SammlungID 
     left join komponist k 
     on m.KomponistID = k.ID
     where k.ID is null 
@@ -94,11 +96,11 @@ order by sa.ID, m.Nummer, b.ID, vz.ID,  s.Nr
 
     CREATE  OR REPLACE VIEW v_test_musikstueck_ohne_satz
     AS 
-    select m.ID, m.Name 
-    from  musikstueck m 
-    left join satz s 
-    on s.MusikstueckID = m.ID 
-    where s.ID is null 
+    select m.ID, m.Name as Musikstueck_Name, s.Name as Sammlung_Name 
+    from musikstueck m 
+    left join  sammlung s on s.ID = m.SammlungID 
+    left join satz sa on sa.MusikstueckID = m.ID 
+    where sa.ID is null 
 
     ;
 

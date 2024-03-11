@@ -1,8 +1,31 @@
 <?php
 include('head.php'); 
-include("dbconnect_pdo.php");
-include("snippets.php");
+include('cl_musikstueck.php'); 
+include('cl_komponist.php'); 
 
+
+// $ms = new Musikstueck(); 
+// // $ms->set_rowdata(122); // Daten für eine ID 
+// // $ms->print_rowdata_demo(); // Daten für diese ID ausgeben
+// $ms->print_tabledata(25); 
+// $ms->print_tabledata(26); 
+
+$komponist = new Komponist(); 
+$komponist->print_select(); 
+$komponist->print_select(5); 
+
+
+
+
+
+
+// Verwendung Klasse "Musikstück" 
+    // $m = new Musikstueck();
+    // $m->insert_row(38, 5, 'fünf'); 
+    // echo '<p>ID:'.$m->ID; 
+    // echo '<p>Nummer:'.$m->Nummer;     
+    // echo '<p>Name: '.$m->Name; 
+    // // echo '<p>'.$m->ErrorInfo; 
 
 
 /* Tabelle ausgeben lassen (<table>...</table>)  */ 
@@ -66,19 +89,6 @@ include("snippets.php");
     //     }
     //   }
 
-
-?>
-
-<!--
-<p><a href="edit_sammlung_sub_musikstuecke.php?table='.$table.'&sortorder=desc">
-
-<iframe src="edit_sammlung_sub_musikstuecke.php?SammlungID=11" width="900" height="400" name="musikstuecke">
-
-</iframe>
-
-    -->
-
-<?php
 
 
 

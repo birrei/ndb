@@ -12,15 +12,16 @@ $sql='';
 $sqltext = file_get_contents($file_name, true);
 $cmds = explode(';', $sqltext);
 foreach($cmds as $cmd){
-  if (mysqli_query( $db, $cmd)) {
-    $sql= trim($cmd); 
-     echo '<p>sql wurde ausgeführt: <br /><pre>'.$sql.'</pre>'; 
+  $sql= trim($cmd); 
+  echo '<p>sql wird ausgeführt: <br /><pre>'.$sql.'</pre>'; 
+  if (mysqli_query( $db, $sql)) {
+    echo '<p>OK</p>';  
   }
-  else 
-  {
+  else  {
     echo '<p>Fehler: <br />'.pmysqli_error(); 
   } 
 }
+
 
 include('foot.php');
 

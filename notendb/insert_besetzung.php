@@ -31,12 +31,9 @@ $ID='';
 $Name=''; 
 $Bemerkung='';
 
-// Wurde das Formular abgesendet?
 if ("POST" == $_SERVER["REQUEST_METHOD"]) {
   include("dbconnect_pdo.php"); // nur wenn benötigt 
-  
   $Name=$_POST["Name"]; 
-
   $insert = $db->prepare("INSERT INTO `besetzung` SET
     `Name`     = :Name"
   );
@@ -57,7 +54,7 @@ if ("POST" == $_SERVER["REQUEST_METHOD"]) {
 
 }
 
-echo get_html_showtablelink($table); 
+// echo get_html_showtablelink($table); 
 
 include('foot.php');
 
