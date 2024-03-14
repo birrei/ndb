@@ -1,9 +1,7 @@
 
 <?php 
 include('head_raw.php');
-// include("dbconnect_pdo.php");
-// include("snippets.php");
-include("class_musikstueck.php");
+include("cl_musikstueck.php");
 
 $table='musikstueck'; 
 
@@ -15,14 +13,14 @@ if (isset($_POST["SammlungID"])) {
   $SammlungID= $_POST["SammlungID"];
 }
 
+
 ?> 
 <form action="edit_sammlung_add_musikstueck.php" method="post">
 <table class="eingabe"> 
   
-    <tr>    
+  <tr>    
     <label>
-    <td class="eingabe">Nummer:</td>  
-      <!-- input autofocus funktioniert nicht XXX -->     
+    <td class="eingabe">Nummer:</td>    
     <td class="eingabe"><input type="text" name="Nummer" size="45" maxlength="80" autofocus="autofocus" required> </td>
      </label>
    </tr>    
@@ -44,19 +42,20 @@ if (isset($_POST["SammlungID"])) {
 </form>
 
 <?php
+echo '<p> <a href="edit_sammlung_list_musikstuecke.php?SammlungID='.$SammlungID.'">[Erfassung beenden]</a></p>'; 
+
+$musikstueck = new Musikstueck();
+  // $SammlungID=$_POST["SammlungID"]; 
 
 if ("POST" == $_SERVER["REQUEST_METHOD"]) {
-  $SammlungID=$_POST["SammlungID"];     
   $Nummer=$_POST["Nummer"]; 
   $Name=$_POST["Name"]; 
+  $musikstueck->insert_row($SammlungID, $Nummer, $Name); 
+  $ID=$musikstueck->ID; 
 
-  $m = new Musikstueck();
-  $m->insert_row($SammlungID, $Nummer, $Name); 
-  $ID=$m->ID; 
+}
 
- }
-
- // echo '<p> <a href="edit_sammlung_list_musikstuecke.php?SammlungID='.$SammlungID.'">[Musikstücke anzeigen]</a></p>'; 
+$musikstueck->print_table_from_sammlung($SammlungID);
 
 include('foot_raw.php');
 

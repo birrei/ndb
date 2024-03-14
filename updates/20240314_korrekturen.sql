@@ -1,0 +1,2 @@
+-- ALTER TABLE komponist DROP Geburtsdatum;  
+-- ALTER TABLE komponist DROP Sterbedatum; 

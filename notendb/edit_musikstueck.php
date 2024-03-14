@@ -7,36 +7,33 @@ include("cl_sammlung.php");
 
 $table='musikstueck'; 
 
+$musikstueck = new Musikstueck();
+
 if (isset($_GET["ID"])) {
   $ID= $_GET["ID"];  
-  $musikstueck = new Musikstueck();
   $musikstueck->load_row($ID); 
 }
 
 if (isset($_POST["senden"])) {
-  $ID= $_POST["ID"];  
-  $musikstueck = new Musikstueck();
-  $musikstueck->update_row(
-    $ID
-    , $_POST["Nummer"]
-    , $_POST["Name"]
-    , $_POST["SammlungID"]
-    , $_POST["KomponistID"]
-    , $_POST["Opus"]
-    , $_POST["Gattung"]
-    , $_POST["Bearbeiter"]
-    , $_POST["Epoche"]
-    , $_POST["JahrAuffuehrung"]
-  ); 
-  $musikstueck->load_row($ID);   
+  $ID= $_POST["ID"]; 
+  if ($_POST["option"] == 'edit') { 
+    $musikstueck->update_row(
+                      $ID
+                      , $_POST["Nummer"]
+                      , $_POST["Name"]
+                      , $_POST["SammlungID"]
+                      , $_POST["KomponistID"]
+                      , $_POST["Opus"]
+                      , $_POST["Gattung"]
+                      , $_POST["Bearbeiter"]
+                      , $_POST["Epoche"]
+                      , $_POST["JahrAuffuehrung"]
+                    ); 
+    // $musikstueck->load_row($ID);   
+  }
 }
 
-
-
-
-echo '
-
-<h2>Musikstück bearbeiten</h2>
+echo '<h2>Musikstück bearbeiten</h2>
 
 <form action="edit_musikstueck.php" method="post">
 
@@ -70,17 +67,14 @@ echo '
 '; 
   $komponisten = new Komponist();
   $komponisten->print_select($musikstueck->KomponistID); 
-  echo ' </label>'; 
-
-  // echo get_html_insert_link2('komponist', true);  
 
 echo  '</td>
 </tr> 
+</label>
 <tr>    
 <label>
 <td class="eingabe">Sammlung:</td>  
 <td class="eingabe">
-
 '; 
 
 $sammlung = new Sammlung();
@@ -159,9 +153,6 @@ echo '</tr></label>
 </table> 
 
 '; 
-
-
-// echo get_html_showtablelink($table); 
 
 include('foot.php');
 

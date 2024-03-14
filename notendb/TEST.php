@@ -1,20 +1,36 @@
 <?php
-include('head.php'); 
-include('cl_musikstueck.php'); 
-include('cl_komponist.php'); 
+    include('head.php'); 
+    // include('cl_musikstueck.php'); 
+
+    // include('cl_sammlung.php'); 
+
+/* Klassen testen */
+
+    // include_once('cl_verlag.php'); 
+    // $verlag = new Verlag(); 
+    // $verlag->insert_row('ganz neuer Verlag'); 
+    // $verlag->print_table(); 
+    
 
 
-// $ms = new Musikstueck(); 
-// // $ms->set_rowdata(122); // Daten für eine ID 
-// // $ms->print_rowdata_demo(); // Daten für diese ID ausgeben
-// $ms->print_tabledata(25); 
-// $ms->print_tabledata(26); 
-
-$komponist = new Komponist(); 
-$komponist->print_select(); 
-$komponist->print_select(5); 
+    // include_once('cl_komponist.php'); 
+    // $komponist = new Komponist(); 
+    // $komponist->print_select(); 
+    // $komponist->print_select(5); 
+    // $komponist->insert_row('Eugen', 'Tester','', '', ''); 
+    // $komponist->print_table();  
 
 
+    // $sammlung = new Sammlung(); 
+    // $sammlung->print_table(); 
+
+
+
+    // $ms = new Musikstueck(); 
+    // // $ms->set_rowdata(122); // Daten für eine ID 
+    // // $ms->print_rowdata_demo(); // Daten für diese ID ausgeben
+    // $ms->print_tabledata(25); 
+    // $ms->print_tabledata(26); 
 
 
 

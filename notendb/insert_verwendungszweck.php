@@ -1,8 +1,6 @@
 
 <?php 
 include('head.php');
-include('snippets.php'); 
-$table='verwendungszweck'; 
 ?> 
 
 <h1>Verwendungszweck erfassen</h1> 
@@ -27,36 +25,14 @@ $table='verwendungszweck';
 
 <?php
 
-$ID=''; 
-$Name=''; 
-$Bemerkung='';
-
+include_once('cl_verwendungszweck.php'); 
+$verwendungszweck = new verwendungszweck();
 if ("POST" == $_SERVER["REQUEST_METHOD"]) {
-  include("dbconnect_pdo.php"); // nur wenn benötigt 
-  
-  $Name=$_POST["Name"]; 
+    $verwendungszweck->insert_row($_POST["Name"]); 
+}   
 
-  $insert = $db->prepare("INSERT INTO `verwendungszweck` SET
-    `Name`     = :Name"
-  );
+$verwendungszweck->print_table();   
 
-  $insert->bindValue(':Name', $Name);
-
-  try {
-    $insert->execute(); 
-    $ID = $db->lastInsertId();
-    $count_affected_rows= $insert->rowCount(); 
-    echo get_html_user_action_info($table, 'insert', $count_affected_rows,$ID);  
-    echo get_html_editlink($table,$ID);
-  }
-  catch (PDOException $e) {
-    echo get_html_user_error_info(); 
-    echo get_html_error_info($insert, $e); 
-  }
-
-}
-
-echo get_html_showtablelink($table); 
 
 include('foot.php');
 
