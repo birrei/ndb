@@ -46,7 +46,7 @@ class Musikstueck {
       
     }
     catch (PDOException $e) {
-      include_once("ctl_html_info.php"); 
+      include_once("cl_html_info.php"); 
       $info = new HtmlInfo();      
       $info->print_user_error(); 
       $info->print_error($stmt, $e); 
@@ -98,7 +98,7 @@ class Musikstueck {
             , $Epoche
             , $JahrAuffuehrung
          ) {
-
+   
     include_once("cl_db.php");   
     $conn = new DbConn(); 
     $db=$conn->db; 
@@ -144,7 +144,7 @@ class Musikstueck {
       include_once("cl_html_info.php"); 
       $info = new HtmlInfo();      
       $info->print_user_error(); 
-      $info->print_error($stmt, $e); 
+      $info->print_error($update, $e); 
     }
   }
 
@@ -186,6 +186,151 @@ class Musikstueck {
 
   }
 
+  function print_table_besetzungen(){
+    $query="SELECT b.ID
+        , b.Name                              
+    FROM `musikstueck` m 
+    inner join musikstueck_besetzung mb 
+      on m.ID=mb.MusikstueckID          
+    inner join besetzung b
+      on b.ID=mb.BesetzungID  
+    WHERE mb.MusikstueckID = :MusikstueckID 
+    ORDER by b.Name"; 
+
+    include_once("cl_db.php");
+    $conn = new DbConn(); 
+    $db=$conn->db; 
+  
+    $stmt = $db->prepare($query); 
+    $stmt->bindParam(':MusikstueckID', $this->ID, PDO::PARAM_INT); 
+      
+    try {
+      $stmt->execute(); 
+      include_once("cl_html_table.php");      
+      $html = new HtmlTable($stmt); 
+      $html->print_table(); 
+      
+    }
+    catch (PDOException $e) {
+      include_once("cl_html_info.php"); 
+      $info = new HtmlInfo();      
+      $info->print_user_error(); 
+      $info->print_error($stmt, $e); 
+    }
+  }
+
+  function print_table_verwendungszwecke(){
+    $query="SELECT b.ID
+        , b.Name                              
+    FROM `musikstueck` m 
+    inner join musikstueck_verwendungszweck mb 
+      on m.ID=mb.MusikstueckID          
+    inner join verwendungszweck b
+      on b.ID=mb.VerwendungszweckID 
+    WHERE mb.MusikstueckID = :MusikstueckID 
+    ORDER by b.Name"; 
+
+    include_once("cl_db.php");
+    $conn = new DbConn(); 
+    $db=$conn->db; 
+  
+    $stmt = $db->prepare($query); 
+    $stmt->bindParam(':MusikstueckID', $this->ID, PDO::PARAM_INT); 
+      
+    try {
+      $stmt->execute(); 
+      include_once("cl_html_table.php");      
+      $html = new HtmlTable($stmt); 
+      $html->print_table(); 
+      
+    }
+    catch (PDOException $e) {
+      include_once("cl_html_info.php"); 
+      $info = new HtmlInfo();      
+      $info->print_user_error(); 
+      $info->print_error($stmt, $e); 
+    }
+  }
+
+  function add_besetzung ($BesetzungID){
+      include_once("cl_db.php");
+      $conn = new DbConn(); 
+      $db=$conn->db; 
+
+      $insert = $db->prepare("INSERT INTO `musikstueck_besetzung` SET
+                            `MusikstueckID`     = :MusikstueckID,
+                            `BesetzungID`     = :BesetzungID");
+
+      $insert->bindValue(':MusikstueckID', $this->ID);
+      $insert->bindValue(':BesetzungID', $BesetzungID);
+
+      try {
+        $insert->execute(); 
+      }
+      catch (PDOException $e) {
+        include_once("cl_html_info.php"); 
+        $info = new HtmlInfo();      
+        $info->print_user_error(); 
+        $info->print_error($insert, $e);  
+      }  
+
+  }
+
+  function add_verwendungszweck ($VerwendungszweckID){
+    include_once("cl_db.php");
+    $conn = new DbConn(); 
+    $db=$conn->db; 
+
+    $insert = $db->prepare("INSERT INTO `musikstueck_verwendungszweck` SET
+                          `MusikstueckID`     = :MusikstueckID,
+                          `VerwendungszweckID`     = :VerwendungszweckID");
+
+    $insert->bindValue(':MusikstueckID', $this->ID);
+    $insert->bindValue(':VerwendungszweckID', $VerwendungszweckID);
+
+    try {
+      $insert->execute(); 
+    }
+    catch (PDOException $e) {
+      include_once("cl_html_info.php"); 
+      $info = new HtmlInfo();      
+      $info->print_user_error(); 
+      $info->print_error($insert, $e);  
+    }  
+
+  }
+
+  function print_select($value_selected=''){
+    /***** select box (fake) *****/ 
+    include_once("cl_db.php");  
+    include_once("cl_html_select.php");
+
+
+    $query="SELECT DISTINCT `ID` as MusikstueckID
+            , `Name` FROM `musikstueck` 
+            WHERE ID=:ID";
+
+
+  	$conn = new DbConn(); 
+    $db=$conn->db; 
+  
+    $stmt = $db->prepare($query); 
+    $stmt->bindParam(':ID', $value_selected, PDO::PARAM_INT);
+
+    try {
+      $stmt->execute(); 
+      $html = new HtmlSelect($stmt); 
+      $html->print_select("MusikstueckID", $value_selected, false); 
+    }
+    catch (PDOException $e) {
+      include_once("ctl_html_info.php"); 
+      $info = new HtmlInfo();      
+      $info->print_user_error(); 
+      $info->print_error($stmt, $e); 
+    }
+  }
+
+  
 }
 
  

@@ -1,6 +1,15 @@
 
 <?php 
 include('head.php');
+include('cl_html_info.php');
+
+// if ("POST" == $_SERVER["REQUEST_METHOD"]) {
+//   $info= new HtmlInfo(); 
+//   $info->print_action_info($_POST["ID"], 'update'); 
+//   $info->print_close_form_info();   
+
+// }
+
 ?> 
 <h1>Komponist erfassen</h1> 
 
@@ -66,7 +75,8 @@ if ("POST" == $_SERVER["REQUEST_METHOD"]) {
 } 
 
 $komponist->print_table();   
-  
+ 
+
 include('foot.php');
 
 ?>

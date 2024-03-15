@@ -1,6 +1,20 @@
 
 <?php 
 include('head.php');
+include('cl_html_info.php');
+include('cl_verlag.php'); 
+
+$verlag = new Verlag();
+if ("POST" == $_SERVER["REQUEST_METHOD"]) {
+  if ("POST" == $_SERVER["REQUEST_METHOD"]) {
+    $verlag->insert_row($_POST["Name"],$_POST["Bemerkung"]); 
+    $info= new HtmlInfo(); 
+    $info->print_action_info($verlag->ID, 'update'); 
+    $info->print_close_form_info();       
+  }   
+}
+
+
 ?> 
 
 <h1>Verlag erfassen</h1> 
@@ -33,13 +47,7 @@ include('head.php');
 </form>
 
 <?php
-include_once('cl_verlag.php'); 
-$verlag = new Verlag();
-if ("POST" == $_SERVER["REQUEST_METHOD"]) {
-  if ("POST" == $_SERVER["REQUEST_METHOD"]) {
-    $verlag->insert_row($_POST["Name"],$_POST["Bemerkung"]); 
-  }   
-}
+
 $verlag->print_table();   
 
 include('foot.php');

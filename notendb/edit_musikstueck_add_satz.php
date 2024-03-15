@@ -1,9 +1,7 @@
 
 <?php 
 include('head_raw.php');
-include("dbconnect_pdo.php");
-include("snippets.php");
-$table='satz'; 
+include("cl_satz.php");
 
 $MusikstueckID=''; 
 if (isset($_GET["MusikstueckID"])) {
@@ -40,42 +38,19 @@ if (isset($_POST["MusikstueckID"])) {
     <td class="eingabe"><input type="submit" value="Speichern"></td>
 </tr>
 </table> 
-
-
 </form>
-
 <?php
+echo '<p> <a href="edit_musikstueck_list_saetze.php?MusikstueckID='.$MusikstueckID.'">[Erfassung beenden]</a></p>'; 
 
+$satz = new Satz(); 
+$satz->MusikstueckID=$MusikstueckID; 
 
 if ("POST" == $_SERVER["REQUEST_METHOD"]) {
+  $satz->insert_row($_POST["Nr"], $_POST["Name"]); 
+}
 
-  $MusikstueckID=$_POST["MusikstueckID"];     
-  $Nr=$_POST["Nr"]; 
-  $Name=$_POST["Name"]; 
+$satz->print_table_from_musikstueck(); 
 
-  $insert = $db->prepare("INSERT INTO `satz` SET
-    `Name`     = :Name,
-    `MusikstueckID`     = :MusikstueckID,  
-    `Nr`     = :Nr");
-
-  $insert->bindValue(':MusikstueckID', $MusikstueckID);
-  $insert->bindValue(':Nr', $Nr);
-  $insert->bindValue(':Name', $Name);
-
-
-  try {
-    $insert->execute(); 
-    $ID = $db->lastInsertId();
-    $count_affected_rows= $insert->rowCount(); 
-    echo get_html_user_action_info($table, 'insert', $count_affected_rows,$ID);  
-    echo get_html_editlink($table,$ID, true);
-  }
-  catch (PDOException $e) {
-    echo get_html_user_error_info(); 
-    echo get_html_error_info($insert, $e); 
-  }
- }
-echo '<p> <a href="edit_musikstueck_list_saetze.php?MusikstueckID='.$MusikstueckID.'">[Sätze anzeigen]</a></p>'; 
 
 include('foot_raw.php');
 

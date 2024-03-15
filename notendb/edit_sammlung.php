@@ -3,6 +3,7 @@
 include('head.php');
 include("cl_sammlung.php");
 include("cl_verlag.php");
+include("cl_html_info.php");
 
 echo '<h2>Sammlung bearbeiten</h2>'; 
 
@@ -21,12 +22,15 @@ if (isset($_POST["senden"])) {
                       $ID
                       , $_POST["Name"]
                       , $_POST["VerlagID"]
-                      , $_POST["Bestellnummer"]
                       , $_POST["Standort"]
+                      , $_POST["Bestellnummer"]
                       , $_POST["Bemerkung"]
                       
                     ); 
 
+    $info= new HtmlInfo(); 
+    $info->print_action_info($sammlung->ID, 'update'); 
+    $info->print_close_form_info();                        
   }
 }
 

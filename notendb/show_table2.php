@@ -28,7 +28,8 @@ $select = $db->prepare($query);
 
 try {
     $select->execute(); 
-    $html_table= get_html_table($select, $table, true); 
+    // $html_table= get_html_table($select, $table, true);
+    $html_table= get_html_table($select, $table, false);  
     echo $html_table;  
 }
 catch (PDOException $e) {

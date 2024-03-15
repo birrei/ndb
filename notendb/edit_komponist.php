@@ -26,6 +26,9 @@ if (isset($_POST["senden"])) {
                       , $_POST["Bemerkung"]                      
                     ); 
   }
+  $info= new HtmlInfo(); 
+  $info->print_action_info($komponist->ID, 'update'); 
+  $info->print_close_form_info();         
 }
 
 echo '

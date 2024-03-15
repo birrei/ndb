@@ -23,7 +23,7 @@ class HtmlInfo {
     
     function print_action_info($ID, $action_name){
         
-        $this->html.= '<p>ID '.$ID.' wurde '.$this->info_datetime;  
+        $this->html.= '<p>ID '.$ID.' wurde ';  
 
         switch ($action_name){
             case 'insert': 
@@ -39,9 +39,9 @@ class HtmlInfo {
             case 'delete': 
                 $this->html.= ' gelöscht.';  
                 break;      
-         }
-         $this->html.= '</p>'; 
-
+        }
+        $this->html.=' - '.$this->info_datetime;         
+        $this->html.= '</p>';        
         echo $this->html; 
     }
 

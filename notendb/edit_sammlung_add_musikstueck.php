@@ -3,8 +3,6 @@
 include('head_raw.php');
 include("cl_musikstueck.php");
 
-$table='musikstueck'; 
-
 $SammlungID=''; 
 if (isset($_GET["SammlungID"])) {
   $SammlungID= $_GET["SammlungID"];
@@ -12,8 +10,6 @@ if (isset($_GET["SammlungID"])) {
 if (isset($_POST["SammlungID"])) {
   $SammlungID= $_POST["SammlungID"];
 }
-
-
 ?> 
 <form action="edit_sammlung_add_musikstueck.php" method="post">
 <table class="eingabe"> 

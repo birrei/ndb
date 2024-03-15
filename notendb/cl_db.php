@@ -2,10 +2,6 @@
 
 class DbConn {
 
-  // protected $DB_HOST; 
-  // protected $DB_NAME; 
-  // protected $DB_BENUTZER; 
-  // protected $DB_PASSWORT; 
   public $db; 
 
   function __construct() {
@@ -14,12 +10,6 @@ class DbConn {
     error_reporting(E_ALL);
     ini_set('display_errors', true);
   
-    // // Zugangsdaten zur Datenbank
-    // $this->DB_HOST = "localhost"; // Host-Adresse
-    // $this->DB_NAME = "test"; // Datenbankname
-    // $this->DB_BENUTZER = "root"; // Benutzername
-    // $this->DB_PASSWORT = ""; // Passwort
-
     $DB_HOST = "localhost"; // Host-Adresse
     $DB_NAME = "test"; // Datenbankname
     $DB_BENUTZER = "root"; // Benutzername

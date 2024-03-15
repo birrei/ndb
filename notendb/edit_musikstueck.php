@@ -4,6 +4,7 @@ include('head.php');
 include("cl_musikstueck.php");
 include("cl_komponist.php");
 include("cl_sammlung.php");
+include('cl_html_info.php');
 
 $table='musikstueck'; 
 
@@ -18,18 +19,21 @@ if (isset($_POST["senden"])) {
   $ID= $_POST["ID"]; 
   if ($_POST["option"] == 'edit') { 
     $musikstueck->update_row(
-                      $ID
-                      , $_POST["Nummer"]
-                      , $_POST["Name"]
-                      , $_POST["SammlungID"]
-                      , $_POST["KomponistID"]
-                      , $_POST["Opus"]
-                      , $_POST["Gattung"]
-                      , $_POST["Bearbeiter"]
-                      , $_POST["Epoche"]
-                      , $_POST["JahrAuffuehrung"]
+                    $ID
+                    , $_POST["Nummer"]
+                    , $_POST["Name"]
+                    , $_POST["SammlungID"]
+                    , $_POST["KomponistID"]
+                    , $_POST["Opus"]
+                    , $_POST["Gattung"]
+                    , $_POST["Bearbeiter"]
+                    , $_POST["Epoche"]
+                    , $_POST["JahrAuffuehrung"]
                     ); 
     // $musikstueck->load_row($ID);   
+    $info= new HtmlInfo(); 
+    $info->print_action_info($musikstueck->ID, 'update'); 
+    $info->print_close_form_info();       
   }
 }
 
@@ -120,7 +124,7 @@ echo '</tr></label>
 
 <tr> 
   <td class="eingabe"></td> 
-  <td class="eingabe"><input type="submit" name="senden" value="Speichern und Datensatz neu laden">
+  <td class="eingabe"><input type="submit" name="senden" value="Speichern">
 </td>
 </tr> 
 
@@ -144,7 +148,7 @@ echo '</tr></label>
   </tr> 
 
   <tr> 
-    <td class="eingabe">Sätze:<br>(Anzeige ausgewählte Felder)</td> 
+    <td class="eingabe">Sätze:</td> 
     <td class="eingabe"><iframe src="edit_musikstueck_list_saetze.php?MusikstueckID='.$ID.'" width="1000" height="400" name="Saetze"></iframe>
   </td>
   </tr> 
