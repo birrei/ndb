@@ -87,8 +87,7 @@ class Musikstueck {
   }
 
   function update_row(
-            $ID
-            , $Nummer 
+            $Nummer 
             , $Name
             , $SammlungID
             , $KomponistID
@@ -116,7 +115,7 @@ class Musikstueck {
               `JahrAuffuehrung` = :JahrAuffuehrung
               WHERE `ID` = :ID");           
 
-    $update->bindParam(':ID', $ID);
+    $update->bindParam(':ID', $this->ID);
     $update->bindParam(':Nummer', $Nummer );
     $update->bindParam(':Name', $Name);
     $update->bindParam(':SammlungID', $SammlungID);
@@ -129,7 +128,6 @@ class Musikstueck {
 
     try {
       $update->execute(); 
-      $this->ID=$ID;
       $this->Nummer =$Nummer ;
       $this->Name=$Name;
       $this->SammlungID=$SammlungID;
@@ -149,8 +147,7 @@ class Musikstueck {
   }
 
 
-  function load_row($ID) {
-    $this->ID=$ID;   
+  function load_row() {
     include_once("cl_db.php");   
     $conn = new DbConn(); 
     $db=$conn->db; 
@@ -169,7 +166,7 @@ class Musikstueck {
     FROM `musikstueck`
     WHERE `ID` = :ID");
 
-    $select->bindParam(':ID', $ID, PDO::PARAM_INT);
+    $select->bindParam(':ID', $this->ID, PDO::PARAM_INT);
     $select->execute(); 
     $row_data= $select->fetch();
 

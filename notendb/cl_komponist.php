@@ -59,9 +59,7 @@ class Komponist {
     }
   }
 
-  function load_row($ID) {
-    /****** Paramter aus gegebener ID auslesen */     
-    $this->ID=$ID;   
+  function load_row() {
     include_once("cl_db.php");   
     $conn = new DbConn(); 
     $db=$conn->db; 
@@ -74,7 +72,7 @@ class Komponist {
       , `Bemerkung` 
     FROM `komponist`
     WHERE `ID` = :ID");
-    $select->bindParam(':ID', $ID, PDO::PARAM_INT);
+    $select->bindParam(':ID', $this->ID, PDO::PARAM_INT);
     $select->execute(); 
     $row_data=$select->fetch();
 
@@ -83,14 +81,12 @@ class Komponist {
     $this->Geburtsjahr=$row_data["Geburtsjahr"];
     $this->Sterbejahr=$row_data["Sterbejahr"];
     $this->Bemerkung=$row_data["Bemerkung"];
-    
-    
+     
   }  
 
   function update_row(
       /***** Zeile speichern / updaten ***************/   
-     $ID
-    , $Vorname
+   $Vorname
     , $Nachname
     , $Geburtsjahr
     , $Sterbejahr
@@ -111,7 +107,7 @@ class Komponist {
                           `Bemerkung` = :Bemerkung
                           WHERE `ID` = :ID"); 
 
-    $update->bindParam(':ID', $ID);
+    $update->bindParam(':ID', $this->ID);
     $update->bindParam(':Vorname', $Vorname);
     $update->bindParam(':Nachname', $Nachname);
     $update->bindParam(':Geburtsjahr', $Geburtsjahr);
@@ -121,7 +117,6 @@ class Komponist {
 
     try {
       $update->execute(); 
-      $this->ID=$ID;
       $this->Vorname=$Vorname;
       $this->Nachname=$Nachname;
       $this->Geburtsjahr=$Geburtsjahr;

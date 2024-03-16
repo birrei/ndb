@@ -6,21 +6,18 @@ include("cl_komponist.php");
 include("cl_sammlung.php");
 include('cl_html_info.php');
 
-$table='musikstueck'; 
-
 $musikstueck = new Musikstueck();
 
 if (isset($_GET["ID"])) {
-  $ID= $_GET["ID"];  
-  $musikstueck->load_row($ID); 
+  $musikstueck->ID=$_GET["ID"]; 
+  $musikstueck->load_row(); 
 }
 
 if (isset($_POST["senden"])) {
-  $ID= $_POST["ID"]; 
   if ($_POST["option"] == 'edit') { 
+    $musikstueck->ID=$_POST["ID"];    
     $musikstueck->update_row(
-                    $ID
-                    , $_POST["Nummer"]
+                $_POST["Nummer"]
                     , $_POST["Name"]
                     , $_POST["SammlungID"]
                     , $_POST["KomponistID"]
@@ -131,7 +128,7 @@ echo  '</td>
 </td>
 </tr> 
 
-    <input type="hidden" name="ID" value="' . $ID. '">
+    <input type="hidden" name="ID" value="' . $musikstueck->ID. '">
     <input type="hidden" name="option" value="edit">      
 
     </form>
@@ -139,20 +136,20 @@ echo  '</td>
 
     <tr> 
     <td class="eingabe">Verwendungszweck(e):</td> 
-    <td class="eingabe"><iframe src="edit_musikstueck_list_verwendungszwecke.php?MusikstueckID='.$ID.'" width="1000" height="200" name="Besetzungen"></iframe>
+    <td class="eingabe"><iframe src="edit_musikstueck_list_verwendungszwecke.php?MusikstueckID='.$musikstueck->ID.'" width="1000" height="200" name="Besetzungen"></iframe>
   </td>
   </tr> 
       
 
   <tr> 
     <td class="eingabe">Besetzung(en):</td> 
-    <td class="eingabe"><iframe src="edit_musikstueck_list_besetzungen.php?MusikstueckID='.$ID.'" width="1000" height="200" name="Besetzungen"></iframe>
+    <td class="eingabe"><iframe src="edit_musikstueck_list_besetzungen.php?MusikstueckID='.$musikstueck->ID.'" width="1000" height="200" name="Besetzungen"></iframe>
   </td>
   </tr> 
 
   <tr> 
     <td class="eingabe">Sätze:</td> 
-    <td class="eingabe"><iframe src="edit_musikstueck_list_saetze.php?MusikstueckID='.$ID.'" width="1000" height="400" name="Saetze"></iframe>
+    <td class="eingabe"><iframe src="edit_musikstueck_list_saetze.php?MusikstueckID='.$musikstueck->ID.'" width="1000" height="400" name="Saetze"></iframe>
   </td>
   </tr> 
                

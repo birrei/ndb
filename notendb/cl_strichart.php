@@ -87,11 +87,7 @@ class Strichart {
     }
   }
 
-  function update_row(
-    $ID
-    , $Name
-    ) {
-
+  function update_row($Name) {
     include_once("cl_db.php");   
     $conn = new DbConn(); 
     $db=$conn->db; 
@@ -101,12 +97,11 @@ class Strichart {
                             `Name`     = :Name
                             WHERE `ID` = :ID"); 
 
-    $update->bindParam(':ID', $_POST["ID"], PDO::PARAM_INT);
+    $update->bindParam(':ID', $this->ID, PDO::PARAM_INT);
     $update->bindParam(':Name', $_POST["Name"]);
 
     try {
       $update->execute(); 
-      $this->ID=$ID;
       $this->Name=$Name;
     }
     catch (PDOException $e) {
@@ -117,8 +112,7 @@ class Strichart {
     }
   }
 
-  function load_row($ID) {
-    $this->ID=$ID;   
+  function load_row() {
     include_once("cl_db.php");   
     $conn = new DbConn(); 
     $db=$conn->db; 
@@ -127,7 +121,7 @@ class Strichart {
                           FROM `strichart`
                           WHERE `ID` = :ID");
 
-    $select->bindParam(':ID', $ID, PDO::PARAM_INT);
+    $select->bindParam(':ID', $this->ID, PDO::PARAM_INT);
     $select->execute(); 
     $row_data=$select->fetch();
     $this->Name=$row_data["Name"];

@@ -9,17 +9,15 @@ echo '<h2>Komponist bearbeiten</h2>';
 $komponist = new Komponist();
 
 if (isset($_GET["ID"])) {
-  $ID= $_GET["ID"];  
-  $komponist->load_row($ID); 
+  $komponist->ID = $_GET["ID"];
+  $komponist->load_row(); 
 }
 
 if (isset($_POST["senden"])) {
-  $ID= $_POST["ID"]; 
   if ($_POST["option"] == 'edit') { 
-
+    $komponist->ID = $_POST["ID"]; 
     $komponist->update_row(
-                      $ID
-                      , $_POST["Vorname"]
+                      $_POST["Vorname"]
                       , $_POST["Nachname"]
                       , $_POST["Geburtsjahr"]
                       , $_POST["Sterbejahr"]
@@ -89,14 +87,14 @@ echo '
   </form>
   '; 
 
-if (isset($_POST["senden"])) {
-    $ID= $_POST["ID"]; 
-    if ($_POST["option"] == 'edit') { 
-      $info= new HtmlInfo(); 
-      $info->print_action_info($komponist->ID, 'update'); 
-      $info->print_close_form_info();       
-     }
-}
+// if (isset($_POST["senden"])) {
+//     $ID= $_POST["ID"]; 
+//     if ($_POST["option"] == 'edit') { 
+//       $info= new HtmlInfo(); 
+//       $info->print_action_info($komponist->ID, 'update'); 
+//       $info->print_close_form_info();       
+//      }
+// }
 
 
 include('foot.php');

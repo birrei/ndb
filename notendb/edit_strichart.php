@@ -9,15 +9,13 @@ echo '<h2>Strichart bearbeiten</h2>';
 $strichart = new Strichart();
 
 if (isset($_GET["ID"])) {
-  $ID= $_GET["ID"];  
-  $strichart->load_row($ID); 
+  $strichart->ID = $_GET["ID"];  
+  $strichart->load_row(); 
 }
 
 if (isset($_POST["senden"])) {
-  $ID= $_POST["ID"]; 
-  if ($_POST["option"] == 'edit') { 
-    $strichart->update_row($ID, $_POST["Name"]); 
-  }
+    $strichart->ID = $_POST["ID"];    
+    $strichart->update_row($_POST["Name"]); 
 }
 
 echo '
