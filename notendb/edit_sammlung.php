@@ -3,6 +3,7 @@
 include('head.php');
 include("cl_sammlung.php");
 include("cl_verlag.php");
+include("cl_standort.php");
 include("cl_html_info.php");
 
 echo '<h2>Sammlung bearbeiten</h2>'; 
@@ -10,19 +11,17 @@ echo '<h2>Sammlung bearbeiten</h2>';
 $sammlung = new Sammlung();
 
 if (isset($_GET["ID"])) {
-  $ID= $_GET["ID"];  
-  $sammlung->load_row($ID); 
+  $sammlung->ID = $_GET["ID"];
+  $sammlung->load_row(); 
 }
 
-
 if (isset($_POST["senden"])) {
-  $ID= $_POST["ID"]; 
+  $sammlung->ID = $_POST["ID"]; 
   if ($_POST["option"] == 'edit') { 
     $sammlung->update_row(
-                      $ID
-                      , $_POST["Name"]
+                      $_POST["Name"]
                       , $_POST["VerlagID"]
-                      , $_POST["Standort"]
+                      , $_POST["StandortID"]
                       , $_POST["Bestellnummer"]
                       , $_POST["Bemerkung"]
                       
@@ -51,23 +50,37 @@ if (isset($_POST["senden"])) {
       <td class="eingabe"><input type="text" name="Name" value="'.$sammlung->Name.'" size="80" maxlength="80" required="required" autofocus="autofocus"></td>
       </label>
     </tr> 
+    
+    
     <tr>    
     <label>
     <td class="eingabe">Verlag:</td>  
     <td class="eingabe">
+   
     <!-- Auswahlliste Verlag  -->         
           '; 
           $verlage = new Verlag();
           $verlage->print_select($sammlung->VerlagID); 
 
     echo '
-    </label></tr>
+    </label>
+    </tr>
+
     <tr>    
-      <label>
-      <td class="eingabe">Standort:</td>  
-      <td class="eingabe"><input type="text" name="Standort" value="'.$sammlung->Standort.'" size="45" maxlength="80"  autofocus="autofocus"></td>
-      </label>
-    </tr> 
+    <label>
+    <td class="eingabe">Standort:</td>  
+    <td class="eingabe">
+   
+    <!-- Auswahlliste Verlag  -->         
+          '; 
+          $standorte = new Standort();
+          $standorte->print_select($sammlung->StandortID); 
+
+    echo '
+    </label>
+    </tr>
+
+ 
 
     <tr>    
       <label>
@@ -90,13 +103,13 @@ if (isset($_POST["senden"])) {
     </td>
     </tr> 
 
-        <input type="hidden" name="ID" value="' . $ID. '">
+        <input type="hidden" name="ID" value="' . $sammlung->ID. '">
         <input type="hidden" name="option" value="edit">      
         </form>
 
         <tr> 
         <td class="eingabe">Musikstücke:</td> 
-        <td class="eingabe"><iframe src="edit_sammlung_list_musikstuecke.php?SammlungID='.$ID.'" width="500" height="400" name="Besetzungen"></iframe>
+        <td class="eingabe"><iframe src="edit_sammlung_list_musikstuecke.php?SammlungID='.$sammlung->ID.'" width="500" height="400" name="Besetzungen"></iframe>
       </td>
       </tr> 
 

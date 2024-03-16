@@ -4,6 +4,17 @@
 
     // include('cl_sammlung.php'); 
 
+
+    $table='v_sammlung'; 
+
+    $table_edit=(substr($table,0,2)=='v_'?substr($table,2, strlen($table)-2):$table); // "v_" vorne abschneiden 
+
+
+    // $table_edit = substr($table,2, strlen($table)-2); // 
+  
+    echo '<p>'.$table_edit; 
+
+
 /* Klassen testen */
 
     // include_once('cl_verlag.php'); 

@@ -6,11 +6,9 @@ include('head.php');
 
 
 <table>
-
-
 <tr>
     <td><b>Sammlung</b></td>
-    <td><a href="show_table2.php?table=sammlung" target="_blank">Daten anzeigen</a></td>
+    <td><a href="show_table2.php?table=v_sammlung" target="_blank">Daten anzeigen</a></td>
     <td><a href="insert_sammlung.php" target="_blank" >Neu erfassen</a></td>
 </tr>
 <tr>
@@ -24,12 +22,17 @@ include('head.php');
     <td><a href="show_table2.php?table=satz" target="_blank">Daten anzeigen</a></td>
     <td>Erfassung über Musikstück</td>
 </tr>
+
 <tr>
     <td><b>Verlag</b></td>
     <td><a href="show_table2.php?table=verlag" target="_blank">Daten anzeigen</a></td>
     <td><a href="insert_verlag.php" target="_blank">Neu erfassen</a></td>
 </tr>
-
+<tr>
+    <td><b>Standort</b></td>
+    <td><a href="show_table2.php?table=standort" target="_blank">Daten anzeigen</a></td>
+    <td><a href="insert_standort.php" target="_blank">Neu erfassen</a></td>
+</tr>
 <tr>
     <td><b>Komponist</b></td>
     <td><a href="show_table2.php?table=komponist" target="_blank">Daten anzeigen</a></td>

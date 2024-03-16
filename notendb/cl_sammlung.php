@@ -9,7 +9,8 @@ class Sammlung {
   public $Name;
   public $VerlagID;
   public $Bestellnummer; 
-  public $Standort; 
+  // public $Standort; 
+  public $StandortID; 
   public $Bemerkung;
 
   public function __construct(){
@@ -74,10 +75,10 @@ class Sammlung {
   }
 
   function update_row(
-          $ID
-          , $Name
+          $Name
           , $VerlagID
-          , $Standort
+         // , $Standort
+         , $StandortID
           , $Bestellnummer
           , $Bemerkung
          ) 
@@ -91,24 +92,23 @@ class Sammlung {
             SET
             `Name`     = :Name,
             `VerlagID`     = :VerlagID,   
-            `Standort`     = :Standort,                              
+            `StandortID`     = :StandortID,                              
             `Bestellnummer`     = :Bemerkung,   
             `Bemerkung`     = :Bemerkung                               
             WHERE `ID` = :ID");           
 
-      $update->bindParam(':ID', $ID);
+      $update->bindParam(':ID', $this->ID);
       $update->bindParam(':Name', $Name);
       $update->bindParam(':VerlagID', $VerlagID);
-      $update->bindParam(':Standort', $Standort);
+      $update->bindParam(':StandortID', $StandortID);
       $update->bindParam(':Bestellnummer', $Bestellnummer);
       $update->bindParam(':Bemerkung', $Bemerkung);
 
       try {
         $update->execute(); 
-        $this->ID=$ID;
         $this->Name=$Name;
         $this->VerlagID=$VerlagID;
-        $this->Standort=$Standort;
+        $this->StandortID=$StandortID;
         $this->Bestellnummer=$Bestellnummer;
         $this->Bemerkung=$Bemerkung;
       }
@@ -151,8 +151,7 @@ class Sammlung {
   }
 
 
-  function load_row($ID) {
-    $this->ID=$ID;   
+  function load_row() {
     include_once("cl_db.php");   
     $conn = new DbConn(); 
     $db=$conn->db; 
@@ -162,19 +161,19 @@ class Sammlung {
                           `Name`, 
                           `VerlagID`, 
                           `Bestellnummer` , 
-                          `Standort`, 
+                          `StandortID`, 
                           `Bemerkung`
                         FROM `sammlung`
                         WHERE `ID` = :ID");
 
-    $select->bindParam(':ID', $ID, PDO::PARAM_INT);
+    $select->bindParam(':ID', $this->ID, PDO::PARAM_INT);
     $select->execute(); 
     $row_data= $select->fetch();
 
     $this->Name=$row_data["Name"];
     $this->VerlagID=$row_data["VerlagID"];
     $this->Bestellnummer=$row_data["Bestellnummer"];
-    $this->Standort=$row_data["Standort"];
+    $this->StandortID=$row_data["StandortID"];
     $this->Bemerkung=$row_data["Bemerkung"];      
   }
 }

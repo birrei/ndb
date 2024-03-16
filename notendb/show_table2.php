@@ -4,6 +4,8 @@ include('head.php');
 include('snippets.php');
 
 $table=$_GET['table'];
+$table_edit=(substr($table,0,2)=='v_'?substr($table,2, strlen($table)-2):$table); // "v_" vorne abschneiden 
+
 
 $sortcol='';
 if (isset($_GET['sortcol'])) {
@@ -29,7 +31,7 @@ $select = $db->prepare($query);
 try {
     $select->execute(); 
     // $html_table= get_html_table($select, $table, true);
-    $html_table= get_html_table($select, $table, false);  
+    $html_table= get_html_table($select, $table_edit, false);  
     echo $html_table;  
 }
 catch (PDOException $e) {

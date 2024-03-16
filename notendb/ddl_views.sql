@@ -1,5 +1,19 @@
 /* Views für Auswahl-Elemente */ 
 
+
+create or replace view v_sammlung as
+select s.ID
+    , s.Name
+    , v.Name as Verlag
+    , st.Name as Standort
+    , s.Bestellnummer
+    , s.Bemerkung 
+from sammlung s
+        left join verlag v on s.VerlagID = v.ID 
+        left join standort st on s.StandortID = st.ID
+    ; 
+
+
 create or replace view v_select_komponist as 
 select ID
     , case 
@@ -12,12 +26,11 @@ select ID
     End Name
     , Vorname
     , Nachname 
-
-    from komponist;
-
+from komponist
+;
 
 /******************************/
-CREATE OR REPLACE VIEW v_musikstuecke AS 
+CREATE OR REPLACE VIEW v_musikstueck AS 
 
 SELECT  
 	 sa.Name AS Sammlung /* sammlung */ 

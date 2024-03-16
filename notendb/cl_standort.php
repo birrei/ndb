@@ -1,13 +1,13 @@
 <?php 
 
-class Strichart {
+class Standort {
 
   public $table_name; 
   public $ID;
   public $Name;
 
   public function __construct(){
-    $this->table_name='strichart'; 
+    $this->table_name='standort'; 
   }
 
   function insert_row ($Name) {
@@ -15,7 +15,7 @@ class Strichart {
     $conn = new DbConn(); 
     $db=$conn->db; 
 
-    $insert = $db->prepare("INSERT INTO `strichart` 
+    $insert = $db->prepare("INSERT INTO `standort` 
               SET `Name`     = :Name"
            );
 
@@ -40,7 +40,7 @@ class Strichart {
     include_once("cl_html_select.php");
 
     $query="SELECT ID, Name 
-            FROM `strichart` 
+            FROM `standort` 
             order by `Name`"; 
 
     $conn = new DbConn(); 
@@ -51,7 +51,7 @@ class Strichart {
     try {
       $stmt->execute(); 
       $html = new HtmlSelect($stmt); 
-      $html->print_select("StrichartID", $value_selected, true); 
+      $html->print_select("StandortID", $value_selected, true); 
       
     }
     catch (PDOException $e) {
@@ -64,7 +64,7 @@ class Strichart {
 
   function print_table(){
 
-    $query="SELECT * from strichart ORDER by ID DESC"; 
+    $query="SELECT * from standort ORDER by ID DESC"; 
 
     include_once("cl_db.php");
     $conn = new DbConn(); 
@@ -92,7 +92,7 @@ class Strichart {
     $conn = new DbConn(); 
     $db=$conn->db; 
     
-    $update = $db->prepare("UPDATE `strichart` 
+    $update = $db->prepare("UPDATE `standort` 
                             SET
                             `Name`     = :Name
                             WHERE `ID` = :ID"); 
@@ -118,7 +118,7 @@ class Strichart {
     $db=$conn->db; 
 
     $select = $db->prepare("SELECT `ID`, `Name` 
-                          FROM `strichart`
+                          FROM `standort`
                           WHERE `ID` = :ID");
 
     $select->bindParam(':ID', $this->ID, PDO::PARAM_INT);
