@@ -48,6 +48,17 @@ echo '<h2>Musikstück bearbeiten</h2>
 <td class="eingabe">'.$musikstueck->ID.'</td>
 </label>
 </tr> 
+<tr>    
+<label>
+<td class="eingabe">Sammlung:</td>  
+<td class="eingabe">
+'; 
+
+$sammlung = new Sammlung();
+$sammlung->print_select($musikstueck->SammlungID); 
+
+echo '</tr></label>
+
 
 <tr>    
 <label>
@@ -75,16 +86,8 @@ echo '<h2>Musikstück bearbeiten</h2>
 echo  '</td>
 </tr> 
 </label>
-<tr>    
-<label>
-<td class="eingabe">Sammlung:</td>  
-<td class="eingabe">
-'; 
 
-$sammlung = new Sammlung();
-$sammlung->print_select($musikstueck->SammlungID); 
 
-echo '</tr></label>
 <tr>    
   <label>
   <td class="eingabe">Opus:</td>  

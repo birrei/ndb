@@ -4,7 +4,7 @@ create or replace view v_select_komponist as
 select ID
     , case 
         when Vorname <> '' and Nachname <> '' 
-        then  CONCAT(COALESCE(Vorname, '') , ', ', COALESCE(Nachname, '')) 
+        then  CONCAT(COALESCE(Nachname, '') , ', ', COALESCE(Vorname, '')) 
     when COALESCE(Vorname, '') = '' and COALESCE(Nachname,'') <> '' 
         then  Nachname 
     when COALESCE(Vorname,'') <> '' and COALESCE(Nachname, '')  =''
