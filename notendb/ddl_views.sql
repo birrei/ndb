@@ -1,3 +1,22 @@
+/* Views für Auswahl-Elemente */ 
+
+create or replace view v_select_komponist as 
+select ID
+    , case 
+        when Vorname <> '' and Nachname <> '' 
+        then  CONCAT(COALESCE(Vorname, '') , ', ', COALESCE(Nachname, '')) 
+    when COALESCE(Vorname, '') = '' and COALESCE(Nachname,'') <> '' 
+        then  Nachname 
+    when COALESCE(Vorname,'') <> '' and COALESCE(Nachname, '')  =''
+        then  Vorname 
+    End Name
+    , Vorname
+    , Nachname 
+
+    from komponist;
+
+
+/******************************/
 CREATE OR REPLACE VIEW v_musikstuecke AS 
 
 SELECT  

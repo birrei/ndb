@@ -142,9 +142,11 @@ class Komponist {
     include_once("cl_db.php");  
     include_once("cl_html_select.php");
 
+    /* view v_select_komponist verwendet */
     $query="SELECT DISTINCT 
-            `ID` as KomponistID, CONCAT(`Nachname`, ', ', `Vorname`) as Name 
-            FROM `komponist` 
+            `ID` as KomponistID
+            , Name 
+            FROM `v_select_komponist` 
             order by `Nachname`"; 
 
     $conn = new DbConn(); 

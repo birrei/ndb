@@ -45,7 +45,7 @@ echo '
   <tr>    
     <label>
     <td class="eingabe">Vorname:</td>  
-    <td class="eingabe"><input type="text" name="Vorname" value="'.$komponist->Vorname.'" size="45" maxlength="80" required="required" autofocus="autofocus"></td>
+    <td class="eingabe"><input type="text" name="Vorname" value="'.$komponist->Vorname.'" size="45" maxlength="80" autofocus="autofocus"></td>
     </label>
   </tr> 
 

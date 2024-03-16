@@ -3,12 +3,6 @@
 include('head.php');
 include('cl_html_info.php');
 
-// if ("POST" == $_SERVER["REQUEST_METHOD"]) {
-//   $info= new HtmlInfo(); 
-//   $info->print_action_info($_POST["ID"], 'update'); 
-//   $info->print_close_form_info();   
-
-// }
 
 ?> 
 <h1>Komponist erfassen</h1> 
@@ -18,7 +12,7 @@ include('cl_html_info.php');
 <tr>    
     <label>
     <td class="eingabe">Vorname:</td>  
-    <td class="eingabe"><input type="text" name="Vorname" size="45" maxlength="80" required="required" autofocus="autofocus"></td>
+    <td class="eingabe"><input type="text" name="Vorname" size="45" maxlength="80" autofocus="autofocus"></td>
      </label>
    </tr> 
 
