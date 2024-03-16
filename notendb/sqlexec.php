@@ -3,6 +3,14 @@
 include("dbconnect.php");
 include('head.php');
 
+if (isset($_POST['abfrage'])) {
+     $sql = trim($_POST['abfrage']);
+}
+else {
+    $sql=""; 
+}
+
+
 ?>
 
 <table> 
@@ -10,7 +18,7 @@ include('head.php');
 <td>
     <form action="" method="post">
         <label>SQL: 
-            <textarea name="abfrage" id="abfrage" cols="70" rows="10"></textarea>
+            <textarea name="abfrage" id="abfrage" cols="70" rows="10"><?php echo $sql; ?></textarea>
         </label>
         <input type="hidden" name="aktion" value="ausfuehren">    
         <input type="submit" value="ausfuehren">
@@ -22,14 +30,13 @@ include('head.php');
 
 <?php 
 
+
 if (isset($_POST['aktion']) and $_POST['aktion']=='ausfuehren') {
-    $sql = "";
     if (isset($_POST['abfrage'])) {
-        $sql = trim($_POST['abfrage']);
  
         // $sql=explode(';', $trim($_POST['abfrage']));
 
-        echo '<p>'.$sql .'</p>';
+        // echo '<p>'.$sql .'</p>';
 
         if ($res = mysqli_query($db, $sql)) {
             echo '<p>'.$db->affected_rows . ' Zeilen betroffen</p>';
