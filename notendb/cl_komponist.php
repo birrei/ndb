@@ -141,7 +141,7 @@ class Komponist {
     $query="SELECT DISTINCT 
             `ID` as KomponistID
             , Name 
-            FROM `v_select_komponist` 
+            FROM `v_komponist` 
             order by `Nachname`"; 
 
     $conn = new DbConn(); 

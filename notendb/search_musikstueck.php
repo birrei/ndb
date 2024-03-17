@@ -73,31 +73,44 @@ if ("POST" == $_SERVER["REQUEST_METHOD"]) {
   }
 
   if ($filter ) {
-      $query='SELECT m.ID
-                ,s.Name as Sammlung
-                , s.Standort
-                , m.Nummer as Nr
-                , m.Name as Musikstueck
-                , b.Name as Besetzung
-                , v.Name as Verwendungszweck 
-              FROM musikstueck m
-              LEFT JOIN sammlung s on s.ID = m.SammlungID 
-              LEFT JOIN musikstueck_besetzung mb on m.ID = mb.MusikstueckID
-              LEFT JOIN besetzung b on mb.BesetzungID = b.ID
-              LEFT JOIN musikstueck_verwendungszweck mv on m.ID = mv.MusikstueckID 
-              LEFT JOIN verwendungszweck v on mv.VerwendungszweckID=v.ID               
-              WHERE 1=1 
-                '.($filterBesetzung!=''?' AND mb.BesetzungID '.$filterBesetzung:'').'
-                '.($filterVerwendungszweck!=''?' AND mv.VerwendungszweckID '.$filterVerwendungszweck:'').'          
-              ORDER BY s.Name, m.Nummer'; 
 
-      // echo '<pre>'.$query.'</pre>'; 
+    $query="SELECT m.ID
+        ,s.Name as Sammlung
+        , st.Name as Standort 
+        , m.Nummer as MNr
+        , m.Name as Musikstueck
+        , v.Name as Verwendungszweck 
+        , GROUP_CONCAT(DISTINCT b.Name order by b.Name SEPARATOR ', ') Besetzungen                  
+      FROM musikstueck m
+      LEFT JOIN sammlung s on s.ID = m.SammlungID 
+      LEFT JOIN standort st on s.StandortID = st.ID 
+      LEFT JOIN musikstueck_besetzung mb on m.ID = mb.MusikstueckID
+      LEFT JOIN besetzung b on mb.BesetzungID = b.ID
+      LEFT JOIN musikstueck_verwendungszweck mv on m.ID = mv.MusikstueckID 
+      LEFT JOIN verwendungszweck v on mv.VerwendungszweckID=v.ID               
+      WHERE 1=1 
+      "; 
+
+      if($filterBesetzung!=''){
+        $query.=' AND mb.BesetzungID '.$filterBesetzung; 
+      }
+      if($filterVerwendungszweck!=''){
+        $query.=' AND mv.VerwendungszweckID '.$filterVerwendungszweck; 
+      }            
+      $query.= '
+        group by 
+            m.ID  
+        ORDER BY
+            s.Name, m.Nummer'; 
+
+      // echo '<pre>'.$query.'</pre>'; // Test 
+
       $stmt = $db->prepare($query); 
 
       try {
         $stmt->execute(); 
         // $html_table= get_html_table($stmt, 'musikstueck', false); 
-        $html_table= get_html_table($stmt, 'musikstueck', true);  // Ohne Bearbeiten-Link         
+        $html_table= get_html_table($stmt);  // Ohne Bearbeiten-Link         
         echo $html_table;  
       }
       catch (PDOException $e) {

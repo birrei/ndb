@@ -2,12 +2,21 @@
 include('head.php');
 ?>
 
+<h2> Info zu abgeschlossenen Arbeiten </h2>
 <pre>
+Info zum 17.03.2024  
 
-  * 16.03.2024 
-    * Umstellung sammlung.Standort -> StandortID s. s. sql\20240316_standort.sql
-
-  * 15.03.2024
+  * 17.03.2024 - <b>Änderung <a href="search_musikstueck.php">Musikstück Such-Formular</a> Ergebnis-Tabelle:</b> 
+    Anzeige wird auf Musikstück aggregiert -> Spalte  "Besetzungen" zeigt alle Besetzungen mit Komma getrennt. 
+    So ergibt sich nur eine Zeile pro Musikstück auch bei mehreren Besetzungen 
+    
+  * 16.03.2024  <b>Sammmlung Auswahl Standort</b> 
+    * Umstellung sammlung.Standort -> StandortID s. (Repository s. sql\20240316_standort.sql) 
+    * Anpassung Anwender: 
+    * Neue Tabelle "Standort" -> Einstieg auf Startseite (und Fußteil) ergänzt 
+    * Sammlung: Standortauswahl über Klappliste 
+    
+  * 15.03.2024 <b>Verbesserung zur Auswahl / Anzeige "Komponist" </b> 
     * Neue View v_select komponist Hinterlegt für Auswahl Musikstück > Komponist
       Anzeige "Name" berücksichtigt, dass entweder Vorname oder Nachname leer sein können 
     * Komponist Nachname neu "(unbekannt)" -> ID 53
@@ -44,6 +53,28 @@ Info zum 01.03.2024
 </pre>
 
 
+<h2> In Planung  </h2>
+<pre>
+  * Such-Seite: Ergebnistabelle erweitern
+  * Such-Seite: Ergebnistabelle nach einzelnen Spalten sortierbar 
+  * Such-Seite: weitere Suchfilter 
+    * Spieldauer von bis
+    * Komponist? 
+    * Standort?  
+    * .... 
+  * Tests: 
+    * Sammlung ohne Standort bzw. Standort "XXX"
+    * Testviews Musikstück: Sammlung Name mit anzeigen 
+  * Erfassung Satz:
+    * Funktion: Feldinhalte aus anderem Satz des gleichen Musikstücks übernehmen (Checkbox "bekannte Eigenschaft übernehmen"?)   
+    * Nummer automatisch besetzen
+    * neues Feld: Aufführungsmaterial vorhanden
+    * Feld "Melodische Besonderheiten"
+    * Feld: "Rhythmische Besonderheiten"
+    * Feld "Übung"
+    * Löschfunktionen 
+
+  </pre>
 
 
 <?php 
