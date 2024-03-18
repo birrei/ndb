@@ -35,16 +35,6 @@ foreach($cmds as $cmd){
 
 }
 
-
-//   if (mysqli_query( $db, $sql)) {
-//     echo '<p>OK</p>';  
-//   }
-//   else  {
-//     echo '<p>Fehler: <br />'.pmysqli_error(); 
-//   } 
-// }
-
-
 include('foot.php');
 
 ?>

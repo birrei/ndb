@@ -1,34 +1,28 @@
 <?php
-include("dbconnect.php");
+
 include('head.php');
+include("cl_html_table.php");    
+include("cl_html_info.php");  
 
 $query = 'show tables';
 
-$res = mysqli_query($db, $query);
-$data = $res->fetch_all(MYSQLI_ASSOC);
-    
-echo '<table>';
-// Display table header
-echo '<thead>';
-echo '<tr>';
-foreach ($res->fetch_fields() as $column) {
-    echo '<th>'.htmlspecialchars($column->name).'</th>';
-}
-echo '</tr>';
-echo '</thead>';
-// If there is data then display each row
-if ($data) {
-    foreach ($data as $row) {
-        echo '<tr>';
-        foreach ($row as $cell) {
-            echo '<td><a href="show_table2.php?table='.$cell.'">'.$cell.'</a></td>';
-        }
-        echo '</tr>';
-    }
-} else {
-    echo '<tr><td colspan="'.$res->field_count.'">No records in the table!</td></tr>';
-}
-echo '</table>';
+include_once("cl_db.php");
+$conn = new DbConn(); 
+$db=$conn->db; 
+$select = $db->prepare($query); 
+      
+try {
+    $select->execute();   
+    $html = new HtmlTable($select); 
+    $html->show_table_link=True; 
+    $html->print_table(); 
+  }
+  catch (PDOException $e) {
+    $info = new HtmlInfo();      
+    $info->print_user_error(); 
+    $info->print_error($select, $e); 
+  }
+
 include('foot.php');
 
 ?>

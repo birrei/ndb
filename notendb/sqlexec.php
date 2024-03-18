@@ -1,7 +1,8 @@
 
 <?php 
-include("dbconnect.php");
 include('head.php');
+include("cl_db.php");
+
 
 if (isset($_POST['abfrage'])) {
      $sql = trim($_POST['abfrage']);
@@ -10,9 +11,7 @@ else {
     $sql=""; 
 }
 
-
 ?>
-
 <table> 
 <tr>
 <td>
@@ -29,53 +28,39 @@ else {
 
 
 <?php 
-
-
 if (isset($_POST['aktion']) and $_POST['aktion']=='ausfuehren') {
     if (isset($_POST['abfrage'])) {
- 
-        // $sql=explode(';', $trim($_POST['abfrage']));
 
-        // echo '<p>'.$sql .'</p>';
+        $sqltext = trim($_POST['abfrage']); 
 
-        if ($res = mysqli_query($db, $sql)) {
-            echo '<p>'.$db->affected_rows . ' Zeilen betroffen</p>';
-        }
+        $cmds = explode(';', $sqltext);
 
-        $sqlstring = strtolower($sql);
-
-        // echo '<p>' . $sqlstring ; 
-
-        if(substr($sqlstring, 0,6)=="select" or substr($sqlstring, 0,4)=="show")
-        {
-            // echo '$res OK ';
-            $data = $res->fetch_all(MYSQLI_ASSOC);
-       
-            echo '<table>';
-            // Display table header
-            echo '<thead>';
-            echo '<tr>';
-            foreach ($res->fetch_fields() as $column) {
-                echo '<th>'.htmlspecialchars($column->name).'</th>';
+        $conn = new DbConn(); 
+        $db=$conn->db; 
+        
+        foreach($cmds as $cmd){
+          $sql= trim($cmd); 
+          if (!empty($sql)) {
+            $stmt = $db->prepare($sql); 
+            echo '<pre>'.$sql.'</pre>'; 
+            try {    
+                $stmt->execute(); 
+                echo '<p>'.$stmt->rowCount().' Zeilen betroffen</p>'; 
+                if ($stmt->columnCount() > 0 ) {
+                    include_once("cl_html_table.php");      
+                    $html = new HtmlTable($stmt); 
+                    $html->print_table();  
+                }           
             }
-            echo '</tr>';
-            echo '</thead>';    
-
-            foreach ($data as $row) {
-                echo '<tr>';
-                foreach ($row as $cell) {
-                    echo '<td>'.htmlspecialchars($cell).'</td>';
-                }
-                echo '</tr>';
+            catch (PDOException $e) {
+                include_once("cl_html_info.php"); 
+                $info = new HtmlInfo();      
+                $info->print_user_error(); 
+                $info->print_error($stmt, $e); 
             }
-            echo '</table>';
-
-        }
-         else {
-            // echo '<p>'.$res->field_count.'">No records in the table!</p>';
-        }
-
-
+            echo '<p>/********************************************/<br />';              
+          }   
+        }        
     }
 }
 
