@@ -47,23 +47,6 @@ foreach ($tests as $test)
     $info->print_error($select, $e); 
   }
 
-    // $query='SELECT * FROM '.$test["testview"]; 
-    // // echo '<pre>'.$query.'</pre>'; 
-
-    // $stmt = $db->prepare($query); 
-    
-    // try {
-    //   $stmt->execute(); 
-    //   if ($stmt->rowCount() > 0)  {
-    //     echo '<h3>'.$test['name'].'</h3>';           
-    //     $html_table= get_html_table($stmt, $test['table'] , true); 
-    //     echo $html_table;  
-    //   }
-    // }
-    // catch (PDOException $e) {
-    //   echo get_html_user_error_info(); 
-    //   echo get_html_error_info($stmt, $e);       
-    // }
 
 }
 
