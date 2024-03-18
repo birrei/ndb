@@ -91,14 +91,6 @@ from komponist
 
 /* tmp. distinct views  */ 
 
-/* Sammlung */ 
-
-    create or REPLACE view v_tmp_Standorte as 
-    select distinct 0 as ID, Standort from sammlung
-    where Standort is not null 
-    and Standort <> ''
-    order by Standort ; 
-
 /* Musikstueck */ 
 
     create or REPLACE view v_tmp_Gattungen as 
