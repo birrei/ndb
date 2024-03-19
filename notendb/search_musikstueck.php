@@ -80,15 +80,21 @@ if ("POST" == $_SERVER["REQUEST_METHOD"]) {
         , st.Name as Standort 
         , m.Nummer as MNr
         , m.Name as Musikstueck
-        , v.Name as Verwendungszweck 
-        , GROUP_CONCAT(DISTINCT b.Name order by b.Name SEPARATOR ', ') Besetzungen                  
+        , GROUP_CONCAT(DISTINCT b.Name order by b.Name SEPARATOR ', ') Besetzungen
+        , GROUP_CONCAT(DISTINCT v.Name order by v.Name SEPARATOR ', ') Verwendungszwecke   
+        , GROUP_CONCAT(DISTINCT sa.Name order by sa.Name SEPARATOR ', ') Saetze                 
       FROM musikstueck m
       LEFT JOIN sammlung s on s.ID = m.SammlungID 
       LEFT JOIN standort st on s.StandortID = st.ID 
       LEFT JOIN musikstueck_besetzung mb on m.ID = mb.MusikstueckID
       LEFT JOIN besetzung b on mb.BesetzungID = b.ID
       LEFT JOIN musikstueck_verwendungszweck mv on m.ID = mv.MusikstueckID 
-      LEFT JOIN verwendungszweck v on mv.VerwendungszweckID=v.ID               
+      LEFT JOIN verwendungszweck v on mv.VerwendungszweckID=v.ID    
+      /* */
+      LEFT JOIN satz sa on sa.MusikstueckID = m.ID 
+
+
+
       WHERE 1=1 
       "; 
 

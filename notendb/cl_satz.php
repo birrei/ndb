@@ -218,16 +218,14 @@ class Satz {
           inner join strichart sa
             on ssa.StrichartID=sa.ID   
           WHERE ssa.SatzID = :SatzID 
-          ORDER by sa.Name"; 
-
-
+          ORDER by ssa.ID DESC"; 
 
     include_once("cl_db.php");
     $conn = new DbConn(); 
     $db=$conn->db; 
   
     $stmt = $db->prepare($query); 
-    $stmt->bindParam(':SatzID', $_GET["SatzID"], PDO::PARAM_INT); 
+    $stmt->bindParam(':SatzID', $this->ID, PDO::PARAM_INT); 
 
     try {
       $stmt->execute(); 
