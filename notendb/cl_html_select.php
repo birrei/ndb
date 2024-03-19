@@ -10,6 +10,7 @@ class HtmlSelect {
         $this->result = $stmt->fetchAll(PDO::FETCH_KEY_PAIR);
         $this->count_cols=$stmt->columnCount(); 
         $this->count_rows = count($this->result); 
+        // echo '<p>Anzahl Zeilen: '.$this->count_rows; 
     }
    
     function print_select($keyname, $value_selected='', $add_null_option=true) {
@@ -25,9 +26,31 @@ class HtmlSelect {
             $html .= '</select>';
         }
         echo $html;
-      }    
+    }    
 
-    }
+    function print_select_multi($id, $keyname, $options_selected=[]) {
+        $html = '';
+        // $row_count=sizeof($this->stmt); 
+        if ($this->count_rows > 0) {
+            $html = '<select id="'.$id.'" name="'.$keyname.'" multiple size="'.$this->count_rows.'">' . PHP_EOL;     
+            foreach($this->result as $key => $title) {
+                $html .= ' <option value="' . $key .'"'.(in_array($key,$options_selected)?' selected':'').'>' . $title . '</option>'. PHP_EOL;
+             }
+            $html .= '</select>';
+        }
+        $html .='<br/><input type="button" id="btnReset_'.$id.'" value="Filter zurücksetzen" onclick="Reset_'.$id.'();" />  
+             <script type="text/javascript">  
+                function Reset_'.$id.'() {  
+                var dropDown = document.getElementById("'.$id.'");  
+                dropDown.selectedIndex = -1;  
+            }  
+        </script>';
+    
+        echo $html;
+    }    
+
+
+}
 
 
 ?>

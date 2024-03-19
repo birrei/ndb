@@ -15,6 +15,9 @@
     echo '<p>'.$table_edit; 
 
 
+      // echo '<pre>'.$query.'</pre>'; // Test 
+
+
 /* Klassen testen */
 
     // include_once('cl_verlag.php'); 

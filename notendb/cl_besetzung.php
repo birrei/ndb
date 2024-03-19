@@ -62,6 +62,36 @@ class Besetzung {
     }
   }
 
+  function print_select_multi($options_selected=[]){
+
+    include_once("cl_db.php");  
+    include_once("cl_html_select.php");
+
+    $query="SELECT ID, Name 
+            FROM `besetzung` 
+            order by `Name`"; 
+
+    $conn = new DbConn(); 
+    $db=$conn->db; 
+
+    $stmt = $db->prepare($query); 
+
+    try {
+      $stmt->execute(); 
+      $html = new HtmlSelect($stmt); 
+      $html->print_select_multi('Besetzung', 'Besetzungen[]', $options_selected); 
+    }
+    catch (PDOException $e) {
+      include_once("ctl_html_info.php"); 
+      $info = new HtmlInfo();      
+      $info->print_user_error(); 
+      $info->print_error($stmt, $e); 
+    }
+  }
+
+
+
+
   function print_table(){
 
     $query="SELECT * from besetzung ORDER by ID DESC"; 

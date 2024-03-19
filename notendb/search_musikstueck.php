@@ -1,8 +1,16 @@
 
 <?php 
 include('head.php');
-include('snippets.php');
-include("dbconnect_pdo.php");
+// include('snippets.php');
+// include("dbconnect_pdo.php");
+
+include("cl_html_table.php");    
+include("cl_html_info.php");  
+
+include("cl_besetzung.php");  
+include("cl_verwendungszweck.php"); 
+include("cl_db.php");
+
 
 $table='besetzung'; 
 
@@ -20,27 +28,20 @@ if ("POST" == $_SERVER["REQUEST_METHOD"]) {
 ?> 
 
 <form action="search_musikstueck.php" method="post">
-
 <table class="eingabe"> 
-
 <tr>    
     <td class="eingabe">Wähle eine oder mehrere Besetzungen aus: <br>  <br>  
-        <!-- select Besetzung  --> 
         <?php 
-          $select = $db->query("SELECT DISTINCT `ID` as BesetzungID, `Name` FROM `besetzung` order by `Name`");
-          $options = $select->fetchAll(PDO::FETCH_KEY_PAIR);
-          $html = get_html_select_multi('Besetzung', $options, 'Besetzungen[]', $Besetzungen); // s. snippets.php
-          echo $html;
+            $besetzung = new Besetzung();
+            $besetzung->print_select_multi($Besetzungen); 
         ?>
     </td>
  
     <td class="eingabe">Wähle einen oder mehrere Verwendungszwecke aus: <br>  <br>  
-        <!-- select Verwendungszweck  --> 
         <?php 
-          $select = $db->query("SELECT DISTINCT `ID` as BesetzungID, `Name` FROM `verwendungszweck` order by `Name`");
-          $options = $select->fetchAll(PDO::FETCH_KEY_PAIR);
-          $html = get_html_select_multi('Verwendungszweck', $options, 'Verwendungszwecke[]',$Verwendungszwecke); // s. snippets.php
-          echo $html;
+            $verwendungszweck = new Verwendungszweck();
+            $verwendungszweck->print_select_multi($Verwendungszwecke);         
+          echo ''; 
         ?>
     </td>
   
@@ -74,7 +75,7 @@ if ("POST" == $_SERVER["REQUEST_METHOD"]) {
 
   if ($filter ) {
 
-    $query="SELECT m.ID
+    $query="SELECT s.ID
         ,s.Name as Sammlung
         , st.Name as Standort 
         , m.Nummer as MNr
@@ -105,18 +106,26 @@ if ("POST" == $_SERVER["REQUEST_METHOD"]) {
 
       // echo '<pre>'.$query.'</pre>'; // Test 
 
-      $stmt = $db->prepare($query); 
-
+      include_once("cl_db.php");
+      $conn = new DbConn(); 
+      $db=$conn->db; 
+      
+      $select = $db->prepare($query); 
+        
       try {
-        $stmt->execute(); 
-        // $html_table= get_html_table($stmt, 'musikstueck', false); 
-        $html_table= get_html_table($stmt);  // Ohne Bearbeiten-Link         
-        echo $html_table;  
+        $select->execute(); 
+        include_once("cl_html_table.php");      
+        $html = new HtmlTable($select); 
+        $html->print_table('sammlung', True); 
       }
       catch (PDOException $e) {
-        echo get_html_user_error_info(); 
-        echo get_html_error_info($stmt, $e);       
+        include_once("ctl_html_info.php"); 
+        $info = new HtmlInfo();      
+        $info->print_user_error(); 
+        $info->print_error($select, $e); 
       }
+      
+
     }
     else {
           echo '<p>Es wurde kein Filter gesetzt. </p>'; 
