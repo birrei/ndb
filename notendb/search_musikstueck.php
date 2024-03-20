@@ -1,20 +1,18 @@
 
 <?php 
 include('head.php');
-// include('snippets.php');
-// include("dbconnect_pdo.php");
+include("cl_db.php");
 
 include("cl_html_table.php");    
 include("cl_html_info.php");  
 
 include("cl_besetzung.php");  
 include("cl_verwendungszweck.php"); 
-include("cl_db.php");
-
-
+include("cl_standort.php"); 
 
 $Besetzungen=[]; 
 $Verwendungszwecke=[]; 
+$Standorte=[]; 
 
 if (isset($_POST['Ebene'])) {
   $Ebene=$_POST["Ebene"]; 
@@ -29,20 +27,23 @@ if ("POST" == $_SERVER["REQUEST_METHOD"]) {
   if (isset($_REQUEST['Verwendungszwecke'])) {
     $Verwendungszwecke = $_REQUEST['Verwendungszwecke'];   
   }  
+  if (isset($_REQUEST['Standorte'])) {
+    $Standorte = $_REQUEST['Standorte'];   
+  }  
 }
 ?> 
 
 <form action="search_musikstueck.php" method="post">
 <table class="eingabe"> 
 <tr>    
-    <td class="eingabe">Wähle eine oder mehrere Besetzungen aus: <br>  <br>  
+    <td class="eingabe"><b>Besetzung(en):</b> <br>   
         <?php 
             $besetzung = new Besetzung();
             $besetzung->print_select_multi($Besetzungen); 
         ?>
     </td>
  
-    <td class="eingabe">Wähle einen oder mehrere Verwendungszwecke aus: <br>  <br>  
+    <td class="eingabe"><b>Verwendungszweck(e):</b> <br>   
         <?php 
             $verwendungszweck = new Verwendungszweck();
             $verwendungszweck->print_select_multi($Verwendungszwecke);         
@@ -50,11 +51,18 @@ if ("POST" == $_SERVER["REQUEST_METHOD"]) {
         ?>
     </td>
   
+    <td class="eingabe"><b>Standort(e):</b> <br>   
+        <?php 
+            $standort = new Standort();
+            $standort->print_select_multi($Standorte);         
+          echo ''; 
+        ?>
+    </td>
+      
   </tr> 
-
 </table> 
 
-<fieldset>Aggegationsebene: 
+<fieldset>Ebene: 
     <input type="radio" id="sm" name="Ebene" value="Sammlung" <?php echo ($Ebene=='Sammlung'?'checked':'') ?>>
     <label for="sm">Sammlung</label> 
     <input type="radio" id="mu" name="Ebene" value="Musikstueck" <?php echo ($Ebene=='Musikstueck'?'checked':'') ?>> 
@@ -68,12 +76,12 @@ if ("POST" == $_SERVER["REQUEST_METHOD"]) {
 
 </form>
 
-
-
 <?php
-  $filter=false; // Prüfung, ob ein Filter gesetzt ist (wenn nicht -> keine Daten anzeigen)  
+  $filter=false; 
+
   $filterBesetzung=''; 
-  $filterVerwendungszweck='';   
+  $filterVerwendungszweck='';
+  $filterStandorte='';     
   
   if ("POST" == $_SERVER["REQUEST_METHOD"]) {
     if (isset($_REQUEST['Besetzungen'])) {
@@ -86,6 +94,11 @@ if ("POST" == $_SERVER["REQUEST_METHOD"]) {
       $filterVerwendungszweck = 'IN ('.implode(',', $Verwendungszwecke).')'; 
       $filter=true; 
     }
+    if (isset($_REQUEST['Standorte'])) {
+      $filterStandorte = $_REQUEST['Standorte'];   
+      $filterStandorte = 'IN ('.implode(',', $Standorte).')'; 
+      $filter=true; 
+    }    
   }
 
   if (isset($_POST['Ebene'])) {
@@ -104,7 +117,7 @@ if ("POST" == $_SERVER["REQUEST_METHOD"]) {
             ,s.Name as Sammlung
             , st.Name as Standort
             , GROUP_CONCAT(DISTINCT m.Name order by m.Name SEPARATOR ', ') Musikstuecke
-            , GROUP_CONCAT(DISTINCT b.Name order by b.Name SEPARATOR ', ') Besetzungen
+           , GROUP_CONCAT(DISTINCT b.Name order by b.Name SEPARATOR ', ') Besetzungen
             , GROUP_CONCAT(DISTINCT v.Name order by v.Name SEPARATOR ', ') Verwendungszwecke   
             ";
 
@@ -117,7 +130,7 @@ if ("POST" == $_SERVER["REQUEST_METHOD"]) {
             , m.Name as Musikstueck
             , GROUP_CONCAT(DISTINCT b.Name order by b.Name SEPARATOR ', ') Besetzungen
             , GROUP_CONCAT(DISTINCT v.Name order by v.Name SEPARATOR ', ') Verwendungszwecke   
-            , GROUP_CONCAT(DISTINCT sa.Name order by sa.Name SEPARATOR ', ') Saetze                 
+            , GROUP_CONCAT(DISTINCT sa.Name order by sa.Nr SEPARATOR ', ') Saetze                 
             ";         
         break; 
       case 'Satz': 
@@ -127,8 +140,8 @@ if ("POST" == $_SERVER["REQUEST_METHOD"]) {
             , m.Nummer as MNr
             , m.Name as Musikstueck
             , sa.Name as Satz 
-            , GROUP_CONCAT(DISTINCT b.Name order by b.Name SEPARATOR ', ') Besetzungen
-            , GROUP_CONCAT(DISTINCT v.Name order by v.Name SEPARATOR ', ') Verwendungszwecke                  
+            -- , GROUP_CONCAT(DISTINCT b.Name order by b.Name SEPARATOR ', ') Besetzungen
+            -- , GROUP_CONCAT(DISTINCT v.Name order by v.Name SEPARATOR ', ') Verwendungszwecke                  
             ";            
         break;      
 
@@ -136,8 +149,8 @@ if ("POST" == $_SERVER["REQUEST_METHOD"]) {
 
 
     $query.="
-      FROM musikstueck m
-      LEFT JOIN sammlung s on s.ID = m.SammlungID 
+      FROM sammlung s 
+      LEFT JOIN musikstueck m on s.ID = m.SammlungID 
       LEFT JOIN standort st on s.StandortID = st.ID 
       LEFT JOIN musikstueck_besetzung mb on m.ID = mb.MusikstueckID
       LEFT JOIN besetzung b on mb.BesetzungID = b.ID
@@ -147,11 +160,25 @@ if ("POST" == $_SERVER["REQUEST_METHOD"]) {
       WHERE 1=1 
       ". PHP_EOL; 
 
+      /*   */
+      switch ($Ebene){    
+        case 'Musikstueck': 
+          $query.=" AND m.ID IS NOT NULL ". PHP_EOL;         
+          break; 
+        case 'Satz': 
+          $query.=" AND sa.ID IS NOT NULL ". PHP_EOL;             
+          break;      
+      }
+
+     /* Filter ergänzen */     
       if($filterBesetzung!=''){
         $query.=' AND mb.BesetzungID '.$filterBesetzung. PHP_EOL; 
       }
       if($filterVerwendungszweck!=''){
         $query.=' AND mv.VerwendungszweckID '.$filterVerwendungszweck. PHP_EOL; 
+      }
+      if($filterStandorte!=''){
+        $query.=' AND  s.StandortID '.$filterStandorte. PHP_EOL; 
       }
 
       /* Gruppierung abhängig von Ebene  */

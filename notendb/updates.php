@@ -4,6 +4,14 @@ include('head.php');
 
 <h2> Info zu abgeschlossenen Arbeiten </h2>
 <pre>
+  * aktuell: Ergänzungen für <a href="search_musikstueck.php">Musikstück Such-Formular</a>: 
+   * Auswahl Ebene. Die Auswahl hat Einfluss auf die angezeigten Spalten, die Gruppierung sowie die Sortierung 
+   * Optimierung SQL-Query im Suchformular 
+   * Ergänzung weiterer Auswahl-Felder  
+
+
+------------------------
+
 Info zum 17.03.2024  
 
   * 17.03.2024 - <b>Änderung <a href="search_musikstueck.php">Musikstück Such-Formular</a> Ergebnis-Tabelle:</b> 
