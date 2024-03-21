@@ -93,7 +93,7 @@ class Sammlung {
             `Name`     = :Name,
             `VerlagID`     = :VerlagID,   
             `StandortID`     = :StandortID,                              
-            `Bestellnummer`     = :Bemerkung,   
+            `Bestellnummer`     = :Bestellnummer,   
             `Bemerkung`     = :Bemerkung                               
             WHERE `ID` = :ID");           
 

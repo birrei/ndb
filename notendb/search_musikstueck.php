@@ -9,10 +9,16 @@ include("cl_html_info.php");
 include("cl_besetzung.php");  
 include("cl_verwendungszweck.php"); 
 include("cl_standort.php"); 
+include("cl_komponist.php"); 
+include("cl_strichart.php"); 
+include("cl_verlag.php"); 
 
-$Besetzungen=[]; 
-$Verwendungszwecke=[]; 
-$Standorte=[]; 
+$Standorte=[];   /* Sammlung */
+$Verlage=[];   /* Sammlung */
+$Komponisten=[];   /* Musikstück  */  
+$Besetzungen=[];   /* Musikstück  */  
+$Verwendungszwecke=[];   /* Musikstück  */  
+$Stricharten=[];  /* Satz  */
 
 if (isset($_POST['Ebene'])) {
   $Ebene=$_POST["Ebene"]; 
@@ -21,69 +27,123 @@ if (isset($_POST['Ebene'])) {
 }
 
 if ("POST" == $_SERVER["REQUEST_METHOD"]) {
+  if (isset($_REQUEST['Standorte'])) {
+    $Standorte = $_REQUEST['Standorte'];   
+  }
+  if (isset($_REQUEST['Verlage'])) {
+    $Verlage = $_REQUEST['Verlage'];   
+  }     
+  if (isset($_REQUEST['Komponisten'])) {
+    $Komponisten = $_REQUEST['Komponisten'];      
+  }   
   if (isset($_REQUEST['Besetzungen'])) {
     $Besetzungen = $_REQUEST['Besetzungen'];      
   }
   if (isset($_REQUEST['Verwendungszwecke'])) {
     $Verwendungszwecke = $_REQUEST['Verwendungszwecke'];   
   }  
-  if (isset($_REQUEST['Standorte'])) {
-    $Standorte = $_REQUEST['Standorte'];   
-  }  
+  if (isset($_REQUEST['Stricharten'])) {
+    $Stricharten = $_REQUEST['Stricharten'];   
+  }    
 }
 ?> 
-
 <form action="search_musikstueck.php" method="post">
-<table class="eingabe"> 
+<table> 
 <tr>    
-    <td class="eingabe"><b>Besetzung(en):</b> <br>   
-        <?php 
-            $besetzung = new Besetzung();
-            $besetzung->print_select_multi($Besetzungen); 
-        ?>
-    </td>
- 
-    <td class="eingabe"><b>Verwendungszweck(e):</b> <br>   
-        <?php 
-            $verwendungszweck = new Verwendungszweck();
-            $verwendungszweck->print_select_multi($Verwendungszwecke);         
-          echo ''; 
-        ?>
-    </td>
-  
-    <td class="eingabe"><b>Standort(e):</b> <br>   
+    <td class="selectboxes"><b>Standort(e):</b> <br>   
         <?php 
             $standort = new Standort();
             $standort->print_select_multi($Standorte);         
           echo ''; 
         ?>
     </td>
-      
-  </tr> 
+    <td class="selectboxes"><b>Verlag(e):</b> <br>   
+    <?php 
+            $verlag = new Verlag();
+            $verlag->print_select_multi($Verlage);         
+          echo ''; 
+        ?>
+    </td>
+    <td class="selectboxes">
+    <!-- --> 
+    </td>
+</tr>
+
+<tr>
+    <td class="selectboxes"><b>Besetzung(en):</b> <br>   
+        <?php 
+            $besetzung = new Besetzung();
+            $besetzung->print_select_multi($Besetzungen); 
+        ?>
+    </td> 
+    <td class="selectboxes"><b>Verwendungszweck(e):</b> <br>   
+        <?php 
+            $verwendungszweck = new Verwendungszweck();
+            $verwendungszweck->print_select_multi($Verwendungszwecke);         
+          echo ''; 
+        ?>
+    </td>  
+    <td class="selectboxes"><b>Komponist(en):</b> <br>   
+        <?php 
+            $komponist = new Komponist();
+            $komponist->print_select_multi($Komponisten);         
+          echo ''; 
+        ?>
+    </td>  
+</tr> 
+
+<tr>
+    <td class="selectboxes"><b>Strichart(en):</b> <br>
+    <?php 
+            $strichart = new Strichart();
+            $strichart->print_select_multi($Stricharten);         
+          echo ''; 
+        ?>
+    </td>
+<td class="selectboxes"></td>
+<td class="selectboxes"></td>
+</tr>
 </table> 
 
 <fieldset>Ebene: 
     <input type="radio" id="sm" name="Ebene" value="Sammlung" <?php echo ($Ebene=='Sammlung'?'checked':'') ?>>
     <label for="sm">Sammlung</label> 
     <input type="radio" id="mu" name="Ebene" value="Musikstueck" <?php echo ($Ebene=='Musikstueck'?'checked':'') ?>> 
-    <label for="mi">Musikstück</label>
+    <label for="mu">Musikstück</label>
     <input type="radio" id="st" name="Ebene" value="Satz" <?php echo ($Ebene=='Satz'?'checked':'') ?>>
     <label for="st">Satz</label> 
   </fieldset>
-
-
-<p> <input type="submit" value="Suchen"></p> 
+<p>
+  <input type="submit" value="Suchen" style="font-weight: bold;width:50%"></p> 
 
 </form>
 
 <?php
   $filter=false; 
 
+  $filterStandorte='';   
+  $filterVerlage='';   
   $filterBesetzung=''; 
   $filterVerwendungszweck='';
-  $filterStandorte='';     
+  $filterKomponisten='';   
+  $filterStricharten='';   
   
   if ("POST" == $_SERVER["REQUEST_METHOD"]) {
+    if (isset($_REQUEST['Standorte'])) {
+      $Standorte = $_REQUEST['Standorte'];   
+      $filterStandorte = 'IN ('.implode(',', $Standorte).')'; 
+      $filter=true; 
+    }
+    if (isset($_REQUEST['Verlage'])) {
+      $Verlage = $_REQUEST['Verlage'];   
+      $filterVerlage = 'IN ('.implode(',', $Verlage).')'; 
+      $filter=true; 
+    }             
+    if (isset($_REQUEST['Komponisten'])) {
+      $Komponisten = $_REQUEST['Komponisten'];   
+      $filterKomponisten = 'IN ('.implode(',', $Komponisten).')'; 
+      $filter=true; 
+    }      
     if (isset($_REQUEST['Besetzungen'])) {
       $Besetzungen = $_REQUEST['Besetzungen'];
       $filterBesetzung = 'IN ('.implode(',', $Besetzungen).')'; 
@@ -94,11 +154,11 @@ if ("POST" == $_SERVER["REQUEST_METHOD"]) {
       $filterVerwendungszweck = 'IN ('.implode(',', $Verwendungszwecke).')'; 
       $filter=true; 
     }
-    if (isset($_REQUEST['Standorte'])) {
-      $filterStandorte = $_REQUEST['Standorte'];   
-      $filterStandorte = 'IN ('.implode(',', $Standorte).')'; 
+    if (isset($_REQUEST['Stricharten'])) {
+      $Stricharten = $_REQUEST['Stricharten'];   
+      $filterStricharten = 'IN ('.implode(',', $Stricharten).')'; 
       $filter=true; 
-    }    
+    }
   }
 
   if (isset($_POST['Ebene'])) {
@@ -116,8 +176,9 @@ if ("POST" == $_SERVER["REQUEST_METHOD"]) {
         $query.="SELECT s.ID
             ,s.Name as Sammlung
             , st.Name as Standort
-            , GROUP_CONCAT(DISTINCT m.Name order by m.Name SEPARATOR ', ') Musikstuecke
-           , GROUP_CONCAT(DISTINCT b.Name order by b.Name SEPARATOR ', ') Besetzungen
+            , verlag.Name as Verlag
+            , GROUP_CONCAT(DISTINCT m.Name order by m.Nummer SEPARATOR ', ') Musikstuecke
+            , GROUP_CONCAT(DISTINCT b.Name order by b.Name SEPARATOR ', ') Besetzungen
             , GROUP_CONCAT(DISTINCT v.Name order by v.Name SEPARATOR ', ') Verwendungszwecke   
             ";
 
@@ -128,6 +189,7 @@ if ("POST" == $_SERVER["REQUEST_METHOD"]) {
             , st.Name as Standort
             , m.Nummer as MNr
             , m.Name as Musikstueck
+            , k.Name as Komponist 
             , GROUP_CONCAT(DISTINCT b.Name order by b.Name SEPARATOR ', ') Besetzungen
             , GROUP_CONCAT(DISTINCT v.Name order by v.Name SEPARATOR ', ') Verwendungszwecke   
             , GROUP_CONCAT(DISTINCT sa.Name order by sa.Nr SEPARATOR ', ') Saetze                 
@@ -139,9 +201,10 @@ if ("POST" == $_SERVER["REQUEST_METHOD"]) {
             , st.Name as Standort
             , m.Nummer as MNr
             , m.Name as Musikstueck
+            , k.Name as Komponist            
+            , sa.Nr as SatzNr
             , sa.Name as Satz 
-            -- , GROUP_CONCAT(DISTINCT b.Name order by b.Name SEPARATOR ', ') Besetzungen
-            -- , GROUP_CONCAT(DISTINCT v.Name order by v.Name SEPARATOR ', ') Verwendungszwecke                  
+            , GROUP_CONCAT(DISTINCT str.Name order by str.Name SEPARATOR ', ') Stricharten                
             ";            
         break;      
 
@@ -150,13 +213,18 @@ if ("POST" == $_SERVER["REQUEST_METHOD"]) {
 
     $query.="
       FROM sammlung s 
+      LEFT JOIN standort st on s.StandortID = st.ID    
+      LEFT JOIN verlag  on s.VerlagID = verlag.ID            
       LEFT JOIN musikstueck m on s.ID = m.SammlungID 
-      LEFT JOIN standort st on s.StandortID = st.ID 
+      LEFT JOIN v_komponist k on k.ID = m.KomponistID       
       LEFT JOIN musikstueck_besetzung mb on m.ID = mb.MusikstueckID
       LEFT JOIN besetzung b on mb.BesetzungID = b.ID
       LEFT JOIN musikstueck_verwendungszweck mv on m.ID = mv.MusikstueckID 
       LEFT JOIN verwendungszweck v on mv.VerwendungszweckID=v.ID    
       LEFT JOIN satz sa on sa.MusikstueckID = m.ID 
+      LEFT JOIN satz_strichart ssa on ssa.satzID = sa.ID
+      LEFT JOIN strichart str on ssa.StrichartID = str.ID 
+                          
       WHERE 1=1 
       ". PHP_EOL; 
 
@@ -170,16 +238,26 @@ if ("POST" == $_SERVER["REQUEST_METHOD"]) {
           break;      
       }
 
-     /* Filter ergänzen */     
+     /* Filter ergänzen */   
+      if($filterStandorte!=''){
+        $query.=' AND s.StandortID '.$filterStandorte. PHP_EOL; 
+      } 
+      if($filterVerlage!=''){
+        $query.=' AND s.VerlagID '.$filterVerlage. PHP_EOL; 
+      }       
+      if($filterKomponisten!=''){
+        $query.=' AND m.KomponistID '.$filterKomponisten. PHP_EOL; 
+      }            
       if($filterBesetzung!=''){
         $query.=' AND mb.BesetzungID '.$filterBesetzung. PHP_EOL; 
       }
       if($filterVerwendungszweck!=''){
         $query.=' AND mv.VerwendungszweckID '.$filterVerwendungszweck. PHP_EOL; 
       }
-      if($filterStandorte!=''){
-        $query.=' AND  s.StandortID '.$filterStandorte. PHP_EOL; 
+      if($filterStricharten!=''){
+        $query.=' AND ssa.StrichartID '.$filterStricharten. PHP_EOL; 
       }
+
 
       /* Gruppierung abhängig von Ebene  */
       switch ($Ebene){    

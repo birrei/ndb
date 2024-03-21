@@ -10,8 +10,11 @@ th, td {
     vertical-align: top;
 }
 
-
 .eingabe  {
     border: 1px solid white;
+    border-collapse: collapse; 
+}
+td.selectboxes  {
+    border: 1px solid grey;
     border-collapse: collapse; 
 }
