@@ -2,13 +2,13 @@
 include('head.php');
 ?>
 
-<h2> Info zu abgeschlossenen Arbeiten </h2>
+<h2> (Anwender-) Infos zum Stand</h2>
 <pre>
-  * aktuell: Ergänzungen für <a href="search_musikstueck.php">Musikstück Such-Formular</a>: 
+zum nächsten Termin: 
+  * Musikstück > Gattung als Untertabelle 
+  * Ergänzungen für Musikstück Such-Formular: 
    * Auswahl Ebene. Die Auswahl hat Einfluss auf die angezeigten Spalten, die Gruppierung sowie die Sortierung 
-   * Optimierung SQL-Query im Suchformular 
-   * Ergänzung weiterer Auswahl-Felder  
-
+   * Ergänzung weiterer Auswahl-Boxen, neueste: Auswahl Gattung 
 
 ------------------------
 
@@ -57,33 +57,9 @@ Info zum 01.03.2024
   
   * 27.02.2024: Musikstück > Verwendungszweck Mehrfachauswahl  
 
-
 </pre>
 
-
-<h2> In Planung  </h2>
-<pre>
-  * Such-Seite: Ergebnistabelle erweitern
-  * Such-Seite: Ergebnistabelle nach einzelnen Spalten sortierbar 
-  * Such-Seite: weitere Suchfilter 
-    * Spieldauer von bis
-    * Komponist? 
-    * Standort?  
-    * .... 
-  * Tests: 
-    * Sammlung ohne Standort bzw. Standort "XXX"
-    * Testviews Musikstück: Sammlung Name mit anzeigen 
-  * Erfassung Satz:
-    * Funktion: Feldinhalte aus anderem Satz des gleichen Musikstücks übernehmen (Checkbox "bekannte Eigenschaft übernehmen"?)   
-    * Nummer automatisch besetzen
-    * neues Feld: Aufführungsmaterial vorhanden
-    * Feld "Melodische Besonderheiten"
-    * Feld: "Rhythmische Besonderheiten"
-    * Feld "Übung"
-    * Löschfunktionen 
-
-  </pre>
-
+Aufaben Planung und laufendes Protokoll: <a href="https://github.com/birrei/ndb/blob/main/notendb/aufgaben.md">Aufgaben</a>
 
 <?php 
 include('foot.php');

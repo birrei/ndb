@@ -108,4 +108,4 @@ Umwandlung Feld satz.Stricharten zu Unterauswahl
 
 /* altes Feld "stricharten" entfernen */
 
-ALTER TABLE `satz` DROP `Stricharten`;
+-- ALTER TABLE `satz` DROP `Stricharten`;

@@ -231,8 +231,8 @@ class Satz {
       $stmt->execute(); 
       include_once("cl_html_table.php");      
       $html = new HtmlTable($stmt); 
-      $html->print_table($this->table_name, true); 
-      
+      // $html->print_table($this->table_name, true); 
+      $html->print_table(); 
     }
     catch (PDOException $e) {
       include_once("cl_html_info.php"); 

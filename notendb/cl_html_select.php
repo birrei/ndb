@@ -33,7 +33,7 @@ class HtmlSelect {
         // $row_count=sizeof($this->stmt); 
         if ($this->count_rows > 0) {
             // $html = '<select id="'.$id.'" name="'.$keyname.'" multiple size="'.$this->count_rows.'">' . PHP_EOL;  
-            $html = '<select multiple id="'.$id.'" name="'.$keyname.'" size="5"'.PHP_EOL;    // Anzeige auf 10 Einträge begrenzen  
+            $html = '<select multiple id="'.$id.'" name="'.$keyname.'" size="5">'.PHP_EOL;    // Anzeige auf 10 Einträge begrenzen  
             foreach($this->result as $key => $title) {
                 $html .= ' <option value="' . $key .'"'.(in_array($key,$options_selected)?' selected':'').'>' . $title . '</option>'. PHP_EOL;
              }

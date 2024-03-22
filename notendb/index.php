@@ -13,13 +13,13 @@ include('head.php');
 </tr>
 <tr>
     <td><b>Musikstück</b></td>
-    <td><a href="show_table2.php?table=musikstueck" target="_blank">Daten anzeigen</a></td>
+    <td><a href="show_table2.php?table=v_musikstueck" target="_blank">Daten anzeigen</a></td>
     <td>Erfassung über Sammlung</td>
 </tr>
 
 <tr>
     <td><b>Satz</b></td>
-    <td><a href="show_table2.php?table=satz" target="_blank">Daten anzeigen</a></td>
+    <td><a href="show_table2.php?table=v_satz" target="_blank">Daten anzeigen</a></td>
     <td>Erfassung über Musikstück</td>
 </tr>
 
@@ -49,6 +49,11 @@ include('head.php');
     <td><b>Besetzung</b></td>
     <td><a href="show_table2.php?table=besetzung" target="_blank">Daten anzeigen</a></td>
     <td><a href="insert_besetzung.php" target="_blank">Neu erfassen</a></td>
+</tr>
+<tr>
+    <td><b>Gattung</b></td>
+    <td><a href="show_table2.php?table=gattung" target="_blank">Daten anzeigen</a></td>
+    <td><a href="insert_gattung.php" target="_blank">Neu erfassen</a></td>
 </tr>
 
 <tr>

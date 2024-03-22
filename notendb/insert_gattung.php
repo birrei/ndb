@@ -3,9 +3,9 @@
 include('head.php');
 ?> 
 
-<h1>Strichart erfassen</h1> 
+<h1>Gattung erfassen</h1> 
 
-<form action="insert_strichart.php" method="post">
+<form action="insert_gattung.php" method="post">
 
 <table class="eingabe"> 
   <tr>    
@@ -25,14 +25,13 @@ include('head.php');
 
 <?php
 
-include_once('cl_strichart.php'); 
-$strichart = new Strichart();
+include_once('cl_gattung.php'); 
+$gattung = new Gattung();
 if ("POST" == $_SERVER["REQUEST_METHOD"]) {
-    $strichart->insert_row($_POST["Name"]); 
+    $gattung->insert_row($_POST["Name"]); 
 }   
 
-$strichart->print_table();   
-
+$gattung->print_table();   
 
 include('foot.php');
 

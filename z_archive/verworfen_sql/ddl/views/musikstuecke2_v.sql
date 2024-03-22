@@ -22,6 +22,7 @@ select
     LEFT join  verlag  AS v on sa.VerlagID = v.ID 
     left join musikstueck_besetzung mb on m.ID = mb.MusikstueckID
     left join besetzung b on mb.BesetzungID = b.ID
+    
  group by m.ID 
 
 

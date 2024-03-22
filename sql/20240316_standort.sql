@@ -45,6 +45,17 @@
 
 
 
+
+ALTER TABLE `sammlung` CHANGE `StandortID` `StandortID` INT(11) UNSIGNED NULL DEFAULT NULL;
+
+ALTER TABLE `sammlung` 
+ADD  FOREIGN KEY (`StandortID`) 
+REFERENCES `standort`(`ID`) 
+ON DELETE RESTRICT ON UPDATE RESTRICT;
+
+
+
+
 /* 
 to-do: 
 

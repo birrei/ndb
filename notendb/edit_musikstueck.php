@@ -4,6 +4,7 @@ include('head.php');
 include("cl_musikstueck.php");
 include("cl_komponist.php");
 include("cl_sammlung.php");
+include("cl_gattung.php");
 include('cl_html_info.php');
 
 $musikstueck = new Musikstueck();
@@ -22,7 +23,7 @@ if (isset($_POST["senden"])) {
                     , $_POST["SammlungID"]
                     , $_POST["KomponistID"]
                     , $_POST["Opus"]
-                    , $_POST["Gattung"]
+                    , $_POST["GattungID"]
                     , $_POST["Bearbeiter"]
                     , $_POST["Epoche"]
                     , $_POST["JahrAuffuehrung"]
@@ -74,8 +75,7 @@ echo '</tr></label>
 <tr>    
 <label>
 <td class="eingabe">Komponist:</td>  
-<td class="eingabe">
-<!-- Auswahlliste Komponist  -->         
+<td class="eingabe">    
 '; 
   $komponisten = new Komponist();
   $komponisten->print_select($musikstueck->KomponistID); 
@@ -108,12 +108,17 @@ echo  '</td>
 
 <tr>    
 <label>
-<td class="eingabe">Gattung:</td>  
-<td class="eingabe"><input type="text" name="Gattung" value="'.$musikstueck->Gattung.'" size="45" maxlength="80" autofocus="autofocus"></td>
-</label>
-</tr> 
+  <td class="eingabe">Gattung:</td>  
+  <td class="eingabe">    
+  '; 
+    $gattungen = new Gattung();
+    $gattungen->print_select($musikstueck->GattungID); 
 
+  echo  '</td>
 </tr> 
+</label>
+
+
 
 <tr>    
 <label>

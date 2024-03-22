@@ -1,25 +1,9 @@
 
-
 # Aktuell
-## Tabellen-Anpassung am Beispiel "Gattung"
-Gattung als Untertabelle  
-offen: 
- * erstellen: cl_gattung.php 
- * anpassen: cl_musiksteuck.php: Spalte Gattung entfernen, Spalte GattungID ergänzen 
- * erstellen: insert_gattung.php 
- * erstellen: edit_gattung.php 
- * anpassen: edit_musikstueck.php 
- * anpassen: index.php -> insert_gattung.php in Auflistung ergäzen 
- * anpassen: foot.php -> insert_gattung.php in Auflistung ergänzen 
- * Ergänzen: Suchbox / Filter: search_musikstueck.php 
- * sammlung.Standort löschen ALTER TABLE musikstueck DROP Gattung 
-
-erledigt: 
- * DDL: sql\20240321_gattung.sql
- * Anpassen: View v_musikstueck, v_satz  
-
 
 # In Planung: 
+  * Musikstück / Epoche als Untertabelle 
+  * Tabellen-Anpassung Musikstück > Epoche 
   * Such-Seite: Ergebnistabelle erweitern
   * Such-Seite: Ergebnistabelle nach einzelnen Spalten sortierbar 
   * Such-Seite: weitere Suchfilter 
@@ -39,3 +23,20 @@ erledigt:
     * Feld: "Übung"
     * Löschfunktionen 
 
+----
+
+# Erledigt 
+## Tabellen-Anpassung Musikstück / "Gattung"
+Gattung als Untertabelle  
+erledigt: 
+ * Tabellen erstellen + Inhalte migrieren DDL: ..\sql\20240321_gattung.sql
+ * Anpassen: View v_musikstueck, v_satz  
+ * erstellen: cl_gattung.php 
+ * erstellen: insert_gattung.php 
+ * erstellen: edit_gattung.php 
+ * anpassen: cl_musiksteuck.php: Spalte Gattung entfernen, Spalte GattungID ergänzen 
+ * anpassen: edit_musikstueck.php 
+ * Ergänzen: index.php, foot.php 
+ * Erfassung / Bearbeitung testen 
+ * Ergänzen/anpassen: Suchbox / Filter: search_musikstueck.php 
+ * sammlung.Standort löschen: ALTER TABLE musikstueck DROP Gattung 

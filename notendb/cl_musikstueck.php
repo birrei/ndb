@@ -9,7 +9,7 @@ class Musikstueck {
   public $SammlungID;
   public $KomponistID;
   public $Opus;
-  public $Gattung;
+  public $GattungID;
   public $Bearbeiter;
   public $Epoche;
   public $JahrAuffuehrung;
@@ -92,7 +92,7 @@ class Musikstueck {
             , $SammlungID
             , $KomponistID
             , $Opus
-            , $Gattung
+            , $GattungID
             , $Bearbeiter
             , $Epoche
             , $JahrAuffuehrung
@@ -109,7 +109,7 @@ class Musikstueck {
               `SammlungID`     = :SammlungID,   
               `KomponistID`     = :KomponistID,                              
               `Opus`     = :Opus,   
-              `Gattung`     = :Gattung,                               
+              `GattungID`     = :GattungID,                               
               `Bearbeiter`     = :Bearbeiter,   
               `Epoche`     = :Epoche,   
               `JahrAuffuehrung` = :JahrAuffuehrung
@@ -121,7 +121,7 @@ class Musikstueck {
     $update->bindParam(':SammlungID', $SammlungID);
     $update->bindParam(':KomponistID', $KomponistID);
     $update->bindParam(':Opus', $Opus);
-    $update->bindParam(':Gattung', $Gattung);
+    $update->bindParam(':GattungID', $GattungID);
     $update->bindParam(':Bearbeiter', $Bearbeiter);
     $update->bindParam(':Epoche', $Epoche);
     $update->bindParam(':JahrAuffuehrung', $JahrAuffuehrung);
@@ -133,7 +133,7 @@ class Musikstueck {
       $this->SammlungID=$SammlungID;
       $this->KomponistID=$KomponistID;
       $this->Opus=$Opus;
-      $this->Gattung=$Gattung;
+      $this->GattungID=$GattungID;
       $this->Bearbeiter=$Bearbeiter;
       $this->Epoche=$Epoche;
       $this->JahrAuffuehrung=$JahrAuffuehrung;
@@ -161,7 +161,7 @@ class Musikstueck {
       ,`KomponistID`
       ,`Bearbeiter`
       ,`Epoche`
-      ,`Gattung`
+      ,`GattungID`
       ,`JahrAuffuehrung`
     FROM `musikstueck`
     WHERE `ID` = :ID");
@@ -176,7 +176,7 @@ class Musikstueck {
     $this->SammlungID=$row_data["SammlungID"];
     $this->KomponistID=$row_data["KomponistID"];
     $this->Opus=$row_data["Opus"];
-    $this->Gattung=$row_data["Gattung"];
+    $this->GattungID=$row_data["GattungID"];
     $this->Bearbeiter=$row_data["Bearbeiter"];
     $this->Epoche=$row_data["Epoche"];
     $this->JahrAuffuehrung=$row_data["JahrAuffuehrung"];    
