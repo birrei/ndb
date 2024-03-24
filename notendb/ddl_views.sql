@@ -53,16 +53,16 @@ from komponist
 
     create OR REPLACE view v_test_musikstueck_ohne_besetzung
     AS 
-    select m.ID, m.Name as Musikstueck_Name, s.Name as Sammlung_Name 
+    select s.Name as Sammlung_Name, m.ID, m.Name as Musikstueck_Name
     from sammlung s 
-    left join musikstueck m on s.ID = m.SammlungID 
+    inner join musikstueck m on s.ID = m.SammlungID 
     left join musikstueck_besetzung mb 
     on m.ID = mb.MusikstueckID 
     where mb.ID is null 
     ; 
 
     CREATE OR REPLACE VIEW v_test_musikstueck_ohne_komponist AS
-    select m.ID, m.Name as Musikstueck_Name, s.Name as Sammlung_Name 
+    select s.Name as Sammlung_Name, m.ID, m.Name as Musikstueck_Name
     from sammlung s 
     left join musikstueck m on s.ID = m.SammlungID 
     left join komponist k 
@@ -72,11 +72,12 @@ from komponist
 
     CREATE  OR REPLACE VIEW v_test_musikstueck_ohne_satz
     AS 
-    select m.ID, m.Name as Musikstueck_Name, s.Name as Sammlung_Name 
+    select s.Name as Sammlung_Name, m.ID, m.Name as Musikstueck_Name
     from musikstueck m 
-    left join  sammlung s on s.ID = m.SammlungID 
+    inner join  sammlung s on s.ID = m.SammlungID 
     left join satz sa on sa.MusikstueckID = m.ID 
     where sa.ID is null 
+    and m.ID is not nULL 
 
     ;
 
@@ -90,20 +91,6 @@ from komponist
 
 
 /* tmp. distinct views  */ 
-
-/* Musikstueck */ 
-
-    create or REPLACE view v_tmp_Gattungen as 
-    select distinct 0 as ID, Gattung from musikstueck
-    where Gattung is not null 
-    and Gattung <> ''
-    order by Gattung ; 
-
-    create or REPLACE view v_tmp_Epochen as 
-    select distinct 0 as ID, Epoche from musikstueck 
-    where Epoche is not null 
-    and Epoche <> ''
-    order by Epoche; 
 
 /* satz */
     create or REPLACE view v_tmp_Tonart as 

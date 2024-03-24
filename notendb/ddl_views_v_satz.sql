@@ -12,7 +12,7 @@ select
     , musikstueck.Opus 
     , komponist.Name as Komponist 
     , musikstueck.Bearbeiter
-    , musikstueck.Epoche
+    , epoche.Name as Epoche
     , gattung.Name as Gattung 
 /* satz */     
     , satz.Name as Satz 
@@ -34,6 +34,7 @@ FROM
     LEFT JOIN musikstueck on  musikstueck.SammlungID = sammlung.ID 
     LEFT join v_komponist as komponist on musikstueck.KomponistID = komponist.ID 
     LEFT JOIN gattung on gattung.ID = musikstueck.GattungID 
+    LEFT JOIN epoche on epoche.ID = musikstueck.EpocheID         
     LEFT JOIN musikstueck_besetzung on musikstueck_besetzung.MusikstueckID = musikstueck.ID 
     left JOIN besetzung on besetzung.ID = musikstueck_besetzung.BesetzungID 
     left join musikstueck_verwendungszweck on musikstueck_verwendungszweck.MusikstueckID = musikstueck.ID 

@@ -13,14 +13,16 @@ include("cl_komponist.php");
 include("cl_strichart.php"); 
 include("cl_verlag.php"); 
 include("cl_gattung.php"); 
-
+include("cl_epoche.php"); 
 
 $Standorte=[];   /* Sammlung */
 $Verlage=[];   /* Sammlung */
 $Komponisten=[];   /* Musikstück  */  
 $Besetzungen=[];   /* Musikstück  */  
 $Verwendungszwecke=[];   /* Musikstück  */  
-$Gattungen=[];   /* Musikstück  */  
+$Gattungen=[];   /* Musikstück  */
+$Epochen=[];   /* Musikstück  */
+
 $Stricharten=[];  /* Satz  */
 
 if (isset($_POST['Ebene'])) {
@@ -47,7 +49,10 @@ if ("POST" == $_SERVER["REQUEST_METHOD"]) {
   }  
   if (isset($_REQUEST['Gattungen'])) {
     $Gattungen = $_REQUEST['Gattungen'];   
-  }    
+  }
+  if (isset($_REQUEST['Epochen'])) {
+    $Epochen = $_REQUEST['Epochen'];   
+  }         
   if (isset($_REQUEST['Stricharten'])) {
     $Stricharten = $_REQUEST['Stricharten'];   
   }    
@@ -77,7 +82,14 @@ if ("POST" == $_SERVER["REQUEST_METHOD"]) {
           echo ''; 
         ?>      
     </td>
-</tr>
+
+    <td class="selectboxes">
+ 
+    </td>
+
+  </tr>
+
+
 
 <tr>
     <td class="selectboxes"><b>Besetzung(en):</b> <br>   
@@ -100,8 +112,15 @@ if ("POST" == $_SERVER["REQUEST_METHOD"]) {
           echo ''; 
         ?>
     </td>
-</tr> 
+    <td class="selectboxes"><b>Epoche(n):</b> <br>  
+    <?php 
+            $epochen = new Epoche();
+            $epochen->print_select_multi($Epochen);         
+          echo ''; 
+        ?>      
+    </td>
 
+</tr> 
 <tr>
     <td class="selectboxes"><b>Strichar(en):</b> <br>
     <?php 
@@ -110,8 +129,11 @@ if ("POST" == $_SERVER["REQUEST_METHOD"]) {
           echo ''; 
         ?>
     </td>
-<td class="selectboxes"></td>
-<td class="selectboxes"></td>
+  <td class="selectboxes"><!-- Platzhalter Spalte 2 --> </td>
+  <td class="selectboxes"><!-- Platzhalter Spalte 3 --> </td>
+  <td class="selectboxes"><!-- Platzhalter Spalte 4 --> </td>
+
+
 </tr>
 </table> 
 
@@ -137,6 +159,7 @@ if ("POST" == $_SERVER["REQUEST_METHOD"]) {
   $filterVerwendungszweck='';
   $filterKomponisten='';   
   $filterGattungen='';  
+  $filterEpochen='';    
   $filterStricharten='';   
   
   if ("POST" == $_SERVER["REQUEST_METHOD"]) {
@@ -169,7 +192,12 @@ if ("POST" == $_SERVER["REQUEST_METHOD"]) {
       $Gattungen = $_REQUEST['Gattungen'];   
       $filterGattungen = 'IN ('.implode(',', $Gattungen).')'; 
       $filter=true; 
-    }    
+    }  
+    if (isset($_REQUEST['Epochen'])) {
+      $Epochen = $_REQUEST['Epochen'];   
+      $filterEpochen = 'IN ('.implode(',', $Epochen).')'; 
+      $filter=true; 
+    }       
     if (isset($_REQUEST['Stricharten'])) {
       $Stricharten = $_REQUEST['Stricharten'];   
       $filterStricharten = 'IN ('.implode(',', $Stricharten).')'; 
@@ -207,6 +235,7 @@ if ("POST" == $_SERVER["REQUEST_METHOD"]) {
             , m.Name as Musikstueck
             , k.Name as Komponist 
             , gattung.Name as Gattung 
+            , epoche.Name as Epoche            
             , GROUP_CONCAT(DISTINCT b.Name order by b.Name SEPARATOR ', ') Besetzungen
             , GROUP_CONCAT(DISTINCT v.Name order by v.Name SEPARATOR ', ') Verwendungszwecke   
             , GROUP_CONCAT(DISTINCT sa.Name order by sa.Nr SEPARATOR ', ') Saetze                 
@@ -234,7 +263,8 @@ if ("POST" == $_SERVER["REQUEST_METHOD"]) {
       LEFT JOIN verlag  on s.VerlagID = verlag.ID            
       LEFT JOIN musikstueck m on s.ID = m.SammlungID 
       LEFT JOIN v_komponist k on k.ID = m.KomponistID
-      LEFT JOIN gattung on gattung.ID = m.GattungID        
+      LEFT JOIN gattung on gattung.ID = m.GattungID  
+      LEFT JOIN epoche on epoche.ID = m.EpocheID              
       LEFT JOIN musikstueck_besetzung mb on m.ID = mb.MusikstueckID
       LEFT JOIN besetzung b on mb.BesetzungID = b.ID
       LEFT JOIN musikstueck_verwendungszweck mv on m.ID = mv.MusikstueckID 
@@ -274,7 +304,10 @@ if ("POST" == $_SERVER["REQUEST_METHOD"]) {
       }
       if($filterGattungen!=''){
         $query.=' AND m.GattungID '.$filterGattungen. PHP_EOL; 
-      }      
+      }    
+      if($filterEpochen!=''){
+        $query.=' AND m.EpocheID '.$filterEpochen. PHP_EOL; 
+      }           
       if($filterStricharten!=''){
         $query.=' AND ssa.StrichartID '.$filterStricharten. PHP_EOL; 
       }

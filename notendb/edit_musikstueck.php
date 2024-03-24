@@ -5,6 +5,7 @@ include("cl_musikstueck.php");
 include("cl_komponist.php");
 include("cl_sammlung.php");
 include("cl_gattung.php");
+include("cl_epoche.php");
 include('cl_html_info.php');
 
 $musikstueck = new Musikstueck();
@@ -25,7 +26,7 @@ if (isset($_POST["senden"])) {
                     , $_POST["Opus"]
                     , $_POST["GattungID"]
                     , $_POST["Bearbeiter"]
-                    , $_POST["Epoche"]
+                    , $_POST["EpocheID"]
                     , $_POST["JahrAuffuehrung"]
                     ); 
     // $musikstueck->load_row($ID);   
@@ -100,11 +101,17 @@ echo  '</td>
 </tr> 
 
 <tr>    
-  <label>
+<label>
   <td class="eingabe">Epoche:</td>  
-  <td class="eingabe"><input type="text" name="Epoche" value="'.$musikstueck->Epoche.'" size="45" maxlength="80" autofocus="autofocus"></td>
-  </label>
+  <td class="eingabe">    
+  '; 
+    $epochen = new Epoche();
+    $epochen->print_select($musikstueck->EpocheID); 
+
+  echo  '</td>
+  </label>  
 </tr> 
+
 
 <tr>    
 <label>
@@ -115,8 +122,9 @@ echo  '</td>
     $gattungen->print_select($musikstueck->GattungID); 
 
   echo  '</td>
+  </label>  
 </tr> 
-</label>
+
 
 
 

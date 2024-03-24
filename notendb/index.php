@@ -55,6 +55,11 @@ include('head.php');
     <td><a href="show_table2.php?table=gattung" target="_blank">Daten anzeigen</a></td>
     <td><a href="insert_gattung.php" target="_blank">Neu erfassen</a></td>
 </tr>
+<tr>
+    <td><b>Epoche</b></td>
+    <td><a href="show_table2.php?table=epoche" target="_blank">Daten anzeigen</a></td>
+    <td><a href="insert_epoche.php" target="_blank">Neu erfassen</a></td>
+</tr>
 
 <tr>
     <td><b>Stricharten</b></td>

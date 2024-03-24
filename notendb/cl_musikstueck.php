@@ -11,7 +11,7 @@ class Musikstueck {
   public $Opus;
   public $GattungID;
   public $Bearbeiter;
-  public $Epoche;
+  public $EpocheID;
   public $JahrAuffuehrung;
   
   public function __construct(){
@@ -94,7 +94,7 @@ class Musikstueck {
             , $Opus
             , $GattungID
             , $Bearbeiter
-            , $Epoche
+            , $EpocheID
             , $JahrAuffuehrung
          ) {
    
@@ -111,7 +111,7 @@ class Musikstueck {
               `Opus`     = :Opus,   
               `GattungID`     = :GattungID,                               
               `Bearbeiter`     = :Bearbeiter,   
-              `Epoche`     = :Epoche,   
+              `EpocheID`     = :EpocheID,   
               `JahrAuffuehrung` = :JahrAuffuehrung
               WHERE `ID` = :ID");           
 
@@ -123,7 +123,7 @@ class Musikstueck {
     $update->bindParam(':Opus', $Opus);
     $update->bindParam(':GattungID', $GattungID);
     $update->bindParam(':Bearbeiter', $Bearbeiter);
-    $update->bindParam(':Epoche', $Epoche);
+    $update->bindParam(':EpocheID', $EpocheID);
     $update->bindParam(':JahrAuffuehrung', $JahrAuffuehrung);
 
     try {
@@ -135,7 +135,7 @@ class Musikstueck {
       $this->Opus=$Opus;
       $this->GattungID=$GattungID;
       $this->Bearbeiter=$Bearbeiter;
-      $this->Epoche=$Epoche;
+      $this->EpocheID=$EpocheID;
       $this->JahrAuffuehrung=$JahrAuffuehrung;
     }
     catch (PDOException $e) {
@@ -160,7 +160,7 @@ class Musikstueck {
       ,`Nummer`
       ,`KomponistID`
       ,`Bearbeiter`
-      ,`Epoche`
+      ,`EpocheID`
       ,`GattungID`
       ,`JahrAuffuehrung`
     FROM `musikstueck`
@@ -178,7 +178,7 @@ class Musikstueck {
     $this->Opus=$row_data["Opus"];
     $this->GattungID=$row_data["GattungID"];
     $this->Bearbeiter=$row_data["Bearbeiter"];
-    $this->Epoche=$row_data["Epoche"];
+    $this->EpocheID=$row_data["EpocheID"];
     $this->JahrAuffuehrung=$row_data["JahrAuffuehrung"];    
 
   }
