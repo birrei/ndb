@@ -103,7 +103,7 @@ echo
 
   <tr>    
     <label>
-    <td class="eingabe">Spieldauer:</td>  
+    <td class="eingabe">Spieldauer (in Minuten):</td>  
     <td class="eingabe"><input type="text" name="Spieldauer" value="'.$satz->Spieldauer.'" size="45" maxlength="80" autofocus="autofocus"></td>
     </label>
   </tr> 

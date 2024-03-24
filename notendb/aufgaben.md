@@ -1,7 +1,10 @@
 # in Arbeit
-* Suuch-Seite: Spieldauer von bis
+* Such-Seite: Filter Spieldauer von bis
+* Satz > Spieldauer - ältere Werte unklar
+  
+----
 
----
+# In Planung: 
   * Erfassung Satz:
     * Auswahl 
     * Nummer automatisch besetzen
@@ -12,13 +15,24 @@
     * Löschfunktionen 
     * Funktion: Feldinhalte aus anderem Satz des gleichen Musikstücks übernehmen (Checkbox "bekannte Eigenschaft übernehmen"?) 
 
-# In Planung: 
-  * Such-Seite: weitere Suchfilter 
 
+  * Suche: gespeicherte Suchen 
+  * Such-Seite: weitere Suchfilter 
+    * Satz: 
+          Tonart 
+          Taktart
+          , Tempobezeichnung
+          , Schwierigkeitsgrad
+          , Lagen 
+          , Erprobt 
+          , Notenwerte
+
+  * Suche: Validierung von manuell eingegeben Such-Parametern (z.B: SpieldauerBis > SpieldauerBis ect.)
   * Insert-Formulare: Problem mit mehrfach-Ausführung bei Browser-Aktualisierung. Evt. Ablauf ändern  
   * Such-Seite: Ergebnistabelle erweitern
   * Such-Seite: Ergebnistabelle nach einzelnen Spalten sortierbar 
   * Suchseite: Optimierung per AJAX 
+
 
 
 ----

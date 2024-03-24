@@ -18,6 +18,15 @@ $tests[] = array('name' => 'Musikstücke ohne Besetzung'
            , 'table'   => "musikstueck"              
           );
 
+$tests[] = array('name' => 'Satz ohne Spieldauer'
+          , 'testview'   => "v_test_satz_ohne_spieldauer"
+          , 'table'   => "satz"              
+         );
+
+
+           
+
+
 
 echo '<h2>Tests</h2>'; 
 

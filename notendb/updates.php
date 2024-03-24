@@ -4,11 +4,12 @@ include('head.php');
 
 <h2> (Anwender-) Infos zum Stand</h2>
 <pre>
-zum nächsten Termin: 
+Info zum nächsten Termin: 
   * Musikstück > Gattung als Untertabelle 
-  * Ergänzungen für Musikstück Such-Formular: 
-   * Auswahl Ebene. Die Auswahl hat Einfluss auf die angezeigten Spalten, die Gruppierung sowie die Sortierung 
-   * Ergänzung weiterer Auswahl-Boxen, neueste: Auswahl Gattung 
+  * Musikstück > Epoche als Untertabelle 
+  * Suchfomular: + Epoche, + Gattung, + Spieldauer von / bis 
+  * Suchformular: Auswahl Ebene. Die Auswahl hat Einfluss auf die angezeigten Spalten, 
+     die Gruppierung sowie die Sortierung 
 
 ------------------------
 

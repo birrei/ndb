@@ -25,6 +25,10 @@ $Epochen=[];   /* Musikstück  */
 
 $Stricharten=[];  /* Satz  */
 
+$spieldauer_von=''; 
+$spieldauer_bis=''; 
+
+
 if (isset($_POST['Ebene'])) {
   $Ebene=$_POST["Ebene"]; 
 } else {
@@ -55,7 +59,13 @@ if ("POST" == $_SERVER["REQUEST_METHOD"]) {
   }         
   if (isset($_REQUEST['Stricharten'])) {
     $Stricharten = $_REQUEST['Stricharten'];   
-  }    
+  } 
+  if (isset($_REQUEST['SpieldauerVon'])) {
+    $spieldauer_von = $_REQUEST['SpieldauerVon'];   
+  }
+  if (isset($_REQUEST['SpieldauerBis'])) {
+    $spieldauer_bis = $_REQUEST['SpieldauerBis'];   
+  }              
 }
 ?> 
 <form action="search_musikstueck.php" method="post">
@@ -122,7 +132,7 @@ if ("POST" == $_SERVER["REQUEST_METHOD"]) {
 
 </tr> 
 <tr>
-    <td class="selectboxes"><b>Strichar(en):</b> <br>
+    <td class="selectboxes"><b>Strichart(en):</b> <br>
     <?php 
             $stricharten = new Strichart();
             $stricharten->print_select_multi($Stricharten);      
@@ -131,7 +141,10 @@ if ("POST" == $_SERVER["REQUEST_METHOD"]) {
     </td>
   <td class="selectboxes"><!-- Platzhalter Spalte 2 --> </td>
   <td class="selectboxes"><!-- Platzhalter Spalte 3 --> </td>
-  <td class="selectboxes"><!-- Platzhalter Spalte 4 --> </td>
+  <td class="selectboxes">
+     Spieldauer von: <br> <input type="text" name="SpieldauerVon" size="5" value="<?php echo $spieldauer_von; ?>"><br> 
+     Spieldauer bis: <br> <input type="text" name="SpieldauerBis" size="5" value="<?php echo $spieldauer_bis; ?>"><br> 
+ </td>
 
 
 </tr>
@@ -160,7 +173,9 @@ if ("POST" == $_SERVER["REQUEST_METHOD"]) {
   $filterKomponisten='';   
   $filterGattungen='';  
   $filterEpochen='';    
-  $filterStricharten='';   
+  $filterStricharten=''; 
+  $filterSpieldauer='';   
+
   
   if ("POST" == $_SERVER["REQUEST_METHOD"]) {
     if (isset($_REQUEST['Standorte'])) {
@@ -203,13 +218,28 @@ if ("POST" == $_SERVER["REQUEST_METHOD"]) {
       $filterStricharten = 'IN ('.implode(',', $Stricharten).')'; 
       $filter=true; 
     }
+
+    if (isset($_REQUEST['SpieldauerVon']) and isset($_REQUEST['SpieldauerBis']) ) {
+
+      if ($_REQUEST['SpieldauerVon']!='') {
+        $spieldauer_von=(is_numeric($_REQUEST['SpieldauerVon'])?$_REQUEST['SpieldauerVon']:''); 
+      }
+      if ($_REQUEST['SpieldauerBis']!='') {
+        $spieldauer_bis=(is_numeric($_REQUEST['SpieldauerBis'])?$_REQUEST['SpieldauerBis']:''); 
+      }
+      if($spieldauer_von !='' and $spieldauer_bis !=''){
+        $filterSpieldauer=' BETWEEN '.$spieldauer_von.' AND '.$spieldauer_bis; 
+        $filter=true; 
+      }
+    }
+    
+    
   }
 
   if (isset($_POST['Ebene'])) {
     $Ebene=$_POST["Ebene"]; 
   }
-  
-  
+   
 
   if ($filter ) {
     $query=""; 
@@ -222,8 +252,7 @@ if ("POST" == $_SERVER["REQUEST_METHOD"]) {
             , st.Name as Standort
             , verlag.Name as Verlag
             , GROUP_CONCAT(DISTINCT m.Name order by m.Nummer SEPARATOR ', ') Musikstuecke
-            -- , GROUP_CONCAT(DISTINCT b.Name order by b.Name SEPARATOR ', ') Besetzungen
-            -- , GROUP_CONCAT(DISTINCT v.Name order by v.Name SEPARATOR ', ') Verwendungszwecke   
+  
             ";
 
         break; 
@@ -244,12 +273,20 @@ if ("POST" == $_SERVER["REQUEST_METHOD"]) {
       case 'Satz': 
         $query.="SELECT s.ID
             ,s.Name as Sammlung
-            , st.Name as Standort
+            -- , st.Name as Standort
             , m.Nummer as MNr
             , m.Name as Musikstueck
-            , k.Name as Komponist            
+            -- , k.Name as Komponist            
             , sa.Nr as SatzNr
             , sa.Name as Satz 
+            , sa.Tonart 
+            , sa.Taktart
+            , sa.Tempobezeichnung
+            , sa.Spieldauer
+            , sa.Schwierigkeitsgrad
+            , sa.Lagen 
+            , sa.Erprobt 
+            , sa.Notenwerte
             , GROUP_CONCAT(DISTINCT str.Name order by str.Name SEPARATOR ', ') Stricharten                
             ";            
         break;      
@@ -310,6 +347,9 @@ if ("POST" == $_SERVER["REQUEST_METHOD"]) {
       }           
       if($filterStricharten!=''){
         $query.=' AND ssa.StrichartID '.$filterStricharten. PHP_EOL; 
+      }
+      if($filterSpieldauer!=''){
+        $query.=' AND sa.Spieldauer '.$filterSpieldauer. PHP_EOL; 
       }
 
 
