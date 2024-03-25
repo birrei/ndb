@@ -142,8 +142,17 @@ if ("POST" == $_SERVER["REQUEST_METHOD"]) {
   <td class="selectboxes"><!-- Platzhalter Spalte 2 --> </td>
   <td class="selectboxes"><!-- Platzhalter Spalte 3 --> </td>
   <td class="selectboxes">
-     Spieldauer von: <br> <input type="text" name="SpieldauerVon" size="5" value="<?php echo $spieldauer_von; ?>"><br> 
-     Spieldauer bis: <br> <input type="text" name="SpieldauerBis" size="5" value="<?php echo $spieldauer_bis; ?>"><br> 
+     Spieldauer von: <br> <input type="text" id="SpieldauerVon" name="SpieldauerVon" size="5" value="<?php echo $spieldauer_von; ?>"><br> 
+     Spieldauer bis: <br> <input type="text" id="SpieldauerBis" name="SpieldauerBis" size="5" value="<?php echo $spieldauer_bis; ?>"><br> 
+
+     <input type="button" id="btnReset_Spieldauer" value="Filter zurücksetzen" onclick="Reset_Spieldauer();" />  
+             <script type="text/javascript">  
+                function Reset_Spieldauer() {  
+                document.getElementById("SpieldauerVon").value='';  
+                document.getElementById("SpieldauerBis").value='';  
+            }  
+        </script> 
+
  </td>
 
 
