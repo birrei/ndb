@@ -5,6 +5,7 @@ include('head.php');
 <h2> (Anwender-) Infos zum Stand</h2>
 <pre>
 Info zum nächsten Termin: 
+  * klären: Satz > Spieldauer - ältere Werte unklar
   * Musikstück > Gattung als Untertabelle 
   * Musikstück > Epoche als Untertabelle 
   * Suchfomular: + Epoche, + Gattung, + Spieldauer von / bis 

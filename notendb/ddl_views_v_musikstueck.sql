@@ -14,7 +14,7 @@ select
     , gattung.Name as Gattung 
     , GROUP_CONCAT(DISTINCT besetzung.Name order by besetzung.Name SEPARATOR ', ') Besetzungen   
     , GROUP_CONCAT(DISTINCT verwendungszweck.Name order by verwendungszweck.Name SEPARATOR ', ') Verwendungszwecke  
-    , GROUP_CONCAT(DISTINCT satz.Name order by satz.Nr SEPARATOR ', ') Saetze     
+    , GROUP_CONCAT(DISTINCT satz.Nr order by satz.Nr SEPARATOR ', ') Satznummern      
     , musikstueck.ID 
    FROM 
     sammlung 
@@ -28,7 +28,8 @@ select
     left JOIN besetzung on besetzung.ID = musikstueck_besetzung.BesetzungID 
     left join musikstueck_verwendungszweck on musikstueck_verwendungszweck.MusikstueckID = musikstueck.ID 
     left join verwendungszweck on verwendungszweck.ID = musikstueck_verwendungszweck.VerwendungszweckID
-    LEFT join satz  on musikstueck.ID = satz.MusikstueckID    
+    LEFT join satz  on musikstueck.ID = satz.MusikstueckID 
+   
 group by musikstueck.ID 
 order by sammlung.Name, musikstueck.Nummer
 
