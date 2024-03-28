@@ -150,12 +150,12 @@ echo
 
 
 
-<tr> 
-<td class="eingabe"></td> 
-<td class="eingabe"><input type="submit" name="senden" value="Speichern">
+  <tr> 
+  <td class="eingabe"></td> 
+  <td class="eingabe"><input type="submit" name="senden" value="Speichern">
 
-</td>
-</tr> 
+  </td>
+  </tr> 
 
   <input type="hidden" name="ID" value="' . $satz->ID . '">
   <input type="hidden" name="option" value="edit">      
@@ -165,9 +165,14 @@ echo
   <tr> 
   <td class="eingabe">Stricharten:</td> 
   <td class="eingabe"><iframe src="edit_satz_list_stricharten.php?SatzID='.$satz->ID.'" width="500" height="200" name="Stricharten"></iframe>
-</td>
-</tr> 
+  </td>
+  </tr> 
 
+  <tr> 
+  <td class="eingabe">Notenwerte:</td> 
+  <td class="eingabe"><iframe src="edit_satz_list_notenwerte.php?SatzID='.$satz->ID.'" width="500" height="200" name="Stricharten"></iframe>
+  </td>
+  </tr> 
 
 
 </table> 

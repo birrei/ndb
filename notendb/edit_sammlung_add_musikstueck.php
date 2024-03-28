@@ -13,11 +13,10 @@ if (isset($_POST["SammlungID"])) {
 ?> 
 <form action="edit_sammlung_add_musikstueck.php" method="post">
 <table class="eingabe"> 
-  
   <tr>    
     <label>
     <td class="eingabe">Nummer:</td>    
-    <td class="eingabe"><input type="text" name="Nummer" size="45" maxlength="80" autofocus="autofocus" required> </td>
+    <td class="eingabe"><input type="text" name="Nummer" size="45" maxlength="80" autofocus="autofocus" value="1"> </td>
      </label>
    </tr>    
 

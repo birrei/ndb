@@ -20,15 +20,14 @@ if (isset($_POST["MusikstueckID"])) {
     <tr>    
     <label>
     <td class="eingabe">Nr:</td>  
-      <!-- input autofocus funktioniert nicht XXX -->     
-    <td class="eingabe"><input type="text" name="Nr" size="45" maxlength="80" autofocus="autofocus" required> </td>
+    <td class="eingabe"><input type="text" name="Nr" size="45" maxlength="80" autofocus="autofocus" value="1"> </td>
      </label>
    </tr>    
 
    <tr>    
     <label>
     <td class="eingabe">Name:</td>  
-    <td class="eingabe"><input type="text" name="Name" size="45" maxlength="80">  (falls vom Musikstück abweichend, sonst leer lassen)</td>
+    <td class="eingabe"><input type="text" name="Name" size="45" maxlength="80"></td>
      </label>
    </tr> 
     <input type="hidden" name="MusikstueckID" value="<?php echo $MusikstueckID; ?>"> 

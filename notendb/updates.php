@@ -2,17 +2,37 @@
 include('head.php');
 ?>
 
-<h2> (Anwender-) Infos zum Stand</h2>
+<h2>Zum nächsten Termin</h2>
 <pre>
-Info zum nächsten Termin: 
-  * klären: Satz > Spieldauer - ältere Werte unklar
-  * Musikstück > Gattung als Untertabelle 
-  * Musikstück > Epoche als Untertabelle 
-  * Suchfomular: + Epoche, + Gattung, + Spieldauer von / bis 
-  * Suchformular: Auswahl Ebene. Die Auswahl hat Einfluss auf die angezeigten Spalten, 
-     die Gruppierung sowie die Sortierung 
 
+ * Korrektur Satz.Nr (0 oder leer -> 1 )
+
+
+
+</pre>
+
+<pre>
 ------------------------
+
+
+Info zum 26.03. 
+  * Info: Erfassung Musikstück / Satz: 
+    * Nummer-Felder werden mit Vorgabewert "1" besetzt (was natürlich geändert werden kann) 
+    * Wenn Musikstück Name leer bleibt, wird "Musiksück [Nr]" gespeichert.
+    * Wenn Satz Name leer bleibt, wird "Satz [Nr]" gepsichert 
+  * Info: Musikstück > Gattung als Untertabelle 
+  * Info: Musikstück > Epoche als Untertabelle 
+  * Info: Suchfomular: + Epoche, + Gattung, + Spieldauer von / bis 
+  * Info: Suchformular: Auswahl Ebene. Die Auswahl hat Einfluss auf die angezeigten Spalten, die Gruppierung sowie die Sortierung 
+
+Klärung: 
+  * Satz > Spieldauer - ältere Werte unklar
+
+Ausblick: 
+  * In Arbeit: Satz "Notenwerte" als Untertabelle mit Mehrfach-Auswahl 
+  * Geplant: Umstrukturierung weitere Satz-Tabellenfelder,  noch offene Felder 
+
+
 
 Info zum 17.03.2024  
 

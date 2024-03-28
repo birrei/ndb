@@ -1,15 +1,18 @@
 # in Arbeit
 Satz > Notenwerte 
-offen: 
- * Anpassen: View v_musikstueck, v_satz  
 
-
-erledigt: 
- * Tabellen erstellen + Inhalte migrieren : 20240326_satz_notenwerte.sql
- * 
+erledigt 28.03.2024: 
+  * Tabellen erstellen + Inhalte migrieren : 20240326_satz_notenwerte.sql
+  * Anpassen: View v_musikstueck, v_satz  
+  * erstellen: cl_notenwert.php
+  * erstellen: insert_notenwert.php
+  * anpassen: cl_satz: function add_notenwert 
+  * anpassen: cl_satz: function print_table_notenwerte 
+  * erstellen: edit_satz_add_notenwert.php (verbesserte Variante!)
+  * erstellen: edit_satz_list_notenwerte.php  (verbesserte Variante!)
+    
 
 <!-- 
-
  * erstellen: cl_epoche.php 
  * erstellen: insert_epoche.php 
  * erstellen: edit_epoche.php 
@@ -108,5 +111,11 @@ Tabellen-Anpassung Musikstück / "Epoche"
   * Test Suche 
   * Feld musikstueck.Epoche löschen: ALTER TABLE musikstueck DROP Epoche 
   * drop view v_tmp_Epochen
-  
-Such-Seite: Filter Spieldauer von bis   
+
+
+Sonstiges 26.03.204  
+
+* Such-Seite: Filter Spieldauer von bis   
+* Anpassung Erfassung: Musikstueck.Nummer, Satz.Nr + jeweils Name - Vergabe-Automatismus 
+* Anpassung Erfassung: edit_sammlung_add_musikstueck.php: default-Wert 0 
+

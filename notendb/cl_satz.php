@@ -68,7 +68,9 @@ class Satz {
                           `Nr`     = :Nr,
                           `Name`     = :Name,  
                           `MusikstueckID`     = :MusikstueckID");
-  
+
+    $Name=($Name==''?'Satz '.$Nr:$Name); // falls Name leer ist,  wird "Satz <Nr>" gespeichert 
+      
     $insert->bindValue(':Nr', $Nr);
     $insert->bindValue(':Name', $Name);
     $insert->bindValue(':MusikstueckID', $this->MusikstueckID);
@@ -211,7 +213,6 @@ class Satz {
   }
 
   function print_table_sticharten(){
-
     $query="SELECT sa.ID
           , sa.Name                              
           FROM satz_strichart ssa         
@@ -241,7 +242,36 @@ class Satz {
       $info->print_error($stmt, $e); 
     }
   }
+  function print_table_notenwerte(){
+    $query="SELECT notenwert.ID
+          , notenwert.Name                              
+          FROM satz_notenwert          
+          INNER JOIN notenwert 
+            on notenwert.ID=satz_notenwert.NotenwertID
+          WHERE satz_notenwert.SatzID = :SatzID 
+          ORDER by notenwert.Name"; 
 
+    include_once("cl_db.php");
+    $conn = new DbConn(); 
+    $db=$conn->db; 
+  
+    $stmt = $db->prepare($query); 
+    $stmt->bindParam(':SatzID', $this->ID, PDO::PARAM_INT); 
+
+    try {
+      $stmt->execute(); 
+      include_once("cl_html_table.php");      
+      $html = new HtmlTable($stmt); 
+      // $html->print_table($this->table_name, true); 
+      $html->print_table(); 
+    }
+    catch (PDOException $e) {
+      include_once("cl_html_info.php"); 
+      $info = new HtmlInfo();      
+      $info->print_user_error(); 
+      $info->print_error($stmt, $e); 
+    }
+  }
   function add_strichart ($StrichartID){
       include_once("cl_db.php");
       $conn = new DbConn(); 
@@ -265,7 +295,29 @@ class Satz {
       }  
 
   }
+  function add_notenwert($NotenwertID){
+    include_once("cl_db.php");
+    $conn = new DbConn(); 
+    $db=$conn->db; 
 
+    $insert = $db->prepare("INSERT INTO `satz_notenwert` SET
+        `SatzID`     = :SatzID,  
+        `NotenwertID`     = :NotenwertID");
+
+    $insert->bindValue(':SatzID', $this->ID);  
+    $insert->bindValue(':NotenwertID', $NotenwertID);  
+
+    try {
+      $insert->execute(); 
+    }
+    catch (PDOException $e) {
+      include_once("cl_html_info.php"); 
+      $info = new HtmlInfo();      
+      $info->print_user_error(); 
+      $info->print_error($insert, $e);  
+    }  
+
+}
 
   function print_select($value_selected=''){
     /***** select box (fake) *****/ 

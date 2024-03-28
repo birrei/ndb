@@ -17,7 +17,7 @@ select
 /* satz */     
     , satz.Name as Satz 
     , satz.Nr as SatzNr
-    , satz.Tonart 
+    , satz.Name as SatzName
     , satz.Taktart
     , satz.Tempobezeichnung
     , satz.Spieldauer

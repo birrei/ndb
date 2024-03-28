@@ -59,6 +59,8 @@ class Musikstueck {
                       ) 
                       {         
     include_once("cl_db.php");
+    $insert_Name=($insert_Name==''?'Musikstück '.$insert_Nummer:$insert_Name); // falls Name leer ist,  wird "Musikstück <Nr>" gespeichert 
+
     $conn = new DbConn(); 
     $db=$conn->db; 
   

@@ -10,6 +10,7 @@
     <a href="updates.php" target="_blank">Updates</a>  |       
     <a href="admin.php" target="_blank">Admin</a>      
 
+<!-- 
     <br />
     Erfassen: <a href="insert_sammlung.php" target="_blank">Sammlung</a> | 
     <a href="insert_verlag.php" target="_blank">Verlag</a> | 
@@ -33,6 +34,7 @@
     <a href="show_table2.php?table=epoche" target="_blank">Epoche</a> |      
     <a href="show_table2.php?table=strichart" target="_blank">Strichart</a> | 
 
+-->
 
 </p>  
 

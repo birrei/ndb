@@ -50,6 +50,9 @@ class HtmlInfo {
         echo $this->html; 
     }
 
+    function print_table_link($table_name, $sortcol='Name', $sortorder='ASC')  {
+        echo '<p><a href="show_table2.php?table='.$table_name.'&sortcol='.$sortcol.'&sortorder='.$sortorder.'" target="_blank">Tabelle anzeigen</a> (es öffnet sich ein neues Fenster)</p>'; 
+    } 
 
 }
 ?>

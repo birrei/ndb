@@ -6,7 +6,7 @@ select
     , sammlung.Bestellnummer
     , sammlung.Bemerkung as Sammlung_Bemerkung 
     , musikstueck.Nummer AS Musikstueck_Nr
-    , musikstueck.Name AS Musikstueck
+    , musikstueck.Name
     , musikstueck.Opus 
     , komponist.Name as Komponist 
     , musikstueck.Bearbeiter

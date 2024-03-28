@@ -11,6 +11,10 @@ delete from gattung where ID not in (select distinct GattungID from musikstueck 
 /* nicht verwendete Epochen löschen */
 delete from epoche where ID not in (select distinct EpocheID from musikstueck where EpocheID is not null)
 
+/* nicht verwendete Notenwerte löschen */
+delete from notenwert where ID not in (select distinct NotenwertID from satz_notenwert)
+
+
 
 /* Musikstücke ohne Satz löschen  */
 -- 1) Besetzungen löschen 
