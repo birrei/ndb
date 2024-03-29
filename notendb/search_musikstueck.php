@@ -68,7 +68,7 @@ if ("POST" == $_SERVER["REQUEST_METHOD"]) {
   }              
 }
 ?> 
-<form action="search_musikstueck.php" method="post">
+<form id="Suche" action="search_musikstueck.php" method="post">
 <table> 
 <tr>    
     <td class="selectboxes"><b>Standort(e):</b> <br>   
@@ -146,18 +146,33 @@ if ("POST" == $_SERVER["REQUEST_METHOD"]) {
      Spieldauer bis: <br> <input type="text" id="SpieldauerBis" name="SpieldauerBis" size="5" value="<?php echo $spieldauer_bis; ?>"><br> 
 
      <input type="button" id="btnReset_Spieldauer" value="Filter zurücksetzen" onclick="Reset_Spieldauer();" />  
-             <script type="text/javascript">  
+        <script type="text/javascript">  
                 function Reset_Spieldauer() {  
-                document.getElementById("SpieldauerVon").value='';  
-                document.getElementById("SpieldauerBis").value='';  
+                  document.getElementById("SpieldauerVon").value='';  
+                  document.getElementById("SpieldauerBis").value='';  
             }  
         </script> 
 
  </td>
 
-
 </tr>
 </table> 
+      <input type="button" id="btnReset_All" value="Alle Suchfelder zurücksetzen" onclick="Reset_All();" /> 
+      <script type="text/javascript">  
+                function Reset_All() {  
+                var stringNames  
+                for(i=0; i<document.forms[0].elements.length; i++){
+                  if(document.forms[0].elements[i].type == 'text'){
+                    document.forms[0].elements[i].value=""; 
+                  }
+                  if(document.forms[0].elements[i].type == 'select-multiple'){
+                    document.forms[0].elements[i].selectedIndex = -1;
+                  }   
+                }
+            }  
+        </script> 
+
+<p id="test"></p>
 
 <fieldset>Ebene: 
     <input type="radio" id="sm" name="Ebene" value="Sammlung" <?php echo ($Ebene=='Sammlung'?'checked':'') ?>>
@@ -171,7 +186,6 @@ if ("POST" == $_SERVER["REQUEST_METHOD"]) {
   <input type="submit" value="Suchen" style="font-weight: bold;width:50%"></p> 
 
 </form>
-
 <?php
   $filter=false; 
 
@@ -295,8 +309,9 @@ if ("POST" == $_SERVER["REQUEST_METHOD"]) {
             , sa.Schwierigkeitsgrad
             , sa.Lagen 
             , sa.Erprobt 
-            , sa.Notenwerte
-            , GROUP_CONCAT(DISTINCT str.Name order by str.Name SEPARATOR ', ') Stricharten                
+            -- , sa.Notenwerte
+            , GROUP_CONCAT(DISTINCT str.Name order by str.Name SEPARATOR ', ') Stricharten              
+            , GROUP_CONCAT(DISTINCT notenwert.Name order by notenwert.Name SEPARATOR ', ') Notenwerte                
             ";            
         break;      
 
@@ -318,7 +333,9 @@ if ("POST" == $_SERVER["REQUEST_METHOD"]) {
       LEFT JOIN satz sa on sa.MusikstueckID = m.ID 
       LEFT JOIN satz_strichart ssa on ssa.satzID = sa.ID
       LEFT JOIN strichart str on ssa.StrichartID = str.ID 
-                          
+      LEFT JOIN satz_notenwert on satz_notenwert.SatzID = sa.ID
+      LEFT JOIN notenwert on notenwert.ID = satz_notenwert.NotenwertID  
+                                    
       WHERE 1=1 
       ". PHP_EOL; 
 
