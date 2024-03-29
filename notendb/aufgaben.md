@@ -1,30 +1,35 @@
 # in Arbeit
-Satz > Notenwerte 
+## Umstellung Satz > Notenwerte 
 
-erledigt 28.03.2024: 
+
+  * Produduktivnahme - 29.03.2024 - 17:00 
+
+  cl_satz.php: Feld "Notenwerte" entfernen 
+  edit_satz.php: Feld "Notenwerte" entfernen 
+  
+
+    
+
+erledigt 28.03.2024, 29.03.2024: 
   * Tabellen erstellen + Inhalte migrieren : 20240326_satz_notenwerte.sql
   * Anpassen: View v_musikstueck, v_satz  
   * erstellen: cl_notenwert.php
-  * erstellen: insert_notenwert.php
+  * erstellen: insert_notenwert.php (verbesserte Variante)
+  * erstellen: edit_notenwert.php (verbesserte Variante)
+  * ergänzen: Zeile in index.php 
   * anpassen: cl_satz: function add_notenwert 
-  * anpassen: cl_satz: function print_table_notenwerte 
+  * anpassen: cl_satz: function print_table_notenwerte  (angepasste Variante!)
   * erstellen: edit_satz_add_notenwert.php (verbesserte Variante!)
   * erstellen: edit_satz_list_notenwerte.php  (verbesserte Variante!)
-    
+  * Erfassung / Bearbeitung / Abrufe testen 
+  * Ergänzen/anpassen: search_musikstueck.php 
+  * View v_tmp_Notenwerte löschen, def. aus ddl_views.sql entfernen
+
 
 <!-- 
- * erstellen: cl_epoche.php 
- * erstellen: insert_epoche.php 
- * erstellen: edit_epoche.php 
- * anpassen: cl_musiksteuck.php: Epoche -> EpocheID 
- * anpassen: edit_musikstueck.php : Epoche -> EpocheID 
- * Ergänzen: index.php, foot.php 
- * Erfassung / Bearbeitung / Abrufe testen 
- * Ergänzen/anpassen: Suchbox / Filter: search_musikstueck.php 
+
  * Feld musikstueck.Epoche löschen: ALTER TABLE musikstueck DROP Epoche 
- * View v_tmp_Epochen aus ddl_views.sql entfernen, View löschen  
-   * Produktivnahme: 
-  * 20240324_epoche.sql
+
   * Dateien auf FTP-Server erneuern 
   * ddl_views*- ausführen
   * Test Erfassung 
@@ -36,16 +41,19 @@ erledigt 28.03.2024:
 
 
 
-----
-
 # In Planung: 
+
+ * Optimierung insert_* / edit_*-Formulare  - nach Vorlage "Notenwerte" 
+
+
+ * Suchformular mit GET-Parametern (so könnten Such-Links gespeichert werden)
+
   * Erfassung Satz:
     * Auswahl 
-    * Nummer automatisch besetzen
     * neues Feld: Aufführungsmaterial vorhanden
-    * Feld: "Melodische Besonderheiten"
-    * Feld: "Rhythmische Besonderheiten"
-    * Feld: "Übung"
+    * neues Feld: "Melodische Besonderheiten"
+    * neues Feld: "Rhythmische Besonderheiten"
+    * neue Feld: "Übung"
     * Löschfunktionen 
     * Funktion: Feldinhalte aus anderem Satz des gleichen Musikstücks übernehmen (Checkbox "bekannte Eigenschaft übernehmen"?) 
 
@@ -119,3 +127,7 @@ Sonstiges 26.03.204
 * Anpassung Erfassung: Musikstueck.Nummer, Satz.Nr + jeweils Name - Vergabe-Automatismus 
 * Anpassung Erfassung: edit_sammlung_add_musikstueck.php: default-Wert 0 
 
+
+29.03.2024 
+
+* Alle Suchformular-Felder in einem Rutsch leeren 

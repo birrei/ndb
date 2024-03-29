@@ -15,7 +15,7 @@ select
     , epoche.Name as Epoche
     , gattung.Name as Gattung 
 /* satz */     
-    , satz.Name as Satz 
+    , satz.Name 
     , satz.Nr as SatzNr
     , satz.Name as SatzName
     , satz.Taktart

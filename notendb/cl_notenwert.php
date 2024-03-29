@@ -145,7 +145,7 @@ class Notenwert {
     try {
       $stmt->execute(); 
       $html = new HtmlSelect($stmt); 
-      $html->print_select_multi('Notenwert', 'Notenwerten[]', $options_selected); 
+      $html->print_select_multi('Notenwert', 'Notenwerte[]', $options_selected); 
     }
     catch (PDOException $e) {
       include_once("ctl_html_info.php"); 

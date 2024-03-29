@@ -14,7 +14,6 @@ class Satz {
   public $Schwierigkeitsgrad;
   public $Lagen;
   // public $Stricharten;
-  public $Notenwerte;
   public $Erprobt;
   public $Bemerkung;
   
@@ -23,41 +22,6 @@ class Satz {
 
   }
 
-  function print_table_from_musikstueck(){
-
-    $query="SELECT ID, 
-              Nr, 
-              Name,  
-              Tonart,
-              Taktart,
-              Tempobezeichnung,
-              Spieldauer,
-              Schwierigkeitsgrad         
-            from satz   
-            WHERE MusikstueckID = :MusikstueckID 
-            ORDER by Nr"; 
-                
-    include_once("cl_db.php");
-    $conn = new DbConn(); 
-    $db=$conn->db; 
-  
-    $stmt = $db->prepare($query); 
-    $stmt->bindParam(':MusikstueckID', $this->MusikstueckID, PDO::PARAM_INT); 
-      
-    try {
-      $stmt->execute(); 
-      include_once("cl_html_table.php");      
-      $html = new HtmlTable($stmt); 
-      $html->print_table($this->table_name, true); 
-      
-    }
-    catch (PDOException $e) {
-      include_once("cl_html_info.php"); 
-      $info = new HtmlInfo();      
-      $info->print_user_error(); 
-      $info->print_error($stmt, $e); 
-    }
-  }
 
   function insert_row($Nr, $Name){         
     include_once("cl_db.php");
@@ -101,8 +65,6 @@ class Satz {
             , $Spieldauer
             , $Schwierigkeitsgrad
             , $Lagen
-            // , $Stricharten
-            , $Notenwerte
             , $Erprobt
             , $Bemerkung
     
@@ -123,7 +85,6 @@ class Satz {
                           Spieldauer=:Spieldauer, 
                           Schwierigkeitsgrad=:Schwierigkeitsgrad, 
                           Lagen=:Lagen, 
-                          Notenwerte=:Notenwerte, 
                           Erprobt=:Erprobt, 
                           Bemerkung=:Bemerkung
                           WHERE `ID` = :ID"); 
@@ -138,8 +99,6 @@ class Satz {
     $update->bindParam(':Spieldauer', $Spieldauer);
     $update->bindParam(':Schwierigkeitsgrad', $Schwierigkeitsgrad);
     $update->bindParam(':Lagen', $Lagen);
-    // $update->bindParam(':Stricharten', $Stricharten);
-    $update->bindParam(':Notenwerte', $Notenwerte);
     $update->bindParam(':Erprobt', $Erprobt);
     $update->bindParam(':Bemerkung', $Bemerkung);
 
@@ -154,8 +113,6 @@ class Satz {
       $this->Spieldauer=$Spieldauer;
       $this->Schwierigkeitsgrad=$Schwierigkeitsgrad;
       $this->Lagen=$Lagen;
-//      $this->Stricharten=$Stricharten;
-      $this->Notenwerte=$Notenwerte;
       $this->Erprobt=$Erprobt;
       $this->Bemerkung=$Bemerkung;
 
@@ -185,7 +142,6 @@ class Satz {
                       ,`Spieldauer`
                       ,`Schwierigkeitsgrad`
                       ,`Lagen`
-                      ,`Notenwerte`
                       ,`Erprobt`
                       ,`Bemerkung`
     FROM `satz`
@@ -205,7 +161,6 @@ class Satz {
     $this->Spieldauer=$row_data["Spieldauer"];
     $this->Schwierigkeitsgrad=$row_data["Schwierigkeitsgrad"];
     $this->Lagen=$row_data["Lagen"];
-    $this->Notenwerte=$row_data["Notenwerte"];
     $this->Erprobt=$row_data["Erprobt"];
     $this->Bemerkung=$row_data["Bemerkung"];
     
@@ -242,8 +197,10 @@ class Satz {
       $info->print_error($stmt, $e); 
     }
   }
-  function print_table_notenwerte(){
-    $query="SELECT notenwert.ID
+
+  function print_table_notenwerte($target_file){
+    $query="SELECT satz_notenwert.ID
+          , satz_notenwert.NotenwertID
           , notenwert.Name                              
           FROM satz_notenwert          
           INNER JOIN notenwert 
@@ -262,8 +219,7 @@ class Satz {
       $stmt->execute(); 
       include_once("cl_html_table.php");      
       $html = new HtmlTable($stmt); 
-      // $html->print_table($this->table_name, true); 
-      $html->print_table(); 
+      $html->print_table_with_del_link($target_file, 'SatzID', $this->ID); 
     }
     catch (PDOException $e) {
       include_once("cl_html_info.php"); 
@@ -272,6 +228,7 @@ class Satz {
       $info->print_error($stmt, $e); 
     }
   }
+
   function add_strichart ($StrichartID){
       include_once("cl_db.php");
       $conn = new DbConn(); 
@@ -316,8 +273,26 @@ class Satz {
       $info->print_user_error(); 
       $info->print_error($insert, $e);  
     }  
+  }
 
-}
+  function delete_notenwert($ID){
+    include_once("cl_db.php");
+    $conn = new DbConn(); 
+    $db=$conn->db; 
+
+    $delete = $db->prepare("DELETE FROM `satz_notenwert` WHERE ID=:ID"); 
+    $delete->bindValue(':ID', $ID);  
+
+    try {
+      $delete->execute(); 
+    }
+    catch (PDOException $e) {
+      include_once("cl_html_info.php"); 
+      $info = new HtmlInfo();      
+      $info->print_user_error(); 
+      $info->print_error($insert, $e);  
+    }  
+  }
 
   function print_select($value_selected=''){
     /***** select box (fake) *****/ 

@@ -9,13 +9,22 @@ echo '<h2>Notenwert bearbeiten</h2>';
 $notenwert = new Notenwert();
 $info= new HtmlInfo(); 
 
+if (!isset($_GET["option"]) and isset($_GET["ID"]))  {
+  // geöffnet über "Bearbeiten"-Link einer anderen Seite 
+  $notenwert->ID=$_GET["ID"];
+  $notenwert->load_row();  
+}
 if (isset($_GET["option"]) and $_GET["option"]=='insert') {
+  // aus dem insert_- Formular weitergeleitet 
   $notenwert->insert_row($_GET["Name"]); 
 }
 if (isset($_POST["option"]) and $_POST["option"]=='edit') {
+  // in akt. Datei nach dem editieren gespeichert 
   $notenwert->ID = $_POST["ID"];    
   $notenwert->update_row($_POST["Name"]); 
 }
+
+
 
 echo '
 <form action="edit_notenwert.php" method="post">

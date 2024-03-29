@@ -4,19 +4,19 @@ include('head.php');
 
 <h2>Zum nächsten Termin</h2>
 <pre>
+  * Suchformular: Funkion "alle Filter zurücksetzen", + Filter "Notenwerte"
+  * Korrektur Satz.-Nr (0 oder leer -> 1 )
+  * Umstellung Satz > Notenwerte (Bearbeitung, Suche etc.)
+     dazu: Neuer Ablauf "Erfassen" - > "Bearbeiten" (wird noch auf andere Seiten auch angewandt, bisher nur Satz > Notenwerte)  
 
- * Korrektur Satz.Nr (0 oder leer -> 1 )
-
-
+  * Hinweis: Formulare  "Erfassung->Bearbeitung" werden nochmal überarbeitet, ausserdem wird es für Unterformulare es eine Löschfunktion geben 
 
 </pre>
 
 <pre>
 ------------------------
-
-
 Info zum 26.03. 
-  * Info: Erfassung Musikstück / Satz: 
+  * Info: Erfassung Musikstück / Satz:x 
     * Nummer-Felder werden mit Vorgabewert "1" besetzt (was natürlich geändert werden kann) 
     * Wenn Musikstück Name leer bleibt, wird "Musiksück [Nr]" gespeichert.
     * Wenn Satz Name leer bleibt, wird "Satz [Nr]" gepsichert 

@@ -14,6 +14,7 @@ include("cl_strichart.php");
 include("cl_verlag.php"); 
 include("cl_gattung.php"); 
 include("cl_epoche.php"); 
+include("cl_notenwert.php"); 
 
 $Standorte=[];   /* Sammlung */
 $Verlage=[];   /* Sammlung */
@@ -24,6 +25,7 @@ $Gattungen=[];   /* Musikstück  */
 $Epochen=[];   /* Musikstück  */
 
 $Stricharten=[];  /* Satz  */
+$Notenwerte=[];  /* Satz  */
 
 $spieldauer_von=''; 
 $spieldauer_bis=''; 
@@ -59,6 +61,9 @@ if ("POST" == $_SERVER["REQUEST_METHOD"]) {
   }         
   if (isset($_REQUEST['Stricharten'])) {
     $Stricharten = $_REQUEST['Stricharten'];   
+  } 
+  if (isset($_REQUEST['Notenwerte'])) {
+    $Notenwerte = $_REQUEST['Notenwerte'];   
   } 
   if (isset($_REQUEST['SpieldauerVon'])) {
     $spieldauer_von = $_REQUEST['SpieldauerVon'];   
@@ -139,7 +144,13 @@ if ("POST" == $_SERVER["REQUEST_METHOD"]) {
           echo ''; 
         ?>
     </td>
-  <td class="selectboxes"><!-- Platzhalter Spalte 2 --> </td>
+    <td class="selectboxes"><b>Notenwert(e):</b> <br>
+    <?php 
+            $notenwerte = new Notenwert();
+            $notenwerte->print_select_multi($Notenwerte);      
+          echo ''; 
+        ?>
+    </td>
   <td class="selectboxes"><!-- Platzhalter Spalte 3 --> </td>
   <td class="selectboxes">
      Spieldauer von: <br> <input type="text" id="SpieldauerVon" name="SpieldauerVon" size="5" value="<?php echo $spieldauer_von; ?>"><br> 
@@ -157,22 +168,23 @@ if ("POST" == $_SERVER["REQUEST_METHOD"]) {
 
 </tr>
 </table> 
-      <input type="button" id="btnReset_All" value="Alle Suchfelder zurücksetzen" onclick="Reset_All();" /> 
-      <script type="text/javascript">  
-                function Reset_All() {  
-                var stringNames  
-                for(i=0; i<document.forms[0].elements.length; i++){
-                  if(document.forms[0].elements[i].type == 'text'){
-                    document.forms[0].elements[i].value=""; 
-                  }
-                  if(document.forms[0].elements[i].type == 'select-multiple'){
-                    document.forms[0].elements[i].selectedIndex = -1;
-                  }   
-                }
-            }  
-        </script> 
 
-<p id="test"></p>
+<p></p>
+
+<input type="button" id="btnReset_All" value="Alle Filter zurücksetzen" onclick="Reset_All();" /> 
+<script type="text/javascript">  
+          function Reset_All() {  
+          for(i=0; i<document.forms[0].elements.length; i++){
+            if(document.forms[0].elements[i].type == 'text'){
+              document.forms[0].elements[i].value=""; 
+            }
+            if(document.forms[0].elements[i].type == 'select-multiple'){
+              document.forms[0].elements[i].selectedIndex = -1;
+            }   
+          }
+      }  
+</script> 
+<p></p>
 
 <fieldset>Ebene: 
     <input type="radio" id="sm" name="Ebene" value="Sammlung" <?php echo ($Ebene=='Sammlung'?'checked':'') ?>>
@@ -197,6 +209,7 @@ if ("POST" == $_SERVER["REQUEST_METHOD"]) {
   $filterGattungen='';  
   $filterEpochen='';    
   $filterStricharten=''; 
+  $filterNotenwerte='';   
   $filterSpieldauer='';   
 
   
@@ -241,9 +254,12 @@ if ("POST" == $_SERVER["REQUEST_METHOD"]) {
       $filterStricharten = 'IN ('.implode(',', $Stricharten).')'; 
       $filter=true; 
     }
-
+    if (isset($_REQUEST['Notenwerte'])) {
+      $Notenwerte = $_REQUEST['Notenwerte'];   
+      $filterNotenwerte = 'IN ('.implode(',', $Notenwerte).')'; 
+      $filter=true; 
+    }
     if (isset($_REQUEST['SpieldauerVon']) and isset($_REQUEST['SpieldauerBis']) ) {
-
       if ($_REQUEST['SpieldauerVon']!='') {
         $spieldauer_von=(is_numeric($_REQUEST['SpieldauerVon'])?$_REQUEST['SpieldauerVon']:''); 
       }
@@ -374,6 +390,9 @@ if ("POST" == $_SERVER["REQUEST_METHOD"]) {
       if($filterStricharten!=''){
         $query.=' AND ssa.StrichartID '.$filterStricharten. PHP_EOL; 
       }
+      if($filterNotenwerte!=''){
+        $query.=' AND satz_notenwert.NotenwertID '.$filterNotenwerte. PHP_EOL; 
+      }      
       if($filterSpieldauer!=''){
         $query.=' AND sa.Spieldauer '.$filterSpieldauer. PHP_EOL; 
       }

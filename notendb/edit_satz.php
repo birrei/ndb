@@ -26,7 +26,6 @@ if (isset($_POST["senden"])) {
                   , $_POST["Spieldauer"]
                   , $_POST["Schwierigkeitsgrad"]
                   , $_POST["Lagen"]
-                  , $_POST["Notenwerte"]
                   , $_POST["Erprobt"]
                   , $_POST["Bemerkung"]
                   
@@ -120,14 +119,6 @@ echo
     <label>
     <td class="eingabe">Lagen:</td>  
     <td class="eingabe"><input type="text" name="Lagen" value="'.$satz->Lagen.'" size="45" maxlength="80" autofocus="autofocus"></td>
-    </label>
-  </tr> 
-
-
-  <tr>    
-    <label>
-    <td class="eingabe">Notenwerte:</td>  
-    <td class="eingabe"><input type="text" name="Notenwerte" value="'.$satz->Notenwerte.'" size="45" maxlength="80" autofocus="autofocus"></td>
     </label>
   </tr> 
 

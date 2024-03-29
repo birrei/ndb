@@ -103,7 +103,6 @@ from komponist
     and Tonart <> ''
     order by Tonart; 
 
-
     create or REPLACE view v_tmp_Taktart as 
     select distinct 0 as ID, Taktart from satz  
     where Taktart is not null 
@@ -134,12 +133,6 @@ from komponist
     where Erprobt is not null 
     and Erprobt <> ''
     order by Erprobt; 
-        
-     create or REPLACE view v_tmp_Notenwerte as 
-    select distinct 0 as ID, Notenwerte from satz  
-    where Notenwerte is not null 
-    and Notenwerte <> ''
-    order by Notenwerte
-    -- ; 
+
 
 -- /* ! am Ende der Datei kein Semikolon verwenden */ 

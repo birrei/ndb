@@ -1,7 +1,9 @@
 
 <?php 
 include('head_raw.php');
+include("cl_musikstueck.php");
 include("cl_satz.php");
+
 
 $MusikstueckID=''; 
 if (isset($_GET["MusikstueckID"])) {
@@ -41,6 +43,19 @@ if (isset($_POST["MusikstueckID"])) {
 <?php
 echo '<p> <a href="edit_musikstueck_list_saetze.php?MusikstueckID='.$MusikstueckID.'">[Erfassung beenden]</a></p>'; 
 
+// XXX 
+// $satz = new Satz(); 
+// $satz->MusikstueckID=$MusikstueckID; 
+
+// if ("POST" == $_SERVER["REQUEST_METHOD"]) {
+//   $satz->insert_row($_POST["Nr"], $_POST["Name"]); 
+// }
+
+// $satz->print_table_from_musikstueck(); 
+/// XXX 
+
+
+
 $satz = new Satz(); 
 $satz->MusikstueckID=$MusikstueckID; 
 
@@ -48,7 +63,9 @@ if ("POST" == $_SERVER["REQUEST_METHOD"]) {
   $satz->insert_row($_POST["Nr"], $_POST["Name"]); 
 }
 
-$satz->print_table_from_musikstueck(); 
+$musikstueck = new Musikstueck(); 
+$musikstueck->ID=$MusikstueckID; 
+$musikstueck->print_table_saetze(); 
 
 
 include('foot_raw.php');

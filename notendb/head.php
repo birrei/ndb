@@ -1,4 +1,10 @@
 <?php 
+ $title='Notendatenbank'; 
+
+if ( isset($_GET["table"]) ){
+  $title=$_GET["table"].' - '.$title; 
+}
+
 ?> 
 <!DOCTYPE html PUBLIC '-//W3C//DTD XHTML 1.0 Transitional//EN'
     'http://www.w3.org/TR/xhtml1/DTD/xhtml1-trans.dtd'>
@@ -13,7 +19,7 @@
   <meta http-equiv="pragma" content="no-cache">   
 
    <title>
-    Noten-Datenbank 
+    <?php echo $title;  ?>
    </title>
    <link rel='stylesheet' type='text/css' href='style.css'/>
   </head>

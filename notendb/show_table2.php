@@ -34,7 +34,7 @@ try {
   include_once("cl_html_table.php");      
   $html = new HtmlTable($select); 
   echo '<h3>Tabelle '.$table.'</h3>'; 
-  $html->print_table($table_edit, $show_edit_link); 
+  $html->print_table($table_edit, true); 
 }
 catch (PDOException $e) {
   include_once("cl_html_info.php"); 

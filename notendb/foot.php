@@ -3,7 +3,7 @@
 <hr>
 <p>
     
-    <a href="index.php">Startseite</a> | 
+    <a href="index.php" target="_blank">Startseite</a> | 
     <a href="search_musikstueck.php" target="_blank">Suche</a> | 
     <a href="tests.php" target="_blank">Tests</a> | 
     <a href="help.php" target="_blank">Hilfe</a>  |     

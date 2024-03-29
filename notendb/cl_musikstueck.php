@@ -304,7 +304,6 @@ class Musikstueck {
     include_once("cl_db.php");  
     include_once("cl_html_select.php");
 
-
     $query="SELECT DISTINCT `ID` as MusikstueckID
             , `Name` FROM `musikstueck` 
             WHERE ID=:ID";
@@ -329,10 +328,45 @@ class Musikstueck {
     }
   }
 
+
+  function print_table_saetze(){
+
+    $query="SELECT ID, 
+              Nr, 
+              Name,  
+              Tonart,
+              Taktart,
+              Tempobezeichnung,
+              Spieldauer,
+              Schwierigkeitsgrad         
+            from satz   
+            WHERE MusikstueckID = :MusikstueckID 
+            ORDER by Nr"; 
+                
+    include_once("cl_db.php");
+    $conn = new DbConn(); 
+    $db=$conn->db; 
+
+    $stmt = $db->prepare($query); 
+    $stmt->bindParam(':MusikstueckID', $this->ID, PDO::PARAM_INT); 
+      
+    try {
+      $stmt->execute(); 
+      include_once("cl_html_table.php");      
+      $html = new HtmlTable($stmt); 
+      $html->print_table('satz', true); 
+      
+    }
+    catch (PDOException $e) {
+      include_once("cl_html_info.php"); 
+      $info = new HtmlInfo();      
+      $info->print_user_error(); 
+      $info->print_error($stmt, $e); 
+    }
+  }
+  
   
 }
-
- 
 
 
 
