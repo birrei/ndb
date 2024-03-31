@@ -5,7 +5,7 @@ include('head.php');
 
 <h1>Besetzung erfassen</h1> 
 
-<form action="insert_besetzung.php" method="post">
+<form action="edit_besetzung.php" method="get">
 
 <table class="eingabe"> 
   <tr>    
@@ -20,19 +20,15 @@ include('head.php');
     <td class="eingabe"><input type="submit" value="Speichern"></td>
 </tr>
 </table> 
-
+<input type="hidden" name="option" value="insert"> 
 </form>
 
 <?php
 
 include_once('cl_besetzung.php'); 
+echo '<hr />'; 
 $besetzung = new Besetzung();
-if ("POST" == $_SERVER["REQUEST_METHOD"]) {
-    $besetzung->insert_row($_POST["Name"]); 
-}   
-
 $besetzung->print_table();   
-
 
 include('foot.php');
 

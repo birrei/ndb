@@ -7,21 +7,24 @@ include("cl_html_info.php");
 echo '<h2>Verlag bearbeiten</h2>'; 
 
 $verlag = new Verlag();
+$info= new HtmlInfo(); 
 
-if (isset($_GET["ID"])) {
-  $ID= $_GET["ID"];  
-  $verlag->load_row($ID); 
+if (!isset($_GET["option"]) and isset($_GET["ID"]))  {
+  // geöffnet über einen "Bearbeiten"-Link
+  $verlag->ID=$_GET["ID"];
+  $verlag->load_row();  
+  $info->print_action_info($verlag->ID, 'view');    
 }
-
-if (isset($_POST["senden"])) {
-  $ID= $_POST["ID"]; 
-  if ($_POST["option"] == 'edit') { 
-    $verlag->update_row(
-                      $ID
-                      , $_POST["Name"]
-                      , $_POST["Bemerkung"]                      
-                    ); 
-  }
+if (isset($_GET["option"]) and $_GET["option"]=='insert') {
+  // nach insert geladen   
+  $verlag->insert_row($_GET["Name"]); 
+  $info->print_action_info($verlag->ID, 'insert');     
+}
+if (isset($_POST["option"]) and $_POST["option"]=='edit') {
+  // in akt. Datei nach dem editieren gespeichert 
+  $verlag->ID = $_POST["ID"];    
+  $verlag->update_row($_POST["Name"], $_POST["Bemerkung"]); 
+  $info->print_action_info($verlag->ID, 'update');     
 }
 
 echo '
@@ -62,14 +65,6 @@ echo '
 
 </form>
 '; 
-if (isset($_POST["senden"])) {
-  $ID= $_POST["ID"]; 
-  if ($_POST["option"] == 'edit') { 
-    $info= new HtmlInfo(); 
-    $info->print_action_info($verlag->ID, 'update'); 
-    $info->print_close_form_info(); 
-   }
-}
 
 include('foot.php');
 

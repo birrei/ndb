@@ -7,26 +7,31 @@ include("cl_html_info.php");
 echo '<h2>Komponist bearbeiten</h2>'; 
 
 $komponist = new Komponist();
+$info= new HtmlInfo(); 
 
-if (isset($_GET["ID"])) {
-  $komponist->ID = $_GET["ID"];
-  $komponist->load_row(); 
+if (!isset($_GET["option"]) and isset($_GET["ID"]))  {
+  // geöffnet über einen "Bearbeiten"-Link
+  $komponist->ID=$_GET["ID"];
+  $komponist->load_row();  
+  $info->print_action_info($komponist->ID, 'view');    
 }
-
-if (isset($_POST["senden"])) {
-  if ($_POST["option"] == 'edit') { 
-    $komponist->ID = $_POST["ID"]; 
-    $komponist->update_row(
+if (isset($_GET["option"]) and $_GET["option"]=='insert') {
+  // nach insert geladen   
+  $komponist->insert_row($_GET["Vorname"], $_GET["Nachname"]); 
+  $komponist->load_row();  
+  $info->print_action_info($komponist->ID, 'insert');     
+}
+if (isset($_POST["option"]) and $_POST["option"]=='edit') {
+  // in akt. Datei nach dem editieren gespeichert 
+  $komponist->ID = $_POST["ID"];    
+  $komponist->update_row(
                       $_POST["Vorname"]
                       , $_POST["Nachname"]
                       , $_POST["Geburtsjahr"]
                       , $_POST["Sterbejahr"]
                       , $_POST["Bemerkung"]                      
                     ); 
-  }
-  $info= new HtmlInfo(); 
-  $info->print_action_info($komponist->ID, 'update'); 
-  $info->print_close_form_info();         
+  $info->print_action_info($komponist->ID, 'update');     
 }
 
 echo '
@@ -86,15 +91,6 @@ echo '
 
   </form>
   '; 
-
-// if (isset($_POST["senden"])) {
-//     $ID= $_POST["ID"]; 
-//     if ($_POST["option"] == 'edit') { 
-//       $info= new HtmlInfo(); 
-//       $info->print_action_info($komponist->ID, 'update'); 
-//       $info->print_close_form_info();       
-//      }
-// }
 
 
 include('foot.php');

@@ -5,7 +5,7 @@ include('head.php');
 
 <h1>Standort erfassen</h1> 
 
-<form action="insert_standort.php" method="post">
+<form action="edit_standort.php" method="get">
 
 <table class="eingabe"> 
   <tr>    
@@ -20,17 +20,15 @@ include('head.php');
     <td class="eingabe"><input type="submit" value="Speichern"></td>
 </tr>
 </table> 
-
+<input type="hidden" name="option" value="insert"> 
 </form>
 
 <?php
 
-include_once('cl_standort.php'); 
-$standort = new Standort();
-if ("POST" == $_SERVER["REQUEST_METHOD"]) {
-    $standort->insert_row($_POST["Name"]); 
-}   
 
+include_once('cl_standort.php'); 
+echo '<hr />'; 
+$standort = new Standort();
 $standort->print_table();   
 
 

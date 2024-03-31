@@ -25,7 +25,10 @@ select ID
         then  Vorname 
     End Name
     , Vorname
-    , Nachname 
+    , Nachname
+    , Geburtsjahr
+    , Sterbejahr
+    , Bemerkung  
 from komponist
 ;
 

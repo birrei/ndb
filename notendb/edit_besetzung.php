@@ -6,18 +6,26 @@ include("cl_html_info.php");
 
 echo '<h2>Besetzung bearbeiten</h2>'; 
 
-$besetzung = new Besetzung();
+$besetzung = new Besetzung();;
+$info= new HtmlInfo(); 
 
-if (isset($_GET["ID"])) {
-  $ID= $_GET["ID"];  
-  $besetzung->load_row($ID); 
+if (!isset($_GET["option"]) and isset($_GET["ID"]))  {
+  // geöffnet über einen "Bearbeiten"-Link
+  $besetzung->ID=$_GET["ID"];
+  $besetzung->load_row();  
+  $info->print_action_info($besetzung->ID, 'view');    
 }
-
-if (isset($_POST["senden"])) {
-  $ID= $_POST["ID"]; 
-  if ($_POST["option"] == 'edit') { 
-    $besetzung->update_row($ID, $_POST["Name"]); 
-  }
+if (isset($_GET["option"]) and $_GET["option"]=='insert') {
+  // nach insert geladen   
+  $besetzung->insert_row($_GET["Name"]); 
+  $besetzung->load_row();  
+  $info->print_action_info($besetzung->ID, 'insert');     
+}
+if (isset($_POST["option"]) and $_POST["option"]=='edit') {
+  // in akt. Datei nach dem editieren gespeichert 
+  $besetzung->ID = $_POST["ID"];    
+  $besetzung->update_row($_POST["Name"]); 
+  $info->print_action_info($besetzung->ID, 'update');     
 }
 
 echo '
@@ -51,14 +59,6 @@ echo '
 
 </form>
 '; 
-if (isset($_POST["senden"])) {
-  $ID= $_POST["ID"]; 
-  if ($_POST["option"] == 'edit') { 
-    $info= new HtmlInfo(); 
-    $info->print_action_info($besetzung->ID, 'update'); 
-    $info->print_close_form_info(); 
-   }
-}
 
 include('foot.php');
 

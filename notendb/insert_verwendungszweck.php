@@ -5,7 +5,7 @@ include('head.php');
 
 <h1>Verwendungszweck erfassen</h1> 
 
-<form action="insert_verwendungszweck.php" method="post">
+<form action="edit_verwendungszweck.php" method="get">
 
 <table class="eingabe"> 
   <tr>    
@@ -20,19 +20,14 @@ include('head.php');
     <td class="eingabe"><input type="submit" value="Speichern"></td>
 </tr>
 </table> 
-
+<input type="hidden" name="option" value="insert"> 
 </form>
 
 <?php
 
 include_once('cl_verwendungszweck.php'); 
 $verwendungszweck = new verwendungszweck();
-if ("POST" == $_SERVER["REQUEST_METHOD"]) {
-    $verwendungszweck->insert_row($_POST["Name"]); 
-}   
-
 $verwendungszweck->print_table();   
-
 
 include('foot.php');
 

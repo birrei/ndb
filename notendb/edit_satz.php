@@ -72,7 +72,7 @@ echo
   <tr>    
     <label>
     <td class="eingabe">Name:</td>  
-    <td class="eingabe"><input type="text" name="Name" value="'.$satz->Name.'" size="45" maxlength="80" autofocus="autofocus"></td>
+    <td class="eingabe"><input type="text" name="Name" value="'.$satz->Name.'" size="100" maxlength="80" autofocus="autofocus"></td>
     </label>
   </tr> 
 

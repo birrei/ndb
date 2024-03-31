@@ -6,19 +6,28 @@ include("cl_html_info.php");
 
 echo '<h2>Verwendungszweck bearbeiten</h2>'; 
 
-$verwendungszweck = new verwendungszweck();
+$verwendungszweck = new Verwendungszweck();
+$info= new HtmlInfo(); 
 
-if (isset($_GET["ID"])) {
-  $ID= $_GET["ID"];  
-  $verwendungszweck->load_row($ID); 
+if (!isset($_GET["option"]) and isset($_GET["ID"]))  {
+  // geöffnet über einen "Bearbeiten"-Link
+  $verwendungszweck->ID=$_GET["ID"];
+  $verwendungszweck->load_row();  
+  $info->print_action_info($verwendungszweck->ID, 'view');    
+}
+if (isset($_GET["option"]) and $_GET["option"]=='insert') {
+  // nach insert geladen   
+  $verwendungszweck->insert_row($_GET["Name"]); 
+  $verwendungszweck->load_row();  
+  $info->print_action_info($verwendungszweck->ID, 'insert');     
+}
+if (isset($_POST["option"]) and $_POST["option"]=='edit') {
+  // in akt. Datei nach dem editieren gespeichert 
+  $verwendungszweck->ID = $_POST["ID"];    
+  $verwendungszweck->update_row($_POST["Name"]); 
+  $info->print_action_info($verwendungszweck->ID, 'update');     
 }
 
-if (isset($_POST["senden"])) {
-  $ID= $_POST["ID"]; 
-  if ($_POST["option"] == 'edit') { 
-    $verwendungszweck->update_row($ID, $_POST["Name"]); 
-  }
-}
 
 echo '
 <form action="edit_verwendungszweck.php" method="post">
@@ -51,14 +60,6 @@ echo '
 
 </form>
 '; 
-if (isset($_POST["senden"])) {
-  $ID= $_POST["ID"]; 
-  if ($_POST["option"] == 'edit') { 
-    $info= new HtmlInfo(); 
-    $info->print_action_info($verwendungszweck->ID, 'update'); 
-    $info->print_close_form_info(); 
-   }
-}
 
 include('foot.php');
 

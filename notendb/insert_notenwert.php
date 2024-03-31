@@ -19,19 +19,19 @@ include('head.php');
   <tr> 
     <td class="eingabe"></td> 
     <td class="eingabe"><input type="submit" value="Speichern"></td>
-
-</tr>
+  </tr>
 </table> 
 <input type="hidden" name="option" value="insert"> 
 
 </form>
 
-<hr />
-
 <?php
-include_once('cl_html_info.php'); 
-$info=new HtmlInfo(); 
-$info->print_table_link('notenwert'); 
+
+include_once('cl_notenwert.php');
+echo '<hr />'; 
+$notenwert=new Notenwert(); 
+$notenwert->print_table();   
+
 
 include('foot.php');
 

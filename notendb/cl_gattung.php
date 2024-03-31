@@ -98,7 +98,7 @@ class Gattung {
                             WHERE `ID` = :ID"); 
 
     $update->bindParam(':ID', $this->ID, PDO::PARAM_INT);
-    $update->bindParam(':Name', $_POST["Name"]);
+    $update->bindParam(':Name', $Name);
 
     try {
       $update->execute(); 

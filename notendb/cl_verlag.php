@@ -12,24 +12,18 @@
     $this->table_name='verlag'; 
   }
 
-  function insert_row ($Name, $Bemerkung) {
+  function insert_row ($Name) {
     include_once("cl_db.php");
     $conn = new DbConn(); 
     $db=$conn->db; 
 
-    $insert = $db->prepare("INSERT INTO `verlag` 
-              SET `Name`     = :Name
-              , Bemerkung=:Bemerkung"
-    );
-
+    $insert = $db->prepare("INSERT INTO `verlag` SET `Name`     = :Name");
     $insert->bindParam(':Name', $Name);
-    $insert->bindParam(':Bemerkung', $Bemerkung);
 
     try {
       $insert->execute(); 
       $this->ID=$db->lastInsertId();
-      $this->Name=$Name;
-      $this->Bemerkung=$Bemerkung;      
+      $this->Name=$Name; 
     }
       catch (PDOException $e) {
       include_once("cl_html_info.php"); 
@@ -93,10 +87,9 @@
   }
 
   function update_row(
-    $ID
-    , $Name
-    , $Bemerkung    
-    ) {
+              $Name
+            , $Bemerkung    
+            ) {
 
     include_once("cl_db.php");   
     $conn = new DbConn(); 
@@ -108,13 +101,12 @@
                             `Bemerkung` = :Bemerkung
                             WHERE `ID` = :ID"); 
 
-    $update->bindParam(':ID', $_POST["ID"], PDO::PARAM_INT);
-    $update->bindParam(':Name', $_POST["Name"]);
-    $update->bindParam(':Bemerkung', $_POST["Bemerkung"]);
+    $update->bindParam(':ID',$this->ID, PDO::PARAM_INT);
+    $update->bindParam(':Name', $Name);
+    $update->bindParam(':Bemerkung', $Bemerkung);
 
     try {
       $update->execute(); 
-      $this->ID=$ID;
       $this->Name=$Name;
       $this->Bemerkung=$Bemerkung;
 
@@ -127,9 +119,8 @@
     }
   }
 
-  function load_row($ID) {
-    /****** Paramter aus gegebener ID auslesen */     
-    $this->ID=$ID;   
+  function load_row() {
+    /****** Paramter aus gegebener ID auslesen */      
     include_once("cl_db.php");   
     $conn = new DbConn(); 
     $db=$conn->db; 
@@ -139,7 +130,7 @@
                           WHERE `ID` = :ID");
 
  
-    $select->bindParam(':ID', $ID, PDO::PARAM_INT);
+    $select->bindParam(':ID', $this->ID, PDO::PARAM_INT);
     $select->execute(); 
     $row_data=$select->fetch();
 

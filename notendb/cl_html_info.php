@@ -22,25 +22,28 @@ class HtmlInfo {
     }
     
     function print_action_info($ID, $action_name){
-        
-        $this->html.= '<p>ID '.$ID.' wurde ';  
+        $this->html.= '<p style="color: blue;">'; 
+        $this->html.=$this->info_datetime;                
+        $this->html.= ' - ID '.$ID.' ';  
 
         switch ($action_name){
-            case 'insert': 
-                $this->html.= ' eingefügt.'; 
+            case 'view': 
+                $this->html.= ' wird angezeigt.'; 
                 // $html.=  '<a href="edit_'.$table_name.'.php?ID=' . $ID . '"' . ($edit_newpage!='' ?' target="_blank"':''). '>[Zeile bearbeiten]</a></p>';  
-    
+                break;             
+            case 'insert': 
+                $this->html.= ' wurde erfasst.'; 
+                // $html.=  '<a href="edit_'.$table_name.'.php?ID=' . $ID . '"' . ($edit_newpage!='' ?' target="_blank"':''). '>[Zeile bearbeiten]</a></p>';  
                 break; 
             case 'update': 
-                $this->html.= ' aktualisiert.';  
+                $this->html.= ' wurde aktualisiert.';  
                 // $html.=  '<a href="edit_'.$table_name.'.php?ID=' . $ID . '">[Zeile bearbeiten]</a></p>';  
-    
                 break;      
             case 'delete': 
-                $this->html.= ' gelöscht.';  
+                $this->html.= ' wurde gelöscht.';  
                 break;      
         }
-        $this->html.=' - '.$this->info_datetime;         
+ 
         $this->html.= '</p>';        
         echo $this->html; 
     }

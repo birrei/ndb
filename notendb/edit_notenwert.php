@@ -10,21 +10,23 @@ $notenwert = new Notenwert();
 $info= new HtmlInfo(); 
 
 if (!isset($_GET["option"]) and isset($_GET["ID"]))  {
-  // geöffnet über "Bearbeiten"-Link einer anderen Seite 
+  // geöffnet über einen "Bearbeiten"-Link
   $notenwert->ID=$_GET["ID"];
   $notenwert->load_row();  
+  $info->print_action_info($notenwert->ID, 'view');    
 }
 if (isset($_GET["option"]) and $_GET["option"]=='insert') {
-  // aus dem insert_- Formular weitergeleitet 
+  // nach insert geladen   
   $notenwert->insert_row($_GET["Name"]); 
+  $notenwert->load_row();  
+  $info->print_action_info($notenwert->ID, 'insert');     
 }
 if (isset($_POST["option"]) and $_POST["option"]=='edit') {
   // in akt. Datei nach dem editieren gespeichert 
   $notenwert->ID = $_POST["ID"];    
   $notenwert->update_row($_POST["Name"]); 
+  $info->print_action_info($notenwert->ID, 'update');     
 }
-
-
 
 echo '
 <form action="edit_notenwert.php" method="post">
@@ -57,16 +59,6 @@ echo '
 
 </form>
 '; 
-if (isset($_POST["senden"])) {
-  $ID= $_POST["ID"]; 
-  if ($_POST["option"] == 'edit') { 
-
-    $info->print_action_info($notenwert->ID, 'update'); 
-    $info->print_close_form_info(); 
-   }
-}
-
-$info->print_table_link('notenwert'); 
 
 include('foot.php');
 

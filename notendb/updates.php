@@ -8,7 +8,6 @@ include('head.php');
   * Korrektur Satz.-Nr (0 oder leer -> 1 )
   * Umstellung Satz > Notenwerte (Bearbeitung, Suche etc.)
      dazu: Neuer Ablauf "Erfassen" - > "Bearbeiten" (wird noch auf andere Seiten auch angewandt, bisher nur Satz > Notenwerte)  
-
   * Hinweis: Formulare  "Erfassung->Bearbeitung" werden nochmal überarbeitet, ausserdem wird es für Unterformulare es eine Löschfunktion geben 
 
 </pre>

@@ -89,9 +89,6 @@ class Besetzung {
     }
   }
 
-
-
-
   function print_table(){
 
     $query="SELECT * from besetzung ORDER by ID DESC"; 
@@ -117,10 +114,7 @@ class Besetzung {
     }
   }
 
-  function update_row(
-    $ID
-    , $Name
-    ) {
+  function update_row($Name) {
 
     include_once("cl_db.php");   
     $conn = new DbConn(); 
@@ -131,12 +125,11 @@ class Besetzung {
                             `Name`     = :Name
                             WHERE `ID` = :ID"); 
 
-    $update->bindParam(':ID', $_POST["ID"], PDO::PARAM_INT);
-    $update->bindParam(':Name', $_POST["Name"]);
+    $update->bindParam(':ID', $this->ID, PDO::PARAM_INT);
+    $update->bindParam(':Name', $Name);
 
     try {
       $update->execute(); 
-      $this->ID=$ID;
       $this->Name=$Name;
     }
     catch (PDOException $e) {
@@ -147,8 +140,7 @@ class Besetzung {
     }
   }
 
-  function load_row($ID) {
-    $this->ID=$ID;   
+  function load_row() {
     include_once("cl_db.php");   
     $conn = new DbConn(); 
     $db=$conn->db; 
@@ -156,9 +148,8 @@ class Besetzung {
     $select = $db->prepare("SELECT `ID`, `Name` 
                           FROM `besetzung`
                           WHERE `ID` = :ID");
-
  
-    $select->bindParam(':ID', $ID, PDO::PARAM_INT);
+    $select->bindParam(':ID', $this->ID, PDO::PARAM_INT);
     $select->execute(); 
     $row_data=$select->fetch();
     $this->Name=$row_data["Name"];

@@ -15,41 +15,25 @@ class Komponist {
     $this->table_name='komponist'; 
   }
 
-  function insert_row (
-              $Vorname
-              , $Nachname
-              , $Geburtsjahr
-              , $Sterbejahr
-              , $Bemerkung
-              ) {
-    /***** Zeile einfügen ***************/                 
+  function insert_row ($Vorname, $Nachname) {                
     include_once("cl_db.php");
     $conn = new DbConn(); 
     $db=$conn->db; 
 
     $insert = $db->prepare("INSERT INTO `komponist` SET
                           `Vorname`     = :Vorname,
-                          `Nachname`     = :Nachname,
-                          `Geburtsjahr`     = :Geburtsjahr,
-                          `Sterbejahr`     = :Sterbejahr,     
-                          `Bemerkung`     = :Bemerkung"
+                          `Nachname`     = :Nachname
+                          "
     );
 
     $insert->bindParam(':Vorname', $Vorname);
     $insert->bindParam(':Nachname', $Nachname);
-    $insert->bindParam(':Geburtsjahr', $Geburtsjahr);
-    $insert->bindParam(':Sterbejahr', $Sterbejahr);
-    $insert->bindParam(':Bemerkung', $Bemerkung);
-    
 
     try {
       $insert->execute(); 
       $this->ID=$db->lastInsertId();
       $this->Vorname=$Vorname;
       $this->Nachname=$Nachname;
-      $this->Geburtsjahr=$Geburtsjahr;
-      $this->Sterbejahr=$Sterbejahr;
-      $this->Bemerkung=$Bemerkung;
     }
     catch (PDOException $e) {
       include_once("cl_html_info.php"); 
@@ -85,15 +69,12 @@ class Komponist {
   }  
 
   function update_row(
-      /***** Zeile speichern / updaten ***************/   
-   $Vorname
-    , $Nachname
-    , $Geburtsjahr
-    , $Sterbejahr
-    , $Bemerkung    
-      ) 
-    {
-
+              $Vorname
+                , $Nachname
+                , $Geburtsjahr
+                , $Sterbejahr
+                , $Bemerkung    
+                  ) {
     include_once("cl_db.php");   
     $conn = new DbConn(); 
     $db=$conn->db; 
@@ -165,7 +146,7 @@ class Komponist {
 
   function print_table(){
     /***** HTML-Tabelle ausgeben  ***************/ 
-    $query="SELECT * from komponist ORDER by ID DESC"; 
+    $query="SELECT * from v_komponist ORDER by ID DESC"; 
 
     include_once("cl_db.php");
     $conn = new DbConn(); 

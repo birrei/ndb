@@ -7,15 +7,25 @@ include("cl_html_info.php");
 echo '<h2>Standort bearbeiten</h2>'; 
 
 $standort = new Standort();
+$info= new HtmlInfo(); 
 
-if (isset($_GET["ID"])) {
-  $standort->ID = $_GET["ID"];  
-  $standort->load_row(); 
+if (!isset($_GET["option"]) and isset($_GET["ID"]))  {
+  // geöffnet über einen "Bearbeiten"-Link
+  $standort->ID=$_GET["ID"];
+  $standort->load_row();  
+  $info->print_action_info($standort->ID, 'view');    
 }
-
-if (isset($_POST["senden"])) {
-    $standort->ID = $_POST["ID"];    
-    $standort->update_row($_POST["Name"]); 
+if (isset($_GET["option"]) and $_GET["option"]=='insert') {
+  // nach insert geladen   
+  $standort->insert_row($_GET["Name"]); 
+  $standort->load_row();  
+  $info->print_action_info($standort->ID, 'insert');     
+}
+if (isset($_POST["option"]) and $_POST["option"]=='edit') {
+  // in akt. Datei nach dem editieren gespeichert 
+  $standort->ID = $_POST["ID"];    
+  $standort->update_row($_POST["Name"]); 
+  $info->print_action_info($standort->ID, 'update');     
 }
 
 echo '
@@ -49,14 +59,6 @@ echo '
 
 </form>
 '; 
-if (isset($_POST["senden"])) {
-  $ID= $_POST["ID"]; 
-  if ($_POST["option"] == 'edit') { 
-    $info= new HtmlInfo(); 
-    $info->print_action_info($standort->ID, 'update'); 
-    $info->print_close_form_info(); 
-   }
-}
 
 include('foot.php');
 
