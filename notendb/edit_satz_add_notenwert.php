@@ -1,9 +1,6 @@
 
 <?php 
 include('head_raw.php');
-
-$SatzID= $_GET["SatzID"];
-
 ?> 
 <form action="edit_satz_list_notenwerte.php" method="get">
 <table class="eingabe"> 
@@ -24,7 +21,7 @@ $SatzID= $_GET["SatzID"];
   <td class="eingabe"><input type="submit" value="Speichern"></td>
  </tr>
  </table> 
- <input type="hidden" name="SatzID" value="<?php echo $SatzID; ?>"> 
+ <input type="hidden" name="SatzID" value="<?php echo $_GET["SatzID"]; ?>"> 
  <input type="hidden" name="option" value="insert"> 
  </form>
 

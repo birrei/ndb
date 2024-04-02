@@ -44,7 +44,8 @@ class HtmlTable {
                 foreach ($this->result as $row) {
                     $html .= '<tr>'. PHP_EOL;
                     foreach ($row as $cell){
-                        if ($this->show_table_link) { // z.B. 1-spaltige Tabelle aus "show tables" 
+                        if ($this->show_table_link) { 
+                            // z.B. 1-spaltige Tabelle aus "show tables" 
                             $html .= '<td><a href="show_table2.php?table='.$cell.'">'.$cell.'</a></td>';
                         }
                         else {                        

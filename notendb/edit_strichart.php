@@ -7,15 +7,25 @@ include("cl_html_info.php");
 echo '<h2>Strichart bearbeiten</h2>'; 
 
 $strichart = new Strichart();
+$info= new HtmlInfo(); 
 
-if (isset($_GET["ID"])) {
-  $strichart->ID = $_GET["ID"];  
-  $strichart->load_row(); 
+if (!isset($_GET["option"]) and isset($_GET["ID"]))  {
+  // geöffnet über einen "Bearbeiten"-Link
+  $strichart->ID=$_GET["ID"];
+  $strichart->load_row();  
+  $info->print_action_info($strichart->ID, 'view');    
 }
-
-if (isset($_POST["senden"])) {
-    $strichart->ID = $_POST["ID"];    
-    $strichart->update_row($_POST["Name"]); 
+if (isset($_GET["option"]) and $_GET["option"]=='insert') {
+  // nach insert geladen   
+  $strichart->insert_row($_GET["Name"]); 
+  $strichart->load_row();  
+  $info->print_action_info($strichart->ID, 'insert');     
+}
+if (isset($_POST["option"]) and $_POST["option"]=='edit') {
+  // in akt. Datei nach dem editieren gespeichert 
+  $strichart->ID = $_POST["ID"];    
+  $strichart->update_row($_POST["Name"]); 
+  $info->print_action_info($strichart->ID, 'update');     
 }
 
 echo '
@@ -49,14 +59,6 @@ echo '
 
 </form>
 '; 
-if (isset($_POST["senden"])) {
-  $ID= $_POST["ID"]; 
-  if ($_POST["option"] == 'edit') { 
-    $info= new HtmlInfo(); 
-    $info->print_action_info($strichart->ID, 'update'); 
-    $info->print_close_form_info(); 
-   }
-}
 
 include('foot.php');
 

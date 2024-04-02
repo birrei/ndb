@@ -15,7 +15,7 @@ if (isset($_GET["option"])){
     } 
 }
 
-$satz->print_table_notenwerte('edit_satz_list_notenwerte.php');   
+$satz->print_table_notenwerte(basename(__FILE__));  
 
 echo '<p> <a href="edit_satz_add_notenwert.php?SatzID='.$satz->ID.'">[Notenwert hinzufügen]</a></p>'; 
 

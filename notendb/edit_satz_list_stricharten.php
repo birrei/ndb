@@ -4,13 +4,21 @@ include('head_raw.php');
 
 include_once("cl_satz.php");
 
-$SatzID=$_GET["SatzID"];
-
 $satz=new Satz();
-$satz->ID=$SatzID; 
-$satz->print_table_sticharten();   
+$satz->ID=$_GET["SatzID"]; 
 
-echo '<p> <a href="edit_satz_add_strichart.php?SatzID='.$SatzID.'">[Strichart hinzufügen]</a></p>'; 
+if (isset($_GET["option"])){
+    if($_GET["option"]=='insert') {
+        $satz->add_strichart($_GET["StrichartID"]); 
+    } 
+    if($_GET["option"]=='delete') {
+        $satz->delete_strichart($_GET["ID"]); // ID = satz_strichart.ID 
+    } 
+}
+
+$satz->print_table_sticharten(basename(__FILE__));  
+
+echo '<p> <a href="edit_satz_add_strichart.php?SatzID='.$satz->ID.'">[Strichart hinzufügen]</a></p>'; 
 
 include('foot_raw.php');
 

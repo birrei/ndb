@@ -77,8 +77,7 @@ class Sammlung {
   function update_row(
           $Name
           , $VerlagID
-         // , $Standort
-         , $StandortID
+          , $StandortID
           , $Bestellnummer
           , $Bemerkung
          ) 
@@ -116,7 +115,7 @@ class Sammlung {
         include_once("cl_html_info.php"); 
         $info = new HtmlInfo();      
         $info->print_user_error(); 
-        $info->print_error($stmt, $e); 
+        $info->print_error($update, $e); 
       }
   }
 

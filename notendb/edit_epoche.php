@@ -7,16 +7,28 @@ include("cl_html_info.php");
 echo '<h2>Epoche bearbeiten</h2>'; 
 
 $epoche = new Epoche();
+$info= new HtmlInfo(); 
 
-if (isset($_GET["ID"])) {
-  $epoche->ID = $_GET["ID"];  
-  $epoche->load_row(); 
+if (!isset($_GET["option"]) and isset($_GET["ID"]))  {
+  // geöffnet über einen "Bearbeiten"-Link
+  $epoche->ID=$_GET["ID"];
+  $epoche->load_row();  
+  $info->print_action_info($epoche->ID, 'view');    
+}
+if (isset($_GET["option"]) and $_GET["option"]=='insert') {
+  // nach insert geladen   
+  $epoche->insert_row($_GET["Name"]); 
+  $epoche->load_row();  
+  $info->print_action_info($epoche->ID, 'insert');     
+}
+if (isset($_POST["option"]) and $_POST["option"]=='edit') {
+  // in akt. Datei nach dem editieren gespeichert 
+  $epoche->ID = $_POST["ID"];    
+  $epoche->update_row($_POST["Name"]); 
+  $info->print_action_info($epoche->ID, 'update');     
 }
 
-if (isset($_POST["senden"])) {
-    $epoche->ID = $_POST["ID"];    
-    $epoche->update_row($_POST["Name"]); 
-}
+
 
 echo '
 <form action="edit_epoche.php" method="post">
@@ -49,14 +61,7 @@ echo '
 
 </form>
 '; 
-if (isset($_POST["senden"])) {
-  $ID= $_POST["ID"]; 
-  if ($_POST["option"] == 'edit') { 
-    $info= new HtmlInfo(); 
-    $info->print_action_info($epoche->ID, 'update'); 
-    $info->print_close_form_info(); 
-   }
-}
+
 
 include('foot.php');
 

@@ -5,7 +5,7 @@ include('head.php');
 
 <h1>Gattung erfassen</h1> 
 
-<form action="insert_gattung.php" method="post">
+<form action="edit_gattung.php" method="get">
 
 <table class="eingabe"> 
   <tr>    
@@ -20,17 +20,13 @@ include('head.php');
     <td class="eingabe"><input type="submit" value="Speichern"></td>
 </tr>
 </table> 
-
+<input type="hidden" name="option" value="insert"> 
 </form>
 
 <?php
-
+echo '<hr />'; 
 include_once('cl_gattung.php'); 
 $gattung = new Gattung();
-if ("POST" == $_SERVER["REQUEST_METHOD"]) {
-    $gattung->insert_row($_POST["Name"]); 
-}   
-
 $gattung->print_table();   
 
 include('foot.php');

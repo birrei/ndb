@@ -5,7 +5,7 @@ include('head.php');
 
 <h1>Epoche erfassen</h1> 
 
-<form action="insert_epoche.php" method="post">
+<form action="edit_epoche.php" method="get">
 
 <table class="eingabe"> 
   <tr>    
@@ -20,17 +20,13 @@ include('head.php');
     <td class="eingabe"><input type="submit" value="Speichern"></td>
 </tr>
 </table> 
-
+<input type="hidden" name="option" value="insert"> 
 </form>
 
 <?php
-
+echo '<hr />'; 
 include_once('cl_epoche.php'); 
 $epoche = new Epoche();
-if ("POST" == $_SERVER["REQUEST_METHOD"]) {
-    $epoche->insert_row($_POST["Name"]); 
-}   
-
 $epoche->print_table();   
 
 include('foot.php');

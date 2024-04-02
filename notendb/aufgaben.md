@@ -1,64 +1,16 @@
 # in Arbeit
 
+
+
  *  Verbesserung insert_* / edit_*-Formulare  - nach Vorlage "Notenwerte" 
-   (insert -> weiterleitung auf edit, User-Info Verbesserung) 
-
-     insert_verwendungszweck.php /    edit_verwendungszweck.php
-     
-     
---- Arbeitsliste: 
-
-    insert_epoche.php
-    insert_gattung.php 
-
-    insert_notenwert.php
-    insert_sammlung.php
-
-    insert_strichart.php
+   
 
 
-
-
-
-  edit_epoche.php
-  edit_gattung.php
-  
-  edit_musikstueck.php
-  edit_musikstueck_add_besetzung.php
-  edit_musikstueck_add_satz.php
-  edit_musikstueck_add_verwendungszweck.php
-  edit_musikstueck_list_besetzungen.php
-  edit_musikstueck_list_saetze.php
-  edit_musikstueck_list_verwendungszwecke.php
-  edit_notenwert.php
-  edit_sammlung.php
-  edit_sammlung_add_musikstueck.php
-  edit_sammlung_list_musikstuecke.php
-  edit_satz.php
-  edit_satz_add_notenwert.php
-  edit_satz_add_strichart.php
-  edit_satz_list_notenwerte.php
-  edit_satz_list_stricharten.php
-
-  edit_strichart.php
-
-  
-
-erledigt: 
-  * insert_verlag.php / edit_verlag.php
-  * insert_standort.php / edit_standort.php
-  * insert_komponist.php / edit_komponist.php
-  * insert_besetzung.php /   edit_besetzung.php
-  
----
-
-
-
-
-
+------------
 
 # In Planung: 
- * Suchformular mit GET-Parametern (so könnten Such-Links gespeichert werden)
+  * L�schfunktion (im Bearbeiten-Formular) 
+  * Suchformular mit GET-Parametern (so könnten Such-Links gespeichert werden)
 
   * Erfassung Satz:
     * Auswahl 
@@ -87,8 +39,8 @@ erledigt:
   * Such-Seite: Ergebnistabelle nach einzelnen Spalten sortierbar 
   * Suchseite: Optimierung per AJAX 
 
+-----
 
----
 
 # Erledigt 
 

@@ -53,32 +53,34 @@ class Musikstueck {
     }
   }
 
-  function insert_row($insert_SammlungID
-                    , $insert_Nummer
-                    , $insert_Name
-                      ) 
-                      {         
+  function insert_row($Nummer, $Name) { 
     include_once("cl_db.php");
-    $insert_Name=($insert_Name==''?'Musikstück '.$insert_Nummer:$insert_Name); // falls Name leer ist,  wird "Musikstück <Nr>" gespeichert 
-
+    if ($Nummer==1) {
+      /* dann wurde evt. default-Wert des Formular übernommen. falls es bereits 
+       vorher Nummer =1 gab, soll der Übergabewert korrigiert (hochgezählt) werden.  
+      */
+      $Nummer = $this->get_next_nummer(); 
+    } 
+    $Name=($Name==''?'(Musikstück '.$Nummer.')':$Name); // falls Name leer ist,  wird "Musikstück <Nr>" gespeichert 
+    
     $conn = new DbConn(); 
     $db=$conn->db; 
   
     $insert = $db->prepare("INSERT INTO `musikstueck` SET
                           `Name`     = :Name,
                           `SammlungID`     = :SammlungID,  
-                          `Nummer`     = :Nummer");
+                          `Nummer`     = :Nummer")
+                          ;
   
-    $insert->bindValue(':SammlungID', $insert_SammlungID);
-    $insert->bindValue(':Nummer', $insert_Nummer);
-    $insert->bindValue(':Name', $insert_Name);
+    $insert->bindValue(':SammlungID', $this->SammlungID);
+    $insert->bindValue(':Nummer', $Nummer);
+    $insert->bindValue(':Name', $Name);
   
     try {
       $insert->execute(); 
       $this->ID = $db->lastInsertId();
-      $this->Nummer=$insert_Nummer; 
-      $this->Name=$insert_Name;  
-      $this->SammlungID=$insert_SammlungID;  
+      $this->Nummer=$Nummer; 
+      $this->Name=$Name;  
     }
     catch (PDOException $e) {
       include_once("cl_html_info.php"); 
@@ -100,6 +102,17 @@ class Musikstueck {
             , $JahrAuffuehrung
          ) {
    
+    // echo '<p>Nummer: '.$Nummer;   
+    // echo '<br>Name: '.$Name;
+    // echo '<br>SammlungID: '.$SammlungID;
+    // echo '<br>KomponistID: '.$KomponistID;
+    // echo '<br>Opus: '.$Opus;
+    // echo '<br>Bearbeiter: '.$Bearbeiter;
+    // echo '<br>GattungID: '.$GattungID;    
+    // echo '<br>EpocheID: '.$EpocheID;    
+    // echo '<br>JahrAuffuehrung: '.$JahrAuffuehrung;   
+    
+
     include_once("cl_db.php");   
     $conn = new DbConn(); 
     $db=$conn->db; 
@@ -121,11 +134,11 @@ class Musikstueck {
     $update->bindParam(':Nummer', $Nummer );
     $update->bindParam(':Name', $Name);
     $update->bindParam(':SammlungID', $SammlungID);
-    $update->bindParam(':KomponistID', $KomponistID);
+    $update->bindParam(':KomponistID', $KomponistID, ($KomponistID=='' ? PDO::PARAM_NULL : PDO::PARAM_INT));
     $update->bindParam(':Opus', $Opus);
-    $update->bindParam(':GattungID', $GattungID);
+    $update->bindParam(':GattungID', $GattungID,($GattungID=='' ? PDO::PARAM_NULL : PDO::PARAM_INT));
     $update->bindParam(':Bearbeiter', $Bearbeiter);
-    $update->bindParam(':EpocheID', $EpocheID);
+    $update->bindParam(':EpocheID', $EpocheID,($EpocheID=='' ? PDO::PARAM_NULL : PDO::PARAM_INT));
     $update->bindParam(':JahrAuffuehrung', $JahrAuffuehrung);
 
     try {
@@ -365,7 +378,21 @@ class Musikstueck {
     }
   }
   
-  
+
+  function get_next_nummer () {
+    $nummer = 1; 
+    include_once("cl_db.php");
+    $conn = new DbConn(); 
+    $db=$conn->db; 
+
+    $sql="SELECT (coalesce(MAX(Nummer),0)) + 1 as next_nr from `musikstueck` 
+             WHERE SammlungID=:SammlungID"; 
+    $stmt = $db->prepare($sql); 
+    $stmt->bindParam(':SammlungID', $this->SammlungID, PDO::PARAM_INT); 
+    $stmt->execute(); 
+    $col=$stmt->fetchColumn(); 
+    return $col;  
+  }  
 }
 
 

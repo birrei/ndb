@@ -9,28 +9,31 @@ include("cl_html_info.php");
 echo '<h2>Sammlung bearbeiten</h2>'; 
 
 $sammlung = new Sammlung();
+$info= new HtmlInfo(); 
 
-if (isset($_GET["ID"])) {
-  $sammlung->ID = $_GET["ID"];
-  $sammlung->load_row(); 
+if (!isset($_GET["option"]) and isset($_GET["ID"]))  {
+  // geöffnet über einen "Bearbeiten"-Link
+  $sammlung->ID=$_GET["ID"];
+  $sammlung->load_row();  
+  $info->print_action_info($sammlung->ID, 'view');    
 }
-
-if (isset($_POST["senden"])) {
-  $sammlung->ID = $_POST["ID"]; 
-  if ($_POST["option"] == 'edit') { 
-    $sammlung->update_row(
-                      $_POST["Name"]
-                      , $_POST["VerlagID"]
-                      , $_POST["StandortID"]
-                      , $_POST["Bestellnummer"]
-                      , $_POST["Bemerkung"]
-                      
-                    ); 
-
-    $info= new HtmlInfo(); 
-    $info->print_action_info($sammlung->ID, 'update'); 
-    $info->print_close_form_info();                        
-  }
+if (isset($_GET["option"]) and $_GET["option"]=='insert') {
+  // nach insert geladen   
+  $sammlung->insert_row($_GET["Name"]); 
+  $sammlung->load_row();  
+  $info->print_action_info($sammlung->ID, 'insert');     
+}
+if (isset($_POST["option"]) and $_POST["option"]=='edit') {
+  // in akt. Datei nach dem editieren gespeichert 
+  $sammlung->ID = $_POST["ID"];    
+  $sammlung->update_row(
+    $_POST["Name"]
+    , $_POST["VerlagID"]
+    , $_POST["StandortID"]
+    , $_POST["Bestellnummer"]
+    , $_POST["Bemerkung"]
+  ); 
+  $info->print_action_info($sammlung->ID, 'update');     
 }
 
   echo '

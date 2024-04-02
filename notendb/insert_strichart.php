@@ -5,7 +5,7 @@ include('head.php');
 
 <h1>Strichart erfassen</h1> 
 
-<form action="insert_strichart.php" method="post">
+<form action="edit_strichart.php" method="get">
 
 <table class="eingabe"> 
   <tr>    
@@ -20,17 +20,13 @@ include('head.php');
     <td class="eingabe"><input type="submit" value="Speichern"></td>
 </tr>
 </table> 
-
+<input type="hidden" name="option" value="insert"> 
 </form>
 
 <?php
-
+echo '<hr />'; 
 include_once('cl_strichart.php'); 
 $strichart = new Strichart();
-if ("POST" == $_SERVER["REQUEST_METHOD"]) {
-    $strichart->insert_row($_POST["Name"]); 
-}   
-
 $strichart->print_table();   
 
 

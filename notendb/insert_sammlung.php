@@ -5,10 +5,8 @@ include("cl_sammlung.php");
 ?> 
 
 <h1>Sammlung erfassen</h1> 
-<form action="insert_sammlung.php" method="post">
-
+<form action="edit_sammlung.php" method="get">
 <table class="eingabe"> 
-
 <tr>    
     <label>
     <td class="eingabe">Name:</td>  
@@ -16,26 +14,18 @@ include("cl_sammlung.php");
      </label>
    </tr> 
 
-
-
   <tr> 
     <td class="eingabe"></td> 
     <td class="eingabe"><input type="submit" value="Speichern"></td>
 </tr>
 </table> 
+<input type="hidden" name="option" value="insert"> 
 </form>
 
 <?php
-
+echo '<hr />'; 
 $sammlung=new Sammlung(); 
-if ("POST" == $_SERVER["REQUEST_METHOD"]) {
-  $Name=$_POST["Name"]; 
-  $sammlung->insert_row($Name); 
-  $ID=$sammlung->ID;  
-
-}
 $sammlung->print_table();
-
 
 include('foot.php');
 

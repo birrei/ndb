@@ -1,0 +1,50 @@
+
+    
+    
+
+
+  edit_sammlung_add_musikstueck.php / edit_sammlung_list_musikstuecke.php
+
+----
+
+
+
+
+  
+  
+  
+  edit_musikstueck.php
+  edit_musikstueck_add_besetzung.php
+  edit_musikstueck_add_satz.php
+  edit_musikstueck_add_verwendungszweck.php
+  edit_musikstueck_list_besetzungen.php
+  edit_musikstueck_list_saetze.php
+  edit_musikstueck_list_verwendungszwecke.php
+  
+
+
+  edit_satz.php
+
+  edit_satz_add_strichart.php
+
+  edit_satz_list_stricharten.php
+
+
+
+  
+---
+erledigt: 
+	* insert_notenwert.php / edit_notenwert.php
+	* insert_verlag.php / edit_verlag.php
+	* insert_standort.php / edit_standort.php
+	* insert_komponist.php / edit_komponist.php
+	* insert_besetzung.php /   edit_besetzung.php
+	* insert_verwendungszweck.php /    edit_verwendungszweck.php
+	* insert_epoche.php / edit_epoche.php
+	* insert_gattung.php / edit_gattung.php
+	* insert_strichart.php /  edit_strichart.php
+* insert_sammlung.php / edit_sammlung.php
+
+  edit_satz_list_notenwerte.php
+    edit_satz_add_notenwert.php
+    
