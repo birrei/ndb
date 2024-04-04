@@ -1,18 +1,42 @@
 <?php 
 include('head.php');
 ?>
-
-<h2>Zum nächsten Termin</h2>
 <pre>
-  * Suchformular: Funkion "alle Filter zurücksetzen", + Filter "Notenwerte"
+Zum nächsten Termin - Neu: 
+
+  * Erfassungsformular wechselt automatisch zum Bearbeitungsformular 
+  * Erfassung Musikstücke und Sätze: Nummer wird automatisch hochgezählt, 
+      automatisierte Namen-Vergabe in Klammern   
+  * Erfassungs-(Haupt.)-Formulare enthalten oben unter der Überschrift die Info zur letzten Aktion in blauer Schrift 
+  * in Unterformularen ist die Funktion "Erfassung beenden" entfernt, 
+      stattdessen muss das Formular-Feld zur Ergänzung einer Zuordnung erneut aufgerufen werden 
+      (etwas unbequemer, aber transparenter) 
+  * innerhalb eines Bearbeitungs-Formulars ist die Aktualisierung einer Seite (per F5) nicht mehr geeigent 
+     (es kommt die Warnung wg. das erneuten SEnden eines Formulars - das funktioniert bei klicken auf "ja" zwar schon, ist aber nicht ideal). 
+      -> Stattdessen bitte einfach "Speichern" drücken. 
+  * Der Speichen-Button ist auffälliger formatiert 
+  * Nochmals der Hinweis, 
+    - dass das Forumular per Tab-Taste durchlaufen werden kann 
+    - das Speichern jederzeit per Eingabetaste betätigt werden kann 
+
+Klärung: 
+   - Spieldauer als Sekunden? 
+     - oder Minuten-Angabe mit Komma? (z.B. 5,5 Minuten für 05:30?)
+
+Stand: 04.04.2024 
+
+</pre>
+<hr>
+
+<pre>
+------------------------
+Info zum 29.03.: 
+* Suchformular: Funkion "alle Filter zurücksetzen", + Filter "Notenwerte"
   * Korrektur Satz.-Nr (0 oder leer -> 1 )
   * Umstellung Satz > Notenwerte (Bearbeitung, Suche etc.)
      dazu: Neuer Ablauf "Erfassen" - > "Bearbeiten" (wird noch auf andere Seiten auch angewandt, bisher nur Satz > Notenwerte)  
   * Hinweis: Formulare  "Erfassung->Bearbeitung" werden nochmal überarbeitet, ausserdem wird es für Unterformulare es eine Löschfunktion geben 
 
-</pre>
-
-<pre>
 ------------------------
 Info zum 26.03. 
   * Info: Erfassung Musikstück / Satz:x 

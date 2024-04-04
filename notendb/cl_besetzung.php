@@ -55,7 +55,7 @@ class Besetzung {
       
     }
     catch (PDOException $e) {
-      include_once("ctl_html_info.php"); 
+      include_once("cl_html_info.php"); 
       $info = new HtmlInfo();      
       $info->print_user_error(); 
       $info->print_error($stmt, $e); 
@@ -82,7 +82,7 @@ class Besetzung {
       $html->print_select_multi('Besetzung', 'Besetzungen[]', $options_selected); 
     }
     catch (PDOException $e) {
-      include_once("ctl_html_info.php"); 
+      include_once("cl_html_info.php"); 
       $info = new HtmlInfo();      
       $info->print_user_error(); 
       $info->print_error($stmt, $e); 
@@ -91,7 +91,7 @@ class Besetzung {
 
   function print_table(){
 
-    $query="SELECT * from besetzung ORDER by ID DESC"; 
+    $query="SELECT * from besetzung ORDER by Name"; 
 
     include_once("cl_db.php");
     $conn = new DbConn(); 
@@ -107,7 +107,7 @@ class Besetzung {
       
     }
     catch (PDOException $e) {
-      include_once("ctl_html_info.php"); 
+      include_once("cl_html_info.php"); 
       $info = new HtmlInfo();      
       $info->print_user_error(); 
       $info->print_error($select, $e); 

@@ -52,7 +52,7 @@ class Sammlung {
     from sammlung s
     left join verlag v
       on v.ID = s.VerlagID  
-    ORDER by s.ID DESC"; 
+    ORDER by s.Name"; 
 
     include_once("cl_db.php");
     $conn = new DbConn(); 
@@ -67,7 +67,7 @@ class Sammlung {
       $html->print_table($this->table_name, false); 
     }
     catch (PDOException $e) {
-      include_once("ctl_html_info.php"); 
+      include_once("cl_html_info.php"); 
       $info = new HtmlInfo();      
       $info->print_user_error(); 
       $info->print_error($select, $e); 
@@ -98,10 +98,12 @@ class Sammlung {
 
       $update->bindParam(':ID', $this->ID);
       $update->bindParam(':Name', $Name);
-      $update->bindParam(':VerlagID', $VerlagID);
-      $update->bindParam(':StandortID', $StandortID);
+      $update->bindParam(':VerlagID', $VerlagID,($VerlagID=='' ? PDO::PARAM_NULL : PDO::PARAM_INT));
+      $update->bindParam(':StandortID', $StandortID,($StandortID=='' ? PDO::PARAM_NULL : PDO::PARAM_INT));      
       $update->bindParam(':Bestellnummer', $Bestellnummer);
       $update->bindParam(':Bemerkung', $Bemerkung);
+
+
 
       try {
         $update->execute(); 
@@ -142,7 +144,7 @@ class Sammlung {
       $html->print_select("SammlungID", $value_selected, false); 
     }
     catch (PDOException $e) {
-      include_once("ctl_html_info.php"); 
+      include_once("cl_html_info.php"); 
       $info = new HtmlInfo();      
       $info->print_user_error(); 
       $info->print_error($stmt, $e); 
@@ -175,6 +177,51 @@ class Sammlung {
     $this->StandortID=$row_data["StandortID"];
     $this->Bemerkung=$row_data["Bemerkung"];      
   }
+
+  function print_table_musikstuecke(){
+
+    $query="SELECT musikstueck.ID 
+            , musikstueck.Nummer 
+            , musikstueck.Name
+            , komponist.Name Komponist
+            , gattung.Name as Gattung
+            , epoche.Name as Epoche
+            , GROUP_CONCAT(DISTINCT besetzung.Name order by besetzung.Name SEPARATOR ', ') Besetzungen
+            , GROUP_CONCAT(DISTINCT verwendungszweck.Name order by verwendungszweck.Name SEPARATOR ', ') Verwendungszwecke                                         
+            , GROUP_CONCAT(DISTINCT satz.Name order by satz.Nr SEPARATOR ', ') Sätze                                         
+    from musikstueck 
+    left join v_komponist komponist on musikstueck.KomponistID = komponist.ID
+    left join gattung on gattung.ID = musikstueck.GattungID   
+    left join epoche on epoche.ID = musikstueck.EpocheID
+    left join musikstueck_besetzung on musikstueck_besetzung.MusikstueckID = musikstueck.ID 
+    left join besetzung on besetzung.ID = musikstueck_besetzung.BesetzungID 
+    left join musikstueck_verwendungszweck on musikstueck_verwendungszweck.MusikstueckID = musikstueck.ID 
+    left join verwendungszweck on verwendungszweck.ID = musikstueck_verwendungszweck.VerwendungszweckID
+    left join satz on satz.MusikstueckID = musikstueck.ID 
+    WHERE musikstueck.SammlungID = :SammlungID 
+    GROUP BY musikstueck.ID 
+    ORDER by musikstueck.Nummer"; 
+
+    include_once("cl_db.php");
+    $conn = new DbConn(); 
+    $db=$conn->db; 
+  
+    $stmt = $db->prepare($query); 
+    $stmt->bindParam(':SammlungID', $this->ID, PDO::PARAM_INT); 
+      
+    try {
+      $stmt->execute(); 
+      include_once("cl_html_table.php");      
+      $html = new HtmlTable($stmt); 
+      $html->print_table('musikstueck', true); 
+    }
+    catch (PDOException $e) {
+      include_once("cl_html_info.php"); 
+      $info = new HtmlInfo();      
+      $info->print_user_error(); 
+      $info->print_error($stmt, $e); 
+    }
+  }  
 }
 
  

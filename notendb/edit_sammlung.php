@@ -74,7 +74,7 @@ if (isset($_POST["option"]) and $_POST["option"]=='edit') {
     <td class="eingabe">Standort:</td>  
     <td class="eingabe">
    
-    <!-- Auswahlliste Verlag  -->         
+    <!-- Auswahlliste Standort  -->         
           '; 
           $standorte = new Standort();
           $standorte->print_select($sammlung->StandortID); 
@@ -101,7 +101,7 @@ if (isset($_POST["option"]) and $_POST["option"]=='edit') {
 
     <tr> 
       <td class="eingabe"></td> 
-      <td class="eingabe"><input type="submit" name="senden" value="Speichern">     
+      <td class="eingabe"><input class="btnSave" type="submit" name="senden" value="Speichern">     
       
     </td>
     </tr> 
@@ -112,7 +112,7 @@ if (isset($_POST["option"]) and $_POST["option"]=='edit') {
 
         <tr> 
         <td class="eingabe">Musikstücke:</td> 
-        <td class="eingabe"><iframe src="edit_sammlung_list_musikstuecke.php?SammlungID='.$sammlung->ID.'" width="500" height="400" name="Besetzungen"></iframe>
+        <td class="eingabe"><iframe src="edit_sammlung_list_musikstuecke.php?SammlungID='.$sammlung->ID.'"  width="1000" height="400" name="Besetzungen"></iframe>
       </td>
       </tr> 
 

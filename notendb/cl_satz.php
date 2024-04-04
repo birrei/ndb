@@ -19,22 +19,21 @@ class Satz {
   
   public function __construct(){
     $this->table_name='satz';     
-
   }
 
-
-  function insert_row($Nr, $Name){         
+  function insert_row($Nr='', $Name=''){         
     include_once("cl_db.php");
     $conn = new DbConn(); 
     $db=$conn->db; 
-  
+
+    $Nr=($Nr==''? $this->get_next_nr():$Nr); 
+    $Name=($Name==''?'(Satz '.$Nr.')':$Name); 
+      
     $insert = $db->prepare("INSERT INTO `satz` SET
                           `Nr`     = :Nr,
                           `Name`     = :Name,  
                           `MusikstueckID`     = :MusikstueckID");
 
-    $Name=($Name==''?'Satz '.$Nr:$Name); // falls Name leer ist,  wird "Satz <Nr>" gespeichert 
-      
     $insert->bindValue(':Nr', $Nr);
     $insert->bindValue(':Name', $Name);
     $insert->bindValue(':MusikstueckID', $this->MusikstueckID);
@@ -96,7 +95,7 @@ class Satz {
     $update->bindParam(':Tonart', $Tonart);
     $update->bindParam(':Taktart', $Taktart);
     $update->bindParam(':Tempobezeichnung', $Tempobezeichnung);
-    $update->bindParam(':Spieldauer', $Spieldauer);
+    $update->bindParam(':Spieldauer', $Spieldauer, ($Spieldauer==''? PDO::PARAM_NULL:PDO::PARAM_INT));
     $update->bindParam(':Schwierigkeitsgrad', $Schwierigkeitsgrad);
     $update->bindParam(':Lagen', $Lagen);
     $update->bindParam(':Erprobt', $Erprobt);
@@ -166,11 +165,10 @@ class Satz {
     
 
   }
-
   
   function print_table_notenwerte($target_file){
     $query="SELECT satz_notenwert.ID
-         -- , satz_notenwert.NotenwertID
+          -- , satz_notenwert.NotenwertID
           , notenwert.Name                              
           FROM satz_notenwert          
           INNER JOIN notenwert 
@@ -317,7 +315,7 @@ class Satz {
   }
 
   function print_select($value_selected=''){
-    /***** select box (fake) *****/ 
+
     include_once("cl_db.php");  
     include_once("cl_html_select.php");
 
@@ -329,7 +327,6 @@ class Satz {
 
   	$conn = new DbConn(); 
     $db=$conn->db; 
-  
     $stmt = $db->prepare($query); 
     $stmt->bindParam(':ID', $value_selected, PDO::PARAM_INT);
 
@@ -339,13 +336,25 @@ class Satz {
       $html->print_select("SammlungID", $value_selected, false); 
     }
     catch (PDOException $e) {
-      include_once("ctl_html_info.php"); 
+      include_once("cl_html_info.php"); 
       $info = new HtmlInfo();      
       $info->print_user_error(); 
       $info->print_error($stmt, $e); 
     }
   }
 
+  function get_next_nr() {
+    include_once("cl_db.php");
+    $conn = new DbConn(); 
+    $db=$conn->db; 
+    $sql="SELECT (coalesce(MAX(Nr),0)) + 1 as next_nr from `satz` 
+             WHERE MusikstueckID=:MusikstueckID"; 
+    $stmt = $db->prepare($sql); 
+    $stmt->bindParam(':MusikstueckID', $this->MusikstueckID, PDO::PARAM_INT); 
+    $stmt->execute(); 
+    $col=$stmt->fetchColumn(); 
+    return $col;  
+  }  
 
   
 }

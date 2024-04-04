@@ -1,5 +1,8 @@
 
 <?php 
+
+
+/******* obsolete ************ */
 include('head_raw.php');
 include("cl_musikstueck.php");
 

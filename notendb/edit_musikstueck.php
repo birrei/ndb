@@ -8,13 +8,23 @@ include("cl_gattung.php");
 include("cl_epoche.php");
 include('cl_html_info.php');
 
+echo '<h2>Musikstück bearbeiten</h2>';
+
 $musikstueck = new Musikstueck();
+$info= new HtmlInfo(); 
 
 if (isset($_GET["ID"])) {
   $musikstueck->ID=$_GET["ID"]; 
   $musikstueck->load_row(); 
+  $info->print_action_info($musikstueck->ID, 'view');      
 }
-
+if (isset($_GET["option"])){
+  if($_GET["option"]=='insert') {
+    $musikstueck->SammlungID=$_GET["SammlungID"]; 
+    $musikstueck->insert_row('',''); 
+    $info->print_action_info($musikstueck->ID, 'insert');       
+  } 
+}
 if (isset($_POST["senden"])) {
   if ($_POST["option"] == 'edit') { 
     $musikstueck->ID=$_POST["ID"];    
@@ -29,15 +39,13 @@ if (isset($_POST["senden"])) {
                     , $_POST["EpocheID"]
                     , $_POST["JahrAuffuehrung"]
                     ); 
-    // $musikstueck->load_row($ID);   
+    $musikstueck->load_row();   
     $info= new HtmlInfo(); 
-    $info->print_action_info($musikstueck->ID, 'update'); 
-    $info->print_close_form_info();       
+    $info->print_action_info($musikstueck->ID, 'update');      
   }
 }
 
-echo '<h2>Musikstück bearbeiten</h2>
-
+echo '
 <form action="edit_musikstueck.php" method="post">
 
 <table class="eingabe"> 
@@ -137,7 +145,7 @@ echo  '</td>
 
 <tr> 
   <td class="eingabe"></td> 
-  <td class="eingabe"><input type="submit" name="senden" value="Speichern">
+  <td class="eingabe"><input class="btnSave" type="submit" name="senden" value="Speichern">
 </td>
 </tr> 
 
@@ -149,14 +157,14 @@ echo  '</td>
 
     <tr> 
     <td class="eingabe">Verwendungszweck(e):</td> 
-    <td class="eingabe"><iframe src="edit_musikstueck_list_verwendungszwecke.php?MusikstueckID='.$musikstueck->ID.'" width="1000" height="200" name="Besetzungen"></iframe>
+    <td class="eingabe"><iframe src="edit_musikstueck_list_verwendungszwecke.php?MusikstueckID='.$musikstueck->ID.'" width="500" height="100" name="Besetzungen"></iframe>
   </td>
   </tr> 
       
 
   <tr> 
     <td class="eingabe">Besetzung(en):</td> 
-    <td class="eingabe"><iframe src="edit_musikstueck_list_besetzungen.php?MusikstueckID='.$musikstueck->ID.'" width="1000" height="200" name="Besetzungen"></iframe>
+    <td class="eingabe"><iframe src="edit_musikstueck_list_besetzungen.php?MusikstueckID='.$musikstueck->ID.'" width="500" height="100" name="Besetzungen"></iframe>
   </td>
   </tr> 
 

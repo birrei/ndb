@@ -19,48 +19,12 @@ class Musikstueck {
 
   }
 
-  function print_table_from_sammlung($SammlungID){
 
-    $query="SELECT m.ID, 
-            m.Nummer, 
-            m.Name, 
-            CONCAT(COALESCE(k.Vorname, '') , ' ', COALESCE(k.Nachname, '')) as Komponist           
-    from musikstueck m
-    left join komponist k
-      on m.KomponistID = k.ID  
-    WHERE m.SammlungID = :SammlungID 
-    ORDER by m.Nummer"; 
-
+  function insert_row($Nummer='', $Name='') { 
     include_once("cl_db.php");
-    $conn = new DbConn(); 
-    $db=$conn->db; 
-  
-    $stmt = $db->prepare($query); // statement-Objekt 
-    $stmt->bindParam(':SammlungID', $SammlungID, PDO::PARAM_INT); 
-      
-    try {
-      $stmt->execute(); 
-      include_once("cl_html_table.php");      
-      $html = new HtmlTable($stmt); 
-      $html->print_table($this->table_name, true); 
-      
-    }
-    catch (PDOException $e) {
-      include_once("cl_html_info.php"); 
-      $info = new HtmlInfo();      
-      $info->print_user_error(); 
-      $info->print_error($stmt, $e); 
-    }
-  }
 
-  function insert_row($Nummer, $Name) { 
-    include_once("cl_db.php");
-    if ($Nummer==1) {
-      /* dann wurde evt. default-Wert des Formular übernommen. falls es bereits 
-       vorher Nummer =1 gab, soll der Übergabewert korrigiert (hochgezählt) werden.  
-      */
-      $Nummer = $this->get_next_nummer(); 
-    } 
+    $Nummer=($Nummer==''? $this->get_next_nummer():$Nummer);
+
     $Name=($Name==''?'(Musikstück '.$Nummer.')':$Name); // falls Name leer ist,  wird "Musikstück <Nr>" gespeichert 
     
     $conn = new DbConn(); 
@@ -198,8 +162,8 @@ class Musikstueck {
 
   }
 
-  function print_table_besetzungen(){
-    $query="SELECT b.ID
+  function print_table_besetzungen($target_file){
+    $query="SELECT mb.ID
         , b.Name                              
     FROM `musikstueck` m 
     inner join musikstueck_besetzung mb 
@@ -220,8 +184,8 @@ class Musikstueck {
       $stmt->execute(); 
       include_once("cl_html_table.php");      
       $html = new HtmlTable($stmt); 
-      $html->print_table(); 
-      
+      // $html->print_table(); 
+      $html->print_table_with_del_link($target_file, 'MusikstueckID', $this->ID); 
     }
     catch (PDOException $e) {
       include_once("cl_html_info.php"); 
@@ -231,9 +195,10 @@ class Musikstueck {
     }
   }
 
-  function print_table_verwendungszwecke(){
-    $query="SELECT b.ID
-        , b.Name                              
+  function print_table_verwendungszwecke($target_file){
+    $query="SELECT mb.ID
+       -- , b.ID as VerwID
+        , b.Name                      
     FROM `musikstueck` m 
     inner join musikstueck_verwendungszweck mb 
       on m.ID=mb.MusikstueckID          
@@ -253,8 +218,8 @@ class Musikstueck {
       $stmt->execute(); 
       include_once("cl_html_table.php");      
       $html = new HtmlTable($stmt); 
-      $html->print_table(); 
-      
+      // $html->print_table(); 
+      $html->print_table_with_del_link($target_file, 'MusikstueckID', $this->ID); 
     }
     catch (PDOException $e) {
       include_once("cl_html_info.php"); 
@@ -334,7 +299,7 @@ class Musikstueck {
       $html->print_select("MusikstueckID", $value_selected, false); 
     }
     catch (PDOException $e) {
-      include_once("ctl_html_info.php"); 
+      include_once("cl_html_info.php"); 
       $info = new HtmlInfo();      
       $info->print_user_error(); 
       $info->print_error($stmt, $e); 
@@ -344,16 +309,26 @@ class Musikstueck {
 
   function print_table_saetze(){
 
-    $query="SELECT ID, 
-              Nr, 
-              Name,  
-              Tonart,
-              Taktart,
-              Tempobezeichnung,
-              Spieldauer,
-              Schwierigkeitsgrad         
-            from satz   
-            WHERE MusikstueckID = :MusikstueckID 
+    $query="SELECT satz.ID
+              , satz.Nr
+              , satz.Name
+              , satz.Tonart
+              , satz.Taktart
+              , satz.Tempobezeichnung
+              , satz.Spieldauer
+              , satz.Schwierigkeitsgrad 
+              , satz.Lagen
+              , satz.Erprobt    
+              , GROUP_CONCAT(DISTINCT strichart.Name order by strichart.Name SEPARATOR ', ') Stricharten              
+            , GROUP_CONCAT(DISTINCT notenwert.Name order by notenwert.Name SEPARATOR ', ') Notenwerte                
+            from satz 
+            left join satz_strichart on satz_strichart.SatzID = satz.ID 
+            left join strichart on strichart.ID = satz_strichart.StrichartID
+            left join satz_notenwert on satz_notenwert.SatzID = satz.ID  
+            Left JOIN notenwert on notenwert.ID = satz_notenwert.NotenwertID 
+
+            WHERE satz.MusikstueckID = :MusikstueckID 
+            group by satz.ID 
             ORDER by Nr"; 
                 
     include_once("cl_db.php");
@@ -380,7 +355,6 @@ class Musikstueck {
   
 
   function get_next_nummer () {
-    $nummer = 1; 
     include_once("cl_db.php");
     $conn = new DbConn(); 
     $db=$conn->db; 
@@ -393,7 +367,47 @@ class Musikstueck {
     $col=$stmt->fetchColumn(); 
     return $col;  
   }  
+
+  function delete_verwendungszweck($ID){
+    include_once("cl_db.php");
+    $conn = new DbConn(); 
+    $db=$conn->db; 
+
+    $delete = $db->prepare("DELETE FROM `musikstueck_verwendungszweck` WHERE ID=:ID"); 
+    $delete->bindValue(':ID', $ID);  
+
+    try {
+      $delete->execute(); 
+    }
+    catch (PDOException $e) {
+      include_once("cl_html_info.php"); 
+      $info = new HtmlInfo();      
+      $info->print_user_error(); 
+      $info->print_error($insert, $e);  
+    }  
+  }  
+
+  function delete_besetzung($ID){
+    include_once("cl_db.php");
+    $conn = new DbConn(); 
+    $db=$conn->db; 
+
+    $delete = $db->prepare("DELETE FROM `musikstueck_besetzung` WHERE ID=:ID"); 
+    $delete->bindValue(':ID', $ID);  
+
+    try {
+      $delete->execute(); 
+    }
+    catch (PDOException $e) {
+      include_once("cl_html_info.php"); 
+      $info = new HtmlInfo();      
+      $info->print_user_error(); 
+      $info->print_error($insert, $e);  
+    }  
+  }  
 }
+
+
 
 
 

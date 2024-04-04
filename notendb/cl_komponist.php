@@ -137,7 +137,7 @@ class Komponist {
       
     }
     catch (PDOException $e) {
-      include_once("ctl_html_info.php"); 
+      include_once("cl_html_info.php"); 
       $info = new HtmlInfo();      
       $info->print_user_error(); 
       $info->print_error($select, $e); 
@@ -146,7 +146,7 @@ class Komponist {
 
   function print_table(){
     /***** HTML-Tabelle ausgeben  ***************/ 
-    $query="SELECT * from v_komponist ORDER by ID DESC"; 
+    $query="SELECT * from v_komponist ORDER by Name"; 
 
     include_once("cl_db.php");
     $conn = new DbConn(); 
@@ -162,7 +162,7 @@ class Komponist {
       
     }
     catch (PDOException $e) {
-      include_once("ctl_html_info.php"); 
+      include_once("cl_html_info.php"); 
       $info = new HtmlInfo();      
       $info->print_user_error(); 
       $info->print_error($select, $e); 
@@ -190,7 +190,7 @@ class Komponist {
       $html->print_select_multi('Komponist', 'Komponisten[]', $options_selected); 
     }
     catch (PDOException $e) {
-      include_once("ctl_html_info.php"); 
+      include_once("cl_html_info.php"); 
       $info = new HtmlInfo();      
       $info->print_user_error(); 
       $info->print_error($stmt, $e); 

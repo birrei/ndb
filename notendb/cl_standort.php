@@ -55,7 +55,7 @@ class Standort {
       
     }
     catch (PDOException $e) {
-      include_once("ctl_html_info.php"); 
+      include_once("cl_html_info.php"); 
       $info = new HtmlInfo();      
       $info->print_user_error(); 
       $info->print_error($stmt, $e); 
@@ -64,7 +64,7 @@ class Standort {
 
   function print_table(){
 
-    $query="SELECT * from standort ORDER by ID DESC"; 
+    $query="SELECT * from standort ORDER by Name"; 
 
     include_once("cl_db.php");
     $conn = new DbConn(); 
@@ -80,7 +80,7 @@ class Standort {
       
     }
     catch (PDOException $e) {
-      include_once("ctl_html_info.php"); 
+      include_once("cl_html_info.php"); 
       $info = new HtmlInfo();      
       $info->print_user_error(); 
       $info->print_error($select, $e); 
@@ -148,7 +148,7 @@ class Standort {
       $html->print_select_multi('Standort', 'Standorte[]', $options_selected); 
     }
     catch (PDOException $e) {
-      include_once("ctl_html_info.php"); 
+      include_once("cl_html_info.php"); 
       $info = new HtmlInfo();      
       $info->print_user_error(); 
       $info->print_error($stmt, $e); 

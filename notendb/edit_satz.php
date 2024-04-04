@@ -5,16 +5,25 @@ include('cl_satz.php');
 include('cl_musikstueck.php');
 include('cl_html_info.php');
 
+echo '<h2>Satz bearbeiten</h2>'; 
+
 $satz=new Satz(); 
+$info= new HtmlInfo(); 
 
 if (isset($_GET["ID"])) {
-  $ID= $_GET["ID"];  
-  $satz->ID= $ID;   
+  $satz->ID= $_GET["ID"]; 
   $satz->load_row(); 
+  $info->print_action_info($satz->ID, 'view');      
+}
+if (isset($_GET["option"])){
+  if($_GET["option"]=='insert') {
+    $satz->MusikstueckID=$_GET["MusikstueckID"]; 
+    $satz->insert_row('',''); 
+    $info->print_action_info($satz->ID, 'insert');       
+  } 
 }
 if (isset($_POST["senden"])) {
-  $ID= $_POST["ID"]; 
-  $satz->ID= $ID;     
+  $satz->ID=$_POST["ID"];    
   if ($_POST["option"] == 'edit') { 
     $satz->update_row(
                 $_POST["Name"]
@@ -32,19 +41,18 @@ if (isset($_POST["senden"])) {
                     ); 
     $info= new HtmlInfo(); 
     $info->print_action_info($satz->ID, 'update'); 
-    $info->print_close_form_info();                     
+    // $info->print_close_form_info();                     
   }
 }
 
 echo 
-'<h2>Satz bearbeiten</h2>
-<form action="edit_satz.php" method="post">
+'<form action="edit_satz.php" method="post">
 
 <table class="eingabe"> 
 <tr>    
 <label>
 <td class="eingabe">ID:</td>  
-<td class="eingabe">'.$ID.'</td>
+<td class="eingabe">'.$satz->ID.'</td>
 </label>
   </tr> 
 
@@ -143,7 +151,7 @@ echo
 
   <tr> 
   <td class="eingabe"></td> 
-  <td class="eingabe"><input type="submit" name="senden" value="Speichern">
+  <td class="eingabe"><input class="btnSave" type="submit" name="senden" value="Speichern">
 
   </td>
   </tr> 

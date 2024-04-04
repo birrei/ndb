@@ -195,7 +195,7 @@ if ("POST" == $_SERVER["REQUEST_METHOD"]) {
     <label for="st">Satz</label> 
   </fieldset>
 <p>
-  <input type="submit" value="Suchen" style="font-weight: bold;width:50%"></p> 
+  <input type="submit" value="Suchen" class="btnSave"></p> 
 
 </form>
 <?php
@@ -439,7 +439,7 @@ if ("POST" == $_SERVER["REQUEST_METHOD"]) {
         $html->print_table('sammlung', True); 
       }
       catch (PDOException $e) {
-        include_once("ctl_html_info.php"); 
+        include_once("cl_html_info.php"); 
         $info = new HtmlInfo();      
         $info->print_user_error(); 
         $info->print_error($select, $e); 

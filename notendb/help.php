@@ -9,6 +9,9 @@ include('head.php');
     und eine eindeutige ID gespeichert. Im Anschluss können im Dialog "Bearbeiten" noch (falls vorhanden) 
     noch weitere Eigenschaften erfasst werden. 
      
+<p> Unterscheidung: 
+    <br>* Untereinheiten (Sammung -> Musikstücke bzw. Musikstueck -> Sätze )
+    <br>* Zuordnungen (z.B. Musikstück-> Besetzungen, Satz -> Stricharten) 
 
 <h2>Suche</h2> 
 <p> <a href="search_musikstueck.php" target="_blank">Suche</a> </p>

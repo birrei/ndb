@@ -18,3 +18,8 @@ td.selectboxes  {
     border: 1px solid grey;
     border-collapse: collapse; 
 }
+
+input.btnSave {
+    font-weight: bold;width:50%; 
+    background-color: lightblue;
+}
