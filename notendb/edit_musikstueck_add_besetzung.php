@@ -2,17 +2,18 @@
 <?php 
 include('head_raw.php');
 
+/* XXX noch abfangen: falls alle Besetzungen zugeordnet sind, soll eine Info erfolgen und das u.a. Formular nicht mehr angezeigt werden. */ 
+
 ?> 
 <form action="edit_musikstueck_list_besetzungen.php" method="get">
 <table class="eingabe"> 
-
    <tr>    
     <label>
     <td class="eingabe">
         <?php 
           include_once("cl_besetzung.php");
           $besetzung=new Besetzung(); 
-          $besetzung->print_select(); 
+          $besetzung->print_select('', $_GET["MusikstueckID"]); 
         ?>
     </td>
     </tr>

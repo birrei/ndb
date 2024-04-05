@@ -4,7 +4,7 @@ include('head.php');
 <pre>
 Zum nächsten Termin - Neu: 
 
-  * Erfassungsformular wechselt automatisch zum Bearbeitungsformular 
+  * Erfassungsformular wechselt automatisch zum Bearbeitungsformular.  
 
   * Erfassung Musikstücke und Sätze: Nummer wird automatisch hochgezählt, 
       automatisierte Namen-Vergabe in Klammern   
@@ -12,20 +12,23 @@ Zum nächsten Termin - Neu:
   * Erfassungsformulare mit Unterdatensätzen (Sammlung > Musikstücke / Musikstück > Sätze): 
     die Unterdatensätze enthalten jetzt alle Informationen
 
-  * Erfassungs-(Haupt.)-Formulare enthalten oben unter der Überschrift die Info zur letzten Aktion in blauer Schrift 
+  * Erfassungs-(Haupt.)-Formulare zeigen oben unter der Überschrift Informationen zur letzten Aktion an (in blauer Schrift) 
   
   * in Unterformularen ist die Funktion "Erfassung beenden" entfernt, 
       stattdessen muss das Formular-Feld zur Ergänzung einer Zuordnung erneut aufgerufen werden 
       (etwas unbequemer, aber transparenter) 
   
-  * innerhalb eines Bearbeitungs-Formulars ist die Aktualisierung einer Seite (per F5) nicht mehr gut geeigent 
+  * innerhalb eines Bearbeitungs-Formulars ist die Aktualisierung einer Seite (per F5) nicht mehr gut geeignet  
      (es kommt die Warnung wg. das erneutem Senden eines Formulars, nach "ja" funktioniert das jedoch). 
       -> Stattdessen bitte einfach "Speichern" drücken. 
   
-  * Der Speichen-Button ist auffälliger formatiert 
+  * Der Speichern-Button ist auffälliger formatiert 
 
   * insert-formulare: die Tabelle mit vorhandenen Einträgen ist jetzt alphabetisch nach Name sortiert 
   
+  * Texte mit "Gänsefüsschen" werden in Formularfeldern jetzt korrekt angezeigt 
+  
+  * 
   * Nochmals der Hinweis, 
     - dass das Forumular per Tab-Taste durchlaufen werden kann 
     - das Speichern jederzeit per Eingabetaste betätigt werden kann 
@@ -50,7 +53,7 @@ Info zum 29.03.:
 
 ------------------------
 Info zum 26.03. 
-  * Info: Erfassung Musikstück / Satz:x 
+  * Info: Erfassung Musikstück / Satz:
     * Nummer-Felder werden mit Vorgabewert "1" besetzt (was natürlich geändert werden kann) 
     * Wenn Musikstück Name leer bleibt, wird "Musiksück [Nr]" gespeichert.
     * Wenn Satz Name leer bleibt, wird "Satz [Nr]" gepsichert 

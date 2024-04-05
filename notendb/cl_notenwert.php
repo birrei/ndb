@@ -34,19 +34,30 @@ class Notenwert {
     }
   }  
  
-  function print_select($value_selected=''){
+  function print_select($value_selected='',$referenced_SatzID=''){
       
     include_once("cl_db.php");  
     include_once("cl_html_select.php");
 
-    $query="SELECT ID, Name 
-            FROM `notenwert` 
-            order by `Name`"; 
+    $query='SELECT ID, Name 
+            FROM `notenwert` ';
+
+    if ($referenced_SatzID!=''){
+      $query.='WHERE ID NOT IN 
+              (SELECT NotenwertID FROM satz_notenwert 
+               WHERE SatzID=:SatzID) ';
+    }
+
+    $query.='ORDER BY `Name`'; 
 
     $conn = new DbConn(); 
     $db=$conn->db; 
 
     $stmt = $db->prepare($query); 
+
+    if ($referenced_SatzID!=''){
+      $stmt->bindParam(':SatzID', $referenced_SatzID);
+    }  
 
     try {
       $stmt->execute(); 

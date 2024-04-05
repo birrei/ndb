@@ -10,7 +10,7 @@ include('head_raw.php');
         <?php 
           include_once("cl_verwendungszweck.php");
           $verwendungszweck = new Verwendungszweck(); 
-          $verwendungszweck->print_select(); 
+          $verwendungszweck->print_select('',$_GET["MusikstueckID"]); 
          ?>
     </td>
     </tr>

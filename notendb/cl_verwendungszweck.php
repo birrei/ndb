@@ -34,19 +34,31 @@ class Verwendungszweck {
     }
   }  
  
-  function print_select($value_selected=''){
+  function print_select($value_selected='',$referenced_MusikstueckID=''){
       
     include_once("cl_db.php");  
     include_once("cl_html_select.php");
 
-    $query="SELECT ID, Name 
-            FROM `verwendungszweck` 
-            order by `Name`"; 
+
+    $query='SELECT ID, Name 
+            FROM `verwendungszweck` ';
+
+    if ($referenced_MusikstueckID!=''){
+      $query.='WHERE ID NOT IN 
+              (SELECT VerwendungszweckID FROM musikstueck_verwendungszweck  
+              WHERE MusikstueckID=:MusikstueckID) ';
+    }
+    $query.='ORDER BY `Name`'; 
+
 
     $conn = new DbConn(); 
     $db=$conn->db; 
 
     $stmt = $db->prepare($query); 
+    
+    if ($referenced_MusikstueckID!=''){
+      $stmt->bindParam(':MusikstueckID', $referenced_MusikstueckID);
+    }    
 
     try {
       $stmt->execute(); 

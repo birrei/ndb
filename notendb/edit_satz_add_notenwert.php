@@ -6,18 +6,16 @@ include('head_raw.php');
 <table class="eingabe"> 
 <tr>    
   <label>
-  <td class="eingabe">Notenwert:</td>  
      <td class="eingabe">
          <?php 
           include_once("cl_notenwert.php");         
           $notenwerte = new Notenwert(); 
-          $notenwerte->print_select(); 
+          $notenwerte->print_select('',  $_GET["SatzID"]); 
     ?>
    </label>    
   </td>
 </tr>
 <tr> 
-  <td class="eingabe"></td> 
   <td class="eingabe"><input type="submit" value="Speichern"></td>
  </tr>
  </table> 

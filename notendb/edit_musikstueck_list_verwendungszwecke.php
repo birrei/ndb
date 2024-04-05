@@ -8,7 +8,7 @@ $musikstueck=new Musikstueck();
 $musikstueck->ID=$_GET["MusikstueckID"]; 
 
 if (isset($_GET["option"])){
-    if($_GET["option"]=='insert') {
+    if($_GET["option"]=='insert' and isset($_GET["VerwendungszweckID"])) {
         $musikstueck->add_verwendungszweck($_GET["VerwendungszweckID"]); 
     } 
     if($_GET["option"]=='delete') {

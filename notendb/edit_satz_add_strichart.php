@@ -6,19 +6,17 @@ include('head_raw.php');
 <table class="eingabe"> 
 <tr>    
   <label>
-  <td class="eingabe">Strichart:</td>  
      <td class="eingabe">
          <?php 
           include_once("cl_strichart.php");         
           $stricharten = new Strichart(); 
-          $stricharten->print_select(); 
+          $stricharten->print_select('',  $_GET["SatzID"]); 
           ?>
      </td>
      </label>
       </tr>
      <input type="hidden" name="SatzID" value="<?php echo $_GET["SatzID"]; ?>"> 
     <tr> 
-     <td class="eingabe"></td> 
      <td class="eingabe"><input type="submit" value="Speichern"></td>
  </tr>
  </table> 
