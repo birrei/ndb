@@ -15,9 +15,17 @@ if (isset($_GET["option"])){
     } 
 }
 
-$satz->print_table_notenwerte(basename(__FILE__));  
-
-echo '<p> <a href="edit_satz_add_notenwert.php?SatzID='.$satz->ID.'">[Notenwert hinzufügen]</a></p>'; 
+echo '<table>
+     <tr>
+     <td>'; 
+        $satz->print_table_notenwerte(basename(__FILE__)); 
+echo '</td>
+          <td>
+        <a href="edit_satz_add_notenwert.php?SatzID='.$satz->ID.'">[hinzufügen]</a>
+        </td>
+        </tr>
+    </table>'; 
 
 include('foot_raw.php');
+
 ?>

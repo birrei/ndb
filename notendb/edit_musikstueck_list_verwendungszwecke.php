@@ -16,9 +16,19 @@ if (isset($_GET["option"])){
     } 
 }
 
-$musikstueck->print_table_verwendungszwecke(basename(__FILE__)); 
 
-echo '<p> <a href="edit_musikstueck_add_verwendungszweck.php?MusikstueckID='.$musikstueck->ID.'">[Verwendungszweck hinzufügen]</a></p>'; 
+echo '<table>
+     <tr>
+     <td>'; 
+        $musikstueck->print_table_verwendungszwecke(basename(__FILE__)); 
+echo '</td>
+          <td>
+          <a href="edit_musikstueck_add_verwendungszweck.php?MusikstueckID='.$musikstueck->ID.'">[hinzufügen]</a>
+        </td>
+        </tr>
+    </table>'; 
+
+
 
 include('foot_raw.php');
 

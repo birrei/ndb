@@ -1,12 +1,5 @@
-# in Arbeit
+ï»¿# in Arbeit
 
-
-
- *  Verbesserung insert_* / edit_*-Formulare  - nach Vorlage "Notenwerte" 
-   
-
-
-------------
 
 # In Planung: 
   * Löschfunktion (im Bearbeiten-Formular) 

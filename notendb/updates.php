@@ -33,10 +33,6 @@ Zum nächsten Termin - Neu:
     - dass das Forumular per Tab-Taste durchlaufen werden kann 
     - das Speichern jederzeit per Eingabetaste betätigt werden kann 
 
-Klärung: 
-   - Spieldauer als Sekunden? 
-     - oder Minuten-Angabe mit Komma? (z.B. 5,5 Minuten für 05:30?)
-
 Stand: 04.04.2024 
 
 </pre>

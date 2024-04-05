@@ -16,9 +16,17 @@ if (isset($_GET["option"])){
     } 
 }
 
-$satz->print_table_sticharten(basename(__FILE__));  
 
-echo '<p> <a href="edit_satz_add_strichart.php?SatzID='.$satz->ID.'">[Strichart hinzufügen]</a></p>'; 
+echo '<table>
+     <tr>
+     <td>'; 
+        $satz->print_table_sticharten(basename(__FILE__)); 
+echo '</td>
+          <td>
+        <a href="edit_satz_add_strichart.php?SatzID='.$satz->ID.'">[hinzufügen]</a>
+        </td>
+        </tr>
+    </table>'; 
 
 include('foot_raw.php');
 
