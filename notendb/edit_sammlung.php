@@ -50,7 +50,7 @@ if (isset($_POST["option"]) and $_POST["option"]=='edit') {
     <tr>    
       <label>
       <td class="eingabe">Name:</td>  
-      <td class="eingabe"><input type="text" name="Name" value="'.$sammlung->Name.'" size="80" maxlength="80" required="required" autofocus="autofocus"></td>
+      <td class="eingabe"><input type="text" name="Name" value="'.htmlentities($sammlung->Name).'" size="80" maxlength="80" required="required" autofocus="autofocus"></td>
       </label>
     </tr> 
     
@@ -95,7 +95,7 @@ if (isset($_POST["option"]) and $_POST["option"]=='edit') {
     <tr>    
       <label>
       <td class="eingabe">Bemerkung:</td>  
-      <td class="eingabe"><input type="text" name="Bemerkung" value="'.$sammlung->Bemerkung.'" size="45" maxlength="80" autofocus="autofocus"></td>
+      <td class="eingabe"><input type="text" name="Bemerkung" value="'.htmlentities($sammlung->Bemerkung).'" size="45" maxlength="80" autofocus="autofocus"></td>
       </label>
     </tr> 
 

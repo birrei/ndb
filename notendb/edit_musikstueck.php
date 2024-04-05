@@ -77,7 +77,7 @@ echo '</tr></label>
 <tr>    
   <label>
   <td class="eingabe">Name:</td>  
-  <td class="eingabe"><input type="text" name="Name" value="'.$musikstueck->Name.'" size="45" maxlength="80" required="required" autofocus="autofocus"></td>
+  <td class="eingabe"><input type="text" name="Name" value="'.htmlentities($musikstueck->Name).'" size="45" maxlength="80" required="required" autofocus="autofocus"></td>
   </label>
 </tr> 
 
