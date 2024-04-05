@@ -64,7 +64,7 @@ class Gattung {
 
   function print_table(){
 
-    $query="SELECT * from gattung ORDER by ID DESC"; 
+    $query="SELECT * from gattung ORDER by Name"; 
 
     include_once("cl_db.php");
     $conn = new DbConn(); 

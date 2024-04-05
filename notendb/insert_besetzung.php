@@ -22,11 +22,10 @@ include('head.php');
 </table> 
 <input type="hidden" name="option" value="insert"> 
 </form>
-
+<hr />
 <?php
 
 include_once('cl_besetzung.php'); 
-echo '<hr />'; 
 $besetzung = new Besetzung();
 $besetzung->print_table();   
 

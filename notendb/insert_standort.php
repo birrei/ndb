@@ -22,16 +22,12 @@ include('head.php');
 </table> 
 <input type="hidden" name="option" value="insert"> 
 </form>
-
+<hr />
 <?php
 
-
 include_once('cl_standort.php'); 
-echo '<hr />'; 
 $standort = new Standort();
 $standort->print_table();   
 
-
 include('foot.php');
-
 ?>

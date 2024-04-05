@@ -64,7 +64,7 @@ class Strichart {
 
   function print_table(){
 
-    $query="SELECT * from strichart ORDER by ID DESC"; 
+    $query="SELECT * from strichart ORDER by Name"; 
 
     include_once("cl_db.php");
     $conn = new DbConn(); 

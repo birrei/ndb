@@ -91,7 +91,7 @@ class Verwendungszweck {
 
   function print_table(){
 
-    $query="SELECT * from verwendungszweck ORDER by ID DESC"; 
+    $query="SELECT * from verwendungszweck ORDER by Name"; 
 
     include_once("cl_db.php");
     $conn = new DbConn(); 

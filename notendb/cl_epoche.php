@@ -64,7 +64,7 @@ class Epoche {
 
   function print_table(){
 
-    $query="SELECT * from epoche ORDER by ID DESC"; 
+    $query="SELECT * from epoche ORDER by Name"; 
 
     include_once("cl_db.php");
     $conn = new DbConn(); 

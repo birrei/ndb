@@ -18,8 +18,8 @@ include('head.php');
 </table> 
 <input type="hidden" name="option" value="insert">
 </form>
+<hr />
 <?php
-echo '<hr />'; 
 include_once('cl_notenwert.php');
 $notenwert=new Notenwert(); 
 $notenwert->print_table();   

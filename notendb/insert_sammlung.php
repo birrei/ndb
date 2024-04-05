@@ -21,9 +21,9 @@ include("cl_sammlung.php");
 </table> 
 <input type="hidden" name="option" value="insert"> 
 </form>
-
+<hr />
 <?php
-echo '<hr />'; 
+
 $sammlung=new Sammlung(); 
 $sammlung->print_table();
 

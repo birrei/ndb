@@ -5,16 +5,27 @@ include('head.php');
 Zum nächsten Termin - Neu: 
 
   * Erfassungsformular wechselt automatisch zum Bearbeitungsformular 
+
   * Erfassung Musikstücke und Sätze: Nummer wird automatisch hochgezählt, 
       automatisierte Namen-Vergabe in Klammern   
+
+  * Erfassungsformulare mit Unterdatensätzen (Sammlung > Musikstücke / Musikstück > Sätze): 
+    die Unterdatensätze enthalten jetzt alle Informationen
+
   * Erfassungs-(Haupt.)-Formulare enthalten oben unter der Überschrift die Info zur letzten Aktion in blauer Schrift 
+  
   * in Unterformularen ist die Funktion "Erfassung beenden" entfernt, 
       stattdessen muss das Formular-Feld zur Ergänzung einer Zuordnung erneut aufgerufen werden 
       (etwas unbequemer, aber transparenter) 
-  * innerhalb eines Bearbeitungs-Formulars ist die Aktualisierung einer Seite (per F5) nicht mehr geeigent 
-     (es kommt die Warnung wg. das erneuten SEnden eines Formulars - das funktioniert bei klicken auf "ja" zwar schon, ist aber nicht ideal). 
+  
+  * innerhalb eines Bearbeitungs-Formulars ist die Aktualisierung einer Seite (per F5) nicht mehr gut geeigent 
+     (es kommt die Warnung wg. das erneutem Senden eines Formulars, nach "ja" funktioniert das jedoch). 
       -> Stattdessen bitte einfach "Speichern" drücken. 
+  
   * Der Speichen-Button ist auffälliger formatiert 
+
+  * insert-formulare: die Tabelle mit vorhandenen Einträgen ist jetzt alphabetisch nach Name sortiert 
+  
   * Nochmals der Hinweis, 
     - dass das Forumular per Tab-Taste durchlaufen werden kann 
     - das Speichern jederzeit per Eingabetaste betätigt werden kann 

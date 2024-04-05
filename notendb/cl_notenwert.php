@@ -64,7 +64,7 @@ class Notenwert {
 
   function print_table(){
 
-    $query="SELECT * from notenwert ORDER by ID DESC"; 
+    $query="SELECT * from notenwert ORDER by Name"; 
 
     include_once("cl_db.php");
     $conn = new DbConn(); 

@@ -22,9 +22,8 @@ include('head.php');
 </table> 
 <input type="hidden" name="option" value="insert"> 
 </form>
-
+<hr />
 <?php
-echo '<hr />'; 
 include_once('cl_strichart.php'); 
 $strichart = new Strichart();
 $strichart->print_table();   

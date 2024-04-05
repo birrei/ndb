@@ -318,9 +318,10 @@ class Musikstueck {
               , satz.Spieldauer
               , satz.Schwierigkeitsgrad 
               , satz.Lagen
-              , satz.Erprobt    
+              , satz.Erprobt
               , GROUP_CONCAT(DISTINCT strichart.Name order by strichart.Name SEPARATOR ', ') Stricharten              
-            , GROUP_CONCAT(DISTINCT notenwert.Name order by notenwert.Name SEPARATOR ', ') Notenwerte                
+              , GROUP_CONCAT(DISTINCT notenwert.Name order by notenwert.Name SEPARATOR ', ') Notenwerte 
+              , satz.Bemerkung               
             from satz 
             left join satz_strichart on satz_strichart.SatzID = satz.ID 
             left join strichart on strichart.ID = satz_strichart.StrichartID

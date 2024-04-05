@@ -22,10 +22,10 @@ include('head.php');
 </table> 
 <input type="hidden" name="option" value="insert"> 
 </form>
+<hr />
 
 <?php
 include_once('cl_verlag.php'); 
-echo '<hr />'; 
 $verlag = new Verlag();
 $verlag->print_table();  
 
