@@ -28,12 +28,8 @@ include('head.php');
     <br />Verwendungszweck: "Hochzeit" ODER "Fest"
 
 <h3>Suchtext</h3>
-Sucht einen Teil-Text innerhalb folgender Felder: 
-<ul>
-<li>Sammlung: Name, Bemerkung, Bestellnummer </li>
-<li>Musikstück: Name, Opus, Bearbeiter, Aufführungsjahr </li>
-<li>Satz: Name, Bemerkung</li>
-</ul>
+<p> Sucht einen Teil-Text innerhalb der einfachen Textfelder, nicht jedoch in Bezeichnungen der Auswahl-Felder. 
+Beispiel: Gesucht wird im Feld "Bearbeiter", nicht jedoch im Feld "Komponist". 
 <?php 
 include('foot.php');
 ?>

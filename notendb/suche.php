@@ -313,6 +313,11 @@ if ("POST" == $_SERVER["REQUEST_METHOD"]) {
                             m.Bearbeiter LIKE '%".$suchtext."%' OR
                             m.JahrAuffuehrung LIKE '%".$suchtext."%' OR
                             sa.Name LIKE '%".$suchtext."%' OR
+                            sa.Erprobt LIKE '%".$suchtext."%' OR
+                            sa.Taktart LIKE '%".$suchtext."%' OR
+                            sa.Tonart LIKE '%".$suchtext."%' OR
+                            sa.Tempobezeichnung LIKE '%".$suchtext."%' OR
+                            sa.Schwierigkeitsgrad LIKE '%".$suchtext."%' OR                             
                             sa.Bemerkung LIKE '%".$suchtext."%')"; 
 
       $filter=true; 
