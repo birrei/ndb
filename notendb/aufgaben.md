@@ -1,8 +1,17 @@
 ﻿# in Arbeit
 
+* Suche, Ergebnistabellen: Bemerkung-Felder anzeigen 
+   
+
+
+# Info erledigt 
+
+
+---
 
 # In Planung: 
-  * L�schfunktion (im Bearbeiten-Formular) 
+
+  * Löschfunktion (im Bearbeiten-Formular) 
   * Suchformular mit GET-Parametern (so könnten Such-Links gespeichert werden)
 
   * Erfassung Satz:
@@ -27,7 +36,7 @@
           , Notenwerte
 
   * Suche: Validierung von manuell eingegeben Such-Parametern (z.B: SpieldauerBis > SpieldauerBis ect.)
-  * Insert-Formulare: Problem mit mehrfach-Ausführung bei Browser-Aktualisierung. Evt. Ablauf ändern  
+
   * Such-Seite: Ergebnistabelle erweitern
   * Such-Seite: Ergebnistabelle nach einzelnen Spalten sortierbar 
   * Suchseite: Optimierung per AJAX 
@@ -98,3 +107,108 @@ Sonstiges 26.03.204
   * Such-Seite: Filter Spieldauer von bis   
   * Anpassung Erfassung: Musikstueck.Nummer, Satz.Nr + jeweils Name - Vergabe-Automatismus 
   * Anpassung Erfassung: edit_sammlung_add_musikstueck.php: default-Wert 0 
+
+
+05.04.2024 
+ 
+
+erledigt: 
+	* insert_notenwert.php / edit_notenwert.php
+	* insert_verlag.php / edit_verlag.php
+	* insert_standort.php / edit_standort.php
+	* insert_komponist.php / edit_komponist.php
+	* insert_besetzung.php /   edit_besetzung.php
+	* insert_verwendungszweck.php /    edit_verwendungszweck.php
+	* insert_epoche.php / edit_epoche.php
+	* insert_gattung.php / edit_gattung.php
+	* insert_strichart.php /  edit_strichart.php
+	* insert_sammlung.php / edit_sammlung.php
+  * edit_satz_list_notenwerte.php
+  * edit_satz_add_notenwert.php
+  * edit_sammlung_add_musikstueck.php / edit_sammlung_list_musikstuecke.php
+  edit_musikstueck.php
+  edit_musikstueck_add_besetzung.php
+  edit_musikstueck_add_satz.php
+  edit_musikstueck_add_verwendungszweck.php
+  edit_musikstueck_list_besetzungen.php
+  edit_musikstueck_list_saetze.php
+  edit_musikstueck_list_verwendungszwecke.php
+  edit_satz.php
+  edit_satz_add_strichart.php
+  edit_satz_list_stricharten.php
+
+
+# erledigt 
+
+------------------------
+Info zum 29.03.: 
+* Suchformular: Funkion "alle Filter zurücksetzen", + Filter "Notenwerte"
+  * Korrektur Satz.-Nr (0 oder leer -> 1 )
+  * Umstellung Satz > Notenwerte (Bearbeitung, Suche etc.)
+     dazu: Neuer Ablauf "Erfassen" - > "Bearbeiten" (wird noch auf andere Seiten auch angewandt, bisher nur Satz > Notenwerte)  
+  * Hinweis: Formulare  "Erfassung->Bearbeitung" werden nochmal überarbeitet, ausserdem wird es für Unterformulare es eine Löschfunktion geben 
+
+------------------------
+Info zum 26.03. 
+  * Info: Erfassung Musikstück / Satz:
+    * Nummer-Felder werden mit Vorgabewert "1" besetzt (was natürlich geändert werden kann) 
+    * Wenn Musikstück Name leer bleibt, wird "Musiksück [Nr]" gespeichert.
+    * Wenn Satz Name leer bleibt, wird "Satz [Nr]" gepsichert 
+  * Info: Musikstück > Gattung als Untertabelle 
+  * Info: Musikstück > Epoche als Untertabelle 
+  * Info: Suchfomular: + Epoche, + Gattung, + Spieldauer von / bis 
+  * Info: Suchformular: Auswahl Ebene. Die Auswahl hat Einfluss auf die angezeigten Spalten, die Gruppierung sowie die Sortierung 
+
+Klärung: 
+  * Satz > Spieldauer - ältere Werte unklar
+
+Ausblick: 
+  * In Arbeit: Satz "Notenwerte" als Untertabelle mit Mehrfach-Auswahl 
+  * Geplant: Umstrukturierung weitere Satz-Tabellenfelder,  noch offene Felder 
+
+
+
+Info zum 17.03.2024  
+
+  * 17.03.2024 - <b>Änderung <a href="search_musikstueck.php">Musikstück Such-Formular</a> Ergebnis-Tabelle:</b> 
+    Anzeige wird auf Musikstück aggregiert -> Spalte  "Besetzungen" zeigt alle Besetzungen mit Komma getrennt. 
+    So ergibt sich nur eine Zeile pro Musikstück auch bei mehreren Besetzungen 
+    
+  * 16.03.2024  <b>Sammmlung Auswahl Standort</b> 
+    * Umstellung sammlung.Standort -> StandortID s. (Repository s. sql\20240316_standort.sql) 
+    * Anpassung Anwender: 
+    * Neue Tabelle "Standort" -> Einstieg auf Startseite (und Fußteil) ergänzt 
+    * Sammlung: Standortauswahl über Klappliste 
+    
+  * 15.03.2024 <b>Verbesserung zur Auswahl / Anzeige "Komponist" </b> 
+    * Neue View v_select komponist Hinterlegt für Auswahl Musikstück > Komponist
+      Anzeige "Name" berücksichtigt, dass entweder Vorname oder Nachname leer sein können 
+    * Komponist Nachname neu "(unbekannt)" -> ID 53
+    * Musikstücke mit KomponistID=0 -> KomponistID 53
+    * Komponist Eintrag mit ID 0 löschen (sonst wurde das bisher als default für leere Einträge angezeigt, was falsch ist)
+    
+------------------------
+
+Info zum 01.03.2024 
+  * 05.03.2024: 
+    * Hilfeseite Fortsetzung 
+    * (Erst-) Erfassungs-Formulare: Link "Tabelle anzeigen" wirder entfernt, da zu verwirrend, in Praxis bisher nicht verwendet) 
+
+------------------------
+
+  * 01.03.2024
+    * Startseite: alle hinterlegten Links im neuen Fenster, Startseite bleibt offen 
+
+  * 29.02.2024
+    * <a href="tests.php">Tests-Seite</a> 
+    * <a href="help.php">Hilfe-Seite</a> (erste Notizen, weiteres folgt)
+    * Überarbeitung Fußleiste 
+    * Diese Updates-Seite 
+
+  * 28.02.2024: zu "Suche Musikstück": 
+    * Ergänzung "Verwendungszweck"
+    * Filterboxen-Auswahl bleibt nach Suchvorgang erhalten. 
+    * Funktion "Auswahlbox zurücksetzen"
+    * Spalten in Ergebnistabelle ergänzt 
+  
+  * 27.02.2024: Musikstück > Verwendungszweck Mehrfachauswahl  
