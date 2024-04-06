@@ -14,7 +14,6 @@ include('head.php');
     <br>* Zuordnungen (z.B. Musikstück-> Besetzungen, Satz -> Stricharten) 
 
 <h2>Suche</h2> 
-<p> <a href="search_musikstueck.php" target="_blank">Suche</a> </p>
 
 <h3>Auswahlbox mit Mehrfach-auswahl</h3>
 <p>Auswahl mehrerer Kategorie-Einträge: während der Auswahl STRG-Taste bzw. SHIFT-Taste gedrückt halten </p> 
@@ -28,6 +27,13 @@ include('head.php');
     <br/> UND 
     <br />Verwendungszweck: "Hochzeit" ODER "Fest"
 
+<h3>Suchtext</h3>
+Sucht einen Teil-Text innerhalb folgender Felder: 
+<ul>
+<li>Sammlung: Name, Bemerkung, Bestellnummer </li>
+<li>Musikstück: Name, Opus, Bearbeiter, Aufführungsjahr </li>
+<li>Satz: Name, Bemerkung</li>
+</ul>
 <?php 
 include('foot.php');
 ?>

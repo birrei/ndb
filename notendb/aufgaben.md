@@ -1,21 +1,18 @@
 ﻿# in Arbeit
+next: Auswahltabelle "Erprobt" 
 
-* Suche, Ergebnistabellen: Bemerkung-Felder anzeigen 
-   
-
-
-# Info erledigt 
-
-
----
+# Info erledigt: 
+ * Suche, Ergebnistabellen: Bemerkung-Felder anzeigen
+ * Suche: Möglichkeit, in bestimmten Textfeldern zu suchen 
 
 # In Planung: 
-
+  * Korrektur iFrame-Formule: Reaktion, wenn Speichern ohne Auswahl gedrückt wird  
   * Löschfunktion (im Bearbeiten-Formular) 
   * Suchformular mit GET-Parametern (so könnten Such-Links gespeichert werden)
 
   * Erfassung Satz:
-    * Auswahl 
+    * Auswahl "Erprobt" 
+    * (vorerst verworfen: Satz > Taktart: Mehrfachauswahl) 
     * neues Feld: Aufführungsmaterial vorhanden
     * neues Feld: "Melodische Besonderheiten"
     * neues Feld: "Rhythmische Besonderheiten"
@@ -23,9 +20,8 @@
     * Löschfunktionen 
     * Funktion: Feldinhalte aus anderem Satz des gleichen Musikstücks übernehmen (Checkbox "bekannte Eigenschaft übernehmen"?) 
 
-
   * Suche: gespeicherte Suchen 
-  * Such-Seite: weitere Suchfilter 
+  * Such-Seite: weitere Suchfilter nach Erweiterung Auswahltabellen 
     * Satz: 
           Tonart 
           Taktart
@@ -33,13 +29,9 @@
           , Schwierigkeitsgrad
           , Lagen 
           , Erprobt 
-          , Notenwerte
-
   * Suche: Validierung von manuell eingegeben Such-Parametern (z.B: SpieldauerBis > SpieldauerBis ect.)
-
-  * Such-Seite: Ergebnistabelle erweitern
   * Such-Seite: Ergebnistabelle nach einzelnen Spalten sortierbar 
-  * Suchseite: Optimierung per AJAX 
+  * Suchseite: Optimierung per AJAX ?
 
 -----
 
