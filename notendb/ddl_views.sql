@@ -84,6 +84,8 @@ from komponist
 
 ; 
 
+/* Satz */
+
     CREATE  OR REPLACE VIEW v_test_satz_ohne_spieldauer AS 
         select s.Name as Sammlung_Name
         , sa.ID
@@ -97,6 +99,23 @@ from komponist
  where sa.Spieldauer is NULL
 
 ; 
+
+
+CREATE  OR REPLACE VIEW v_test_satz_ohne_erprobt AS 
+        select s.Name as Sammlung_Name
+        , m.Name as Musikstueck_Name
+        , sa.Nr 
+        , sa.Name as Satz_Name 
+       , sa.ID        
+from musikstueck m 
+    inner join  sammlung s on s.ID = m.SammlungID 
+    inner join satz sa on sa.MusikstueckID = m.ID 
+    left join erprobt on erprobt.ID = sa.ErprobtID 
+ where erprobt.ID is NULL
+
+; 
+
+
 /* tmp. distinct views  */ 
 
 /* satz */
@@ -104,42 +123,34 @@ from komponist
     select distinct 0 as ID, Tonart from satz  
     where Tonart is not null 
     and Tonart <> ''
-    order by Tonart; 
+    order by Tonart
+    ; 
 
     create or REPLACE view v_tmp_Taktart as 
     select distinct 0 as ID, Taktart from satz  
     where Taktart is not null 
     and Taktart <> ''
-    order by Taktart; 
+    order by Taktart
+    ; 
 
     create or REPLACE view v_tmp_Tempobezeichnung as 
     select distinct 0 as ID, Tempobezeichnung from satz  
     where Tempobezeichnung is not null 
     and Tempobezeichnung <> ''
-    order by Tempobezeichnung; 
+    order by Tempobezeichnung
+    ; 
   
     create or REPLACE view v_tmp_Schwierigkeitsgrad as 
     select distinct 0 as ID, Schwierigkeitsgrad from satz  
     where Schwierigkeitsgrad is not null 
     and Schwierigkeitsgrad <> ''
-    order by Schwierigkeitsgrad; 
+    order by Schwierigkeitsgrad
+    ; 
    
     create or REPLACE view v_tmp_Lagen as 
     select distinct 0 as ID, Lagen from satz  
     where Lagen is not null 
     and Lagen <> ''
     order by Lagen 
-
-
--- /* ! am Ende der Datei kein Semikolon verwenden */ 
-
-
--- obsolete 
-  
-    -- create or REPLACE view v_tmp_Erprobt as 
-    -- select distinct 0 as ID, Erprobt from satz  
-    -- where Erprobt is not null 
-    -- and Erprobt <> ''
-    -- order by Erprobt; 
 
 

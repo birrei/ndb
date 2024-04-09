@@ -23,6 +23,13 @@ $tests[] = array('name' => 'Satz ohne Spieldauer'
           , 'table'   => "satz"              
          );
 
+$tests[] = array('name' => 'Satz ohne Erprobt-Angabe'
+         , 'testview'   => "v_test_satz_ohne_erprobt"
+         , 'table'   => "satz"              
+        );
+
+
+          
 
            
 

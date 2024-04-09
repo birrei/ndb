@@ -1,28 +1,27 @@
 ﻿
 # in Arbeit
 
-  * Korrektur: Fehler bei Zuordnung Speichern ohne Auswahl 
-
 # Info erledigt: 
-  * Auswahl-Feld "Erprobt" (Erfassung, Suche) 
-  * Suche, Ergebnistabellen: Bemerkung-Felder werden mit angezeigt
-  * Suche: Möglichkeit, in bestimmten Textfeldern zu suchen 
-
+  * 09.04.2024 - Auswahl-Feld "Erprobt" (Erfassung, Suche, Testview) 
+  * 09.04.2024 - Suche Ergebnistabelle: "Bearbeiten" Zeigt je nach Ebene auf Sammlung, Musikstück, Satz 
+  * 08.04.2024 - Suche: In Textfeldern suchen (Text-Teilstrings!)
+  * 08.04.2024 - Suche Ergebnistabelle: Bemerkung-Felder werden ebenfalls angezeigt
+  
 # In Planung: 
   * Korrektur: Spieldauer -> typische Notation 
   * Korrektur: Suchfenster, Tabelle Bearbeiten soll auf die angezeigte Tabelle zeigen 
   * Korrektur: Bearbeiten-Funktion aus Ansicht v_satz funktioniert nicht 
   * Korrektur: iFrame-Formulare: Reaktion, wenn Speichern ohne Auswahl gedrückt wird  
-  * Korrektur: für alle edit--Formulare (auch stammdaten-Tabellen) htmlspecialchars() einsetzen 
+  * Korrektur: für alle edit-Formulare (auch stammdaten-Tabellen) htmlspecialchars() einsetzen 
   * Klärung intern: autofocus-Funktion bei allen selects so nicht sinnvoll   
   * Sammlung, Musikstück, Satz: Validierung Eingabewerte
   * Löschfunktion (im Bearbeiten-Formularen) 
   * Erfassung Satz 
     * (vorerst verworfen: Satz > Taktart: Mehrfachauswahl) 
-    * neues Feld: Aufführungsmaterial vorhanden
+    * neues Feld: "Aufführungsmaterial vorhanden" 
     * neues Feld: "Melodische Besonderheiten"
     * neues Feld: "Rhythmische Besonderheiten"
-    * neue Feld: "Übung"
+    * neues Feld: "Übung"
     * Funktion: Feldinhalte aus anderem Satz des gleichen Musikstücks übernehmen (Checkbox "bekannte Eigenschaft übernehmen"?) 
   * Suche: gespeicherte Suchen 
   * Seiten-Titel im Register anzeigen (akt. nur bei show_table2.php)
@@ -33,7 +32,6 @@
           , Tempobezeichnung
           , Schwierigkeitsgrad
           , Lagen 
-          , Erprobt 
   * Suche: Validierung von manuell eingegeben Such-Parametern (z.B: SpieldauerBis > SpieldauerBis ect.)
   * Such-Seite: Ergebnistabelle nach einzelnen Spalten sortierbar 
   * Suchseite: Optimierung per AJAX ?
@@ -233,3 +231,5 @@ Info zum 01.03.2024
     * Produduktivnahme - 09.04.2024 
     * info AG 
 
+  09.04.2024 
+  * Korrektur: Fehler bei Zuordnung Speichern ohne Auswahl 
