@@ -128,14 +128,18 @@ from komponist
     select distinct 0 as ID, Lagen from satz  
     where Lagen is not null 
     and Lagen <> ''
-    order by Lagen; 
-
-  
-    create or REPLACE view v_tmp_Erprobt as 
-    select distinct 0 as ID, Erprobt from satz  
-    where Erprobt is not null 
-    and Erprobt <> ''
-    order by Erprobt; 
+    order by Lagen 
 
 
 -- /* ! am Ende der Datei kein Semikolon verwenden */ 
+
+
+-- obsolete 
+  
+    -- create or REPLACE view v_tmp_Erprobt as 
+    -- select distinct 0 as ID, Erprobt from satz  
+    -- where Erprobt is not null 
+    -- and Erprobt <> ''
+    -- order by Erprobt; 
+
+

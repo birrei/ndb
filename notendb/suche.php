@@ -14,7 +14,8 @@ include("cl_strichart.php");
 include("cl_verlag.php"); 
 include("cl_gattung.php"); 
 include("cl_epoche.php"); 
-include("cl_notenwert.php"); 
+include("cl_notenwert.php");
+include("cl_erprobt.php");  
 
 $Standorte=[];   /* Sammlung */
 $Verlage=[];   /* Sammlung */
@@ -26,6 +27,8 @@ $Epochen=[];   /* Musikstück  */
 
 $Stricharten=[];  /* Satz  */
 $Notenwerte=[];  /* Satz  */
+$Erprobt=[];  /* Satz  */
+
 
 $spieldauer_von=''; 
 $spieldauer_bis=''; 
@@ -37,6 +40,7 @@ if (isset($_POST['Ebene'])) {
   $Ebene='Sammlung'; // default 
 }
 
+/* zuvor gewählte Werte sichern, um sie wieder im Formular zu setzen */  
 if ("POST" == $_SERVER["REQUEST_METHOD"]) {
   if (isset($_REQUEST['Standorte'])) {
     $Standorte = $_REQUEST['Standorte'];   
@@ -64,6 +68,9 @@ if ("POST" == $_SERVER["REQUEST_METHOD"]) {
   } 
   if (isset($_REQUEST['Notenwerte'])) {
     $Notenwerte = $_REQUEST['Notenwerte'];   
+  } 
+  if (isset($_REQUEST['Erprobt'])) {
+    $Erprobt = $_REQUEST['Erprobt'];   
   } 
   if (isset($_REQUEST['SpieldauerVon'])) {
     $spieldauer_von = $_REQUEST['SpieldauerVon'];   
@@ -167,7 +174,18 @@ if ("POST" == $_SERVER["REQUEST_METHOD"]) {
           echo ''; 
         ?>
     </td>
-  <td class="selectboxes">Suchtext: <br> 
+
+    <td class="selectboxes"><!--  Spalte 3 --> 
+    <b>Erprobt:</b> <br>
+    <?php 
+            $erprobt = new Erprobt();
+            $erprobt->print_select_multi($Erprobt);      
+          echo ''; 
+        ?>
+   </td>
+
+  <td class="selectboxes"><!--  Spalte 4 --> 
+  Suchtext: <br> 
     <input type="text" id="suchtext" name="suchtext" size="20" value="<?php echo $suchtext; ?>">
 <!--     <br>Durchsucht werden die Name- und Bemerkung-Felder von Sammlung, Musikstück und Satz. --> 
     <br><input type="button" id="btnReset_suchtext" value="Filter zurücksetzen" onclick="Reset_suchtext();" />  
@@ -177,7 +195,7 @@ if ("POST" == $_SERVER["REQUEST_METHOD"]) {
             }  
         </script>     
  </td>
-  <td class="selectboxes"><!--  Spalte 4 --> 
+  <td class="selectboxes"><!--  Spalte 5 --> 
      Spieldauer von: <br> <input type="text" id="SpieldauerVon" name="SpieldauerVon" size="5" value="<?php echo $spieldauer_von; ?>"><br> 
      Spieldauer bis: <br> <input type="text" id="SpieldauerBis" name="SpieldauerBis" size="5" value="<?php echo $spieldauer_bis; ?>"><br> 
 
@@ -189,12 +207,7 @@ if ("POST" == $_SERVER["REQUEST_METHOD"]) {
             }  
         </script> 
 
- </td>
-
- <td class="selectboxes"><!--  Spalte 5 --> 
-
- </td>
-
+    </td>
 </tr>
 </table> 
 
@@ -239,9 +252,11 @@ if ("POST" == $_SERVER["REQUEST_METHOD"]) {
   $filterEpochen='';    
   $filterStricharten=''; 
   $filterNotenwerte='';   
+  $filterErprobt=''; 
   $filterSpieldauer='';   
   $filterSuchtext='';  
   
+  /* Ausgewählte Werte für Abfrage-Filter auslesen  */
   if ("POST" == $_SERVER["REQUEST_METHOD"]) {
     if (isset($_REQUEST['Standorte'])) {
       $Standorte = $_REQUEST['Standorte'];   
@@ -288,6 +303,11 @@ if ("POST" == $_SERVER["REQUEST_METHOD"]) {
       $filterNotenwerte = 'IN ('.implode(',', $Notenwerte).')'; 
       $filter=true; 
     }
+    if (isset($_REQUEST['Erprobt'])) {
+      $Erprobt = $_REQUEST['Erprobt'];   
+      $filterErprobt= 'IN ('.implode(',', $Erprobt).')'; 
+      $filter=true; 
+    }    
     if (isset($_REQUEST['SpieldauerVon']) and isset($_REQUEST['SpieldauerBis']) ) {
       if ($_REQUEST['SpieldauerVon']!='') {
         $spieldauer_von=(is_numeric($_REQUEST['SpieldauerVon'])?$_REQUEST['SpieldauerVon']:''); 
@@ -318,7 +338,8 @@ if ("POST" == $_SERVER["REQUEST_METHOD"]) {
                             sa.Tonart LIKE '%".$suchtext."%' OR
                             sa.Tempobezeichnung LIKE '%".$suchtext."%' OR
                             sa.Schwierigkeitsgrad LIKE '%".$suchtext."%' OR                             
-                            sa.Bemerkung LIKE '%".$suchtext."%')"; 
+                            sa.Bemerkung LIKE '%".$suchtext."%'
+                            )"; 
 
       $filter=true; 
     }
@@ -377,7 +398,7 @@ if ("POST" == $_SERVER["REQUEST_METHOD"]) {
             , sa.Spieldauer
             , sa.Schwierigkeitsgrad
             , sa.Lagen 
-            , sa.Erprobt 
+            , erprobt.Name as Erprobt 
             , GROUP_CONCAT(DISTINCT str.Name order by str.Name SEPARATOR ', ') Stricharten              
             , GROUP_CONCAT(DISTINCT notenwert.Name order by notenwert.Name SEPARATOR ', ') Notenwerte  
             , sa.Bemerkung              
@@ -404,7 +425,7 @@ if ("POST" == $_SERVER["REQUEST_METHOD"]) {
       LEFT JOIN strichart str on ssa.StrichartID = str.ID 
       LEFT JOIN satz_notenwert on satz_notenwert.SatzID = sa.ID
       LEFT JOIN notenwert on notenwert.ID = satz_notenwert.NotenwertID  
-                                    
+      LEFT JOIN erprobt on erprobt.ID = sa.ErprobtID                       
       WHERE 1=1 
       ". PHP_EOL; 
 
@@ -446,6 +467,9 @@ if ("POST" == $_SERVER["REQUEST_METHOD"]) {
       if($filterNotenwerte!=''){
         $query.=' AND satz_notenwert.NotenwertID '.$filterNotenwerte. PHP_EOL; 
       }      
+      if($filterErprobt!=''){
+        $query.=' AND sa.ErprobtID '.$filterErprobt. PHP_EOL; 
+      }         
       if($filterSpieldauer!=''){
         $query.=' AND sa.Spieldauer '.$filterSpieldauer. PHP_EOL; 
       }

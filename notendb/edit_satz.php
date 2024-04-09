@@ -3,6 +3,7 @@
 include('head.php');
 include('cl_satz.php');
 include('cl_musikstueck.php');
+include('cl_erprobt.php');
 include('cl_html_info.php');
 
 echo '<h2>Satz bearbeiten</h2>'; 
@@ -35,7 +36,7 @@ if (isset($_POST["senden"])) {
                   , $_POST["Spieldauer"]
                   , $_POST["Schwierigkeitsgrad"]
                   , $_POST["Lagen"]
-                  , $_POST["Erprobt"]
+                  , $_POST["ErprobtID"]
                   , $_POST["Bemerkung"]
                   
                     ); 
@@ -50,27 +51,25 @@ echo
 
 <table class="eingabe"> 
 <tr>    
-<label>
-<td class="eingabe">ID:</td>  
-<td class="eingabe">'.$satz->ID.'</td>
-</label>
-  </tr> 
+  <td class="eingabe">ID:</td>  
+  <td class="eingabe">'.$satz->ID.'</td>
+</tr> 
 
-
-  <tr>    
+<tr>    
   <label>
   <td class="eingabe">Musikstück:</td>  
   <td class="eingabe">
-
   '; 
-
   $musikstueck=new Musikstueck(); 
   $musikstueck->ID=$satz->MusikstueckID; 
   $musikstueck->print_select($satz->MusikstueckID); 
   
   echo '
-  </label></td></tr>         
-  <tr>    
+  </td>  
+  </label>
+</tr>         
+
+<tr>    
   <label>
   <td class="eingabe">Nr:</td>  
   <td class="eingabe"><input type="text" name="Nr" value="'.$satz->Nr.'" size="45" maxlength="80"  autofocus="autofocus" required></td>
@@ -91,8 +90,6 @@ echo
     <td class="eingabe"><input type="text" name="Tonart" value="'.$satz->Tonart.'" size="45" maxlength="80" autofocus="autofocus"></td>
     </label>
   </tr> 
-
-
 
   <tr>    
     <label>
@@ -130,15 +127,16 @@ echo
     </label>
   </tr> 
 
-
-
-  <tr>    
+  <tr>   
     <label>
-    <td class="eingabe">Erprobt:</td>  
-    <td class="eingabe"><input type="text" name="Erprobt" value="'.$satz->Erprobt.'" size="45" maxlength="80" autofocus="autofocus"></td>
+    <td class="eingabe">Erprobt:</td>   
+    <td>'; 
+      $erprobt=new Erprobt(); 
+      $erprobt->print_select($satz->ErprobtID); 
+    echo  
+    '</td>
     </label>
-  </tr> 
-
+  </tr>
 
   <tr>    
     <label>

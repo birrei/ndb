@@ -17,6 +17,7 @@ if ( isset($_GET["table"]) ){
   <meta http-equiv="cache-control" content="no-cache">
 
   <meta http-equiv="pragma" content="no-cache">   
+  <link rel="icon" type="image/vnd.icon" href="favicon.ico" />
 
    <title>
     <?php echo $title;  ?>
@@ -24,8 +25,6 @@ if ( isset($_GET["table"]) ){
    <link rel='stylesheet' type='text/css' href='style.css'/>
   </head>
 <body>
-<!-- <p><a href="index.php">Startseite</a></p>     
-<hr>  -->
 <?php 
 ?> 
 

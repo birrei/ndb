@@ -1,26 +1,31 @@
-﻿# in Arbeit
-next: Auswahltabelle "Erprobt" 
+﻿
+# in Arbeit
+
+  * Korrektur: Fehler bei Zuordnung Speichern ohne Auswahl 
 
 # Info erledigt: 
- * Suche, Ergebnistabellen: Bemerkung-Felder anzeigen
- * Suche: Möglichkeit, in bestimmten Textfeldern zu suchen 
+  * Auswahl-Feld "Erprobt" (Erfassung, Suche) 
+  * Suche, Ergebnistabellen: Bemerkung-Felder werden mit angezeigt
+  * Suche: Möglichkeit, in bestimmten Textfeldern zu suchen 
 
 # In Planung: 
-  * Korrektur iFrame-Formule: Reaktion, wenn Speichern ohne Auswahl gedrückt wird  
-  * Löschfunktion (im Bearbeiten-Formular) 
-  * Suchformular mit GET-Parametern (so könnten Such-Links gespeichert werden)
-
-  * Erfassung Satz:
-    * Auswahl "Erprobt" 
+  * Korrektur: Spieldauer -> typische Notation 
+  * Korrektur: Suchfenster, Tabelle Bearbeiten soll auf die angezeigte Tabelle zeigen 
+  * Korrektur: Bearbeiten-Funktion aus Ansicht v_satz funktioniert nicht 
+  * Korrektur: iFrame-Formulare: Reaktion, wenn Speichern ohne Auswahl gedrückt wird  
+  * Korrektur: für alle edit--Formulare (auch stammdaten-Tabellen) htmlspecialchars() einsetzen 
+  * Klärung intern: autofocus-Funktion bei allen selects so nicht sinnvoll   
+  * Sammlung, Musikstück, Satz: Validierung Eingabewerte
+  * Löschfunktion (im Bearbeiten-Formularen) 
+  * Erfassung Satz 
     * (vorerst verworfen: Satz > Taktart: Mehrfachauswahl) 
     * neues Feld: Aufführungsmaterial vorhanden
     * neues Feld: "Melodische Besonderheiten"
     * neues Feld: "Rhythmische Besonderheiten"
     * neue Feld: "Übung"
-    * Löschfunktionen 
     * Funktion: Feldinhalte aus anderem Satz des gleichen Musikstücks übernehmen (Checkbox "bekannte Eigenschaft übernehmen"?) 
-
   * Suche: gespeicherte Suchen 
+  * Seiten-Titel im Register anzeigen (akt. nur bei show_table2.php)
   * Such-Seite: weitere Suchfilter nach Erweiterung Auswahltabellen 
     * Satz: 
           Tonart 
@@ -32,6 +37,7 @@ next: Auswahltabelle "Erprobt"
   * Suche: Validierung von manuell eingegeben Such-Parametern (z.B: SpieldauerBis > SpieldauerBis ect.)
   * Such-Seite: Ergebnistabelle nach einzelnen Spalten sortierbar 
   * Suchseite: Optimierung per AJAX ?
+  * Suchformular mit GET-Parametern (so könnten Such-Links gespeichert werden)
 
 -----
 
@@ -204,3 +210,26 @@ Info zum 01.03.2024
     * Spalten in Ergebnistabelle ergänzt 
   
   * 27.02.2024: Musikstück > Verwendungszweck Mehrfachauswahl  
+
+
+  -----
+  Umstellung Satz > Erprobt
+
+ * erledigt: 
+    * Tabellen erstellen + Inhalte migrieren : 20240408_satz_erprobt.sql
+    * Anpassen: View v_satz
+    * erstellen: cl_erprobt.php
+    * erstellen: insert_erprobt.php
+    * erstellen: edit_erprobt.php 
+    * ergänzen: Zeile in index.php 
+    * cl_satz.php: Feld "Erprobt" ändern in "ErprobtID"
+    * edit_satz.php: Feld "Erprobt" ändern in Select-Element  
+    * Anpassung cl_musikstueck (Abfrage für print_table_saetze())
+    * Erfassung / Bearbeitung / Abrufe testen 
+    * Ergänzen/anpassen: suche.php 
+    * View v_tmp_Erprobt löschen, def. aus ddl_views.sql entfernen
+    * Altes Feld "Satz.Erprobt" entfernen 
+    * nochmal testen: Suche, Erfassung Satz  
+    * Produduktivnahme - 09.04.2024 
+    * info AG 
+

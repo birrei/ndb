@@ -23,9 +23,9 @@ select
     , satz.Spieldauer
     , satz.Schwierigkeitsgrad
     , satz.Lagen 
+    , erprobt.Name as Erprobt 
     , GROUP_CONCAT(DISTINCT strichart.Name order by strichart.Name SEPARATOR ', ') Stricharten       
     , GROUP_CONCAT(DISTINCT notenwert.Name order by notenwert.Name SEPARATOR ', ') Notenwerte      
-    , satz.Erprobt 
     , satz.ID 
 FROM 
     sammlung 
@@ -44,7 +44,7 @@ FROM
     LEFT JOIN strichart on strichart.ID = satz_strichart.StrichartID 
     LEFT JOIN satz_notenwert on satz_notenwert.SatzID = satz.ID 
     LEFT JOIN notenwert on notenwert.ID = satz_notenwert.NotenwertID 
-
+    LEFT JOIN erprobt on erprobt.ID = satz.ErprobtID 
 group by satz.ID 
 order by sammlung.Name, musikstueck.Nummer, satz.Nr
 

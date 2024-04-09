@@ -14,7 +14,7 @@ class Satz {
   public $Schwierigkeitsgrad;
   public $Lagen;
   // public $Stricharten;
-  public $Erprobt;
+  public $ErprobtID;
   public $Bemerkung;
   
   public function __construct(){
@@ -64,7 +64,7 @@ class Satz {
             , $Spieldauer
             , $Schwierigkeitsgrad
             , $Lagen
-            , $Erprobt
+            , $ErprobtID
             , $Bemerkung
     
          ) {
@@ -84,7 +84,7 @@ class Satz {
                           Spieldauer=:Spieldauer, 
                           Schwierigkeitsgrad=:Schwierigkeitsgrad, 
                           Lagen=:Lagen, 
-                          Erprobt=:Erprobt, 
+                          ErprobtID=:ErprobtID, 
                           Bemerkung=:Bemerkung
                           WHERE `ID` = :ID"); 
   
@@ -98,7 +98,7 @@ class Satz {
     $update->bindParam(':Spieldauer', $Spieldauer, ($Spieldauer==''? PDO::PARAM_NULL:PDO::PARAM_INT));
     $update->bindParam(':Schwierigkeitsgrad', $Schwierigkeitsgrad);
     $update->bindParam(':Lagen', $Lagen);
-    $update->bindParam(':Erprobt', $Erprobt);
+    $update->bindParam(':ErprobtID', $ErprobtID);
     $update->bindParam(':Bemerkung', $Bemerkung);
 
     try {
@@ -112,7 +112,7 @@ class Satz {
       $this->Spieldauer=$Spieldauer;
       $this->Schwierigkeitsgrad=$Schwierigkeitsgrad;
       $this->Lagen=$Lagen;
-      $this->Erprobt=$Erprobt;
+      $this->ErprobtID=$ErprobtID;
       $this->Bemerkung=$Bemerkung;
 
     }
@@ -141,7 +141,7 @@ class Satz {
                       ,`Spieldauer`
                       ,`Schwierigkeitsgrad`
                       ,`Lagen`
-                      ,`Erprobt`
+                      ,`ErprobtID`
                       ,`Bemerkung`
     FROM `satz`
     WHERE `ID` = :ID");
@@ -160,7 +160,7 @@ class Satz {
     $this->Spieldauer=$row_data["Spieldauer"];
     $this->Schwierigkeitsgrad=$row_data["Schwierigkeitsgrad"];
     $this->Lagen=$row_data["Lagen"];
-    $this->Erprobt=$row_data["Erprobt"];
+    $this->ErprobtID=$row_data["ErprobtID"];
     $this->Bemerkung=$row_data["Bemerkung"];
     
 

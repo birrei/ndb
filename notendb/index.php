@@ -90,6 +90,11 @@ include('head.php');
     <td><a href="show_table2.php?table=notenwert&sortcol=Name" target="_blank">Daten anzeigen</a></td>
     <td><a href="insert_notenwert.php?" target="_blank">Neu erfassen</a></td>
 </tr>
+<tr>
+    <td><b>Erprobt</b></td>
+    <td><a href="show_table2.php?table=erprobt&sortcol=Name" target="_blank">Daten anzeigen</a></td>
+    <td><a href="insert_erprobt.php?" target="_blank">Neu erfassen</a></td>
+</tr>
 
 
 </table>
