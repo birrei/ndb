@@ -9,16 +9,16 @@ class HtmlInfo {
     }
    
     function print_user_error() {
-        $this->html.='<p style="color: red;">Ein Fehler ist aufgetreten.</p>'; 
+        $this->html='<p style="color: red;">Ein Fehler ist aufgetreten.</p>'; 
         echo $this->html; 
     }
 
     function print_error($stmt, PDOException $e) {
-        $this->html.='<p style="color: red;">'; 
+        $this->html='<p style="color: red;">'; 
         $this->html.=$e->getMessage(); 
         $this->html.='</p>'; 
         // $stmt->debugDumpParams();  // ausgabe-Methode, kein Text 
-        echo $this->html;     
+        // echo $this->html;     
     }
     
     function print_action_info($ID, $action_name){

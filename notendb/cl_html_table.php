@@ -15,7 +15,7 @@ class HtmlTable {
     
     function print_table($edit_table_name='', $edit_newpage=false) {
         /* 
-        - $edit_table_name <> '': eine zusätliche Spalte mit "Bearbeiten-Link" wird angezeigt. 
+        - $edit_table_name <> '': eine zusätzliche Spalte mit "Bearbeiten-Link" wird angezeigt. 
           Die zugrundeliegende Abfrage muss eine Spalte "ID" für diese Tabelle enthalten  
         - edit_newpage=true: dem Bearbeitungs-Link wird ein target="_blank" hinzugefügt
         - $show_del_link=true: eine zusätzliche Spalte mit Link für Löschfunktion wird angezeigt 
@@ -26,7 +26,7 @@ class HtmlTable {
 
         if ($this->count_cols > 0 & $this->count_rows > 0)
         {
-            $html .= '<table>';
+            $html = '<table>';
             // header 
             $html .= '<thead>';
             $html .= '<tr>'. PHP_EOL;

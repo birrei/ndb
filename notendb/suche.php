@@ -34,6 +34,8 @@ $spieldauer_von='';
 $spieldauer_bis=''; 
 $suchtext=''; 
 
+$edit_table=''; /* Tabelle, die über Bearbeiten-Link in Ergebnis-Tabelle abrufbar sein soll */
+
 if (isset($_POST['Ebene'])) {
   $Ebene=$_POST["Ebene"]; 
 } else {
@@ -346,8 +348,7 @@ if ("POST" == $_SERVER["REQUEST_METHOD"]) {
       // echo '<pre>'.$filterSuchtext.'</pre>'; // Test 
 
   }
-    
-    
+      
   if (isset($_POST['Ebene'])) {
     $Ebene=$_POST["Ebene"]; 
   }
@@ -366,10 +367,10 @@ if ("POST" == $_SERVER["REQUEST_METHOD"]) {
             , GROUP_CONCAT(DISTINCT m.Name order by m.Nummer SEPARATOR ', ') Musikstuecke
             , s.Bestellnummer 
             ";
-
-        break; 
+        $edit_table='sammlung'; 
+          break; 
       case 'Musikstueck': 
-        $query.="SELECT s.ID
+        $query.="SELECT m.ID
             ,s.Name as Sammlung
             , st.Name as Standort
             , m.Nummer as MNr
@@ -382,9 +383,12 @@ if ("POST" == $_SERVER["REQUEST_METHOD"]) {
             , GROUP_CONCAT(DISTINCT v.Name order by v.Name SEPARATOR ', ') Verwendungszwecke   
             , GROUP_CONCAT(DISTINCT sa.Name order by sa.Nr SEPARATOR ', ') Saetze                 
             ";         
-        break; 
+
+        $edit_table='musikstueck'; 
+          break; 
+
       case 'Satz': 
-        $query.="SELECT s.ID
+        $query.="SELECT sa.ID
             ,s.Name as Sammlung
             -- , st.Name as Standort
             , m.Nummer as MNr
@@ -402,7 +406,8 @@ if ("POST" == $_SERVER["REQUEST_METHOD"]) {
             , GROUP_CONCAT(DISTINCT str.Name order by str.Name SEPARATOR ', ') Stricharten              
             , GROUP_CONCAT(DISTINCT notenwert.Name order by notenwert.Name SEPARATOR ', ') Notenwerte  
             , sa.Bemerkung              
-            ";            
+            ";        
+      $edit_table='satz';                 
         break;      
 
     }
@@ -516,7 +521,7 @@ if ("POST" == $_SERVER["REQUEST_METHOD"]) {
         $select->execute(); 
         include_once("cl_html_table.php");      
         $html = new HtmlTable($select); 
-        $html->print_table('sammlung', True); 
+        $html->print_table($edit_table, True); 
       }
       catch (PDOException $e) {
         include_once("cl_html_info.php"); 
