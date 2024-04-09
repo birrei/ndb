@@ -1,14 +1,18 @@
 ﻿
 # in Arbeit
+  * Auswahl-Feld "Schwierigkeitsgrad" (Erfassung, Suche, Testview) 
 
-# Info erledigt: 
+----
+# Zuletzt abgeschlossen: 
   * 09.04.2024 - Auswahl-Feld "Erprobt" (Erfassung, Suche, Testview) 
   * 09.04.2024 - Suche Ergebnistabelle: "Bearbeiten" Zeigt je nach Ebene auf Sammlung, Musikstück, Satz 
   * 08.04.2024 - Suche: In Textfeldern suchen (Text-Teilstrings!)
   * 08.04.2024 - Suche Ergebnistabelle: Bemerkung-Felder werden ebenfalls angezeigt
   
+----
+
 # In Planung: 
-  * Korrektur: Spieldauer -> typische Notation 
+  * Korrektur: Spieldauer -> Art der Notation ändern  
   * Korrektur: Suchfenster, Tabelle Bearbeiten soll auf die angezeigte Tabelle zeigen 
   * Korrektur: Bearbeiten-Funktion aus Ansicht v_satz funktioniert nicht 
   * Korrektur: iFrame-Formulare: Reaktion, wenn Speichern ohne Auswahl gedrückt wird  
@@ -41,6 +45,29 @@
 
 
 # Erledigt 
+
+  * 09.04.2024: mstellung Satz > Erprobt: 
+    * Tabellen erstellen + Inhalte migrieren : 20240408_satz_erprobt.sql
+    * Anpassen: View v_satz
+    * erstellen: cl_erprobt.php
+    * erstellen: insert_erprobt.php
+    * erstellen: edit_erprobt.php 
+    * ergänzen: Zeile in index.php 
+    * cl_satz.php: Feld "Erprobt" ändern in "ErprobtID"
+    * edit_satz.php: Feld "Erprobt" ändern in Select-Element  
+    * Anpassung cl_musikstueck (Abfrage für print_table_saetze())
+    * Erfassung / Bearbeitung / Abrufe testen 
+    * Ergänzen/anpassen: suche.php 
+    * View v_tmp_Erprobt löschen, def. aus ddl_views.sql entfernen
+    * Altes Feld "Satz.Erprobt" entfernen 
+    * nochmal testen: Suche, Erfassung Satz
+    * Testview "satz ohne erprobt-Angabe"   
+    * Produduktivnahme - 09.04.2024 
+    * info unter aufgaben.md
+
+
+  *   09.04.2024 Korrektur: Fehler bei Zuordnung Speichern ohne Auswahl 
+
 
 28.03.2024, 29.03.2024: 
   * Alle Suchformular-Felder in einem Rutsch leeren 
@@ -211,25 +238,4 @@ Info zum 01.03.2024
 
 
   -----
-  Umstellung Satz > Erprobt
 
- * erledigt: 
-    * Tabellen erstellen + Inhalte migrieren : 20240408_satz_erprobt.sql
-    * Anpassen: View v_satz
-    * erstellen: cl_erprobt.php
-    * erstellen: insert_erprobt.php
-    * erstellen: edit_erprobt.php 
-    * ergänzen: Zeile in index.php 
-    * cl_satz.php: Feld "Erprobt" ändern in "ErprobtID"
-    * edit_satz.php: Feld "Erprobt" ändern in Select-Element  
-    * Anpassung cl_musikstueck (Abfrage für print_table_saetze())
-    * Erfassung / Bearbeitung / Abrufe testen 
-    * Ergänzen/anpassen: suche.php 
-    * View v_tmp_Erprobt löschen, def. aus ddl_views.sql entfernen
-    * Altes Feld "Satz.Erprobt" entfernen 
-    * nochmal testen: Suche, Erfassung Satz  
-    * Produduktivnahme - 09.04.2024 
-    * info AG 
-
-  09.04.2024 
-  * Korrektur: Fehler bei Zuordnung Speichern ohne Auswahl 
