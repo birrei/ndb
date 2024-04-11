@@ -14,7 +14,7 @@ include('head.php');
 
 <h2>Changelog</h2>
 
-<p> <a href="https://github.com/birrei/ndb/blob/main/notendb/changelog.md">https://github.com/birrei/ndb/blob/main/notendb/changelog.md</a></p>
+<p> <a href="https://github.com/birrei/ndb/blob/main/notendb/changelog.md" target="_blank">https://github.com/birrei/ndb/blob/main/notendb/changelog.md</a></p>
 
 <?php 
 include('foot.php');

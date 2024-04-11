@@ -15,7 +15,7 @@ class Satz {
   public $Lagen;
   // public $Stricharten;
   public $ErprobtID;
-  public $Bemerkung;
+  public $Bemerkung='';
   
   public function __construct(){
     $this->table_name='satz';     
@@ -43,8 +43,6 @@ class Satz {
       $this->ID = $db->lastInsertId();
       $this->Nr=$Nr; 
       $this->Name=$Name;  
-
-      // $this->MusikstueckID=$MusikstueckID;  
     }
     catch (PDOException $e) {
       include_once("cl_html_info.php"); 
@@ -98,7 +96,7 @@ class Satz {
     $update->bindParam(':Spieldauer', $Spieldauer, ($Spieldauer==''? PDO::PARAM_NULL:PDO::PARAM_INT));
     $update->bindParam(':Schwierigkeitsgrad', $Schwierigkeitsgrad);
     $update->bindParam(':Lagen', $Lagen);
-    $update->bindParam(':ErprobtID', $ErprobtID);
+    $update->bindParam(':ErprobtID', $ErprobtID, ($ErprobtID==''? PDO::PARAM_NULL:PDO::PARAM_INT));
     $update->bindParam(':Bemerkung', $Bemerkung);
 
     try {
