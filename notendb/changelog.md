@@ -3,13 +3,6 @@
   * Auswahl-Feld "Schwierigkeitsgrad" (Erfassung, Suche, Testview) 
 
 ----
-# Zuletzt abgeschlossen: 
-  * 09.04.2024 - Auswahl-Feld "Erprobt" (Erfassung, Suche, Testview) 
-  * 09.04.2024 - Suche Ergebnistabelle: "Bearbeiten" Zeigt je nach Ebene auf Sammlung, Musikstück, Satz 
-  * 08.04.2024 - Suche: In Textfeldern suchen (Text-Teilstrings!)
-  * 08.04.2024 - Suche Ergebnistabelle: Bemerkung-Felder werden ebenfalls angezeigt
-  
-----
 
 # In Planung: 
   * Korrektur: Spieldauer -> Art der Notation ändern  
@@ -57,17 +50,21 @@
     * edit_satz.php: Feld "Erprobt" ändern in Select-Element  
     * Anpassung cl_musikstueck (Abfrage für print_table_saetze())
     * Erfassung / Bearbeitung / Abrufe testen 
-    * Ergänzen/anpassen: suche.php 
+      * Auch Speichern mit leeren Feldern (nicht getroffener Auswahl) testen!
+    * Ergänzen/anpassen: suche.php (! aus Text-Suche rausnehmen!)
     * View v_tmp_Erprobt löschen, def. aus ddl_views.sql entfernen
     * Altes Feld "Satz.Erprobt" entfernen 
     * nochmal testen: Suche, Erfassung Satz
     * Testview "satz ohne erprobt-Angabe"   
     * Produduktivnahme - 09.04.2024 
     * info unter aufgaben.md
-
-
-  *   09.04.2024 Korrektur: Fehler bei Zuordnung Speichern ohne Auswahl 
-
+  
+  * 09.04.2024 - Korrektur: Fehler bei Speichern ohne Auswahl Erprobt
+  * 09.04.2024 - Auswahl-Feld "Erprobt" (Erfassung, Suche, Testview) 
+  * 09.04.2024 - Suche Ergebnistabelle: "Bearbeiten" Zeigt je nach Ebene auf Sammlung, Musikstück, Satz 
+  * 08.04.2024 - Suche: In Textfeldern suchen (Text-Teilstrings!)
+  * 08.04.2024 - Suche Ergebnistabelle: Bemerkung-Felder werden ebenfalls angezeigt
+  
 
 28.03.2024, 29.03.2024: 
   * Alle Suchformular-Felder in einem Rutsch leeren 
