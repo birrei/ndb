@@ -5,12 +5,7 @@ include('head.php');
 
 <p><a href="sqlexec.php">SQL Query-Box</a> </p> 
 <p><a href="list_tables.php">list_tables.php</a></p> 
-
-<h2>Installation DDL</h2>
-<p><a href="sqlexec_ddl.php?script=ddl_views">ddl_views.sql</a></p> 
-<p><a href="sqlexec_ddl.php?script=ddl_views_v_musikstueck">ddl_views_v_musikstueck.sql<a> </p> 
-<p><a href="sqlexec_ddl.php?script=ddl_views_v_satz">ddl_views_v_satz.sql<a> </p> 
-
+<p><a href="sqlexec_ddl.php">sqlexec_ddl.php</a> (Views installieren)</p> 
 
 <h2>Changelog</h2>
 

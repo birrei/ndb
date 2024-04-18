@@ -4,7 +4,7 @@ include("cl_db.php");
 
 /* 
 Script führt die SQL-Commands aus allen *.sql-Dateien (die im gleichen Ordner liegen) aus. 
-Mehrere SQL-Commands in einer Datei müssen durch ein Semikolon ";" getrennt sein. 
+Enthält eine Datei mehrere SQL-Commands, müssen diese durch ein Semikolon ";" getrennt sein. 
 */
 
 $dir='.'; 
