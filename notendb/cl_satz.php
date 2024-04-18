@@ -11,7 +11,7 @@ class Satz {
   public $Taktart;
   public $Tempobezeichnung;
   public $Spieldauer;
-  public $Schwierigkeitsgrad;
+  public $SchwierigkeitsgradID;
   public $Lagen;
   // public $Stricharten;
   public $ErprobtID;
@@ -60,7 +60,7 @@ class Satz {
             , $Taktart
             , $Tempobezeichnung
             , $Spieldauer
-            , $Schwierigkeitsgrad
+            , $SchwierigkeitsgradID
             , $Lagen
             , $ErprobtID
             , $Bemerkung
@@ -80,7 +80,7 @@ class Satz {
                           Taktart=:Taktart, 
                           Tempobezeichnung=:Tempobezeichnung, 
                           Spieldauer=:Spieldauer, 
-                          Schwierigkeitsgrad=:Schwierigkeitsgrad, 
+                          SchwierigkeitsgradID=:SchwierigkeitsgradID, 
                           Lagen=:Lagen, 
                           ErprobtID=:ErprobtID, 
                           Bemerkung=:Bemerkung
@@ -94,7 +94,7 @@ class Satz {
     $update->bindParam(':Taktart', $Taktart);
     $update->bindParam(':Tempobezeichnung', $Tempobezeichnung);
     $update->bindParam(':Spieldauer', $Spieldauer, ($Spieldauer==''? PDO::PARAM_NULL:PDO::PARAM_INT));
-    $update->bindParam(':Schwierigkeitsgrad', $Schwierigkeitsgrad);
+    $update->bindParam(':SchwierigkeitsgradID', $SchwierigkeitsgradID, ($SchwierigkeitsgradID==''? PDO::PARAM_NULL:PDO::PARAM_INT));    
     $update->bindParam(':Lagen', $Lagen);
     $update->bindParam(':ErprobtID', $ErprobtID, ($ErprobtID==''? PDO::PARAM_NULL:PDO::PARAM_INT));
     $update->bindParam(':Bemerkung', $Bemerkung);
@@ -108,7 +108,7 @@ class Satz {
       $this->Taktart=$Taktart;
       $this->Tempobezeichnung=$Tempobezeichnung;
       $this->Spieldauer=$Spieldauer;
-      $this->Schwierigkeitsgrad=$Schwierigkeitsgrad;
+      $this->SchwierigkeitsgradID=$SchwierigkeitsgradID;
       $this->Lagen=$Lagen;
       $this->ErprobtID=$ErprobtID;
       $this->Bemerkung=$Bemerkung;
@@ -137,10 +137,10 @@ class Satz {
                       ,`Taktart`
                       ,`Tempobezeichnung`
                       ,`Spieldauer`
-                      ,`Schwierigkeitsgrad`
+                      ,`SchwierigkeitsgradID`
                       ,`Lagen`
                       ,`ErprobtID`
-                      ,`Bemerkung`
+                      , COALESCE(Bemerkung,'') as Bemerkung 
     FROM `satz`
     WHERE `ID` = :ID");
 
@@ -156,7 +156,7 @@ class Satz {
     $this->Taktart=$row_data["Taktart"];
     $this->Tempobezeichnung=$row_data["Tempobezeichnung"];
     $this->Spieldauer=$row_data["Spieldauer"];
-    $this->Schwierigkeitsgrad=$row_data["Schwierigkeitsgrad"];
+    $this->SchwierigkeitsgradID=$row_data["SchwierigkeitsgradID"];
     $this->Lagen=$row_data["Lagen"];
     $this->ErprobtID=$row_data["ErprobtID"];
     $this->Bemerkung=$row_data["Bemerkung"];

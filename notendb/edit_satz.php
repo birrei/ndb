@@ -4,6 +4,7 @@ include('head.php');
 include('cl_satz.php');
 include('cl_musikstueck.php');
 include('cl_erprobt.php');
+include('cl_schwierigkeitsgrad.php');
 include('cl_html_info.php');
 
 echo '<h2>Satz bearbeiten</h2>'; 
@@ -34,7 +35,7 @@ if (isset($_POST["senden"])) {
                   , $_POST["Taktart"]
                   , $_POST["Tempobezeichnung"]
                   , $_POST["Spieldauer"]
-                  , $_POST["Schwierigkeitsgrad"]
+                  , $_POST["SchwierigkeitsgradID"]
                   , $_POST["Lagen"]
                   , $_POST["ErprobtID"]
                   , $_POST["Bemerkung"]
@@ -113,12 +114,25 @@ echo
   </tr> 
 
 
-  <tr>    
+
+  <tr>   
     <label>
-    <td class="eingabe">Schwierigkeitsgrad:</td>  
-    <td class="eingabe"><input type="text" name="Schwierigkeitsgrad" value="'.$satz->Schwierigkeitsgrad.'" size="45" maxlength="80" autofocus="autofocus"></td>
+    <td class="eingabe">Schwierigkeitsgrad:</td>   
+    <td class="eingabe">'; 
+      $erprobt=new Schwierigkeitsgrad(); 
+      $erprobt->print_select($satz->SchwierigkeitsgradID); 
+    echo  
+    '</td>
     </label>
-  </tr> 
+  </tr>
+  <tr>   
+    <td class="eingabe">Erprobt:</td>   
+    <td class="eingabe">'; 
+      $erprobt=new Erprobt(); 
+      $erprobt->print_select($satz->ErprobtID); 
+    echo  
+    '</td>
+  </tr>
 
   <tr>    
     <label>
@@ -127,16 +141,6 @@ echo
     </label>
   </tr> 
 
-  <tr>   
-    <label>
-    <td class="eingabe">Erprobt:</td>   
-    <td>'; 
-      $erprobt=new Erprobt(); 
-      $erprobt->print_select($satz->ErprobtID); 
-    echo  
-    '</td>
-    </label>
-  </tr>
 
   <tr>    
     <label>

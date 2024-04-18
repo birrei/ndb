@@ -95,6 +95,11 @@ include('head.php');
     <td><a href="show_table2.php?table=erprobt&sortcol=Name" target="_blank">Daten anzeigen</a></td>
     <td><a href="insert_erprobt.php?" target="_blank">Neu erfassen</a></td>
 </tr>
+<tr>
+    <td><b>Schwierigkeitsgrad</b></td>
+    <td><a href="show_table2.php?table=schwierigkeitsgrad&sortcol=Name" target="_blank">Daten anzeigen</a></td>
+    <td><a href="insert_schwierigkeitsgrad.php?" target="_blank">Neu erfassen</a></td>
+</tr>
 
 
 </table>

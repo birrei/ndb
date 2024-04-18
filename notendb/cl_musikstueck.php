@@ -316,9 +316,9 @@ class Musikstueck {
               , satz.Taktart
               , satz.Tempobezeichnung
               , satz.Spieldauer
-              , satz.Schwierigkeitsgrad 
+              , schwierigkeitsgrad.Name as Schwierigkeitsgrad 
+              , erprobt.Name as Erprobt              
               , satz.Lagen
-              , erprobt.Name as Erprobt
               , GROUP_CONCAT(DISTINCT strichart.Name order by strichart.Name SEPARATOR ', ') Stricharten              
               , GROUP_CONCAT(DISTINCT notenwert.Name order by notenwert.Name SEPARATOR ', ') Notenwerte 
               , satz.Bemerkung               
@@ -327,7 +327,8 @@ class Musikstueck {
             left join strichart on strichart.ID = satz_strichart.StrichartID
             left join satz_notenwert on satz_notenwert.SatzID = satz.ID  
             Left JOIN notenwert on notenwert.ID = satz_notenwert.NotenwertID
-            left JOIN erprobt on erprobt.ID = satz.ErprobtID   
+            left JOIN erprobt on erprobt.ID = satz.ErprobtID
+            left JOIN schwierigkeitsgrad on   schwierigkeitsgrad.ID = satz.SchwierigkeitsgradID 
 
             WHERE satz.MusikstueckID = :MusikstueckID 
             group by satz.ID 

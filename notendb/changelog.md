@@ -1,11 +1,32 @@
 ﻿
 # in Arbeit
-  * Auswahl-Feld "Schwierigkeitsgrad" (Erfassung, Suche, Testview) 
+## Auswahl-Feld "Schwierigkeitsgrad" (Erfassung, Suche, Testview)
+
+  * Ergänzen/anpassen: suche.php (! aus Text-Suche rausnehmen!)
+  * Testview "satz ohne Schwierigkeitsgrad-Angabe"   
+  * Produduktivnahme - 20.04.2024 
+  * info unter aufgaben.md
+
+erledigt: 
+  * 18.04.2024: Umstellung Satz > Schwierigkeitsgrad (Vorlage: Satz > Erprobt) 
+  * Tabellen erstellen + Inhalte migrieren : 20240418_satz_schwierigkeitsgrad.sql
+  * Anpassen: View v_satz
+  * erstellen: cl_schwierigkeitsgrad.php (Kopie von cl_erprobt)
+  * erstellen: insert_schwierigkeitsgrad.php
+  * erstellen: edit_schwierigkeitsgrad.php 
+  * ergänzen: Zeile in index.php 
+  * cl_satz.php: Feld "Schwierigkeitsgrad" ändern in "SchwierigkeitsgradID"  
+  * edit_satz.php: Feld "Schwierigkeitsgrad" ändern in Select-Element  
+  * Anpassung cl_musikstueck (Abfrage für print_table_saetze())
+  * Erfassung / Bearbeitung / Abrufe testen 
+    * Auch Speichern mit leeren Feldern (nicht getroffener Auswahl) testen!
+
+
 
 ----
 
 # In Planung: 
-  * Korrektur: Spieldauer -> Art der Notation ändern  
+  * Korrektur: Spieldauer -> Art der Notation ändern. Filter in Suche muss angepasst werden. 
   * Korrektur: Suchfenster, Tabelle Bearbeiten soll auf die angezeigte Tabelle zeigen 
   * Korrektur: Bearbeiten-Funktion aus Ansicht v_satz funktioniert nicht 
   * Korrektur: iFrame-Formulare: Reaktion, wenn Speichern ohne Auswahl gedrückt wird  
@@ -20,26 +41,32 @@
     * neues Feld: "Rhythmische Besonderheiten"
     * neues Feld: "Übung"
     * Funktion: Feldinhalte aus anderem Satz des gleichen Musikstücks übernehmen (Checkbox "bekannte Eigenschaft übernehmen"?) 
-  * Suche: gespeicherte Suchen 
+  * Gestaltung Handytauglich 
+  * Gespeicherte Suchen 
   * Seiten-Titel im Register anzeigen (akt. nur bei show_table2.php)
   * Such-Seite: weitere Suchfilter nach Erweiterung Auswahltabellen 
-    * Satz: 
-          Tonart 
-          Taktart
-          , Tempobezeichnung
-          , Schwierigkeitsgrad
-          , Lagen 
+    * Satz: Tonart, Taktart, Tempobezeichnung, Lagen 
   * Suche: Validierung von manuell eingegeben Such-Parametern (z.B: SpieldauerBis > SpieldauerBis ect.)
   * Such-Seite: Ergebnistabelle nach einzelnen Spalten sortierbar 
   * Suchseite: Optimierung per AJAX ?
   * Suchformular mit GET-Parametern (so könnten Such-Links gespeichert werden)
+    * oder: gespeicherte Suche (Abfragen mit Namen / SQL abspeichern) 
+  * Warnung, wenn Datensatz nicht gespeichert ist 
+  * Links zum navigieren von Satz -> Musikstück -> Sammlung
+  * Tabelle über Tabellen-Spalten- Links sortieren (Javascript)
+  * Datenblatt für eine Sammlung 
+  * Hilfe-Seite 
+  * Musikstück löschen, Satz löschen
+
+# Tester 
+ * Musikstück mit mehreren Sätzen: ID 72  
 
 -----
 
 
 # Erledigt 
 
-  * 09.04.2024: mstellung Satz > Erprobt: 
+  * 09.04.2024: Umstellung Satz > Erprobt: 
     * Tabellen erstellen + Inhalte migrieren : 20240408_satz_erprobt.sql
     * Anpassen: View v_satz
     * erstellen: cl_erprobt.php
