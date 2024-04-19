@@ -1,7 +1,6 @@
 ﻿
 # in Arbeit
 ## Auswahl-Feld "Schwierigkeitsgrad" (Erfassung, Suche, Testview)
-
   * Ergänzen/anpassen: suche.php (! aus Text-Suche rausnehmen!)
   * Testview "satz ohne Schwierigkeitsgrad-Angabe"   
   * Produduktivnahme - 20.04.2024 
@@ -20,8 +19,6 @@ erledigt:
   * Anpassung cl_musikstueck (Abfrage für print_table_saetze())
   * Erfassung / Bearbeitung / Abrufe testen 
     * Auch Speichern mit leeren Feldern (nicht getroffener Auswahl) testen!
-
-
 
 ----
 
