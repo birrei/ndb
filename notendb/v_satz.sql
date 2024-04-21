@@ -29,10 +29,13 @@ select
     , GROUP_CONCAT(DISTINCT notenwert.Name order by notenwert.Name SEPARATOR ', ') Notenwerte      
     , satz.ID 
 FROM 
-    sammlung 
+    satz 
+    LEFT join musikstueck  on musikstueck.ID = satz.MusikstueckID  
+    LEFT JOIN sammlung on musikstueck.SammlungID = sammlung.ID 
+
     LEFT join verlag on sammlung.VerlagID = verlag.ID  
     LEFT JOIN standort on sammlung.StandortID = standort.ID 
-    LEFT JOIN musikstueck on  musikstueck.SammlungID = sammlung.ID 
+
     LEFT join v_komponist as komponist on musikstueck.KomponistID = komponist.ID 
     LEFT JOIN gattung on gattung.ID = musikstueck.GattungID 
     LEFT JOIN epoche on epoche.ID = musikstueck.EpocheID         
@@ -40,7 +43,7 @@ FROM
     left JOIN besetzung on besetzung.ID = musikstueck_besetzung.BesetzungID 
     left join musikstueck_verwendungszweck on musikstueck_verwendungszweck.MusikstueckID = musikstueck.ID 
     left join verwendungszweck on verwendungszweck.ID = musikstueck_verwendungszweck.VerwendungszweckID
-    LEFT join satz  on musikstueck.ID = satz.MusikstueckID    
+  
     LEFT JOIN satz_strichart on satz_strichart.SatzID = satz.ID 
     LEFT JOIN strichart on strichart.ID = satz_strichart.StrichartID 
     LEFT JOIN satz_notenwert on satz_notenwert.SatzID = satz.ID 

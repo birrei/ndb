@@ -130,7 +130,7 @@ class Satz {
 
     $select = $db->prepare("SELECT 
                       `ID`
-                      ,`Name`
+                      ,COALESCE(Name,'') as Name 
                       ,`Nr`
                       ,`MusikstueckID`
                       ,`Tonart`

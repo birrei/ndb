@@ -14,7 +14,7 @@ select * from schwierigkeitsgrad
 
 insert into schwierigkeitsgrad (Name)
 select Schwierigkeitsgrad 
-from v_tmp_schwierigkeitsgrad
+from v_tmp_Schwierigkeitsgrad
 order by Schwierigkeitsgrad
 ;
 select * from schwierigkeitsgrad

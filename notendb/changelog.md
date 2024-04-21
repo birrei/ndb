@@ -1,29 +1,12 @@
 ﻿
 # in Arbeit
-## Auswahl-Feld "Schwierigkeitsgrad" (Erfassung, Suche, Testview)
-  * Ergänzen/anpassen: suche.php (! aus Text-Suche rausnehmen!)
-  * Testview "satz ohne Schwierigkeitsgrad-Angabe"   
-  * Produduktivnahme - 20.04.2024 
-  * info unter aufgaben.md
-
-erledigt: 
-  * 18.04.2024: Umstellung Satz > Schwierigkeitsgrad (Vorlage: Satz > Erprobt) 
-  * Tabellen erstellen + Inhalte migrieren : 20240418_satz_schwierigkeitsgrad.sql
-  * Anpassen: View v_satz
-  * erstellen: cl_schwierigkeitsgrad.php (Kopie von cl_erprobt)
-  * erstellen: insert_schwierigkeitsgrad.php
-  * erstellen: edit_schwierigkeitsgrad.php 
-  * ergänzen: Zeile in index.php 
-  * cl_satz.php: Feld "Schwierigkeitsgrad" ändern in "SchwierigkeitsgradID"  
-  * edit_satz.php: Feld "Schwierigkeitsgrad" ändern in Select-Element  
-  * Anpassung cl_musikstueck (Abfrage für print_table_saetze())
-  * Erfassung / Bearbeitung / Abrufe testen 
-    * Auch Speichern mit leeren Feldern (nicht getroffener Auswahl) testen!
+  * Korrektur: Spieldauer -> Art der Notation ändern auf [Sekunden]'[Sekunden]'' ändern. Filter in Suche muss angepasst werden. Notiz: aktuell sind die Angaben in Minuten
 
 ----
 
 # In Planung: 
-  * Korrektur: Spieldauer -> Art der Notation ändern. Filter in Suche muss angepasst werden. 
+  * Gespeicherte Suchen 
+    * Notiz:  
   * Korrektur: Suchfenster, Tabelle Bearbeiten soll auf die angezeigte Tabelle zeigen 
   * Korrektur: Bearbeiten-Funktion aus Ansicht v_satz funktioniert nicht 
   * Korrektur: iFrame-Formulare: Reaktion, wenn Speichern ohne Auswahl gedrückt wird  
@@ -39,7 +22,7 @@ erledigt:
     * neues Feld: "Übung"
     * Funktion: Feldinhalte aus anderem Satz des gleichen Musikstücks übernehmen (Checkbox "bekannte Eigenschaft übernehmen"?) 
   * Gestaltung Handytauglich 
-  * Gespeicherte Suchen 
+
   * Seiten-Titel im Register anzeigen (akt. nur bei show_table2.php)
   * Such-Seite: weitere Suchfilter nach Erweiterung Auswahltabellen 
     * Satz: Tonart, Taktart, Tempobezeichnung, Lagen 
@@ -62,6 +45,24 @@ erledigt:
 
 
 # Erledigt 
+
+18.04.2024: Umstellung Satz > Schwierigkeitsgrad (Vorlage: Satz > Erprobt) 
+  * Tabellen erstellen + Inhalte migrieren : 20240418_satz_schwierigkeitsgrad.sql
+  * Anpassen: View v_satz
+  * erstellen: cl_schwierigkeitsgrad.php (Kopie von cl_erprobt)
+  * erstellen: insert_schwierigkeitsgrad.php
+  * erstellen: edit_schwierigkeitsgrad.php 
+  * ergänzen: Zeile in index.php 
+  * cl_satz.php: Feld "Schwierigkeitsgrad" ändern in "SchwierigkeitsgradID"  
+  * edit_satz.php: Feld "Schwierigkeitsgrad" ändern in Select-Element  
+  * Anpassung cl_musikstueck (Abfrage für print_table_saetze())
+  * Erfassung / Bearbeitung / Abrufe testen 
+    * Auch Speichern mit leeren Feldern (nicht getroffener Auswahl) testen!
+  * Ergänzen/anpassen: suche.php (! aus Text-Suche rausnehmen!)
+  * Testview "satz ohne Schwierigkeitsgrad-Angabe"   
+  * Produduktivnahme - 19.04.2024 
+  * info unter changelog.md    
+
 
   * 09.04.2024: Umstellung Satz > Erprobt: 
     * Tabellen erstellen + Inhalte migrieren : 20240408_satz_erprobt.sql

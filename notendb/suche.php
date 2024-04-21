@@ -16,6 +16,8 @@ include("cl_gattung.php");
 include("cl_epoche.php"); 
 include("cl_notenwert.php");
 include("cl_erprobt.php");  
+include("cl_schwierigkeitsgrad.php");  
+
 
 $Standorte=[];   /* Sammlung */
 $Verlage=[];   /* Sammlung */
@@ -28,7 +30,7 @@ $Epochen=[];   /* Musikstück  */
 $Stricharten=[];  /* Satz  */
 $Notenwerte=[];  /* Satz  */
 $Erprobt=[];  /* Satz  */
-
+$Schierigkeitsgrad=[];  /* Satz  */
 
 $spieldauer_von=''; 
 $spieldauer_bis=''; 
@@ -42,7 +44,11 @@ if (isset($_POST['Ebene'])) {
   $Ebene='Sammlung'; // default 
 }
 
-/* zuvor gewählte Werte sichern, um sie wieder im Formular zu setzen */  
+/* 
+ Die nach Absenden der Suche gesetzten Werte werddn wieder in die Form-Elemente eingelesen 
+ Die Sucheinstellungen "bleiben stehen" und werden nur durch betätigen der "Filter zurücksetzen" Buttons aufgelöst 
+*/
+
 if ("POST" == $_SERVER["REQUEST_METHOD"]) {
   if (isset($_REQUEST['Standorte'])) {
     $Standorte = $_REQUEST['Standorte'];   
@@ -74,6 +80,9 @@ if ("POST" == $_SERVER["REQUEST_METHOD"]) {
   if (isset($_REQUEST['Erprobt'])) {
     $Erprobt = $_REQUEST['Erprobt'];   
   } 
+  if (isset($_REQUEST['Schwierigkeitsgrad'])) {
+    $Schierigkeitsgrad = $_REQUEST['Schwierigkeitsgrad'];   
+  }   
   if (isset($_REQUEST['SpieldauerVon'])) {
     $spieldauer_von = $_REQUEST['SpieldauerVon'];   
   }
@@ -88,7 +97,7 @@ if ("POST" == $_SERVER["REQUEST_METHOD"]) {
 <form id="Suche" action="suche.php" method="post">
 <table> 
 <tr>    
-    <td class="selectboxes"><!--  Spalte 1 --> 
+    <td class="selectboxes"><!-- Zeile 1, Spalte 1 --> 
         <b>Standort(e):</b> <br>   
         <?php 
             $standort = new Standort();
@@ -96,7 +105,7 @@ if ("POST" == $_SERVER["REQUEST_METHOD"]) {
           echo ''; 
         ?>
     </td>
-    <td class="selectboxes"><!--  Spalte 2 --> 
+    <td class="selectboxes"><!-- Zeile 1,  Spalte 2 --> 
         <b>Verlag(e):</b> <br>   
     <?php 
             $verlag = new Verlag();
@@ -104,7 +113,7 @@ if ("POST" == $_SERVER["REQUEST_METHOD"]) {
           echo ''; 
         ?>
     </td>
-    <td class="selectboxes"><!--  Spalte 3 --> 
+    <td class="selectboxes"><!-- Zeile 1,  Spalte 3 --> 
       <b>Komponist(en):</b> <br>  
     <?php 
             $komponist = new Komponist();
@@ -113,10 +122,17 @@ if ("POST" == $_SERVER["REQUEST_METHOD"]) {
         ?>      
     </td>
 
-    <td class="selectboxes"><!--  Spalte 4 --> 
- 
+    <td class="selectboxes"><!-- Zeile 1,  Spalte 4 --> 
+    Suchtext: <br> 
+    <input type="text" id="suchtext" name="suchtext" size="20" value="<?php echo $suchtext; ?>"> 
+    <br><input type="button" id="btnReset_suchtext" value="Filter zurücksetzen" onclick="Reset_suchtext();" />  
+        <script type="text/javascript">  
+                function Reset_suchtext() {  
+                  document.getElementById("suchtext").value='';  
+            }  
+        </script> 
     </td>
-    <td class="selectboxes"><!--  Spalte 5 --> 
+    <td class="selectboxes"><!-- Zeile 1,  Spalte 5 --> 
 
     </td>
 
@@ -125,14 +141,14 @@ if ("POST" == $_SERVER["REQUEST_METHOD"]) {
 
 
 <tr>
-    <td class="selectboxes"><!--  Spalte 1 --> 
+    <td class="selectboxes"><!-- Zeile 2,  Spalte 1 --> 
       <b>Besetzung(en):</b> <br>   
         <?php 
             $besetzung = new Besetzung();
             $besetzung->print_select_multi($Besetzungen); 
         ?>
     </td> 
-    <td class="selectboxes"><!--  Spalte 2 --> 
+    <td class="selectboxes"><!--  Zeile 2,  Spalte 2 --> 
       <b>Verwendungszweck(e):</b> <br>   
         <?php 
             $verwendungszweck = new Verwendungszweck();
@@ -140,7 +156,7 @@ if ("POST" == $_SERVER["REQUEST_METHOD"]) {
           echo ''; 
         ?>
     </td>  
-    <td class="selectboxes"><!--  Spalte 3 --> 
+    <td class="selectboxes"><!--  Zeile 2,  Spalte 3 --> 
       <b>Gattung(en):</b> <br>
     <?php 
             $gattung = new Gattung();
@@ -148,19 +164,19 @@ if ("POST" == $_SERVER["REQUEST_METHOD"]) {
           echo ''; 
         ?>
     </td>
-    <td class="selectboxes"><!--  Spalte 4 --> <b>Epoche(n):</b> <br>  
+    <td class="selectboxes"><!--  Zeile 2,  Spalte 4 --> <b>Epoche(n):</b> <br>  
     <?php 
             $epochen = new Epoche();
             $epochen->print_select_multi($Epochen);         
           echo ''; 
         ?>      
     </td>
-    <td class="selectboxes"><!--  Spalte 5 --> 
+    <td class="selectboxes"><!-- Zeile 2,   Spalte 5 --> 
 
     </td>
 </tr> 
 <tr>
-    <td class="selectboxes"><!--  Spalte 1 --> 
+    <td class="selectboxes"><!--  Zeile 3,  Spalte 1 --> 
         <b>Strichart(en):</b> <br>
     <?php 
             $stricharten = new Strichart();
@@ -168,7 +184,7 @@ if ("POST" == $_SERVER["REQUEST_METHOD"]) {
           echo ''; 
         ?>
     </td>
-    <td class="selectboxes"><!--  Spalte 2 --> 
+    <td class="selectboxes"><!--  Zeile 3, Spalte 2 --> 
       <b>Notenwert(e):</b> <br>
     <?php 
             $notenwerte = new Notenwert();
@@ -177,7 +193,7 @@ if ("POST" == $_SERVER["REQUEST_METHOD"]) {
         ?>
     </td>
 
-    <td class="selectboxes"><!--  Spalte 3 --> 
+    <td class="selectboxes"><!-- Zeile 3, Spalte 3 --> 
     <b>Erprobt:</b> <br>
     <?php 
             $erprobt = new Erprobt();
@@ -186,18 +202,15 @@ if ("POST" == $_SERVER["REQUEST_METHOD"]) {
         ?>
    </td>
 
-  <td class="selectboxes"><!--  Spalte 4 --> 
-  Suchtext: <br> 
-    <input type="text" id="suchtext" name="suchtext" size="20" value="<?php echo $suchtext; ?>">
-<!--     <br>Durchsucht werden die Name- und Bemerkung-Felder von Sammlung, Musikstück und Satz. --> 
-    <br><input type="button" id="btnReset_suchtext" value="Filter zurücksetzen" onclick="Reset_suchtext();" />  
-        <script type="text/javascript">  
-                function Reset_suchtext() {  
-                  document.getElementById("suchtext").value='';  
-            }  
-        </script>     
+  <td class="selectboxes"><!-- Zeile 3, Spalte 4 --> 
+  <b>Schwierigkeitsgrad:</b> <br>
+    <?php 
+            $schierigkeitsgrad = new Schwierigkeitsgrad();
+            $schierigkeitsgrad->print_select_multi($Schierigkeitsgrad);      
+          echo ''; 
+        ?>    
  </td>
-  <td class="selectboxes"><!--  Spalte 5 --> 
+  <td class="selectboxes"><!-- Zeile 3, Spalte 5 --> 
      Spieldauer von: <br> <input type="text" id="SpieldauerVon" name="SpieldauerVon" size="5" value="<?php echo $spieldauer_von; ?>"><br> 
      Spieldauer bis: <br> <input type="text" id="SpieldauerBis" name="SpieldauerBis" size="5" value="<?php echo $spieldauer_bis; ?>"><br> 
 
@@ -243,6 +256,9 @@ if ("POST" == $_SERVER["REQUEST_METHOD"]) {
 
 </form>
 <?php
+
+  /* Ausgewählte Werte für Abfrage-Filter auslesen   */
+
   $filter=false; 
 
   $filterStandorte='';   
@@ -255,10 +271,11 @@ if ("POST" == $_SERVER["REQUEST_METHOD"]) {
   $filterStricharten=''; 
   $filterNotenwerte='';   
   $filterErprobt=''; 
+  $filterSchwierigkeitsgrad=''; 
   $filterSpieldauer='';   
   $filterSuchtext='';  
   
-  /* Ausgewählte Werte für Abfrage-Filter auslesen  */
+
   if ("POST" == $_SERVER["REQUEST_METHOD"]) {
     if (isset($_REQUEST['Standorte'])) {
       $Standorte = $_REQUEST['Standorte'];   
@@ -310,6 +327,12 @@ if ("POST" == $_SERVER["REQUEST_METHOD"]) {
       $filterErprobt= 'IN ('.implode(',', $Erprobt).')'; 
       $filter=true; 
     }    
+    if (isset($_REQUEST['Schwierigkeitsgrad'])) {
+      $Schierigkeitsgrad = $_REQUEST['Schwierigkeitsgrad'];   
+      $filterSchwierigkeitsgrad= 'IN ('.implode(',', $Schierigkeitsgrad).')'; 
+      $filter=true; 
+    }     
+
     if (isset($_REQUEST['SpieldauerVon']) and isset($_REQUEST['SpieldauerBis']) ) {
       if ($_REQUEST['SpieldauerVon']!='') {
         $spieldauer_von=(is_numeric($_REQUEST['SpieldauerVon'])?$_REQUEST['SpieldauerVon']:''); 
@@ -338,7 +361,6 @@ if ("POST" == $_SERVER["REQUEST_METHOD"]) {
                             sa.Taktart LIKE '%".$suchtext."%' OR
                             sa.Tonart LIKE '%".$suchtext."%' OR
                             sa.Tempobezeichnung LIKE '%".$suchtext."%' OR
-                            sa.Schwierigkeitsgrad LIKE '%".$suchtext."%' OR                             
                             sa.Bemerkung LIKE '%".$suchtext."%'
                             )"; 
 
@@ -399,9 +421,9 @@ if ("POST" == $_SERVER["REQUEST_METHOD"]) {
             , sa.Taktart
             , sa.Tempobezeichnung
             , sa.Spieldauer
-            , sa.Schwierigkeitsgrad
+            , schwierigkeitsgrad.Name as Schwierigkeitsgrad
+            , erprobt.Name as Erprobt             
             , sa.Lagen 
-            , erprobt.Name as Erprobt 
             , GROUP_CONCAT(DISTINCT str.Name order by str.Name SEPARATOR ', ') Stricharten              
             , GROUP_CONCAT(DISTINCT notenwert.Name order by notenwert.Name SEPARATOR ', ') Notenwerte  
             , sa.Bemerkung              
@@ -429,7 +451,8 @@ if ("POST" == $_SERVER["REQUEST_METHOD"]) {
       LEFT JOIN strichart str on ssa.StrichartID = str.ID 
       LEFT JOIN satz_notenwert on satz_notenwert.SatzID = sa.ID
       LEFT JOIN notenwert on notenwert.ID = satz_notenwert.NotenwertID  
-      LEFT JOIN erprobt on erprobt.ID = sa.ErprobtID                       
+      LEFT JOIN erprobt on erprobt.ID = sa.ErprobtID       
+      LEFT JOIN schwierigkeitsgrad on schwierigkeitsgrad.ID = sa.SchwierigkeitsgradID                 
       WHERE 1=1 
       ". PHP_EOL; 
 
@@ -473,7 +496,10 @@ if ("POST" == $_SERVER["REQUEST_METHOD"]) {
       }      
       if($filterErprobt!=''){
         $query.=' AND sa.ErprobtID '.$filterErprobt. PHP_EOL; 
-      }         
+      }
+      if($filterSchwierigkeitsgrad!=''){
+        $query.=' AND sa.SchwierigkeitsgradID '.$filterSchwierigkeitsgrad. PHP_EOL; 
+      }                
       if($filterSpieldauer!=''){
         $query.=' AND sa.Spieldauer '.$filterSpieldauer. PHP_EOL; 
       }

@@ -20,13 +20,6 @@
     and Tempobezeichnung <> ''
     order by Tempobezeichnung
     ; 
-  
-    create or REPLACE view v_tmp_Schwierigkeitsgrad as 
-    select distinct 0 as ID, Schwierigkeitsgrad from satz  
-    where Schwierigkeitsgrad is not null 
-    and Schwierigkeitsgrad <> ''
-    order by Schwierigkeitsgrad
-    ; 
    
     create or REPLACE view v_tmp_Lagen as 
     select distinct 0 as ID, Lagen from satz  

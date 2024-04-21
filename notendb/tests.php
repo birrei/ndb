@@ -28,6 +28,13 @@ $tests[] = array('name' => 'Satz ohne Erprobt-Angabe'
          , 'table'   => "satz"              
         );
 
+$tests[] = array('name' => 'Satz ohne Schwierigkeitsgrad'
+              , 'testview'   => "v_test_satz_ohne_schwierigkeitsgrad"
+              , 'table'   => "satz"              
+              );
+
+
+                 
 
           
 
