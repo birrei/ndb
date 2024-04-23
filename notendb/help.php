@@ -10,7 +10,13 @@ include('head.php');
     Formular nur die Haupt-Felder (z.B. Nummer, Name) abgefragt. Beim speichern werden diese Felder übernommen 
     und eine eindeutige ID gespeichert. Im Anschluss können im Dialog "Bearbeiten" noch (falls vorhanden) 
     noch weitere Eigenschaften erfasst werden. 
-    
+
+<h3>Erfassung Satz: "Spieldauer"</h3>
+Mögliche Erfassung: 
+<br>1) Sekunden-Wert direkt eingeben 
+<br>2) Minutenwert eingeben (Format Zahl oder "(minuten):(sekunden)"), der dann in Sekunden umgerechnet wird. 
+<br>In der Datenbank wird der Sekundenwert gespeichert. </i>
+
 <h3> Formularelemente und Speicherprinzipien </h3>
 
 <h4> Unterscheidung und Speicherprinzipien </h4>
@@ -27,6 +33,7 @@ include('head.php');
         <li>Untereinheiten  (Sammlung -> Musikstücke bzw. Musikstueck -> Sätze )</li>        
     </ul>
 
+    
 <p> Fromularelemente und Speicherprinzipien</p>
 <ul> 
     <li>Textfelder</li>

@@ -1,12 +1,19 @@
 ﻿
 # in Arbeit
-  * Korrektur: Spieldauer -> Art der Notation ändern auf [Sekunden]'[Sekunden]'' ändern. Filter in Suche muss angepasst werden. Notiz: aktuell sind die Angaben in Minuten
-
+  * Korrektur: Spieldauer -> Art der Notation ändern 
+    * Klärung mit AG: Speicherung als Sekunden sinvoll  
+    * Für Erfassung / Suche: Umrechnungs-Elemente hinterlegen, die eine Minuten-Eingabe ermöglicht
+    * Dataclearing für neuere Werte durchführen   
 ----
 
 # In Planung: 
+  * Erfassung Satz 
+    * (vorerst verworfen: Satz > Taktart: Mehrfachauswahl) 
+    * neues Feld: "Aufführungsmaterial vorhanden" 
+    * neues Feld: "Melodische Besonderheiten"
+    * neues Feld: "Rhythmische Besonderheiten"
+    * neues Feld: "Übung"
   * Gespeicherte Suchen 
-    * Notiz:  
   * Korrektur: Suchfenster, Tabelle Bearbeiten soll auf die angezeigte Tabelle zeigen 
   * Korrektur: Bearbeiten-Funktion aus Ansicht v_satz funktioniert nicht 
   * Korrektur: iFrame-Formulare: Reaktion, wenn Speichern ohne Auswahl gedrückt wird  
@@ -14,15 +21,8 @@
   * Klärung intern: autofocus-Funktion bei allen selects so nicht sinnvoll   
   * Sammlung, Musikstück, Satz: Validierung Eingabewerte
   * Löschfunktion (im Bearbeiten-Formularen) 
-  * Erfassung Satz 
-    * (vorerst verworfen: Satz > Taktart: Mehrfachauswahl) 
-    * neues Feld: "Aufführungsmaterial vorhanden" 
-    * neues Feld: "Melodische Besonderheiten"
-    * neues Feld: "Rhythmische Besonderheiten"
-    * neues Feld: "Übung"
     * Funktion: Feldinhalte aus anderem Satz des gleichen Musikstücks übernehmen (Checkbox "bekannte Eigenschaft übernehmen"?) 
-  * Gestaltung Handytauglich 
-
+  * Handytaugliches Layout 
   * Seiten-Titel im Register anzeigen (akt. nur bei show_table2.php)
   * Such-Seite: weitere Suchfilter nach Erweiterung Auswahltabellen 
     * Satz: Tonart, Taktart, Tempobezeichnung, Lagen 
