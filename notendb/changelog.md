@@ -1,12 +1,13 @@
 ﻿
 # in Arbeit
 
- Stand: 25.04.2024: 
- umgesetzt: Spieldauer Erfassungswert in Sekunden ändern 
+Stand: 25.04.2024: 
+umgesetzt: Spieldauer Erfassungswert in Sekunden ändern 
   * Für Erfassung: Angabe in Minuten verfügbar, + autom. Umrechnung
   * Für Suche: Änderung auf Sekunden-Eingabe 
   * Dataclearing: Update Minutenwerte auf Sekunden  
-  Offen: Klärung korrekte Notation über: select * from v_tmp_Spieldauer
+
+Offen: Klärung korrekte Notation über: select * from v_tmp_Spieldauer
 
 ----
 # In Planung: 
