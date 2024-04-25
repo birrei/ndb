@@ -16,7 +16,7 @@ if ( isset($_GET["table"]) ){
   <meta http-equiv="expires" content="0" />
   <meta http-equiv="cache-control" content="no-cache" />
   <meta http-equiv="pragma" content="no-cache">  
-
+  <script src="javascript.js"></script>
   <link rel="icon" type="image/vnd.icon" href="favicon.ico" />
     <title><?php echo $title;  ?></title>
     <link rel='stylesheet' type='text/css' href='style.css'/>

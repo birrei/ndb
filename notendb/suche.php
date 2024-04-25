@@ -125,6 +125,7 @@ if ("POST" == $_SERVER["REQUEST_METHOD"]) {
     <td class="selectboxes"><!-- Zeile 1,  Spalte 4 --> 
     Suchtext: <br> 
     <input type="text" id="suchtext" name="suchtext" size="20" value="<?php echo $suchtext; ?>"> 
+
     <br><input type="button" id="btnReset_suchtext" value="Filter zurücksetzen" onclick="Reset_suchtext();" />  
         <script type="text/javascript">  
                 function Reset_suchtext() {  
@@ -211,8 +212,10 @@ if ("POST" == $_SERVER["REQUEST_METHOD"]) {
         ?>    
  </td>
   <td class="selectboxes"><!-- Zeile 3, Spalte 5 --> 
-     Spieldauer von: <br> <input type="text" id="SpieldauerVon" name="SpieldauerVon" size="5" value="<?php echo $spieldauer_von; ?>"><br> 
-     Spieldauer bis: <br> <input type="text" id="SpieldauerBis" name="SpieldauerBis" size="5" value="<?php echo $spieldauer_bis; ?>"><br> 
+     Spieldauer (Sekunden)
+     <br>
+     von: <input type="text" id="SpieldauerVon" name="SpieldauerVon" size="5" value="<?php echo $spieldauer_von; ?>"><br> 
+     bis: <input type="text" id="SpieldauerBis" name="SpieldauerBis" size="5" value="<?php echo $spieldauer_bis; ?>"><br> 
 
      <input type="button" id="btnReset_Spieldauer" value="Filter zurücksetzen" onclick="Reset_Spieldauer();" />  
         <script type="text/javascript">  
@@ -335,19 +338,17 @@ if ("POST" == $_SERVER["REQUEST_METHOD"]) {
 
     if (isset($_REQUEST['SpieldauerVon']) and isset($_REQUEST['SpieldauerBis']) ) {
       if ($_REQUEST['SpieldauerVon']!='') {
-        $spieldauer_von=(is_numeric($_REQUEST['SpieldauerVon'])?$_REQUEST['SpieldauerVon']:''); 
+        $spieldauer_von=(is_numeric($_REQUEST['SpieldauerVon'])?$_REQUEST['SpieldauerVon']:'');
       }
       if ($_REQUEST['SpieldauerBis']!='') {
         $spieldauer_bis=(is_numeric($_REQUEST['SpieldauerBis'])?$_REQUEST['SpieldauerBis']:''); 
       }
       if($spieldauer_von !='' and $spieldauer_bis !=''){
+        // $spieldauer_von = $spieldauer_von * 60;         
+        // $spieldauer_bis = $spieldauer_bis * 60;            
         $filterSpieldauer=' BETWEEN '.$spieldauer_von.' AND '.$spieldauer_bis; 
         $filter=true; 
       }
-      if($spieldauer_von !='' and $spieldauer_bis !=''){
-        $filterSpieldauer=' BETWEEN '.$spieldauer_von.' AND '.$spieldauer_bis; 
-        $filter=true; 
-      }      
     }
     if ($suchtext!='') { 
       $filterSuchtext =  "(s.Name LIKE '%".$suchtext."%' OR  
@@ -396,7 +397,8 @@ if ("POST" == $_SERVER["REQUEST_METHOD"]) {
             , st.Name as Standort
             , m.Nummer as MNr
             , m.Name as Musikstueck
-            , k.Name as Komponist 
+            , k.Name as Komponist
+            , m.Bearbeiter 
             , gattung.Name as Gattung 
             , epoche.Name as Epoche
             , m.JahrAuffuehrung            
@@ -554,8 +556,6 @@ if ("POST" == $_SERVER["REQUEST_METHOD"]) {
         $info->print_user_error(); 
         $info->print_error($select, $e); 
       }
-      
-
     }
     else {
           echo '<p>Es wurde kein Filter gesetzt. </p>'; 

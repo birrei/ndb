@@ -7,12 +7,11 @@ include('head.php');
 <h2>Erfassung / Bearbeitung </h2>
 
 <p> Formular "erfassen": Beim erstmaligen anlegen eines Datensatzes werden im 
-    Formular nur die Haupt-Felder (z.B. Nummer, Name) abgefragt. Beim speichern werden diese Felder übernommen 
-    und eine eindeutige ID gespeichert. Im Anschluss können im Dialog "Bearbeiten" noch (falls vorhanden) 
-    noch weitere Eigenschaften erfasst werden. 
+    Formular nur die Haupt-Felder (z.B. Nummer, Name) abgefragt. Beim speichern werden diese Felder übernommen  und eine eindeutige ID gespeichert. Im Anschluss können im Dialog "Bearbeiten" noch (falls vorhanden) noch weitere Eigenschaften erfasst werden. Sofern keine weiteren Felder vorhanden sind bzw. erfasst werden sollen.  
 
 <h3>Erfassung Satz: "Spieldauer"</h3>
-Mögliche Erfassung: 
+Der Spieldauer-Wert wird als Sekunden-Wert in der Datenbank, die Eingabe in Feld "Minuten" dient als Hilfsmittel. 
+Für die Erfassung Mögliche Erfassung: 
 <br>1) Sekunden-Wert direkt eingeben 
 <br>2) Minutenwert eingeben (Format Zahl oder "(minuten):(sekunden)"), der dann in Sekunden umgerechnet wird. 
 <br>In der Datenbank wird der Sekundenwert gespeichert. </i>

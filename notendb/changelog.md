@@ -1,11 +1,14 @@
 ﻿
 # in Arbeit
-  * Korrektur: Spieldauer -> Art der Notation ändern 
-    * Klärung mit AG: Speicherung als Sekunden sinvoll  
-    * Für Erfassung / Suche: Umrechnungs-Elemente hinterlegen, die eine Minuten-Eingabe ermöglicht
-    * Dataclearing für neuere Werte durchführen   
-----
 
+ Stand: 25.04.2024: 
+ umgesetzt: Spieldauer Erfassungswert in Sekunden ändern 
+    * Für Erfassung: Angabe in Minuten verfügbar, + autom. Umrechnung
+    * Für Suche: Änderung auf Sekunden-Eingabe 
+    * Dataclearing: Update Minutenwerte auf Sekunden 
+  Offen: Klärung korrekte Notation über: select * from v_tmp_Spieldauer
+
+----
 # In Planung: 
   * Erfassung Satz 
     * (vorerst verworfen: Satz > Taktart: Mehrfachauswahl) 
@@ -46,6 +49,7 @@
 
 # Erledigt 
 
+       
 18.04.2024: Umstellung Satz > Schwierigkeitsgrad (Vorlage: Satz > Erprobt) 
   * Tabellen erstellen + Inhalte migrieren : 20240418_satz_schwierigkeitsgrad.sql
   * Anpassen: View v_satz

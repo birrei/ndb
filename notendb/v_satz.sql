@@ -21,7 +21,6 @@ select
     , satz.Taktart
     , satz.Tempobezeichnung
     , satz.Spieldauer
-    -- , satz.Schwierigkeitsgrad
     , satz.Lagen 
     , erprobt.Name as Erprobt 
     , schwierigkeitsgrad.Name as Schwierigkeitsgrad

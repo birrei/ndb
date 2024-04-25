@@ -47,36 +47,6 @@ if (isset($_POST["senden"])) {
   }
 }
 ?>
-<script type="text/javascript">  
-  function set_seconds() {  
-      var txt_min = document.getElementById("input_minutes").value;
-      var int_sec = 0; 
-      /* 
-        zwei Eingabevarianten sollen moeglich sein: 
-          - Eine Ganzzahl bzw. ein in eine Ganzzahl umwandelbarer Wert  
-          - Eine Minuten/Sekunden-Angabe im Format "mm:ss" 
-        sofern keine davon gegeben, wird für Sekunden 0 ausgegeben 
-      */
-      if (!isNaN(txt_min)) {
-        // Zahl wurde eingegeben
-          sec=Math.floor(txt_min*60);
-      } 
-      else {
-          sec = 0; // format mm:ss, nur zulassen bei vorh. Zahlen-Werte vor und nach ":"
-          const arr_values=txt_min.split(":"); 
-          if (arr_values.length = 2) {
-              if (arr_values[0]!="" & arr_values[1]!="") {
-                  if (!isNaN(arr_values[0]) & !isNaN(arr_values[1]) ) {
-                      min_tmp=parseInt(arr_values[0]); 
-                      sec_tmp=parseInt(arr_values[1]);                     
-                      sec = (min_tmp*60) + sec_tmp;  
-                  } 
-              }
-          }       
-      }
-      document.getElementById("input_seconds").value=sec;  
-  }
-</script> 
 
 <?php
 
@@ -144,7 +114,7 @@ echo
     <td class="eingabe">Spieldauer:</td>  
     <td class="eingabe">
     Minuten: <input type="text" id="input_minutes" size="10" oninput="set_seconds();">
-    Sekunden: <input type="text" id="input_seconds" name="Spieldauer" value="'.$satz->Spieldauer.'" size="10" maxlength="80"> Info unter "Hilfe" > Erfassung Satz: "Spieldauer" XXX 
+    Sekunden: <input type="text" id="input_seconds" name="Spieldauer" value="'.$satz->Spieldauer.'" size="10" maxlength="80"> Info unter <a href="help.php" target="_blank">Hilfe</a>, Kapitel: Erfassung Satz: "Spieldauer" XXX 
       </td>
       </label>
 
@@ -162,6 +132,7 @@ echo
     '</td>
     </label>
   </tr>
+  
   <tr>   
     <td class="eingabe">Erprobt:</td>   
     <td class="eingabe">'; 
