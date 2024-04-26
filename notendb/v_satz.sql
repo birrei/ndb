@@ -26,6 +26,7 @@ select
     , schwierigkeitsgrad.Name as Schwierigkeitsgrad
     , GROUP_CONCAT(DISTINCT strichart.Name order by strichart.Name SEPARATOR ', ') Stricharten       
     , GROUP_CONCAT(DISTINCT notenwert.Name order by notenwert.Name SEPARATOR ', ') Notenwerte      
+    , satz.Bemerkung
     , satz.ID 
 FROM 
     satz 

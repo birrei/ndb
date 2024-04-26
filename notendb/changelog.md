@@ -1,22 +1,32 @@
 ﻿
 # in Arbeit
 
+26.04.2024 - Integration Satz > Übung  
+
+zu: neue Satz / Mehrfachzuordnungen (Übernahme aus satz.Bemerkung) 
+  * Übung
+  * Melodische Besonderheiten"
+  * Rhythmische Besonderheiten"
+  * Dynamische Besonderheiten 
+
+---------------
+
+# Klärung offen 
+
 Stand: 25.04.2024: 
 umgesetzt: Spieldauer Erfassungswert in Sekunden ändern 
   * Für Erfassung: Angabe in Minuten verfügbar, + autom. Umrechnung
   * Für Suche: Änderung auf Sekunden-Eingabe 
   * Dataclearing: Update Minutenwerte auf Sekunden  
 
-Offen: Klärung korrekte Notation über: select * from v_tmp_Spieldauer
+Offen: Klärung mit AG zu korrekter Notation, Demo: select * from v_tmp_Spieldauer
 
-----
+---------------
+
 # In Planung: 
   * Erfassung Satz 
     * (vorerst verworfen: Satz > Taktart: Mehrfachauswahl) 
-    * neues Feld: "Aufführungsmaterial vorhanden" 
-    * neues Feld: "Melodische Besonderheiten"
-    * neues Feld: "Rhythmische Besonderheiten"
-    * neues Feld: "Übung"
+  * Feld. "Aufführungsmaterial vorhanden"    
   * Gespeicherte Suchen 
   * Korrektur: Suchfenster, Tabelle Bearbeiten soll auf die angezeigte Tabelle zeigen 
   * Korrektur: Bearbeiten-Funktion aus Ansicht v_satz funktioniert nicht 
