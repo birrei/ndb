@@ -1,9 +1,19 @@
 <?php 
- $title='Notendatenbank'; 
+ $title_base='Notendatenbank'; 
 
-if ( isset($_GET["table"]) ){
-  $title=$_GET["table"].' - '.$title; 
+ $title_page=''; 
+
+if ( isset($_GET["title"]) ){
+  $title_page=$_GET["title"]; 
 }
+if ( isset($_POST["title"]) ){
+  $title_page=$_POST["title"]; 
+}
+if ( isset($_GET["table"]) ){
+  $title_page=$_GET["table"];
+}
+$title_complete=($title_page!=''?$title_page.' - '.$title_base:$title_base); 
+
 
 ?> 
 <!DOCTYPE html>
@@ -18,7 +28,7 @@ if ( isset($_GET["table"]) ){
   <meta http-equiv="pragma" content="no-cache">  
   <script src="javascript.js"></script>
   <link rel="icon" type="image/vnd.icon" href="favicon.ico" />
-    <title><?php echo $title;  ?></title>
+    <title><?php echo $title_complete;  ?></title>
     <link rel='stylesheet' type='text/css' href='style.css'/>
 </head>
 <body>

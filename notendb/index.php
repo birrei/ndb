@@ -10,7 +10,7 @@ include('head.php');
 <tr>
     <td><b>Sammlung</b></td>
     <td><a href="show_table2.php?table=v_sammlung&sortcol=Name" target="_blank">Daten anzeigen</a></td>
-    <td><a href="insert_sammlung.php" target="_blank" >Neu erfassen</a></td>
+    <td><a href="insert_sammlung.php?title=Neue Sammlung" target="_blank" >Neu erfassen</a></td>
 </tr>
 <tr>
     <td><b>Musikstück</b></td>

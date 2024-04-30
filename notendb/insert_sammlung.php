@@ -20,6 +20,7 @@ include("cl_sammlung.php");
 </tr>
 </table> 
 <input type="hidden" name="option" value="insert"> 
+<input type="hidden" name="title" value="Sammlung"> 
 </form>
 <hr />
 <?php

@@ -46,7 +46,7 @@ if (isset($_POST["senden"])) {
 }
 
 echo '
-<form action="edit_musikstueck.php" method="post">
+<form action="edit_musikstueck.php?title=Musikstueck" method="post">
 
 <table class="eingabe"> 
 <tr>    
@@ -151,7 +151,7 @@ echo  '</td>
 
     <input type="hidden" name="ID" value="' . $musikstueck->ID. '">
     <input type="hidden" name="option" value="edit">      
-
+    <input type="hidden" name="title" value="Musikstueck">  
     </form>
 
 
