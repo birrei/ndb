@@ -1,15 +1,15 @@
 ﻿
 # in Arbeit
 
-26.04.2024 - Integration Satz > Übung  
-
-zu: neue Satz / Mehrfachzuordnungen (Übernahme aus satz.Bemerkung) 
+29.04.2024 - Integration Satz > Übung  
+zu: Satz / neue Mehrfachzuordnungen (Übernahme aus satz.Bemerkung) 
   * Übung
-  * Melodische Besonderheiten"
-  * Rhythmische Besonderheiten"
+  * Melodische Besonderheiten
+  * Rhythmische Besonderheiten
   * Dynamische Besonderheiten 
 
 ---------------
+
 
 # Klärung offen 
 
@@ -24,6 +24,7 @@ Offen: Klärung mit AG zu korrekter Notation, Demo: select * from v_tmp_Spieldau
 ---------------
 
 # In Planung: 
+  * Seiten-Titel im Register anzeigen 
   * Erfassung Satz 
     * (vorerst verworfen: Satz > Taktart: Mehrfachauswahl) 
   * Feld. "Aufführungsmaterial vorhanden"    
@@ -37,7 +38,7 @@ Offen: Klärung mit AG zu korrekter Notation, Demo: select * from v_tmp_Spieldau
   * Löschfunktion (im Bearbeiten-Formularen) 
     * Funktion: Feldinhalte aus anderem Satz des gleichen Musikstücks übernehmen (Checkbox "bekannte Eigenschaft übernehmen"?) 
   * Handytaugliches Layout 
-  * Seiten-Titel im Register anzeigen (akt. nur bei show_table2.php)
+
   * Such-Seite: weitere Suchfilter nach Erweiterung Auswahltabellen 
     * Satz: Tonart, Taktart, Tempobezeichnung, Lagen 
   * Suche: Validierung von manuell eingegeben Such-Parametern (z.B: SpieldauerBis > SpieldauerBis ect.)

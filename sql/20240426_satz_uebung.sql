@@ -47,6 +47,8 @@ select * from satz_uebung;
 --  v_satz_tmp_uebung, v_tmp_uebung
 
 select * from v_tmp_uebung
+select * from v_satz_tmp_uebung
+
 
 -- KOrrekturen 
  Update satz 
