@@ -231,7 +231,21 @@ if ("POST" == $_SERVER["REQUEST_METHOD"]) {
 
 <p></p>
 
+
+<fieldset>Ebene: 
+    <input type="radio" id="sm" name="Ebene" value="Sammlung" <?php echo ($Ebene=='Sammlung'?'checked':'') ?>>
+    <label for="sm">Sammlung</label> 
+    <input type="radio" id="mu" name="Ebene" value="Musikstueck" <?php echo ($Ebene=='Musikstueck'?'checked':'') ?>> 
+    <label for="mu">Musikstück</label>
+    <input type="radio" id="st" name="Ebene" value="Satz" <?php echo ($Ebene=='Satz'?'checked':'') ?>>
+    <label for="st">Satz</label> 
+  </fieldset>
+
+  <p></p>  
+  <input type="submit" value="Suchen" class="btnSave">
+
 <input type="button" id="btnReset_All" value="Alle Filter zurücksetzen" onclick="Reset_All();" /> 
+<p></p>
 <script type="text/javascript">  
           function Reset_All() {  
           for(i=0; i<document.forms[0].elements.length; i++){
@@ -244,18 +258,6 @@ if ("POST" == $_SERVER["REQUEST_METHOD"]) {
           }
       }  
 </script> 
-<p></p>
-
-<fieldset>Ebene: 
-    <input type="radio" id="sm" name="Ebene" value="Sammlung" <?php echo ($Ebene=='Sammlung'?'checked':'') ?>>
-    <label for="sm">Sammlung</label> 
-    <input type="radio" id="mu" name="Ebene" value="Musikstueck" <?php echo ($Ebene=='Musikstueck'?'checked':'') ?>> 
-    <label for="mu">Musikstück</label>
-    <input type="radio" id="st" name="Ebene" value="Satz" <?php echo ($Ebene=='Satz'?'checked':'') ?>>
-    <label for="st">Satz</label> 
-  </fieldset>
-<p>
-  <input type="submit" value="Suchen" class="btnSave"></p> 
 
 </form>
 <?php
@@ -425,10 +427,11 @@ if ("POST" == $_SERVER["REQUEST_METHOD"]) {
             , sa.Spieldauer
             , schwierigkeitsgrad.Name as Schwierigkeitsgrad
             , erprobt.Name as Erprobt             
-            , sa.Lagen 
+            , GROUP_CONCAT(DISTINCT uebung.Name order by uebung.Name SEPARATOR ', ') Uebung              
             , GROUP_CONCAT(DISTINCT str.Name order by str.Name SEPARATOR ', ') Stricharten              
             , GROUP_CONCAT(DISTINCT notenwert.Name order by notenwert.Name SEPARATOR ', ') Notenwerte  
-            , sa.Bemerkung              
+            , sa.Lagen 
+            , sa.Bemerkung                         
             ";        
       $edit_table='satz';                 
         break;      
@@ -454,7 +457,10 @@ if ("POST" == $_SERVER["REQUEST_METHOD"]) {
       LEFT JOIN satz_notenwert on satz_notenwert.SatzID = sa.ID
       LEFT JOIN notenwert on notenwert.ID = satz_notenwert.NotenwertID  
       LEFT JOIN erprobt on erprobt.ID = sa.ErprobtID       
-      LEFT JOIN schwierigkeitsgrad on schwierigkeitsgrad.ID = sa.SchwierigkeitsgradID                 
+      LEFT JOIN schwierigkeitsgrad on schwierigkeitsgrad.ID = sa.SchwierigkeitsgradID    
+      LEFT JOIN satz_uebung on satz_uebung.SatzID = sa.ID 
+      LEFT JOIN uebung on uebung.ID = satz_uebung.UebungID    
+      
       WHERE 1=1 
       ". PHP_EOL; 
 
