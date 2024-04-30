@@ -158,12 +158,12 @@ class Sammlung {
     $db=$conn->db; 
 
     $select = $db->prepare("SELECT 
-                          `ID`, 
-                          `Name`, 
-                          `VerlagID`, 
-                          `Bestellnummer` , 
-                          `StandortID`, 
-                          `Bemerkung`
+                          ID, 
+                          Name, 
+                          VerlagID, 
+                          Bestellnummer , 
+                          StandortID, 
+                          COALESCE(Bemerkung, '') as Bemerkung
                         FROM `sammlung`
                         WHERE `ID` = :ID");
 
