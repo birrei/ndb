@@ -17,7 +17,7 @@ include("cl_epoche.php");
 include("cl_notenwert.php");
 include("cl_erprobt.php");  
 include("cl_schwierigkeitsgrad.php");  
-
+include("cl_uebung.php");  
 
 $Standorte=[];   /* Sammlung */
 $Verlage=[];   /* Sammlung */
@@ -27,10 +27,12 @@ $Verwendungszwecke=[];   /* Musikstück  */
 $Gattungen=[];   /* Musikstück  */
 $Epochen=[];   /* Musikstück  */
 
-$Stricharten=[];  /* Satz  */
-$Notenwerte=[];  /* Satz  */
+
 $Erprobt=[];  /* Satz  */
 $Schierigkeitsgrad=[];  /* Satz  */
+$Stricharten=[];  /* Satz  */
+$Notenwerte=[];  /* Satz  */
+$Uebungen=[];  /* Satz  */
 
 $spieldauer_von=''; 
 $spieldauer_bis=''; 
@@ -45,7 +47,7 @@ if (isset($_POST['Ebene'])) {
 }
 
 /* 
- Die nach Absenden der Suche gesetzten Werte werddn wieder in die Form-Elemente eingelesen 
+ Die mit dem Absenden der Suche gesetzten Werte werden wieder in die Form-Elemente eingelesen. 
  Die Sucheinstellungen "bleiben stehen" und werden nur durch betätigen der "Filter zurücksetzen" Buttons aufgelöst 
 */
 
@@ -70,13 +72,19 @@ if ("POST" == $_SERVER["REQUEST_METHOD"]) {
   }
   if (isset($_REQUEST['Epochen'])) {
     $Epochen = $_REQUEST['Epochen'];   
-  }         
+  }        
   if (isset($_REQUEST['Stricharten'])) {
     $Stricharten = $_REQUEST['Stricharten'];   
   } 
   if (isset($_REQUEST['Notenwerte'])) {
     $Notenwerte = $_REQUEST['Notenwerte'];   
   } 
+  if (isset($_REQUEST['Stricharten'])) {
+    $Stricharten = $_REQUEST['Stricharten'];   
+  }
+  if (isset($_REQUEST['Uebungen'])) {
+    $Uebungen = $_REQUEST['Uebungen'];   
+  }            
   if (isset($_REQUEST['Erprobt'])) {
     $Erprobt = $_REQUEST['Erprobt'];   
   } 
@@ -133,10 +141,7 @@ if ("POST" == $_SERVER["REQUEST_METHOD"]) {
             }  
         </script> 
     </td>
-    <td class="selectboxes"><!-- Zeile 1,  Spalte 5 --> 
-
-    </td>
-
+    <td class="selectboxes"><!-- Zeile 1,  Spalte 5 --> </td>
   </tr>
 
 
@@ -227,6 +232,23 @@ if ("POST" == $_SERVER["REQUEST_METHOD"]) {
 
     </td>
 </tr>
+
+<tr>
+<td class="selectboxes"><!-- Zeile 4,  Spalte 1 --> 
+  <b>Übung(en):</b> <br>
+      <?php 
+              $uebungen = new Uebung();
+              $uebungen->print_select_multi($Uebungen);      
+          ?>
+  </td>
+
+  <td class="selectboxes"><!-- Zeile 4,  Spalte 2 --> </td>
+  <td class="selectboxes"><!-- Zeile 4,  Spalte 3 --> </td>
+  <td class="selectboxes"><!-- Zeile 4,  Spalte 4 --> </td>
+  <td class="selectboxes"><!-- Zeile 4,  Spalte 5 --> </td>
+</tr>
+
+
 </table> 
 
 <p></p>
@@ -274,14 +296,16 @@ if ("POST" == $_SERVER["REQUEST_METHOD"]) {
   $filterGattungen='';  
   $filterEpochen='';    
   $filterStricharten=''; 
-  $filterNotenwerte='';   
+  $filterNotenwerte='';  
+  $filterUebungen='';  
   $filterErprobt=''; 
   $filterSchwierigkeitsgrad=''; 
   $filterSpieldauer='';   
   $filterSuchtext='';  
   
 
-  if ("POST" == $_SERVER["REQUEST_METHOD"]) {
+  if ("POST" == $_SERVER["REQUEST_METHOD"]) // XXX 
+  {
     if (isset($_REQUEST['Standorte'])) {
       $Standorte = $_REQUEST['Standorte'];   
       $filterStandorte = 'IN ('.implode(',', $Standorte).')'; 
@@ -327,6 +351,11 @@ if ("POST" == $_SERVER["REQUEST_METHOD"]) {
       $filterNotenwerte = 'IN ('.implode(',', $Notenwerte).')'; 
       $filter=true; 
     }
+    if (isset($_REQUEST['Uebungen'])) {
+      $Uebungen = $_REQUEST['Uebungen'];   
+      $filterUebungen = 'IN ('.implode(',', $Uebungen).')'; 
+      $filter=true; 
+    }    
     if (isset($_REQUEST['Erprobt'])) {
       $Erprobt = $_REQUEST['Erprobt'];   
       $filterErprobt= 'IN ('.implode(',', $Erprobt).')'; 
@@ -429,7 +458,8 @@ if ("POST" == $_SERVER["REQUEST_METHOD"]) {
             , erprobt.Name as Erprobt             
             , GROUP_CONCAT(DISTINCT uebung.Name order by uebung.Name SEPARATOR ', ') Uebung              
             , GROUP_CONCAT(DISTINCT str.Name order by str.Name SEPARATOR ', ') Stricharten              
-            , GROUP_CONCAT(DISTINCT notenwert.Name order by notenwert.Name SEPARATOR ', ') Notenwerte  
+            , GROUP_CONCAT(DISTINCT notenwert.Name order by notenwert.Name SEPARATOR ', ') Notenwerte
+            , GROUP_CONCAT(DISTINCT uebung.Name order by uebung.Name SEPARATOR ', ') Uebungen               
             , sa.Lagen 
             , sa.Bemerkung                         
             ";        
@@ -501,7 +531,10 @@ if ("POST" == $_SERVER["REQUEST_METHOD"]) {
       }
       if($filterNotenwerte!=''){
         $query.=' AND satz_notenwert.NotenwertID '.$filterNotenwerte. PHP_EOL; 
-      }      
+      }
+      if($filterUebungen!=''){
+        $query.=' AND satz_uebung.UebungID '.$filterUebungen. PHP_EOL; 
+      }       
       if($filterErprobt!=''){
         $query.=' AND sa.ErprobtID '.$filterErprobt. PHP_EOL; 
       }

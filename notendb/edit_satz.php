@@ -183,6 +183,12 @@ echo
   </td>
   </tr> 
 
+  <tr> 
+  <td class="eingabe">Übungen:</td> 
+  <td class="eingabe"><iframe src="edit_satz_list_uebungen.php?SatzID='.$satz->ID.'" width="500" height="100" name="Uebungen"></iframe>
+  </td>
+  </tr> 
+
 
 </table> 
 

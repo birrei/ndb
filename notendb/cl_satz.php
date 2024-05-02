@@ -251,6 +251,7 @@ class Satz {
       }  
 
   }
+
   function add_notenwert($NotenwertID){
     include_once("cl_db.php");
     $conn = new DbConn(); 
@@ -354,7 +355,78 @@ class Satz {
     return $col;  
   }  
 
+  function add_uebung($UebungID){
+    include_once("cl_db.php");
+    $conn = new DbConn(); 
+    $db=$conn->db; 
+
+    $insert = $db->prepare("INSERT INTO `satz_uebung` SET
+        `SatzID`     = :SatzID,  
+        `UebungID`     = :UebungID");
+
+    $insert->bindValue(':SatzID', $this->ID);  
+    $insert->bindValue(':UebungID', $UebungID);  
+
+    try {
+      $insert->execute(); 
+    }
+    catch (PDOException $e) {
+      include_once("cl_html_info.php"); 
+      $info = new HtmlInfo();      
+      $info->print_user_error(); 
+      $info->print_error($insert, $e);  
+    }  
+  }
+
+  function delete_uebung($ID){
+    include_once("cl_db.php");
+    $conn = new DbConn(); 
+    $db=$conn->db; 
+
+    $delete = $db->prepare("DELETE FROM `satz_uebung` WHERE ID=:ID"); 
+    $delete->bindValue(':ID', $ID);  
+
+    try {
+      $delete->execute(); 
+    }
+    catch (PDOException $e) {
+      include_once("cl_html_info.php"); 
+      $info = new HtmlInfo();      
+      $info->print_user_error(); 
+      $info->print_error($insert, $e);  
+    }  
+  }
+
+  function print_table_uebungen($target_file){
+    $query="SELECT satz_uebung.ID
+          -- , satz_uebung.UebungID
+          , uebung.Name                              
+          FROM satz_uebung          
+          INNER JOIN uebung 
+            on uebung.ID=satz_uebung.UebungID
+          WHERE satz_uebung.SatzID = :SatzID 
+          ORDER by uebung.Name"; 
+
+    include_once("cl_db.php");
+    $conn = new DbConn(); 
+    $db=$conn->db; 
   
+    $stmt = $db->prepare($query); 
+    $stmt->bindParam(':SatzID', $this->ID, PDO::PARAM_INT); 
+
+    try {
+      $stmt->execute(); 
+      include_once("cl_html_table.php");      
+      $html = new HtmlTable($stmt); 
+      $html->print_table_with_del_link($target_file, 'SatzID', $this->ID); 
+    }
+    catch (PDOException $e) {
+      include_once("cl_html_info.php"); 
+      $info = new HtmlInfo();      
+      $info->print_user_error(); 
+      $info->print_error($stmt, $e); 
+    }
+  }  
 }
 
  

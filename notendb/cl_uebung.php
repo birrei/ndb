@@ -156,7 +156,7 @@ class Uebung {
     try {
       $stmt->execute(); 
       $html = new HtmlSelect($stmt); 
-      $html->print_select_multi('Uebung', 'Uebunge[]', $options_selected); 
+      $html->print_select_multi('Uebung', 'Uebungen[]', $options_selected); 
     }
     catch (PDOException $e) {
       include_once("cl_html_info.php"); 

@@ -1,7 +1,6 @@
 ﻿
 # in Arbeit
-
-29.04.2024 - Integration Satz > Übung  
+Seit: 26.04.2024 - Integration Satz > Übung  
 zu: Satz / neue Mehrfachzuordnungen (Übernahme aus satz.Bemerkung) 
   * Übung
   * Melodische Besonderheiten
@@ -24,6 +23,7 @@ Offen: Klärung mit AG zu korrekter Notation, Demo: select * from v_tmp_Spieldau
 ---------------
 
 # In Planung: 
+  * Gespeicherte Suchen ! 
   * Seiten-Titel im Register anzeigen 
   * Erfassung Satz 
     * (vorerst verworfen: Satz > Taktart: Mehrfachauswahl) 

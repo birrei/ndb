@@ -10,11 +10,10 @@ include('head.php');
     Formular nur die Haupt-Felder (z.B. Nummer, Name) abgefragt. Beim speichern werden diese Felder übernommen  und eine eindeutige ID gespeichert. Im Anschluss können im Dialog "Bearbeiten" noch (falls vorhanden) noch weitere Eigenschaften erfasst werden. Sofern keine weiteren Felder vorhanden sind bzw. erfasst werden sollen.  
 
 <h3>Erfassung Satz: "Spieldauer"</h3>
-Der Spieldauer-Wert wird als Sekunden-Wert in der Datenbank abgelegt, die Eingabe in Feld "Minuten" dient als Hilfsmittel. 
-Die Erfassung ist möglich: 
-<br>1) Sekunden-Wert direkt eingeben 
-<br>2) Minutenwert eingeben (Format Zahl oder "(minuten):(sekunden)"), der dann in Sekunden umgerechnet wird. 
-<br>In der Datenbank wird der Sekundenwert gespeichert. </i>
+Der Spieldauer-Wert wird als Sekunden-Wert gespeichert, Das Feld "Minuten" dient als Hilfsmittel. 
+Folgende Vorgehensweisen sind alternativ möglich: 
+<br>1) Sekunden-Wert direkt eingeben
+<br>2) Minutenwert eingeben (Format Zahl oder Format "(minuten):(sekunden)"). Die Minuten-Eingabe wird automatisch in Sekunden umgerechnet. 
 
 <h3> Formularelemente und Speicherprinzipien </h3>
 

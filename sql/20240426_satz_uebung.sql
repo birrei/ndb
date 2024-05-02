@@ -46,13 +46,15 @@ select * from satz_uebung;
 --- v_satz_tmp_uebung.sql: 
 --  v_satz_tmp_uebung, v_tmp_uebung
 
-select * from v_tmp_uebung
+
+
+select * from v_tmp_uebung;
 select * from v_satz_tmp_uebung
 
 
--- KOrrekturen 
- Update satz 
- set Bemerkung = REPLACE(Bemerkung, 'Tonarten,weit entfernte', 'weit entfernte Tonarten')
+-- -- KOrrekturen 
+--  Update satz 
+--  set Bemerkung = REPLACE(Bemerkung, 'Tonarten,weit entfernte', 'weit entfernte Tonarten')
 
 
 /* prüfen, wie oft ein Kommatrenner vorkommt */ 
@@ -81,6 +83,9 @@ WHERE coalesce(Uebung,'') <> ''and Uebung <> ''
 ORDER BY Uebung
 
 ;
+select * from v_tmp_uebung_split 
+;
+
 insert into uebung (Name)
 select Uebung from v_tmp_uebung_split 
 where coalesce(Uebung,'') <> ''
@@ -92,41 +97,44 @@ select * from uebung
 
 /* Tabelle "satz_uebung" befüllen */ 
 
-create or REPLACE view v_satz_tmp_Uebung_split as 
-SELECT * 
-FROM (
-SELECT ID, Uebung as Uebungen, SPLIT_STRING(Uebung, ',', 1) as Uebung
-FROM v_satz_tmp_Uebung 
-where coalesce(Uebung,'') <> ''
-UNION 
-SELECT ID, Uebung as Uebungen, SPLIT_STRING(Uebung, ',', 2) as Uebung
-FROM v_satz_tmp_Uebung
-where coalesce(Uebung,'') <> ''
-UNION 
-SELECT ID, Uebung as Uebungen, SPLIT_STRING(Uebung, ',', 3) as Uebung
-FROM v_satz_tmp_Uebung
-where coalesce(Uebung,'') <> ''
-) tmp 
-where coalesce(Uebung,'') <> ''
-order by ID
+-- create or REPLACE view v_satz_tmp_uebung_split as 
+-- SELECT * 
+-- FROM (
+-- SELECT ID, Uebung as Uebungen, SPLIT_STRING(Uebung, ',', 1) as Uebung
+-- FROM v_satz_tmp_uebung 
+-- where coalesce(Uebung,'') <> ''
+-- UNION 
+-- SELECT ID, Uebung as Uebungen, SPLIT_STRING(Uebung, ',', 2) as Uebung
+-- FROM v_satz_tmp_uebung
+-- where coalesce(Uebung,'') <> ''
+-- UNION 
+-- SELECT ID, Uebung as Uebungen, SPLIT_STRING(Uebung, ',', 3) as Uebung
+-- FROM v_satz_tmp_uebung
+-- where coalesce(Uebung,'') <> ''
+-- ) tmp 
+-- where coalesce(Uebung,'') <> ''
+-- order by ID
 
-; 
-insert into satz_uebung (SatzID, UebungID) 
-select distinct 
-    satz.ID as SatzID 
-    , uebung.ID as UebungID 
-    -- , satz.Bemerkung
-    -- , satz.Uebung
-    -- , Uebung.Name 
-from v_satz_tmp_Uebung_split as satz  
-inner join 
-uebung 
-on satz.Uebung = uebung.Name
-order by satz.ID
-; 
+-- ; 
+-- select * from v_satz_tmp_uebung_split
+-- ; 
 
-select * from satz_uebung
-; 
+-- insert into satz_uebung (SatzID, UebungID) 
+-- select distinct 
+--     satz.ID as SatzID 
+--     , uebung.ID as UebungID 
+--     -- , satz.Bemerkung
+--     -- , satz.Uebung
+--     -- , Uebung.Name 
+-- from v_satz_tmp_uebung_split as satz  
+-- inner join 
+-- uebung 
+-- on satz.Uebung = uebung.Name
+-- order by satz.ID
+-- ; 
+
+-- select * from satz_uebung
+-- ; 
 
 -- TEST 
 select satz.ID
