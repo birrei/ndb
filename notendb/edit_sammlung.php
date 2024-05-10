@@ -88,14 +88,14 @@ if (isset($_POST["option"]) and $_POST["option"]=='edit') {
     <tr>    
       <label>
       <td class="eingabe">Bestellnummer:</td>  
-      <td class="eingabe"><input type="text" name="Bestellnummer" value="'.$sammlung->Bestellnummer.'" size="45" maxlength="80" autofocus="autofocus"></td>
+      <td class="eingabe"><input type="text" name="Bestellnummer" value="'.$sammlung->Bestellnummer.'" size="45" autofocus="autofocus"></td>
       </label>
     </tr> 
 
     <tr>    
       <label>
       <td class="eingabe">Bemerkung:</td>  
-      <td class="eingabe"><input type="text" name="Bemerkung" value="'.htmlentities($sammlung->Bemerkung).'" size="100" maxlength="80" autofocus="autofocus"></td>
+      <td class="eingabe"><input type="text" name="Bemerkung" value="'.htmlentities($sammlung->Bemerkung).'" size="100" autofocus="autofocus"></td>
       </label>
     </tr> 
 
