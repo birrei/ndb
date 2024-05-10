@@ -15,10 +15,6 @@ Integration  Satz > Besmelod
   * Erfassung / Bearbeitung / Abrufe testen 
   * Ergänzen/anpassen: suche.php (+ Auswahlbox, Abfrage) 
 
-
-
-
-
 erledigt - Integration Satz, Übung
 
   * Tabellen erstellen + Inhalte migrieren : 20240426_satz_uebung.sql

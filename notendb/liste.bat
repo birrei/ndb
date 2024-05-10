@@ -1,0 +1,13 @@
+Verwendungszweck
+Besetzung
+Epoche
+Gattung
+
+Erprobt
+Notenwert
+Schwierigkeitsgrad
+Strichart
+Übung
+Melodische Besonderheit
+Dynamische Besonderheit
+Rhythmische Besonderheit 

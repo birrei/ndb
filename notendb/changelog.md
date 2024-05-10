@@ -52,6 +52,9 @@ Offen: Klärung mit AG zu korrekter Notation, Demo: select * from v_tmp_Spieldau
   * Datenblatt für eine Sammlung 
   * Hilfe-Seite 
   * Musikstück löschen, Satz löschen
+  * Eingabefelder maxlength prüfen -> soll db Feldlänge entsprechen 
+  * Eingabefelder autofocus prüfen 
+
 
 # Tester 
  * Musikstück mit mehreren Sätzen: ID 72  
