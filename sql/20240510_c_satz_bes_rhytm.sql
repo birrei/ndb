@@ -57,7 +57,7 @@ order by RhytmBes
 
 select * from v_satz_tmp_bes_rhytm
 ;
-select * from v_tmp_besrhytm
+select * from v_tmp_BesRhytm
 ;
 /***************************************************************/
 
@@ -81,10 +81,9 @@ SELECT RhytmBes
 , CHAR_LENGTH(RhytmBes) - CHAR_LENGTH(REPLACE(RhytmBes, ',', '')) as anzahl 
 FROM v_tmp_besrythm
 WHERE RhytmBes LIKE '%,%'
--- --- > max. 2
 
 
--- /* Tabelle "besrythm" befüllen */ 
+
 
 create or REPLACE view v_tmp_besrythm_split as 
 select distinct 'Rythmik' as Typ, RhytmBes as Name 
@@ -127,8 +126,7 @@ select * from besonderheit
 
 -- /* Tabelle "satz_besrythm" befüllen */ 
 
-select * from v_satz_tmp_bes_rhytm
-;
+
 create or REPLACE view v_satz_tmp_besrythm_split as 
 SELECT * 
 FROM (

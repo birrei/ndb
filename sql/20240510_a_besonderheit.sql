@@ -47,3 +47,4 @@ ALTER TABLE `satz_besonderheit`
     ON DELETE RESTRICT ON UPDATE RESTRICT
 ;
 
+select * from satz_besonderheit

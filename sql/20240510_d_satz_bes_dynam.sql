@@ -47,7 +47,7 @@ order by DynamBes
 
 select * from v_satz_tmp_bes_dynam
 ;
-select * from v_tmp_besdynam
+select * from v_tmp_BesDynam
 ;
 
 

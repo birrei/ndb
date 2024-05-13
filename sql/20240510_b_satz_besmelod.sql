@@ -1,51 +1,4 @@
 
-
-CREATE TABLE IF NOT EXISTS `besmelod`   
-(`ID` int(10) UNSIGNED NOT NULL AUTO_INCREMENT 
-, Name VARCHAR(100) NOT NULL 
-, PRIMARY KEY (`ID`)
-)
-ENGINE = InnoDB
-; 
-
-CREATE TABLE IF NOT EXISTS `satz_besmelod` 
-(
-`ID` int(11) UNSIGNED NOT NULL AUTO_INCREMENT     
-, `SatzID` int(11) UNSIGNED  NOT NULL 
-, `BesMelodID` int(11) UNSIGNED  NOT NULL 
-, PRIMARY KEY (`ID`)   
-) 
-ENGINE = InnoDB
-;
-
-ALTER TABLE `satz_besmelod` 
-ADD CONSTRAINT uc_satz_besmelod 
-UNIQUE (SatzID, BesMelodID)
-;
-
-ALTER TABLE `satz_besmelod` 
-    ADD  FOREIGN KEY (`SatzID`) 
-    REFERENCES `satz`(`ID`) 
-    ON DELETE RESTRICT ON UPDATE RESTRICT
-;
-
-ALTER TABLE `satz_besmelod` 
-    ADD  FOREIGN KEY (`BesMelodID`) 
-    REFERENCES `besmelod`(`ID`) 
-    ON DELETE RESTRICT ON UPDATE RESTRICT
-;
-
-select * from besmelod; 
-select * from satz_besmelod; 
-
-
-/**********************************************************/
-
-
---- Views: 
---- v_satz_tmp_bes_melod.sql: 
---  v_satz_tmp_bes_melod, v_tmp_BesMelod
-
 create or replace view v_satz_tmp_bes_melod as 
 select ID
     , REPLACE(REPLACE(REPLACE(Bemerkung4, 'MelodBes:', ''), '[',''), ']', '') as MelodBes
@@ -109,13 +62,6 @@ select * from v_satz_tmp_bes_melod;
 
 
 select * from v_tmp_BesMelod; 
-
-
-
-select * from v_satz_tmp_bes_melod
-;
-select * from v_tmp_BesMelod
-;
 
 
 /**********************************************************/
