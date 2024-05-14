@@ -1,6 +1,6 @@
 <?php 
-include('head.php');
-include("cl_db.php"); 
+include('../head.php');
+include("../cl_db.php"); 
 
 /* 
 Script führt die SQL-Commands aus allen *.sql-Dateien (die im gleichen Ordner liegen) aus. 
@@ -46,6 +46,6 @@ if ( is_dir ( $dir )){
 }
 echo "</ol>";
 
-include('foot.php');
+include('../foot.php');
 
 ?>
