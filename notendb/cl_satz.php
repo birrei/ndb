@@ -400,7 +400,7 @@ class Satz {
   function print_table_uebungen($target_file){
     $query="SELECT satz_uebung.ID
           -- , satz_uebung.UebungID
-          , uebung.Name                              
+             , uebung.Name                              
           FROM satz_uebung          
           INNER JOIN uebung 
             on uebung.ID=satz_uebung.UebungID
@@ -427,6 +427,94 @@ class Satz {
       $info->print_error($stmt, $e); 
     }
   }  
+  
+  function print_table_lookups($target_file, $Lookup_type_ID=0){
+    // 
+    $query="SELECT satz_lookup.ID
+             , lookup_type.Name as Typ     
+             , lookup.Name  
+          FROM satz_lookup          
+          INNER JOIN lookup 
+            on lookup.ID=satz_lookup.LookupID
+          INNER JOIN lookup_type
+            on lookup_type.ID = lookup.Lookup_type_ID
+          WHERE satz_lookup.SatzID = :SatzID";
+          $query.=($Lookup_type_ID>0?" AND lookup.Lookup_type_ID = :Lookup_type_ID":""); 
+          $query.=" ORDER by lookup_type.ID, lookup.Name"; 
+
+    // echo $query; 
+
+    include_once("cl_db.php");
+    $conn = new DbConn(); 
+    $db=$conn->db; 
+  
+    $stmt = $db->prepare($query); 
+    $stmt->bindParam(':SatzID', $this->ID, PDO::PARAM_INT);
+    if ($Lookup_type_ID>0) {
+      $stmt->bindParam(':Lookup_type_ID', $Lookup_type_ID, PDO::PARAM_INT);
+    } 
+
+    try {
+      $stmt->execute(); 
+      include_once("cl_html_table.php");      
+      $html = new HtmlTable($stmt); 
+      $html->print_table_with_del_link($target_file, 'SatzID', $this->ID); 
+    }
+    catch (PDOException $e) {
+      include_once("cl_html_info.php"); 
+      $info = new HtmlInfo();      
+      $info->print_user_error(); 
+      $info->print_error($stmt, $e); 
+    }
+  }  
+
+  function add_lookup($LookupID){
+
+    include_once("cl_db.php");
+    $conn = new DbConn(); 
+    $db=$conn->db; 
+
+    $insert = $db->prepare("INSERT INTO `satz_lookup` SET
+        `SatzID`     = :SatzID,  
+        `LookupID`     = :LookupID");
+
+    $insert->bindValue(':SatzID', $this->ID);  
+    $insert->bindValue(':LookupID', $LookupID);  
+
+    try {
+      $insert->execute(); 
+    }
+    catch (PDOException $e) {
+      include_once("cl_html_info.php"); 
+      $info = new HtmlInfo();      
+      $info->print_user_error(); 
+      $info->print_error($insert, $e);  
+    }  
+  }
+
+  function delete_lookup($ID){
+    include_once("cl_db.php");
+    $conn = new DbConn(); 
+    $db=$conn->db; 
+
+    $delete = $db->prepare("DELETE FROM `satz_lookup` WHERE ID=:ID"); 
+    $delete->bindValue(':ID', $ID);  
+
+    try {
+      $delete->execute(); 
+    }
+    catch (PDOException $e) {
+      include_once("cl_html_info.php"); 
+      $info = new HtmlInfo();      
+      $info->print_user_error(); 
+      $info->print_error($insert, $e);  
+    }  
+  }
+
+
+
+
+
 }
 
  

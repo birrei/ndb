@@ -3,9 +3,10 @@
 Seit: 26.04.2024 - Integration Satz > Übung  
 zu: Satz / neue Mehrfachzuordnungen (Übernahme aus satz.Bemerkung) 
   * Übung
-  * Melodische Besonderheiten
-  * Rhythmische Besonderheiten
-  * Dynamische Besonderheiten 
+  * Zusammenfassung unter "Besonderheit" (intern neutral: lookup)
+    * Melodische Besonderheiten
+    * Rhythmische Besonderheiten
+    * Dynamische Besonderheiten 
 
 ---------------
 
@@ -29,9 +30,11 @@ Offen: Klärung mit AG zu korrekter Notation, Demo: select * from v_tmp_Spieldau
     * (vorerst verworfen: Satz > Taktart: Mehrfachauswahl) 
   * Feld. "Aufführungsmaterial vorhanden"    
   * Gespeicherte Suchen 
+  * Erfassungsformular: beim SChließen automatisch speichern (geht das?)
   * Korrektur: Suchfenster, Tabelle Bearbeiten soll auf die angezeigte Tabelle zeigen 
   * Korrektur: Bearbeiten-Funktion aus Ansicht v_satz funktioniert nicht 
-  * Korrektur: iFrame-Formulare: Reaktion, wenn Speichern ohne Auswahl gedrückt wird  
+  * Korrektur: iFrame-Formulare: Reaktion, wenn Speichern ohne Auswahl gedrückt wird 
+     --> Anpassung entspr. Datei edit_satz_list_lookups.php (Prüfung auf leeren parameter) 
   * Korrektur: für alle edit-Formulare (auch stammdaten-Tabellen) htmlspecialchars() einsetzen 
   * Klärung intern: autofocus-Funktion bei allen selects so nicht sinnvoll   
   * Sammlung, Musikstück, Satz: Validierung Eingabewerte

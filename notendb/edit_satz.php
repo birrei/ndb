@@ -171,6 +171,12 @@ echo
 
   </form>
 
+  
+  <tr> 
+  <td class="eingabe">Übung:</td> 
+  <td class="eingabe"><iframe src="edit_satz_list_uebungen.php?SatzID='.$satz->ID.'" width="500" height="100" name="Uebungen"></iframe>
+  </td>
+  </tr> 
   <tr> 
   <td class="eingabe">Stricharten:</td> 
   <td class="eingabe"><iframe src="edit_satz_list_stricharten.php?SatzID='.$satz->ID.'" width="500" height="100" name="Stricharten"></iframe>
@@ -182,10 +188,10 @@ echo
   <td class="eingabe"><iframe src="edit_satz_list_notenwerte.php?SatzID='.$satz->ID.'" width="500" height="100" name="Stricharten"></iframe>
   </td>
   </tr> 
-
+    
   <tr> 
-  <td class="eingabe">Übungen:</td> 
-  <td class="eingabe"><iframe src="edit_satz_list_uebungen.php?SatzID='.$satz->ID.'" width="500" height="100" name="Uebungen"></iframe>
+  <td class="eingabe">Besonderheiten:</td> 
+  <td class="eingabe"><iframe src="edit_satz_list_lookups.php?SatzID='.$satz->ID.'" width="500" height="300" name="Lookups"></iframe>
   </td>
   </tr> 
 

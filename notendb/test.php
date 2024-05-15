@@ -1,53 +1,15 @@
 <?php
 include('head.php'); 
 
- ?>
-<script type="text/javascript">  
-function set_seconds() {  
-    var txt_min = document.getElementById("input_minutes").value;
-    var int_sec = 0; 
-    /* 
-       zwei Eingabe-möglichkeiten sollen zugelassen sein: 
-        - Eine Ganzzahl bzw. ein in eine Ganzzahl umwandelbarer Wert  
-        - Ein Minuten/Sekunden-Angabe im Format "mm:ss" 
-
-    */
-
-    if (!isNaN(txt_min)) {
-        sec=Math.floor(txt_min*60);
-    } 
-    else {
-        sec = 0; // für ormat mm:ss, nur zulassen bei vorh. Werten vor und nach ":"
-        const arr_values=txt_min.split(":"); 
-        // document.getElementById("test2").innerHTML=arr_values.length; 
-        if (arr_values.length = 2) {
-            // min_tmp=arr_values[0]; 
-            // sec_tmp=arr_values[1];    
-            if (arr_values[0]!="" & arr_values[1]!="") {
-                if (!isNaN(arr_values[0]) & !isNaN(arr_values[1]) ) {
-                    min_tmp=parseInt(arr_values[0]); 
-                    sec_tmp=parseInt(arr_values[1]);                     
-                    sec = (min_tmp*60) + sec_tmp;  
-                } 
-            }
-            document.getElementById("test").innerHTML=arr_values[0]; 
-            document.getElementById("test2").innerHTML=arr_values[1]; 
-        }       
-    }
-    document.getElementById("input_seconds").value=sec;  
-}
-</script> 
 
 
-<p> 
-Minuten: <input type="text" id="input_minutes" size="10" oninput="set_seconds();">
-Sekunden: <input type="text" id="input_seconds" size="10">
+echo '<p> <a href="edit_satz_test.php?ID=7" target="_blank">Satz 7 test</a></p>'; 
 
-<p id="test"></p>
-<p id="test2"></p>
 
- <?php 
- 
+
+
+
+
     // include('cl_musikstueck.php'); 
     // include('cl_sammlung.php'); 
     // include('cl_dir.php'); 
