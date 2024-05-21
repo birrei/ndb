@@ -18,8 +18,6 @@ class HtmlTable {
         - $edit_table_name <> '': eine zusätzliche Spalte mit "Bearbeiten-Link" wird angezeigt. 
           Die zugrundeliegende Abfrage muss eine Spalte "ID" für diese Tabelle enthalten  
         - edit_newpage=true: dem Bearbeitungs-Link wird ein target="_blank" hinzugefügt
-        - $show_del_link=true: eine zusätzliche Spalte mit Link für Löschfunktion wird angezeigt 
-        - $del_form: Zielformular, wo das Löschen ausgeführt werden soll.  
         */ 
         
         $html = '';

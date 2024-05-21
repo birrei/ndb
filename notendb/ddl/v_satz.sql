@@ -27,8 +27,8 @@ select
     , GROUP_CONCAT(DISTINCT uebung.Name order by uebung.Name SEPARATOR ', ') Uebung 
     , GROUP_CONCAT(DISTINCT strichart.Name order by strichart.Name SEPARATOR ', ') Stricharten       
     , GROUP_CONCAT(DISTINCT notenwert.Name order by notenwert.Name SEPARATOR ', ') Notenwerte   
-    -- , GROUP_CONCAT(DISTINCT concat(lookup_type.Name, ': ', lookup.Name)  order by  concat(lookup_type.Name, ': ', lookup.Name)  SEPARATOR ', ') Besonderheiten          
-    , GROUP_CONCAT(DISTINCT lookup.Name order by lookup.Name SEPARATOR ', ') Besonderheiten   
+    , GROUP_CONCAT(DISTINCT concat(lookup_type.Name, ': ', lookup.Name)  order by  concat(lookup_type.Name, ': ', lookup.Name)  SEPARATOR ', ') Besonderheiten          
+    -- , GROUP_CONCAT(DISTINCT lookup.Name order by lookup.Name SEPARATOR ', ') Besonderheiten   
 
     , satz.Bemerkung
     , satz.ID 
@@ -60,7 +60,7 @@ FROM
 
     left join satz_lookup on satz_lookup.SatzID = satz.ID 
     left join lookup on lookup.ID = satz_lookup.LookupID 
-    left join lookup_type on lookup_type.ID = lookup.Lookup_type_ID
+    left join lookup_type on lookup_type.ID = lookup.LookupTypeID
 
 group by satz.ID 
 order by sammlung.Name, musikstueck.Nummer, satz.Nr

@@ -35,7 +35,7 @@ drop TABLE IF EXISTS lookup
 CREATE TABLE IF NOT EXISTS `lookup` (
  `ID` int NOT NULL AUTO_INCREMENT 
 , Name VARCHAR(100) NOT NULL 
-, Lookup_type_ID INT
+, LookupTypeID INT
 , PRIMARY KEY (`ID`)
 ); 
 

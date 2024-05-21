@@ -3,7 +3,7 @@ include('head.php');
 
 
 
-echo '<p> <a href="edit_satz_test.php?ID=7" target="_blank">Satz 7 test</a></p>'; 
+echo '<p> <a href="edit_satz.php?ID=7" target="_blank">Satz 7 test</a></p>'; 
 
 
 

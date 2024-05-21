@@ -2,14 +2,17 @@
 <?php 
 include('head_raw.php');
 include_once("cl_satz.php");
+include_once("cl_lookuptype.php");  
 
 $satz=new Satz();
 $satz->ID=$_GET["SatzID"]; 
 
 if (isset($_GET["option"])){
     if($_GET["option"]=='insert') {
-      if (isset($_GET["LookupID"])  & $_GET["LookupID"]!=''){
-        $satz->add_lookup($_GET["LookupID"]); 
+      if (isset($_GET["LookupID"])){
+        if ($_GET["LookupID"]!='') {
+          $satz->add_lookup($_GET["LookupID"]); 
+        }
       }
     } 
     if($_GET["option"]=='delete') {
@@ -23,8 +26,10 @@ echo '<table>
         $satz->print_table_lookups(basename(__FILE__), 0); // XXX 
 echo '</td>
           <td>
-        <a href="edit_satz_add_lookup.php?SatzID='.$satz->ID.'">[hinzufügen]</a>
-        </td>
+        <a href="edit_satz_add_lookup.php?SatzID='.$satz->ID.'">[hinzufügen]</a>'; 
+
+        
+echo '</td>
         </tr>
     </table>'; 
 

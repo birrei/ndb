@@ -428,7 +428,7 @@ class Satz {
     }
   }  
   
-  function print_table_lookups($target_file, $Lookup_type_ID=0){
+  function print_table_lookups($target_file, $LookupTypeID=0){
     // 
     $query="SELECT satz_lookup.ID
              , lookup_type.Name as Typ     
@@ -437,10 +437,10 @@ class Satz {
           INNER JOIN lookup 
             on lookup.ID=satz_lookup.LookupID
           INNER JOIN lookup_type
-            on lookup_type.ID = lookup.Lookup_type_ID
+            on lookup_type.ID = lookup.LookupTypeID
           WHERE satz_lookup.SatzID = :SatzID";
-          $query.=($Lookup_type_ID>0?" AND lookup.Lookup_type_ID = :Lookup_type_ID":""); 
-          $query.=" ORDER by lookup_type.ID, lookup.Name"; 
+          $query.=($LookupTypeID>0?" AND lookup.LookupTypeID = :LookupTypeID":""); 
+          $query.=" ORDER by lookup_type.Name, lookup.Name"; 
 
     // echo $query; 
 
@@ -450,8 +450,8 @@ class Satz {
   
     $stmt = $db->prepare($query); 
     $stmt->bindParam(':SatzID', $this->ID, PDO::PARAM_INT);
-    if ($Lookup_type_ID>0) {
-      $stmt->bindParam(':Lookup_type_ID', $Lookup_type_ID, PDO::PARAM_INT);
+    if ($LookupTypeID>0) {
+      $stmt->bindParam(':LookupTypeID', $LookupTypeID, PDO::PARAM_INT);
     } 
 
     try {

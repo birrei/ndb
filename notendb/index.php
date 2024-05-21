@@ -106,6 +106,12 @@ include('head.php');
     <td><a href="insert_uebung.php" target="_blank">Neu erfassen</a></td>
 </tr>
 
+<tr>
+    <td><b>Besonderheiten</b></td>
+    <td><a href="show_table2.php?table=v_lookup&sortcol=Name" target="_blank">Daten anzeigen</a></td>
+    <td><a href="insert_lookup.php" target="_blank">Neu erfassen</a></td>
+</tr>
+
 </table>
 
 

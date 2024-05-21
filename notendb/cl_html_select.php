@@ -49,6 +49,20 @@ class HtmlSelect {
     
         echo $html;
     }    
+    function print_preselect($keyname, $value_selected='', $add_null_option=true) {
+        $html = '';
+        if ($this->count_rows > 0) {
+            $html = '<select name="'.$keyname.'" onchange="this.form.submit()">' . PHP_EOL;  
+            if($add_null_option) {
+                $html .= '<option value="" '.($value_selected=='' ? 'selected' : ''). '></option>'. PHP_EOL;
+            }
+            foreach($this->result as $key => $title) {
+                $html .= ' <option value="' . $key . '"'.($value_selected==$key ? ' selected' : ''). '>' . $title . '</option>'. PHP_EOL;
+                }
+            $html .= '</select>';
+        }
+        echo $html;
+    }    
 
 
 }

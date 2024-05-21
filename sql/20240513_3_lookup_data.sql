@@ -29,20 +29,20 @@ ID	Name	Relation
 
 delete from lookup; 
 
-INSERT INTO lookup (ID, Name, Lookup_type_ID) 
-select ID, Name, 1 as Lookup_type_ID
+INSERT INTO lookup (ID, Name, LookupTypeID) 
+select ID, Name, 1 as LookupTypeID
 from besonderheit 
 where Typ='Melodik'
 ; 
 
-INSERT INTO lookup (ID, Name, Lookup_type_ID) 
-select ID, Name, 2 as Lookup_type_ID
+INSERT INTO lookup (ID, Name, LookupTypeID) 
+select ID, Name, 2 as LookupTypeID
 from besonderheit 
 where Typ='Rythmik'
 ; 
 
-INSERT INTO lookup (ID, Name, Lookup_type_ID) 
-select ID, Name, 3 as Lookup_type_ID
+INSERT INTO lookup (ID, Name, LookupTypeID) 
+select ID, Name, 3 as LookupTypeID
 from besonderheit 
 where Typ='Dynamik'
 ; 
@@ -66,7 +66,7 @@ select satz.ID
 from satz 
 left join satz_lookup on satz_lookup.SatzID = satz.ID 
 left join lookup on lookup.ID = satz_lookup.LookupID 
-left join lookup_type on lookup_type.ID = lookup.Lookup_type_ID
+left join lookup_type on lookup_type.ID = lookup.LookupTypeID
 where satz_lookup.SatzID IS NOT nULL 
-order by satz.ID, lookup.Lookup_type_ID
+order by satz.ID, lookup.LookupTypeID
 
