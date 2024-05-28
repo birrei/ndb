@@ -1,32 +1,33 @@
 ﻿
 # in Arbeit
- zu: Satz / neue Mehrfachzuordnungen (Übernahme aus satz.Bemerkung) 
 
-  * Zusammenfassung unter "Besonderheit" (intern neutral: lookup)
-    * Melodische Besonderheiten
-    * Rhythmische Besonderheiten
-    * Dynamische Besonderheiten 
+28.05.2024 / Updates zu Lookups/Besonderheiten
 
----------------
+Zu Spieldauer noch umsetzen:  
+   Anzeige: Erfassung in Sekunden, Anzeige bei Abfrag-Ergebnissen in "'" / "''" - Notation 
+   Suche: Eingabe in Minut. / Umrechnung (wie ERfassung) 
 
+Plan Info zum nächst. Release : 
+  * Textsuche erfasst auch "Besetzung"-Texte
+  * Startseite, Sammlung, "Daten aufrufen": wird jetzt nach ID abwärts sortiert (die zuletzt angelegte Sammlung steht oben )
+  * Mehrfachzuordnungen / Besonderheiten: können zugeordnet und gesucht werden (Demo für aG zur Funktionsweise)
 
-# Klärung offen 
-
-Stand: 25.04.2024: 
-umgesetzt: Spieldauer Erfassungswert in Sekunden ändern 
-  * Für Erfassung: Angabe in Minuten verfügbar, + autom. Umrechnung
-  * Für Suche: Änderung auf Sekunden-Eingabe 
-  * Dataclearing: Update Minutenwerte auf Sekunden  
-
-Offen: Klärung mit AG zu korrekter Notation, Demo: select * from v_tmp_Spieldauer
-
+aktuelle Hinweise: 
+  * Wenn nach einem Eintrag aus Mehrfach-Zuordnungen gesucht (gefiltert) wird, erscheint im Abfrageergebnis nur diese Zuordnung (auch dann, wenn es noch andere Zuordnungen gibt) 
+  Demo für AG: Musikstück mit mehreren Besetzungen 
+  Nicht ideal, soll noch geändert werden 
 
 ---------------
 
 # In Planung: 
-  * Links zum Navigieren von Satz > Musikstück > Sammlung 
-  * Musikstück Aufführungsjahre - Auswahlfeld 
   * Gespeicherte Suchen ! 
+  * Darstellung der Besonderheiten in Abfrage-Ergebnissen verbessern (Typ Name im Feld nur 1 x anzeigen)
+  * Erfassungsfelder -> vergrößer, max einstellung entfernen 
+  * Schwierigkeitsgrad Mehrfachzuordnung! 
+  * Beim SChließend des Formulars Speichern 
+  * Links zum Navigieren von Satz > Musikstück > Sammlung 
+  * Verknüpfung zwischen Sammlungen festlegen 
+  * Musikstück Aufführungsjahre - Auswahlfeld 
   * Seiten-Titel im Register anzeigen 
   * Erfassung Satz 
     * (vorerst verworfen: Satz > Taktart: Mehrfachauswahl) 
@@ -283,3 +284,10 @@ Tabellen-Anpassung Musikstück / "Epoche"
 -----------------
 
 26.04.2024 - Abschluss: Integration Satz > Übung 
+Stand: 25.04.2024: 
+umgesetzt: Spieldauer Erfassungswert in Sekunden ändern 
+  * Für Erfassung: Angabe in Minuten verfügbar, + autom. Umrechnung
+  * Für Suche: Änderung auf Sekunden-Eingabe 
+  * Dataclearing: Update Minutenwerte auf Sekunden  
+
+

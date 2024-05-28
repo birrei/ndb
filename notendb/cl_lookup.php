@@ -9,7 +9,9 @@ class Lookup {
   public $ID;
   public $Name;
   public $LookupTypeID; 
+  public $LookupTypeKey;   
   public $TypeName; 
+  public $ID_List; 
 
   public function __construct(){
     $this->table_name='lookup'; 
@@ -207,30 +209,30 @@ class Lookup {
     
   }  
 
-  function print_select_multi($LookupTypeID='', $options_selected=[]){
+  function print_select_multi($type_key, $options_selected=[]){
 
     include_once("cl_db.php");  
     include_once("cl_html_select.php");
+    
+    // $this->ID_List=implode(',', $options_selected); 
 
-
-    $query="SELECT ID, Name from v_lookup WHERE 1=1 "; 
-    $query.=($LookupTypeID!=''?"AND LookupTypeID = :LookupTypeID ":"");
-    $query.="ORDER by Name"; 
+    $query="SELECT ID, Name from lookup 
+          WHERE 1=1 
+          AND LookupTypeID = :LookupTypeID 
+          ORDER BY Name 
+          "; 
 
     include_once("cl_db.php");
     $conn = new DbConn(); 
     $db=$conn->db; 
     // echo $query; 
     $select = $db->prepare($query); 
-
-    if($LookupTypeID!='') {
-      $select->bindParam(':LookupTypeID', $LookupTypeID);
-    }  
+    $select->bindParam(':LookupTypeID', $this->LookupTypeID);
 
     try {
       $select->execute(); 
       $html = new HtmlSelect($select); 
-      $html->print_select_multi('Lookup_'.$LookupTypeID, 'Lookups_'.$LookupTypeID.'[]', $options_selected); 
+      $html->print_select_multi($type_key, $type_key.'[]', $options_selected); 
     }
     catch (PDOException $e) {
       include_once("cl_html_info.php"); 

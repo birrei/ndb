@@ -19,7 +19,6 @@ class Musikstueck {
 
   }
 
-
   function insert_row($Nummer='', $Name='') { 
     include_once("cl_db.php");
 
@@ -314,13 +313,14 @@ class Musikstueck {
               , satz.Name
               , satz.Tonart
               , satz.Taktart
-              , satz.Tempobezeichnung
-              , satz.Spieldauer
-              , schwierigkeitsgrad.Name as Schwierigkeitsgrad 
+              , satz.Tempobezeichnung `Tempo-Bez.`
+              , satz.Spieldauer `Spiel-dauer`
+              , schwierigkeitsgrad.Name as `Schwierig-keitsgrad`
               , erprobt.Name as Erprobt              
               , satz.Lagen
-              , GROUP_CONCAT(DISTINCT strichart.Name order by strichart.Name SEPARATOR ', ') Stricharten              
-              , GROUP_CONCAT(DISTINCT notenwert.Name order by notenwert.Name SEPARATOR ', ') Notenwerte 
+              , GROUP_CONCAT(DISTINCT strichart.Name order by strichart.Name SEPARATOR ', ') `Strich-arten`              
+              , GROUP_CONCAT(DISTINCT notenwert.Name order by notenwert.Name SEPARATOR ', ') `Noten-werte`
+              , GROUP_CONCAT(DISTINCT concat(lookup_type.Name, ': ', lookup.Name)  order by  concat(lookup_type.Name, ': ', lookup.Name)  SEPARATOR ', ') `Besond.-heiten`            
               , satz.Bemerkung               
             from satz 
             left join satz_strichart on satz_strichart.SatzID = satz.ID 
@@ -329,6 +329,11 @@ class Musikstueck {
             Left JOIN notenwert on notenwert.ID = satz_notenwert.NotenwertID
             left JOIN erprobt on erprobt.ID = satz.ErprobtID
             left JOIN schwierigkeitsgrad on   schwierigkeitsgrad.ID = satz.SchwierigkeitsgradID 
+
+
+            left join satz_lookup on satz_lookup.SatzID = satz.ID 
+            left join lookup on lookup.ID = satz_lookup.LookupID 
+            left join lookup_type on lookup_type.ID = lookup.LookupTypeID
 
             WHERE satz.MusikstueckID = :MusikstueckID 
             group by satz.ID 

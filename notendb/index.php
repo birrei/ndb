@@ -9,7 +9,7 @@ include('head.php');
 <table>
 <tr>
     <td><b>Sammlung</b></td>
-    <td><a href="show_table2.php?table=v_sammlung&sortcol=Name" target="_blank">Daten anzeigen</a></td>
+    <td><a href="show_table2.php?table=v_sammlung&sortcol=ID&sortorder=DESC" target="_blank">Daten anzeigen</a></td>
     <td><a href="insert_sammlung.php?title=Neue Sammlung" target="_blank" >Neu erfassen</a></td>
 </tr>
 <tr>
@@ -111,6 +111,12 @@ include('head.php');
     <td><a href="show_table2.php?table=v_lookup&sortcol=Name" target="_blank">Daten anzeigen</a></td>
     <td><a href="insert_lookup.php" target="_blank">Neu erfassen</a></td>
 </tr>
+<tr>
+    <td><b>Besonderheit Typen</b></td>
+    <td><a href="show_table2.php?table=lookup_type&sortcol=Name" target="_blank">Daten anzeigen</a></td>
+    <td><a href="insert_lookup_type.php" target="_blank">Neu erfassen</a></td>
+</tr>
+
 
 </table>
 

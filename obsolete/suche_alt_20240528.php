@@ -18,11 +18,6 @@ include("cl_notenwert.php");
 include("cl_erprobt.php");  
 include("cl_schwierigkeitsgrad.php");  
 include("cl_uebung.php");  
-include("cl_lookup.php");   
-include("cl_lookuptype.php");
-
-
-/* Arrays zur Aufnahme der jeweilig ausgewählten Elemente pro Multi-Select- Auswahlfeld*/
 
 $Standorte=[];   /* Sammlung */
 $Verlage=[];   /* Sammlung */
@@ -43,9 +38,7 @@ $spieldauer_von='';
 $spieldauer_bis=''; 
 $suchtext=''; 
 
-$edit_table=''; 
-
-/* Tabelle, die über Bearbeiten-Link in Ergebnis-Tabelle abrufbar sein soll */
+$edit_table=''; /* Tabelle, die über Bearbeiten-Link in Ergebnis-Tabelle abrufbar sein soll */
 
 if (isset($_POST['Ebene'])) {
   $Ebene=$_POST["Ebene"]; 
@@ -58,26 +51,9 @@ if (isset($_POST['Ebene'])) {
  Die Sucheinstellungen "bleiben stehen" und werden nur durch betätigen der "Filter zurücksetzen" Buttons aufgelöst 
 */
 
-// XXX test 
-/* Gesetzte Lookups  */
-for ($i = 0; $i < count($_POST); $i++) {
-  $key = array_keys($_POST)[$i];
-
-  
-  // $value = $_POST[$key];
- // echo $key ; 
-  if (substr($key,0,4)=='Look'){
-    echo '<br/>';    
-    echo '--->'.$key ; 
-    echo '<br/>';
-  }  
-  echo '<br/>'; 
-  // echo $value; 
-}
-
 if ("POST" == $_SERVER["REQUEST_METHOD"]) {
   if (isset($_REQUEST['Standorte'])) {
-    $Standorte = $_REQUEST['Standorte'];  
+    $Standorte = $_REQUEST['Standorte'];   
   }
   if (isset($_REQUEST['Verlage'])) {
     $Verlage = $_REQUEST['Verlage'];   
@@ -126,7 +102,7 @@ if ("POST" == $_SERVER["REQUEST_METHOD"]) {
   }                    
 }
 ?> 
-<form id="Suche" action="" method="post">
+<form id="Suche" action="suche.php" method="post">
 <table> 
 <tr>    
     <td class="selectboxes"><!-- Zeile 1, Spalte 1 --> 
@@ -202,11 +178,7 @@ if ("POST" == $_SERVER["REQUEST_METHOD"]) {
         ?>      
     </td>
     <td class="selectboxes"><!-- Zeile 2,   Spalte 5 --> 
-    <b>Übung(en):</b> <br>
-      <?php 
-              $uebungen = new Uebung();
-              $uebungen->print_select_multi($Uebungen);      
-          ?>
+
     </td>
 </tr> 
 <tr>
@@ -257,19 +229,17 @@ if ("POST" == $_SERVER["REQUEST_METHOD"]) {
                   document.getElementById("SpieldauerBis").value='';  
             }  
         </script> 
+
     </td>
 </tr>
 
 <tr>
-<td class="selectboxes"><!-- Zeile 4,  Spalte 1 
-  XXX Besonderheiten / Lookups 
-      --> 
-<?php                
-    
-    $lookuptypes=new Lookuptype(); 
-    $lookuptypes->print_items('multiselect');  
-                        
- ?>
+<td class="selectboxes"><!-- Zeile 4,  Spalte 1 --> 
+  <b>Übung(en):</b> <br>
+      <?php 
+              $uebungen = new Uebung();
+              $uebungen->print_select_multi($Uebungen);      
+          ?>
   </td>
 
   <td class="selectboxes"><!-- Zeile 4,  Spalte 2 --> </td>
@@ -332,6 +302,7 @@ if ("POST" == $_SERVER["REQUEST_METHOD"]) {
   $filterSchwierigkeitsgrad=''; 
   $filterSpieldauer='';   
   $filterSuchtext='';  
+  
 
   if ("POST" == $_SERVER["REQUEST_METHOD"]) // XXX 
   {

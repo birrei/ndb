@@ -1,4 +1,6 @@
 
+/*********** lookup_type ****************/
+
 -- -- INSERT INTO lookup_type (Name, Relation) VALUES('Verwendungszweck', 'musikstueck') ;
 -- -- INSERT INTO lookup_type (Name, Relation) VALUES('Besetzung', 'musikstueck') ;
 -- -- INSERT INTO lookup_type (Name, Relation) VALUES('Epoche', 'musikstueck') ;
@@ -16,15 +18,16 @@ INSERT INTO lookup_type (Name, Relation) VALUES('Dynamische Besonderheit', 'satz
 
 select * from lookup_type; 
 
-/*
-ID	Name	Relation
-1	Melodische Besonderheit	satz
-2	Rhythmische Besonderheit	satz
-3	Dynamische Besonderheit	satz
+----- nachträg. Update für ergänztes Feld 
+update lookup_type set type_key='besmelod' where Name='Melodische Besonderheit';
 
+update lookup_type set type_key='besrhytm' where Name='Rhythmische Besonderheit';
 
-*/
+update lookup_type set type_key='besdynam' where Name='Dynamische Besonderheit';
 
+ 
+ 
+/*********** lookup ****************/
 
 
 delete from lookup; 

@@ -8,10 +8,13 @@ CREATE TABLE IF NOT EXISTS `lookup_type`
 (`ID` TINYINT NOT NULL AUTO_INCREMENT 
 , Name VARCHAR(100) NOT NULL 
 , Relation  VARCHAR(20) NOT NULL /* = Zordnungs-Tabelle, z.B. 'musikstueck', 'satz', ... */
+, type_key varchar(20)
 , PRIMARY KEY (`ID`)
 )
 ENGINE = InnoDB
 ; 
+
+
 
 
 /****************************************************/
@@ -61,3 +64,6 @@ ALTER TABLE `satz_lookup`
     REFERENCES `lookup`(`ID`) 
     ON DELETE RESTRICT ON UPDATE RESTRICT
 ;
+
+
+

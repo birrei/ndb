@@ -19,6 +19,9 @@ include("cl_erprobt.php");
 include("cl_schwierigkeitsgrad.php");  
 include("cl_uebung.php");  
 
+include("cl_lookup.php");   
+include("cl_lookuptype.php");
+
 $Standorte=[];   /* Sammlung */
 $Verlage=[];   /* Sammlung */
 $Komponisten=[];   /* Musikstück  */  
@@ -39,6 +42,8 @@ $spieldauer_bis='';
 $suchtext=''; 
 
 $edit_table=''; /* Tabelle, die über Bearbeiten-Link in Ergebnis-Tabelle abrufbar sein soll */
+
+$lookuptypes_selected=[]; 
 
 if (isset($_POST['Ebene'])) {
   $Ebene=$_POST["Ebene"]; 
@@ -102,7 +107,7 @@ if ("POST" == $_SERVER["REQUEST_METHOD"]) {
   }                    
 }
 ?> 
-<form id="Suche" action="suche.php" method="post">
+<form id="Suche" action="" method="post">
 <table> 
 <tr>    
     <td class="selectboxes"><!-- Zeile 1, Spalte 1 --> 
@@ -178,7 +183,12 @@ if ("POST" == $_SERVER["REQUEST_METHOD"]) {
         ?>      
     </td>
     <td class="selectboxes"><!-- Zeile 2,   Spalte 5 --> 
-
+    <b>Erprobt:</b> <br>
+    <?php 
+            $erprobt = new Erprobt();
+            $erprobt->print_select_multi($Erprobt);      
+          echo ''; 
+        ?>
     </td>
 </tr> 
 <tr>
@@ -200,12 +210,11 @@ if ("POST" == $_SERVER["REQUEST_METHOD"]) {
     </td>
 
     <td class="selectboxes"><!-- Zeile 3, Spalte 3 --> 
-    <b>Erprobt:</b> <br>
-    <?php 
-            $erprobt = new Erprobt();
-            $erprobt->print_select_multi($Erprobt);      
-          echo ''; 
-        ?>
+    <b>Übung(en):</b> <br>
+      <?php 
+              $uebungen = new Uebung();
+              $uebungen->print_select_multi($Uebungen);      
+          ?>
    </td>
 
   <td class="selectboxes"><!-- Zeile 3, Spalte 4 --> 
@@ -217,7 +226,7 @@ if ("POST" == $_SERVER["REQUEST_METHOD"]) {
         ?>    
  </td>
   <td class="selectboxes"><!-- Zeile 3, Spalte 5 --> 
-     Spieldauer (Sekunden)
+     <b>Spieldauer (Sekunden)</b>
      <br>
      von: <input type="text" id="SpieldauerVon" name="SpieldauerVon" size="5" value="<?php echo $spieldauer_von; ?>"><br> 
      bis: <input type="text" id="SpieldauerBis" name="SpieldauerBis" size="5" value="<?php echo $spieldauer_bis; ?>"><br> 
@@ -234,25 +243,42 @@ if ("POST" == $_SERVER["REQUEST_METHOD"]) {
 </tr>
 
 <tr>
-<td class="selectboxes"><!-- Zeile 4,  Spalte 1 --> 
-  <b>Übung(en):</b> <br>
-      <?php 
-              $uebungen = new Uebung();
-              $uebungen->print_select_multi($Uebungen);      
-          ?>
-  </td>
-
+  <td class="selectboxes"><!-- Zeile 4,  Spalte 1 --> </td>
   <td class="selectboxes"><!-- Zeile 4,  Spalte 2 --> </td>
   <td class="selectboxes"><!-- Zeile 4,  Spalte 3 --> </td>
   <td class="selectboxes"><!-- Zeile 4,  Spalte 4 --> </td>
   <td class="selectboxes"><!-- Zeile 4,  Spalte 5 --> </td>
 </tr>
 
-
 </table> 
 
-<p></p>
+<p>
 
+<?php 
+
+  $lookuptypes=new Lookuptype(); 
+  $lookuptypes->setArrData(); 
+
+  for ($i = 0; $i < count($lookuptypes->ArrData); $i++) {
+    $lookup=New Lookup(); 
+    $lookup->LookupTypeID=$lookuptypes->ArrData[$i]["ID"];
+    echo '<p><b>'.$lookuptypes->ArrData[$i]["Name"].':</b><br/>'; /* Auswahl-Box Bezeichnung*/
+    $type_key= $lookuptypes->ArrData[$i]["type_key"];       // $_POST[ $type_key]) = Array enthält die ausgewählten Werte 
+    
+    if (isset($_POST[$type_key])) {
+      $lookup->print_select_multi($lookuptypes->ArrData[$i]["type_key"], $_POST[$type_key]);
+      // $lookuptypes_selected[] = $_POST[$type_key];
+      $lookuptypes_selected = array_merge($lookuptypes_selected, $_POST[$type_key]);  // Sammlung markierte Eintrag-IDS aus allen Lookups 
+    } else  {
+      $lookup->print_select_multi($lookuptypes->ArrData[$i]["type_key"]);
+    }
+  }
+
+  // echo "<p>Anzahl ausgewählte Lookuptypes: ".count($lookuptypes_selected ); 
+  // print_r($lookuptypes_selected); 
+
+?>
+</p>
 
 <fieldset>Ebene: 
     <input type="radio" id="sm" name="Ebene" value="Sammlung" <?php echo ($Ebene=='Sammlung'?'checked':'') ?>>
@@ -300,12 +326,30 @@ if ("POST" == $_SERVER["REQUEST_METHOD"]) {
   $filterUebungen='';  
   $filterErprobt=''; 
   $filterSchwierigkeitsgrad=''; 
+
+  $filterLookups=''; 
   $filterSpieldauer='';   
   $filterSuchtext='';  
   
 
+  // for ($i = 0; $i < count($lookuptypes_selected); $i++) {
+//   $lookup_key = array_keys($lookuptypes_selected)[$i];
+//   echo '<br>lookup_key: '.$lookup_key ;   
+//   // $field_name=$lookuptypes_selected[$i]["id"]; 
+//   // echo '<br>lookup Name: '.$field_name ;   // entspricht in Tabelle "lookup_type" dem Feld "lookup_key" (nicht "Name")
+//   // echo  'Anzahl ausgewählte Einträge: '.count($arLookups[$i]);  
+//   echo  '<br>Anzahl ausgewählte Einträge: '.count($lookuptypes_selected[$lookup_key]); 
+//  // print_r($lookuptypes_selected[$lookup_key]);  
+//   $ID_List = implode(',', $lookuptypes_selected[$lookup_key]); // Umwandlung in Text 
+//   echo '- ID_List: '.$ID_List; 
+//   echo '<br/>';     
+//}  
+
+
+
   if ("POST" == $_SERVER["REQUEST_METHOD"]) // XXX 
   {
+
     if (isset($_REQUEST['Standorte'])) {
       $Standorte = $_REQUEST['Standorte'];   
       $filterStandorte = 'IN ('.implode(',', $Standorte).')'; 
@@ -367,6 +411,12 @@ if ("POST" == $_SERVER["REQUEST_METHOD"]) {
       $filter=true; 
     }     
 
+    if (count($lookuptypes_selected) > 0 ){
+      // erstmals bei "Besonderheiten" 
+      $filterLookups = 'IN ('.implode(',', $lookuptypes_selected).')'; 
+      $filter=true;        
+    }
+
     if (isset($_REQUEST['SpieldauerVon']) and isset($_REQUEST['SpieldauerBis']) ) {
       if ($_REQUEST['SpieldauerVon']!='') {
         $spieldauer_von=(is_numeric($_REQUEST['SpieldauerVon'])?$_REQUEST['SpieldauerVon']:'');
@@ -393,11 +443,15 @@ if ("POST" == $_SERVER["REQUEST_METHOD"]) {
                             sa.Taktart LIKE '%".$suchtext."%' OR
                             sa.Tonart LIKE '%".$suchtext."%' OR
                             sa.Tempobezeichnung LIKE '%".$suchtext."%' OR
-                            sa.Bemerkung LIKE '%".$suchtext."%'
+                            sa.Bemerkung LIKE '%".$suchtext."%' OR 
+                            b.Name LIKE '%".$suchtext."%' /* 28.05.2024 */ 
                             )"; 
 
       $filter=true; 
     }
+
+
+
       // echo '<pre>'.$filterSuchtext.'</pre>'; // Test 
 
   }
@@ -459,7 +513,8 @@ if ("POST" == $_SERVER["REQUEST_METHOD"]) {
             , GROUP_CONCAT(DISTINCT uebung.Name order by uebung.Name SEPARATOR ', ') Uebung              
             , GROUP_CONCAT(DISTINCT str.Name order by str.Name SEPARATOR ', ') Stricharten              
             , GROUP_CONCAT(DISTINCT notenwert.Name order by notenwert.Name SEPARATOR ', ') Notenwerte
-            , GROUP_CONCAT(DISTINCT uebung.Name order by uebung.Name SEPARATOR ', ') Uebungen               
+            , GROUP_CONCAT(DISTINCT uebung.Name order by uebung.Name SEPARATOR ', ') Uebungen
+            , GROUP_CONCAT(DISTINCT concat(lookup_type.Name, ': ', lookup.Name)  order by  concat(lookup_type.Name, ': ', lookup.Name)  SEPARATOR ', ') Besonderheiten                    
             , sa.Lagen 
             , sa.Bemerkung                         
             ";        
@@ -490,6 +545,10 @@ if ("POST" == $_SERVER["REQUEST_METHOD"]) {
       LEFT JOIN schwierigkeitsgrad on schwierigkeitsgrad.ID = sa.SchwierigkeitsgradID    
       LEFT JOIN satz_uebung on satz_uebung.SatzID = sa.ID 
       LEFT JOIN uebung on uebung.ID = satz_uebung.UebungID    
+
+      left join satz_lookup on satz_lookup.SatzID = sa.ID 
+      left join lookup on lookup.ID = satz_lookup.LookupID 
+      left join lookup_type on lookup_type.ID = lookup.LookupTypeID
       
       WHERE 1=1 
       ". PHP_EOL; 
@@ -547,6 +606,7 @@ if ("POST" == $_SERVER["REQUEST_METHOD"]) {
       if($filterSuchtext!=''){
         $query.=' AND'.$filterSuchtext. PHP_EOL; 
       }
+      $query.=($filterLookups!=''?' AND satz_lookup.LookupID '.$filterLookups.PHP_EOL:''); 
 
 
       /* Gruppierung abhängig von Ebene  */

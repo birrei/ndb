@@ -22,16 +22,34 @@ left join verwendungszweck v on mv.VerwendungszweckID=v.ID
 where mv.ID is not null 
 order by m.ID, v.ID 
 
+
 /* Musikstücke mit mit mehreren Verwendungs-Zwecken */
 
-select m.ID, count(distinct mv.VerwendungszweckID) anzahl_verwendungszwecke 
-from musikstueck m 
-left join musikstueck_verwendungszweck mv on m.ID = mv.MusikstueckID 
-left join verwendungszweck v on mv.VerwendungszweckID=v.ID 
-where mv.ID is not null 
-group by m.ID 
-having count(distinct mv.VerwendungszweckID) > 1
-order by anzahl_verwendungszwecke DESC 
+    select m.ID, count(distinct mv.VerwendungszweckID) anzahl_verwendungszwecke 
+    from musikstueck m 
+    left join musikstueck_verwendungszweck mv on m.ID = mv.MusikstueckID 
+    left join verwendungszweck v on mv.VerwendungszweckID=v.ID 
+    where mv.ID is not null 
+    group by m.ID 
+    having count(distinct mv.VerwendungszweckID) > 1
+    order by anzahl_verwendungszwecke DESC 
+
+
+
+/* satz und Lookups */
+
+
+select satz.ID
+, satz.Name
+
+FROM 
+    satz 
+
+    left join satz_lookup on satz_lookup.SatzID = satz.ID 
+    left join lookup on lookup.ID = satz_lookup.LookupID 
+    left join lookup_type on lookup_type.ID = lookup.LookupTypeID
+
+group by satz.ID 
 
 
         
