@@ -90,7 +90,7 @@ class Lookup {
     include_once("cl_db.php");  
     include_once("cl_html_select.php");
 
-    $query="SELECT Lookup.ID
+    $query="SELECT lookup.ID
             , lookup.Name
             FROM lookup 
             INNER JOIN lookup_type 
