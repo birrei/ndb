@@ -70,14 +70,14 @@ echo '</tr></label>
 <tr>    
 <label>
 <td class="eingabe">Nummer:</td>  
-<td class="eingabe"><input type="text" name="Nummer" value="'.$musikstueck->Nummer.'" size="45" maxlength="80"  autofocus="autofocus"></td>
+<td class="eingabe"><input type="text" name="Nummer" value="'.$musikstueck->Nummer.'" size="30" autofocus="autofocus"></td>
 </label>
 </tr> 
 
 <tr>    
   <label>
   <td class="eingabe">Name:</td>  
-  <td class="eingabe"><input type="text" name="Name" value="'.htmlentities($musikstueck->Name).'" size="45" maxlength="80" required="required" autofocus="autofocus"></td>
+  <td class="eingabe"><input type="text" name="Name" value="'.htmlentities($musikstueck->Name).'" size="100" maxlength="100" required="required"> (max. 100 Zeichen)</td>
   </label>
 </tr> 
 

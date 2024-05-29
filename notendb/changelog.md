@@ -1,29 +1,34 @@
 ﻿
-# in Arbeit
+# in Arbeit 
+(mit Datum = abgeschlossen)
 
-28.05.2024 / Updates zu Lookups/Besonderheiten
+29.05.2024: Name- und Bemerkung- Felder vergrößert (Sammlung, Satz, Musikstück) 
+  
+28.05.2024: Updates zu Lookups/Besonderheiten 
+  -> Demo zu eigener Kategorie-Erstellung 
+
+28.05.2024: Textsuche erfasst auch "Besetzung"-Texte
+
+28.05.2024: Startseite, Sammlung, "Daten aufrufen": wird jetzt nach ID abwärts sortiert (die zuletzt angelegte Sammlung steht oben )
 
 Zu Spieldauer noch umsetzen:  
    Anzeige: Erfassung in Sekunden, Anzeige bei Abfrag-Ergebnissen in "'" / "''" - Notation 
    Suche: Eingabe in Minut. / Umrechnung (wie ERfassung) 
 
-Plan Info zum nächst. Release : 
-  * Textsuche erfasst auch "Besetzung"-Texte
-  * Startseite, Sammlung, "Daten aufrufen": wird jetzt nach ID abwärts sortiert (die zuletzt angelegte Sammlung steht oben )
-  * Mehrfachzuordnungen / Besonderheiten: können zugeordnet und gesucht werden (Demo für aG zur Funktionsweise)
 
 aktuelle Hinweise: 
-  * Wenn nach einem Eintrag aus Mehrfach-Zuordnungen gesucht (gefiltert) wird, erscheint im Abfrageergebnis nur diese Zuordnung (auch dann, wenn es noch andere Zuordnungen gibt) 
+  Wenn nach einem Eintrag aus Mehrfach-Zuordnungen gesucht (gefiltert) wird, erscheint im Abfrageergebnis nur diese Zuordnung (auch dann, wenn es noch andere Zuordnungen gibt) 
   Demo für AG: Musikstück mit mehreren Besetzungen 
   Nicht ideal, soll noch geändert werden 
 
 ---------------
 
 # In Planung: 
+  * Links zur Sammlung (Digitale Exemplare, Links zu Bestellung)
   * Gespeicherte Suchen ! 
   * Darstellung der Besonderheiten in Abfrage-Ergebnissen verbessern (Typ Name im Feld nur 1 x anzeigen)
   * Erfassungsfelder -> vergrößer, max einstellung entfernen 
-  * Schwierigkeitsgrad Mehrfachzuordnung! 
+  * Schwierigkeitsgrad Mehrfachzuordnung!, Zuweisung an Stimme / Orchester 
   * Beim SChließend des Formulars Speichern 
   * Links zum Navigieren von Satz > Musikstück > Sammlung 
   * Verknüpfung zwischen Sammlungen festlegen 

@@ -50,7 +50,7 @@ if (isset($_POST["option"]) and $_POST["option"]=='edit') {
     <tr>    
       <label>
       <td class="eingabe">Name:</td>  
-      <td class="eingabe"><input type="text" name="Name" value="'.htmlentities($sammlung->Name).'" size="80" maxlength="80" required="required" autofocus="autofocus"></td>
+      <td class="eingabe"><input type="text" name="Name" value="'.htmlentities($sammlung->Name).'" size="100" maxlength="100" required="required" autofocus="autofocus"> (max. 100 Zeichen)</td>
       </label>
     </tr> 
     
@@ -88,14 +88,16 @@ if (isset($_POST["option"]) and $_POST["option"]=='edit') {
     <tr>    
       <label>
       <td class="eingabe">Bestellnummer:</td>  
-      <td class="eingabe"><input type="text" name="Bestellnummer" value="'.$sammlung->Bestellnummer.'" size="45" autofocus="autofocus"></td>
+      <td class="eingabe"><input type="text" name="Bestellnummer" value="'.$sammlung->Bestellnummer.'" size="45"></td>
       </label>
     </tr> 
 
     <tr>    
       <label>
       <td class="eingabe">Bemerkung:</td>  
-      <td class="eingabe"><input type="text" name="Bemerkung" value="'.htmlentities($sammlung->Bemerkung).'" size="100" autofocus="autofocus"></td>
+      <td class="eingabe">
+      <textarea name="Bemerkung" rows=7 cols=120 maxlength="1000">'.htmlentities($sammlung->Bemerkung).'</textarea> (max. 1000 Zeichen)
+      </td>
       </label>
     </tr> 
 
