@@ -1,6 +1,7 @@
 <?php 
 include('../head.php');
 include("../cl_db.php"); 
+include("../cl_html_info.php"); 
 
 /* 
 Script führt die SQL-Commands aus allen *.sql-Dateien (die im gleichen Ordner liegen) aus. 
@@ -32,7 +33,7 @@ if ( is_dir ( $dir )){
             echo '<p>SQL wurde erfolgreich ausgeführt.</p>';
           }
           catch (PDOException $e) {
-            include_once("cl_html_info.php"); 
+            // include_once("cl_html_info.php"); 
             $info = new HtmlInfo();      
             $info->print_user_error(); 
             $info->print_error($stmt, $e); 

@@ -5,7 +5,7 @@ include('head.php');
 
 <p><a href="sqlexec.php">SQL Query-Box</a> </p> 
 <p><a href="list_tables.php">list_tables.php</a></p> 
-<p><a href="sqlexec_ddl.php">sqlexec_ddl.php</a> (Views installieren)</p> 
+<p><a href="ddl/sqlexec_ddl.php">sqlexec_ddl.php</a> (Views installieren)</p> 
 
 <h2>Changelog</h2>
 
