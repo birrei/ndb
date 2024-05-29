@@ -67,3 +67,15 @@ ALTER TABLE `satz_lookup`
 
 
 
+----------------------
+
+ALTER TABLE `lookup` CHANGE `LookupTypeID` `LookupTypeID` TINYINT NOT NULL; 
+
+
+ALTER TABLE `lookup` 
+    ADD  FOREIGN KEY (`LookupTypeID`) 
+    REFERENCES `lookup_type`(`ID`) 
+    ON DELETE RESTRICT ON UPDATE RESTRICT
+;
+
+

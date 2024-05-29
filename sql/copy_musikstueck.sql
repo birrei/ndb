@@ -1,6 +1,6 @@
 
 /*
-Ein Musikstück (inklusive Sätze) inneralb einer Sammlung dublizieren 
+Ein Musikstück (inklusive Sätze) inneralb einer Sammlung duplizieren 
 */ 
 
 -- SELECT * 
