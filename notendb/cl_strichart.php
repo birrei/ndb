@@ -157,7 +157,7 @@ class Strichart {
     try {
       $stmt->execute(); 
       $html = new HtmlSelect($stmt); 
-      $html->print_select_multi('Strichart', 'Stricharten[]', $options_selected); 
+      $html->print_select_multi('Strichart', 'Stricharten[]', $options_selected, 'Strichart(en):'); 
     }
     catch (PDOException $e) {
       include_once("cl_html_info.php"); 

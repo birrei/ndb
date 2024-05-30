@@ -145,7 +145,7 @@ class Epoche {
     try {
       $stmt->execute(); 
       $html = new HtmlSelect($stmt); 
-      $html->print_select_multi('Epoche', 'Epochen[]', $options_selected); 
+      $html->print_select_multi('Epoche', 'Epochen[]', $options_selected, 'Epoche(n):'); 
     }
     catch (PDOException $e) {
       include_once("cl_html_info.php"); 

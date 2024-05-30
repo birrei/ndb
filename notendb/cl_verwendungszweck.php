@@ -91,7 +91,7 @@ class Verwendungszweck {
     try {
       $stmt->execute(); 
       $html = new HtmlSelect($stmt); 
-      $html->print_select_multi('Verwendungszweck', 'Verwendungszwecke[]', $options_selected); 
+      $html->print_select_multi('Verwendungszweck', 'Verwendungszwecke[]', $options_selected, 'Verwendungszweck(e):'); 
     }
     catch (PDOException $e) {
       include_once("cl_html_info.php"); 

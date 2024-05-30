@@ -145,7 +145,7 @@ class Standort {
     try {
       $stmt->execute(); 
       $html = new HtmlSelect($stmt); 
-      $html->print_select_multi('Standort', 'Standorte[]', $options_selected); 
+      $html->print_select_multi('Standort', 'Standorte[]', $options_selected, 'Standort(e):'); 
     }
     catch (PDOException $e) {
       include_once("cl_html_info.php"); 

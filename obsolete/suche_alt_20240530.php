@@ -108,49 +108,125 @@ if ("POST" == $_SERVER["REQUEST_METHOD"]) {
 }
 ?> 
 <form id="Suche" action="" method="post">
-
 <table> 
-<tr> 
-<td class="selectboxes"><!-- Start Spalte 1 -->  
+<tr>    
+    <td class="selectboxes"><!-- Zeile 1, Spalte 1 --> 
+        <b>Standort(e):</b> <br>   
+        <?php 
+            $standort = new Standort();
+            $standort->print_select_multi($Standorte);         
+          echo ''; 
+        ?>
+    </td>
+    <td class="selectboxes"><!-- Zeile 1,  Spalte 2 --> 
+        <b>Verlag(e):</b> <br>   
     <?php 
-      $standort = new Standort();
-      $standort->print_select_multi($Standorte);         
+            $verlag = new Verlag();
+            $verlag->print_select_multi($Verlage);         
+          echo ''; 
+        ?>
+    </td>
+    <td class="selectboxes"><!-- Zeile 1,  Spalte 3 --> 
+      <b>Komponist(en):</b> <br>  
+    <?php 
+            $komponist = new Komponist();
+            $komponist->print_select_multi($Komponisten);         
+          echo ''; 
+        ?>      
+    </td>
 
-      $verlag = new Verlag();
-      $verlag->print_select_multi($Verlage);      
-      
-      $komponist = new Komponist();
-      $komponist->print_select_multi($Komponisten);     
-      
-      $besetzung = new Besetzung();
-      $besetzung->print_select_multi($Besetzungen);       
+    <td class="selectboxes"><!-- Zeile 1,  Spalte 4 --> 
+    Suchtext: <br> 
+    <input type="text" id="suchtext" name="suchtext" size="20" value="<?php echo $suchtext; ?>"> 
 
-      $verwendungszweck = new Verwendungszweck();
-      $verwendungszweck->print_select_multi($Verwendungszwecke);    
+    <br><input type="button" id="btnReset_suchtext" value="Filter zurücksetzen" onclick="Reset_suchtext();" />  
+        <script type="text/javascript">  
+                function Reset_suchtext() {  
+                  document.getElementById("suchtext").value='';  
+            }  
+        </script> 
+    </td>
+    <td class="selectboxes"><!-- Zeile 1,  Spalte 5 --> </td>
+  </tr>
 
-      $gattung = new Gattung();
-      $gattung->print_select_multi($Gattungen);         
 
-      $epochen = new Epoche();
-      $epochen->print_select_multi($Epochen);         
 
-      $erprobt = new Erprobt();
-      $erprobt->print_select_multi($Erprobt);      
+<tr>
+    <td class="selectboxes"><!-- Zeile 2,  Spalte 1 --> 
+      <b>Besetzung(en):</b> <br>   
+        <?php 
+            $besetzung = new Besetzung();
+            $besetzung->print_select_multi($Besetzungen); 
+        ?>
+    </td> 
+    <td class="selectboxes"><!--  Zeile 2,  Spalte 2 --> 
+      <b>Verwendungszweck(e):</b> <br>   
+        <?php 
+            $verwendungszweck = new Verwendungszweck();
+            $verwendungszweck->print_select_multi($Verwendungszwecke);         
+          echo ''; 
+        ?>
+    </td>  
+    <td class="selectboxes"><!--  Zeile 2,  Spalte 3 --> 
+      <b>Gattung(en):</b> <br>
+    <?php 
+            $gattung = new Gattung();
+            $gattung->print_select_multi($Gattungen);         
+          echo ''; 
+        ?>
+    </td>
+    <td class="selectboxes"><!--  Zeile 2,  Spalte 4 --> <b>Epoche(n):</b> <br>  
+    <?php 
+            $epochen = new Epoche();
+            $epochen->print_select_multi($Epochen);         
+          echo ''; 
+        ?>      
+    </td>
+    <td class="selectboxes"><!-- Zeile 2,   Spalte 5 --> 
+    <b>Erprobt:</b> <br>
+    <?php 
+            $erprobt = new Erprobt();
+            $erprobt->print_select_multi($Erprobt);      
+          echo ''; 
+        ?>
+    </td>
+</tr> 
+<tr>
+    <td class="selectboxes"><!--  Zeile 3,  Spalte 1 --> 
+        <b>Strichart(en):</b> <br>
+    <?php 
+            $stricharten = new Strichart();
+            $stricharten->print_select_multi($Stricharten);      
+          echo ''; 
+        ?>
+    </td>
+    <td class="selectboxes"><!--  Zeile 3, Spalte 2 --> 
+      <b>Notenwert(e):</b> <br>
+    <?php 
+            $notenwerte = new Notenwert();
+            $notenwerte->print_select_multi($Notenwerte);      
+          echo ''; 
+        ?>
+    </td>
 
-      $stricharten = new Strichart();
-      $stricharten->print_select_multi($Stricharten);      
+    <td class="selectboxes"><!-- Zeile 3, Spalte 3 --> 
+    <b>Übung(en):</b> <br>
+      <?php 
+              $uebungen = new Uebung();
+              $uebungen->print_select_multi($Uebungen);      
+          ?>
+   </td>
 
-      $notenwerte = new Notenwert();
-      $notenwerte->print_select_multi($Notenwerte);      
-
-      $uebungen = new Uebung();
-      $uebungen->print_select_multi($Uebungen);      
-
-      $schierigkeitsgrad = new Schwierigkeitsgrad();
-      $schierigkeitsgrad->print_select_multi($Schierigkeitsgrad);      
+  <td class="selectboxes"><!-- Zeile 3, Spalte 4 --> 
+  <b>Schwierigkeitsgrad:</b> <br>
+    <?php 
+            $schierigkeitsgrad = new Schwierigkeitsgrad();
+            $schierigkeitsgrad->print_select_multi($Schierigkeitsgrad);      
+          echo ''; 
         ?>    
-
-     <p><b>Spieldauer (Sekunden)</b>
+ </td>
+  <td class="selectboxes"><!-- Zeile 3, Spalte 5 --> 
+     <b>Spieldauer (Sekunden)</b>
      <br>
      von: <input type="text" id="SpieldauerVon" name="SpieldauerVon" size="5" value="<?php echo $spieldauer_von; ?>"><br> 
      bis: <input type="text" id="SpieldauerBis" name="SpieldauerBis" size="5" value="<?php echo $spieldauer_bis; ?>"><br> 
@@ -162,8 +238,23 @@ if ("POST" == $_SERVER["REQUEST_METHOD"]) {
                   document.getElementById("SpieldauerBis").value='';  
             }  
         </script> 
-     </p>
-  <?php 
+
+    </td>
+</tr>
+
+<tr>
+  <td class="selectboxes"><!-- Zeile 4,  Spalte 1 --> </td>
+  <td class="selectboxes"><!-- Zeile 4,  Spalte 2 --> </td>
+  <td class="selectboxes"><!-- Zeile 4,  Spalte 3 --> </td>
+  <td class="selectboxes"><!-- Zeile 4,  Spalte 4 --> </td>
+  <td class="selectboxes"><!-- Zeile 4,  Spalte 5 --> </td>
+</tr>
+
+</table> 
+
+<p>
+
+<?php 
 
   $lookuptypes=new Lookuptype(); 
   $lookuptypes->setArrData(); 
@@ -187,24 +278,7 @@ if ("POST" == $_SERVER["REQUEST_METHOD"]) {
   // print_r($lookuptypes_selected); 
 
 ?>
-
-<p>Suchtext: <br> 
-    <input type="text" id="suchtext" name="suchtext" size="20" value="<?php echo $suchtext; ?>"> 
-
-    <br><input type="button" id="btnReset_suchtext" value="Filter zurücksetzen" onclick="Reset_suchtext();" />  
-        <script type="text/javascript">  
-                function Reset_suchtext() {  
-                  document.getElementById("suchtext").value='';  
-            }  
-        </script> 
-    </p>
-
-<!-- Ende Spalte 1 -->  
-</td>  
-<td>
-<!-- Start Spalte 2 -->  
-
-
+</p>
 
 <fieldset>Ebene: 
     <input type="radio" id="sm" name="Ebene" value="Sammlung" <?php echo ($Ebene=='Sammlung'?'checked':'') ?>>
@@ -585,16 +659,6 @@ if ("POST" == $_SERVER["REQUEST_METHOD"]) {
     else {
           echo '<p>Es wurde kein Filter gesetzt. </p>'; 
   }
-
-
-  ?>
-
-<!-- Ende Spalte 2 -->  
-</td>
-</tr>
-</table>
-  <?php
-
 
 include('foot.php');
 

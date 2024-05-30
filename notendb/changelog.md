@@ -1,39 +1,33 @@
 ﻿
 # in Arbeit 
-(mit Datum = abgeschlossen)
 
-29.05.2024: Name- und Bemerkung- Felder vergrößert (Sammlung, Satz, Musikstück) 
-  
-28.05.2024: Updates zu Lookups/Besonderheiten 
-  -> Demo zu eigener Kategorie-Erstellung 
-
-28.05.2024: Textsuche erfasst auch "Besetzung"-Texte
-
-28.05.2024: Startseite, Sammlung, "Daten aufrufen": wird jetzt nach ID abwärts sortiert (die zuletzt angelegte Sammlung steht oben )
+Umsetzung Stand 30.05.2024: 
+- Überarbeitung Suche-Seite Layout (Auswahl-Felder jetzt am linken Rand) 
+- Name- und Bemerkung- Felder vergrößert (Sammlung, Satz, Musikstück) 
+- Kategorisierung Besonderheiten (eigene Kategorien können angelegt werden)
+- Textsuche erfasst auch "Besetzung"-Texte
+- Startseite, Sammlung, "Daten anzeigen": wird jetzt nach ID abwärts sortiert (die zuletzt angelegte Sammlung steht oben)
 
 Zu Spieldauer noch umsetzen:  
    Anzeige: Erfassung in Sekunden, Anzeige bei Abfrag-Ergebnissen in "'" / "''" - Notation 
    Suche: Eingabe in Minut. / Umrechnung (wie ERfassung) 
 
-
-aktuelle Hinweise: 
-  Wenn nach einem Eintrag aus Mehrfach-Zuordnungen gesucht (gefiltert) wird, erscheint im Abfrageergebnis nur diese Zuordnung (auch dann, wenn es noch andere Zuordnungen gibt) 
-  Demo für AG: Musikstück mit mehreren Besetzungen 
-  Nicht ideal, soll noch geändert werden 
+Neue Features noch in Hilfe-Seite übernehmen 
 
 ---------------
 
 # In Planung: 
+  * Sammlung (einfach-) Zuordnung "Info Aufführungsmaterial"  
   * Links zur Sammlung (Digitale Exemplare, Links zu Bestellung)
   * Gespeicherte Suchen ! 
   * Darstellung der Besonderheiten in Abfrage-Ergebnissen verbessern (Typ Name im Feld nur 1 x anzeigen)
-  * Erfassungsfelder -> vergrößer, max einstellung entfernen 
   * Schwierigkeitsgrad Mehrfachzuordnung!, Zuweisung an Stimme / Orchester 
   * Beim SChließend des Formulars Speichern 
   * Links zum Navigieren von Satz > Musikstück > Sammlung 
   * Verknüpfung zwischen Sammlungen festlegen 
   * Musikstück Aufführungsjahre - Auswahlfeld 
   * Seiten-Titel im Register anzeigen 
+  * Wenn nach einem Eintrag aus Mehrfach-Zuordnungen gesucht (gefiltert) wird, erscheint im Abfrageergebnis nur diese Zuordnung (auch dann, wenn es noch andere Zuordnungen gibt)  Demo für AG: Musikstück mit mehreren Besetzungen - Nicht ideal, soll noch geändert werden 
   * Erfassung Satz 
     * (vorerst verworfen: Satz > Taktart: Mehrfachauswahl) 
   * Feld. "Aufführungsmaterial vorhanden"    
@@ -49,7 +43,6 @@ aktuelle Hinweise:
   * Löschfunktion (im Bearbeiten-Formularen) 
     * Funktion: Feldinhalte aus anderem Satz des gleichen Musikstücks übernehmen (Checkbox "bekannte Eigenschaft übernehmen"?) 
   * Handytaugliches Layout 
-
   * Such-Seite: weitere Suchfilter nach Erweiterung Auswahltabellen 
     * Satz: Tonart, Taktart, Tempobezeichnung, Lagen 
   * Suche: Validierung von manuell eingegeben Such-Parametern (z.B: SpieldauerBis > SpieldauerBis ect.)

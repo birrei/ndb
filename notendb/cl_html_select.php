@@ -28,17 +28,21 @@ class HtmlSelect {
         echo $html;
     }    
 
-    function print_select_multi($id, $keyname, $options_selected=[]) {
+    function print_select_multi($id, $keyname, $options_selected=[], $caption='') {
         $html = '';
         // $row_count=sizeof($this->stmt); 
+        if ($caption!='') {
+            $html.='<p><b>'.$caption.'</b><br/>'. PHP_EOL;
+        }
         if ($this->count_rows > 0) {
             // $html = '<select id="'.$id.'" name="'.$keyname.'" multiple size="'.$this->count_rows.'">' . PHP_EOL;  
-            $html = '<select multiple id="'.$id.'" name="'.$keyname.'" size="5">'.PHP_EOL;    // Anzeige auf 10 Einträge begrenzen  
+            $html.='<select multiple id="'.$id.'" name="'.$keyname.'" size="5">'.PHP_EOL;    // Anzeige auf 10 Einträge begrenzen  
             foreach($this->result as $key => $title) {
                 $html .= ' <option value="' . $key .'"'.(in_array($key,$options_selected)?' selected':'').'>' . $title . '</option>'. PHP_EOL;
              }
-            $html .= '</select>';
+            $html.= '</select>'. PHP_EOL;;
         }
+
         $html .='<br/><input type="button" id="btnReset_'.$id.'" value="Filter zurücksetzen" onclick="Reset_'.$id.'();" />  
              <script type="text/javascript">  
                 function Reset_'.$id.'() {  
@@ -46,7 +50,9 @@ class HtmlSelect {
                 dropDown.selectedIndex = -1;  
             }  
         </script>';
-    
+        if ($caption!='') {
+            $html.='</p>'. PHP_EOL;;
+        }
         echo $html;
     }    
     function print_preselect($keyname, $value_selected='', $add_null_option=true) {

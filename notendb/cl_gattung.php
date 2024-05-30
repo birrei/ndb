@@ -145,7 +145,7 @@ class Gattung {
     try {
       $stmt->execute(); 
       $html = new HtmlSelect($stmt); 
-      $html->print_select_multi('Gattung', 'Gattungen[]', $options_selected); 
+      $html->print_select_multi('Gattung', 'Gattungen[]', $options_selected, 'Gattung:'); 
     }
     catch (PDOException $e) {
       include_once("cl_html_info.php"); 

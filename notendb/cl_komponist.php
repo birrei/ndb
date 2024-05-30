@@ -187,7 +187,7 @@ class Komponist {
     try {
       $stmt->execute(); 
       $html = new HtmlSelect($stmt); 
-      $html->print_select_multi('Komponist', 'Komponisten[]', $options_selected); 
+      $html->print_select_multi('Komponist', 'Komponisten[]', $options_selected, 'Komponist(en):'); 
     }
     catch (PDOException $e) {
       include_once("cl_html_info.php"); 

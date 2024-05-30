@@ -116,11 +116,18 @@ include('head.php');
     <td><a href="show_table2.php?table=lookup_type&sortcol=Name" target="_blank">Daten anzeigen</a></td>
     <td><a href="insert_lookup_type.php" target="_blank">Neu erfassen</a></td>
 </tr>
-
-
 </table>
 
-
+<pre>
+ 
+Umsetzung Stand 30.05.2024: 
+- Überarbeitung Suche-Seite Layout (Auswahl-Felder jetzt am linken Rand) 
+- Name- und Bemerkung- Felder vergrößert (Sammlung, Satz, Musikstück) 
+- Kategorisierung Besonderheiten (eigene Kategorien können angelegt werden)
+- Textsuche erfasst auch "Besetzung"-Texte
+- Startseite, Sammlung, "Daten anzeigen": wird jetzt nach ID abwärts sortiert (die zuletzt angelegte Sammlung steht oben)
+   
+</pre>
 
 <?php 
 include('foot.php');

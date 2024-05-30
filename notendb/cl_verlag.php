@@ -157,7 +157,7 @@
     try {
       $stmt->execute(); 
       $html = new HtmlSelect($stmt); 
-      $html->print_select_multi('Verlag', 'Verlage[]', $options_selected); 
+      $html->print_select_multi('Verlag', 'Verlage[]', $options_selected, 'Verlag(e):'); 
     }
     catch (PDOException $e) {
       include_once("cl_html_info.php"); 
