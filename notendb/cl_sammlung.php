@@ -183,6 +183,8 @@ class Sammlung {
     $query="SELECT musikstueck.ID 
             , musikstueck.Nummer 
             , musikstueck.Name
+            , musikstueck.Bearbeiter
+            , musikstueck.Opus
             , komponist.Name Komponist
             , gattung.Name as Gattung
             , epoche.Name as Epoche

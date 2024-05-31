@@ -20,7 +20,15 @@ select
     , satz.Name as SatzName
     , satz.Taktart
     , satz.Tempobezeichnung
-    , satz.Spieldauer
+    -- , satz.Spieldauer
+    , concat(
+        satz.Spieldauer DIV 60
+        ,''''
+        , 
+        satz.Spieldauer MOD 60
+        , ''''''
+        ) as Spieldauer
+
     , satz.Lagen 
     , erprobt.Name as Erprobt 
     , schwierigkeitsgrad.Name as Schwierigkeitsgrad

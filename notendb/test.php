@@ -1,9 +1,35 @@
 <?php
 include('head.php'); 
+?>
+
+
+<p id="test"></p>
+<p id="test2"></p>
+
+   
+Minuten: <input type="text" id="input_minutes" size="10" oninput="set_seconds();">
+    Sekunden: <input type="text" id="input_seconds" name="Spieldauer" value="" size="10" maxlength="80"> 
+      
+      <script type="text/javascript">  
+      function set_seconds() {
+        var txt_min = document.getElementById("input_minutes").value;
+        document.getElementById("test").innerHTML="TEST"; 
+        
+        var sekunden = getSeconds(txt_min);
+
+        document.getElementById("test2").innerHTML= sekunden; 
+       
+        // document.getElementById("input_seconds").value=js_zeitumrechnung.getSeconds(txt_min); // getSeconds() -> javascript.js
+        
+      }
+  </script> 
 
 
 
-echo '<p> <a href="edit_satz.php?ID=7" target="_blank">Satz 7 test</a></p>'; 
+<?php 
+
+
+// echo '<p> <a href="edit_satz.php?ID=7" target="_blank">Satz 7 test</a></p>'; 
 
 
 

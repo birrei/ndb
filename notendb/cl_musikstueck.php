@@ -314,7 +314,14 @@ class Musikstueck {
               , satz.Tonart
               , satz.Taktart
               , satz.Tempobezeichnung `Tempo-Bez.`
-              , satz.Spieldauer `Spiel-dauer`
+             -- , satz.Spieldauer 
+              , concat(
+                satz.Spieldauer DIV 60
+                ,''''
+                , 
+                satz.Spieldauer MOD 60
+                , ''''''
+                ) as Spieldauer              
               , schwierigkeitsgrad.Name as `Schwierig-keitsgrad`
               , erprobt.Name as Erprobt              
               , satz.Lagen

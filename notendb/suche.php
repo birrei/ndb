@@ -150,17 +150,30 @@ if ("POST" == $_SERVER["REQUEST_METHOD"]) {
       $schierigkeitsgrad->print_select_multi($Schierigkeitsgrad);      
         ?>    
 
-     <p><b>Spieldauer (Sekunden)</b>
-     <br>
-     von: <input type="text" id="SpieldauerVon" name="SpieldauerVon" size="5" value="<?php echo $spieldauer_von; ?>"><br> 
-     bis: <input type="text" id="SpieldauerBis" name="SpieldauerBis" size="5" value="<?php echo $spieldauer_bis; ?>"><br> 
+     <p><b>Spieldauer:</b>
+     <br /> von 
+      min: <input type="text" id="SpieldauerVon_min" name="SpieldauerVon_min" size="5" value="" oninput="set_SpieldauerVon();"> 
+      sec: <input type="text" id="SpieldauerVon" name="SpieldauerVon" size="5" value="<?php echo $spieldauer_von; ?>">
+     <br /> bis
+        min: <input type="text" id="SpieldauerBis_min" name="SpieldauerBis_min" size="5" value="" oninput="set_SpieldauerBis();">
+        sec: <input type="text" id="SpieldauerBis" name="SpieldauerBis" size="5" value="<?php echo $spieldauer_bis; ?>">
 
      <input type="button" id="btnReset_Spieldauer" value="Filter zurücksetzen" onclick="Reset_Spieldauer();" />  
-        <script type="text/javascript">  
-                function Reset_Spieldauer() {  
-                  document.getElementById("SpieldauerVon").value='';  
-                  document.getElementById("SpieldauerBis").value='';  
-            }  
+      <script type="text/javascript">  
+            function Reset_Spieldauer() {  
+              document.getElementById("SpieldauerVon").value='';  
+              document.getElementById("SpieldauerBis").value='';  
+            }
+            function set_SpieldauerVon() {
+              var txt_min = document.getElementById("SpieldauerVon_min").value;
+              var sekunden = getSeconds(txt_min);
+              document.getElementById("SpieldauerVon").value=sekunden;         
+            }            
+            function set_SpieldauerBis() {
+              var txt_min = document.getElementById("SpieldauerBis_min").value;
+              var sekunden = getSeconds(txt_min);
+              document.getElementById("SpieldauerBis").value=sekunden;         
+            }   
         </script> 
      </p>
   <?php 
@@ -257,22 +270,6 @@ if ("POST" == $_SERVER["REQUEST_METHOD"]) {
   $filterSpieldauer='';   
   $filterSuchtext='';  
   
-
-  // for ($i = 0; $i < count($lookuptypes_selected); $i++) {
-//   $lookup_key = array_keys($lookuptypes_selected)[$i];
-//   echo '<br>lookup_key: '.$lookup_key ;   
-//   // $field_name=$lookuptypes_selected[$i]["id"]; 
-//   // echo '<br>lookup Name: '.$field_name ;   // entspricht in Tabelle "lookup_type" dem Feld "lookup_key" (nicht "Name")
-//   // echo  'Anzahl ausgewählte Einträge: '.count($arLookups[$i]);  
-//   echo  '<br>Anzahl ausgewählte Einträge: '.count($lookuptypes_selected[$lookup_key]); 
-//  // print_r($lookuptypes_selected[$lookup_key]);  
-//   $ID_List = implode(',', $lookuptypes_selected[$lookup_key]); // Umwandlung in Text 
-//   echo '- ID_List: '.$ID_List; 
-//   echo '<br/>';     
-//}  
-
-
-
   if ("POST" == $_SERVER["REQUEST_METHOD"]) // XXX 
   {
 
@@ -433,7 +430,14 @@ if ("POST" == $_SERVER["REQUEST_METHOD"]) {
             , sa.Tonart 
             , sa.Taktart
             , sa.Tempobezeichnung
-            , sa.Spieldauer
+            -- , sa.Spieldauer
+            , concat(
+                sa.Spieldauer DIV 60
+                ,''''
+                , 
+                sa.Spieldauer MOD 60
+                , ''''''
+              ) as Spieldauer            
             , schwierigkeitsgrad.Name as Schwierigkeitsgrad
             , erprobt.Name as Erprobt             
             , GROUP_CONCAT(DISTINCT uebung.Name order by uebung.Name SEPARATOR ', ') Uebung              

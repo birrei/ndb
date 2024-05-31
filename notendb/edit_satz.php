@@ -48,6 +48,7 @@ if (isset($_POST["senden"])) {
 }
 ?>
 
+<p id="test"></p>
 <?php
 
 echo 
@@ -113,9 +114,19 @@ echo
     <label>
     <td class="eingabe">Spieldauer:</td>  
     <td class="eingabe">
+    
     Minuten: <input type="text" id="input_minutes" size="10" oninput="set_seconds();">
     Sekunden: <input type="text" id="input_seconds" name="Spieldauer" value="'.$satz->Spieldauer.'" size="10" maxlength="80"> 
-    <!-- Info unter <a href="help.php" target="_blank">Hilfe</a>, Kapitel: Erfassung Satz: "Spieldauer" --> 
+      
+      <script type="text/javascript">  
+        function set_seconds() {
+          var txt_min = document.getElementById("input_minutes").value;
+          var sekunden = getSeconds(txt_min);
+          document.getElementById("input_seconds").value=sekunden;         
+        }
+      </script> 
+
+
       </td>
       </label>
 
