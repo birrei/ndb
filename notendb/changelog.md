@@ -1,18 +1,8 @@
 ﻿
 # in Arbeit 
 
-Umsetzung Stand 30.05.2024: 
-- Überarbeitung Suche-Seite Layout (Auswahl-Felder jetzt am linken Rand) 
-- Name- und Bemerkung- Felder vergrößert (Sammlung, Satz, Musikstück) 
-- Kategorisierung Besonderheiten (eigene Kategorien können angelegt werden)
-- Textsuche erfasst auch "Besetzung"-Texte
-- Startseite, Sammlung, "Daten anzeigen": wird jetzt nach ID abwärts sortiert (die zuletzt angelegte Sammlung steht oben)
-
-Zu Spieldauer noch umsetzen:  
-   Anzeige: Erfassung in Sekunden, Anzeige bei Abfrag-Ergebnissen in "'" / "''" - Notation 
-   Suche: Eingabe in Minut. / Umrechnung (wie ERfassung) 
-
-Neue Features noch in Hilfe-Seite übernehmen 
+* Hilfe: How To: Einrichtung neue Besonderheit 
+* Script / Funktion: Eine Besondeheit inklusive Verknüpfungen wieder löschen 
 
 ---------------
 
@@ -288,4 +278,14 @@ umgesetzt: Spieldauer Erfassungswert in Sekunden ändern
   * Für Suche: Änderung auf Sekunden-Eingabe 
   * Dataclearing: Update Minutenwerte auf Sekunden  
 
+-----------------
+Umsetzung Stand 30.05.2024: 
+- Überarbeitung Suche-Seite Layout (Auswahl-Felder jetzt am linken Rand) 
+- Name- und Bemerkung- Felder vergrößert (Sammlung, Satz, Musikstück) 
+- Kategorisierung Besonderheiten (eigene Kategorien können angelegt werden)
+- Textsuche erfasst auch "Besetzung"-Texte
+- Startseite, Sammlung, "Daten anzeigen": wird jetzt nach ID abwärts sortiert (die zuletzt angelegte Sammlung steht oben)
 
+30.05.2024 - Spieldauer:   
+   Anzeige: Erfassung in Sekunden, Anzeige bei Abfrag-Ergebnissen in "'" / "''" - Notation 
+   Suche: Eingabe in Minut. / Umrechnung (wie ERfassung) 
