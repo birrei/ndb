@@ -23,6 +23,7 @@ if (isset($_POST["LookupTypeID"])) {
       ?>
       </td>
    </label>
+   </tr>
     <input type="hidden" name="SatzID" value="<?php echo $_GET["SatzID"]; ?>"> 
 </form>
 
