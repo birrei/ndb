@@ -41,13 +41,18 @@ class HtmlTable {
             if  ($this->count_rows > 0) {
                 foreach ($this->result as $row) {
                     $html .= '<tr>'. PHP_EOL;
-                    foreach ($row as $cell){
+                    foreach ($row as $key=>$cell){
+                        // echo $key; 
                         if ($this->show_table_link) { 
                             // z.B. 1-spaltige Tabelle aus "show tables" 
                             $html .= '<td><a href="show_table2.php?table='.$cell.'">'.$cell.'</a></td>';
                         }
-                        else {                        
-                            $html .= '<td>'.$cell.'</td>'. PHP_EOL; 
+                        else {
+                            if ($key=="URL") {
+                                $html .= '<td><a href="'.$cell.'" target="_blank">'.$cell.'</a></td>'. PHP_EOL; 
+                            }  else {                     
+                                $html .= '<td>'.$cell.'</td>'. PHP_EOL; 
+                            }
                         }
                     }
                     if ($edit_table_name!='') {
