@@ -1,0 +1,1 @@
+delete from besetzung where ID not in (SELECT DIstinct BesetzungID from musikstueck_besetzung)

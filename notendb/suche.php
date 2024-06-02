@@ -21,9 +21,13 @@ include("cl_uebung.php");
 
 include("cl_lookup.php");   
 include("cl_lookuptype.php");
+include("cl_linktype.php");
 
 $Standorte=[];   /* Sammlung */
 $Verlage=[];   /* Sammlung */
+$Linktypen=[];   /* Sammlung */
+
+
 $Komponisten=[];   /* Musikstück  */  
 $Besetzungen=[];   /* Musikstück  */  
 $Verwendungszwecke=[];   /* Musikstück  */  
@@ -62,7 +66,10 @@ if ("POST" == $_SERVER["REQUEST_METHOD"]) {
   }
   if (isset($_REQUEST['Verlage'])) {
     $Verlage = $_REQUEST['Verlage'];   
-  }     
+  }
+  if (isset($_REQUEST['Linktypen'])) {
+    $Linktypen = $_REQUEST['Linktypen'];   
+  }            
   if (isset($_REQUEST['Komponisten'])) {
     $Komponisten = $_REQUEST['Komponisten'];      
   }   
@@ -108,16 +115,19 @@ if ("POST" == $_SERVER["REQUEST_METHOD"]) {
 }
 ?> 
 <form id="Suche" action="" method="post">
-
 <table> 
 <tr> 
-<td class="selectboxes"><!-- Start Spalte 1 -->  
+<td class="selectboxes">
+    <!-- Start Spalte 1 -->  
     <?php 
       $standort = new Standort();
       $standort->print_select_multi($Standorte);         
 
       $verlag = new Verlag();
       $verlag->print_select_multi($Verlage);      
+
+      $linktyp = new Linktype();
+      $linktyp->print_select_multi($Linktypen);      
       
       $komponist = new Komponist();
       $komponist->print_select_multi($Komponisten);     
@@ -254,7 +264,8 @@ if ("POST" == $_SERVER["REQUEST_METHOD"]) {
   $filter=false; 
 
   $filterStandorte='';   
-  $filterVerlage='';   
+  $filterVerlage='';
+  $filterLinktypen='';      
   $filterBesetzung=''; 
   $filterVerwendungszweck='';
   $filterKomponisten='';   
@@ -282,7 +293,12 @@ if ("POST" == $_SERVER["REQUEST_METHOD"]) {
       $Verlage = $_REQUEST['Verlage'];   
       $filterVerlage = 'IN ('.implode(',', $Verlage).')'; 
       $filter=true; 
-    }             
+    }
+    if (isset($_REQUEST['Linktypen'])) {
+      $Linktypen = $_REQUEST['Linktypen'];   
+      $filterLinktypen = 'IN ('.implode(',', $Linktypen).')'; 
+      $filter=true; 
+    }                    
     if (isset($_REQUEST['Komponisten'])) {
       $Komponisten = $_REQUEST['Komponisten'];   
       $filterKomponisten = 'IN ('.implode(',', $Komponisten).')'; 
@@ -393,6 +409,7 @@ if ("POST" == $_SERVER["REQUEST_METHOD"]) {
             ,s.Name as Sammlung
             , st.Name as Standort
             , verlag.Name as Verlag
+            , GROUP_CONCAT(DISTINCT linktype.Name order by linktype.Name SEPARATOR ', ') Links            
             , s.Bemerkung 
             , GROUP_CONCAT(DISTINCT m.Name order by m.Nummer SEPARATOR ', ') Musikstuecke
             , s.Bestellnummer 
@@ -457,7 +474,9 @@ if ("POST" == $_SERVER["REQUEST_METHOD"]) {
     $query.="
       FROM sammlung s 
       LEFT JOIN standort st on s.StandortID = st.ID    
-      LEFT JOIN verlag  on s.VerlagID = verlag.ID            
+      LEFT JOIN verlag  on s.VerlagID = verlag.ID
+      LEFT JOIN link  on s.ID = link.SammlungID
+      LEFT JOIN linktype  on linktype.ID = link.LinktypeID
       LEFT JOIN musikstueck m on s.ID = m.SammlungID 
       LEFT JOIN v_komponist k on k.ID = m.KomponistID
       LEFT JOIN gattung on gattung.ID = m.GattungID  
@@ -499,7 +518,10 @@ if ("POST" == $_SERVER["REQUEST_METHOD"]) {
       } 
       if($filterVerlage!=''){
         $query.=' AND s.VerlagID '.$filterVerlage. PHP_EOL; 
-      }       
+      }
+      if($filterLinktypen!=''){
+        $query.=' AND link.LinktypeID '.$filterLinktypen. PHP_EOL; 
+      }             
       if($filterKomponisten!=''){
         $query.=' AND m.KomponistID '.$filterKomponisten. PHP_EOL; 
       }            
@@ -587,8 +609,8 @@ if ("POST" == $_SERVER["REQUEST_METHOD"]) {
       }
     }
     else {
-          echo '<p>Es wurde kein Filter gesetzt. </p>'; 
-  }
+        echo '<p>Es wurde kein Filter gesetzt. </p>'; 
+    }
 
 
   ?>

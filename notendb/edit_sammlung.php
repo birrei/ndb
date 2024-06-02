@@ -106,23 +106,29 @@ if (isset($_POST["option"]) and $_POST["option"]=='edit') {
       <td class="eingabe"><input class="btnSave" type="submit" name="senden" value="Speichern">     
       
     </td>
-    </tr> 
 
+    </tr> 
         <input type="hidden" name="ID" value="' . $sammlung->ID. '">
         <input type="hidden" name="option" value="edit">      
-        </form>
+    </form>
 
         <tr> 
         <td class="eingabe">Musikstücke:
         <p> <a href="edit_musikstueck.php?SammlungID='.$sammlung->ID.'&option=insert" target="_blank">Musikstück hinzufügen</a></p>
        
         </td> 
-        <td class="eingabe"><iframe src="edit_sammlung_list_musikstuecke.php?SammlungID='.$sammlung->ID.'"  width="1000" height="400" name="Besetzungen"></iframe>
+        <td class="eingabe"><iframe src="edit_sammlung_list_musikstuecke.php?SammlungID='.$sammlung->ID.'"  width="100%" height="400" name="Besetzungen"></iframe>
       </td>
       </tr> 
 
+      <tr> 
+      <td class="eingabe">Links:</td> 
+      <td class="eingabe"><iframe src="edit_sammlung_list_links.php?SammlungID='.$sammlung->ID.'"  width="100%" height="200" name="Links"></iframe>
+    </td>
+    </tr> 
 
-  </table> 
+     </table>
+     <p><br></p> 
   '; 
 
 include('foot.php');

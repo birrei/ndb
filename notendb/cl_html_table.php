@@ -13,13 +13,15 @@ class HtmlTable {
         $this->count_rows = count($this->result); 
     }
     
-    function print_table($edit_table_name='', $edit_newpage=false) {
+    function print_table($edit_table_name='', $edit_newpage=false, $edit_link='') {
         /* 
         - $edit_table_name <> '': eine zusätzliche Spalte mit "Bearbeiten-Link" wird angezeigt. 
-          Die zugrundeliegende Abfrage muss eine Spalte "ID" für diese Tabelle enthalten  
-        - edit_newpage=true: dem Bearbeitungs-Link wird ein target="_blank" hinzugefügt
+            Der Bearbeiten- Link wird dann folgender Systematik ausgegeben: edit_<$edit_table_name>.php 
+        - $edit_newpage=true: dem Bearbeitungs-Link wird ein target="_blank" hinzugefügt
+        - $edit_link <> '': Alternative für $edit_table_name (edit_table_name muss dann leer sein). 
+            Verwendung für die Fälle, in denen  die Sysstematik per $edit_table_name nicht geeignet ist.
+            für Tabellen-Anzeigen in iframes und mind. 1 mitgelieferten Basis-Parameter (Beispiel: edit_sammlung_list_links.php) 
         */ 
-        
         $html = '';
 
         if ($this->count_cols > 0 & $this->count_rows > 0)
@@ -57,7 +59,11 @@ class HtmlTable {
                     }
                     if ($edit_table_name!='') {
                         $html .= '<td><a href="edit_'.$edit_table_name.'.php?ID='.$row["ID"].'"'. ($edit_newpage?' target="_blank"':''). '>Bearbeiten</a></td>'. PHP_EOL;                     
-                    }                 
+                    } 
+                    elseif   ($edit_link!='') {
+                        $html .= '<td><a href="'.$edit_link.'&ID='.$row["ID"].'"'. ($edit_newpage?' target="_blank"':''). '>Bearbeiten</a></td>'. PHP_EOL;                     
+                    }  
+                    
                     $html .= '</tr>'. PHP_EOL;
                 } 
             }

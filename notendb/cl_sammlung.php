@@ -224,6 +224,40 @@ class Sammlung {
       $info->print_error($stmt, $e); 
     }
   }  
+
+  function print_table_links(){
+
+    $query="select link.ID
+          , linktype.Name as Link_Typ
+          , link.Bezeichnung
+          , link.URL
+        from link left join linktype 
+          on link.LinktypeID = linktype.ID 
+          where link.SammlungID= :ID
+      "; 
+                      
+    include_once("cl_db.php");
+    $conn = new DbConn(); 
+    $db=$conn->db; 
+
+    $stmt = $db->prepare($query); 
+    $stmt->bindParam(':ID', $this->ID, PDO::PARAM_INT); 
+      
+    try {
+      $stmt->execute(); 
+      include_once("cl_html_table.php");      
+      $html = new HtmlTable($stmt); 
+      // $html->print_table('link', true); 
+      $html->print_table('', false, 'edit_sammlung_add_link.php?option=edit&SammlungID='.$this->ID); 
+      
+    }
+    catch (PDOException $e) {
+      include_once("cl_html_info.php"); 
+      $info = new HtmlInfo();      
+      $info->print_user_error(); 
+      $info->print_error($stmt, $e); 
+    }
+  }  
 }
 
  

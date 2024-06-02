@@ -41,7 +41,7 @@ echo '
   <tr>    
     <label>
     <td class="eingabe">Name:</td>  
-    <td class="eingabe"><input type="text" name="Name" value="'.$besetzung->Name.'" size="100" maxlength="80" required="required" autofocus="autofocus"></td>
+    <td class="eingabe"><input type="text" name="Name" value="'.$besetzung->Name.'" size="120" required="required"></td>
     </label>
   </tr> 
 

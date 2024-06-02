@@ -1,4 +1,6 @@
 
+
+
 /*
 Ein Musikstück (inklusive Sätze) inneralb einer Sammlung duplizieren 
 */ 
@@ -62,9 +64,8 @@ insert into satz
 , BesonderheitID
 
 )
-
 select 
-    209 as MusikstueckID
+     MusikstueckID
     , Name
     , Tonart
     , Taktart
@@ -78,7 +79,12 @@ select
     , SchwierigkeitsgradID
     , BesonderheitID
 from satz 
-where 
+where ID =386
+
+
+
+
+
     MusikstueckID=207
 
 

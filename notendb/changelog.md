@@ -1,8 +1,11 @@
 ﻿
 # in Arbeit 
 
-* Hilfe: How To: Einrichtung neue Besonderheit 
-* Script / Funktion: Eine Besondeheit inklusive Verknüpfungen wieder löschen 
+* Links zur Sammlung 
+
+* Hilfe: How To: Einrichtung neue Besonderheit - Kategorie
+* Script / Funktion: Eine Besonderheit-Kategorie inklusive Verknüpfungen wieder löschen 
+* Tabelle lookup_type Feld type_key muss eindeutig sein (unique constraint anlegen)
 
 ---------------
 
