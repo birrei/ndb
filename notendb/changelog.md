@@ -6,16 +6,16 @@
 * Hilfe: How To: Einrichtung neue Besonderheit - Kategorie
 * Script / Funktion: Eine Besonderheit-Kategorie inklusive Verknüpfungen wieder löschen 
 * Tabelle lookup_type Feld type_key muss eindeutig sein (unique constraint anlegen)
+* Links zur Sammlung (Digitale Exemplare, Links zu Bestellung)
 
 ---------------
 
 # In Planung: 
   * Sammlung (einfach-) Zuordnung "Info Aufführungsmaterial"  
-  * Links zur Sammlung (Digitale Exemplare, Links zu Bestellung)
   * Gespeicherte Suchen ! 
   * Darstellung der Besonderheiten in Abfrage-Ergebnissen verbessern (Typ Name im Feld nur 1 x anzeigen)
   * Schwierigkeitsgrad Mehrfachzuordnung!, Zuweisung an Stimme / Orchester 
-  * Beim SChließend des Formulars Speichern 
+  * Beim SChließen des Formulars Speichern 
   * Links zum Navigieren von Satz > Musikstück > Sammlung 
   * Verknüpfung zwischen Sammlungen festlegen 
   * Musikstück Aufführungsjahre - Auswahlfeld 

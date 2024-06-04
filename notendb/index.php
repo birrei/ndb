@@ -120,13 +120,7 @@ include('head.php');
 
 <pre>
  
-Umsetzung Stand 30.05.2024: 
-- Überarbeitung Suche-Seite Layout (Auswahl-Felder jetzt am linken Rand) 
-- Name- und Bemerkung- Felder vergrößert (Sammlung, Satz, Musikstück) 
-- Kategorisierung Besonderheiten (eigene Kategorien können angelegt werden)
-- Textsuche erfasst auch "Besetzung"-Texte
-- Startseite, Sammlung, "Daten anzeigen": wird jetzt nach ID abwärts sortiert (die zuletzt angelegte Sammlung steht oben)
-   
+
 </pre>
 
 <?php 

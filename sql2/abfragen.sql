@@ -1,15 +1,3 @@
-SELECT CONCAT('DROP VIEW IF EXISTS ', TABLE_NAME, ';') as cmd  
-FROM information_schema.TABLES 
-WHERE TABLE_TYPE LIKE 'VIEW'; 
-
-select * 
-from INFORMATION_SCHEMA.KEY_COLUMN_USAGE
-where 1=1
--- and table_schema='test'
-and table_name='musikstueck'
-
-/* Spalten einer Tabelle anzeigen */ 
-SHOW COLUMNS FROM test.satz; 
 
 /* Musiksstücke und Verwendungszwecke  */
 select m.ID as MusikstueckID
