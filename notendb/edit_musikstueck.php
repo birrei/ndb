@@ -172,7 +172,7 @@ echo  '</td>
     <td class="eingabe">Sätze:
     <br><a href="edit_satz.php?MusikstueckID='.$musikstueck->ID.'&option=insert&title=Satz" target="_blank">Satz hinzufügen</a></p>
     </td> 
-    <td class="eingabe"><iframe src="edit_musikstueck_list_saetze.php?MusikstueckID='.$musikstueck->ID.'" width="1100" height="400" name="Saetze"></iframe>
+    <td class="eingabe"><iframe src="edit_musikstueck_list_saetze.php?MusikstueckID='.$musikstueck->ID.'" width="100%" height="400" name="Saetze"></iframe>
   </td>
   </tr> 
                

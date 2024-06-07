@@ -123,7 +123,7 @@ if (isset($_POST["option"]) and $_POST["option"]=='edit') {
 
       <tr> 
       <td class="eingabe">Links:</td> 
-      <td class="eingabe"><iframe src="edit_sammlung_list_links.php?SammlungID='.$sammlung->ID.'"  width="100%" height="200" name="Links"></iframe>
+      <td class="eingabe"><iframe src="edit_sammlung_list_links.php?SammlungID='.$sammlung->ID.'" width="100%" height="200" name="Links"></iframe>
     </td>
     </tr> 
 
