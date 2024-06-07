@@ -19,9 +19,9 @@ select
     , musikstueck.ID 
    FROM 
     sammlung 
+    INNER JOIN musikstueck on  musikstueck.SammlungID = sammlung.ID     
     LEFT join verlag on sammlung.VerlagID = verlag.ID  
     LEFT JOIN standort on sammlung.StandortID = standort.ID 
-    LEFT JOIN musikstueck on  musikstueck.SammlungID = sammlung.ID 
     LEFT join v_komponist as komponist on musikstueck.KomponistID = komponist.ID 
     LEFT JOIN gattung on gattung.ID = musikstueck.GattungID 
     LEFT JOIN epoche on epoche.ID = musikstueck.EpocheID     
