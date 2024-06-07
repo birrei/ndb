@@ -110,6 +110,7 @@ if (isset($_POST["option"]) and $_POST["option"]=='edit') {
     </tr> 
         <input type="hidden" name="ID" value="' . $sammlung->ID. '">
         <input type="hidden" name="option" value="edit">      
+        <input type="hidden" name="title" value="Sammlung"> 
     </form>
 
         <tr> 

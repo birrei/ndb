@@ -54,7 +54,8 @@ echo '
   </tr> 
 
 </table> 
-<input type="hidden" name="option" value="edit">        
+<input type="hidden" name="option" value="edit">
+<input type="hidden" name="title" value="Notenwert">         
 <input type="hidden" name="ID" value="' . $notenwert->ID. '">
 
 </form>

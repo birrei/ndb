@@ -599,7 +599,7 @@ if ("POST" == $_SERVER["REQUEST_METHOD"]) {
         $select->execute(); 
         include_once("cl_html_table.php");      
         $html = new HtmlTable($select); 
-        $html->print_table($edit_table, True); 
+        $html->print_table($edit_table, True, '', $Ebene); 
       }
       catch (PDOException $e) {
         include_once("cl_html_info.php"); 

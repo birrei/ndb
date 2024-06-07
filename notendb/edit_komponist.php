@@ -82,6 +82,7 @@ echo '
   <tr> 
     <td class="eingabe"></td> 
     <input type="hidden" name="option" value="edit">      
+    <input type="hidden" name="title" value="Komponist"> 
     <td class="eingabe"><input type="submit" name="senden" value="Speichern">  
     </td>
   </tr> 

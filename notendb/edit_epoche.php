@@ -56,7 +56,8 @@ echo '
   </tr> 
 
 </table> 
-<input type="hidden" name="option" value="edit">        
+<input type="hidden" name="option" value="edit"> 
+<input type="hidden" name="title" value="Epoche">          
 <input type="hidden" name="ID" value="' . $epoche->ID. '">
 
 </form>

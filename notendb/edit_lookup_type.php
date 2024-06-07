@@ -67,7 +67,8 @@ echo '
   </tr> 
 
 </table> 
-<input type="hidden" name="option" value="edit">        
+<input type="hidden" name="option" value="edit">     
+<input type="hidden" name="title" value="Besonderheit Typ">    
 <input type="hidden" name="ID" value="' . $lookuptype->ID. '">
 
 </form>

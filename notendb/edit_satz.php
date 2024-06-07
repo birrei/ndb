@@ -178,7 +178,8 @@ echo
   </tr> 
 
   <input type="hidden" name="ID" value="' . $satz->ID . '">
-  <input type="hidden" name="option" value="edit">      
+  <input type="hidden" name="option" value="edit"> 
+  <input type="hidden" name="title" value="Satz">      
 
   </form>
 

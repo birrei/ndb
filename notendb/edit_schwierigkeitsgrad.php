@@ -56,6 +56,7 @@ echo '
 </table> 
 <input type="hidden" name="option" value="edit">        
 <input type="hidden" name="ID" value="' . $schwierigkeitsgrad->ID. '">
+<input type="hidden" name="title" value="Schwierigkeitsgrad"> 
 
 </form>
 '; 

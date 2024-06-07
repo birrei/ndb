@@ -215,7 +215,7 @@ class Sammlung {
       $stmt->execute(); 
       include_once("cl_html_table.php");      
       $html = new HtmlTable($stmt); 
-      $html->print_table('musikstueck', true); 
+      $html->print_table('musikstueck', true, '', 'Musikstück'); 
     }
     catch (PDOException $e) {
       include_once("cl_html_info.php"); 
