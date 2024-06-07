@@ -10,4 +10,4 @@ from musikstueck m
     inner join satz sa on sa.MusikstueckID = m.ID 
     left join schwierigkeitsgrad on schwierigkeitsgrad.ID = sa.SchwierigkeitsgradID 
  where schwierigkeitsgrad.ID is NULL
-
+order by sa.ID DESC 

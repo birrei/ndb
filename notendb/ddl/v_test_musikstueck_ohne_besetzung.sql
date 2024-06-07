@@ -7,4 +7,4 @@ inner join musikstueck m on s.ID = m.SammlungID
 left join musikstueck_besetzung mb 
 on m.ID = mb.MusikstueckID 
 where mb.ID is null 
-; 
+order by m.ID DESC 

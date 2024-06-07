@@ -9,3 +9,4 @@ from musikstueck m
     inner join satz sa on sa.MusikstueckID = m.ID 
     left join erprobt on erprobt.ID = sa.ErprobtID 
  where erprobt.ID is NULL
+order by sa.ID DESC 

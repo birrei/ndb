@@ -4,3 +4,4 @@ select s.ID, s.Name
 from sammlung s 
 left join verlag v on s.VerlagID = v.ID
 where v.ID is null 
+order by s.ID DESC 

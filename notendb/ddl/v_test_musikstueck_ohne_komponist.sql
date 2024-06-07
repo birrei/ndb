@@ -6,3 +6,4 @@ left join musikstueck m on s.ID = m.SammlungID
 left join komponist k 
 on m.KomponistID = k.ID
 where k.ID is null 
+order by m.ID DESC 

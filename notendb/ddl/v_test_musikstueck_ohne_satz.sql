@@ -6,4 +6,5 @@ inner join  sammlung s on s.ID = m.SammlungID
 left join satz sa on sa.MusikstueckID = m.ID 
 where sa.ID is null 
 and m.ID is not nULL 
+order by m.ID DESC 
 

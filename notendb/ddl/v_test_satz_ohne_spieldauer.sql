@@ -10,3 +10,4 @@
     inner join  sammlung s on s.ID = m.SammlungID 
     inner join satz sa on sa.MusikstueckID = m.ID 
  where sa.Spieldauer is NULL
+ order by sa.ID DESC 
