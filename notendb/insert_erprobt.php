@@ -17,6 +17,7 @@ include('head.php');
   </tr>
 </table> 
 <input type="hidden" name="option" value="insert">
+<input type="hidden" name="title" value="Erprobt"> 
 </form>
 <hr />
 <?php

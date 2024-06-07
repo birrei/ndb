@@ -17,6 +17,7 @@ include('head.php');
   </tr>
 </table> 
 <input type="hidden" name="option" value="insert">
+<input type="hidden" name="title" value="Schwierigkeitsgrad"> 
 </form>
 <hr />
 <?php

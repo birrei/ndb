@@ -1,62 +1,18 @@
-﻿
-# in Arbeit 
+﻿06.06.2024 - Erweiterten Titel im Registerblatt anzeigen
+Die Register-Beschriftung "Notendatenbank" wird am Anfang durch den Namen der jeweiligen Seite ergänzt. Ergänzung Datei head.php, Ergänzung der Seiten aufrufenden Links. Ergänuzung "insert_"- Dateien um "hidden"-Parameter
 
-* Links zur Sammlung 
+30.05.2024 - Spieldauer:   
+  - Anzeige: Erfassung in Sekunden, Anzeige bei Abfrag-Ergebnissen in "'" / "''" - Notation 
+  - Suche: Eingabe in Minut. / Umrechnung (wie ERfassung) 
 
-* Hilfe: How To: Einrichtung neue Besonderheit - Kategorie
-* Script / Funktion: Eine Besonderheit-Kategorie inklusive Verknüpfungen wieder löschen 
-* Tabelle lookup_type Feld type_key muss eindeutig sein (unique constraint anlegen)
-* Links zur Sammlung (Digitale Exemplare, Links zu Bestellung)
+30.05.2024: 
+- Überarbeitung Suche-Seite Layout (Auswahl-Felder jetzt am linken Rand) 
+- Name- und Bemerkung- Felder vergrößert (Sammlung, Satz, Musikstück) 
+- Kategorisierung Besonderheiten (eigene Kategorien können angelegt werden)
+- Textsuche erfasst auch "Besetzung"-Texte
+- Startseite, Sammlung, "Daten anzeigen": wird jetzt nach ID abwärts sortiert (die zuletzt angelegte Sammlung steht oben)
 
----------------
-
-# In Planung: 
-  * Sammlung (einfach-) Zuordnung "Info Aufführungsmaterial"  
-  * Gespeicherte Suchen ! 
-  * Darstellung der Besonderheiten in Abfrage-Ergebnissen verbessern (Typ Name im Feld nur 1 x anzeigen)
-  * Schwierigkeitsgrad Mehrfachzuordnung!, Zuweisung an Stimme / Orchester 
-  * Beim SChließen des Formulars Speichern 
-  * Links zum Navigieren von Satz > Musikstück > Sammlung 
-  * Verknüpfung zwischen Sammlungen festlegen 
-  * Musikstück Aufführungsjahre - Auswahlfeld 
-  * Seiten-Titel im Register anzeigen 
-  * Wenn nach einem Eintrag aus Mehrfach-Zuordnungen gesucht (gefiltert) wird, erscheint im Abfrageergebnis nur diese Zuordnung (auch dann, wenn es noch andere Zuordnungen gibt)  Demo für AG: Musikstück mit mehreren Besetzungen - Nicht ideal, soll noch geändert werden 
-  * Erfassung Satz 
-    * (vorerst verworfen: Satz > Taktart: Mehrfachauswahl) 
-  * Feld. "Aufführungsmaterial vorhanden"    
-  * Gespeicherte Suchen 
-  * Erfassungsformular: beim Schließen automatisch speichern (geht das?)
-  * Korrektur: Suchfenster, Tabelle Bearbeiten soll auf die angezeigte Tabelle zeigen 
-  * Korrektur: Bearbeiten-Funktion aus Ansicht v_satz funktioniert nicht 
-  * Korrektur: iFrame-Formulare: Reaktion, wenn Speichern ohne Auswahl gedrückt wird 
-     --> Anpassung entspr. Datei edit_satz_list_lookups.php (Prüfung auf leeren parameter) 
-  * Korrektur: für alle edit-Formulare (auch stammdaten-Tabellen) htmlspecialchars() einsetzen 
-  * Klärung intern: autofocus-Funktion bei allen selects so nicht sinnvoll   
-  * Sammlung, Musikstück, Satz: Validierung Eingabewerte
-  * Löschfunktion (im Bearbeiten-Formularen) 
-    * Funktion: Feldinhalte aus anderem Satz des gleichen Musikstücks übernehmen (Checkbox "bekannte Eigenschaft übernehmen"?) 
-  * Handytaugliches Layout 
-  * Such-Seite: weitere Suchfilter nach Erweiterung Auswahltabellen 
-    * Satz: Tonart, Taktart, Tempobezeichnung, Lagen 
-  * Suche: Validierung von manuell eingegeben Such-Parametern (z.B: SpieldauerBis > SpieldauerBis ect.)
-  * Such-Seite: Ergebnistabelle nach einzelnen Spalten sortierbar 
-  * Suchseite: Optimierung per AJAX ?
-  * Suchformular mit GET-Parametern (so könnten Such-Links gespeichert werden)
-    * oder: gespeicherte Suche (Abfragen mit Namen / SQL abspeichern) 
-  * Warnung, wenn Datensatz nicht gespeichert ist 
-  * Links zum navigieren von Satz -> Musikstück -> Sammlung
-  * Tabelle über Tabellen-Spalten- Links sortieren (Javascript)
-  * Datenblatt für eine Sammlung 
-  * Hilfe-Seite 
-  * Musikstück löschen, Satz löschen
-  * Eingabefelder maxlength prüfen -> soll db Feldlänge entsprechen 
-  * Eingabefelder autofocus prüfen 
-
-
-# Tester 
- * Musikstück mit mehreren Sätzen: ID 72  
-
------
+--------------------------------
 
 
 # Erledigt 
@@ -282,13 +238,71 @@ umgesetzt: Spieldauer Erfassungswert in Sekunden ändern
   * Dataclearing: Update Minutenwerte auf Sekunden  
 
 -----------------
-Umsetzung Stand 30.05.2024: 
-- Überarbeitung Suche-Seite Layout (Auswahl-Felder jetzt am linken Rand) 
-- Name- und Bemerkung- Felder vergrößert (Sammlung, Satz, Musikstück) 
-- Kategorisierung Besonderheiten (eigene Kategorien können angelegt werden)
-- Textsuche erfasst auch "Besetzung"-Texte
-- Startseite, Sammlung, "Daten anzeigen": wird jetzt nach ID abwärts sortiert (die zuletzt angelegte Sammlung steht oben)
 
-30.05.2024 - Spieldauer:   
-   Anzeige: Erfassung in Sekunden, Anzeige bei Abfrag-Ergebnissen in "'" / "''" - Notation 
-   Suche: Eingabe in Minut. / Umrechnung (wie ERfassung) 
+
+
+
+
+
+
+---------------
+
+# In Planung: 
+  * Sammlung (einfach-) Zuordnung "Info Aufführungsmaterial"  
+  * Gespeicherte Suchen ! 
+  * Darstellung der Besonderheiten in Abfrage-Ergebnissen verbessern (Typ Name im Feld nur 1 x anzeigen)
+  * Schwierigkeitsgrad Mehrfachzuordnung!, Zuweisung an Stimme / Orchester 
+
+  * Links zum Navigieren von Satz > Musikstück > Sammlung 
+  * Verknüpfung zwischen Sammlungen festlegen 
+  * Musikstück Aufführungsjahre - Auswahlfeld 
+
+  * Wenn nach einem Eintrag aus Mehrfach-Zuordnungen gesucht (gefiltert) wird, erscheint im Abfrageergebnis nur diese Zuordnung (auch dann, wenn es noch andere Zuordnungen gibt)  Demo für AG: Musikstück mit mehreren Besetzungen - Nicht ideal, soll noch geändert werden 
+  * Erfassung Satz 
+    * (vorerst verworfen: Satz > Taktart: Mehrfachauswahl) 
+  * Feld. "Aufführungsmaterial vorhanden"    
+  * Gespeicherte Suchen 
+  * Erfassungsformular: beim Schließen automatisch speichern (geht das?)
+  * Korrektur: Suchfenster, Tabelle Bearbeiten soll auf die angezeigte Tabelle zeigen 
+  * Korrektur: Bearbeiten-Funktion aus Ansicht v_satz funktioniert nicht 
+  * Korrektur: iFrame-Formulare: Reaktion, wenn Speichern ohne Auswahl gedrückt wird 
+     --> Anpassung entspr. Datei edit_satz_list_lookups.php (Prüfung auf leeren parameter) 
+  * Korrektur: für alle edit-Formulare (auch stammdaten-Tabellen) htmlspecialchars() einsetzen 
+  * Klärung intern: autofocus-Funktion bei allen selects so nicht sinnvoll   
+  * Sammlung, Musikstück, Satz: Validierung Eingabewerte
+  * Löschfunktion (im Bearbeiten-Formularen) 
+    * Funktion: Feldinhalte aus anderem Satz des gleichen Musikstücks übernehmen (Checkbox "bekannte Eigenschaft übernehmen"?) 
+  * Handytaugliches Layout 
+  * Such-Seite: weitere Suchfilter nach Erweiterung Auswahltabellen 
+    * Satz: Tonart, Taktart, Tempobezeichnung, Lagen 
+  * Suche: Validierung von manuell eingegeben Such-Parametern (z.B: SpieldauerBis > SpieldauerBis ect.)
+  * Such-Seite: Ergebnistabelle nach einzelnen Spalten sortierbar 
+  * Suchseite: Optimierung per AJAX ?
+  * Suchformular mit GET-Parametern (so könnten Such-Links gespeichert werden)
+    * oder: gespeicherte Suche (Abfragen mit Namen / SQL abspeichern) 
+  * Warnung, wenn Datensatz nicht gespeichert ist 
+  * Links zum navigieren von Satz -> Musikstück -> Sammlung
+  * Tabelle über Tabellen-Spalten- Links sortieren (Javascript)
+  * Datenblatt für eine Sammlung 
+  * Hilfe-Seite 
+  * Musikstück löschen, Satz löschen
+  * Eingabefelder maxlength prüfen -> soll db Feldlänge entsprechen 
+  * Eingabefelder autofocus prüfen 
+  * Projektbeschreibung erarbeiten 
+
+
+# Tester 
+ * Musikstück mit mehreren Sätzen: ID 72  
+
+--------------------
+
+# in Arbeit 
+
+* Hilfe: How To: Einrichtung neue Besonderheit - Kategorie
+* Script / Funktion: Eine Besonderheit-Kategorie inklusive Verknüpfungen wieder löschen 
+* Tabelle lookup_type Feld type_key muss eindeutig sein (unique constraint anlegen)
+* Links zur Sammlung (Digitale Exemplare, Links zu Bestellung)
+  * Link Typ pflegen 
+* Beim Schließen des Formulars automatisch Speichern 
+  document.formularname.post();
+  

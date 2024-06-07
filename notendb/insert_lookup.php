@@ -44,6 +44,7 @@ if (isset($_POST["LookupTypeID"])) {
   </tr>
 </table> 
 <input type="hidden" name="option" value="insert">
+<input type="hidden" name="title" value="Besonderheit"> 
 <input type="hidden" name="LookupTypeID" value="<?php echo $LookupTypeID; ?>">  
 </form>
 <hr />

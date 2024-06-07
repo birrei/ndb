@@ -114,7 +114,7 @@ if (isset($_POST["option"]) and $_POST["option"]=='edit') {
 
         <tr> 
         <td class="eingabe">Musikstücke:
-        <p> <a href="edit_musikstueck.php?SammlungID='.$sammlung->ID.'&option=insert" target="_blank">Musikstück hinzufügen</a></p>
+        <p> <a href="edit_musikstueck.php?SammlungID='.$sammlung->ID.'&option=insert&title=Musikstück" target="_blank">Musikstück hinzufügen</a></p>
        
         </td> 
         <td class="eingabe"><iframe src="edit_sammlung_list_musikstuecke.php?SammlungID='.$sammlung->ID.'"  width="100%" height="400" name="Besetzungen"></iframe>

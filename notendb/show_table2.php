@@ -4,6 +4,12 @@ include('head.php');
 $table=$_GET['table'];
 $table_edit=(substr($table,0,2)=='v_'?substr($table,2, strlen($table)-2):$table); // "v_" vorne abschneiden 
 
+
+$edit_title=''; 
+if (isset($_GET['title'])) {
+  $edit_title=$_GET['title']; /* Title Ergänzung für den Bearbeiten-Link  */
+}
+
 $sortcol='';
 if (isset($_GET['sortcol'])) {
     $sortcol=$_GET['sortcol'];
@@ -34,7 +40,7 @@ try {
   include_once("cl_html_table.php");      
   $html = new HtmlTable($select); 
   echo '<h3>Tabelle '.$table.'</h3>'; 
-  $html->print_table($table_edit, true); 
+  $html->print_table($table_edit, true,'', $edit_title); 
 }
 catch (PDOException $e) {
   include_once("cl_html_info.php"); 

@@ -3,15 +3,40 @@
 
  $title_page=''; 
 
-if ( isset($_GET["title"]) ){
-  $title_page=$_GET["title"]; 
+if ( isset($_REQUEST["title"]) ){
+  $title_page=$_REQUEST["title"]; 
 }
-if ( isset($_POST["title"]) ){
-  $title_page=$_POST["title"]; 
+
+if ($title_page=='') 
+{
+  switch(basename($_SERVER['SCRIPT_FILENAME'])) {
+    case 'index.php':
+      $title_page='START'; 
+      break; 
+    case 'admin.php':
+      $title_page='Admin'; 
+      break; 
+    case 'hilfe.php':
+      $title_page='Hilfe'; 
+      break; 
+    case 'suche.php':
+      $title_page='Suche'; 
+      break; 
+    case 'abfragen.php':
+      $title_page='Abfragen'; 
+      break; 
+    case 'list_tables.php':
+      $title_page='Alle Tabellen und Views'; 
+      break; 
+    case 'sqlexec.php':
+      $title_page='SQL Query Box'; 
+      break; 
+
+                                                                                      
+      
+    } 
 }
-if ( isset($_GET["table"]) ){
-  $title_page=$_GET["table"];
-}
+
 $title_complete=($title_page!=''?$title_page.' - '.$title_base:$title_base); 
 
 
