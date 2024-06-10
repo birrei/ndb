@@ -24,7 +24,7 @@ class Standort {
     try {
       $insert->execute(); 
       $this->ID=$db->lastInsertId();
-      $this->Name=$Name;  
+      $this->load_row();  
     }
       catch (PDOException $e) {
       include_once("cl_html_info.php"); 
@@ -102,7 +102,7 @@ class Standort {
 
     try {
       $update->execute(); 
-      $this->Name=$Name;
+      $this->load_row();  
     }
     catch (PDOException $e) {
       include_once("cl_html_info.php"); 

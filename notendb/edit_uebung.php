@@ -18,7 +18,6 @@ if (!isset($_GET["option"]) and isset($_GET["ID"]))  {
 if (isset($_GET["option"]) and $_GET["option"]=='insert') {
   // nach insert geladen   
   $uebung->insert_row($_GET["Name"]); 
-  $uebung->load_row();  
   $info->print_action_info($uebung->ID, 'insert');     
 }
 if (isset($_POST["option"]) and $_POST["option"]=='edit') {

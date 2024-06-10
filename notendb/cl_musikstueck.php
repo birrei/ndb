@@ -42,8 +42,7 @@ class Musikstueck {
     try {
       $insert->execute(); 
       $this->ID = $db->lastInsertId();
-      $this->Nummer=$Nummer; 
-      $this->Name=$Name;  
+      $this->load_row();  
     }
     catch (PDOException $e) {
       include_once("cl_html_info.php"); 
@@ -106,15 +105,7 @@ class Musikstueck {
 
     try {
       $update->execute(); 
-      $this->Nummer =$Nummer ;
-      $this->Name=$Name;
-      $this->SammlungID=$SammlungID;
-      $this->KomponistID=$KomponistID;
-      $this->Opus=$Opus;
-      $this->GattungID=$GattungID;
-      $this->Bearbeiter=$Bearbeiter;
-      $this->EpocheID=$EpocheID;
-      $this->JahrAuffuehrung=$JahrAuffuehrung;
+      $this->load_row();  
     }
     catch (PDOException $e) {
       include_once("cl_html_info.php"); 

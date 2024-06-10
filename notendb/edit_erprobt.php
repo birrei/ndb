@@ -18,7 +18,6 @@ if (!isset($_GET["option"]) and isset($_GET["ID"]))  {
 if (isset($_GET["option"]) and $_GET["option"]=='insert') {
   // nach insert geladen   
   $erprobt->insert_row($_GET["Name"]); 
-  $erprobt->load_row();  
   $info->print_action_info($erprobt->ID, 'insert');     
 }
 if (isset($_POST["option"]) and $_POST["option"]=='edit') {

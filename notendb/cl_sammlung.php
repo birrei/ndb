@@ -18,7 +18,6 @@ class Sammlung {
   }
 
 
-/***** Neue Zeile einfügen ***************/   
   function insert_row($Name) {         
     include_once("cl_db.php");
 
@@ -29,14 +28,11 @@ class Sammlung {
                           `Name`     = :Name");
 
     $insert->bindValue(':Name', $Name);
-    // $insert->bindValue(':VerlagID', $VerlagID);
 
     try {
       $insert->execute(); 
       $this->ID = $db->lastInsertId();
-      $this->Name=$Name; 
-      // $this->VerlagID=$VerlagID;  
-
+      $this->load_row();  
     }
       catch (PDOException $e) {
       include_once("cl_html_info.php"); 
@@ -107,11 +103,7 @@ class Sammlung {
 
       try {
         $update->execute(); 
-        $this->Name=$Name;
-        $this->VerlagID=$VerlagID;
-        $this->StandortID=$StandortID;
-        $this->Bestellnummer=$Bestellnummer;
-        $this->Bemerkung=$Bemerkung;
+        $this->load_row();  
       }
       catch (PDOException $e) {
         include_once("cl_html_info.php"); 

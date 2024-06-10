@@ -19,8 +19,7 @@ if (!isset($_GET["option"]) and isset($_GET["ID"]))  {
 if (isset($_GET["option"]) and $_GET["option"]=='insert') {
   // über insert_lookup  
   $lookup->LookupTypeID= $_GET["LookupTypeID"]; 
-  $lookup->insert_row($_GET["Name"]); 
-  $lookup->load_row();  
+  $lookup->insert_row($_GET["Name"]);  
   $info->print_action_info($lookup->ID, 'insert');     
 }
 if (isset($_POST["option"]) and $_POST["option"]=='edit') {

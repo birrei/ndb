@@ -38,8 +38,6 @@ if (isset($_POST["LookupTypeID"])) {
           if ($LookupTypeID!='') {
             $lookup->print_select2($LookupTypeID, 'satz', $_GET["SatzID"]); 
           }
-          // $lookup->print_select('',  $_GET["SatzID"]); 
-      
     ?>
    </label>    
   </td>

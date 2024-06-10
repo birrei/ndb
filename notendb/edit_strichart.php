@@ -18,7 +18,6 @@ if (!isset($_GET["option"]) and isset($_GET["ID"]))  {
 if (isset($_GET["option"]) and $_GET["option"]=='insert') {
   // nach insert geladen   
   $strichart->insert_row($_GET["Name"]); 
-  $strichart->load_row();  
   $info->print_action_info($strichart->ID, 'insert');     
 }
 if (isset($_POST["option"]) and $_POST["option"]=='edit') {

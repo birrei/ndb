@@ -32,8 +32,7 @@ class Komponist {
     try {
       $insert->execute(); 
       $this->ID=$db->lastInsertId();
-      $this->Vorname=$Vorname;
-      $this->Nachname=$Nachname;
+      $this->load_row();  
     }
     catch (PDOException $e) {
       include_once("cl_html_info.php"); 
@@ -98,12 +97,7 @@ class Komponist {
 
     try {
       $update->execute(); 
-      $this->Vorname=$Vorname;
-      $this->Nachname=$Nachname;
-      $this->Geburtsjahr=$Geburtsjahr;
-      $this->Sterbejahr=$Sterbejahr;
-      $this->Bemerkung=$Bemerkung;
-
+      $this->load_row();  
     }
     catch (PDOException $e) {
       include_once("cl_html_info.php"); 

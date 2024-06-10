@@ -41,8 +41,7 @@ class Satz {
     try {
       $insert->execute(); 
       $this->ID = $db->lastInsertId();
-      $this->Nr=$Nr; 
-      $this->Name=$Name;  
+      $this->load_row();   
     }
     catch (PDOException $e) {
       include_once("cl_html_info.php"); 
@@ -101,18 +100,7 @@ class Satz {
 
     try {
       $update->execute(); 
-      $this->Name=$Name;
-      $this->Nr=$Nr;
-      $this->MusikstueckID=$MusikstueckID;
-      $this->Tonart=$Tonart;
-      $this->Taktart=$Taktart;
-      $this->Tempobezeichnung=$Tempobezeichnung;
-      $this->Spieldauer=$Spieldauer;
-      $this->SchwierigkeitsgradID=$SchwierigkeitsgradID;
-      $this->Lagen=$Lagen;
-      $this->ErprobtID=$ErprobtID;
-      $this->Bemerkung=$Bemerkung;
-
+      $this->load_row();  
     }
     catch (PDOException $e) {
       include_once("cl_html_info.php"); 
