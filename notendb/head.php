@@ -11,7 +11,7 @@ if ($title_page=='')
 {
   switch(basename($_SERVER['SCRIPT_FILENAME'])) {
     case 'index.php':
-      $title_page='START'; 
+      $title_page='Start'; 
       break; 
     case 'admin.php':
       $title_page='Admin'; 
@@ -26,14 +26,15 @@ if ($title_page=='')
       $title_page='Abfragen'; 
       break; 
     case 'list_tables.php':
-      $title_page='Alle Tabellen und Views'; 
+      $title_page='Objekte'; 
       break; 
     case 'sqlexec.php':
       $title_page='SQL Query Box'; 
-      break; 
-
-                                                                                      
-      
+      break;                                                                                       
+    case 'test.php':
+      $title_page='Test'; 
+      break;                                                                                       
+              
     } 
 }
 
@@ -51,11 +52,22 @@ $title_complete=($title_page!=''?$title_page.' - '.$title_base:$title_base);
   <meta http-equiv="expires" content="0" />
   <meta http-equiv="cache-control" content="no-cache" />
   <meta http-equiv="pragma" content="no-cache">  
-  <script src="js_zeitumrechnung.js"></script>
+  <script src="javascript.js"></script>
   <link rel="icon" type="image/vnd.icon" href="favicon.ico" />
     <title><?php echo $title_complete;  ?></title>
     <link rel='stylesheet' type='text/css' href='style.css'/>
 </head>
-<body>
+
+<?php 
+// if (basename($_SERVER['SCRIPT_FILENAME'])=='test.php') {
+//   echo '<body onbeforeunload="submitForm()">'; 
+// }
+// else{
+//   echo '<body>'; 
+// }
+
+?>
+
+
 <?php 
 ?> 

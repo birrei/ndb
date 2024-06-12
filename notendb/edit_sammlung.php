@@ -49,7 +49,7 @@ if (isset($_POST["option"]) and $_POST["option"]=='edit') {
     <tr>    
       <label>
       <td class="eingabe">Name:</td>  
-      <td class="eingabe"><input type="text" name="Name" value="'.htmlentities($sammlung->Name).'" size="100" maxlength="100" required="required" autofocus="autofocus"> (max. 100 Zeichen)</td>
+      <td class="eingabe"><input type="text" name="Name" value="'.htmlentities($sammlung->Name).'" size="100" maxlength="100" required="required" autofocus="autofocus" oninput="changeBackgroundColor(this)"> (max. 100 Zeichen)</td>
       </label>
     </tr> 
     
@@ -87,7 +87,7 @@ if (isset($_POST["option"]) and $_POST["option"]=='edit') {
     <tr>    
       <label>
       <td class="eingabe">Bestellnummer:</td>  
-      <td class="eingabe"><input type="text" name="Bestellnummer" value="'.$sammlung->Bestellnummer.'" size="45"></td>
+      <td class="eingabe"><input type="text" name="Bestellnummer" value="'.$sammlung->Bestellnummer.'" size="45" oninput="changeBackgroundColor(this)"></td>
       </label>
     </tr> 
 
@@ -95,7 +95,7 @@ if (isset($_POST["option"]) and $_POST["option"]=='edit') {
       <label>
       <td class="eingabe">Bemerkung:</td>  
       <td class="eingabe">
-      <textarea name="Bemerkung" rows=7 cols=120 maxlength="1000">'.htmlentities($sammlung->Bemerkung).'</textarea> (max. 1000 Zeichen)
+      <textarea name="Bemerkung" rows=7 cols=120 maxlength="1000" oninput="changeBackgroundColor(this)">'.htmlentities($sammlung->Bemerkung).'</textarea> (max. 1000 Zeichen)
       </td>
       </label>
     </tr> 

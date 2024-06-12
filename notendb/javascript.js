@@ -21,3 +21,9 @@ function getSeconds(txt_min) {
   }
   return sec;  
 }
+
+function changeBackgroundColor(element) {  
+  // element.style.backgroundColor="#E4FF00"; // hellgrüngelb 
+  element.style.backgroundColor="#fad0e0"; 
+
+}  

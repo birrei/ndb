@@ -77,14 +77,14 @@ echo
 <tr>    
   <label>
   <td class="eingabe">Nr:</td>  
-  <td class="eingabe"><input type="text" name="Nr" value="'.$satz->Nr.'" size="45" maxlength="80"  autofocus="autofocus" required></td>
+  <td class="eingabe"><input type="text" name="Nr" value="'.$satz->Nr.'" size="45" maxlength="80"  autofocus="autofocus" required oninput="changeBackgroundColor(this)"></td>
   </label>
 </tr> 
 
   <tr>    
     <label>
     <td class="eingabe">Name:</td>  
-    <td class="eingabe"><input type="text" name="Name" value="'.htmlentities($satz->Name).'" size="100" maxlength="100"> (max. 100 Zeichen)</td>
+    <td class="eingabe"><input type="text" name="Name" value="'.htmlentities($satz->Name).'" size="100" maxlength="100" oninput="changeBackgroundColor(this)"> (max. 100 Zeichen)</td>
     </label>
   </tr> 
 
@@ -92,21 +92,21 @@ echo
   <tr>    
     <label>
     <td class="eingabe">Tonart:</td>  
-    <td class="eingabe"><input type="text" name="Tonart" value="'.$satz->Tonart.'" size="45" maxlength="80" autofocus="autofocus"></td>
+    <td class="eingabe"><input type="text" name="Tonart" value="'.$satz->Tonart.'" size="45" maxlength="80" oninput="changeBackgroundColor(this)"></td>
     </label>
   </tr> 
 
   <tr>    
     <label>
     <td class="eingabe">Taktart:</td>  
-    <td class="eingabe"><input type="text" name="Taktart" value="'.$satz->Taktart.'" size="45" maxlength="80" autofocus="autofocus"></td>
+    <td class="eingabe"><input type="text" name="Taktart" value="'.$satz->Taktart.'" size="45" maxlength="80" oninput="changeBackgroundColor(this)"></td>
     </label>
   </tr> 
 
   <tr>    
     <label>
     <td class="eingabe">Tempobezeichnung:</td>  
-    <td class="eingabe"><input type="text" name="Tempobezeichnung" value="'.$satz->Tempobezeichnung.'" size="45" maxlength="80" autofocus="autofocus"></td>
+    <td class="eingabe"><input type="text" name="Tempobezeichnung" value="'.$satz->Tempobezeichnung.'" size="45" maxlength="80" oninput="changeBackgroundColor(this)"></td>
     </label>
   </tr> 
 
@@ -115,8 +115,8 @@ echo
     <td class="eingabe">Spieldauer:</td>  
     <td class="eingabe">
     
-    Minuten: <input type="text" id="input_minutes" size="10" oninput="set_seconds();">
-    Sekunden: <input type="text" id="input_seconds" name="Spieldauer" value="'.$satz->Spieldauer.'" size="10" maxlength="80"> 
+    Minuten: <input type="text" id="input_minutes" size="10" oninput="set_seconds();changeBackgroundColor(this)">
+    Sekunden: <input type="text" id="input_seconds" name="Spieldauer" value="'.$satz->Spieldauer.'" size="10" maxlength="80" onchange="changeBackgroundColor(this)"> 
       
       <script type="text/javascript">  
         function set_seconds() {
@@ -157,7 +157,7 @@ echo
   <tr>    
     <label>
     <td class="eingabe">Lagen:</td>  
-    <td class="eingabe"><input type="text" name="Lagen" value="'.$satz->Lagen.'" size="45" maxlength="80" autofocus="autofocus"></td>
+    <td class="eingabe"><input type="text" name="Lagen" value="'.$satz->Lagen.'" size="45" maxlength="80" oninput="changeBackgroundColor(this)"></td>
     </label>
   </tr> 
 
@@ -165,7 +165,7 @@ echo
   <label>
   <td class="eingabe">Bemerkung:</td>  
   <td class="eingabe">
-  <textarea name="Bemerkung" rows=5 cols=100 maxlength="500">'.htmlentities($satz->Bemerkung).'</textarea> (max. 500 Zeichen)
+  <textarea name="Bemerkung" rows=5 cols=100 maxlength="500" oninput="changeBackgroundColor(this)">'.htmlentities($satz->Bemerkung).'</textarea> (max. 500 Zeichen)
   </td>
   </label>
 </tr>

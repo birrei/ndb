@@ -41,7 +41,7 @@ echo '
   <tr>    
     <label>
     <td class="eingabe">Name:</td>  
-    <td class="eingabe"><input type="text" name="Name" value="'.$verwendungszweck->Name.'" size="45" maxlength="80" required="required" autofocus="autofocus"></td>
+    <td class="eingabe"><input type="text" name="Name" value="'.$verwendungszweck->Name.'" size="45" maxlength="80" required="required" autofocus="autofocus" oninput="changeBackgroundColor(this)"></td>
     </label>
   </tr> 
 
@@ -55,7 +55,7 @@ echo '
 
 </table> 
 <input type="hidden" name="option" value="edit">        
-<input type="hidden" name="ID" value="' . $verwendungszweck->ID. '">
+<input type="hidden" name="ID" value="'. $verwendungszweck->ID. '">
 
 </form>
 '; 

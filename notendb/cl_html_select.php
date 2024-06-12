@@ -16,7 +16,7 @@ class HtmlSelect {
     function print_select($keyname, $value_selected='', $add_null_option=true) {
         $html = '';
         if ($this->count_rows > 0) {
-            $html = '<select name="'.$keyname.'" autofocus>' . PHP_EOL;    
+            $html = '<select name="'.$keyname.'" autofocus oninput="changeBackgroundColor(this);">' . PHP_EOL;    
             if($add_null_option) {
                 $html .= '<option value="" '.($value_selected=='' ? 'selected' : ''). '></option>'. PHP_EOL;
             }

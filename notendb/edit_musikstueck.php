@@ -70,14 +70,14 @@ echo '</tr></label>
 <tr>    
 <label>
 <td class="eingabe">Nummer:</td>  
-<td class="eingabe"><input type="text" name="Nummer" value="'.$musikstueck->Nummer.'" size="30" autofocus="autofocus"></td>
+<td class="eingabe"><input type="text" name="Nummer" value="'.$musikstueck->Nummer.'" size="30" autofocus="autofocus" oninput="changeBackgroundColor(this)"></td>
 </label>
 </tr> 
 
 <tr>    
   <label>
   <td class="eingabe">Name:</td>  
-  <td class="eingabe"><input type="text" name="Name" value="'.htmlentities($musikstueck->Name).'" size="100" maxlength="100" required="required"> (max. 100 Zeichen)</td>
+  <td class="eingabe"><input type="text" name="Name" value="'.htmlentities($musikstueck->Name).'" size="100" maxlength="100" required="required" oninput="changeBackgroundColor(this)"> (max. 100 Zeichen)</td>
   </label>
 </tr> 
 
@@ -97,14 +97,14 @@ echo  '</td>
 <tr>    
   <label>
   <td class="eingabe">Opus:</td>  
-  <td class="eingabe"><input type="text" name="Opus" value="'.$musikstueck->Opus.'" size="45" maxlength="80" autofocus="autofocus"></td>
+  <td class="eingabe"><input type="text" name="Opus" value="'.$musikstueck->Opus.'" size="45" maxlength="80" oninput="changeBackgroundColor(this)"></td>
   </label>
 </tr> 
 
 <tr>    
   <label>
   <td class="eingabe">Bearbeiter:</td>  
-  <td class="eingabe"><input type="text" name="Bearbeiter" value="'.$musikstueck->Bearbeiter.'" size="45" maxlength="80" autofocus="autofocus"></td>
+  <td class="eingabe"><input type="text" name="Bearbeiter" value="'.$musikstueck->Bearbeiter.'" size="45" maxlength="80" oninput="changeBackgroundColor(this)"></td>
   </label>
 </tr> 
 
@@ -139,7 +139,7 @@ echo  '</td>
 <tr>    
 <label>
 <td class="eingabe">Aufführungsjahre:</td>  
-<td class="eingabe"><input type="text" name="JahrAuffuehrung" value="'.$musikstueck->JahrAuffuehrung.'" size="45" maxlength="80" autofocus="autofocus"></td>
+<td class="eingabe"><input type="text" name="JahrAuffuehrung" value="'.$musikstueck->JahrAuffuehrung.'" size="45" maxlength="80" oninput="changeBackgroundColor(this)"></td>
 </label>
 </tr>         
 

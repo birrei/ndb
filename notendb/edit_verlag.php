@@ -40,7 +40,7 @@ echo '
   <tr>    
     <label>
     <td class="eingabe">Name:</td>  
-    <td class="eingabe"><input type="text" name="Name" value="'.$verlag->Name.'" size="45" maxlength="80" required="required" autofocus="autofocus"></td>
+    <td class="eingabe"><input type="text" name="Name" value="'.$verlag->Name.'" size="45" maxlength="80" required="required" autofocus="autofocus" oninput="changeBackgroundColor(this)"></td>
     </label>
   </tr> 
 
@@ -48,7 +48,7 @@ echo '
   <tr>    
     <label>
     <td class="eingabe">Bemerkung:</td>  
-    <td class="eingabe"><input type="text" name="Bemerkung" value="'.$verlag->Bemerkung.'" size="45" maxlength="80" autofocus="autofocus"></td>
+    <td class="eingabe"><input type="text" name="Bemerkung" value="'.$verlag->Bemerkung.'" size="45" maxlength="80"  oninput="changeBackgroundColor(this)"></td>
     </label>
   </tr> 
 

@@ -11,6 +11,7 @@
     Noten-Datenbank 
    </title>
    <link rel='stylesheet' type='text/css' href='style.css'/>
+   <script src="javascript.js"></script>   
 </head>
 <body style="margin: 0px">
 <?php 

@@ -94,14 +94,14 @@ if (isset($_REQUEST["option"])) {
   <tr>    
   <label>
   <td class="eingabe">Bezeichnung:</td>  
-  <td class="eingabe"><input type="text" name="Bezeichnung" value="<?php echo htmlentities($Bezeichnung); ?>" size="100" required="required"></td>
+  <td class="eingabe"><input type="text" name="Bezeichnung" value="<?php echo htmlentities($Bezeichnung); ?>" size="100" required="required" oninput="changeBackgroundColor(this)"></td>
   </label>
   </tr> 
 
   <tr>    
   <label>
   <td class="eingabe">URL:</td>  
-  <td class="eingabe"><input type="text" name="URL" value="<?php echo $URL; ?>" size="150" required="required"></td>
+  <td class="eingabe"><input type="text" name="URL" value="<?php echo $URL; ?>" size="150" required="required" oninput="changeBackgroundColor(this)"></td>
   </label>
   </tr> 
 

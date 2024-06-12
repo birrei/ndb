@@ -47,34 +47,34 @@ echo '
   <tr>    
     <label>
     <td class="eingabe">Vorname:</td>  
-    <td class="eingabe"><input type="text" name="Vorname" value="'.$komponist->Vorname.'" size="45" maxlength="80" autofocus="autofocus"></td>
+    <td class="eingabe"><input type="text" name="Vorname" value="'.$komponist->Vorname.'" size="45" maxlength="80" autofocus="autofocus" oninput="changeBackgroundColor(this)"></td>
     </label>
   </tr> 
 
   <tr>    
     <label>
     <td class="eingabe">Nachname:</td>  
-    <td class="eingabe"><input type="text" name="Nachname" value="'.$komponist->Nachname.'" size="45" maxlength="80" required="required" autofocus="autofocus"></td>
+    <td class="eingabe"><input type="text" name="Nachname" value="'.$komponist->Nachname.'" size="45" maxlength="80" required="required" oninput="changeBackgroundColor(this)"></td>
     </label>
   </tr> 
 
   <tr>    
   <label>
   <td class="eingabe">Geburtsjahr:</td>  
-  <td class="eingabe"><input type="text" name="Geburtsjahr" value="'.$komponist->Geburtsjahr.'" size="10" maxlength="80" autofocus="autofocus"></td>
+  <td class="eingabe"><input type="text" name="Geburtsjahr" value="'.$komponist->Geburtsjahr.'" size="10" maxlength="80" oninput="changeBackgroundColor(this)"></td>
   </label>
 </tr> 
 <tr>    
   <label>
   <td class="eingabe">Sterbejahr:</td>  
-  <td class="eingabe"><input type="text" name="Sterbejahr" value="'.$komponist->Sterbejahr.'" size="10" maxlength="80" autofocus="autofocus"></td>
+  <td class="eingabe"><input type="text" name="Sterbejahr" value="'.$komponist->Sterbejahr.'" size="10" maxlength="80" oninput="changeBackgroundColor(this)"></td>
   </label>
 </tr> 
 
   <tr>    
     <label>
     <td class="eingabe">Bemerkung:</td>  
-    <td class="eingabe"><input type="text" name="Bemerkung" value="'.$komponist->Bemerkung.'" size="80" maxlength="80" autofocus="autofocus"></td>
+    <td class="eingabe"><input type="text" name="Bemerkung" value="'.$komponist->Bemerkung.'" size="80" maxlength="80" oninput="changeBackgroundColor(this)"></td>
     </label>
   </tr> 
 

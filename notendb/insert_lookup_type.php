@@ -14,7 +14,7 @@ include('cl_lookuptype.php');
   <tr>    
     <label>
     <td class="eingabe">Name: </td>  
-    <td class="eingabe"><input type="text" name="Name" size="50" required="required" autofocus="autofocus"></td>
+    <td class="eingabe"><input type="text" name="Name" size="50" required="required" autofocus="autofocus" oninput="changeBackgroundColor(this)"></td>
      </label>
   </tr> 
   <tr> 

@@ -122,6 +122,12 @@ include('head.php');
 <pre>
 
 Neue Updates: 
+
+ * 12.06.2024 - Ungespeicherte Änderungen im Formular werden sichtbar gemacht. 
+ Wenn im Formularfeld eine Eingabe/Änderung erfolgt, wird eine auffällige 
+ Hntergrundfarbe angezeigt. Nach dem Speichern verschwindet die Hintergrundfarbe wieder 
+ (Verworfen: Beim Schließen des Formulars automatisch Speichern). 
+
  * 06.06.2024 - Erweiterten Titel im Registerblatt anzeigen 
 
 </pre>

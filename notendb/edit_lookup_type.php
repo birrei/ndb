@@ -47,14 +47,14 @@ echo '
   <tr>    
     <label>
     <td class="eingabe">Relation:</td>  
-    <td class="eingabe"><input type="text" name="Relation" value="'.$lookuptype->Relation.'" size="45" maxlength="80" required="required"></td>
+    <td class="eingabe"><input type="text" name="Relation" value="'.$lookuptype->Relation.'" size="45" maxlength="80" required="required"> ("sammlung", "musikstueck" oder "satz")</td>
     </label>
   </tr> 
 
   <tr>    
     <label>
     <td class="eingabe">Type Key:</td>  
-    <td class="eingabe"><input type="text" name="type_key" value="'.$lookuptype->type_key.'" size="45" maxlength="80" required="required"></td>
+    <td class="eingabe"><input type="text" name="type_key" value="'.$lookuptype->type_key.'" size="45" maxlength="80" required="required"> (technischer eindeutiger Schlüssel, Begriff frei wählbar XXX)</td>
     </label>
   </tr> 
 

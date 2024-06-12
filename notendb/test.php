@@ -1,29 +1,23 @@
 <?php
 include('head.php'); 
+include("cl_sammlung.php");
+
+$sammlung = new Sammlung();
+
+if (isset($_POST["Name"])) {
+    $sammlung->ID = 1;     
+    $sammlung->update_row($_POST["Name"], 1, 10, '', ''); 
+}
+
+
 ?>
 
+<a href="index.php"> zur Startseite </a>
 
-<p id="test"></p>
-<p id="test2"></p>
-
-   
-Minuten: <input type="text" id="input_minutes" size="10" oninput="set_seconds();">
-    Sekunden: <input type="text" id="input_seconds" name="Spieldauer" value="" size="10" maxlength="80"> 
-      
-      <script type="text/javascript">  
-      function set_seconds() {
-        var txt_min = document.getElementById("input_minutes").value;
-        document.getElementById("test").innerHTML="TEST"; 
-        
-        var sekunden = getSeconds(txt_min);
-
-        document.getElementById("test2").innerHTML= sekunden; 
-       
-        // document.getElementById("input_seconds").value=js_zeitumrechnung.getSeconds(txt_min); // getSeconds() -> javascript.js
-        
-      }
-  </script> 
-
+<form action="test.php" method="post" name="Sammlung">
+<input type="text" name="Name" size="100" maxlength="100" oninput="changeBackgroundColor(this);">
+<input class="btnSave" type="submit" name="senden" value="Speichern">
+</form>
 
 
 <?php 
