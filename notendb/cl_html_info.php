@@ -18,7 +18,7 @@ class HtmlInfo {
         $this->html.=$e->getMessage(); 
         $this->html.='</p>'; 
         // $stmt->debugDumpParams();  // ausgabe-Methode, kein Text 
-        echo $this->html;     
+        // echo $this->html;     // produktiv auskommentieren! 
     }
     
     function print_action_info($ID, $action_name){
