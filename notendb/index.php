@@ -117,21 +117,17 @@ include('head.php');
     <td><a href="show_table2.php?table=lookup_type&sortcol=Name&title=Besonderheit Typ" target="_blank">Daten anzeigen</a></td>
     <td><a href="insert_lookup_type.php?title=Besonderheit Typ" target="_blank">Neu erfassen</a></td>
 </tr>
+<tr>
+    <td><b>Abfragen</b> (BETA) </td>
+    <td><a href="show_table2.php?table=abfrage&sortcol=Name&title=Abfrage" target="_blank">Daten anzeigen</a></td>
+    <td>
+     <a href="insert_abfrage.php?title=Abfrage" target="_blank">Neu erfassen</a>
+    </td>
+</tr>
+
 </table>
 
-<pre>
-
-Neue Updates: 
-
- * 12.06.2024 - Ungespeicherte Änderungen im Formular werden sichtbar gemacht. 
- Wenn im Formularfeld eine Eingabe/Änderung erfolgt, wird eine auffällige 
- Hntergrundfarbe angezeigt. Nach dem Speichern verschwindet die Hintergrundfarbe wieder 
- (Verworfen: Beim Schließen des Formulars automatisch Speichern). 
-
- * 06.06.2024 - Erweiterten Titel im Registerblatt anzeigen 
-
-</pre>
-
+<p> Info zu aktuellen Updates s. <a href="https://github.com/birrei/ndb/blob/main/notendb/changelog.md" target="_blank">Changelog</a>
 <?php 
 include('foot.php');
 ?>

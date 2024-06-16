@@ -1,16 +1,20 @@
-﻿ * 12.06.2024 - Ungespeicherte Änderungen im Formular werden sichtbar gemacht. 
+﻿16.06.2024: Gespeicherte Suchen / Abfragen
+ * Eine Suche mit allen Filtereinstellungen kann durch den Anwender als Abfrage abgespeichert werden. 
+ * Eigene Abfragen können angelegt werden (Bereitstellung Admin -> Anwender, da SQL-Kenntnisse erforderlich)
+ Demo für Anwender folgt.    
+
+12.06.2024: Ungespeicherte Änderungen im Formular werden sichtbar gemacht. 
  Wenn im Formularfeld eine Eingabe/Änderung erfolgt, wird eine auffällige 
  Hntergrundfarbe angezeigt. Nach dem Speichern verschwindet die Hintergrundfarbe wieder 
- (Verworfen: Beim Schließen des Formulars automatisch Speichern). 
+ (Verworfen: Beim Schließen des Formulars automatisch speichern, nicht empfehlenswert). 
 
-10.06.2024 - DataClearing- Script: Die Daten zu einer LookupTypID (Besonderheit Typ ID) sollen aus der Datebank gelöscht werden können (Verknüpfungen und Stammdaten)
+10.06.2024: DataClearing- Script: Die Daten zu einer LookupTypID (Besonderheit Typ ID) sollen aus der Datebank gelöscht werden können (Verknüpfungen und Stammdaten)
 
 10.06.2024 - load_row()-Funktionen als Standart nach insert/update
 Nach  insert/update-Operation sollen im Formular nicht die zuvor aus dem Formular gesendeten, sondern die in der Zeile zu einer ID gespeicherten Werte abgerufen werden (es soll sichtbar werden, falls ein zuvor eingegebener Wert fehlerhaft abgespeichert wurde)
 
 06.06.2024 
   - Erweiterten Titel im Registerblatt anzeigen
-  - Umbenennung tests.php -> abfragen.php 
 
 30.05.2024 - Spieldauer:   
   - Anzeige: Erfassung in Sekunden, Anzeige bei Abfrag-Ergebnissen in "'" / "''" - Notation 

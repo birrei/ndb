@@ -242,7 +242,7 @@ if ("POST" == $_SERVER["REQUEST_METHOD"]) {
   <input type="submit" value="Suchen" class="btnSave">
 
 <input type="button" id="btnReset_All" value="Alle Filter zurücksetzen" onclick="Reset_All();" /> 
-<p></p>
+<p> Abfrage unter folgendem Namen speichern: <input type="text" name="Abfrage" size="100"> </p> 
 <script type="text/javascript">  
           function Reset_All() {  
           for(i=0; i<document.forms[0].elements.length; i++){
@@ -398,7 +398,7 @@ if ("POST" == $_SERVER["REQUEST_METHOD"]) {
   if (isset($_POST['Ebene'])) {
     $Ebene=$_POST["Ebene"]; 
   }
-   
+
 
   if ($filter ) {
     $query=""; 
@@ -589,29 +589,45 @@ if ("POST" == $_SERVER["REQUEST_METHOD"]) {
 
       // echo '<pre>'.$query.'</pre>'; // Test 
 
-      include_once("cl_db.php");
-      $conn = new DbConn(); 
-      $db=$conn->db; 
-      
-      $select = $db->prepare($query); 
-        
-      try {
-        $select->execute(); 
-        include_once("cl_html_table.php");      
-        $html = new HtmlTable($select); 
-        $html->print_table($edit_table, True, '', $Ebene); 
-      }
-      catch (PDOException $e) {
-        include_once("cl_html_info.php"); 
-        $info = new HtmlInfo();      
-        $info->print_user_error(); 
-        $info->print_error($select, $e); 
-      }
-    }
-    else {
-        echo '<p>Es wurde kein Filter gesetzt. </p>'; 
-    }
 
+      if (isset($_POST["Abfrage"])) {
+        // Abfrage speichern, Ergebnis nicht ausgeben 
+        if ($_POST["Abfrage"]!='') {
+          include_once("cl_abfrage.php");
+          $abfrage = new Abfrage();
+          $abfrage->insert_row($_POST["Abfrage"]); 
+          $abfrage->update_row($abfrage->Name,'',$query, $edit_table);
+          echo '<p>Die Suche wurde als Abfrage gespeichert: <br />'; 
+          echo '<a href="show_abfrage.php?ID='.$abfrage->ID.'&title=Abfrage" target="_blank">Abfrage-Ergebnis anzeigen</a>
+              | <a href="edit_abfrage.php?ID='.$abfrage->ID.'&title=Abfrage" target="_blank">Abfrage bearbeiten</a>';
+
+        } else {
+          // Abfrage nicht speichern, Ergebnis ausgeben           
+          include_once("cl_db.php");
+          $conn = new DbConn(); 
+          $db=$conn->db; 
+          
+          $select = $db->prepare($query); 
+            
+          try {
+            $select->execute(); 
+            include_once("cl_html_table.php");      
+            $html = new HtmlTable($select); 
+            $html->print_table($edit_table, True, '', $Ebene); 
+          }
+          catch (PDOException $e) {
+            include_once("cl_html_info.php"); 
+            $info = new HtmlInfo();      
+            $info->print_user_error(); 
+            $info->print_error($select, $e); 
+          }    
+        }
+      }
+    } // Ende if($filter)
+    else {
+      echo '<p>Es wurde kein Filter gesetzt. </p>'; 
+    }
+ 
 
   ?>
 

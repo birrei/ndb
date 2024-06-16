@@ -1,18 +1,19 @@
 ﻿
 # in Arbeit 
 
-* Hilfe: How To: Einrichtung neue Besonderheit - Kategorie
-* Tabelle lookup_type Feld type_key muss eindeutig sein (unique constraint anlegen)
-* Links zur Sammlung (Digitale Exemplare, Links zu Bestellung)
-  * Link Typ pflegen 
-* 
-
+  * Gespeicherte Suchen / Tabelle für Abfragen 
 
 -----------------
 
 # In Planung: 
+  * Hilfe: How To: Einrichtung neue Besonderheit - Kategorie
+  * Tabelle lookup_type Feld type_key muss eindeutig sein (unique constraint anlegen)
+  * Links zur Sammlung (Digitale Exemplare, Links zu Bestellung)
+  * Link Typ insert Bearbeitung  
+  * SAamlung: Musikstück löschen 
+  * Musikstück: Satz löschen 
   * Sammlung (einfach-) Zuordnung "Info Aufführungsmaterial"  
-  * Gespeicherte Suchen ! 
+
   * Darstellung der Besonderheiten in Abfrage-Ergebnissen verbessern 
       (Typ Name im Feld nur 1 x anzeigen)
   * Schwierigkeitsgrad Mehrfachzuordnung!, Zuweisung an Stimme / Orchester 
