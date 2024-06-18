@@ -119,7 +119,7 @@ include('head.php');
 </tr>
 <tr>
     <td><b>Abfragen</b> (BETA) </td>
-    <td><a href="show_table2.php?table=abfrage&sortcol=Name&title=Abfrage" target="_blank">Daten anzeigen</a></td>
+    <td><a href="show_table2.php?table=v_abfrage&sortcol=Name&title=Abfrage&add_link_show" target="_blank">Daten anzeigen</a></td>
     <td>
      <a href="insert_abfrage.php?title=Abfrage" target="_blank">Neu erfassen</a>
     </td>

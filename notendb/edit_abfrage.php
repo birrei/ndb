@@ -34,6 +34,10 @@ if (isset($_POST["option"]) and $_POST["option"]=='edit') {
 }
 
 echo '
+  <p>
+  <a href="show_abfrage.php?ID='.$abfrage->ID.'&title=Abfrage" target="_blank">Abfrage-Ergebnis anzeigen</a>
+</p> 
+
 <form action="edit_abfrage.php" method="post">
 <table class="eingabe" width="100%"> 
   <tr>    
@@ -53,8 +57,7 @@ echo '
     <label>
     <td class="eingabe">Beschreibung:</td>  
     <td class="eingabe">
-    <textarea name="Beschreibung" rows=2 cols=120 maxlength="255" oninput="changeBackgroundColor(this)">'.htmlentities($abfrage->Beschreibung).'</textarea> (max. 250 Zeichen)
-    
+    <textarea name="Beschreibung" rows=2 cols=120 maxlength="255" oninput="changeBackgroundColor(this)">'.htmlentities($abfrage->Beschreibung).'</textarea> (max. 250 Zeichen)  
     </td>
     </label>
   </tr> 
@@ -76,17 +79,10 @@ echo '
   </tr> 
 
 
-  <tr> 
-    <td class="eingabe"></td> 
-    <td class="eingabe"><input type="submit" name="senden" value="Speichern">
-
-    </td>
-  </tr> 
 
   <tr> 
     <td class="eingabe"></td> 
-    <td class="eingabe"><a href="show_abfrage.php?ID='.$abfrage->ID.'&title=Abfrage" target="_blank">Abfrage-Ergebnis anzeigen</a>
-
+    <td class="eingabe"><input type="submit" name="senden" value="Speichern">  
     </td>
   </tr> 
 

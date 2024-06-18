@@ -15,7 +15,8 @@ try {
     $select->execute();   
     $html = new HtmlTable($select); 
     $html->show_table_link=True; 
-    $html->print_table(); 
+    // $html->print_table(); 
+    $html->print_table_tablelist(); 
   }
   catch (PDOException $e) {
     $info = new HtmlInfo();      

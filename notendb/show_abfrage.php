@@ -17,6 +17,8 @@ $show_edit_link=true;
 echo '<h3>'.$abfrage->Name.'</h3>'; 
 echo '<h4>'.$abfrage->Beschreibung.'</h4>';
 
+echo '<p><a href="edit_abfrage.php?ID='.$abfrage->ID.'&title=Abfrage" target="_blank">Abfrage bearbeiten</a></p> '; 
+
 // echo '<pre>'.$query.'</pre>'; 
 
 if ($query!='') {
