@@ -69,6 +69,7 @@ echo
   $musikstueck->ID=$satz->MusikstueckID; 
   $musikstueck->print_select($satz->MusikstueckID); 
   
+  echo ' <a href="edit_musikstueck.php?ID='.$satz->MusikstueckID.'&title=Musikstück">Gehe zu Musikstück</a>'; 
   echo '
   </td>  
   </label>

@@ -1,12 +1,18 @@
-﻿16.06.2024: Gespeicherte Suchen / Abfragen
+﻿18.06.2024: Links zum Navigieren von Satz > Musikstück > Sammlung  
+
+18.06.2024: Suche-Seite: 
+ * Auswahlfelder nach Relevanz anordnen (z.B. "Besetzung" oben, "Verlag" unten)
+ * Anzahl Zeilen in Mehrfach-Auswahlfeldern (im Code) konfigurierbar  
+
+16.06.2024: Gespeicherte Suchen / Abfragen
  * Eine Suche mit allen Filtereinstellungen kann durch den Anwender als Abfrage abgespeichert werden. 
  * Eigene Abfragen können angelegt werden (Bereitstellung Admin -> Anwender, da SQL-Kenntnisse erforderlich)
  Demo für Anwender folgt.    
 
 12.06.2024: Ungespeicherte Änderungen im Formular werden sichtbar gemacht. 
- Wenn im Formularfeld eine Eingabe/Änderung erfolgt, wird eine auffällige 
- Hntergrundfarbe angezeigt. Nach dem Speichern verschwindet die Hintergrundfarbe wieder 
- (Verworfen: Beim Schließen des Formulars automatisch speichern, nicht empfehlenswert). 
+Wenn im Formularfeld eine Eingabe/Änderung erfolgt, wird eine auffällige 
+Hintergrundfarbe angezeigt. Nach dem Speichern verschwindet die Hintergrundfarbe wieder 
+Dagegen (vorerst) verworfen: Beim Schließen des Formulars automatisch speichern, nicht empfehlenswert. 
 
 10.06.2024: DataClearing- Script: Die Daten zu einer LookupTypID (Besonderheit Typ ID) sollen aus der Datebank gelöscht werden können (Verknüpfungen und Stammdaten)
 

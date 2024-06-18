@@ -35,7 +35,7 @@ if (isset($_POST["option"]) and $_POST["option"]=='edit') {
 
 echo '
   <p>
-  <a href="show_abfrage.php?ID='.$abfrage->ID.'&title=Abfrage" target="_blank">Abfrage-Ergebnis anzeigen</a>
+  <a href="show_abfrage.php?ID='.$abfrage->ID.'&title=Abfrage">Abfrage-Ergebnis anzeigen</a>
 </p> 
 
 <form action="edit_abfrage.php" method="post">

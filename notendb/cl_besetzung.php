@@ -90,6 +90,7 @@ class Besetzung {
     try {
       $stmt->execute(); 
       $html = new HtmlSelect($stmt); 
+      $html->visible_rows=15; //
       $html->print_select_multi('Besetzung', 'Besetzungen[]', $options_selected, 'Besetzung(en):'); 
     }
     catch (PDOException $e) {

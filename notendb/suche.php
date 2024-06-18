@@ -115,23 +115,14 @@ if ("POST" == $_SERVER["REQUEST_METHOD"]) {
 }
 ?> 
 <form id="Suche" action="" method="post">
-<table> 
+<table width="100%"> 
 <tr> 
-<td class="selectboxes">
+<td class="selectboxes"  width="25%">
     <!-- Start Spalte 1 -->  
     <?php 
       $standort = new Standort();
       $standort->print_select_multi($Standorte);         
 
-      $verlag = new Verlag();
-      $verlag->print_select_multi($Verlage);      
-
-      $linktyp = new Linktype();
-      $linktyp->print_select_multi($Linktypen);      
-      
-      $komponist = new Komponist();
-      $komponist->print_select_multi($Komponisten);     
-      
       $besetzung = new Besetzung();
       $besetzung->print_select_multi($Besetzungen);       
 
@@ -143,7 +134,10 @@ if ("POST" == $_SERVER["REQUEST_METHOD"]) {
 
       $epochen = new Epoche();
       $epochen->print_select_multi($Epochen);         
-
+     
+      $schierigkeitsgrad = new Schwierigkeitsgrad();
+      $schierigkeitsgrad->print_select_multi($Schierigkeitsgrad);     
+ 
       $erprobt = new Erprobt();
       $erprobt->print_select_multi($Erprobt);      
 
@@ -156,8 +150,16 @@ if ("POST" == $_SERVER["REQUEST_METHOD"]) {
       $uebungen = new Uebung();
       $uebungen->print_select_multi($Uebungen);      
 
-      $schierigkeitsgrad = new Schwierigkeitsgrad();
-      $schierigkeitsgrad->print_select_multi($Schierigkeitsgrad);      
+
+      $verlag = new Verlag();
+      $verlag->print_select_multi($Verlage);      
+
+      $komponist = new Komponist();
+      $komponist->print_select_multi($Komponisten);     
+            
+      $linktyp = new Linktype();
+      $linktyp->print_select_multi($Linktypen);      
+            
         ?>    
 
      <p><b>Spieldauer:</b>
@@ -195,7 +197,7 @@ if ("POST" == $_SERVER["REQUEST_METHOD"]) {
     $lookup=New Lookup(); 
     $lookup->LookupTypeID=$lookuptypes->ArrData[$i]["ID"];
     echo '<p><b>'.$lookuptypes->ArrData[$i]["Name"].':</b><br/>'; /* Auswahl-Box Bezeichnung*/
-    $type_key= $lookuptypes->ArrData[$i]["type_key"];       // $_POST[ $type_key]) = Array enthält die ausgewählten Werte 
+    $type_key= $lookuptypes->ArrData[$i]["type_key"];       // $_POST[ $type_key]) = Array enthält die ausgewählten Werte (IDs) 
     
     if (isset($_POST[$type_key])) {
       $lookup->print_select_multi($lookuptypes->ArrData[$i]["type_key"], $_POST[$type_key]);

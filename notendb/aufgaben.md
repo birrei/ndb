@@ -1,28 +1,35 @@
 ﻿
 # in Arbeit 
 
-  * Gespeicherte Suchen / Tabelle für Abfragen 
+  * Gespeicherte Suchen / Tabelle für Abfragen -> Demo, Einsatz finden, Hilfe-kapitel 
+
+  * Für Abfragen, die über die Suche gespeichert werden: Bezeichnungen der gewählten Filter/Kategorien in die Beschreibung übernehmen 
 
 -----------------
 
 # In Planung: 
+
+  * Plan: die Praxis, dass sich alles in neuem Fenster öffnet, aufgeben.  
+
+  * Sammlung: Musikstück löschen bzw. Musikstück: Satz löschen 
+
   * Hilfe: How To: Einrichtung neue Besonderheit - Kategorie
   * Tabelle lookup_type Feld type_key muss eindeutig sein (unique constraint anlegen)
   * Links zur Sammlung (Digitale Exemplare, Links zu Bestellung)
   * Link Typ insert Bearbeitung  
-  * SAamlung: Musikstück löschen 
-  * Musikstück: Satz löschen 
+
   * Sammlung (einfach-) Zuordnung "Info Aufführungsmaterial"  
 
   * Darstellung der Besonderheiten in Abfrage-Ergebnissen verbessern 
       (Typ Name im Feld nur 1 x anzeigen)
+
   * Schwierigkeitsgrad Mehrfachzuordnung!, Zuweisung an Stimme / Orchester 
 
-  * Links zum Navigieren von Satz > Musikstück > Sammlung 
   * Verknüpfung zwischen Sammlungen festlegen 
   * Musikstück Aufführungsjahre - Auswahlfeld 
 
-  * Wenn nach einem Eintrag aus Mehrfach-Zuordnungen gesucht (gefiltert) wird, erscheint im Abfrageergebnis nur diese Zuordnung (auch dann, wenn es noch andere Zuordnungen gibt)  Demo für AG: Musikstück mit mehreren Besetzungen - Nicht ideal, soll noch geändert werden 
+  * Wenn nach einem Eintrag aus Mehrfach-Zuordnungen gesucht (gefiltert) wird, erscheint im Abfrageergebnis nur diese Zuordnung (auch dann, wenn es noch andere Zuordnungen gibt)  Demo für AG: Musikstück mit mehreren Besetzungen - Nicht ideal, sollte wenn möglich noch geändert werden 
+
   * Erfassung Satz 
     * (vorerst verworfen: Satz > Taktart: Mehrfachauswahl) 
   * Feld. "Aufführungsmaterial vorhanden"    
@@ -55,4 +62,5 @@
   * Eingabefelder autofocus prüfen 
   * Projektbeschreibung erarbeiten 
   * Feld "Opus" -> ändern in "Werkverzeichnis" (zumindest im Formular)
+  * Stricharten übernehmen zu Besonderheiten? 
 

@@ -64,9 +64,8 @@ echo '
 $sammlung = new Sammlung();
 $sammlung->print_select($musikstueck->SammlungID); 
 
+echo ' <a href="edit_sammlung.php?ID='.$musikstueck->SammlungID.'&title=Sammlung">Gehe zu Sammlung</a>'; 
 echo '</tr></label>
-
-
 <tr>    
 <label>
 <td class="eingabe">Nummer:</td>  

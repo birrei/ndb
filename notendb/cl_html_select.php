@@ -4,13 +4,21 @@ class HtmlSelect {
     public $result; 
     public $count_cols; 
     public $count_rows; 
-    
+
+    // config. multi-select 
+    protected $visible_rows_default=5; // Zeilen Standard
+    public $visible_rows; 
+
     function __construct($stmt) {
         $this->stmt = $stmt; 
         $this->result = $stmt->fetchAll(PDO::FETCH_KEY_PAIR);
         $this->count_cols=$stmt->columnCount(); 
         $this->count_rows = count($this->result); 
-        // echo '<p>Anzahl Zeilen: '.$this->count_rows; 
+
+        $this->visible_rows=$this->visible_rows_default;         
+        if ($this->count_rows < $this->visible_rows ) {
+            $this->visible_rows = $this->count_rows; 
+        }
     }
    
     function print_select($keyname, $value_selected='', $add_null_option=true) {
@@ -30,13 +38,11 @@ class HtmlSelect {
 
     function print_select_multi($id, $keyname, $options_selected=[], $caption='') {
         $html = '';
-        // $row_count=sizeof($this->stmt); 
         if ($caption!='') {
             $html.='<p><b>'.$caption.'</b><br/>'. PHP_EOL;
         }
         if ($this->count_rows > 0) {
-            // $html = '<select id="'.$id.'" name="'.$keyname.'" multiple size="'.$this->count_rows.'">' . PHP_EOL;  
-            $html.='<select multiple id="'.$id.'" name="'.$keyname.'" size="5">'.PHP_EOL;    // Anzeige auf 10 Einträge begrenzen  
+            $html.= '<select id="'.$id.'" name="'.$keyname.'" multiple size="'.$this->visible_rows.'" style="width:100%;">' . PHP_EOL;  
             foreach($this->result as $key => $title) {
                 $html .= ' <option value="' . $key .'"'.(in_array($key,$options_selected)?' selected':'').'>' . $title . '</option>'. PHP_EOL;
              }
