@@ -14,6 +14,8 @@ Wenn im Formularfeld eine Eingabe/Änderung erfolgt, wird eine auffällige
 Hintergrundfarbe angezeigt. Nach dem Speichern verschwindet die Hintergrundfarbe wieder 
 Dagegen (vorerst) verworfen: Beim Schließen des Formulars automatisch speichern, nicht empfehlenswert. 
 
+----
+
 10.06.2024: DataClearing- Script: Die Daten zu einer LookupTypID (Besonderheit Typ ID) sollen aus der Datebank gelöscht werden können (Verknüpfungen und Stammdaten)
 
 10.06.2024 - load_row()-Funktionen als Standart nach insert/update
