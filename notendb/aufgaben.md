@@ -1,19 +1,28 @@
 ﻿
 # in Arbeit 
-
-  * Gespeicherte Suchen / Tabelle für Abfragen -> Demo, Einsatz finden, Hilfe-kapitel 
-
-  * Für Abfragen, die über die Suche gespeichert werden: Bezeichnungen der gewählten Filter/Kategorien in die Beschreibung übernehmen 
+  * Sammlung: Musikstück löschen bzw. 
+  * Musikstück: Satz löschen  
 
 -----------------
 
 # In Planung: 
+## Review / AG 
+ * Sammlung Links mit oder ohne Typen? 
+ * "Stricharten" zu "Besonderheiten" ?  
 
-  * Plan: die Praxis, dass sich alles in neuem Fenster öffnet, aufgeben.  
+## Neue Features
 
-  * Sammlung: Musikstück löschen bzw. Musikstück: Satz löschen 
+## Verbesserungen
+  * Praxis "target blank" wo sinnvoll entfernen 
+  * Für Abfragen, die über die Suche gespeichert werden: Bezeichnungen der gewählten Filter/Kategorien in die Beschreibung übernehmen 
 
+## Dokumentation / Hilfekapitel 
   * Hilfe: How To: Einrichtung neue Besonderheit - Kategorie
+  * Gespeicherte Suchen 
+
+
+----- 
+
   * Tabelle lookup_type Feld type_key muss eindeutig sein (unique constraint anlegen)
   * Links zur Sammlung (Digitale Exemplare, Links zu Bestellung)
   * Link Typ insert Bearbeitung  
@@ -50,10 +59,7 @@
   * Suche: Validierung von manuell eingegeben Such-Parametern (z.B: SpieldauerBis > SpieldauerBis ect.)
   * Such-Seite: Ergebnistabelle nach einzelnen Spalten sortierbar 
   * Suchseite: Optimierung per AJAX ?
-  * Suchformular mit GET-Parametern (so könnten Such-Links gespeichert werden)
-    * oder: gespeicherte Suche (Abfragen mit Namen / SQL abspeichern) 
-  * Warnung, wenn Datensatz nicht gespeichert ist 
-  * Links zum navigieren von Satz -> Musikstück -> Sammlung
+
   * Tabelle über Tabellen-Spalten- Links sortieren (Javascript)
   * Datenblatt für eine Sammlung 
   * Hilfe-Seite 

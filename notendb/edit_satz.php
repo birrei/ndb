@@ -24,7 +24,7 @@ if (isset($_GET["option"])){
     $info->print_action_info($satz->ID, 'insert');       
   } 
 }
-if (isset($_POST["senden"])) {
+if (isset($_POST["option"])) {
   $satz->ID=$_POST["ID"];    
   if ($_POST["option"] == 'edit') { 
     $satz->update_row(
@@ -45,6 +45,19 @@ if (isset($_POST["senden"])) {
     $info->print_action_info($satz->ID, 'update'); 
     // $info->print_close_form_info();                     
   }
+  // if ($_POST["option"] == 'delete1') { 
+  //   echo '
+  //   <form action="edit_satz.php" method="post">
+  //   <b>Soll der angezeigte Satz gelöscht werden? </b> 
+  //     <input class="btnDelete" type="submit" name="delete2" value="Löschung bestätigen">
+  //     <input type="hidden" name="ID" value="' . $satz->ID . '">
+  //     <input type="hidden" name="option" value="delete2"> 
+  //     <input type="hidden" name="title" value="Satz">        
+  //   </form>
+  //   '; 
+  // }
+
+
 }
 ?>
 
@@ -173,7 +186,7 @@ echo
 
   <tr> 
   <td class="eingabe"></td> 
-  <td class="eingabe"><input class="btnSave" type="submit" name="senden" value="Speichern">
+  <td class="eingabe"><input class="btnSave" type="submit" name="update" value="Speichern">
 
   </td>
   </tr> 
@@ -207,11 +220,20 @@ echo
   <td class="eingabe"><iframe src="edit_satz_list_lookups.php?SatzID='.$satz->ID.'" width="500" height="300" name="Lookups"></iframe>
   </td>
   </tr> 
-
-
 </table> 
-
 '; 
+
+echo '
+<p> <form action="delete_satz.php" method="get">
+  <input class="btnDelete" type="submit" name="delete" value="Satz Löschen">
+  <input type="hidden" name="ID" value="' . $satz->ID . '">
+  <input type="hidden" name="title" value="Satz löschen">      
+      
+</form>
+</p> 
+'; 
+  
+
 
 include('foot.php');
 
