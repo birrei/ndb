@@ -2,12 +2,10 @@
 <?php 
 include('head.php');
 include('cl_satz.php');
-include('cl_html_info.php');
 
 echo '<h2>Satz löschen</h2>'; 
 
 $satz=new Satz(); 
-$info= new HtmlInfo(); 
 
 if (isset($_GET["ID"])) {
   /* noch nicht gelöscht  */
@@ -16,7 +14,7 @@ if (isset($_GET["ID"])) {
   if (!isset($_POST["confirm"])) {
       echo '
       <form action="delete_satz.php" method="post">
-      <p><b>Der Folgender Satz soll gelöscht werden: </b><br/>
+      <p><b>Folgender Satz wird gelöscht: </b><br/>
       ID: '.$satz->ID.'  <br/>
       Nummer: '.$satz->Nr.'  <br/>
       Name:  '.$satz->Name.'  <br/><br/>
@@ -34,6 +32,7 @@ if (isset($_GET["ID"])) {
 if (isset($_POST["confirm"])) {
   $satz->ID=$_POST["ID"]; 
   $satz->delete(); 
+  echo '<p>Die Seite kann geschlossen werden.</p>';        
               
 }
 

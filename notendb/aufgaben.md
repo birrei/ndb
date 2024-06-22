@@ -1,7 +1,9 @@
 ﻿
 # in Arbeit 
-  * Sammlung: Musikstück löschen bzw. 
-  * Musikstück: Satz löschen  
+  * Layout Suchseite -> linke Spalte muss breiter sein  
+  * Erfassungsscreens: neben Auswahlfeldern Links zur Neuanlage anzeigen 
+  * Erfassungsscreens: Link zur Übersicht ermöglichen (im selben Fenster)
+  * Übersichten: Bearbeitungs-Links -> im selben Fenster öffnen  
 
 -----------------
 
@@ -19,7 +21,6 @@
 ## Dokumentation / Hilfekapitel 
   * Hilfe: How To: Einrichtung neue Besonderheit - Kategorie
   * Gespeicherte Suchen 
-
 
 ----- 
 

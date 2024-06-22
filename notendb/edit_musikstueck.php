@@ -178,7 +178,13 @@ echo  '</td>
 
 </table> 
 
+<p>
+<a href="delete_musikstueck.php?ID=' . $musikstueck->ID . '&title=Musikstück löschen">Musikstück Löschen</a>
+</p>
 '; 
+
+
+
 
 include('foot.php');
 

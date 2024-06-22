@@ -101,143 +101,30 @@ class Link {
        
   }  
 
-  // function print_select($value_selected='',$referenced_SatzID=''){
-      
-  //   include_once("cl_db.php");  
-  //   include_once("cl_html_select.php");
+  function delete(){
+    include_once("cl_db.php");
+    $conn = new DbConn(); 
+    $db=$conn->db; 
+    echo '<p>Lösche Link ID:'.$this->ID.':</p>';
+ 
+    $delete = $db->prepare("DELETE FROM `link` WHERE ID=:ID"); 
+    $delete->bindValue(':ID', $this->ID);  
 
-  //   $query="SELECT Lookup.ID
-  //           , concat(lookup_type.Name, ': ', lookup.Name) as Besonderheit
-  //           FROM lookup 
-  //           INNER JOIN lookup_type 
-  //           ON lookup_type.ID=lookup.LookupTypeID 
-  //           WHERE 1=1 ";
-
-  //   if ($referenced_SatzID!=''){
-  //       $query.='AND lookup.ID NOT IN 
-  //             (SELECT LookupID FROM satz_lookup 
-  //              WHERE SatzID=:SatzID) ';
-  //   }
-
-  //   $query.='ORDER BY Besonderheit'; 
-
-  //   $conn = new DbConn(); 
-  //   $db=$conn->db; 
-
-  //   $stmt = $db->prepare($query); 
-
-  //   if ($referenced_SatzID!=''){
-  //     $stmt->bindParam(':SatzID', $referenced_SatzID);
-  //   }  
-
-  //   try {
-  //     $stmt->execute(); 
-  //     $html = new HtmlSelect($stmt); 
-  //     $html->print_select("LookupID", $value_selected, true); 
-      
-  //   }
-  //   catch (PDOException $e) {
-  //     include_once("cl_html_info.php"); 
-  //     $info = new HtmlInfo();      
-  //     $info->print_user_error(); 
-  //     $info->print_error($stmt, $e); 
-  //   }
-  // }
+    try {
+      $delete->execute(); 
+      echo '<p>Der Link wurde gelöscht.</p>';          
+    }
+    catch (PDOException $e) {
+      include_once("cl_html_info.php"); 
+      $info = new HtmlInfo();      
+      $info->print_user_error(); 
+      $info->print_error($delete, $e);  
+    }  
+  }  
+  
 
 
 
-
-  // function print_table($LookupTypeID=''){
-
-  //   $query="SELECT * from v_lookup WHERE 1=1 "; 
-  //   $query.=($LookupTypeID!=''?"AND LookupTypeID = :LookupTypeID ":"");
-  //   $query.="ORDER by Name"; 
-
-  //   include_once("cl_db.php");
-  //   $conn = new DbConn(); 
-  //   $db=$conn->db; 
-  //   // echo $query; 
-  //   $select = $db->prepare($query); 
-
-  //   if($LookupTypeID!='') {
-  //     $select->bindParam(':LookupTypeID', $LookupTypeID);
-  //   }    
-
-  //   try {
-  //     $select->execute(); 
-  //     include_once("cl_html_table.php");      
-  //     $html = new HtmlTable($select); 
-  //     $html->print_table($this->table_name, true); 
-      
-  //   }
-  //   catch (PDOException $e) {
-  //     include_once("cl_html_info.php"); 
-  //     $info = new HtmlInfo();      
-  //     $info->print_user_error(); 
-  //     $info->print_error($select, $e); 
-  //   }
-  // }
-
-  // function update_row($Name, $LookupTypeID) {
-  //   include_once("cl_db.php");   
-  //   $conn = new DbConn(); 
-  //   $db=$conn->db; 
-    
-  //   $update = $db->prepare("UPDATE `lookup` 
-  //                           SET Name     = :Name
-  //                               , LookupTypeID=:LookupTypeID
-  //                           WHERE `ID` = :ID"); 
-
-  //   $update->bindParam(':ID', $this->ID, PDO::PARAM_INT);
-  //   $update->bindParam(':Name', $Name);
-  //   $update->bindParam(':LookupTypeID', $LookupTypeID);    
-
-  //   try {
-  //     $update->execute(); 
-  //     $this->load_row(); 
-  //   }
-  //   catch (PDOException $e) {
-  //     include_once("cl_html_info.php"); 
-  //     $info = new HtmlInfo();      
-  //     $info->print_user_error(); 
-  //     $info->print_error($stmt, $e); 
-  //   }
-  // }
-
-
-
-  // function print_select_multi($type_key, $options_selected=[]){
-
-  //   include_once("cl_db.php");  
-  //   include_once("cl_html_select.php");
-    
-  //   // $this->ID_List=implode(',', $options_selected); 
-
-  //   $query="SELECT ID, Name from lookup 
-  //         WHERE 1=1 
-  //         AND LookupTypeID = :LookupTypeID 
-  //         ORDER BY Name 
-  //         "; 
-
-  //   include_once("cl_db.php");
-  //   $conn = new DbConn(); 
-  //   $db=$conn->db; 
-  //   // echo $query; 
-  //   $select = $db->prepare($query); 
-  //   $select->bindParam(':LookupTypeID', $this->LookupTypeID);
-
-  //   try {
-  //     $select->execute(); 
-  //     $html = new HtmlSelect($select); 
-  //     $html->print_select_multi($type_key, $type_key.'[]', $options_selected); 
-  //   }
-  //   catch (PDOException $e) {
-  //     include_once("cl_html_info.php"); 
-  //     $info = new HtmlInfo();      
-  //     $info->print_user_error(); 
-  //     $info->print_error($select, $e); 
-  //   }
-  // }  
 
 
 

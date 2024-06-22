@@ -389,9 +389,30 @@ class Musikstueck {
       include_once("cl_html_info.php"); 
       $info = new HtmlInfo();      
       $info->print_user_error(); 
-      $info->print_error($insert, $e);  
+      $info->print_error($delete, $e);  
     }  
   }  
+
+  function delete_verwendungszwecke(){
+    include_once("cl_db.php");
+    $conn = new DbConn(); 
+    $db=$conn->db; 
+
+    $delete = $db->prepare("DELETE 
+                          FROM `musikstueck_verwendungszweck` 
+                          WHERE MusikstueckID=:ID"); 
+    $delete->bindValue(':ID', $this->ID);  
+
+    try {
+      $delete->execute(); 
+    }
+    catch (PDOException $e) {
+      include_once("cl_html_info.php"); 
+      $info = new HtmlInfo();      
+      $info->print_user_error(); 
+      $info->print_error($delete, $e);  
+    }  
+  }    
 
   function delete_besetzung($ID){
     include_once("cl_db.php");
@@ -408,9 +429,84 @@ class Musikstueck {
       include_once("cl_html_info.php"); 
       $info = new HtmlInfo();      
       $info->print_user_error(); 
-      $info->print_error($insert, $e);  
+      $info->print_error($delete, $e);  
+    }  
+  }
+
+  function delete_besetzungen(){
+    include_once("cl_db.php");
+    $conn = new DbConn(); 
+    $db=$conn->db; 
+
+    $delete = $db->prepare("DELETE 
+                           FROM `musikstueck_besetzung` 
+                           WHERE MusikstueckID=:ID"); 
+    $delete->bindValue(':ID', $this->ID);  
+
+    try {
+      $delete->execute(); 
+    }
+    catch (PDOException $e) {
+      include_once("cl_html_info.php"); 
+      $info = new HtmlInfo();      
+      $info->print_user_error(); 
+      $info->print_error($delete, $e);  
+    }  
+  }
+
+  function delete_saetze(){
+    // echo '<p> delete_saetze von Musikstueck ID: '.$this->ID; 
+    
+    include_once("cl_db.php");
+    include_once('cl_satz.php'); 
+
+    $conn = new DbConn(); 
+    $db=$conn->db; 
+
+    $select = $db->prepare("SELECT ID  
+                           FROM `satz` 
+                           WHERE MusikstueckID=:ID"); 
+    $select->bindValue(':ID', $this->ID);  
+
+    $select->execute(); 
+
+    $res = $select->fetchAll(PDO::FETCH_ASSOC);
+
+    echo '<p>Anzahl Sätze: '.count($res); 
+
+    foreach ($res as $row=>$value) {
+      echo '<p>Lösche Satz ID: '.$value["ID"];
+      $satz = new Satz(); 
+      $satz->ID = $value["ID"]; 
+      $satz->delete();  
+    }
+  }
+
+  function delete(){
+    include_once("cl_db.php");
+    $conn = new DbConn(); 
+    $db=$conn->db; 
+    // echo '<p>lösche Musikstück ID:'.$this->ID.':</p>';
+    $this->delete_verwendungszwecke();   
+    $this->delete_besetzungen();
+
+    $this->delete_saetze();      
+ 
+    $delete = $db->prepare("DELETE FROM `musikstueck` WHERE ID=:ID"); 
+    $delete->bindValue(':ID', $this->ID);  
+
+    try {
+      $delete->execute(); 
+      echo '<p>Das Musikstück wurde gelöscht.</p>';          
+    }
+    catch (PDOException $e) {
+      include_once("cl_html_info.php"); 
+      $info = new HtmlInfo();      
+      $info->print_user_error(); 
+      $info->print_error($delete, $e);  
     }  
   }  
+  
 }
 
 

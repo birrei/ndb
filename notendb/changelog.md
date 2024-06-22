@@ -1,4 +1,6 @@
-﻿18.06.2024: Links zum Navigieren von Satz > Musikstück > Sammlung  
+﻿22.06.2024 - Löschfunktionen für Sammlung, Musikstück, Satz. Der Link zum Aufruf der Löschfunkion ist ganz unten auf dem jeweiligen Bearbeitungs-Screen zu finden.   
+
+18.06.2024: Links zum Navigieren von Satz > Musikstück > Sammlung  
 
 18.06.2024: Suche-Seite: 
  * Auswahlfelder nach Relevanz anordnen (z.B. "Besetzung" oben, "Verlag" unten)

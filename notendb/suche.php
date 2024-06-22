@@ -117,7 +117,7 @@ if ("POST" == $_SERVER["REQUEST_METHOD"]) {
 <form id="Suche" action="" method="post">
 <table width="100%"> 
 <tr> 
-<td class="selectboxes"  width="25%">
+<td class="selectboxes"  width="30%">
     <!-- Start Spalte 1 -->  
     <?php 
       $standort = new Standort();

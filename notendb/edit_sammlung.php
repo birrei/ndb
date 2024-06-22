@@ -127,8 +127,11 @@ if (isset($_POST["option"]) and $_POST["option"]=='edit') {
     </td>
     </tr> 
 
-     </table>
-     <p><br></p> 
+    </table>
+    <p>
+    <a href="delete_sammlung.php?ID=' . $sammlung->ID . '&title=Sammlung löschen">Sammlung löschen</a>
+    </p>
+
   '; 
 
 include('foot.php');

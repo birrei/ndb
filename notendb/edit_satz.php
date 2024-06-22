@@ -221,18 +221,12 @@ echo
   </td>
   </tr> 
 </table> 
+
+<p>
+<a href="delete_satz.php?ID=' . $satz->ID . '&title=Satz löschen">Satz löschen</a>
+</p>
 '; 
 
-echo '
-<p> <form action="delete_satz.php" method="get">
-  <input class="btnDelete" type="submit" name="delete" value="Satz Löschen">
-  <input type="hidden" name="ID" value="' . $satz->ID . '">
-  <input type="hidden" name="title" value="Satz löschen">      
-      
-</form>
-</p> 
-'; 
-  
 
 
 include('foot.php');

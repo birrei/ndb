@@ -249,7 +249,83 @@ class Sammlung {
       $info->print_user_error(); 
       $info->print_error($stmt, $e); 
     }
+  }
+  
+  function delete_musikstuecke(){
+    include_once("cl_db.php");
+    include_once('cl_musikstueck.php'); 
+
+    $conn = new DbConn(); 
+    $db=$conn->db; 
+
+    $select = $db->prepare("SELECT ID  
+                           FROM `musikstueck` 
+                           WHERE SammlungID=:ID"); 
+    $select->bindValue(':ID', $this->ID);  
+
+    $select->execute(); 
+
+    $res = $select->fetchAll(PDO::FETCH_ASSOC);
+
+    echo '<p>Anzahl Musikstücke: '.count($res); 
+
+    foreach ($res as $row=>$value) {
+      echo '<p>Lösche  Musikstück ID: '.$value["ID"];
+      $musikstueck = new Musikstueck(); 
+      $musikstueck->ID = $value["ID"]; 
+      $musikstueck->delete();  
+    }
+  }
+
+  function delete_links(){
+    include_once("cl_db.php");
+    include_once('cl_link.php'); 
+
+    $conn = new DbConn(); 
+    $db=$conn->db; 
+
+    $select = $db->prepare("SELECT ID  
+                           FROM `link` 
+                           WHERE SammlungID=:ID"); 
+    $select->bindValue(':ID', $this->ID);  
+
+    $select->execute(); 
+
+    $res = $select->fetchAll(PDO::FETCH_ASSOC);
+
+    echo '<p>Anzahl Links: '.count($res); 
+
+    foreach ($res as $row=>$value) {
+      $link = new Link(); 
+      $link->ID = $value["ID"]; 
+      $link->delete();  
+    }
+  }
+
+  function delete(){
+    include_once("cl_db.php");
+    $conn = new DbConn(); 
+    $db=$conn->db; 
+    echo '<p>Lösche Sammlung ID:'.$this->ID.':</p>';
+
+    $this->delete_links();
+    $this->delete_musikstuecke();      
+ 
+    $delete = $db->prepare("DELETE FROM `sammlung` WHERE ID=:ID"); 
+    $delete->bindValue(':ID', $this->ID);  
+
+    try {
+      $delete->execute(); 
+      echo '<p>Die Sammlung wurde gelöscht.</p>';          
+    }
+    catch (PDOException $e) {
+      include_once("cl_html_info.php"); 
+      $info = new HtmlInfo();      
+      $info->print_user_error(); 
+      $info->print_error($delete, $e);  
+    }  
   }  
+    
 }
 
  
