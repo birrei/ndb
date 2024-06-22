@@ -127,7 +127,6 @@ include('head.php');
 
 </table>
 
-<p> Info zu aktuellen Updates s. <a href="https://github.com/birrei/ndb/blob/main/notendb/changelog.md" target="_blank">Changelog</a>
 <?php 
 include('foot.php');
 ?>

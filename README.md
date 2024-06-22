@@ -1,8 +1,11 @@
-﻿22.06.2024: Löschfunktionen für Sammlung, Musikstück, Satz. Der Link zum Aufruf der Löschfunkion ist ganz unten auf dem jeweiligen Bearbeitungs-Screen zu finden.   
+﻿
+# Change Log  
+
+22.06.2024: Löschfunktionen für Sammlung, Musikstück, Satz. Der Link zum Aufruf der Löschfunkion ist ganz unten auf dem jeweiligen Bearbeitungs-Screen zu finden.   
 
 ----
 
-18.06.2024: Links zum Navigieren von Satz > Musikstück bzw. Musikstück > Sammlung  
+18.06.2024: Links für Navigation von Satz > Musikstück bzw. Musikstück > Sammlung  
 
 18.06.2024: Suche-Seite: 
  * Auswahlfelder nach Relevanz anordnen (z.B. "Besetzung" oben, "Verlag" unten)
@@ -14,9 +17,9 @@
  Demo für Anwender folgt.    
 
 12.06.2024: Ungespeicherte Änderungen im Formular werden sichtbar gemacht. 
-Wenn im Formularfeld eine Eingabe/Änderung erfolgt, wird eine auffällige 
+Sobald in Formularfeld eine Eingabe/Änderung erfolgt, wird eine auffällige 
 Hintergrundfarbe angezeigt. Nach dem Speichern verschwindet die Hintergrundfarbe wieder 
-Dagegen (vorerst) verworfen: Beim Schließen des Formulars automatisch speichern, nicht empfehlenswert. 
+Dagegen (vorerst) verworfen: Beim Schließen des Formulars automatisch speichern, nicht empfehlenswert. .. Ergänzung 21.06.2024: die Einstellung kann im Browser (hier Chrome) evt. überschrieben werden: die Texteingabe - Felder mit (vom Browser bereitgestellten)"Nachschlagefunktion" lässt den Hintergrund bei Eingabe hellblau erscheinen. 
 
 ----
 
