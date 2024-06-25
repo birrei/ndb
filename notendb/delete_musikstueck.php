@@ -24,7 +24,7 @@ if (isset($_GET["ID"])) {
 
       <input class="btnDelete" type="submit" name="confirm" value="Löschung bestätigen">
       <input type="hidden" name="ID" value="' . $musikstueck->ID . '">
-      <input type="hidden" name="title" value="Satz löschen">        
+      <input type="hidden" name="title" value="Musikstück löschen">        
       </form>
       </p> 
       <p> <a href="edit_musikstueck.php?ID='. $musikstueck->ID . '&title=Musikstück">Abbrechen / Zurück</a></p> 

@@ -27,19 +27,19 @@ class HtmlTable {
 
         if ($this->count_cols > 0 & $this->count_rows > 0)
         {
-            $html = '<table>';
+            $html = '<table class="resultset">';
             // header 
             $html .= '<thead>';
             $html .= '<tr>'. PHP_EOL;
             for($i = 0; $i < $this->count_cols; ++$i) {
                 $colmeta=$this->stmt->getColumnMeta($i); // assoz. array 
-                $html .= '<th>'.$colmeta['name'].'</th>';    
+                $html .= '<th class="resultset">'.$colmeta['name'].'</th>';    
             }
-            if ($edit_table_name!='') {
-                $html .= '<th>Aktion</th>'. PHP_EOL;                     
-            }  
+            if ($edit_table_name!='' or  $edit_link!='') {
+                $html .= '<th class="resultset">Aktion</th>'. PHP_EOL;                     
+            }              
             if ($this->add_link_show) {
-                $html .= '<th>Aktion</th>'. PHP_EOL;                     
+                $html .= '<th class="resultset">Aktion</th>'. PHP_EOL;                     
             }                     
             $html .=  '</tr>'. PHP_EOL;
             $html .= '</thead>';
@@ -51,20 +51,20 @@ class HtmlTable {
                     foreach ($row as $key=>$cell){
                         // echo $key; 
                         if ($key=="URL") {
-                            $html .= '<td><a href="'.$cell.'" target="_blank">'.$cell.'</a></td>'. PHP_EOL; 
+                            $html .= '<td class="resultset"><a href="'.$cell.'" target="_blank">'.$cell.'</a></td>'. PHP_EOL; 
                         } else {                     
-                            $html .= '<td>'.$cell.'</td>'. PHP_EOL; 
+                            $html .= '<td class="resultset">'.$cell.'</td>'. PHP_EOL; 
                         }
                     }
                     if ($edit_table_name!='') {
-                        $html .= '<td><a href="edit_'.$edit_table_name.'.php?ID='.$row["ID"].($edit_title!=''?'&title='.$edit_title:'').'"'. ($edit_newpage?' target="_blank"':''). '>Bearbeiten</a></td>'. PHP_EOL;
+                        $html .= '<td class="resultset"><a href="edit_'.$edit_table_name.'.php?ID='.$row["ID"].($edit_title!=''?'&title='.$edit_title:'').'"'. ($edit_newpage?' target="_blank"':''). '>Bearbeiten</a></td>'. PHP_EOL;
                         // $html .= '<td><a href="edit_'.$edit_table_name.'.php?ID='.$row["ID"].'"'. ($edit_newpage?' target="_blank"':''). '>Bearbeiten</a></td>'. PHP_EOL;
                     } 
                     if ($edit_link!='') {
-                        $html .= '<td><a href="'.$edit_link.'&ID='.$row["ID"].'"'. ($edit_newpage?' target="_blank"':''). '>Bearbeiten</a></td>'. PHP_EOL;                     
+                        $html .= '<td class="resultset"><a href="'.$edit_link.'&ID='.$row["ID"].'"'. ($edit_newpage?' target="_blank"':''). '>Bearbeiten</a></td>'. PHP_EOL;                     
                     }
                     if ($this->add_link_show)  {
-                        $html .= '<td><a href="show_'.$edit_table_name.'.php?ID='.$row["ID"].($edit_title!=''?'&title='.$edit_title:'').'"'. ($edit_newpage?' target="_blank"':''). '>Anzeigen</a></td>'. PHP_EOL;
+                        $html .= '<td class="resultset"><a href="show_'.$edit_table_name.'.php?ID='.$row["ID"].($edit_title!=''?'&title='.$edit_title:'').'"'. ($edit_newpage?' target="_blank"':''). '>Anzeigen</a></td>'. PHP_EOL;
                     }  
                     $html .= '</tr>'. PHP_EOL;
                 } 
@@ -73,7 +73,7 @@ class HtmlTable {
             $html .= '</table>'; 
         }
         else {
-           //  $html .= '<p>Keine Daten vorhanden.</p> '; 
+           $html .= '<p>Keine Daten vorhanden.</p> '; 
         }
         echo $html;
     }
@@ -92,15 +92,15 @@ class HtmlTable {
 
         if ($this->count_cols > 0 & $this->count_rows > 0)
         {
-            $html .= '<table>';
+            $html .= '<table class="resultset">';
             // header 
             $html .= '<thead>';
             $html .= '<tr>'. PHP_EOL;
             for($i = 0; $i < $this->count_cols; ++$i) {
                 $colmeta=$this->stmt->getColumnMeta($i); // assoz. array 
-                $html .= '<th>'.$colmeta['name'].'</th>';    
+                $html .= '<th class="resultset">'.$colmeta['name'].'</th>';    
             }
-            $html .= '<th>Aktion</th>'. PHP_EOL;                     
+            $html .= '<th class="resultset">Aktion</th>'. PHP_EOL;                     
             $html .=  '</tr>'. PHP_EOL;
             $html .= '</thead>';
             // zeilen  
@@ -108,9 +108,9 @@ class HtmlTable {
                 foreach ($this->result as $row) {
                     $html .= '<tr>'. PHP_EOL;
                     foreach ($row as $cell){
-                        $html .= '<td>'.$cell.'</td>'. PHP_EOL; 
+                        $html .= '<td class="resultset">'.$cell.'</td>'. PHP_EOL; 
                     }
-                    $html .= '<td><a href="'.$target_file.'?'.$parent_id_key.'='.$parent_id_vaue.'&ID='.$row["ID"].'&option=delete">Löschen</a></td>'. PHP_EOL;                
+                    $html .= '<td class="resultset"><a href="'.$target_file.'?'.$parent_id_key.'='.$parent_id_vaue.'&ID='.$row["ID"].'&option=delete">Löschen</a></td>'. PHP_EOL;                
                     $html .= '</tr>'. PHP_EOL;
                 } 
             }

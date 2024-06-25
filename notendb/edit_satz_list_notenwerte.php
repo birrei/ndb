@@ -8,7 +8,9 @@ $satz->ID=$_GET["SatzID"];
 
 if (isset($_GET["option"])){
     if($_GET["option"]=='insert') {
-        $satz->add_notenwert($_GET["NotenwertID"]); 
+        if ($_GET["NotenwertID"]!='') {
+            $satz->add_notenwert($_GET["NotenwertID"]); 
+        }
     } 
     if($_GET["option"]=='delete') {
         $satz->delete_notenwert($_GET["ID"]); // ID = satz_notenwert.ID 

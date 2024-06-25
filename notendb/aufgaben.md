@@ -1,9 +1,9 @@
 ﻿
 # in Arbeit 
-  * Layout Suchseite -> linke Spalte muss breiter sein  
+  * iframes sollen über parent aktualisiert werden (neuer Link "Aktualisieren" neben Untertabelle) 
   * Erfassungsscreens: neben Auswahlfeldern Links zur Neuanlage anzeigen 
   * Erfassungsscreens: Link zur Übersicht ermöglichen (im selben Fenster)
-  * Übersichten: Bearbeitungs-Links -> im selben Fenster öffnen  
+  * Übersichten: Bearbeitungs-Links -> im selben Fenster öffnen 
 
 -----------------
 
@@ -17,6 +17,7 @@
 ## Verbesserungen
   * Praxis "target blank" wo sinnvoll entfernen 
   * Für Abfragen, die über die Suche gespeichert werden: Bezeichnungen der gewählten Filter/Kategorien in die Beschreibung übernehmen 
+  * Fehlerbehandlung, falls Bearbeiten-Formular bei nicht exisiterender ID geöffnet wird (siehe Vorlage edit_abfrage.php, cl_abfrage.php) 
 
 ## Dokumentation / Hilfekapitel 
   * Hilfe: How To: Einrichtung neue Besonderheit - Kategorie

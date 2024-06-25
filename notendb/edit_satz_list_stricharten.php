@@ -9,7 +9,9 @@ $satz->ID=$_GET["SatzID"];
 
 if (isset($_GET["option"])){
     if($_GET["option"]=='insert') {
-        $satz->add_strichart($_GET["StrichartID"]); 
+        if ($_GET["StrichartID"]!='') {
+            $satz->add_strichart($_GET["StrichartID"]); 
+        }
     } 
     if($_GET["option"]=='delete') {
         $satz->delete_strichart($_GET["ID"]); // ID = satz_strichart.ID 

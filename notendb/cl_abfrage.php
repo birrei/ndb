@@ -9,17 +9,7 @@ class Abfrage {
   public $Beschreibung;
   public $Abfrage;
   public $Tabelle;
-
-  /*
-  CREATE TABLE IF NOT EXISTS `abfrage`   
-(`ID` int not null AUTO_INCREMENT 
-, Beschreibung VARCHAR(100) NOT NULL 
-, Abfrage VARCHAR(1000) NOT NULL 
-, Tabelle VARCHAR(100) NOT NULL -- Tabelle, die ueber Bearbeiten-Link geöffnet werden soll 
-, PRIMARY KEY (`ID`)
-)
-;
-  */
+  public $success=false; 
 
   public function __construct(){
     $this->table_name='abfrage'; 
@@ -39,7 +29,8 @@ class Abfrage {
     try {
       $insert->execute(); 
       $this->ID=$db->lastInsertId();
-      $this->load_row();   
+      $this->load_row(); 
+      $this->success=true; 
     }
       catch (PDOException $e) {
       include_once("cl_html_info.php"); 
@@ -64,7 +55,7 @@ class Abfrage {
       include_once("cl_html_table.php");      
       $html = new HtmlTable($select); 
       $html->print_table($this->table_name, true); 
-      
+      $this->success=true;   
     }
     catch (PDOException $e) {
       include_once("cl_html_info.php"); 
@@ -97,6 +88,7 @@ class Abfrage {
     try {
       $update->execute(); 
       $this->load_row(); 
+      $this->success=true; 
     }
     catch (PDOException $e) {
       include_once("cl_html_info.php"); 
@@ -122,79 +114,42 @@ class Abfrage {
     $select->bindParam(':ID', $this->ID, PDO::PARAM_INT);
     $select->execute(); 
     $row_data=$select->fetch();
-    $this->Name=$row_data["Name"];    
-    $this->Beschreibung=$row_data["Beschreibung"];
-    $this->Abfrage=$row_data["Abfrage"];
-    $this->Tabelle=$row_data["Tabelle"];        
+
+    // echo '<p>Anzahl Zeilen: '.$select->rowCount(); 
+
+    if ($select->rowCount()==1) {
+      // falls ID existiert 
+      $this->success=true; 
+      $this->Name=$row_data["Name"];    
+      $this->Beschreibung=$row_data["Beschreibung"];
+      $this->Abfrage=$row_data["Abfrage"];
+      $this->Tabelle=$row_data["Tabelle"]; 
+    } else 
+    {
+      echo '<p>Der Datensatz konnte nicht geladen werden, die ID '.$this->ID.' existiert nicht.'; 
+    }
+ 
   }  
 
+  function delete(){
+    include_once("cl_db.php");
+    $conn = new DbConn(); 
+    $db=$conn->db; 
+    $delete = $db->prepare("DELETE FROM `abfrage` WHERE ID=:ID"); 
+    $delete->bindValue(':ID', $this->ID);  
 
-
-  // function print_select($value_selected='',$referenced_MusikstueckID='') {
-      
-  //   include_once("cl_db.php");  
-  //   include_once("cl_html_select.php");
-
-  //   $query='SELECT ID, Name 
-  //           FROM `abfrage` ';
-
-  //   if ($referenced_MusikstueckID!=''){
-  //     $query.='WHERE ID NOT IN 
-  //             (SELECT AbfrageID FROM musikstueck_abfrage 
-  //             WHERE MusikstueckID=:MusikstueckID) ';
-  //   }
-
-  //   $query.='ORDER BY `Name`'; 
-
-  //   $conn = new DbConn(); 
-  //   $db=$conn->db; 
-
-  //   $stmt = $db->prepare($query);
-    
-  //   if ($referenced_MusikstueckID!=''){
-  //     $stmt->bindParam(':MusikstueckID', $referenced_MusikstueckID);
-  //   }
-
-  //   try {
-  //     $stmt->execute(); 
-  //     $html = new HtmlSelect($stmt); 
-  //     $html->print_select("AbfrageID", $value_selected, true); 
-      
-  //   }
-  //   catch (PDOException $e) {
-  //     include_once("cl_html_info.php"); 
-  //     $info = new HtmlInfo();      
-  //     $info->print_user_error(); 
-  //     $info->print_error($stmt, $e); 
-  //   }
-  // }
-
-  // function print_select_multi($options_selected=[]){
-
-  //   include_once("cl_db.php");  
-  //   include_once("cl_html_select.php");
-
-  //   $query="SELECT ID, Name 
-  //           FROM `abfrage` 
-  //           order by `Name`"; 
-
-  //   $conn = new DbConn(); 
-  //   $db=$conn->db; 
-
-  //   $stmt = $db->prepare($query); 
-
-  //   try {
-  //     $stmt->execute(); 
-  //     $html = new HtmlSelect($stmt); 
-  //     $html->print_select_multi('Abfrage', 'Abfrageen[]', $options_selected, 'Abfrage(en):'); 
-  //   }
-  //   catch (PDOException $e) {
-  //     include_once("cl_html_info.php"); 
-  //     $info = new HtmlInfo();      
-  //     $info->print_user_error(); 
-  //     $info->print_error($stmt, $e); 
-  //   }
-  // }
+    try {
+      $delete->execute(); 
+      $this->success=true; 
+      echo '<p>Die Abfrage wurde gelöscht.</p>';          
+    }
+    catch (PDOException $e) {
+      include_once("cl_html_info.php"); 
+      $info = new HtmlInfo();      
+      $info->print_user_error(); 
+      $info->print_error($delete, $e);  
+    }  
+  }  
 
 
 

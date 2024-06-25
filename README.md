@@ -1,6 +1,9 @@
 ﻿
 # Change Log  
 
+
+23.06.2024: Layout suche.php -> CSS Grid  
+
 22.06.2024: Löschfunktionen für Sammlung, Musikstück, Satz. Der Link zum Aufruf der Löschfunkion ist ganz unten auf dem jeweiligen Bearbeitungs-Screen zu finden.   
 
 ----

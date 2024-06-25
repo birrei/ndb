@@ -42,7 +42,7 @@ class HtmlSelect {
             $html.='<p><b>'.$caption.'</b><br/>'. PHP_EOL;
         }
         if ($this->count_rows > 0) {
-            $html.= '<select id="'.$id.'" name="'.$keyname.'" multiple size="'.$this->visible_rows.'" style="width:100%;">' . PHP_EOL;  
+            $html.= '<select id="'.$id.'" name="'.$keyname.'" multiple size="'.$this->visible_rows.'" style="width:100%;font-size:9pt">' . PHP_EOL;  
             foreach($this->result as $key => $title) {
                 $html .= ' <option value="' . $key .'"'.(in_array($key,$options_selected)?' selected':'').'>' . $title . '</option>'. PHP_EOL;
              }

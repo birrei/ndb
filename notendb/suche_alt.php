@@ -45,7 +45,7 @@ $spieldauer_von='';
 $spieldauer_bis=''; 
 $suchtext=''; 
 
-$edit_table=''; /* Tabelle, die über Bearbeiten-Links in Ergebnis-Tabelle abrufbar sein soll */
+$edit_table=''; /* Tabelle, die über Bearbeiten-Link in Ergebnis-Tabelle abrufbar sein soll */
 
 $lookuptypes_selected=[]; 
 
@@ -57,7 +57,7 @@ if (isset($_POST['Ebene'])) {
 
 /* 
  Die mit dem Absenden der Suche gesetzten Werte werden wieder in die Form-Elemente eingelesen. 
- Die Sucheinstellungen "bleiben stehen" und werden nur durch betätigen der "Filter zurücksetzen" Buttons wieder aufgelöst 
+ Die Sucheinstellungen "bleiben stehen" und werden nur durch betätigen der "Filter zurücksetzen" Buttons aufgelöst 
 */
 
 if ("POST" == $_SERVER["REQUEST_METHOD"]) {
@@ -114,41 +114,10 @@ if ("POST" == $_SERVER["REQUEST_METHOD"]) {
   }                    
 }
 ?> 
-<div class="search-page">
-<div class="search-filter">
 <form id="Suche" action="" method="post">
-
-<fieldset style="width:90%">Ebene: 
-    <input type="radio" id="sm" name="Ebene" value="Sammlung" <?php echo ($Ebene=='Sammlung'?'checked':'') ?>>
-    <label for="sm">Sammlung</label> 
-    <input type="radio" id="mu" name="Ebene" value="Musikstueck" <?php echo ($Ebene=='Musikstueck'?'checked':'') ?>> 
-    <label for="mu">Musikstück</label>
-    <input type="radio" id="st" name="Ebene" value="Satz" <?php echo ($Ebene=='Satz'?'checked':'') ?>>
-    <label for="st">Satz</label> 
-  </fieldset>
-
-<p></p>  
-<input type="submit" value="Suchen" class="btnSave">
-<input type="button" id="btnReset_All" value="Alle Filter zurücksetzen" onclick="Reset_All();" /> 
-
-<p> Suche speichern: <input type="text" name="Abfrage"  style="width:90%"> </p> 
-
-
-<script type="text/javascript">  
-          function Reset_All() {  
-          for(i=0; i<document.forms[0].elements.length; i++){
-            if(document.forms[0].elements[i].type == 'text'){
-              document.forms[0].elements[i].value=""; 
-            }
-            if(document.forms[0].elements[i].type == 'select-multiple'){
-              document.forms[0].elements[i].selectedIndex = -1;
-            }   
-          }
-      }  
-</script> 
-
-
-
+<table width="100%"> 
+<tr> 
+<td class="selectboxes"  width="30%">
     <!-- Start Spalte 1 -->  
     <?php 
       $standort = new Standort();
@@ -239,6 +208,9 @@ if ("POST" == $_SERVER["REQUEST_METHOD"]) {
     }
   }
 
+  // echo "<p>Anzahl ausgewählte Lookuptypes: ".count($lookuptypes_selected ); 
+  // print_r($lookuptypes_selected); 
+
 ?>
 
 <p>Suchtext: <br> 
@@ -252,13 +224,41 @@ if ("POST" == $_SERVER["REQUEST_METHOD"]) {
         </script> 
     </p>
 
+<!-- Ende Spalte 1 -->  
+</td>  
+<td>
+<!-- Start Spalte 2 -->  
+
+
+
+<fieldset>Ebene: 
+    <input type="radio" id="sm" name="Ebene" value="Sammlung" <?php echo ($Ebene=='Sammlung'?'checked':'') ?>>
+    <label for="sm">Sammlung</label> 
+    <input type="radio" id="mu" name="Ebene" value="Musikstueck" <?php echo ($Ebene=='Musikstueck'?'checked':'') ?>> 
+    <label for="mu">Musikstück</label>
+    <input type="radio" id="st" name="Ebene" value="Satz" <?php echo ($Ebene=='Satz'?'checked':'') ?>>
+    <label for="st">Satz</label> 
+  </fieldset>
+
+  <p></p>  
+  <input type="submit" value="Suchen" class="btnSave">
+
+<input type="button" id="btnReset_All" value="Alle Filter zurücksetzen" onclick="Reset_All();" /> 
+<p> Abfrage unter folgendem Namen speichern: <input type="text" name="Abfrage" size="100"> </p> 
+<script type="text/javascript">  
+          function Reset_All() {  
+          for(i=0; i<document.forms[0].elements.length; i++){
+            if(document.forms[0].elements[i].type == 'text'){
+              document.forms[0].elements[i].value=""; 
+            }
+            if(document.forms[0].elements[i].type == 'select-multiple'){
+              document.forms[0].elements[i].selectedIndex = -1;
+            }   
+          }
+      }  
+</script> 
+
 </form>
-
-</div> <!-- ende class search-filter --> 
-
-<div class="search-table">
-
-
 <?php
 
   /* Ausgewählte Werte für Abfrage-Filter auslesen   */
@@ -591,6 +591,7 @@ if ("POST" == $_SERVER["REQUEST_METHOD"]) {
 
       // echo '<pre>'.$query.'</pre>'; // Test 
 
+
       if (isset($_POST["Abfrage"])) {
         // Abfrage speichern, Ergebnis nicht ausgeben 
         if ($_POST["Abfrage"]!='') {
@@ -614,9 +615,7 @@ if ("POST" == $_SERVER["REQUEST_METHOD"]) {
             $select->execute(); 
             include_once("cl_html_table.php");      
             $html = new HtmlTable($select); 
-
             $html->print_table($edit_table, True, '', $Ebene); 
-  
           }
           catch (PDOException $e) {
             include_once("cl_html_info.php"); 
@@ -630,10 +629,17 @@ if ("POST" == $_SERVER["REQUEST_METHOD"]) {
     else {
       echo '<p>Es wurde kein Filter gesetzt. </p>'; 
     }
- ?>
-</div> <!-- end class search-table -->
-</div> <!-- end class search-page -->
+ 
 
-<?php 
+  ?>
+
+<!-- Ende Spalte 2 -->  
+</td>
+</tr>
+</table>
+  <?php
+
+
 include('foot.php');
+
 ?>

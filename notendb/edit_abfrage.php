@@ -12,8 +12,10 @@ $info= new HtmlInfo();
 if (!isset($_GET["option"]) and isset($_GET["ID"]))  {
   // geöffnet über einen "Bearbeiten"-Link
   $abfrage->ID=$_GET["ID"];
-  $abfrage->load_row();  
-  $info->print_action_info($abfrage->ID, 'view');    
+  $abfrage->load_row(); 
+  if ($abfrage->success) {
+    $info->print_action_info($abfrage->ID, 'view');       
+  }
 }
 if (isset($_GET["option"]) and $_GET["option"]=='insert') {
   // nach insert geladen   
@@ -33,6 +35,7 @@ if (isset($_POST["option"]) and $_POST["option"]=='edit') {
   $info->print_action_info($abfrage->ID, 'update');     
 }
 
+if ($abfrage->success) {
 echo '
   <p>
   <a href="show_abfrage.php?ID='.$abfrage->ID.'&title=Abfrage">Abfrage-Ergebnis anzeigen</a>
@@ -93,8 +96,14 @@ echo '
 <input type="hidden" name="ID" value="' . $abfrage->ID. '">
 
 </form>
-'; 
 
+
+<p>
+<a href="delete_abfrage.php?ID=' . $abfrage->ID . '&title=Abfrage löschen">Abfrage löschen</a>
+</p>
+
+'; 
+} 
 
 include('foot.php');
 

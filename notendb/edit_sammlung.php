@@ -64,8 +64,9 @@ if (isset($_POST["option"]) and $_POST["option"]=='edit') {
           $verlage = new Verlag();
           $verlage->print_select($sammlung->VerlagID); 
 
-    echo '
-    </label>
+    echo ' </label>  
+    <a href="insert_verlag.php?title=Verlag" target="_blank">neu erfassen</a>
+  
     </tr>
 
     <tr>    
@@ -78,24 +79,17 @@ if (isset($_POST["option"]) and $_POST["option"]=='edit') {
           $standorte = new Standort();
           $standorte->print_select($sammlung->StandortID); 
 
-    echo '
-    </label>
+    echo '</label>  
+    <a href="insert_standort.php?title=Standort" target="_blank">neu erfassen</a>
+   
     </tr>
 
- 
-
     <tr>    
       <label>
-      <td class="eingabe">Bestellnummer:</td>  
-      <td class="eingabe"><input type="text" name="Bestellnummer" value="'.$sammlung->Bestellnummer.'" size="45" oninput="changeBackgroundColor(this)"></td>
-      </label>
-    </tr> 
-
-    <tr>    
-      <label>
-      <td class="eingabe">Bemerkung:</td>  
+      <td class="eingabe">Bemerkung: <br>(max. 1000 Zeichen)</td>  
       <td class="eingabe">
-      <textarea name="Bemerkung" rows=7 cols=120 maxlength="1000" oninput="changeBackgroundColor(this)">'.htmlentities($sammlung->Bemerkung).'</textarea> (max. 1000 Zeichen)
+      <textarea name="Bemerkung" rows=5 cols=120 oninput="changeBackgroundColor(this)">'.htmlentities($sammlung->Bemerkung).'</textarea> 
+      
       </td>
       </label>
     </tr> 
@@ -115,17 +109,32 @@ if (isset($_POST["option"]) and $_POST["option"]=='edit') {
         <tr> 
         <td class="eingabe">Musikstücke:
         <p> <a href="edit_musikstueck.php?SammlungID='.$sammlung->ID.'&option=insert&title=Musikstück" target="_blank">Musikstück hinzufügen</a></p>
-       
+        <p> <a href="edit_sammlung_list_musikstuecke.php?SammlungID='.$sammlung->ID.'" target="musikstuecke">Aktualisieren</a></p>
+
         </td> 
-        <td class="eingabe"><iframe src="edit_sammlung_list_musikstuecke.php?SammlungID='.$sammlung->ID.'"  width="100%" height="400" name="Besetzungen"></iframe>
+        <td class="eingabe"><iframe src="edit_sammlung_list_musikstuecke.php?SammlungID='.$sammlung->ID.'"  width="100%" height="400" name="musikstuecke"></iframe>
       </td>
       </tr> 
 
       <tr> 
-      <td class="eingabe">Links:</td> 
-      <td class="eingabe"><iframe src="edit_sammlung_list_links.php?SammlungID='.$sammlung->ID.'" width="100%" height="200" name="Links"></iframe>
-    </td>
+      <td class="eingabe">Links
+      <p> <a href="edit_sammlung_add_link.php?SammlungID='.$sammlung->ID.'" target="Links">Link hinzufügen</a></p>
+      <p> <a href="edit_sammlung_list_links.php?SammlungID='.$sammlung->ID.'" target="Links">Aktualisieren</a></p>
+      
+      </td> 
+    <td class="eingabe"><iframe src="edit_sammlung_list_links.php?SammlungID='.$sammlung->ID.'" width="100%" height="200" name="Links"></iframe>
+    
+      </td>
     </tr> 
+
+    
+    <tr>    
+      <label>
+      <td class="eingabe">Bestellnummer:</td>  
+      <td class="eingabe"><input type="text" name="Bestellnummer" value="'.$sammlung->Bestellnummer.'" size="45" oninput="changeBackgroundColor(this)"></td>
+      </label>
+    </tr> 
+
 
     </table>
     <p>

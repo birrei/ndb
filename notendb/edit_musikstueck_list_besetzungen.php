@@ -8,7 +8,9 @@ $musikstueck->ID=$_GET["MusikstueckID"];
 
 if (isset($_GET["option"])){
     if($_GET["option"]=='insert' and isset($_GET["BesetzungID"])) {
-        $musikstueck->add_besetzung($_GET["BesetzungID"]); 
+        if ($_GET["BesetzungID"]!='') {
+            $musikstueck->add_besetzung($_GET["BesetzungID"]); 
+        }
     } 
     if($_GET["option"]=='delete') {
         $musikstueck->delete_besetzung($_GET["ID"]); // ID = musikstueck_besetzung.ID 

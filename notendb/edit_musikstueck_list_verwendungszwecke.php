@@ -9,7 +9,9 @@ $musikstueck->ID=$_GET["MusikstueckID"];
 
 if (isset($_GET["option"])){
     if($_GET["option"]=='insert' and isset($_GET["VerwendungszweckID"])) {
-        $musikstueck->add_verwendungszweck($_GET["VerwendungszweckID"]); 
+        if ($_GET["VerwendungszweckID"]!='') {
+         $musikstueck->add_verwendungszweck($_GET["VerwendungszweckID"]); 
+        }
     } 
     if($_GET["option"]=='delete') {
         $musikstueck->delete_verwendungszweck($_GET["ID"]); // ID = musikstueck_verwendungszweck.ID 

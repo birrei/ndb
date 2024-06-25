@@ -88,9 +88,11 @@ echo '</tr></label>
   $komponisten = new Komponist();
   $komponisten->print_select($musikstueck->KomponistID); 
 
-echo  '</td>
+echo  ' </label> 
+<a href="insert_komponist.php?title=Komponist" target="_blank">Neu erfassen</a>
+</td>
 </tr> 
-</label>
+
 
 
 <tr>    
@@ -115,10 +117,11 @@ echo  '</td>
     $epochen = new Epoche();
     $epochen->print_select($musikstueck->EpocheID); 
 
-  echo  '</td>
-  </label>  
+  echo  ' </label>  
+  <a href="insert_epoche.php?title=Epoche" target="_blank">Neu erfassen</a>
+  </td>
+   
 </tr> 
-
 
 <tr>    
 <label>
@@ -128,12 +131,10 @@ echo  '</td>
     $gattungen = new Gattung();
     $gattungen->print_select($musikstueck->GattungID); 
 
-  echo  '</td>
-  </label>  
+  echo  '  </label>  
+  <a href="insert_gattung.php?title=Gattung" target="_blank">Neu erfassen</a>
+  </td>
 </tr> 
-
-
-
 
 <tr>    
 <label>
@@ -155,21 +156,31 @@ echo  '</td>
 
 
     <tr> 
-    <td class="eingabe">Verwendungszweck(e):</td> 
-    <td class="eingabe"><iframe src="edit_musikstueck_list_verwendungszwecke.php?MusikstueckID='.$musikstueck->ID.'" width="500" height="100" name="Besetzungen"></iframe>
-  </td>
+    <td class="eingabe">Verwendungszweck(e):
+    <br> <a href="edit_musikstueck_list_verwendungszwecke.php?MusikstueckID='.$musikstueck->ID.'" target="Verwendungszwecke">Aktualisieren</a>
+    </td> 
+    <td class="eingabe"><iframe src="edit_musikstueck_list_verwendungszwecke.php?MusikstueckID='.$musikstueck->ID.'" width="500" height="100" name="Verwendungszwecke"></iframe> 
+    <a href="insert_verwendungszweck.php?title=Verwendungszweck" target="_blank">Neuen Verwendungszweck erfassen</a>
+    </td>
   </tr> 
       
 
   <tr> 
-    <td class="eingabe">Besetzung(en):</td> 
+    <td class="eingabe">Besetzung(en):
+    <br> <a href="edit_musikstueck_list_besetzungen.php?MusikstueckID='.$musikstueck->ID.'" target="Besetzungen">Aktualisieren</a>    
+    </td> 
     <td class="eingabe"><iframe src="edit_musikstueck_list_besetzungen.php?MusikstueckID='.$musikstueck->ID.'" width="500" height="100" name="Besetzungen"></iframe>
-  </td>
+    <a href="insert_besetzung.php?title=Besetzung" target="_blank">Neue Besetzung erfassen</a
+  
+    </td>
   </tr> 
 
   <tr> 
     <td class="eingabe">Sätze:
-    <br><a href="edit_satz.php?MusikstueckID='.$musikstueck->ID.'&option=insert&title=Satz" target="_blank">Satz hinzufügen</a></p>
+    <p><a href="edit_satz.php?MusikstueckID='.$musikstueck->ID.'&option=insert&title=Satz" target="_blank">Satz hinzufügen</a></p>
+    <p> <a href="edit_musikstueck_list_saetze.php?MusikstueckID='.$musikstueck->ID.'" target="Saetze">Aktualisieren</a></p>
+
+    
     </td> 
     <td class="eingabe"><iframe src="edit_musikstueck_list_saetze.php?MusikstueckID='.$musikstueck->ID.'" width="100%" height="400" name="Saetze"></iframe>
   </td>
@@ -179,7 +190,7 @@ echo  '</td>
 </table> 
 
 <p>
-<a href="delete_musikstueck.php?ID=' . $musikstueck->ID . '&title=Musikstück löschen">Musikstück Löschen</a>
+<a href="delete_musikstueck.php?ID=' . $musikstueck->ID . '&title=Musikstück löschen">Musikstück löschen</a>
 </p>
 '; 
 

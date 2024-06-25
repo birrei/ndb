@@ -8,7 +8,9 @@ $satz->ID=$_GET["SatzID"];
 
 if (isset($_GET["option"])){
     if($_GET["option"]=='insert' & $_GET["UebungID"]!='') {
-        $satz->add_uebung($_GET["UebungID"]); 
+        if ($_GET["UebungID"]!='') {
+             $satz->add_uebung($_GET["UebungID"]); 
+        }
     } 
     if($_GET["option"]=='delete') {
         $satz->delete_uebung($_GET["ID"]); // ID = satz_uebung.ID 

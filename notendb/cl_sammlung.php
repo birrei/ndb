@@ -175,9 +175,9 @@ class Sammlung {
     $query="SELECT musikstueck.ID 
             , musikstueck.Nummer 
             , musikstueck.Name
+            , komponist.Name Komponist            
             , musikstueck.Bearbeiter
             , musikstueck.Opus
-            , komponist.Name Komponist
             , gattung.Name as Gattung
             , epoche.Name as Epoche
             , GROUP_CONCAT(DISTINCT besetzung.Name order by besetzung.Name SEPARATOR ', ') Besetzungen
