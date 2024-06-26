@@ -148,7 +148,6 @@ if ("POST" == $_SERVER["REQUEST_METHOD"]) {
 </script> 
 
 
-
     <!-- Start Spalte 1 -->  
     <?php 
       $standort = new Standort();

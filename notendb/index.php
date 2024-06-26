@@ -1,10 +1,7 @@
 <?php 
-
 include('head.php');
 ?>
-
 <h1> Notendatenbank   </h1> 
-
 <div class="start"> 
     <div class="start-box1"> 
 
@@ -43,14 +40,11 @@ include('head.php');
             <td class="start"><a href="insert_standort.php?title=Standort">Neu erfassen</a></td>
         </tr>
         </table> 
-
     </div>
 
-    
     <div class="start-box3"> 
 
         <h2>  Musikstück Stammdaten</h2>
-
         <table class="start"> 
         <tr>
             <td class="start"><b>Komponisten</b></td>

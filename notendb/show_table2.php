@@ -1,6 +1,7 @@
 <?php
 include('head.php');
 
+
 $table=$_GET['table'];
 
 /* Bearbeiten-Links, table */
@@ -34,6 +35,12 @@ else {
     $sortorder='ASC';
 }
 
+$edit_link_show_newpage=false; 
+if (isset($_GET['edit_link_show_newpage'])) {
+  $edit_link_show_newpage=true; 
+}
+
+
 $query = 'SELECT * FROM '.$table.($sortcol!='' ?' ORDER BY '.$sortcol.' '.$sortorder:'');
 
 // echo '<pre>'.$query.'</pre>'; 
@@ -49,8 +56,8 @@ try {
   include_once("cl_html_table.php");      
   $html = new HtmlTable($select); 
   $html->add_link_show=$add_link_show; 
-  echo '<h3>Objekt: '.$table.'</h3>'; 
-  $html->print_table($table_edit, true,'', $edit_title); 
+  // echo '<h3>Objekt: '.$table.'</h3>'; 
+  $html->print_table($table_edit, $edit_link_show_newpage,'', $edit_title); 
 }
 catch (PDOException $e) {
   include_once("cl_html_info.php"); 

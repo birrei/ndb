@@ -1,5 +1,8 @@
 /* Datenbank */ 
 
+--- Version 
+    select version();
+
     -- alle Tabellen anzeigen 
     show tables;
 

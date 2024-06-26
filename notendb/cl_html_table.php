@@ -6,6 +6,7 @@ class HtmlTable {
     public $count_rows; 
 
     public $add_link_show=false; // falls eine "show_*.php" für ein Tabelle vorgesehen ist (akt. show_abfrage.php)
+    public $add_link_delete=false; // 
 
     function __construct($stmt) {
         $this->stmt = $stmt; 
@@ -40,7 +41,10 @@ class HtmlTable {
             }              
             if ($this->add_link_show) {
                 $html .= '<th class="resultset">Aktion</th>'. PHP_EOL;                     
-            }                     
+            }
+            if ($this->add_link_delete) {
+                $html .= '<th class="resultset">Aktion</th>'. PHP_EOL;                     
+            }                       
             $html .=  '</tr>'. PHP_EOL;
             $html .= '</thead>';
             // zeilen  
@@ -56,16 +60,20 @@ class HtmlTable {
                             $html .= '<td class="resultset">'.$cell.'</td>'. PHP_EOL; 
                         }
                     }
-                    if ($edit_table_name!='') {
+
+                    if ($edit_link!='') {
+                        $html .= '<td class="resultset"><a href="'.$edit_link.'&ID='.$row["ID"].'"'. ($edit_newpage?' target="_blank"':''). '>Bearbeiten</a></td>'. PHP_EOL;                     
+                    } elseif 
+                    ($edit_table_name!='') {
                         $html .= '<td class="resultset"><a href="edit_'.$edit_table_name.'.php?ID='.$row["ID"].($edit_title!=''?'&title='.$edit_title:'').'"'. ($edit_newpage?' target="_blank"':''). '>Bearbeiten</a></td>'. PHP_EOL;
                         // $html .= '<td><a href="edit_'.$edit_table_name.'.php?ID='.$row["ID"].'"'. ($edit_newpage?' target="_blank"':''). '>Bearbeiten</a></td>'. PHP_EOL;
                     } 
-                    if ($edit_link!='') {
-                        $html .= '<td class="resultset"><a href="'.$edit_link.'&ID='.$row["ID"].'"'. ($edit_newpage?' target="_blank"':''). '>Bearbeiten</a></td>'. PHP_EOL;                     
-                    }
                     if ($this->add_link_show)  {
                         $html .= '<td class="resultset"><a href="show_'.$edit_table_name.'.php?ID='.$row["ID"].($edit_title!=''?'&title='.$edit_title:'').'"'. ($edit_newpage?' target="_blank"':''). '>Anzeigen</a></td>'. PHP_EOL;
-                    }  
+                    }
+                    if ($this->add_link_delete)  {
+                        $html .= '<td class="resultset"><a href="delete_'.$edit_table_name.'.php?ID='.$row["ID"].($edit_title!=''?'&title='.$edit_title:'').'"'. ($edit_newpage?' target="_blank"':''). '>Löschen</a></td>'. PHP_EOL;
+                    }                       
                     $html .= '</tr>'. PHP_EOL;
                 } 
                 $html .= '</tbody>';   

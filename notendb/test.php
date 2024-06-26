@@ -1,26 +1,18 @@
 <?php
 include('head.php'); 
-include("cl_sammlung.php");
-
-$sammlung = new Sammlung();
-
-if (isset($_POST["Name"])) {
-    $sammlung->ID = 1;     
-    $sammlung->update_row($_POST["Name"], 1, 10, '', ''); 
-}
 
 
-?>
+echo phpinfo(); 
 
-<a href="index.php"> zur Startseite </a>
+// include("cl_sammlung.php");
 
-<form action="test.php" method="post" name="Sammlung">
-<input type="text" name="Name" size="100" maxlength="100" oninput="changeBackgroundColor(this);">
-<input class="btnSave" type="submit" name="senden" value="Speichern">
-</form>
+// $sammlung = new Sammlung();
 
+// if (isset($_POST["Name"])) {
+//     $sammlung->ID = 1;     
+//     $sammlung->update_row($_POST["Name"], 1, 10, '', ''); 
+// }
 
-<?php 
 
 
 // echo '<p> <a href="edit_satz.php?ID=7" target="_blank">Satz 7 test</a></p>'; 

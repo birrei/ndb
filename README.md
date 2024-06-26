@@ -1,8 +1,15 @@
 ﻿
 # Change Log  
 
+26.06.2024: 
+* Aktualsiserung von Unterformularen (iframes): Diese können in allen Fällen auch über das Hauptformualar aktualisiert werden (neuer Link "Aktualisieren" neben Unterformular)
+* Einfügen von Mehrfach-Zuordnungen über das Haupt-Erfassungsformular 
 
-23.06.2024: Layout suche.php -> CSS Grid  
+25.06.2024: Startseite, Fußleiste, Bearbeiten-Links aus Übersichtstabellen: die Links werden nicht mehr automatisch im neuen Fenster geöffnet. Innerhalb des Erfassungs-Workflows sollen die Formulare jedoch weiterhin nebeneinander liegen- dort bleibt der Zwang. 
+
+25.06.2024: Erfassung Heftdaten (Sammlung, Musikstück, Satz): Falls währenddessen eine Stammdatentabelle (z.B. Verlag, Komponist, Besetzung ...) ein Eintrag ergänzt werden soll: neben den entspr. Auswahl-Felder ist jetzt ein Link zum Neu-Eintrag verfügbar. 
+
+23.06.2024: Layout: Breite der Suchfelder-Leiste links ist jetzt fix, die Ergebnis-Tabelle kann sich nach rechts   (Umstellung auf CSS Grid  
 
 22.06.2024: Löschfunktionen für Sammlung, Musikstück, Satz. Der Link zum Aufruf der Löschfunkion ist ganz unten auf dem jeweiligen Bearbeitungs-Screen zu finden.   
 
@@ -272,4 +279,19 @@ Tabellen-Anpassung Musikstück / "Epoche"
 
 
 -----------------
+
+
+# Das Projekt
+Datenbank mit Web-Anwendung für die Erfassung und Abfrage von Notenmaterial für Musikunterricht und Orchester. 
+Fokus: Abfragen für den Praxis-Einsatz (z.B. Verwendungszweck, Besetzung, Schwierigkeitsgrad etc., inbesondere an Musikschulen) Nicht für bibliographische Erfassung gedacht 
+
+# Technik    
+ * PHP: Version 8.2.12 (dev)
+  * Richtlinien: OOP, PDO, Prepared Statements (Absicherung gegen SQL-Injection)
+ * DB: 10.4.32-MariaDB (dev), MySQL 5.7.42-log (prod) (letztere Version kennt keine CTEs ...)
+ * Layout: CSS Grid (anstelle Tabellen, noch nicht in allen Teilen konsequent umgesetzt)
+ * Browser: Chrome, Edge (aktuellste Versionen)
+ * JavaScript muss aktiviert sein, das wurde bisher aber nur sparsam 
+ 
+---
 

@@ -35,6 +35,8 @@ if (isset($_POST["option"]) and $_POST["option"]=='edit') {
   $info->print_action_info($sammlung->ID, 'update');     
 }
 
+echo '<p> <a href="show_table2.php?table=v_sammlung&sortcol=ID&sortorder=DESC&title=Sammlungen">Alle Sammlungen anzeigen</a></p>'; 
+
   echo '
   <form action="edit_sammlung.php" method="post">
 

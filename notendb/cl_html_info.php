@@ -45,7 +45,8 @@ class HtmlInfo {
         }
  
         $this->html.= '</p>';        
-        echo $this->html; 
+        // echo $this->html; // XXX Ausgabe evt. nicht wirklich hilfeich, weiter beboachten 
+        echo ''; 
     }
 
     function print_close_form_info() {
