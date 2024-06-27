@@ -1,10 +1,8 @@
 ﻿
 # in Arbeit 
-
-  * Für Abfragen, die über die Suche gespeichert werden: Bezeichnungen der gewählten Filter/Kategorien in die Beschreibung übernehmen 
-  * suche SQL: aliasse auflösen (bessere Lesbarkeit)  
-  * Bearbeitungs-Formular Link-Typen 
-  * Screen Abfrage: Link zu Übersicht Abfragen 
+  * Abfage -> Beschreibungstext für Lookups 
+  * Bearbeitungs-Formular für Link-Typen 
+  * Sammlung -> neues Feld "Materialinformation
 
 -----------------
 

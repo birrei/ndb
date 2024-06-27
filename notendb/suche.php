@@ -464,7 +464,6 @@ if ("POST" == $_SERVER["REQUEST_METHOD"]) {
 
     }
 
-
     $query.="
       FROM sammlung 
       LEFT JOIN standort  on sammlung.StandortID = standort.ID    

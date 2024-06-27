@@ -1,6 +1,8 @@
 ﻿
 # Change Log  
 
+27.06.2024: Für Abfragen, die über die Suche gespeichert werden: Bezeichnungen der gewählten Filter/Kategorien wird in die Beschreibung übernommen  (intern: in SQL: aliasse entfernen (bessere Lesbarkeit)) (Hinweis: Ergänzung für "Besonderheiten" (Lookups) noch offen)
+
 26.06.2024: Aktualisierung von Unterformularen (iframes) über das Hauptformualar (zusätzlicher Link)
 
 26.06.2024: Einfügen von Mehrfach-Zuordnungen über das Hauptformular  (zusätzlicher Link)
