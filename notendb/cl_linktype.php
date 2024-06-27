@@ -7,6 +7,7 @@ class Linktype {
   public $Relation;
   public $type_key;
   public $ArrData=[]; 
+  public $titles_selected_list; 
 
   public function __construct(){
     $this->table_name='linktype'; 
@@ -196,6 +197,7 @@ class Linktype {
       $stmt->execute(); 
       $html = new HtmlSelect($stmt); 
       $html->print_select_multi('Linktyp', 'Linktypen[]', $options_selected, 'Linktyp(en):'); 
+      $this->titles_selected_list = $html->titles_selected_list;      
     }
     catch (PDOException $e) {
       include_once("cl_html_info.php"); 

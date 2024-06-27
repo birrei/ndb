@@ -39,6 +39,7 @@ if ($abfrage->success) {
 echo '
   <p>
   <a href="show_abfrage.php?ID='.$abfrage->ID.'&title=Abfrage">Abfrage-Ergebnis anzeigen</a>
+  | <a href="show_table2.php?table=v_abfrage&sortcol=Name&title=Abfragen&add_link_show">zur Übersicht</a>
 </p> 
 
 <form action="edit_abfrage.php" method="post">
@@ -60,16 +61,15 @@ echo '
     <label>
     <td class="eingabe">Beschreibung:</td>  
     <td class="eingabe">
-    <textarea name="Beschreibung" rows=2 cols=120 maxlength="255" oninput="changeBackgroundColor(this)">'.htmlentities($abfrage->Beschreibung).'</textarea> (max. 250 Zeichen)  
+    <textarea name="Beschreibung" rows=2 cols=120 oninput="changeBackgroundColor(this)">'.htmlentities($abfrage->Beschreibung).'</textarea> (max. 250 Zeichen)  
     </td>
     </label>
   </tr> 
-
-    <tr>    
+  <tr>    
       <label>
       <td class="eingabe">Abfrage (SQL):</td>  
       <td class="eingabe">
-      <textarea name="Abfrage" rows=7 cols=120 maxlength="1000" oninput="changeBackgroundColor(this)">'.htmlentities($abfrage->Abfrage).'</textarea> (max. 10000 Zeichen)
+      <textarea name="Abfrage" rows=7 cols=120 oninput="changeBackgroundColor(this)">'.htmlentities($abfrage->Abfrage).'</textarea> (max. 10000 Zeichen)
       </td>
       </label>
     </tr> 

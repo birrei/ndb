@@ -4,6 +4,7 @@ class Erprobt {
   public $table_name; 
   public $ID;
   public $Name;
+  public $titles_selected_list; 
 
   public function __construct(){
     $this->table_name='erprobt'; 
@@ -144,6 +145,7 @@ class Erprobt {
       $stmt->execute(); 
       $html = new HtmlSelect($stmt); 
       $html->print_select_multi('Erprobt', 'Erprobt[]', $options_selected, 'Erprobt:'); 
+      $this->titles_selected_list = $html->titles_selected_list;      
     }
     catch (PDOException $e) {
       include_once("cl_html_info.php"); 

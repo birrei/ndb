@@ -6,6 +6,8 @@ class Besetzung {
   public $ID;
   public $Name;
 
+  public $titles_selected_list; 
+
   public function __construct(){
     $this->table_name='besetzung'; 
   }
@@ -92,6 +94,7 @@ class Besetzung {
       $html = new HtmlSelect($stmt); 
       $html->visible_rows=15; //
       $html->print_select_multi('Besetzung', 'Besetzungen[]', $options_selected, 'Besetzung(en):'); 
+      $this->titles_selected_list = $html->titles_selected_list; 
     }
     catch (PDOException $e) {
       include_once("cl_html_info.php"); 

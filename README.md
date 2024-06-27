@@ -1,15 +1,15 @@
 ﻿
 # Change Log  
 
-26.06.2024: 
-* Aktualsiserung von Unterformularen (iframes): Diese können in allen Fällen auch über das Hauptformualar aktualisiert werden (neuer Link "Aktualisieren" neben Unterformular)
-* Einfügen von Mehrfach-Zuordnungen über das Haupt-Erfassungsformular 
+26.06.2024: Aktualisierung von Unterformularen (iframes) über das Hauptformualar (zusätzlicher Link)
+
+26.06.2024: Einfügen von Mehrfach-Zuordnungen über das Hauptformular  (zusätzlicher Link)
 
 25.06.2024: Startseite, Fußleiste, Bearbeiten-Links aus Übersichtstabellen: die Links werden nicht mehr automatisch im neuen Fenster geöffnet. Innerhalb des Erfassungs-Workflows sollen die Formulare jedoch weiterhin nebeneinander liegen- dort bleibt der Zwang. 
 
-25.06.2024: Erfassung Heftdaten (Sammlung, Musikstück, Satz): Falls währenddessen eine Stammdatentabelle (z.B. Verlag, Komponist, Besetzung ...) ein Eintrag ergänzt werden soll: neben den entspr. Auswahl-Felder ist jetzt ein Link zum Neu-Eintrag verfügbar. 
+25.06.2024: Erfassung Heftdaten (Sammlung, Musikstück, Satz): Falls in einer Stammdatentabelle (z.B. Verlag, Komponist, Besetzung ...) ein Eintrag ergänzt werden soll: neben den entspr. Auswahl-Feldern ist jetzt ein passernder Link verfügbar. 
 
-23.06.2024: Layout: Breite der Suchfelder-Leiste links ist jetzt fix, die Ergebnis-Tabelle kann sich nach rechts   (Umstellung auf CSS Grid  
+23.06.2024: Layout: Breite der Suchfelder-Leiste links ist jetzt fix, die Ergebnis-Tabelle kann sich nach rechts (Umstellung auf CSS Grid  
 
 22.06.2024: Löschfunktionen für Sammlung, Musikstück, Satz. Der Link zum Aufruf der Löschfunkion ist ganz unten auf dem jeweiligen Bearbeitungs-Screen zu finden.   
 

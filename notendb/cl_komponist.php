@@ -10,6 +10,7 @@ class Komponist {
   public $Geburtsjahr;
   public $Sterbejahr;
   public $Bemerkung;
+  public $titles_selected_list; 
 
   public function __construct(){
     $this->table_name='komponist'; 
@@ -182,6 +183,7 @@ class Komponist {
       $stmt->execute(); 
       $html = new HtmlSelect($stmt); 
       $html->print_select_multi('Komponist', 'Komponisten[]', $options_selected, 'Komponist(en):'); 
+      $this->titles_selected_list = $html->titles_selected_list;      
     }
     catch (PDOException $e) {
       include_once("cl_html_info.php"); 

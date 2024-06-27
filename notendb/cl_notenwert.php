@@ -5,6 +5,7 @@ class Notenwert {
   public $table_name; 
   public $ID;
   public $Name;
+  public $titles_selected_list; 
 
   public function __construct(){
     $this->table_name='notenwert'; 
@@ -157,6 +158,7 @@ class Notenwert {
       $stmt->execute(); 
       $html = new HtmlSelect($stmt); 
       $html->print_select_multi('Notenwert', 'Notenwerte[]', $options_selected, 'Notenwert(e):'); 
+      $this->titles_selected_list = $html->titles_selected_list; 
     }
     catch (PDOException $e) {
       include_once("cl_html_info.php"); 

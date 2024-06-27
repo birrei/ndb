@@ -4,6 +4,12 @@ class HtmlSelect {
     public $result; 
     public $count_cols; 
     public $count_rows; 
+    public $option_values=[]; // array, alle value= werte eines select-elements 
+    public $option_titles=[]; // array, alle titles (labels) eines select-Elements  
+    public $option_values_selected=[]; // array, alle ausgewählten value= werte eines select-elements 
+    public $option_titles_selected=[]; // array, alle ausgewählten titles (labels) eines select-Elements  
+    public $titles_list; // String, der die Liste der Titels enthält 
+    public $titles_selected_list; // String, der die Liste der ausgewählten Titels enthält
 
     // config. multi-select 
     protected $visible_rows_default=5; // Zeilen Standard
@@ -20,7 +26,7 @@ class HtmlSelect {
             $this->visible_rows = $this->count_rows; 
         }
     }
-   
+    
     function print_select($keyname, $value_selected='', $add_null_option=true) {
         $html = '';
         if ($this->count_rows > 0) {
@@ -44,7 +50,16 @@ class HtmlSelect {
         if ($this->count_rows > 0) {
             $html.= '<select id="'.$id.'" name="'.$keyname.'" multiple size="'.$this->visible_rows.'" style="width:100%;font-size:9pt">' . PHP_EOL;  
             foreach($this->result as $key => $title) {
-                $html .= ' <option value="' . $key .'"'.(in_array($key,$options_selected)?' selected':'').'>' . $title . '</option>'. PHP_EOL;
+                if (in_array($key,$options_selected)) {
+                    $html .= '<option value="' . $key .'" selected>' . $title . '</option>'. PHP_EOL;
+                    $this->option_values_selected[]=$key;  
+                    $this->option_titles_selected[]=$title;  
+                } 
+                else {
+                    $html .= '<option value="' . $key .'">' . $title . '</option>'. PHP_EOL;   
+                    $this->option_values[]=$key;  
+                    $this->option_titles[]=$title;                                      
+                }
              }
             $html.= '</select>'. PHP_EOL;;
         }
@@ -60,7 +75,10 @@ class HtmlSelect {
             $html.='</p>'. PHP_EOL;;
         }
         echo $html;
+        // echo implode(',', $this->option_values_selected); 
+        $this->titles_selected_list= '* '.$caption.' '.implode(' / ', $this->option_titles_selected).PHP_EOL; 
     }    
+
     function print_preselect($keyname, $value_selected='', $add_null_option=true) {
         $html = '';
         if ($this->count_rows > 0) {

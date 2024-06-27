@@ -7,7 +7,8 @@ class Lookuptype {
   public $Relation;
   public $type_key;
   public $ArrData=[]; 
-
+  public $titles_selected_list; 
+  
   public function __construct(){
     $this->table_name='lookup_type'; 
   }

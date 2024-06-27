@@ -7,6 +7,7 @@
   public $ID;
   public $Name;
   public $Bemerkung;
+  public $titles_selected_list; 
 
   public function __construct(){
     $this->table_name='verlag'; 
@@ -155,7 +156,8 @@
     try {
       $stmt->execute(); 
       $html = new HtmlSelect($stmt); 
-      $html->print_select_multi('Verlag', 'Verlage[]', $options_selected, 'Verlag(e):'); 
+      $html->print_select_multi('Verlag', 'Verlage[]', $options_selected, 'Verlag(e):');
+      $this->titles_selected_list = $html->titles_selected_list;        
     }
     catch (PDOException $e) {
       include_once("cl_html_info.php"); 

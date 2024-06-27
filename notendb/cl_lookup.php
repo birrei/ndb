@@ -12,6 +12,7 @@ class Lookup {
   public $LookupTypeKey;   
   public $TypeName; 
   public $ID_List; 
+  public $titles_selected_list; 
 
   public function __construct(){
     $this->table_name='lookup'; 
@@ -228,11 +229,13 @@ class Lookup {
     // echo $query; 
     $select = $db->prepare($query); 
     $select->bindParam(':LookupTypeID', $this->LookupTypeID);
+     
 
     try {
       $select->execute(); 
       $html = new HtmlSelect($select); 
-      $html->print_select_multi($type_key, $type_key.'[]', $options_selected); 
+      $html->print_select_multi($type_key, $type_key.'[]', $options_selected);
+      $this->titles_selected_list = $html->titles_selected_list;       
     }
     catch (PDOException $e) {
       include_once("cl_html_info.php"); 

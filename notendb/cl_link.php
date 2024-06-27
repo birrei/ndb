@@ -9,7 +9,8 @@ class Link {
   public $URL; 
   public $LinktypeID; 
   public $SammlungID; 
-
+  public $titles_selected_list; 
+  
   public function __construct(){
     $this->table_name='link'; 
   }

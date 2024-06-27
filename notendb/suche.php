@@ -27,27 +27,26 @@ $Standorte=[];   /* Sammlung */
 $Verlage=[];   /* Sammlung */
 $Linktypen=[];   /* Sammlung */
 
+$Komponisten=[];  // im Suchfilter ausgewählte Komponisten (IDs) 
+$Besetzungen=[]; // im Suchfilter ausgewählte Besetzungen (IDs) 
+$Verwendungszwecke=[];  // im Suchfilter ausgewählte Verwendungszwecke (IDs) 
+$Gattungen=[];  // im Suchfilter ausgewählte Gattungen (IDs) 
+$Epochen=[];   // im Suchfilter ausgewählte Epochen (IDs) 
 
-$Komponisten=[];   /* Musikstück  */  
-$Besetzungen=[];   /* Musikstück  */  
-$Verwendungszwecke=[];   /* Musikstück  */  
-$Gattungen=[];   /* Musikstück  */
-$Epochen=[];   /* Musikstück  */
-
-
-$Erprobt=[];  /* Satz  */
-$Schierigkeitsgrad=[];  /* Satz  */
-$Stricharten=[];  /* Satz  */
-$Notenwerte=[];  /* Satz  */
-$Uebungen=[];  /* Satz  */
+$Erprobt=[];  // im Suchfilter ausgewählte Erprobt-Einträge  (IDs) 
+$Schierigkeitsgrad=[]; // im Suchfilter ausgewählte Schwierigkeitsgrade  (IDs) 
+$Stricharten=[];  // im Suchfilter ausgewählte Stricharten  (IDs) 
+$Notenwerte=[]; // im Suchfilter ausgewählte Notenwerte  (IDs) 
+$Uebungen=[]; // im Suchfilter ausgewählte Übung-Einträge  (IDs) 
+$lookuptypes_selected=[]; // im Suchfilter ausgewählte Besonderheiten  (IDs) 
 
 $spieldauer_von=''; 
 $spieldauer_bis=''; 
 $suchtext=''; 
 
-$edit_table=''; /* Tabelle, die über Bearbeiten-Links in Ergebnis-Tabelle abrufbar sein soll */
+$abfrage_beschreibung=''; // String mit den Title-TExten der ausgewählten Einträge 
 
-$lookuptypes_selected=[]; 
+$edit_table=''; /* Tabelle, die über Bearbeiten-Links in Ergebnis-Tabelle abrufbar sein soll */
 
 if (isset($_POST['Ebene'])) {
   $Ebene=$_POST["Ebene"]; 
@@ -154,44 +153,42 @@ if ("POST" == $_SERVER["REQUEST_METHOD"]) {
       $standort->print_select_multi($Standorte);         
 
       $besetzung = new Besetzung();
-      $besetzung->print_select_multi($Besetzungen);       
+      $besetzung->print_select_multi($Besetzungen); 
 
       $verwendungszweck = new Verwendungszweck();
       $verwendungszweck->print_select_multi($Verwendungszwecke);    
 
       $gattung = new Gattung();
-      $gattung->print_select_multi($Gattungen);         
+      $gattung->print_select_multi($Gattungen);  
 
       $epochen = new Epoche();
-      $epochen->print_select_multi($Epochen);         
-     
+      $epochen->print_select_multi($Epochen); 
+
       $schierigkeitsgrad = new Schwierigkeitsgrad();
-      $schierigkeitsgrad->print_select_multi($Schierigkeitsgrad);     
- 
+      $schierigkeitsgrad->print_select_multi($Schierigkeitsgrad);  
+
       $erprobt = new Erprobt();
       $erprobt->print_select_multi($Erprobt);      
 
       $stricharten = new Strichart();
-      $stricharten->print_select_multi($Stricharten);      
+      $stricharten->print_select_multi($Stricharten);     
 
       $notenwerte = new Notenwert();
       $notenwerte->print_select_multi($Notenwerte);      
-
+ 
       $uebungen = new Uebung();
       $uebungen->print_select_multi($Uebungen);      
-
-
+ 
       $verlag = new Verlag();
       $verlag->print_select_multi($Verlage);      
 
       $komponist = new Komponist();
       $komponist->print_select_multi($Komponisten);     
-            
+  
       $linktyp = new Linktype();
       $linktyp->print_select_multi($Linktypen);      
-            
-        ?>    
 
+?>    
      <p><b>Spieldauer:</b>
      <br /> von 
       min: <input type="text" id="SpieldauerVon_min" name="SpieldauerVon_min" size="5" value="" oninput="set_SpieldauerVon();"> 
@@ -284,7 +281,6 @@ if ("POST" == $_SERVER["REQUEST_METHOD"]) {
   
   if ("POST" == $_SERVER["REQUEST_METHOD"]) // XXX 
   {
-
     if (isset($_REQUEST['Standorte'])) {
       $Standorte = $_REQUEST['Standorte'];   
       $filterStandorte = 'IN ('.implode(',', $Standorte).')'; 
@@ -372,19 +368,19 @@ if ("POST" == $_SERVER["REQUEST_METHOD"]) {
       }
     }
     if ($suchtext!='') { 
-      $filterSuchtext =  "(s.Name LIKE '%".$suchtext."%' OR  
-                            s.Bemerkung LIKE '%".$suchtext."%' OR 
-                            s.Bestellnummer LIKE '%".$suchtext."%' OR
-                            m.Name LIKE '%".$suchtext."%' OR                              
-                            m.Opus LIKE '%".$suchtext."%' OR
-                            m.Bearbeiter LIKE '%".$suchtext."%' OR
-                            m.JahrAuffuehrung LIKE '%".$suchtext."%' OR
-                            sa.Name LIKE '%".$suchtext."%' OR
-                            sa.Taktart LIKE '%".$suchtext."%' OR
-                            sa.Tonart LIKE '%".$suchtext."%' OR
-                            sa.Tempobezeichnung LIKE '%".$suchtext."%' OR
-                            sa.Bemerkung LIKE '%".$suchtext."%' OR 
-                            b.Name LIKE '%".$suchtext."%' /* 28.05.2024 */ 
+      $filterSuchtext =  "(sammlung.Name LIKE '%".$suchtext."%' OR  
+                            sammlung.Bemerkung LIKE '%".$suchtext."%' OR 
+                            sammlung.Bestellnummer LIKE '%".$suchtext."%' OR
+                            musikstueck.Name LIKE '%".$suchtext."%' OR                              
+                            musikstueck.Opus LIKE '%".$suchtext."%' OR
+                            musikstueck.Bearbeiter LIKE '%".$suchtext."%' OR
+                            musikstueck.JahrAuffuehrung LIKE '%".$suchtext."%' OR
+                            satz.Name LIKE '%".$suchtext."%' OR
+                            satz.Taktart LIKE '%".$suchtext."%' OR
+                            satz.Tonart LIKE '%".$suchtext."%' OR
+                            satz.Tempobezeichnung LIKE '%".$suchtext."%' OR
+                            satz.Bemerkung LIKE '%".$suchtext."%' OR 
+                            besetzung.Name LIKE '%".$suchtext."%' /* 28.05.2024 */ 
                             )"; 
 
       $filter=true; 
@@ -406,65 +402,62 @@ if ("POST" == $_SERVER["REQUEST_METHOD"]) {
 
     switch ($Ebene){
       case 'Sammlung': 
-        $query.="SELECT s.ID
-            ,s.Name as Sammlung
-            , st.Name as Standort
+        $query.="SELECT sammlung.ID
+            ,sammlung.Name as Sammlung
+            , standort.Name as Standort
             , verlag.Name as Verlag
             , GROUP_CONCAT(DISTINCT linktype.Name order by linktype.Name SEPARATOR ', ') Links            
-            , s.Bemerkung 
-            , GROUP_CONCAT(DISTINCT m.Name order by m.Nummer SEPARATOR ', ') Musikstuecke
-            , s.Bestellnummer 
+            , sammlung.Bemerkung 
+            , GROUP_CONCAT(DISTINCT musikstueck.Name order by musikstueck.Nummer SEPARATOR ', ') Musikstuecke
+            , sammlung.Bestellnummer 
             ";
         $edit_table='sammlung'; 
           break; 
       case 'Musikstueck': 
-        $query.="SELECT m.ID
-            ,s.Name as Sammlung
-            , st.Name as Standort
-            , m.Nummer as MNr
-            , m.Name as Musikstueck
-            , k.Name as Komponist
-            , m.Bearbeiter 
+        $query.="SELECT musikstueck.ID
+            ,sammlung.Name as Sammlung
+            , standort.Name as Standort
+            , musikstueck.Nummer as MNr
+            , musikstueck.Name as Musikstueck
+            , komponist.Name as Komponist
+            , musikstueck.Bearbeiter 
             , gattung.Name as Gattung 
             , epoche.Name as Epoche
-            , m.JahrAuffuehrung            
-            , GROUP_CONCAT(DISTINCT b.Name order by b.Name SEPARATOR ', ') Besetzungen
-            , GROUP_CONCAT(DISTINCT v.Name order by v.Name SEPARATOR ', ') Verwendungszwecke   
-            , GROUP_CONCAT(DISTINCT sa.Name order by sa.Nr SEPARATOR ', ') Saetze                 
+            , musikstueck.JahrAuffuehrung            
+            , GROUP_CONCAT(DISTINCT besetzung.Name order by besetzung.Name SEPARATOR ', ') Besetzungen
+            , GROUP_CONCAT(DISTINCT verwendungszweck.Name order by verwendungszweck.Name SEPARATOR ', ') Verwendungszwecke   
+            , GROUP_CONCAT(DISTINCT satz.Name order by satz.Nr SEPARATOR ', ') Saetze                 
             ";         
 
         $edit_table='musikstueck'; 
           break; 
 
       case 'Satz': 
-        $query.="SELECT sa.ID
-            ,s.Name as Sammlung
-            -- , st.Name as Standort
-            , m.Nummer as MNr
-            , m.Name as Musikstueck
-            -- , k.Name as Komponist            
-            , sa.Nr as SatzNr
-            , sa.Name as Satz 
-            , sa.Tonart 
-            , sa.Taktart
-            , sa.Tempobezeichnung
-            -- , sa.Spieldauer
+        $query.="SELECT satz.ID
+            ,sammlung.Name as Sammlung
+            , musikstueck.Nummer as MNr
+            , musikstueck.Name as Musikstueck
+            , satz.Nr as SatzNr
+            , satz.Name as Satz 
+            , satz.Tonart 
+            , satz.Taktart
+            , satz.Tempobezeichnung
             , concat(
-                sa.Spieldauer DIV 60
+                satz.Spieldauer DIV 60
                 ,''''
                 , 
-                sa.Spieldauer MOD 60
+                satz.Spieldauer MOD 60
                 , ''''''
               ) as Spieldauer            
             , schwierigkeitsgrad.Name as Schwierigkeitsgrad
             , erprobt.Name as Erprobt             
             , GROUP_CONCAT(DISTINCT uebung.Name order by uebung.Name SEPARATOR ', ') Uebung              
-            , GROUP_CONCAT(DISTINCT str.Name order by str.Name SEPARATOR ', ') Stricharten              
+            , GROUP_CONCAT(DISTINCT strichart.Name order by strichart.Name SEPARATOR ', ') Stricharten              
             , GROUP_CONCAT(DISTINCT notenwert.Name order by notenwert.Name SEPARATOR ', ') Notenwerte
             , GROUP_CONCAT(DISTINCT uebung.Name order by uebung.Name SEPARATOR ', ') Uebungen
             , GROUP_CONCAT(DISTINCT concat(lookup_type.Name, ': ', lookup.Name)  order by  concat(lookup_type.Name, ': ', lookup.Name)  SEPARATOR ', ') Besonderheiten                    
-            , sa.Lagen 
-            , sa.Bemerkung                         
+            , satz.Lagen 
+            , satz.Bemerkung                         
             ";        
       $edit_table='satz';                 
         break;      
@@ -473,30 +466,30 @@ if ("POST" == $_SERVER["REQUEST_METHOD"]) {
 
 
     $query.="
-      FROM sammlung s 
-      LEFT JOIN standort st on s.StandortID = st.ID    
-      LEFT JOIN verlag  on s.VerlagID = verlag.ID
-      LEFT JOIN link  on s.ID = link.SammlungID
+      FROM sammlung 
+      LEFT JOIN standort  on sammlung.StandortID = standort.ID    
+      LEFT JOIN verlag  on sammlung.VerlagID = verlag.ID
+      LEFT JOIN link  on sammlung.ID = link.SammlungID
       LEFT JOIN linktype  on linktype.ID = link.LinktypeID
-      LEFT JOIN musikstueck m on s.ID = m.SammlungID 
-      LEFT JOIN v_komponist k on k.ID = m.KomponistID
-      LEFT JOIN gattung on gattung.ID = m.GattungID  
-      LEFT JOIN epoche on epoche.ID = m.EpocheID              
-      LEFT JOIN musikstueck_besetzung mb on m.ID = mb.MusikstueckID
-      LEFT JOIN besetzung b on mb.BesetzungID = b.ID
-      LEFT JOIN musikstueck_verwendungszweck mv on m.ID = mv.MusikstueckID 
-      LEFT JOIN verwendungszweck v on mv.VerwendungszweckID=v.ID    
-      LEFT JOIN satz sa on sa.MusikstueckID = m.ID 
-      LEFT JOIN satz_strichart ssa on ssa.satzID = sa.ID
-      LEFT JOIN strichart str on ssa.StrichartID = str.ID 
-      LEFT JOIN satz_notenwert on satz_notenwert.SatzID = sa.ID
+      LEFT JOIN musikstueck on sammlung.ID = musikstueck.SammlungID 
+      LEFT JOIN v_komponist komponist on komponist.ID = musikstueck.KomponistID
+      LEFT JOIN gattung on gattung.ID = musikstueck.GattungID  
+      LEFT JOIN epoche on epoche.ID = musikstueck.EpocheID              
+      LEFT JOIN musikstueck_besetzung on musikstueck.ID = musikstueck_besetzung.MusikstueckID
+      LEFT JOIN besetzung on musikstueck_besetzung.BesetzungID = besetzung.ID
+      LEFT JOIN musikstueck_verwendungszweck on musikstueck.ID = musikstueck_verwendungszweck.MusikstueckID 
+      LEFT JOIN verwendungszweck on musikstueck_verwendungszweck.VerwendungszweckID=verwendungszweck.ID    
+      LEFT JOIN satz on satz.MusikstueckID = musikstueck.ID 
+      LEFT JOIN satz_strichart on satz_strichart.satzID = satz.ID
+      LEFT JOIN strichart on satz_strichart.StrichartID = strichart.ID 
+      LEFT JOIN satz_notenwert on satz_notenwert.SatzID = satz.ID
       LEFT JOIN notenwert on notenwert.ID = satz_notenwert.NotenwertID  
-      LEFT JOIN erprobt on erprobt.ID = sa.ErprobtID       
-      LEFT JOIN schwierigkeitsgrad on schwierigkeitsgrad.ID = sa.SchwierigkeitsgradID    
-      LEFT JOIN satz_uebung on satz_uebung.SatzID = sa.ID 
+      LEFT JOIN erprobt on erprobt.ID = satz.ErprobtID       
+      LEFT JOIN schwierigkeitsgrad on schwierigkeitsgrad.ID = satz.SchwierigkeitsgradID    
+      LEFT JOIN satz_uebung on satz_uebung.SatzID = satz.ID 
       LEFT JOIN uebung on uebung.ID = satz_uebung.UebungID    
 
-      left join satz_lookup on satz_lookup.SatzID = sa.ID 
+      left join satz_lookup on satz_lookup.SatzID = satz.ID 
       left join lookup on lookup.ID = satz_lookup.LookupID 
       left join lookup_type on lookup_type.ID = lookup.LookupTypeID
       
@@ -506,40 +499,40 @@ if ("POST" == $_SERVER["REQUEST_METHOD"]) {
       /*   */
       switch ($Ebene){    
         case 'Musikstueck': 
-          $query.=" AND m.ID IS NOT NULL ". PHP_EOL;         
+          $query.=" AND musikstueck.ID IS NOT NULL ". PHP_EOL;         
           break; 
         case 'Satz': 
-          $query.=" AND sa.ID IS NOT NULL ". PHP_EOL;             
+          $query.=" AND satz.ID IS NOT NULL ". PHP_EOL;             
           break;      
       }
 
      /* Filter ergänzen */   
       if($filterStandorte!=''){
-        $query.=' AND s.StandortID '.$filterStandorte. PHP_EOL; 
+        $query.=' AND sammlung.StandortID '.$filterStandorte. PHP_EOL; 
       } 
       if($filterVerlage!=''){
-        $query.=' AND s.VerlagID '.$filterVerlage. PHP_EOL; 
+        $query.=' AND sammlung.VerlagID '.$filterVerlage. PHP_EOL; 
       }
       if($filterLinktypen!=''){
         $query.=' AND link.LinktypeID '.$filterLinktypen. PHP_EOL; 
       }             
       if($filterKomponisten!=''){
-        $query.=' AND m.KomponistID '.$filterKomponisten. PHP_EOL; 
+        $query.=' AND musikstueck.KomponistID '.$filterKomponisten. PHP_EOL; 
       }            
       if($filterBesetzung!=''){
-        $query.=' AND mb.BesetzungID '.$filterBesetzung. PHP_EOL; 
+        $query.=' AND musikstueck_besetzung.BesetzungID '.$filterBesetzung. PHP_EOL; 
       }
       if($filterVerwendungszweck!=''){
-        $query.=' AND mv.VerwendungszweckID '.$filterVerwendungszweck. PHP_EOL; 
+        $query.=' AND musikstueck_verwendungszweck.VerwendungszweckID '.$filterVerwendungszweck. PHP_EOL; 
       }
       if($filterGattungen!=''){
-        $query.=' AND m.GattungID '.$filterGattungen. PHP_EOL; 
+        $query.=' AND musikstueck.GattungID '.$filterGattungen. PHP_EOL; 
       }    
       if($filterEpochen!=''){
-        $query.=' AND m.EpocheID '.$filterEpochen. PHP_EOL; 
+        $query.=' AND musikstueck.EpocheID '.$filterEpochen. PHP_EOL; 
       }           
       if($filterStricharten!=''){
-        $query.=' AND ssa.StrichartID '.$filterStricharten. PHP_EOL; 
+        $query.=' AND satz_strichart.StrichartID '.$filterStricharten. PHP_EOL; 
       }
       if($filterNotenwerte!=''){
         $query.=' AND satz_notenwert.NotenwertID '.$filterNotenwerte. PHP_EOL; 
@@ -548,55 +541,81 @@ if ("POST" == $_SERVER["REQUEST_METHOD"]) {
         $query.=' AND satz_uebung.UebungID '.$filterUebungen. PHP_EOL; 
       }       
       if($filterErprobt!=''){
-        $query.=' AND sa.ErprobtID '.$filterErprobt. PHP_EOL; 
+        $query.=' AND satz.ErprobtID '.$filterErprobt. PHP_EOL; 
       }
       if($filterSchwierigkeitsgrad!=''){
-        $query.=' AND sa.SchwierigkeitsgradID '.$filterSchwierigkeitsgrad. PHP_EOL; 
+        $query.=' AND satz.SchwierigkeitsgradID '.$filterSchwierigkeitsgrad. PHP_EOL; 
       }                
       if($filterSpieldauer!=''){
-        $query.=' AND sa.Spieldauer '.$filterSpieldauer. PHP_EOL; 
+        $query.=' AND satz.Spieldauer '.$filterSpieldauer. PHP_EOL; 
       }
       if($filterSuchtext!=''){
         $query.=' AND'.$filterSuchtext. PHP_EOL; 
       }
-      $query.=($filterLookups!=''?' AND satz_lookup.LookupID '.$filterLookups.PHP_EOL:''); 
+      $query.=($filterLookups!=''?' AND satz_lookup.LookupID '.$filterLookupsammlung.PHP_EOL:''); 
 
 
       /* Gruppierung abhängig von Ebene  */
       switch ($Ebene){    
         case 'Sammlung': 
-          $query.=" group by s.ID". PHP_EOL;     
+          $query.=" group by sammlung.ID". PHP_EOL;     
           break; 
         case 'Musikstueck': 
-          $query.=" group by m.ID". PHP_EOL;         
+          $query.=" group by musikstueck.ID". PHP_EOL;         
           break; 
         case 'Satz': 
-          $query.=" group by sa.ID". PHP_EOL;             
+          $query.=" group by satz.ID". PHP_EOL;             
           break;      
       }
 
       /* Sortierung abhängig von Ebene  */
       switch ($Ebene){    
         case 'Sammlung': 
-          $query.=" ORDER BY s.Name". PHP_EOL;     
+          $query.=" ORDER BY sammlung.Name". PHP_EOL;     
           break; 
         case 'Musikstueck': 
-          $query.=" ORDER BY s.Name, m.Nummer". PHP_EOL;         
+          $query.=" ORDER BY sammlung.Name, musikstueck.Nummer". PHP_EOL;         
           break; 
         case 'Satz': 
-          $query.=" ORDER BY s.Name, m.Nummer, sa.Nr". PHP_EOL;           
+          $query.=" ORDER BY sammlung.Name, musikstueck.Nummer, satz.Nr". PHP_EOL;           
           break;      
       }
 
-      // echo '<pre>'.$query.'</pre>'; // Test 
+          // echo '<pre>'.$query.'</pre>'; // Test  
 
+      /* Werte für Beschreibungs-Text einsammeln */
+      $abfrage_beschreibung.=(count($Standorte)>0?$standort->titles_selected_list:'');  
+      $abfrage_beschreibung.=(count($Besetzungen)>0?$besetzung->titles_selected_list:'');  
+      $abfrage_beschreibung.=(count($Verwendungszwecke)>0?$verwendungszweck->titles_selected_list:'');  
+      $abfrage_beschreibung.=(count($Gattungen)>0?$gattung->titles_selected_list:'');  
+      $abfrage_beschreibung.=(count($Epochen)>0?$epochen->titles_selected_list:'');  
+      $abfrage_beschreibung.=(count($Schierigkeitsgrad)>0?$schierigkeitsgrad->titles_selected_list:'');     
+      $abfrage_beschreibung.=(count($Erprobt)>0?$erprobt->titles_selected_list:'');     
+      $abfrage_beschreibung.=(count($Notenwerte)>0?$notenwerte->titles_selected_list:'');     
+      $abfrage_beschreibung.=(count($Uebungen)>0?$uebungen->titles_selected_list:'');     
+      $abfrage_beschreibung.=(count($Verlage)>0?$verlag->titles_selected_list:'');     
+      $abfrage_beschreibung.=(count($Komponisten)>0?$komponist->titles_selected_list:''); 
+      $abfrage_beschreibung.=(count($Stricharten)>0?$stricharten->titles_selected_list:'');     
+          
+      $abfrage_beschreibung.=(count($Linktypen)>0?$linktyp->titles_selected_list:'');   
+      if($spieldauer_von !='' and $spieldauer_bis !=''){
+          $abfrage_beschreibung.='* Spieldauer von '.$spieldauer_von.' bis '.$spieldauer_bis.' Sekunden'.PHP_EOL;
+      }
+      if ($suchtext!='') {
+          $abfrage_beschreibung.='* Suchtext: '.$suchtext.PHP_EOL;
+      }
+      // XXX Lookups / Besonderheiten 
+        
+      // echo '<pre>'.$abfrage_beschreibung.'</pre>'; // Test    
+          
       if (isset($_POST["Abfrage"])) {
         // Abfrage speichern, Ergebnis nicht ausgeben 
         if ($_POST["Abfrage"]!='') {
+       
           include_once("cl_abfrage.php");
           $abfrage = new Abfrage();
           $abfrage->insert_row($_POST["Abfrage"]); 
-          $abfrage->update_row($abfrage->Name,'',$query, $edit_table);
+          $abfrage->update_row($abfrage->Name,$abfrage_beschreibung,$query, $edit_table);
           echo '<p>Die Suche wurde als Abfrage gespeichert: <br />'; 
           echo '<a href="show_abfrage.php?ID='.$abfrage->ID.'&title=Abfrage" target="_blank">Abfrage-Ergebnis anzeigen</a>
               | <a href="edit_abfrage.php?ID='.$abfrage->ID.'&title=Abfrage" target="_blank">Abfrage bearbeiten</a>';

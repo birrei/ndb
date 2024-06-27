@@ -1,20 +1,23 @@
 ﻿
 # in Arbeit 
 
+  * Für Abfragen, die über die Suche gespeichert werden: Bezeichnungen der gewählten Filter/Kategorien in die Beschreibung übernehmen 
+  * suche SQL: aliasse auflösen (bessere Lesbarkeit)  
   * Bearbeitungs-Formular Link-Typen 
-
+  * Screen Abfrage: Link zu Übersicht Abfragen 
 
 -----------------
 
-# In Planung: 
-## Review / AG 
+# In Planung
+
+## Review mit AG 
  * Sammlung Links mit oder ohne Typen? 
- * "Stricharten" zu "Besonderheiten" ?  
+ * "Stricharten" / "Notenwerte" zu "Besonderheiten" ?  
 
 ## Neue Features
 
 ## Verbesserungen
-  * Für Abfragen, die über die Suche gespeichert werden: Bezeichnungen der gewählten Filter/Kategorien in die Beschreibung übernehmen 
+
   * Fehlerbehandlung, falls Bearbeiten-Formular bei nicht exisiterender ID geöffnet wird (siehe Vorlage edit_abfrage.php, cl_abfrage.php) 
   * Aktualisierngs-Datum / -zeit für jede Tabelle 
   * Logging 
@@ -24,7 +27,7 @@
   * Gespeicherte Suchen 
 
 ----- 
-
+  * Lookups ("Besonderheiten") auch für Sammlung und Musikstück  
   * Tabelle lookup_type Feld type_key muss eindeutig sein (unique constraint anlegen)
   * Links zur Sammlung (Digitale Exemplare, Links zu Bestellung)
   * Link Typ insert Bearbeitung  

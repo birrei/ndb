@@ -17,7 +17,9 @@ if ($abfrage->success) {
   $show_edit_link=true;
 
   echo '<h3>'.$abfrage->Name.'</h3>'; 
-  echo '<h4>'.$abfrage->Beschreibung.'</h4>';
+  // echo '<h4>'.$abfrage->Beschreibung.'</h4>';
+  echo '<pre>'.$abfrage->Beschreibung.'</pre>';
+
 
   echo '<p><a href="edit_abfrage.php?ID='.$abfrage->ID.'&title=Abfrage">Abfrage bearbeiten</a></p> '; 
 

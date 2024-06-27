@@ -5,6 +5,7 @@ class Gattung {
   public $table_name; 
   public $ID;
   public $Name;
+  public $titles_selected_list; 
 
   public function __construct(){
     $this->table_name='gattung'; 
@@ -146,6 +147,7 @@ class Gattung {
       $stmt->execute(); 
       $html = new HtmlSelect($stmt); 
       $html->print_select_multi('Gattung', 'Gattungen[]', $options_selected, 'Gattung:'); 
+      $this->titles_selected_list = $html->titles_selected_list;
     }
     catch (PDOException $e) {
       include_once("cl_html_info.php"); 
