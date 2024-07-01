@@ -210,8 +210,7 @@ class Lookup {
     
   }  
 
-  function print_select_multi($type_key, $options_selected=[]){
-
+  function print_select_multi($type_key, $options_selected=[], $caption=''){
     include_once("cl_db.php");  
     include_once("cl_html_select.php");
     
@@ -234,8 +233,9 @@ class Lookup {
     try {
       $select->execute(); 
       $html = new HtmlSelect($select); 
-      $html->print_select_multi($type_key, $type_key.'[]', $options_selected);
-      $this->titles_selected_list = $html->titles_selected_list;       
+      $html->print_select_multi($type_key, $type_key.'[]', $options_selected,$caption);
+      $this->titles_selected_list = $html->titles_selected_list;
+           
     }
     catch (PDOException $e) {
       include_once("cl_html_info.php"); 

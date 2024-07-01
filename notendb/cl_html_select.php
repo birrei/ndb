@@ -4,10 +4,10 @@ class HtmlSelect {
     public $result; 
     public $count_cols; 
     public $count_rows; 
-    public $option_values=[]; // array, alle value= werte eines select-elements 
-    public $option_titles=[]; // array, alle titles (labels) eines select-Elements  
-    public $option_values_selected=[]; // array, alle ausgewählten value= werte eines select-elements 
-    public $option_titles_selected=[]; // array, alle ausgewählten titles (labels) eines select-Elements  
+    public $option_values=[]; // alle values 
+    public $option_titles=[]; // alle titles 
+    public $option_values_selected=[]; // alle ausgewählten values 
+    public $option_titles_selected=[]; // alle ausgewählten titles  
     public $titles_list; // String, der die Liste der Titels enthält 
     public $titles_selected_list; // String, der die Liste der ausgewählten Titels enthält
 
@@ -75,7 +75,6 @@ class HtmlSelect {
             $html.='</p>'. PHP_EOL;;
         }
         echo $html;
-        // echo implode(',', $this->option_values_selected); 
         $this->titles_selected_list= '* '.$caption.' '.implode(' / ', $this->option_titles_selected).PHP_EOL; 
     }    
 

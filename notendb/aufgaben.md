@@ -1,8 +1,13 @@
 ﻿
 # in Arbeit 
+
+  * Fortsetzung Anpassung Formulare: "Aktualisieren" / "Hinzufügen"  
   * Abfage -> Beschreibungstext für Lookups 
   * Bearbeitungs-Formular für Link-Typen 
   * Sammlung -> neues Feld "Materialinformation
+  * Schwierigkeitsgrad Differenzierung  -> Sammlung iD 167
+  * Abfragen: Alle Sammlungen mit "Kauf"-Link 
+  
 
 -----------------
 

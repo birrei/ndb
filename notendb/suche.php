@@ -38,13 +38,14 @@ $Schierigkeitsgrad=[]; // im Suchfilter ausgewählte Schwierigkeitsgrade  (IDs)
 $Stricharten=[];  // im Suchfilter ausgewählte Stricharten  (IDs) 
 $Notenwerte=[]; // im Suchfilter ausgewählte Notenwerte  (IDs) 
 $Uebungen=[]; // im Suchfilter ausgewählte Übung-Einträge  (IDs) 
-$lookuptypes_selected=[]; // im Suchfilter ausgewählte Besonderheiten  (IDs) 
+
+$lookuptypes_selected=[]; // im Suchfilter ausgewählte Besonderheit-Typen  XXX ?
 
 $spieldauer_von=''; 
 $spieldauer_bis=''; 
 $suchtext=''; 
 
-$abfrage_beschreibung=''; // String mit den Title-TExten der ausgewählten Einträge 
+$abfrage_beschreibung=''; // String mit den Title-Texten der ausgewählten Einträge 
 
 $edit_table=''; /* Tabelle, die über Bearbeiten-Links in Ergebnis-Tabelle abrufbar sein soll */
 
@@ -56,7 +57,8 @@ if (isset($_POST['Ebene'])) {
 
 /* 
  Die mit dem Absenden der Suche gesetzten Werte werden wieder in die Form-Elemente eingelesen. 
- Die Sucheinstellungen "bleiben stehen" und werden nur durch betätigen der "Filter zurücksetzen" Buttons wieder aufgelöst 
+ Die Sucheinstellungen "bleiben stehen" und werden nur durch Betätigen der 
+ "Filter zurücksetzen" - Buttons wieder aufgelöst 
 */
 
 if ("POST" == $_SERVER["REQUEST_METHOD"]) {
@@ -217,18 +219,47 @@ if ("POST" == $_SERVER["REQUEST_METHOD"]) {
      </p>
   <?php 
 
+
+
+
+    /******  Werte für Beschreibungs-Text einsammeln */
+    $abfrage_beschreibung.=(count($Standorte)>0?$standort->titles_selected_list:'');  
+    $abfrage_beschreibung.=(count($Besetzungen)>0?$besetzung->titles_selected_list:'');  
+    $abfrage_beschreibung.=(count($Verwendungszwecke)>0?$verwendungszweck->titles_selected_list:'');  
+    $abfrage_beschreibung.=(count($Gattungen)>0?$gattung->titles_selected_list:'');  
+    $abfrage_beschreibung.=(count($Epochen)>0?$epochen->titles_selected_list:'');  
+    $abfrage_beschreibung.=(count($Schierigkeitsgrad)>0?$schierigkeitsgrad->titles_selected_list:'');     
+    $abfrage_beschreibung.=(count($Erprobt)>0?$erprobt->titles_selected_list:'');     
+    $abfrage_beschreibung.=(count($Notenwerte)>0?$notenwerte->titles_selected_list:'');     
+    $abfrage_beschreibung.=(count($Uebungen)>0?$uebungen->titles_selected_list:'');     
+    $abfrage_beschreibung.=(count($Verlage)>0?$verlag->titles_selected_list:'');     
+    $abfrage_beschreibung.=(count($Komponisten)>0?$komponist->titles_selected_list:''); 
+    $abfrage_beschreibung.=(count($Stricharten)>0?$stricharten->titles_selected_list:'');     
+    $abfrage_beschreibung.=(count($Linktypen)>0?$linktyp->titles_selected_list:''); 
+
+    if($spieldauer_von !='' and $spieldauer_bis !=''){
+        $abfrage_beschreibung.='* Spieldauer von '.$spieldauer_von.' bis '.$spieldauer_bis.' Sekunden'.PHP_EOL;
+    }
+    if ($suchtext!='') {
+        $abfrage_beschreibung.='* Suchtext: '.$suchtext.PHP_EOL;
+    }
+     
+
+
+    
   $lookuptypes=new Lookuptype(); 
   $lookuptypes->setArrData(); 
 
   for ($i = 0; $i < count($lookuptypes->ArrData); $i++) {
     $lookup=New Lookup(); 
     $lookup->LookupTypeID=$lookuptypes->ArrData[$i]["ID"];
-    echo '<p><b>'.$lookuptypes->ArrData[$i]["Name"].':</b><br/>'; /* Auswahl-Box Bezeichnung*/
+    $lookup_caption=$lookuptypes->ArrData[$i]["Name"]; 
+    // echo '<p><b>'.$lookup_caption.':</b><br/>'; 
     $type_key= $lookuptypes->ArrData[$i]["type_key"];       // $_POST[ $type_key]) = Array enthält die ausgewählten Werte (IDs) 
     
     if (isset($_POST[$type_key])) {
-      $lookup->print_select_multi($lookuptypes->ArrData[$i]["type_key"], $_POST[$type_key]);
-      // $lookuptypes_selected[] = $_POST[$type_key];
+      $lookup->print_select_multi($lookuptypes->ArrData[$i]["type_key"], $_POST[$type_key], $lookup_caption.':');
+      $abfrage_beschreibung.=$lookup->titles_selected_list; 
       $lookuptypes_selected = array_merge($lookuptypes_selected, $_POST[$type_key]);  // Sammlung markierte Eintrag-IDS aus allen Lookups 
     } else  {
       $lookup->print_select_multi($lookuptypes->ArrData[$i]["type_key"]);
@@ -551,8 +582,7 @@ if ("POST" == $_SERVER["REQUEST_METHOD"]) {
       if($filterSuchtext!=''){
         $query.=' AND'.$filterSuchtext. PHP_EOL; 
       }
-      $query.=($filterLookups!=''?' AND satz_lookup.LookupID '.$filterLookupsammlung.PHP_EOL:''); 
-
+      $query.=($filterLookups!=''?' AND satz_lookup.LookupID '.$filterLookups.PHP_EOL:''); 
 
       /* Gruppierung abhängig von Ebene  */
       switch ($Ebene){    
@@ -580,33 +610,10 @@ if ("POST" == $_SERVER["REQUEST_METHOD"]) {
           break;      
       }
 
-          // echo '<pre>'.$query.'</pre>'; // Test  
+      // echo '<pre>'.$query.'</pre>'; // Test  
 
-      /* Werte für Beschreibungs-Text einsammeln */
-      $abfrage_beschreibung.=(count($Standorte)>0?$standort->titles_selected_list:'');  
-      $abfrage_beschreibung.=(count($Besetzungen)>0?$besetzung->titles_selected_list:'');  
-      $abfrage_beschreibung.=(count($Verwendungszwecke)>0?$verwendungszweck->titles_selected_list:'');  
-      $abfrage_beschreibung.=(count($Gattungen)>0?$gattung->titles_selected_list:'');  
-      $abfrage_beschreibung.=(count($Epochen)>0?$epochen->titles_selected_list:'');  
-      $abfrage_beschreibung.=(count($Schierigkeitsgrad)>0?$schierigkeitsgrad->titles_selected_list:'');     
-      $abfrage_beschreibung.=(count($Erprobt)>0?$erprobt->titles_selected_list:'');     
-      $abfrage_beschreibung.=(count($Notenwerte)>0?$notenwerte->titles_selected_list:'');     
-      $abfrage_beschreibung.=(count($Uebungen)>0?$uebungen->titles_selected_list:'');     
-      $abfrage_beschreibung.=(count($Verlage)>0?$verlag->titles_selected_list:'');     
-      $abfrage_beschreibung.=(count($Komponisten)>0?$komponist->titles_selected_list:''); 
-      $abfrage_beschreibung.=(count($Stricharten)>0?$stricharten->titles_selected_list:'');     
-          
-      $abfrage_beschreibung.=(count($Linktypen)>0?$linktyp->titles_selected_list:'');   
-      if($spieldauer_von !='' and $spieldauer_bis !=''){
-          $abfrage_beschreibung.='* Spieldauer von '.$spieldauer_von.' bis '.$spieldauer_bis.' Sekunden'.PHP_EOL;
-      }
-      if ($suchtext!='') {
-          $abfrage_beschreibung.='* Suchtext: '.$suchtext.PHP_EOL;
-      }
-      // XXX Lookups / Besonderheiten 
-        
       // echo '<pre>'.$abfrage_beschreibung.'</pre>'; // Test    
-          
+      
       if (isset($_POST["Abfrage"])) {
         // Abfrage speichern, Ergebnis nicht ausgeben 
         if ($_POST["Abfrage"]!='') {

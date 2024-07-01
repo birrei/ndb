@@ -154,32 +154,30 @@ echo  ' </label>
     <input type="hidden" name="title" value="Musikstueck">  
     </form>
 
-
-    <tr> 
+  <tr> 
     <td class="eingabe">Verwendungszweck(e):
-    <br> <a href="edit_musikstueck_list_verwendungszwecke.php?MusikstueckID='.$musikstueck->ID.'" target="Verwendungszwecke">Aktualisieren</a>
+      <br><a href="insert_verwendungszweck.php?title=Verwendungszweck" target="_blank">Neu erfassen</a>
+      <br><a href="edit_musikstueck_list_verwendungszwecke.php?MusikstueckID='.$musikstueck->ID.'" target="Verwendungszwecke">Aktualisieren</a>
     </td> 
-    <td class="eingabe"><iframe src="edit_musikstueck_list_verwendungszwecke.php?MusikstueckID='.$musikstueck->ID.'" width="500" height="100" name="Verwendungszwecke"></iframe> 
-    <a href="insert_verwendungszweck.php?title=Verwendungszweck" target="_blank">Neuen Verwendungszweck erfassen</a>
+    <td class="eingabe">
+      <iframe src="edit_musikstueck_list_verwendungszwecke.php?MusikstueckID='.$musikstueck->ID.'" width="500" height="100" name="Verwendungszwecke"></iframe> 
     </td>
   </tr> 
-      
 
   <tr> 
     <td class="eingabe">Besetzung(en):
-    <br> <a href="edit_musikstueck_list_besetzungen.php?MusikstueckID='.$musikstueck->ID.'" target="Besetzungen">Aktualisieren</a>    
-    </td> 
-    <td class="eingabe"><iframe src="edit_musikstueck_list_besetzungen.php?MusikstueckID='.$musikstueck->ID.'" width="500" height="100" name="Besetzungen"></iframe>
-    <a href="insert_besetzung.php?title=Besetzung" target="_blank">Neue Besetzung erfassen</a
-  
+      <br> <a href="insert_besetzung.php?title=Besetzung" target="_blank">Neu erfassen</a>
+      <br> <a href="edit_musikstueck_list_besetzungen.php?MusikstueckID='.$musikstueck->ID.'" target="Besetzungen">Aktualisieren</a>    
+      </td> 
+    <td class="eingabe">
+      <iframe src="edit_musikstueck_list_besetzungen.php?MusikstueckID='.$musikstueck->ID.'" width="500" height="100" name="Besetzungen"></iframe>
     </td>
   </tr> 
 
   <tr> 
     <td class="eingabe">Sätze:
-    <p><a href="edit_satz.php?MusikstueckID='.$musikstueck->ID.'&option=insert&title=Satz" target="_blank">Satz hinzufügen</a></p>
-    <p> <a href="edit_musikstueck_list_saetze.php?MusikstueckID='.$musikstueck->ID.'" target="Saetze">Aktualisieren</a></p>
-
+    <br><a href="edit_satz.php?MusikstueckID='.$musikstueck->ID.'&option=insert&title=Satz" target="_blank">Satz hinzufügen</a>
+    <br><a href="edit_musikstueck_list_saetze.php?MusikstueckID='.$musikstueck->ID.'" target="Saetze">Aktualisieren</a>
     
     </td> 
     <td class="eingabe"><iframe src="edit_musikstueck_list_saetze.php?MusikstueckID='.$musikstueck->ID.'" width="100%" height="400" name="Saetze"></iframe>

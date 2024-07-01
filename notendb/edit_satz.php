@@ -45,19 +45,6 @@ if (isset($_POST["option"])) {
     $info->print_action_info($satz->ID, 'update'); 
     // $info->print_close_form_info();                     
   }
-  // if ($_POST["option"] == 'delete1') { 
-  //   echo '
-  //   <form action="edit_satz.php" method="post">
-  //   <b>Soll der angezeigte Satz gelöscht werden? </b> 
-  //     <input class="btnDelete" type="submit" name="delete2" value="Löschung bestätigen">
-  //     <input type="hidden" name="ID" value="' . $satz->ID . '">
-  //     <input type="hidden" name="option" value="delete2"> 
-  //     <input type="hidden" name="title" value="Satz">        
-  //   </form>
-  //   '; 
-  // }
-
-
 }
 ?>
 
@@ -199,18 +186,28 @@ echo
 
   
   <tr> 
-  <td class="eingabe">Übung:</td> 
-  <td class="eingabe"><iframe src="edit_satz_list_uebungen.php?SatzID='.$satz->ID.'" width="500" height="100" name="Uebungen"></iframe>
-  </td>
-  </tr> 
-  <tr> 
-  <td class="eingabe">Stricharten:</td> 
-  <td class="eingabe"><iframe src="edit_satz_list_stricharten.php?SatzID='.$satz->ID.'" width="500" height="100" name="Stricharten"></iframe>
+  <td class="eingabe">Übung:
+      <br> <a href="insert_uebung.php?title=Übung" target="_blank">Neu erfassen</a>
+      <br> <a href="edit_satz_list_uebungen.php?SatzID='.$satz->ID.'" target="Uebungen">Aktualisieren</a>    
+     
+  </td> 
+  <td class="eingabe">
+    <iframe src="edit_satz_list_uebungen.php?SatzID='.$satz->ID.'" width="500" height="100" name="Uebungen"></iframe>
   </td>
   </tr> 
 
   <tr> 
-  <td class="eingabe">Notenwerte:</td> 
+  <td class="eingabe" style="color:red">Stricharten:
+      <br />(zu "Besonderheiten"?) 
+  </td> 
+  <td class="eingabe">
+    <iframe src="edit_satz_list_stricharten.php?SatzID='.$satz->ID.'" width="500" height="100" name="Stricharten"></iframe>
+  </td>
+  </tr> 
+
+  <tr> 
+  <td class="eingabe" style="color:red">Notenwerte:
+    <br />(zu "Besonderheiten"?) </td> 
   <td class="eingabe"><iframe src="edit_satz_list_notenwerte.php?SatzID='.$satz->ID.'" width="500" height="100" name="Stricharten"></iframe>
   </td>
   </tr> 
