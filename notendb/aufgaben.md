@@ -1,14 +1,16 @@
 ﻿
 # in Arbeit 
-
+  * Schwierigkeitsgrad: Differenzierung nach Instrument/Ensemble  -> Sammlung iD 167
+  * delete_*.php -> Link zu Übersicht 
   * Fortsetzung Anpassung Formulare: "Aktualisieren" / "Hinzufügen"  
   * Abfage -> Beschreibungstext für Lookups 
   * Bearbeitungs-Formular für Link-Typen 
-  * Sammlung -> neues Feld "Materialinformation
-  * Schwierigkeitsgrad Differenzierung  -> Sammlung iD 167
+  * Sammlung -> neues Feld "Materialinfo" 
   * Abfragen: Alle Sammlungen mit "Kauf"-Link 
+  * Löschmöglichkeiten für alle Tabellen 
   
 
+  
 -----------------
 
 # In Planung
@@ -77,4 +79,11 @@
   * Projektbeschreibung erarbeiten 
   * Feld "Opus" -> ändern in "Werkverzeichnis" (zumindest im Formular)
   * Stricharten übernehmen zu Besonderheiten? 
+  * Erklärung: Warum "Besetzungen" als Einheiten, und nicht aufgefächert in einzelne Instrumente? 
 
+
+
+--------------------------------
+
+Teilaufgaben-Listen: 
+ *  

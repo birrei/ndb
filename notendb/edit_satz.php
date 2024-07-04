@@ -4,7 +4,7 @@ include('head.php');
 include('cl_satz.php');
 include('cl_musikstueck.php');
 include('cl_erprobt.php');
-include('cl_schwierigkeitsgrad.php');
+include('cl_schwierigkeitsgrad.php'); // entfernen 
 include('cl_html_info.php');
 
 echo '<h2>Satz bearbeiten</h2>'; 
@@ -35,7 +35,6 @@ if (isset($_POST["option"])) {
                   , $_POST["Taktart"]
                   , $_POST["Tempobezeichnung"]
                   , $_POST["Spieldauer"]
-                  , $_POST["SchwierigkeitsgradID"]
                   , $_POST["Lagen"]
                   , $_POST["ErprobtID"]
                   , $_POST["Bemerkung"]
@@ -134,17 +133,6 @@ echo
   </tr> 
 
 
-
-  <tr>   
-    <label>
-    <td class="eingabe">Schwierigkeitsgrad:</td>   
-    <td class="eingabe">'; 
-      $erprobt=new Schwierigkeitsgrad(); 
-      $erprobt->print_select($satz->SchwierigkeitsgradID); 
-    echo  
-    '</td>
-    </label>
-  </tr>
   
   <tr>   
     <td class="eingabe">Erprobt:</td>   
@@ -185,11 +173,20 @@ echo
   </form>
 
   
+   <tr> 
+  <td class="eingabe">Schwierigkeitsgrad(e):
+      <br> <a href="insert_instrument.php?title=Instrument" target="_blank">Neues Instrument erfassen</a>
+      <br> <a href="edit_satz_list_schwierigkeitsgrade.php?SatzID='.$satz->ID.'" target="Schwierigkeitsgrade">Aktualisieren</a>    
+  </td> 
+  <td class="eingabe">
+    <iframe src="edit_satz_list_schwierigkeitsgrade.php?SatzID='.$satz->ID.'" width="500" height="100" name="Schwierigkeitsgrade"></iframe>
+  </td>
+  </tr> 
+
   <tr> 
   <td class="eingabe">Übung:
       <br> <a href="insert_uebung.php?title=Übung" target="_blank">Neu erfassen</a>
       <br> <a href="edit_satz_list_uebungen.php?SatzID='.$satz->ID.'" target="Uebungen">Aktualisieren</a>    
-     
   </td> 
   <td class="eingabe">
     <iframe src="edit_satz_list_uebungen.php?SatzID='.$satz->ID.'" width="500" height="100" name="Uebungen"></iframe>
@@ -197,7 +194,7 @@ echo
   </tr> 
 
   <tr> 
-  <td class="eingabe" style="color:red">Stricharten:
+  <td class="eingabe">Stricharten:
       <br />(zu "Besonderheiten"?) 
   </td> 
   <td class="eingabe">
@@ -206,7 +203,7 @@ echo
   </tr> 
 
   <tr> 
-  <td class="eingabe" style="color:red">Notenwerte:
+  <td class="eingabe">Notenwerte:
     <br />(zu "Besonderheiten"?) </td> 
   <td class="eingabe"><iframe src="edit_satz_list_notenwerte.php?SatzID='.$satz->ID.'" width="500" height="100" name="Stricharten"></iframe>
   </td>

@@ -12,7 +12,7 @@ class HtmlTable {
         $this->stmt = $stmt; 
         $this->result = $stmt->fetchAll(PDO::FETCH_ASSOC);
         $this->count_cols=$stmt->columnCount(); 
-        $this->count_rows = count($this->result); 
+        $this->count_rows=$stmt->rowCount(); 
     }
     
     function print_table($edit_table_name='', $edit_newpage=false, $edit_link='', $edit_title='') {

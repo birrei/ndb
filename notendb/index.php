@@ -119,6 +119,12 @@ include('head.php');
             <td class="start"><a href="show_table2.php?table=lookup_type&sortcol=Name&title=Besonderheit Typen">Daten anzeigen</a></td>
             <td class="start"><a href="insert_lookup_type.php?title=Besonderheit Typ">Neu erfassen</a></td>
         </tr>
+        <tr>
+            <td class="start"><b>Instrumente</b></td>
+            <td class="start"><a href="show_table2.php?table=instrument&sortcol=Name&title=Instrumente">Daten anzeigen</a></td>
+            <td class="start"><a href="insert_instrument.php?title=Instrument">Neu erfassen</a></td>
+        </tr>
+                
         </table>
 
     </div>

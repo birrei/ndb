@@ -11,7 +11,7 @@ class Satz {
   public $Taktart;
   public $Tempobezeichnung;
   public $Spieldauer;
-  public $SchwierigkeitsgradID;
+  // public $SchwierigkeitsgradID;
   public $Lagen;
   // public $Stricharten;
   public $ErprobtID;
@@ -59,7 +59,7 @@ class Satz {
             , $Taktart
             , $Tempobezeichnung
             , $Spieldauer
-            , $SchwierigkeitsgradID
+            // , $SchwierigkeitsgradID
             , $Lagen
             , $ErprobtID
             , $Bemerkung
@@ -79,7 +79,7 @@ class Satz {
                           Taktart=:Taktart, 
                           Tempobezeichnung=:Tempobezeichnung, 
                           Spieldauer=:Spieldauer, 
-                          SchwierigkeitsgradID=:SchwierigkeitsgradID, 
+                          -- SchwierigkeitsgradID=:SchwierigkeitsgradID, 
                           Lagen=:Lagen, 
                           ErprobtID=:ErprobtID, 
                           Bemerkung=:Bemerkung
@@ -93,7 +93,7 @@ class Satz {
     $update->bindParam(':Taktart', $Taktart);
     $update->bindParam(':Tempobezeichnung', $Tempobezeichnung);
     $update->bindParam(':Spieldauer', $Spieldauer, ($Spieldauer==''? PDO::PARAM_NULL:PDO::PARAM_INT));
-    $update->bindParam(':SchwierigkeitsgradID', $SchwierigkeitsgradID, ($SchwierigkeitsgradID==''? PDO::PARAM_NULL:PDO::PARAM_INT));    
+    // $update->bindParam(':SchwierigkeitsgradID', $SchwierigkeitsgradID, ($SchwierigkeitsgradID==''? PDO::PARAM_NULL:PDO::PARAM_INT));    
     $update->bindParam(':Lagen', $Lagen);
     $update->bindParam(':ErprobtID', $ErprobtID, ($ErprobtID==''? PDO::PARAM_NULL:PDO::PARAM_INT));
     $update->bindParam(':Bemerkung', $Bemerkung);
@@ -144,7 +144,7 @@ class Satz {
     $this->Taktart=$row_data["Taktart"];
     $this->Tempobezeichnung=$row_data["Tempobezeichnung"];
     $this->Spieldauer=$row_data["Spieldauer"];
-    $this->SchwierigkeitsgradID=$row_data["SchwierigkeitsgradID"];
+    // $this->SchwierigkeitsgradID=$row_data["SchwierigkeitsgradID"];
     $this->Lagen=$row_data["Lagen"];
     $this->ErprobtID=$row_data["ErprobtID"];
     $this->Bemerkung=$row_data["Bemerkung"];
@@ -582,6 +582,7 @@ class Satz {
     $this->delete_notenwerte(); 
     $this->delete_stricharten();     
     $this->delete_lookups(); 
+    $this->delete_schwierigkeitsgrade(); 
  
     $delete = $db->prepare("DELETE FROM `satz` WHERE ID=:ID"); 
     $delete->bindValue(':ID', $this->ID);  
@@ -598,10 +599,120 @@ class Satz {
     }  
   }  
 
+  function print_table_schwierigkeitsgrade($target_file){
+    $query="SELECT satz_schwierigkeitsgrad.ID
+              , schwierigkeitsgrad.Name as Schwierigkeitsgrad
+              , instrument.Name as Instrument 
+          FROM satz_schwierigkeitsgrad 
+          inner join schwierigkeitsgrad 
+              on  schwierigkeitsgrad.ID = satz_schwierigkeitsgrad.SchwierigkeitsgradID
+          inner join instrument
+          on instrument.ID = satz_schwierigkeitsgrad.InstrumentID 
+          WHERE satz_schwierigkeitsgrad.SatzID = :SatzID 
+        "; 
 
+    include_once("cl_db.php");
+    $conn = new DbConn(); 
+    $db=$conn->db; 
+  
+    $stmt = $db->prepare($query); 
+    $stmt->bindParam(':SatzID', $this->ID, PDO::PARAM_INT); 
 
+    try {
+      $stmt->execute(); 
+      include_once("cl_html_table.php");      
+      $html = new HtmlTable($stmt); 
+      $html->print_table_with_del_link($target_file, 'SatzID', $this->ID); 
+    }
+    catch (PDOException $e) {
+      include_once("cl_html_info.php"); 
+      $info = new HtmlInfo();      
+      $info->print_user_error(); 
+      $info->print_error($stmt, $e); 
+    }
+  }  
 
+  function add_schwierigkeitsgrad($SchwierigkeitsgradID, $InstrumentID){
+    include_once("cl_db.php");
+    $conn = new DbConn(); 
+    $db=$conn->db; 
 
+    /* prüfen, ob die Kombination schon zugeordnet wurde  */
+
+    $select = $db->prepare("select ID FROM `satz_schwierigkeitsgrad` WHERE 
+                        `SatzID`     = :SatzID  
+                        AND `SchwierigkeitsgradID`     = :SchwierigkeitsgradID
+                        AND `InstrumentID`     = :InstrumentID
+        ");
+    $select->bindValue(':SatzID', $this->ID);  
+    $select->bindValue(':SchwierigkeitsgradID', $SchwierigkeitsgradID);  
+    $select->bindValue(':InstrumentID', $InstrumentID); 
+    
+    $select->execute(); 
+
+    if ($select->rowCount()>0) {
+        echo '<p>Speicherung nicht möglich, die ausgewählte Kombination existiert bereits.</p>';
+        return; 
+    }  
+
+    $insert = $db->prepare("INSERT INTO `satz_schwierigkeitsgrad` SET
+                        `SatzID`     = :SatzID,  
+                        `SchwierigkeitsgradID`     = :SchwierigkeitsgradID,
+                        `InstrumentID`     = :InstrumentID
+        ");
+
+    $insert->bindValue(':SatzID', $this->ID);  
+    $insert->bindValue(':SchwierigkeitsgradID', $SchwierigkeitsgradID);  
+    $insert->bindValue(':InstrumentID', $InstrumentID);      
+
+    try {
+      $insert->execute(); 
+    }
+    catch (PDOException $e) {
+      include_once("cl_html_info.php"); 
+      $info = new HtmlInfo();      
+      $info->print_user_error(); 
+      $info->print_error($insert, $e);  
+    }  
+  }
+
+  function delete_schwierigkeitsgrade(){
+    include_once("cl_db.php");
+    $conn = new DbConn(); 
+    $db=$conn->db; 
+
+    $delete = $db->prepare("DELETE FROM `satz_schwierigkeitsgrad` WHERE SatzID=:ID"); 
+    $delete->bindValue(':ID', $this->ID);  
+
+    try {
+      $delete->execute(); 
+    }
+    catch (PDOException $e) {
+      include_once("cl_html_info.php"); 
+      $info = new HtmlInfo();      
+      $info->print_user_error(); 
+      $info->print_error($delete, $e);  
+    }  
+  }
+
+  function delete_schwierigkeitsgrad($ID){
+    include_once("cl_db.php");
+    $conn = new DbConn(); 
+    $db=$conn->db; 
+
+    $delete = $db->prepare("DELETE FROM `satz_schwierigkeitsgrad` WHERE ID=:ID"); 
+    $delete->bindValue(':ID', $ID);  
+
+    try {
+      $delete->execute(); 
+    }
+    catch (PDOException $e) {
+      include_once("cl_html_info.php"); 
+      $info = new HtmlInfo();      
+      $info->print_user_error(); 
+      $info->print_error($delete, $e);  
+    }  
+  }
 
 }
 

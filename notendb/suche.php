@@ -18,6 +18,7 @@ include("cl_notenwert.php");
 include("cl_erprobt.php");  
 include("cl_schwierigkeitsgrad.php");  
 include("cl_uebung.php");  
+include("cl_instrument.php");  
 
 include("cl_lookup.php");   
 include("cl_lookuptype.php");
@@ -35,11 +36,12 @@ $Epochen=[];   // im Suchfilter ausgewählte Epochen (IDs)
 
 $Erprobt=[];  // im Suchfilter ausgewählte Erprobt-Einträge  (IDs) 
 $Schierigkeitsgrad=[]; // im Suchfilter ausgewählte Schwierigkeitsgrade  (IDs) 
+$Instrumente=[]; // im Suchfilter ausgewählte Instrumente  (IDs) 
 $Stricharten=[];  // im Suchfilter ausgewählte Stricharten  (IDs) 
 $Notenwerte=[]; // im Suchfilter ausgewählte Notenwerte  (IDs) 
 $Uebungen=[]; // im Suchfilter ausgewählte Übung-Einträge  (IDs) 
 
-$lookuptypes_selected=[]; // im Suchfilter ausgewählte Besonderheit-Typen  XXX ?
+$lookup_all_values_selected=[]; // im Suchfilter ausgewählte Besonderheiten-IDs (gesammelt aus allen lookup-types) ?
 
 $spieldauer_von=''; 
 $spieldauer_bis=''; 
@@ -103,7 +105,10 @@ if ("POST" == $_SERVER["REQUEST_METHOD"]) {
   } 
   if (isset($_REQUEST['Schwierigkeitsgrad'])) {
     $Schierigkeitsgrad = $_REQUEST['Schwierigkeitsgrad'];   
-  }   
+  }
+  if (isset($_REQUEST['Instrumente'])) {
+    $Instrumente = $_REQUEST['Instrumente'];   
+  }      
   if (isset($_REQUEST['SpieldauerVon'])) {
     $spieldauer_von = $_REQUEST['SpieldauerVon'];   
   }
@@ -168,6 +173,9 @@ if ("POST" == $_SERVER["REQUEST_METHOD"]) {
 
       $schierigkeitsgrad = new Schwierigkeitsgrad();
       $schierigkeitsgrad->print_select_multi($Schierigkeitsgrad);  
+
+      $instrument = new Instrument();
+      $instrument->print_select_multi($Instrumente);        
 
       $erprobt = new Erprobt();
       $erprobt->print_select_multi($Erprobt);      
@@ -244,9 +252,6 @@ if ("POST" == $_SERVER["REQUEST_METHOD"]) {
         $abfrage_beschreibung.='* Suchtext: '.$suchtext.PHP_EOL;
     }
      
-
-
-    
   $lookuptypes=new Lookuptype(); 
   $lookuptypes->setArrData(); 
 
@@ -254,16 +259,15 @@ if ("POST" == $_SERVER["REQUEST_METHOD"]) {
     $lookup=New Lookup(); 
     $lookup->LookupTypeID=$lookuptypes->ArrData[$i]["ID"];
     $lookup_caption=$lookuptypes->ArrData[$i]["Name"]; 
-    // echo '<p><b>'.$lookup_caption.':</b><br/>'; 
-    $type_key= $lookuptypes->ArrData[$i]["type_key"];       // $_POST[ $type_key]) = Array enthält die ausgewählten Werte (IDs) 
+    $type_key= $lookuptypes->ArrData[$i]["type_key"]; // z.B: "besdynam" ect.  
+    $lookup_values_selected=[];      
     
     if (isset($_POST[$type_key])) {
-      $lookup->print_select_multi($lookuptypes->ArrData[$i]["type_key"], $_POST[$type_key], $lookup_caption.':');
+      $lookup_values_selected= $_POST[$type_key]; 
       $abfrage_beschreibung.=$lookup->titles_selected_list; 
-      $lookuptypes_selected = array_merge($lookuptypes_selected, $_POST[$type_key]);  // Sammlung markierte Eintrag-IDS aus allen Lookups 
-    } else  {
-      $lookup->print_select_multi($lookuptypes->ArrData[$i]["type_key"]);
-    }
+      $lookup_all_values_selected = array_merge($lookup_all_values_selected, $lookup_values_selected);  // Sammlung markierte Eintrag-IDS aus allen Lookups 
+    } 
+    $lookup->print_select_multi($type_key,$lookup_values_selected, $lookup_caption.':');    
   }
 
 ?>
@@ -305,6 +309,7 @@ if ("POST" == $_SERVER["REQUEST_METHOD"]) {
   $filterUebungen='';  
   $filterErprobt=''; 
   $filterSchwierigkeitsgrad=''; 
+  $filterInstrumente=''; 
 
   $filterLookups=''; 
   $filterSpieldauer='';   
@@ -377,10 +382,15 @@ if ("POST" == $_SERVER["REQUEST_METHOD"]) {
       $filterSchwierigkeitsgrad= 'IN ('.implode(',', $Schierigkeitsgrad).')'; 
       $filter=true; 
     }     
+    if (isset($_REQUEST['Instrumente'])) {
+      $Instrumente = $_REQUEST['Instrumente'];   
+      $filterInstrumente= 'IN ('.implode(',', $Instrumente).')'; 
+      $filter=true; 
+    }     
 
-    if (count($lookuptypes_selected) > 0 ){
+    if (count($lookup_all_values_selected) > 0 ){
       // erstmals bei "Besonderheiten" 
-      $filterLookups = 'IN ('.implode(',', $lookuptypes_selected).')'; 
+      $filterLookups = 'IN ('.implode(',', $lookup_all_values_selected).')'; 
       $filter=true;        
     }
 
@@ -479,8 +489,8 @@ if ("POST" == $_SERVER["REQUEST_METHOD"]) {
                 , 
                 satz.Spieldauer MOD 60
                 , ''''''
-              ) as Spieldauer            
-            , schwierigkeitsgrad.Name as Schwierigkeitsgrad
+              ) as Spieldauer              
+            , GROUP_CONCAT(DISTINCT concat(schwierigkeitsgrad.Name, ' - ', instrument.Name)  order by schwierigkeitsgrad.Name SEPARATOR ', ') `Schwierigkeitsgrade`                   
             , erprobt.Name as Erprobt             
             , GROUP_CONCAT(DISTINCT uebung.Name order by uebung.Name SEPARATOR ', ') Uebung              
             , GROUP_CONCAT(DISTINCT strichart.Name order by strichart.Name SEPARATOR ', ') Stricharten              
@@ -515,10 +525,14 @@ if ("POST" == $_SERVER["REQUEST_METHOD"]) {
       LEFT JOIN satz_notenwert on satz_notenwert.SatzID = satz.ID
       LEFT JOIN notenwert on notenwert.ID = satz_notenwert.NotenwertID  
       LEFT JOIN erprobt on erprobt.ID = satz.ErprobtID       
-      LEFT JOIN schwierigkeitsgrad on schwierigkeitsgrad.ID = satz.SchwierigkeitsgradID    
+
+      left JOIN satz_schwierigkeitsgrad on satz_schwierigkeitsgrad.SatzID = satz.ID 
+      LEFT JOIN schwierigkeitsgrad on schwierigkeitsgrad.ID = satz_schwierigkeitsgrad.SchwierigkeitsgradID 
+      LEFT JOIN instrument on instrument.ID = satz_schwierigkeitsgrad.InstrumentID 
+
+
       LEFT JOIN satz_uebung on satz_uebung.SatzID = satz.ID 
       LEFT JOIN uebung on uebung.ID = satz_uebung.UebungID    
-
       left join satz_lookup on satz_lookup.SatzID = satz.ID 
       left join lookup on lookup.ID = satz_lookup.LookupID 
       left join lookup_type on lookup_type.ID = lookup.LookupTypeID
@@ -526,7 +540,6 @@ if ("POST" == $_SERVER["REQUEST_METHOD"]) {
       WHERE 1=1 
       ". PHP_EOL; 
 
-      /*   */
       switch ($Ebene){    
         case 'Musikstueck': 
           $query.=" AND musikstueck.ID IS NOT NULL ". PHP_EOL;         
@@ -574,8 +587,11 @@ if ("POST" == $_SERVER["REQUEST_METHOD"]) {
         $query.=' AND satz.ErprobtID '.$filterErprobt. PHP_EOL; 
       }
       if($filterSchwierigkeitsgrad!=''){
-        $query.=' AND satz.SchwierigkeitsgradID '.$filterSchwierigkeitsgrad. PHP_EOL; 
-      }                
+        $query.=' AND satz_schwierigkeitsgrad.SchwierigkeitsgradID '.$filterSchwierigkeitsgrad. PHP_EOL; 
+      }
+      if($filterInstrumente!=''){
+        $query.=' AND satz_schwierigkeitsgrad.InstrumentID '.$filterInstrumente. PHP_EOL; 
+      }                       
       if($filterSpieldauer!=''){
         $query.=' AND satz.Spieldauer '.$filterSpieldauer. PHP_EOL; 
       }
@@ -611,7 +627,6 @@ if ("POST" == $_SERVER["REQUEST_METHOD"]) {
       }
 
       // echo '<pre>'.$query.'</pre>'; // Test  
-
       // echo '<pre>'.$abfrage_beschreibung.'</pre>'; // Test    
       
       if (isset($_POST["Abfrage"])) {

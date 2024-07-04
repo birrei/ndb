@@ -28,17 +28,15 @@ select
         satz.Spieldauer MOD 60
         , ''''''
         ) as Spieldauer
-
-    , satz.Lagen 
     , erprobt.Name as Erprobt 
-    , schwierigkeitsgrad.Name as Schwierigkeitsgrad
+    , GROUP_CONCAT(DISTINCT concat(schwierigkeitsgrad.Name, ' - ', instrument.Name)  order by schwierigkeitsgrad.Name SEPARATOR ', ') as Schwierigkeitsgrade 
     , GROUP_CONCAT(DISTINCT uebung.Name order by uebung.Name SEPARATOR ', ') Uebung 
     , GROUP_CONCAT(DISTINCT strichart.Name order by strichart.Name SEPARATOR ', ') Stricharten       
     , GROUP_CONCAT(DISTINCT notenwert.Name order by notenwert.Name SEPARATOR ', ') Notenwerte   
     , GROUP_CONCAT(DISTINCT concat(lookup_type.Name, ': ', lookup.Name)  order by  concat(lookup_type.Name, ': ', lookup.Name)  SEPARATOR ', ') Besonderheiten          
     -- , GROUP_CONCAT(DISTINCT lookup.Name order by lookup.Name SEPARATOR ', ') Besonderheiten   
-
     , satz.Bemerkung
+    , satz.Lagen     
     , satz.ID 
 FROM 
     satz 
@@ -61,7 +59,9 @@ FROM
     LEFT JOIN satz_notenwert on satz_notenwert.SatzID = satz.ID 
     LEFT JOIN notenwert on notenwert.ID = satz_notenwert.NotenwertID 
     LEFT JOIN erprobt on erprobt.ID = satz.ErprobtID
-    LEFT JOIN schwierigkeitsgrad on  schwierigkeitsgrad.ID=satz.SchwierigkeitsgradID
+    left JOIN satz_schwierigkeitsgrad on satz_schwierigkeitsgrad.SatzID = satz.ID 
+    LEFT JOIN schwierigkeitsgrad on schwierigkeitsgrad.ID = satz_schwierigkeitsgrad.SchwierigkeitsgradID 
+    LEFT JOIN instrument on instrument.ID = satz_schwierigkeitsgrad.InstrumentID 
 
     LEFT JOIN satz_uebung on satz_uebung.SatzID = satz.ID 
     LEFT JOIN uebung on uebung.ID = satz_uebung.UebungID
