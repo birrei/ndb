@@ -91,9 +91,6 @@ where schwierigkeitsgrad_alt.ID
 offene Aufgaben: 
 
 
-- View v_satz anpassen 
-
-
 
 
 
@@ -125,6 +122,7 @@ erledigt:
 
 - edit_musikstueck.php > edit_musikstueck_list_saetze -> Abfrage anpassen 
 - suche.php - anpassen 
+- View v_satz anpassen 
 
 
 

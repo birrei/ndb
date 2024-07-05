@@ -637,6 +637,8 @@ class Satz {
     $conn = new DbConn(); 
     $db=$conn->db; 
 
+    // $InstrumentID=($InstrumentID==''?1:$InstrumentID); // falls Übergabeparamter leer, dann default 1 verwenden 
+
     /* prüfen, ob die Kombination schon zugeordnet wurde  */
 
     $select = $db->prepare("select ID FROM `satz_schwierigkeitsgrad` WHERE 

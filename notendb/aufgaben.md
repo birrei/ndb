@@ -1,16 +1,19 @@
 ﻿
 # in Arbeit 
-  * Schwierigkeitsgrad: Differenzierung nach Instrument/Ensemble  -> Sammlung iD 167
-  * delete_*.php -> Link zu Übersicht 
+
+  * edit_*.php, delete_*.php -> Link zu Übersicht 
+
   * Fortsetzung Anpassung Formulare: "Aktualisieren" / "Hinzufügen"  
-  * Abfage -> Beschreibungstext für Lookups 
+
   * Bearbeitungs-Formular für Link-Typen 
-  * Sammlung -> neues Feld "Materialinfo" 
+
   * Abfragen: Alle Sammlungen mit "Kauf"-Link 
+
   * Löschmöglichkeiten für alle Tabellen 
   
-
   
+* test: darf der Schwierigkeitsgrad gleich sein, wenn unterschiedliche Instrumente genannt sind? 
+
 -----------------
 
 # In Planung
@@ -20,6 +23,7 @@
  * "Stricharten" / "Notenwerte" zu "Besonderheiten" ?  
 
 ## Neue Features
+  * Sammlung -> neues Feld "Materialinfo" 
 
 ## Verbesserungen
 

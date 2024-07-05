@@ -6,8 +6,8 @@ class Abfrage {
   public $table_name; 
   public $ID;
   public $Name;
-  public $Beschreibung;
-  public $Abfrage;
+  public $Beschreibung='';
+  public $Abfrage; // XXX Umbennenen in "Abfragetext"  
   public $Tabelle;
   public $success=false; 
 
@@ -40,6 +40,38 @@ class Abfrage {
     }
   }  
  
+  function insert_row2() {
+    /* falls Objekt-Variablen schon gesetzt sind */
+    include_once("cl_db.php");
+    $conn = new DbConn(); 
+    $db=$conn->db; 
+
+    $insert = $db->prepare("INSERT INTO `abfrage` 
+              SET `Name` = :Name, 
+                Beschreibung=:Beschreibung, 
+                Abfrage=:Abfrage,
+                Tabelle=:Tabelle
+              ");
+
+    $insert->bindParam(':Name', $this->Name);
+    $insert->bindParam(':Beschreibung', $this->Beschreibung);
+    $insert->bindParam(':Abfrage', $this->Abfrage);    
+    $insert->bindParam(':Tabelle', $this->Tabelle);  
+
+    try {
+      $insert->execute(); 
+      $this->ID=$db->lastInsertId();
+      $this->load_row(); 
+      $this->success=true; 
+    }
+      catch (PDOException $e) {
+      include_once("cl_html_info.php"); 
+      $info = new HtmlInfo();      
+      $info->print_user_error(); 
+      $info->print_error($insert, $e);  ; 
+    }
+  }  
+
   function print_table(){
 
     $query="SELECT * from abfrage ORDER by Name"; 
@@ -64,6 +96,7 @@ class Abfrage {
       $info->print_error($select, $e); 
     }
   }
+
 
   function update_row($Name,$Beschreibung, $Abfrage, $Tabelle ) {
 
@@ -131,6 +164,7 @@ class Abfrage {
  
   }  
 
+  
   function delete(){
     include_once("cl_db.php");
     $conn = new DbConn(); 

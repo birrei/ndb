@@ -1,7 +1,18 @@
 ﻿
 # Change Log  
 
-27.06.2024: Für Abfragen, die über die Suche gespeichert werden: Bezeichnungen der gewählten Filter/Kategorien wird in die Beschreibung übernommen  (intern: in SQL: aliasse entfernen (bessere Lesbarkeit)) (Hinweis: Ergänzung für "Besonderheiten" (Lookups) noch offen)
+05.07.2024: 
+
+Schwierigkeitsgrad mit Differenzierung nach Instrument (Instrument kann auch ein Ensemble sein). Bisherige Klappliste ist jetzt Mehrfachauswahl-Unterformular. Im Suchformular sind die Attribute getrennt angezeigt  
+Info: als Standardwert für "Instrument" ist für alle "(Instrument unbestimmt)" eingetragen, mit Ausnahmen akt. Sammlung iD 167 -> anschauen. Ggf. Updates erforderlich? 
+
+Verbesserung der gespeicherten Suche 
+ * Checkbox statt Name, Name wird temp. gesetzt (kann später geändert werden)
+ * Suchauswahl wird in Beschreibungstext übernommen 
+
+------------
+
+27.06.2024: Für Abfragen, die über die Suche gespeichert werden: Bezeichnungen der gewählten Filter/Kategorien wird in die Beschreibung übernommen 
 
 26.06.2024: Aktualisierung von Unterformularen (iframes) über das Hauptformualar (zusätzlicher Link)
 

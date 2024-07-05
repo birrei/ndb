@@ -235,6 +235,7 @@ class Lookup {
       $html = new HtmlSelect($select); 
       $html->print_select_multi($type_key, $type_key.'[]', $options_selected,$caption);
       $this->titles_selected_list = $html->titles_selected_list;
+      // echo  'cl_lookup: '.$this->titles_selected_list;
            
     }
     catch (PDOException $e) {

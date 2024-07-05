@@ -23,6 +23,7 @@ include("cl_instrument.php");
 include("cl_lookup.php");   
 include("cl_lookuptype.php");
 include("cl_linktype.php");
+include("cl_abfrage.php");
 
 $Standorte=[];   /* Sammlung */
 $Verlage=[];   /* Sammlung */
@@ -47,15 +48,45 @@ $spieldauer_von='';
 $spieldauer_bis=''; 
 $suchtext=''; 
 
-$abfrage_beschreibung=''; // String mit den Title-Texten der ausgewählten Einträge 
+/***************************/
+
+
+
+$filterStandorte='';   
+$filterVerlage='';
+$filterLinktypen='';      
+$filterBesetzung=''; 
+$filterVerwendungszweck='';
+$filterKomponisten='';   
+$filterGattungen='';  
+$filterEpochen='';    
+$filterStricharten=''; 
+$filterNotenwerte='';  
+$filterUebungen='';  
+$filterErprobt=''; 
+$filterSchwierigkeitsgrad=''; 
+$filterInstrumente=''; 
+
+$filterLookups=''; 
+$filterSpieldauer='';   
+$filterSuchtext='';  
+
+
+$filter=false; 
+
+// $abfrage_beschreibung=''; // String mit den Title-Texten der ausgewählten Einträge 
 
 $edit_table=''; /* Tabelle, die über Bearbeiten-Links in Ergebnis-Tabelle abrufbar sein soll */
 
+$Suche = new Abfrage();
+
 if (isset($_POST['Ebene'])) {
-  $Ebene=$_POST["Ebene"]; 
+  $Ebene=$_POST["Ebene"];
 } else {
   $Ebene='Sammlung'; // default 
 }
+
+$Suche->Beschreibung.='* Anzeige-Ebene: '.$Ebene.PHP_EOL; 
 
 /* 
  Die mit dem Absenden der Suche gesetzten Werte werden wieder in die Form-Elemente eingelesen. 
@@ -63,62 +94,23 @@ if (isset($_POST['Ebene'])) {
  "Filter zurücksetzen" - Buttons wieder aufgelöst 
 */
 
-if ("POST" == $_SERVER["REQUEST_METHOD"]) {
-  if (isset($_REQUEST['Standorte'])) {
-    $Standorte = $_REQUEST['Standorte'];   
-  }
-  if (isset($_REQUEST['Verlage'])) {
-    $Verlage = $_REQUEST['Verlage'];   
-  }
-  if (isset($_REQUEST['Linktypen'])) {
-    $Linktypen = $_REQUEST['Linktypen'];   
-  }            
-  if (isset($_REQUEST['Komponisten'])) {
-    $Komponisten = $_REQUEST['Komponisten'];      
-  }   
-  if (isset($_REQUEST['Besetzungen'])) {
-    $Besetzungen = $_REQUEST['Besetzungen'];      
-  }
-  if (isset($_REQUEST['Verwendungszwecke'])) {
-    $Verwendungszwecke = $_REQUEST['Verwendungszwecke'];   
-  }  
-  if (isset($_REQUEST['Gattungen'])) {
-    $Gattungen = $_REQUEST['Gattungen'];   
-  }
-  if (isset($_REQUEST['Epochen'])) {
-    $Epochen = $_REQUEST['Epochen'];   
-  }        
-  if (isset($_REQUEST['Stricharten'])) {
-    $Stricharten = $_REQUEST['Stricharten'];   
-  } 
-  if (isset($_REQUEST['Notenwerte'])) {
-    $Notenwerte = $_REQUEST['Notenwerte'];   
-  } 
-  if (isset($_REQUEST['Stricharten'])) {
-    $Stricharten = $_REQUEST['Stricharten'];   
-  }
-  if (isset($_REQUEST['Uebungen'])) {
-    $Uebungen = $_REQUEST['Uebungen'];   
-  }            
-  if (isset($_REQUEST['Erprobt'])) {
-    $Erprobt = $_REQUEST['Erprobt'];   
-  } 
-  if (isset($_REQUEST['Schwierigkeitsgrad'])) {
-    $Schierigkeitsgrad = $_REQUEST['Schwierigkeitsgrad'];   
-  }
-  if (isset($_REQUEST['Instrumente'])) {
-    $Instrumente = $_REQUEST['Instrumente'];   
-  }      
-  if (isset($_REQUEST['SpieldauerVon'])) {
-    $spieldauer_von = $_REQUEST['SpieldauerVon'];   
-  }
-  if (isset($_REQUEST['SpieldauerBis'])) {
-    $spieldauer_bis = $_REQUEST['SpieldauerBis'];   
-  }
-  if (isset($_REQUEST['suchtext'])) {
-    $suchtext = $_REQUEST['suchtext'];   
-  }                    
-}
+
+          
+
+
+
+
+        
+
+
+
+        
+
+
+    
+
+
+  
 ?> 
 <div class="search-page">
 <div class="search-filter">
@@ -137,9 +129,11 @@ if ("POST" == $_SERVER["REQUEST_METHOD"]) {
 <input type="submit" value="Suchen" class="btnSave">
 <input type="button" id="btnReset_All" value="Alle Filter zurücksetzen" onclick="Reset_All();" /> 
 
-<p> Suche speichern: <input type="text" name="Abfrage"  style="width:90%"> </p> 
+<!---- Entscheidung Suche speichern ja / nein -----> 
+<input type="checkbox" id="sp" name="SucheSpeichern">
+<label for="sp">Suche speichern</label> 
 
-
+<!-- Button: alle Filter zurücksetzen --> 
 <script type="text/javascript">  
           function Reset_All() {  
           for(i=0; i<document.forms[0].elements.length; i++){
@@ -153,105 +147,197 @@ if ("POST" == $_SERVER["REQUEST_METHOD"]) {
       }  
 </script> 
 
+<?php 
+  /* Standort  */
+  if (isset($_POST['Standorte'])) {
+    $Standorte = $_POST['Standorte'];   // Array gewählte Standorte 
+    $filterStandorte = 'IN ('.implode(',', $Standorte).')'; 
+    $filter=true;     
+  }
+  $standort = new Standort();
+  $standort->print_select_multi($Standorte);      
+  $Suche->Beschreibung.=(count($Standorte)>0?$standort->titles_selected_list:'');    
 
-    <!-- Start Spalte 1 -->  
-    <?php 
-      $standort = new Standort();
-      $standort->print_select_multi($Standorte);         
+  /* Besetzung  */
+  if (isset($_POST['Besetzungen'])) {
+    $Besetzungen = $_POST['Besetzungen'];    
+    $filterBesetzung = 'IN ('.implode(',', $Besetzungen).')'; 
+    $filter=true;        
+  }
+  $besetzung = new Besetzung();
+  $besetzung->print_select_multi($Besetzungen); 
+  $Suche->Beschreibung.=(count($Besetzungen)>0?$besetzung->titles_selected_list:'');  
 
-      $besetzung = new Besetzung();
-      $besetzung->print_select_multi($Besetzungen); 
+  /* Verwendungszwecke  */
+  if (isset($_POST['Verwendungszwecke'])) {
+    $Verwendungszwecke = $_POST['Verwendungszwecke'];   
+    $filterVerwendungszweck = 'IN ('.implode(',', $Verwendungszwecke).')'; 
+    $filter=true;     
+  }  
+  $verwendungszweck = new Verwendungszweck();
+  $verwendungszweck->print_select_multi($Verwendungszwecke);    
+  $Suche->Beschreibung.=(count($Verwendungszwecke)>0?$verwendungszweck->titles_selected_list:'');  
 
-      $verwendungszweck = new Verwendungszweck();
-      $verwendungszweck->print_select_multi($Verwendungszwecke);    
+  /* Gattungen  */
+  $gattung = new Gattung();
+  $gattung->print_select_multi($Gattungen);  
+  $Suche->Beschreibung.=(count($Gattungen)>0?$gattung->titles_selected_list:'');
+  if (isset($_POST['Gattungen'])) {
+    $Gattungen = $_POST['Gattungen'];  
+    $filterGattungen = 'IN ('.implode(',', $Gattungen).')'; 
+    $filter=true;     
+  }      
 
-      $gattung = new Gattung();
-      $gattung->print_select_multi($Gattungen);  
-
-      $epochen = new Epoche();
-      $epochen->print_select_multi($Epochen); 
-
-      $schierigkeitsgrad = new Schwierigkeitsgrad();
-      $schierigkeitsgrad->print_select_multi($Schierigkeitsgrad);  
-
-      $instrument = new Instrument();
-      $instrument->print_select_multi($Instrumente);        
-
-      $erprobt = new Erprobt();
-      $erprobt->print_select_multi($Erprobt);      
-
-      $stricharten = new Strichart();
-      $stricharten->print_select_multi($Stricharten);     
-
-      $notenwerte = new Notenwert();
-      $notenwerte->print_select_multi($Notenwerte);      
- 
-      $uebungen = new Uebung();
-      $uebungen->print_select_multi($Uebungen);      
- 
-      $verlag = new Verlag();
-      $verlag->print_select_multi($Verlage);      
-
-      $komponist = new Komponist();
-      $komponist->print_select_multi($Komponisten);     
+  /* Epochen  */
+  if (isset($_POST['Epochen'])) {
+    $Epochen = $_POST['Epochen'];   
+    $filterEpochen = 'IN ('.implode(',', $Epochen).')'; 
+    $filter=true; 
+  }    
+  $epochen = new Epoche();
+  $epochen->print_select_multi($Epochen); 
+  $Suche->Beschreibung.=(count($Epochen)>0?$epochen->titles_selected_list:'');  
   
-      $linktyp = new Linktype();
-      $linktyp->print_select_multi($Linktypen);      
+  /* Schwierigkeitsgrad  */
+  if (isset($_POST['Schwierigkeitsgrad'])) {
+    $Schierigkeitsgrad = $_POST['Schwierigkeitsgrad']; 
+    $filterSchwierigkeitsgrad= 'IN ('.implode(',', $Schierigkeitsgrad).')'; 
+    $filter=true;       
+  }
+  $schierigkeitsgrad = new Schwierigkeitsgrad();
+  $schierigkeitsgrad->print_select_multi($Schierigkeitsgrad);  
+  $Suche->Beschreibung.=(count($Schierigkeitsgrad)>0?$schierigkeitsgrad->titles_selected_list:'');
+ 
+  /* Instrumente  */
+  if (isset($_POST['Instrumente'])) {
+    $Instrumente = $_POST['Instrumente'];  
+    $filterInstrumente= 'IN ('.implode(',', $Instrumente).')'; 
+    $filter=true;      
+  } 
+  $instrument = new Instrument();
+  $instrument->print_select_multi($Instrumente);        
+  $Suche->Beschreibung.=(count($Instrumente)>0?$instrument->titles_selected_list:'');
+  
+  /* Erprobt  */
+  if (isset($_POST['Erprobt'])) {
+    $Erprobt = $_POST['Erprobt'];   
+    $filterErprobt= 'IN ('.implode(',', $Erprobt).')'; 
+    $filter=true;     
+  } 
+  $erprobt = new Erprobt();
+  $erprobt->print_select_multi($Erprobt);  
+  $Suche->Beschreibung.=(count($Erprobt)>0?$erprobt->titles_selected_list:'');            
 
-?>    
-     <p><b>Spieldauer:</b>
-     <br /> von 
-      min: <input type="text" id="SpieldauerVon_min" name="SpieldauerVon_min" size="5" value="" oninput="set_SpieldauerVon();"> 
-      sec: <input type="text" id="SpieldauerVon" name="SpieldauerVon" size="5" value="<?php echo $spieldauer_von; ?>">
-     <br /> bis
-        min: <input type="text" id="SpieldauerBis_min" name="SpieldauerBis_min" size="5" value="" oninput="set_SpieldauerBis();">
-        sec: <input type="text" id="SpieldauerBis" name="SpieldauerBis" size="5" value="<?php echo $spieldauer_bis; ?>">
+  /* Uebungen  */  
+  if (isset($_POST['Uebungen'])) {
+    $Uebungen = $_POST['Uebungen'];  
+    $filterErprobt= 'IN ('.implode(',', $Erprobt).')'; 
+    $filter=true;      
+  }      
+  $uebungen = new Uebung();
+  $uebungen->print_select_multi($Uebungen);      
+  $Suche->Beschreibung.=(count($Uebungen)>0?$uebungen->titles_selected_list:''); 
+  
+  /* Notenwerte  */
+  if (isset($_POST['Notenwerte'])) {
+    $Notenwerte = $_POST['Notenwerte'];   
+    $filterNotenwerte = 'IN ('.implode(',', $Notenwerte).')'; 
+    $filter=true;     
+  } 
+  $notenwerte = new Notenwert();
+  $notenwerte->print_select_multi($Notenwerte);      
+  $Suche->Beschreibung.=(count($Notenwerte)>0?$notenwerte->titles_selected_list:''); 
+  
+  /* Stricharten  */
+  if (isset($_POST['Stricharten'])) {
+    $Stricharten = $_POST['Stricharten'];  
+    $filterStricharten = 'IN ('.implode(',', $Stricharten).')'; 
+    $filter=true;      
+  }       
+  $stricharten = new Strichart();
+  $stricharten->print_select_multi($Stricharten);     
+  $Suche->Beschreibung.=(count($Stricharten)>0?$stricharten->titles_selected_list:'');
 
-     <input type="button" id="btnReset_Spieldauer" value="Filter zurücksetzen" onclick="Reset_Spieldauer();" />  
-      <script type="text/javascript">  
-            function Reset_Spieldauer() {  
-              document.getElementById("SpieldauerVon").value='';  
-              document.getElementById("SpieldauerBis").value='';  
-            }
-            function set_SpieldauerVon() {
-              var txt_min = document.getElementById("SpieldauerVon_min").value;
-              var sekunden = getSeconds(txt_min);
-              document.getElementById("SpieldauerVon").value=sekunden;         
-            }            
-            function set_SpieldauerBis() {
-              var txt_min = document.getElementById("SpieldauerBis_min").value;
-              var sekunden = getSeconds(txt_min);
-              document.getElementById("SpieldauerBis").value=sekunden;         
-            }   
-        </script> 
-     </p>
+  /* Verlag  */
+  if (isset($_POST['Verlage'])) {
+    $Verlage = $_POST['Verlage']; 
+    $filterVerlage = 'IN ('.implode(',', $Verlage).')'; 
+    $filter=true;       
+  }
+  $verlag = new Verlag();
+  $verlag->print_select_multi($Verlage);
+  $Suche->Beschreibung.=(count($Verlage)>0?$verlag->titles_selected_list:'');            
+
+
+  /* Komponisten  */
+  if (isset($_POST['Komponisten'])) {
+    $Komponisten = $_POST['Komponisten'];   
+    $filterKomponisten = 'IN ('.implode(',', $Komponisten).')'; 
+    $filter=true;        
+  }   
+  $komponist = new Komponist();
+  $komponist->print_select_multi($Komponisten);     
+  $Suche->Beschreibung.=(count($Komponisten)>0?$komponist->titles_selected_list:''); 
+ 
+  /* Linktypen  */      
+  if (isset($_POST['Linktypen'])) {
+    $Linktypen = $_POST['Linktypen']; 
+    $filterLinktypen = 'IN ('.implode(',', $Linktypen).')'; 
+    $filter=true;       
+  }  
+  $linktyp = new Linktype();
+  $linktyp->print_select_multi($Linktypen);      
+  $Suche->Beschreibung.=(count($Linktypen)>0?$linktyp->titles_selected_list:''); 
+
+
+/*******  Spieldauer  ****************/  
+
+  if (isset($_REQUEST['SpieldauerVon']) and isset($_REQUEST['SpieldauerBis']) ) {
+    if ($_REQUEST['SpieldauerVon']!='') {
+      $spieldauer_von=(is_numeric($_REQUEST['SpieldauerVon'])?$_REQUEST['SpieldauerVon']:'');
+    }
+    if ($_REQUEST['SpieldauerBis']!='') {
+      $spieldauer_bis=(is_numeric($_REQUEST['SpieldauerBis'])?$_REQUEST['SpieldauerBis']:''); 
+    }
+    if($spieldauer_von !='' and $spieldauer_bis !=''){
+      // $spieldauer_von = $spieldauer_von * 60;         
+      // $spieldauer_bis = $spieldauer_bis * 60;            
+      $filterSpieldauer=' BETWEEN '.$spieldauer_von.' AND '.$spieldauer_bis; 
+      $Suche->Beschreibung.='* Spieldauer von '.$spieldauer_von.' bis '.$spieldauer_bis.' Sekunden'.PHP_EOL;
+      $filter=true; 
+    }
+  }
+   ?>    
+  <p><b>Spieldauer:</b>
+  <br /> von 
+  min: <input type="text" id="SpieldauerVon_min" name="SpieldauerVon_min" size="5" value="" oninput="set_SpieldauerVon();"> 
+  sec: <input type="text" id="SpieldauerVon" name="SpieldauerVon" size="5" value="<?php echo $spieldauer_von; ?>">
+  <br /> bis
+    min: <input type="text" id="SpieldauerBis_min" name="SpieldauerBis_min" size="5" value="" oninput="set_SpieldauerBis();">
+    sec: <input type="text" id="SpieldauerBis" name="SpieldauerBis" size="5" value="<?php echo $spieldauer_bis; ?>">
+
+  <input type="button" id="btnReset_Spieldauer" value="Filter zurücksetzen" onclick="Reset_Spieldauer();" />  
+  <script type="text/javascript">  
+        function Reset_Spieldauer() {  
+          document.getElementById("SpieldauerVon").value='';  
+          document.getElementById("SpieldauerBis").value='';  
+        }
+        function set_SpieldauerVon() {
+          var txt_min = document.getElementById("SpieldauerVon_min").value;
+          var sekunden = getSeconds(txt_min);
+          document.getElementById("SpieldauerVon").value=sekunden;         
+        }            
+        function set_SpieldauerBis() {
+          var txt_min = document.getElementById("SpieldauerBis_min").value;
+          var sekunden = getSeconds(txt_min);
+          document.getElementById("SpieldauerBis").value=sekunden;         
+        }   
+    </script> 
+  </p>
   <?php 
 
+/************** Besonderheiten **********/
 
-
-
-    /******  Werte für Beschreibungs-Text einsammeln */
-    $abfrage_beschreibung.=(count($Standorte)>0?$standort->titles_selected_list:'');  
-    $abfrage_beschreibung.=(count($Besetzungen)>0?$besetzung->titles_selected_list:'');  
-    $abfrage_beschreibung.=(count($Verwendungszwecke)>0?$verwendungszweck->titles_selected_list:'');  
-    $abfrage_beschreibung.=(count($Gattungen)>0?$gattung->titles_selected_list:'');  
-    $abfrage_beschreibung.=(count($Epochen)>0?$epochen->titles_selected_list:'');  
-    $abfrage_beschreibung.=(count($Schierigkeitsgrad)>0?$schierigkeitsgrad->titles_selected_list:'');     
-    $abfrage_beschreibung.=(count($Erprobt)>0?$erprobt->titles_selected_list:'');     
-    $abfrage_beschreibung.=(count($Notenwerte)>0?$notenwerte->titles_selected_list:'');     
-    $abfrage_beschreibung.=(count($Uebungen)>0?$uebungen->titles_selected_list:'');     
-    $abfrage_beschreibung.=(count($Verlage)>0?$verlag->titles_selected_list:'');     
-    $abfrage_beschreibung.=(count($Komponisten)>0?$komponist->titles_selected_list:''); 
-    $abfrage_beschreibung.=(count($Stricharten)>0?$stricharten->titles_selected_list:'');     
-    $abfrage_beschreibung.=(count($Linktypen)>0?$linktyp->titles_selected_list:''); 
-
-    if($spieldauer_von !='' and $spieldauer_bis !=''){
-        $abfrage_beschreibung.='* Spieldauer von '.$spieldauer_von.' bis '.$spieldauer_bis.' Sekunden'.PHP_EOL;
-    }
-    if ($suchtext!='') {
-        $abfrage_beschreibung.='* Suchtext: '.$suchtext.PHP_EOL;
-    }
-     
   $lookuptypes=new Lookuptype(); 
   $lookuptypes->setArrData(); 
 
@@ -264,15 +350,28 @@ if ("POST" == $_SERVER["REQUEST_METHOD"]) {
     
     if (isset($_POST[$type_key])) {
       $lookup_values_selected= $_POST[$type_key]; 
-      $abfrage_beschreibung.=$lookup->titles_selected_list; 
       $lookup_all_values_selected = array_merge($lookup_all_values_selected, $lookup_values_selected);  // Sammlung markierte Eintrag-IDS aus allen Lookups 
     } 
-    $lookup->print_select_multi($type_key,$lookup_values_selected, $lookup_caption.':');    
+    $lookup->print_select_multi($type_key,$lookup_values_selected, $lookup_caption.':');  
+    $Suche->Beschreibung.=(count($lookup_values_selected)?$lookup->titles_selected_list:''); 
+    if (count($lookup_all_values_selected) > 0 ){
+      // erstmals bei "Besonderheiten" 
+      $filterLookups = 'IN ('.implode(',', $lookup_all_values_selected).')'; 
+      $filter=true;        
+    }  
   }
 
-?>
-
-<p>Suchtext: <br> 
+/************** Suchtext  **********/  
+  if (isset($_POST['suchtext'])) {
+    $suchtext = $_POST['suchtext'];  
+    if ($suchtext!='') { 
+        $Suche->Beschreibung.='* Suchtext: '.$suchtext.PHP_EOL; 
+        $filter=true; 
+        // Verwendung im  Query s. SQL weiter unten 
+    }
+  }   
+  ?>
+  <p>Suchtext: <br> 
     <input type="text" id="suchtext" name="suchtext" size="20" value="<?php echo $suchtext; ?>"> 
 
     <br><input type="button" id="btnReset_suchtext" value="Filter zurücksetzen" onclick="Reset_suchtext();" />  
@@ -286,157 +385,10 @@ if ("POST" == $_SERVER["REQUEST_METHOD"]) {
 </form>
 
 </div> <!-- ende class search-filter --> 
-
 <div class="search-table">
 
 
 <?php
-
-  /* Ausgewählte Werte für Abfrage-Filter auslesen   */
-
-  $filter=false; 
-
-  $filterStandorte='';   
-  $filterVerlage='';
-  $filterLinktypen='';      
-  $filterBesetzung=''; 
-  $filterVerwendungszweck='';
-  $filterKomponisten='';   
-  $filterGattungen='';  
-  $filterEpochen='';    
-  $filterStricharten=''; 
-  $filterNotenwerte='';  
-  $filterUebungen='';  
-  $filterErprobt=''; 
-  $filterSchwierigkeitsgrad=''; 
-  $filterInstrumente=''; 
-
-  $filterLookups=''; 
-  $filterSpieldauer='';   
-  $filterSuchtext='';  
-  
-  if ("POST" == $_SERVER["REQUEST_METHOD"]) // XXX 
-  {
-    if (isset($_REQUEST['Standorte'])) {
-      $Standorte = $_REQUEST['Standorte'];   
-      $filterStandorte = 'IN ('.implode(',', $Standorte).')'; 
-      $filter=true; 
-    }
-    if (isset($_REQUEST['Verlage'])) {
-      $Verlage = $_REQUEST['Verlage'];   
-      $filterVerlage = 'IN ('.implode(',', $Verlage).')'; 
-      $filter=true; 
-    }
-    if (isset($_REQUEST['Linktypen'])) {
-      $Linktypen = $_REQUEST['Linktypen'];   
-      $filterLinktypen = 'IN ('.implode(',', $Linktypen).')'; 
-      $filter=true; 
-    }                    
-    if (isset($_REQUEST['Komponisten'])) {
-      $Komponisten = $_REQUEST['Komponisten'];   
-      $filterKomponisten = 'IN ('.implode(',', $Komponisten).')'; 
-      $filter=true; 
-    }      
-    if (isset($_REQUEST['Besetzungen'])) {
-      $Besetzungen = $_REQUEST['Besetzungen'];
-      $filterBesetzung = 'IN ('.implode(',', $Besetzungen).')'; 
-      $filter=true;  
-    }
-    if (isset($_REQUEST['Verwendungszwecke'])) {
-      $Verwendungszwecke = $_REQUEST['Verwendungszwecke'];   
-      $filterVerwendungszweck = 'IN ('.implode(',', $Verwendungszwecke).')'; 
-      $filter=true; 
-    }
-    if (isset($_REQUEST['Gattungen'])) {
-      $Gattungen = $_REQUEST['Gattungen'];   
-      $filterGattungen = 'IN ('.implode(',', $Gattungen).')'; 
-      $filter=true; 
-    }  
-    if (isset($_REQUEST['Epochen'])) {
-      $Epochen = $_REQUEST['Epochen'];   
-      $filterEpochen = 'IN ('.implode(',', $Epochen).')'; 
-      $filter=true; 
-    }       
-    if (isset($_REQUEST['Stricharten'])) {
-      $Stricharten = $_REQUEST['Stricharten'];   
-      $filterStricharten = 'IN ('.implode(',', $Stricharten).')'; 
-      $filter=true; 
-    }
-    if (isset($_REQUEST['Notenwerte'])) {
-      $Notenwerte = $_REQUEST['Notenwerte'];   
-      $filterNotenwerte = 'IN ('.implode(',', $Notenwerte).')'; 
-      $filter=true; 
-    }
-    if (isset($_REQUEST['Uebungen'])) {
-      $Uebungen = $_REQUEST['Uebungen'];   
-      $filterUebungen = 'IN ('.implode(',', $Uebungen).')'; 
-      $filter=true; 
-    }    
-    if (isset($_REQUEST['Erprobt'])) {
-      $Erprobt = $_REQUEST['Erprobt'];   
-      $filterErprobt= 'IN ('.implode(',', $Erprobt).')'; 
-      $filter=true; 
-    }    
-    if (isset($_REQUEST['Schwierigkeitsgrad'])) {
-      $Schierigkeitsgrad = $_REQUEST['Schwierigkeitsgrad'];   
-      $filterSchwierigkeitsgrad= 'IN ('.implode(',', $Schierigkeitsgrad).')'; 
-      $filter=true; 
-    }     
-    if (isset($_REQUEST['Instrumente'])) {
-      $Instrumente = $_REQUEST['Instrumente'];   
-      $filterInstrumente= 'IN ('.implode(',', $Instrumente).')'; 
-      $filter=true; 
-    }     
-
-    if (count($lookup_all_values_selected) > 0 ){
-      // erstmals bei "Besonderheiten" 
-      $filterLookups = 'IN ('.implode(',', $lookup_all_values_selected).')'; 
-      $filter=true;        
-    }
-
-    if (isset($_REQUEST['SpieldauerVon']) and isset($_REQUEST['SpieldauerBis']) ) {
-      if ($_REQUEST['SpieldauerVon']!='') {
-        $spieldauer_von=(is_numeric($_REQUEST['SpieldauerVon'])?$_REQUEST['SpieldauerVon']:'');
-      }
-      if ($_REQUEST['SpieldauerBis']!='') {
-        $spieldauer_bis=(is_numeric($_REQUEST['SpieldauerBis'])?$_REQUEST['SpieldauerBis']:''); 
-      }
-      if($spieldauer_von !='' and $spieldauer_bis !=''){
-        // $spieldauer_von = $spieldauer_von * 60;         
-        // $spieldauer_bis = $spieldauer_bis * 60;            
-        $filterSpieldauer=' BETWEEN '.$spieldauer_von.' AND '.$spieldauer_bis; 
-        $filter=true; 
-      }
-    }
-    if ($suchtext!='') { 
-      $filterSuchtext =  "(sammlung.Name LIKE '%".$suchtext."%' OR  
-                            sammlung.Bemerkung LIKE '%".$suchtext."%' OR 
-                            sammlung.Bestellnummer LIKE '%".$suchtext."%' OR
-                            musikstueck.Name LIKE '%".$suchtext."%' OR                              
-                            musikstueck.Opus LIKE '%".$suchtext."%' OR
-                            musikstueck.Bearbeiter LIKE '%".$suchtext."%' OR
-                            musikstueck.JahrAuffuehrung LIKE '%".$suchtext."%' OR
-                            satz.Name LIKE '%".$suchtext."%' OR
-                            satz.Taktart LIKE '%".$suchtext."%' OR
-                            satz.Tonart LIKE '%".$suchtext."%' OR
-                            satz.Tempobezeichnung LIKE '%".$suchtext."%' OR
-                            satz.Bemerkung LIKE '%".$suchtext."%' OR 
-                            besetzung.Name LIKE '%".$suchtext."%' /* 28.05.2024 */ 
-                            )"; 
-
-      $filter=true; 
-    }
-
-
-
-      // echo '<pre>'.$filterSuchtext.'</pre>'; // Test 
-
-  }
-      
-  if (isset($_POST['Ebene'])) {
-    $Ebene=$_POST["Ebene"]; 
-  }
-
 
   if ($filter ) {
     $query=""; 
@@ -538,6 +490,7 @@ if ("POST" == $_SERVER["REQUEST_METHOD"]) {
       left join lookup_type on lookup_type.ID = lookup.LookupTypeID
       
       WHERE 1=1 
+
       ". PHP_EOL; 
 
       switch ($Ebene){    
@@ -550,7 +503,7 @@ if ("POST" == $_SERVER["REQUEST_METHOD"]) {
       }
 
      /* Filter ergänzen */   
-      if($filterStandorte!=''){
+      if($filterStandorte!=''){ 
         $query.=' AND sammlung.StandortID '.$filterStandorte. PHP_EOL; 
       } 
       if($filterVerlage!=''){
@@ -591,14 +544,27 @@ if ("POST" == $_SERVER["REQUEST_METHOD"]) {
       }
       if($filterInstrumente!=''){
         $query.=' AND satz_schwierigkeitsgrad.InstrumentID '.$filterInstrumente. PHP_EOL; 
-      }                       
+      }
+      $query.=($filterLookups!=''?' AND satz_lookup.LookupID '.$filterLookups.PHP_EOL:''); 
+                       
       if($filterSpieldauer!=''){
         $query.=' AND satz.Spieldauer '.$filterSpieldauer. PHP_EOL; 
       }
-      if($filterSuchtext!=''){
-        $query.=' AND'.$filterSuchtext. PHP_EOL; 
+      if($suchtext!=''){
+        $query.="AND (sammlung.Name LIKE '%".$suchtext."%' OR  
+                            sammlung.Bemerkung LIKE '%".$suchtext."%' OR 
+                            sammlung.Bestellnummer LIKE '%".$suchtext."%' OR
+                            musikstueck.Name LIKE '%".$suchtext."%' OR                              
+                            musikstueck.Opus LIKE '%".$suchtext."%' OR
+                            musikstueck.Bearbeiter LIKE '%".$suchtext."%' OR
+                            musikstueck.JahrAuffuehrung LIKE '%".$suchtext."%' OR
+                            satz.Name LIKE '%".$suchtext."%' OR
+                            satz.Taktart LIKE '%".$suchtext."%' OR
+                            satz.Tonart LIKE '%".$suchtext."%' OR
+                            satz.Tempobezeichnung LIKE '%".$suchtext."%' OR
+                            satz.Bemerkung LIKE '%".$suchtext."%' OR 
+                            besetzung.Name LIKE '%".$suchtext."%' )". PHP_EOL;         
       }
-      $query.=($filterLookups!=''?' AND satz_lookup.LookupID '.$filterLookups.PHP_EOL:''); 
 
       /* Gruppierung abhängig von Ebene  */
       switch ($Ebene){    
@@ -628,19 +594,26 @@ if ("POST" == $_SERVER["REQUEST_METHOD"]) {
 
       // echo '<pre>'.$query.'</pre>'; // Test  
       // echo '<pre>'.$abfrage_beschreibung.'</pre>'; // Test    
-      
-      if (isset($_POST["Abfrage"])) {
-        // Abfrage speichern, Ergebnis nicht ausgeben 
-        if ($_POST["Abfrage"]!='') {
-       
-          include_once("cl_abfrage.php");
-          $abfrage = new Abfrage();
-          $abfrage->insert_row($_POST["Abfrage"]); 
-          $abfrage->update_row($abfrage->Name,$abfrage_beschreibung,$query, $edit_table);
-          echo '<p>Die Suche wurde als Abfrage gespeichert: <br />'; 
-          echo '<a href="show_abfrage.php?ID='.$abfrage->ID.'&title=Abfrage" target="_blank">Abfrage-Ergebnis anzeigen</a>
-              | <a href="edit_abfrage.php?ID='.$abfrage->ID.'&title=Abfrage" target="_blank">Abfrage bearbeiten</a>';
+    
+      if ($Suche->Beschreibung!='') {
+        echo '<p>Auswahl:</p><pre>'.$Suche->Beschreibung.'</pre>';
+      }
 
+      if (isset($_POST["SucheSpeichern"])) {
+        $timestamp = time();
+        $Suche->Name= 'Suche '.date("d.m.Y - H:i", time()); // Temp. Name, kann später geändert werden
+        $Suche->Abfrage = $query; 
+        $Suche->Tabelle = $edit_table; 
+        $Suche->insert_row2(); 
+        echo '<p>Die Suche wurde als Abfrage gespeichert: <br />'; 
+        echo '<a href="show_abfrage.php?ID='.$Suche->ID.'&title=Abfrage" target="_blank">Abfrage-Ergebnis anzeigen</a>
+            | <a href="edit_abfrage.php?ID='.$Suche->ID.'&title=Abfrage" target="_blank">Abfrage bearbeiten</a>
+               | <a href="show_table2.php?table=v_abfrage&sortcol=ID&sortorder=DESC&title=Abfragen&add_link_show" target="_blank">Übersicht Abfragen</a>         
+            ';
+
+
+            
+              
         } else {
           // Abfrage nicht speichern, Ergebnis ausgeben           
           include_once("cl_db.php");
@@ -663,8 +636,10 @@ if ("POST" == $_SERVER["REQUEST_METHOD"]) {
             $info->print_user_error(); 
             $info->print_error($select, $e); 
           }    
-        }
+
       }
+
+
     } // Ende if($filter)
     else {
       echo '<p>Es wurde kein Filter gesetzt. </p>'; 
