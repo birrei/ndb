@@ -1,5 +1,14 @@
 ﻿
 # in Arbeit 
+  
+ 
+* Migration Satz Stricharten -> Besonderheiten 
+* Migration Satz Notenwerte -> Besonderheiten 
+* Migration Satz Übung -> Besonderheiten 
+* Migration Satz Lagen -> Besonderheiten 
+
+
+ * Test view: "Satz ohne Schwierigkeitsgrad" -> Ändern ! 
 
   * edit_*.php, delete_*.php -> Link zu Übersicht 
 
@@ -11,22 +20,20 @@
 
   * Löschmöglichkeiten für alle Tabellen 
   
-  
-* test: darf der Schwierigkeitsgrad gleich sein, wenn unterschiedliche Instrumente genannt sind? 
+  * test: darf der Schwierigkeitsgrad gleich sein, wenn unterschiedliche Instrumente genannt sind? 
 
 -----------------
 
 # In Planung
+ 
 
 ## Review mit AG 
  * Sammlung Links mit oder ohne Typen? 
- * "Stricharten" / "Notenwerte" zu "Besonderheiten" ?  
 
 ## Neue Features
   * Sammlung -> neues Feld "Materialinfo" 
 
 ## Verbesserungen
-
   * Fehlerbehandlung, falls Bearbeiten-Formular bei nicht exisiterender ID geöffnet wird (siehe Vorlage edit_abfrage.php, cl_abfrage.php) 
   * Aktualisierngs-Datum / -zeit für jede Tabelle 
   * Logging 
