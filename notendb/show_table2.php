@@ -1,47 +1,46 @@
 <?php
 include('head.php');
 
+$object=$_GET['table']; // obligatorisch 
 
-$table=$_GET['table'];
+/****************/
+// optionale Übergabeparameter
+$edit_table=''; // Tabelle, auf die im Bearbeiten-Link verwiesen werden soll.  
+$sortcol='ID';  // Spalte, nach der sortiert werden soll, default: ID
+$sortorder='ASC'; // Sortier-Reihenfolge, default aufwärts 
+$edit_table_title=''; // Titel der Seite, die über den Bearbeiten-Link aufgerufen wird 
+$add_link_show=false;  // true, falls eine zusätzlliche Spalte "Anzeigen" ergänzt werden soll
+$edit_link_show_newpage=false; // true: Das öffnen des Bearbeiten-Links soll in einem neuen Fenster erfolgen 
 
-/* Bearbeiten-Links, table */
-$table_edit=$table; 
-if (substr($table,0,2)=='v_') {
-  // Views (suffix v_): "v_" vorne abschneiden
-  $table_edit=substr($table,2, strlen($table)-2); 
+/*************** */
+
+if (isset($_GET['edit_table'])) {
+  $edit_table=$_GET['edit_table']; 
+} else {
+  $edit_table=$object; 
+  if (substr($object,0,2)=='v_') {
+    $edit_table=substr($object,2, strlen($object)-2);     // bei Views (suffix v_): "v_" vorne abschneiden
+  }
 }
-
-/* Bearbeiten-Links, title */
-$edit_title=''; 
 if (isset($_GET['title'])) {
-  $edit_title=$_GET['title']; 
+  $edit_table_title=$_GET['title']; 
 }
-
-/* Anzeigen-Links */
-$add_link_show=false; 
 if (isset($_GET['add_link_show'])) {
   $add_link_show=true; 
 }
-
-/* Sortierung */
-$sortcol='';
 if (isset($_GET['sortcol'])) {
-    $sortcol=$_GET['sortcol'];
-}
+  $sortcol=$_GET['sortcol'];
+} 
 if (isset($_GET['sortorder'])) {
     $sortorder=$_GET['sortorder'];
 }
-else {
-    $sortorder='ASC';
-}
-
-$edit_link_show_newpage=false; 
 if (isset($_GET['edit_link_show_newpage'])) {
   $edit_link_show_newpage=true; 
 }
 
+/*************** */
 
-$query = 'SELECT * FROM '.$table.($sortcol!='' ?' ORDER BY '.$sortcol.' '.$sortorder:'');
+$query = 'SELECT * FROM '.$object.($sortcol!='' ?' ORDER BY '.$sortcol.' '.$sortorder:'');
 
 // echo '<pre>'.$query.'</pre>'; 
 
@@ -57,7 +56,8 @@ try {
   $html = new HtmlTable($select); 
   $html->add_link_show=$add_link_show; 
   // echo '<h3>Objekt: '.$table.'</h3>'; 
-  $html->print_table($table_edit, $edit_link_show_newpage,'', $edit_title); 
+  // $html->print_table($edit_table, $edit_link_show_newpage,'', $edit_table_title); 
+  $html->print_table($edit_table, $edit_link_show_newpage,'', $edit_table_title); 
 }
 catch (PDOException $e) {
   include_once("cl_html_info.php"); 
