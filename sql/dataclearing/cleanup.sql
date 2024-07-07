@@ -28,6 +28,13 @@ delete from besetzung where ID not in (select distinct BesetzungID from musikstu
 delete from verwendungszweck where ID not in (select distinct VerwendungszweckID from musikstueck_verwendungszweck )
 ;  
 
+
+/* nicht verwendete Lookups löschen */
+delete from lookup where ID not in (select distinct LookupID from satz_lookup)
+;  
+
+----------------------------------
+
 /* nicht verwendete Notenwerte löschen */
 delete from notenwert where ID not in (select distinct NotenwertID from satz_notenwert)
 ;  
@@ -36,7 +43,9 @@ delete from notenwert where ID not in (select distinct NotenwertID from satz_not
 delete from strichart where ID not in (select distinct StrichartID from satz_strichart)
 ;  
 
-
+/* nicht verwendete Übungen löschen */
+delete from uebung where ID not in (select distinct UebungID from satz_uebung)
+;  
 
 
 

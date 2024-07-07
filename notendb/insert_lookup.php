@@ -25,7 +25,9 @@ if (isset($_POST["LookupTypeID"])) {
       $lookuptyp->print_preselect($LookupTypeID); 
 
       ?>
-        (Auswahl filtert Übersichtstabelle)</td>
+        (Auswahl filtert Übersichtstabelle)
+      
+      </td>
    </label>
 </tr>
 </form>

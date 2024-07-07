@@ -83,16 +83,7 @@ include('head.php');
         <h2> Satz Stammdaten </h2>
 
         <table class="start"> 
-        <tr>
-            <td class="start"><b>Stricharten</b></td>
-            <td class="start"><a href="show_table2.php?table=strichart&sortcol=Name&title=Stricharten">Daten anzeigen</a></td>
-            <td class="start"><a href="insert_strichart.php?title=Strichart">Neu erfassen</a></td>
-        </tr>
-        <tr>
-            <td class="start"><b>Notenwerte</b></td>
-            <td class="start"><a href="show_table2.php?table=notenwert&sortcol=Name&title=Notenwerte">Daten anzeigen</a></td>
-            <td class="start"><a href="insert_notenwert.php?title=Notenwert">Neu erfassen</a></td>
-        </tr>
+  
         <tr>
             <td class="start"><b>Erprobt</b></td>
             <td class="start"><a href="show_table2.php?table=erprobt&sortcol=Name&title=Erprobt">Daten anzeigen</a></td>
@@ -104,26 +95,25 @@ include('head.php');
             <td class="start"><a href="insert_schwierigkeitsgrad.php?title=Schwierigkeitsgrad">Neu erfassen</a></td>
         </tr>
         <tr>
-            <td class="start"><b>Übung</b></td>
-            <td class="start"><a href="show_table2.php?table=uebung&sortcol=Name&title=Übungen">Daten anzeigen</a></td>
-            <td class="start"><a href="insert_uebung.php?title=Übung">Neu erfassen</a></td>
-        </tr>
+            <td class="start"><b>Schwierigkeitsgrad Instrumente</b></td>
+            <td class="start"><a href="show_table2.php?table=instrument&sortcol=Name&title=Instrumente">Daten anzeigen</a></td>
+            <td class="start"><a href="insert_instrument.php?title=Instrument">Neu erfassen</a></td>
+        </tr> 
+        
 
         <tr>
             <td class="start"><b>Besonderheiten</b></td>
             <td class="start"><a href="show_table2.php?table=v_lookup&sortcol=Name&title=Besonderheiten">Daten anzeigen</a></td>
             <td class="start"><a href="insert_lookup.php?title=Besonderheit">Neu erfassen</a></td>
         </tr>
+        
         <tr>
             <td class="start"><b>Besonderheit Typen</b></td>
             <td class="start"><a href="show_table2.php?table=lookup_type&sortcol=Name&title=Besonderheit Typen">Daten anzeigen</a></td>
             <td class="start"><a href="insert_lookup_type.php?title=Besonderheit Typ">Neu erfassen</a></td>
         </tr>
-        <tr>
-            <td class="start"><b>Instrumente</b></td>
-            <td class="start"><a href="show_table2.php?table=instrument&sortcol=Name&title=Instrumente">Daten anzeigen</a></td>
-            <td class="start"><a href="insert_instrument.php?title=Instrument">Neu erfassen</a></td>
-        </tr>
+
+
                 
         </table>
 
@@ -134,11 +124,33 @@ include('head.php');
         <h2> Sonstiges </h2>
         <table class="start">
         <tr>
-            <td class="start"><b>Abfragen</b> (BETA) </td>
+            <td class="start"><b>Abfragen</b></td>
             <td class="start"><a href="show_table2.php?table=v_abfrage&sortcol=Name&title=Abfragen&add_link_show">Daten anzeigen</a></td>
             <td class="start"><a href="insert_abfrage.php?title=Abfrage">Neu erfassen</a>
             </td>
         </tr>
+
+        <tr>
+            <td class="start">----</td>
+            <td class="start">----</td>
+            <td class="start">----</td>
+        </tr>
+        
+        <tr>
+            <td class="start"><b>Obsolete: Übung</b></td>
+            <td class="start"><a href="show_table2.php?table=uebung&sortcol=Name&title=Übungen">Daten anzeigen</a></td>
+            <td class="start"><a href="insert_uebung.php?title=Übung">Neu erfassen</a></td>
+        </tr>
+        <tr>
+            <td class="start"><b>Obsolete: Stricharten</b></td>
+            <td class="start"><a href="show_table2.php?table=strichart&sortcol=Name&title=Stricharten">Daten anzeigen</a></td>
+            <td class="start"><a href="insert_strichart.php?title=Strichart">Neu erfassen</a></td>
+        </tr>
+        <tr>
+            <td class="start"><b>Obsolete: Notenwerte</b></td>
+            <td class="start"><a href="show_table2.php?table=notenwert&sortcol=Name&title=Notenwerte">Daten anzeigen</a></td>
+            <td class="start"><a href="insert_notenwert.php?title=Notenwert">Neu erfassen</a></td>
+        </tr>        
         </table>
     </div>
 

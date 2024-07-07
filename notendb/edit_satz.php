@@ -61,7 +61,7 @@ echo
 
 <tr>    
   <label>
-  <td class="eingabe">Musikstück:</td>  
+  <td class="eingabe"><b>Musikstück:</b></td>  
   <td class="eingabe">
   '; 
   $musikstueck=new Musikstueck(); 
@@ -76,14 +76,14 @@ echo
 
 <tr>    
   <label>
-  <td class="eingabe">Nr:</td>  
+  <td class="eingabe"><b>Nr:</b></td>  
   <td class="eingabe"><input type="text" name="Nr" value="'.$satz->Nr.'" size="45" maxlength="80"  autofocus="autofocus" required oninput="changeBackgroundColor(this)"></td>
   </label>
 </tr> 
 
   <tr>    
     <label>
-    <td class="eingabe">Name:</td>  
+    <td class="eingabe"><b>Name:</b></td>  
     <td class="eingabe"><input type="text" name="Name" value="'.htmlentities($satz->Name).'" size="100" maxlength="100" oninput="changeBackgroundColor(this)"> (max. 100 Zeichen)</td>
     </label>
   </tr> 
@@ -91,28 +91,28 @@ echo
 
   <tr>    
     <label>
-    <td class="eingabe">Tonart:</td>  
+    <td class="eingabe"><b>Tonart:</b></td>  
     <td class="eingabe"><input type="text" name="Tonart" value="'.$satz->Tonart.'" size="45" maxlength="80" oninput="changeBackgroundColor(this)"></td>
     </label>
   </tr> 
 
   <tr>    
     <label>
-    <td class="eingabe">Taktart:</td>  
+    <td class="eingabe"><b>Taktart:</b></td>  
     <td class="eingabe"><input type="text" name="Taktart" value="'.$satz->Taktart.'" size="45" maxlength="80" oninput="changeBackgroundColor(this)"></td>
     </label>
   </tr> 
 
   <tr>    
     <label>
-    <td class="eingabe">Tempobezeichnung:</td>  
+    <td class="eingabe"><b>Tempobezeichnung:</b></td>  
     <td class="eingabe"><input type="text" name="Tempobezeichnung" value="'.$satz->Tempobezeichnung.'" size="45" maxlength="80" oninput="changeBackgroundColor(this)"></td>
     </label>
   </tr> 
 
   <tr>    
     <label>
-    <td class="eingabe">Spieldauer:</td>  
+    <td class="eingabe"><b>Spieldauer:</b></td>  
     <td class="eingabe">
     
     Minuten: <input type="text" id="input_minutes" size="10" oninput="set_seconds();changeBackgroundColor(this)">
@@ -135,7 +135,7 @@ echo
 
   
   <tr>   
-    <td class="eingabe">Erprobt:</td>   
+    <td class="eingabe"><b>Erprobt:</b></td>   
     <td class="eingabe">'; 
       $erprobt=new Erprobt(); 
       $erprobt->print_select($satz->ErprobtID); 
@@ -145,14 +145,14 @@ echo
 
   <tr>    
     <label>
-    <td class="eingabe">Lagen:</td>  
+    <td class="eingabe"><b>Lagen:</b></td>  
     <td class="eingabe"><input type="text" name="Lagen" value="'.$satz->Lagen.'" size="45" maxlength="80" oninput="changeBackgroundColor(this)"></td>
     </label>
   </tr> 
 
   <tr>    
   <label>
-  <td class="eingabe">Bemerkung:</td>  
+  <td class="eingabe"><b>Bemerkung:</b></td>  
   <td class="eingabe">
   <textarea name="Bemerkung" rows=5 cols=100 maxlength="500" oninput="changeBackgroundColor(this)">'.htmlentities($satz->Bemerkung).'</textarea> (max. 500 Zeichen)
   </td>
@@ -172,48 +172,53 @@ echo
 
   </form>
 
-  
-   <tr> 
-  <td class="eingabe">Schwierigkeitsgrad(e):
-      <br> <a href="insert_instrument.php?title=Instrument" target="_blank">Neues Instrument erfassen</a>
-      <br> <a href="edit_satz_list_schwierigkeitsgrade.php?SatzID='.$satz->ID.'" target="Schwierigkeitsgrade">Aktualisieren</a>    
+  <tr> 
+  <td class="eingabe"><b>Schwierigkeitsgrad(e):</b>
+      <br> <a href="insert_instrument.php?title=Instrument" target="_blank">Neu erfassen (Instrument)</a>   
+      <br> <a href="show_table2.php?table=instrument&sortcol=Name&title=Instrumente" target="_blank">Übersicht Instrumente</a>  
+      <br> <a href="edit_satz_list_schwierigkeitsgrade.php?SatzID='.$satz->ID.'" target="Schwierigkeitsgrade">Aktualisieren</a> 
   </td> 
   <td class="eingabe">
     <iframe src="edit_satz_list_schwierigkeitsgrade.php?SatzID='.$satz->ID.'" width="500" height="100" name="Schwierigkeitsgrade"></iframe>
   </td>
   </tr> 
 
+
+    
   <tr> 
-  <td class="eingabe">Übung:
-      <br> <a href="insert_uebung.php?title=Übung" target="_blank">Neu erfassen</a>
-      <br> <a href="edit_satz_list_uebungen.php?SatzID='.$satz->ID.'" target="Uebungen">Aktualisieren</a>    
+  <td class="eingabe"><b>Besonderheiten:</b>
+            <br> <a href="insert_lookup.php?title=Besonderheit" target="_blank">Neu erfassen (Besonderheit)</a>
+            <br> <a href="show_table2.php?table=lookup&sortcol=Name&title=Besonderheiten" target="_blank">Übersicht Besonderheiten</a>  
+            <br> <a href="edit_satz_list_lookups.php?SatzID='.$satz->ID.'" target="Lookups">Aktualisieren</a>    
+  </td> 
+  <td class="eingabe"><iframe src="edit_satz_list_lookups.php?SatzID='.$satz->ID.'" width="500" height="300" name="Lookups"></iframe>
+  </td>
+  </tr> 
+
+  <tr> 
+  <td class="eingabe" style="color:grey">Übung:      <br />(übernommen zu "Besonderheiten")    
   </td> 
   <td class="eingabe">
     <iframe src="edit_satz_list_uebungen.php?SatzID='.$satz->ID.'" width="500" height="100" name="Uebungen"></iframe>
   </td>
   </tr> 
-
-  <tr> 
-  <td class="eingabe">Stricharten:
-      <br />(zu "Besonderheiten"?) 
+  <tr style="color:grey"> 
+  <td class="eingabe">Stricharten: <br />(übernommen zu "Besonderheiten") 
   </td> 
   <td class="eingabe">
     <iframe src="edit_satz_list_stricharten.php?SatzID='.$satz->ID.'" width="500" height="100" name="Stricharten"></iframe>
   </td>
   </tr> 
 
-  <tr> 
+  <tr style="color:grey"> 
   <td class="eingabe">Notenwerte:
-    <br />(zu "Besonderheiten"?) </td> 
+<br />(übernommen zu "Besonderheiten") 
+    
+    </td> 
   <td class="eingabe"><iframe src="edit_satz_list_notenwerte.php?SatzID='.$satz->ID.'" width="500" height="100" name="Stricharten"></iframe>
   </td>
   </tr> 
-    
-  <tr> 
-  <td class="eingabe">Besonderheiten:</td> 
-  <td class="eingabe"><iframe src="edit_satz_list_lookups.php?SatzID='.$satz->ID.'" width="500" height="300" name="Lookups"></iframe>
-  </td>
-  </tr> 
+
 </table> 
 
 <p>
