@@ -57,14 +57,16 @@ $title_complete=($title_page!=''?$title_page.' - '.$title_base:$title_base);
     <title><?php echo $title_complete;  ?></title>
     <link rel='stylesheet' type='text/css' href='style.css'/>
 </head>
+<body>
 
+    
+<a href="index.php?title=Start">Startseite</a> | 
+    <a href="suche.php?title=Suche">Suche</a> | 
+    <a href="tests.php?title=Tests">Tests</a>
+
+<hr>
 <?php 
-// if (basename($_SERVER['SCRIPT_FILENAME'])=='test.php') {
-//   echo '<body onbeforeunload="submitForm()">'; 
-// }
-// else{
-//   echo '<body>'; 
-// }
+
 
 ?>
 
