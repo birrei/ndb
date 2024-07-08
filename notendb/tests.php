@@ -2,6 +2,15 @@
 <?php 
 include('head.php');
 
+$abfragen[] = array('name' => 'Besonderheiten doppelt belegt'
+              , 'testview'   => "v_test_besonderheiten_doppelt"
+              , 'table'   => "lookup"              
+              );
+
+ 
+
+
+
 $abfragen[] = array('name' => 'Sammlungen ohne Musikstück'
               , 'testview'   => "v_test_sammlung_ohne_musikstueck"
               , 'table'   => "sammlung"              
@@ -50,9 +59,12 @@ foreach ($abfragen as $abfrage)
   try {
     $select->execute(); 
     include_once("cl_html_table.php");      
-    echo '<h3>'.$abfrage['name'].'</h3>';     
-    $html = new HtmlTable($select); 
-    $html->print_table($abfrage['table'] , true,'', ucfirst($abfrage['table'])); 
+  
+    if ($select->rowCount() > 0 ) {
+      echo '<h3>'.$abfrage['name'].'</h3>';     
+      $html = new HtmlTable($select); 
+      $html->print_table($abfrage['table'] , true,'', ucfirst($abfrage['table'])); 
+     }
   
     
   }
