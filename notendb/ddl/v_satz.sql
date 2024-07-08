@@ -2,22 +2,21 @@ CREATE OR REPLACE VIEW v_satz AS
 select 
 /* Sammlung */ 
     sammlung.Name as Sammlung 
-    , verlag.Name as Verlag 
-    , standort.Name as Standort
-    , sammlung.Bestellnummer
-    , sammlung.Bemerkung as Sammlung_Bemerkung 
+    -- , verlag.Name as Verlag 
+    -- , standort.Name as Standort
+    -- , sammlung.Bestellnummer
+    , sammlung.Bemerkung as `Sammlung Bemerkung` 
 /* musikstueck */
-    , musikstueck.Nummer AS Musikstueck_Nr
+  --  , musikstueck.Nummer AS Musikstueck_Nr
     , musikstueck.Name AS Musikstueck
-    , musikstueck.Opus 
+   -- , musikstueck.Opus 
     , komponist.Name as Komponist 
-    , musikstueck.Bearbeiter
-    , epoche.Name as Epoche
-    , gattung.Name as Gattung 
+    -- , musikstueck.Bearbeiter
+    -- , epoche.Name as Epoche
+    -- , gattung.Name as Gattung 
 /* satz */     
+    , satz.Nr 
     , satz.Name 
-    , satz.Nr as SatzNr
-    , satz.Name as SatzName
     , satz.Taktart
     , satz.Tempobezeichnung
     -- , satz.Spieldauer
@@ -28,13 +27,9 @@ select
         satz.Spieldauer MOD 60
         , ''''''
         ) as Spieldauer
-    , erprobt.Name as Erprobt 
+    , erprobt.Name as Erprobt
+    , v_satz_lookuptypes.LookupList as Besonderheiten
     , GROUP_CONCAT(DISTINCT concat(schwierigkeitsgrad.Name, ' - ', instrument.Name)  order by schwierigkeitsgrad.Name SEPARATOR ', ') as Schwierigkeitsgrade 
-    , GROUP_CONCAT(DISTINCT uebung.Name order by uebung.Name SEPARATOR ', ') Uebung 
-    , GROUP_CONCAT(DISTINCT strichart.Name order by strichart.Name SEPARATOR ', ') Stricharten       
-    , GROUP_CONCAT(DISTINCT notenwert.Name order by notenwert.Name SEPARATOR ', ') Notenwerte   
-    , GROUP_CONCAT(DISTINCT concat(lookup_type.Name, ': ', lookup.Name)  order by  concat(lookup_type.Name, ': ', lookup.Name)  SEPARATOR ', ') Besonderheiten          
-    -- , GROUP_CONCAT(DISTINCT lookup.Name order by lookup.Name SEPARATOR ', ') Besonderheiten   
     , satz.Bemerkung
     , satz.Lagen     
     , satz.ID 
@@ -54,21 +49,16 @@ FROM
     left join musikstueck_verwendungszweck on musikstueck_verwendungszweck.MusikstueckID = musikstueck.ID 
     left join verwendungszweck on verwendungszweck.ID = musikstueck_verwendungszweck.VerwendungszweckID
   
-    LEFT JOIN satz_strichart on satz_strichart.SatzID = satz.ID 
-    LEFT JOIN strichart on strichart.ID = satz_strichart.StrichartID 
-    LEFT JOIN satz_notenwert on satz_notenwert.SatzID = satz.ID 
-    LEFT JOIN notenwert on notenwert.ID = satz_notenwert.NotenwertID 
     LEFT JOIN erprobt on erprobt.ID = satz.ErprobtID
     left JOIN satz_schwierigkeitsgrad on satz_schwierigkeitsgrad.SatzID = satz.ID 
     LEFT JOIN schwierigkeitsgrad on schwierigkeitsgrad.ID = satz_schwierigkeitsgrad.SchwierigkeitsgradID 
     LEFT JOIN instrument on instrument.ID = satz_schwierigkeitsgrad.InstrumentID 
 
-    LEFT JOIN satz_uebung on satz_uebung.SatzID = satz.ID 
-    LEFT JOIN uebung on uebung.ID = satz_uebung.UebungID
-
     left join satz_lookup on satz_lookup.SatzID = satz.ID 
     left join lookup on lookup.ID = satz_lookup.LookupID 
     left join lookup_type on lookup_type.ID = lookup.LookupTypeID
+
+    left join v_satz_lookuptypes on v_satz_lookuptypes.SatzID = satz.ID 
 
 group by satz.ID 
 order by sammlung.Name, musikstueck.Nummer, satz.Nr

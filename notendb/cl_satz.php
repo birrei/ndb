@@ -578,9 +578,9 @@ class Satz {
     $conn = new DbConn(); 
     $db=$conn->db; 
 
-    $this->delete_uebungen();   
-    $this->delete_notenwerte(); 
-    $this->delete_stricharten();     
+    // $this->delete_uebungen();   
+    // $this->delete_notenwerte(); 
+    // $this->delete_stricharten();     
     $this->delete_lookups(); 
     $this->delete_schwierigkeitsgrade(); 
  

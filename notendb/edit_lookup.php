@@ -74,6 +74,12 @@ echo '
 <input type="hidden" name="ID" value="' . $lookup->ID. '">
 
 </form>
+
+
+<p>
+<a href="delete_lookup.php?ID=' . $lookup->ID . '&title=Besonderheit löschen">Besonderheit löschen</a>
+</p>
+
 '; 
 
 include('foot.php');

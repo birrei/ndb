@@ -10,7 +10,7 @@ class Lookup {
   public $Name;
   public $LookupTypeID; 
   public $LookupTypeKey;   
-  public $TypeName; 
+  public $LookupTypeName; 
   public $ID_List; 
   public $titles_selected_list; 
 
@@ -206,8 +206,13 @@ class Lookup {
     $select->execute(); 
     $row_data=$select->fetch();
     $this->Name=$row_data["Name"];
-    $this->LookupTypeID=$row_data["LookupTypeID"];    
+    $this->LookupTypeID=$row_data["LookupTypeID"]; 
     
+    include_once("cl_lookuptype.php"); 
+    $lookuptype=new Lookuptype();
+    $lookuptype->ID = $this->LookupTypeID; 
+    $lookuptype->load_row();
+    $this->LookupTypeName=$lookuptype->Name; 
   }  
 
   function print_select_multi($type_key, $options_selected=[], $caption=''){
@@ -246,7 +251,38 @@ class Lookup {
     }
   }  
 
+  function delete(){
+    include_once("cl_db.php");
+    $conn = new DbConn(); 
+    $db=$conn->db; 
 
+    $select = $db->prepare("SELECT * from satz_lookup WHERE LookupID=:LookupID");
+    $select->bindValue(':LookupID', $this->ID); 
+    $select->execute();  
+    if ($select->rowCount() > 0 ){
+      $this->load_row(); 
+      echo '<p>Die Besonderheit ID '.$this->ID.' "'.$this->Name.'" Typ "'.$this->LookupTypeName.'" 
+        kann nicht gelöscht werden, da noch eine Zuordnung auf '.$select->rowCount().' Sätze existiert. </p>';   
+      return false;            
+    }
+
+    $delete = $db->prepare("DELETE FROM lookup WHERE ID=:ID"); 
+    $delete->bindValue(':ID', $this->ID);  
+
+    try {
+      $delete->execute(); 
+      echo '<p>Die Besonderheit wurde gelöscht.</p>';    
+      return true;       
+    }
+    catch (PDOException $e) {
+      // print_r($e); 
+      include_once("cl_html_info.php"); 
+      $info = new HtmlInfo();      
+      $info->print_user_error(); 
+      $info->print_error($delete, $e); 
+      return false;  
+    }  
+  } 
 
 }
 

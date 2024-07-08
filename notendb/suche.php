@@ -93,23 +93,6 @@ $Suche->Beschreibung.='* Anzeige-Ebene: '.$Ebene.PHP_EOL;
  Die Sucheinstellungen "bleiben stehen" und werden nur durch Betätigen der 
  "Filter zurücksetzen" - Buttons wieder aufgelöst 
 */
-
-
-          
-
-
-
-
-        
-
-
-
-        
-
-
-    
-
-
   
 ?> 
 <div class="search-page">
@@ -228,35 +211,6 @@ $Suche->Beschreibung.='* Anzeige-Ebene: '.$Ebene.PHP_EOL;
   $erprobt->print_select_multi($Erprobt);  
   $Suche->Beschreibung.=(count($Erprobt)>0?$erprobt->titles_selected_list:'');            
 
-  /* Uebungen  */  
-  if (isset($_POST['Uebungen'])) {
-    $Uebungen = $_POST['Uebungen'];  
-    $filterErprobt= 'IN ('.implode(',', $Erprobt).')'; 
-    $filter=true;      
-  }      
-  $uebungen = new Uebung();
-  $uebungen->print_select_multi($Uebungen);      
-  $Suche->Beschreibung.=(count($Uebungen)>0?$uebungen->titles_selected_list:''); 
-  
-  /* Notenwerte  */
-  if (isset($_POST['Notenwerte'])) {
-    $Notenwerte = $_POST['Notenwerte'];   
-    $filterNotenwerte = 'IN ('.implode(',', $Notenwerte).')'; 
-    $filter=true;     
-  } 
-  $notenwerte = new Notenwert();
-  $notenwerte->print_select_multi($Notenwerte);      
-  $Suche->Beschreibung.=(count($Notenwerte)>0?$notenwerte->titles_selected_list:''); 
-  
-  /* Stricharten  */
-  if (isset($_POST['Stricharten'])) {
-    $Stricharten = $_POST['Stricharten'];  
-    $filterStricharten = 'IN ('.implode(',', $Stricharten).')'; 
-    $filter=true;      
-  }       
-  $stricharten = new Strichart();
-  $stricharten->print_select_multi($Stricharten);     
-  $Suche->Beschreibung.=(count($Stricharten)>0?$stricharten->titles_selected_list:'');
 
   /* Verlag  */
   if (isset($_POST['Verlage'])) {
@@ -367,7 +321,6 @@ $Suche->Beschreibung.='* Anzeige-Ebene: '.$Ebene.PHP_EOL;
     if ($suchtext!='') { 
         $Suche->Beschreibung.='* Suchtext: '.$suchtext.PHP_EOL; 
         $filter=true; 
-        // Verwendung im  Query s. SQL weiter unten 
     }
   }   
   ?>
@@ -444,10 +397,6 @@ $Suche->Beschreibung.='* Anzeige-Ebene: '.$Ebene.PHP_EOL;
               ) as Spieldauer              
             , GROUP_CONCAT(DISTINCT concat(schwierigkeitsgrad.Name, ' - ', instrument.Name)  order by schwierigkeitsgrad.Name SEPARATOR ', ') `Schwierigkeitsgrade`                   
             , erprobt.Name as Erprobt             
-            , GROUP_CONCAT(DISTINCT uebung.Name order by uebung.Name SEPARATOR ', ') Uebung              
-            , GROUP_CONCAT(DISTINCT strichart.Name order by strichart.Name SEPARATOR ', ') Stricharten              
-            , GROUP_CONCAT(DISTINCT notenwert.Name order by notenwert.Name SEPARATOR ', ') Notenwerte
-            , GROUP_CONCAT(DISTINCT uebung.Name order by uebung.Name SEPARATOR ', ') Uebungen
             , GROUP_CONCAT(DISTINCT concat(lookup_type.Name, ': ', lookup.Name)  order by  concat(lookup_type.Name, ': ', lookup.Name)  SEPARATOR ', ') Besonderheiten                    
             , satz.Lagen 
             , satz.Bemerkung                         
@@ -472,19 +421,14 @@ $Suche->Beschreibung.='* Anzeige-Ebene: '.$Ebene.PHP_EOL;
       LEFT JOIN musikstueck_verwendungszweck on musikstueck.ID = musikstueck_verwendungszweck.MusikstueckID 
       LEFT JOIN verwendungszweck on musikstueck_verwendungszweck.VerwendungszweckID=verwendungszweck.ID    
       LEFT JOIN satz on satz.MusikstueckID = musikstueck.ID 
-      LEFT JOIN satz_strichart on satz_strichart.satzID = satz.ID
-      LEFT JOIN strichart on satz_strichart.StrichartID = strichart.ID 
-      LEFT JOIN satz_notenwert on satz_notenwert.SatzID = satz.ID
-      LEFT JOIN notenwert on notenwert.ID = satz_notenwert.NotenwertID  
+ 
       LEFT JOIN erprobt on erprobt.ID = satz.ErprobtID       
 
       left JOIN satz_schwierigkeitsgrad on satz_schwierigkeitsgrad.SatzID = satz.ID 
       LEFT JOIN schwierigkeitsgrad on schwierigkeitsgrad.ID = satz_schwierigkeitsgrad.SchwierigkeitsgradID 
       LEFT JOIN instrument on instrument.ID = satz_schwierigkeitsgrad.InstrumentID 
 
-
-      LEFT JOIN satz_uebung on satz_uebung.SatzID = satz.ID 
-      LEFT JOIN uebung on uebung.ID = satz_uebung.UebungID    
+   
       left join satz_lookup on satz_lookup.SatzID = satz.ID 
       left join lookup on lookup.ID = satz_lookup.LookupID 
       left join lookup_type on lookup_type.ID = lookup.LookupTypeID
