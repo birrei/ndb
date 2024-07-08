@@ -1,26 +1,49 @@
 ﻿
 # in Arbeit 
-  
- 
-* Migration Satz Stricharten -> Besonderheiten 
-* Migration Satz Notenwerte -> Besonderheiten 
-* Migration Satz Übung -> Besonderheiten 
-* Migration Satz Lagen -> Besonderheiten 
+
+Thema: Übernahme in Lookups ("Besonderheiten"): Stricharten, Notenwerte, Übung
+
+offen: 
+  * Abfrage für Übersicht in Musikstück anpassen
+  * Screen für Verschieben von Lookup zu Lookuptypen 
+  * Entfernung der alten Kategorien (Erfassungs-Unterformulare, Suche, Startseite) 
+  * "Lagen" auch zu Besonderheiten? 
+  * XXX Suche: LookupIDs werden kombiniert (oder - Verknüpfung über die Gruppen hinweg-> noch anpassen)
+  * delete_*.php / delete-Methoden nach Vorlage "lookup" anpassen 
+
+erledigt: 
+ * OK: In Sichten / Feld "Besonderheiten": Typ nur 1 x aufführen 
 
 
- * Test view: "Satz ohne Schwierigkeitsgrad" -> Ändern ! 
+------
 
-  * edit_*.php, delete_*.php -> Link zu Übersicht 
+* Besetzung: 2. Feld "Besetzungscode" 
 
-  * Fortsetzung Anpassung Formulare: "Aktualisieren" / "Hinzufügen"  
+* XXXAG Bei Suche, Problem Filterung von Feldinhalt-Listen bei Auswahl. 
+     Update: für "Besonderheiten" gelöst, für andere Kategorien steht es noch an.  
 
-  * Bearbeitungs-Formular für Link-Typen 
+* Metadaten Test, falls der Name schon existiert 
 
-  * Abfragen: Alle Sammlungen mit "Kauf"-Link 
+* Test view: "Satz ohne Schwierigkeitsgrad" -> Ändern ! 
 
-  * Löschmöglichkeiten für alle Tabellen 
-  
-  * test: darf der Schwierigkeitsgrad gleich sein, wenn unterschiedliche Instrumente genannt sind? 
+* edit_*.php, delete_*.php -> Link zu Übersicht 
+* insert_*.php: Übersichtstabelle entfernen, stattdessen Link zur Übersicht 
+
+* Fortsetzung Anpassung Formulare: "Aktualisieren" / "Hinzufügen"  
+
+Sammlung / Link: 
+* Bearbeitungs-Formular für Link-Typen 
+* Abfragen: Alle Sammlungen mit "Kauf"-Link 
+
+* Löschmöglichkeiten für alle Tabellen 
+
+* test: darf der Schwierigkeitsgrad gleich sein, wenn unterschiedliche Instrumente genannt sind? 
+
+* Sicherungs-Konzept: Struktur und Daten getrennt ! 
+
+* Suchauswahl-Felder: könnte auch mit strg + mausklick wieder geleert werden, man könnte auf die (Einzel-)Buttons "Filter zurücksetzen" verzichten. Soll man? 
+
+
 
 -----------------
 
@@ -91,10 +114,6 @@
   * Feld "Opus" -> ändern in "Werkverzeichnis" (zumindest im Formular)
   * Stricharten übernehmen zu Besonderheiten? 
   * Erklärung: Warum "Besetzungen" als Einheiten, und nicht aufgefächert in einzelne Instrumente? 
+  * Bearbeitungs-Formular für Tabelle "Schwierigkeigsgrad" 
 
 
-
---------------------------------
-
-Teilaufgaben-Listen: 
- *  
