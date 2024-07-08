@@ -1,39 +1,26 @@
 ﻿
 # in Arbeit 
-* Übernahme Lookups: Stricharten, Notenwerte, Übung
-  * Screen für Verschieben von Lookup zu Lookuptypen 
-  * Entfernung der alten Kategorien (Erfassungs-Unterformulare, Suche, Startseite) 
-
-* Besetzung: 2. Feld "Besetzungscode" 
-
-* Lage auch zu Besonderheiten? 
-
-* In Sichten / Feld "Besonderheiten": Typ nur 1 x aufführen 
-
-* Bei Suche, Problem Filterung von Feldinhalt-Listen bei Auswahl 
-
-* Metadaten Test, falls der Name schon existiert 
-
-* Test view: "Satz ohne Schwierigkeitsgrad" -> Ändern ! 
-
-* edit_*.php, delete_*.php -> Link zu Übersicht 
-* insert_*.php: Übersichtstabelle entfernen, stattdessen Link zur Übersicht 
-
-* Fortsetzung Anpassung Formulare: "Aktualisieren" / "Hinzufügen"  
-
-* Bearbeitungs-Formular für Link-Typen 
-
-* Abfragen: Alle Sammlungen mit "Kauf"-Link 
-
-* Löschmöglichkeiten für alle Tabellen 
-
-* test: darf der Schwierigkeitsgrad gleich sein, wenn unterschiedliche Instrumente genannt sind? 
-
-* Sicherungs-Konzept: Struktur und Daten getrennt ! 
-
-* Suchauswahl-Felder: könnte auch mit strg + mausklick wieder geleert werden, man könnte auf die (Einzel-)Buttons "Filter zurücksetzen" verzichten. Soll man? 
+  
+ 
+* Migration Satz Stricharten -> Besonderheiten 
+* Migration Satz Notenwerte -> Besonderheiten 
+* Migration Satz Übung -> Besonderheiten 
+* Migration Satz Lagen -> Besonderheiten 
 
 
+ * Test view: "Satz ohne Schwierigkeitsgrad" -> Ändern ! 
+
+  * edit_*.php, delete_*.php -> Link zu Übersicht 
+
+  * Fortsetzung Anpassung Formulare: "Aktualisieren" / "Hinzufügen"  
+
+  * Bearbeitungs-Formular für Link-Typen 
+
+  * Abfragen: Alle Sammlungen mit "Kauf"-Link 
+
+  * Löschmöglichkeiten für alle Tabellen 
+  
+  * test: darf der Schwierigkeitsgrad gleich sein, wenn unterschiedliche Instrumente genannt sind? 
 
 -----------------
 
@@ -104,6 +91,10 @@
   * Feld "Opus" -> ändern in "Werkverzeichnis" (zumindest im Formular)
   * Stricharten übernehmen zu Besonderheiten? 
   * Erklärung: Warum "Besetzungen" als Einheiten, und nicht aufgefächert in einzelne Instrumente? 
-  * Bearbeitungs-Formular für Tabelle "Schwierigkeigsgrad" 
 
 
+
+--------------------------------
+
+Teilaufgaben-Listen: 
+ *  
