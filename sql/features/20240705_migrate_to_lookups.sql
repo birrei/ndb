@@ -179,10 +179,10 @@
 
 -- -- falls in der Anwendung  die Zuordnungen schon doppelt sind, dann dort auch bereinigen. 
 
--- select Name, count(distinct LookupTypeID)  anz_typen 
--- from v_lookups
--- group by Name  
--- having count(distinct LookupTypeID) > 1
+select Name, count(distinct LookupTypeID)  anz_typen 
+from v_lookups
+group by Name  
+having count(distinct LookupTypeID) > 1
 
 -- -- Name	anz_typen
 -- -- 	2
