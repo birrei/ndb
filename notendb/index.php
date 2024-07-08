@@ -129,12 +129,8 @@ include('head.php');
             <td class="start"><a href="insert_abfrage.php?title=Abfrage">Neu erfassen</a>
             </td>
         </tr>
+<!-- 
 
-        <tr>
-            <td class="start">----</td>
-            <td class="start">----</td>
-            <td class="start">----</td>
-        </tr>
         
         <tr>
             <td class="start"><b>Obsolete: Übung</b></td>
@@ -150,7 +146,8 @@ include('head.php');
             <td class="start"><b>Obsolete: Notenwerte</b></td>
             <td class="start"><a href="show_table2.php?table=notenwert&sortcol=Name&title=Notenwerte">Daten anzeigen</a></td>
             <td class="start"><a href="insert_notenwert.php?title=Notenwert">Neu erfassen</a></td>
-        </tr>        
+        </tr>         
+        -->
         </table>
     </div>
 
