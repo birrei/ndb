@@ -397,7 +397,7 @@ $Suche->Beschreibung.='* Anzeige-Ebene: '.$Ebene.PHP_EOL;
               ) as Spieldauer              
             , GROUP_CONCAT(DISTINCT concat(schwierigkeitsgrad.Name, ' - ', instrument.Name)  order by schwierigkeitsgrad.Name SEPARATOR ', ') `Schwierigkeitsgrade`                   
             , erprobt.Name as Erprobt             
-            , GROUP_CONCAT(DISTINCT concat(lookup_type.Name, ': ', lookup.Name)  order by  concat(lookup_type.Name, ': ', lookup.Name)  SEPARATOR ', ') Besonderheiten                    
+            , v_satz_lookuptypes.LookupList as Besonderheiten                  
             , satz.Lagen 
             , satz.Bemerkung                         
             ";        
@@ -421,18 +421,15 @@ $Suche->Beschreibung.='* Anzeige-Ebene: '.$Ebene.PHP_EOL;
       LEFT JOIN musikstueck_verwendungszweck on musikstueck.ID = musikstueck_verwendungszweck.MusikstueckID 
       LEFT JOIN verwendungszweck on musikstueck_verwendungszweck.VerwendungszweckID=verwendungszweck.ID    
       LEFT JOIN satz on satz.MusikstueckID = musikstueck.ID 
- 
       LEFT JOIN erprobt on erprobt.ID = satz.ErprobtID       
-
       left JOIN satz_schwierigkeitsgrad on satz_schwierigkeitsgrad.SatzID = satz.ID 
       LEFT JOIN schwierigkeitsgrad on schwierigkeitsgrad.ID = satz_schwierigkeitsgrad.SchwierigkeitsgradID 
       LEFT JOIN instrument on instrument.ID = satz_schwierigkeitsgrad.InstrumentID 
-
-   
       left join satz_lookup on satz_lookup.SatzID = satz.ID 
       left join lookup on lookup.ID = satz_lookup.LookupID 
       left join lookup_type on lookup_type.ID = lookup.LookupTypeID
-      
+      left join v_satz_lookuptypes on v_satz_lookuptypes.SatzID = satz.ID 
+
       WHERE 1=1 
 
       ". PHP_EOL; 
@@ -471,15 +468,15 @@ $Suche->Beschreibung.='* Anzeige-Ebene: '.$Ebene.PHP_EOL;
       if($filterEpochen!=''){
         $query.=' AND musikstueck.EpocheID '.$filterEpochen. PHP_EOL; 
       }           
-      if($filterStricharten!=''){
-        $query.=' AND satz_strichart.StrichartID '.$filterStricharten. PHP_EOL; 
-      }
-      if($filterNotenwerte!=''){
-        $query.=' AND satz_notenwert.NotenwertID '.$filterNotenwerte. PHP_EOL; 
-      }
-      if($filterUebungen!=''){
-        $query.=' AND satz_uebung.UebungID '.$filterUebungen. PHP_EOL; 
-      }       
+      // if($filterStricharten!=''){
+      //   $query.=' AND satz_strichart.StrichartID '.$filterStricharten. PHP_EOL; 
+      // }
+      // if($filterNotenwerte!=''){
+      //   $query.=' AND satz_notenwert.NotenwertID '.$filterNotenwerte. PHP_EOL; 
+      // }
+      // if($filterUebungen!=''){
+      //   $query.=' AND satz_uebung.UebungID '.$filterUebungen. PHP_EOL; 
+      // }       
       if($filterErprobt!=''){
         $query.=' AND satz.ErprobtID '.$filterErprobt. PHP_EOL; 
       }
