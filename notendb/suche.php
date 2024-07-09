@@ -294,25 +294,22 @@ $Suche->Beschreibung.='* Anzeige-Ebene: '.$Ebene.PHP_EOL;
 
   $lookuptypes=new Lookuptype(); 
   $lookuptypes->setArrData(); 
+  $filterLookups2=''; 
 
   for ($i = 0; $i < count($lookuptypes->ArrData); $i++) {
     $lookup=New Lookup(); 
     $lookup->LookupTypeID=$lookuptypes->ArrData[$i]["ID"];
-    $lookup_caption=$lookuptypes->ArrData[$i]["Name"]; 
-    $type_key= $lookuptypes->ArrData[$i]["type_key"]; // z.B: "besdynam" ect.  
+    $lookup_type_name=$lookuptypes->ArrData[$i]["Name"]; 
+    $lookup_type_key= $lookuptypes->ArrData[$i]["type_key"]; // z.B: "besdynam" ect.  
     $lookup_values_selected=[];      
-    
-    if (isset($_POST[$type_key])) {
-      $lookup_values_selected= $_POST[$type_key]; 
-      $lookup_all_values_selected = array_merge($lookup_all_values_selected, $lookup_values_selected);  // Sammlung markierte Eintrag-IDS aus allen Lookups 
+    if (isset($_POST[$lookup_type_key])) {
+      $lookup_values_selected= $_POST[$lookup_type_key]; 
+      // $lookup_all_values_selected = array_merge($lookup_all_values_selected, $lookup_values_selected);  // falsch! (jede lookup-Gruppe muss für Filter separat ausgelesen )
+      $filterLookups2.=' AND satz_lookup.LookupID IN ('.implode(',', $lookup_values_selected).') -- '.$lookup_type_name.''. PHP_EOL; 
+      $filter=true; 
     } 
-    $lookup->print_select_multi($type_key,$lookup_values_selected, $lookup_caption.':');  
-    $Suche->Beschreibung.=(count($lookup_values_selected)?$lookup->titles_selected_list:''); 
-    if (count($lookup_all_values_selected) > 0 ){
-      // erstmals bei "Besonderheiten" 
-      $filterLookups = 'IN ('.implode(',', $lookup_all_values_selected).')'; 
-      $filter=true;        
-    }  
+    $lookup->print_select_multi($lookup_type_key,$lookup_values_selected, $lookup_type_name.':');
+    $Suche->Beschreibung.=(count($lookup_values_selected)?$lookup->titles_selected_list:'');   
   }
 
 /************** Suchtext  **********/  
@@ -486,7 +483,8 @@ $Suche->Beschreibung.='* Anzeige-Ebene: '.$Ebene.PHP_EOL;
       if($filterInstrumente!=''){
         $query.=' AND satz_schwierigkeitsgrad.InstrumentID '.$filterInstrumente. PHP_EOL; 
       }
-      $query.=($filterLookups!=''?' AND satz_lookup.LookupID '.$filterLookups.PHP_EOL:''); 
+      // $query.=($filterLookups!=''?' AND satz_lookup.LookupID '.$filterLookups.PHP_EOL:''); 
+      $query.=($filterLookups2!=''?$filterLookups2:''); 
                        
       if($filterSpieldauer!=''){
         $query.=' AND satz.Spieldauer '.$filterSpieldauer. PHP_EOL; 
@@ -534,7 +532,7 @@ $Suche->Beschreibung.='* Anzeige-Ebene: '.$Ebene.PHP_EOL;
       }
 
       // echo '<pre>'.$query.'</pre>'; // Test  
-      // echo '<pre>'.$abfrage_beschreibung.'</pre>'; // Test    
+      echo '<pre>'.$filterLookups2.'</pre>'; // Test    
     
       if ($Suche->Beschreibung!='') {
         echo '<p>Auswahl:</p><pre>'.$Suche->Beschreibung.'</pre>';
@@ -546,15 +544,12 @@ $Suche->Beschreibung.='* Anzeige-Ebene: '.$Ebene.PHP_EOL;
         $Suche->Abfrage = $query; 
         $Suche->Tabelle = $edit_table; 
         $Suche->insert_row2(); 
-        echo '<p>Die Suche wurde als Abfrage gespeichert: <br />'; 
+        echo '<p>Die Suchabfrage wurde gespeichert: <br />'; 
         echo '<a href="show_abfrage.php?ID='.$Suche->ID.'&title=Abfrage" target="_blank">Abfrage-Ergebnis anzeigen</a>
             | <a href="edit_abfrage.php?ID='.$Suche->ID.'&title=Abfrage" target="_blank">Abfrage bearbeiten</a>
                | <a href="show_table2.php?table=v_abfrage&sortcol=ID&sortorder=DESC&title=Abfragen&add_link_show" target="_blank">Übersicht Abfragen</a>         
             ';
-
-
             
-              
         } else {
           // Abfrage nicht speichern, Ergebnis ausgeben           
           include_once("cl_db.php");
