@@ -17,7 +17,7 @@ if (!isset($_GET["option"]) and isset($_GET["ID"]))  {
 }
 if (isset($_GET["option"]) and $_GET["option"]=='insert') {
   // nach insert geladen   
-  $verlag->insert_row($_GET["Name"]); 
+  $verlag->insert_row(''); 
   $info->print_action_info($verlag->ID, 'insert');     
 }
 if (isset($_POST["option"]) and $_POST["option"]=='edit') {

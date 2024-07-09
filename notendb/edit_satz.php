@@ -125,14 +125,9 @@ echo
           document.getElementById("input_seconds").value=sekunden;         
         }
       </script> 
-
-
       </td>
       </label>
-
   </tr> 
-
-
   
   <tr>   
     <td class="eingabe"><b>Erprobt:</b></td>   
@@ -174,7 +169,7 @@ echo
 
   <tr> 
   <td class="eingabe"><b>Schwierigkeitsgrad(e):</b>
-      <br> <a href="insert_instrument.php?title=Instrument" target="_blank">Neu erfassen (Instrument)</a>   
+      <br> <a href="edit_instrument.php?title=Instrument&option=insert" target="_blank">Neu erfassen (Instrument)</a>   
       <br> <a href="show_table2.php?table=instrument&sortcol=Name&title=Instrumente" target="_blank">Übersicht Instrumente</a>  
       <br> <a href="edit_satz_list_schwierigkeitsgrade.php?SatzID='.$satz->ID.'" target="Schwierigkeitsgrade">Aktualisieren</a> 
   </td> 
@@ -188,7 +183,7 @@ echo
   <tr> 
   <td class="eingabe"><b>Besonderheiten:</b>
             <br> <a href="insert_lookup.php?title=Besonderheit" target="_blank">Neu erfassen (Besonderheit)</a>
-            <br> <a href="show_table2.php?table=lookup&sortcol=Name&title=Besonderheiten" target="_blank">Übersicht Besonderheiten</a>  
+            <br> <a href="show_table2.php?table=v_lookup&sortcol=LookupType,Name&title=Besonderheiten" target="_blank">Übersicht Besonderheiten</a>  
             <br> <a href="edit_satz_list_lookups.php?SatzID='.$satz->ID.'" target="Lookups">Aktualisieren</a>    
   </td> 
   <td class="eingabe"><iframe src="edit_satz_list_lookups.php?SatzID='.$satz->ID.'" width="500" height="300" name="Lookups"></iframe>

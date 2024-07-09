@@ -423,13 +423,11 @@ $Suche->Beschreibung.='* Anzeige-Ebene: '.$Ebene.PHP_EOL;
       LEFT JOIN schwierigkeitsgrad on schwierigkeitsgrad.ID = satz_schwierigkeitsgrad.SchwierigkeitsgradID 
       LEFT JOIN instrument on instrument.ID = satz_schwierigkeitsgrad.InstrumentID 
       left join satz_lookup on satz_lookup.SatzID = satz.ID 
-      left join lookup on lookup.ID = satz_lookup.LookupID 
-      left join lookup_type on lookup_type.ID = lookup.LookupTypeID
+      -- left join lookup on lookup.ID = satz_lookup.LookupID 
+      -- left join lookup_type on lookup_type.ID = lookup.LookupTypeID
       left join v_satz_lookuptypes on v_satz_lookuptypes.SatzID = satz.ID 
 
-      WHERE 1=1 
-
-      ". PHP_EOL; 
+      WHERE 1=1 ". PHP_EOL; 
 
       switch ($Ebene){    
         case 'Musikstueck': 
@@ -484,7 +482,7 @@ $Suche->Beschreibung.='* Anzeige-Ebene: '.$Ebene.PHP_EOL;
         $query.=' AND satz_schwierigkeitsgrad.InstrumentID '.$filterInstrumente. PHP_EOL; 
       }
       // $query.=($filterLookups!=''?' AND satz_lookup.LookupID '.$filterLookups.PHP_EOL:''); 
-      $query.=($filterLookups2!=''?$filterLookups2:''); 
+      $query.=($filterLookups2!=''?$filterLookups2.PHP_EOL:''); 
                        
       if($filterSpieldauer!=''){
         $query.=' AND satz.Spieldauer '.$filterSpieldauer. PHP_EOL; 
@@ -532,7 +530,7 @@ $Suche->Beschreibung.='* Anzeige-Ebene: '.$Ebene.PHP_EOL;
       }
 
       // echo '<pre>'.$query.'</pre>'; // Test  
-      echo '<pre>'.$filterLookups2.'</pre>'; // Test    
+      // echo '<pre>'.$filterLookups2.'</pre>'; // Test    
     
       if ($Suche->Beschreibung!='') {
         echo '<p>Auswahl:</p><pre>'.$Suche->Beschreibung.'</pre>';

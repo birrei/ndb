@@ -10,11 +10,11 @@ if (isset($_POST["LookupTypeID"])) {
   $LookupTypeID= $_POST["LookupTypeID"]; 
 }
 
-
 ?> 
 <h1>Besonderheit erfassen</h1> 
 
 <form action="" method="post">
+<!-- Vorauswahl Typ  --> 
 <table class="eingabe">
 <tr>    
   <label>
@@ -50,7 +50,9 @@ if (isset($_POST["LookupTypeID"])) {
 <input type="hidden" name="LookupTypeID" value="<?php echo $LookupTypeID; ?>">  
 </form>
 <hr />
+
 <?php
+
 include_once('cl_lookup.php');
 $lookup=new Lookup(); 
 $lookup->print_table($LookupTypeID);   

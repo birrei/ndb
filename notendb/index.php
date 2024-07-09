@@ -10,7 +10,7 @@ include('head.php');
         <tr>
             <td class="start"><b>Sammlung</b></td>
             <td class="start"><a href="show_table2.php?table=v_sammlung&sortcol=ID&sortorder=DESC&title=Sammlungen">Daten anzeigen</a></td>
-            <td class="start"><a href="insert_sammlung.php?title=Sammlung">Neu erfassen</a></td>
+            <td class="start"><a href="edit_sammlung.php?title=Sammlung&option=insert">Neu erfassen</a></td>
         </tr>
         <tr>
             <td class="start"><b>Musikstück</b></td>
@@ -32,12 +32,12 @@ include('head.php');
         <tr>
             <td class="start"><b>Verlage</b></td>
             <td class="start"><a href="show_table2.php?table=verlag&sortcol=Name&title=Verlage">Daten anzeigen</a></td>
-            <td class="start"><a href="insert_verlag.php?title=Verlag">Neu erfassen</a></td>
+            <td class="start"><a href="edit_verlag.php?title=Verlag&option=insert">Neu erfassen</a></td>
         </tr>
         <tr>
             <td class="start"><b>Standorte</b></td>
             <td class="start"><a href="show_table2.php?table=standort&sortcol=Name&title=Standorte">Daten anzeigen</a></td>
-            <td class="start"><a href="insert_standort.php?title=Standort">Neu erfassen</a></td>
+            <td class="start"><a href="edit_standort.php?title=Standort&option=insert">Neu erfassen</a></td>
         </tr>
         </table> 
     </div>
@@ -49,29 +49,29 @@ include('head.php');
         <tr>
             <td class="start"><b>Komponisten</b></td>
             <td class="start"><a href="show_table2.php?table=v_komponist&sortcol=Name&title=Komponisten">Daten anzeigen</a></td>
-            <td class="start"><a href="insert_komponist.php?title=Komponist">Neu erfassen</a></td>
+            <td class="start"><a href="edit_komponist.php?title=Komponist&option=insert">Neu erfassen</a></td>
         </tr>
 
         <tr>
             <td class="start"><b>Besetzungen</b></td>
             <td class="start"><a href="show_table2.php?table=besetzung&sortcol=Name&title=Besetzungen">Daten anzeigen</a></td>
-            <td class="start"><a href="insert_besetzung.php?title=Besetzung">Neu erfassen</a></td>
+            <td class="start"><a href="edit_besetzung.php?title=Besetzung&option=insert">Neu erfassen</a></td>
         </tr>
         <tr>
             <td class="start"><b>Verwendungszwecke</b></td>
             <td class="start"><a href="show_table2.php?table=verwendungszweck&sortcol=Name&title=Verwendungszwecke">Daten anzeigen</a></td>
-            <td class="start"><a href="insert_verwendungszweck.php?title=Verwendungszweck">Neu erfassen</a></td>
+            <td class="start"><a href="edit_verwendungszweck.php?title=Verwendungszweck&option=insert">Neu erfassen</a></td>
         </tr>
 
         <tr>
             <td class="start"><b>Gattungen</b></td>
             <td class="start"><a href="show_table2.php?table=gattung&sortcol=Name&title=Gattungen">Daten anzeigen</a></td>
-            <td class="start"><a href="insert_gattung.php?title=Gattung">Neu erfassen</a></td>
+            <td class="start"><a href="edit_gattung.php?title=Gattung&option=insert">Neu erfassen</a></td>
         </tr>
         <tr>
             <td class="start"><b>Epochen</b></td>
             <td class="start"><a href="show_table2.php?table=epoche&sortcol=Name&title=Epochen">Daten anzeigen</a></td>
-            <td class="start"><a href="insert_epoche.php?title=Epoche">Neu erfassen</a></td>
+            <td class="start"><a href="edit_epoche.php?title=Epoche&option=insert">Neu erfassen</a></td>
         </tr>
         </table> 
 
@@ -87,33 +87,31 @@ include('head.php');
         <tr>
             <td class="start"><b>Erprobt</b></td>
             <td class="start"><a href="show_table2.php?table=erprobt&sortcol=Name&title=Erprobt">Daten anzeigen</a></td>
-            <td class="start"><a href="insert_erprobt.php?title=Erprobt">Neu erfassen</a></td>
+            <td class="start"><a href="edit_erprobt.php?title=Erprobt&option=insert">Neu erfassen</a></td>
         </tr>
         <tr>
             <td class="start"><b>Schwierigkeitsgrad</b></td>
             <td class="start"><a href="show_table2.php?table=schwierigkeitsgrad&sortcol=Name&title=Schwierigkeitsgrade">Daten anzeigen</a></td>
-            <td class="start"><a href="insert_schwierigkeitsgrad.php?title=Schwierigkeitsgrad">Neu erfassen</a></td>
+            <td class="start"><a href="edit_schwierigkeitsgrad.php?title=Schwierigkeitsgrad&option=insert">Neu erfassen</a></td>
         </tr>
         <tr>
             <td class="start"><b>Schwierigkeitsgrad Instrumente</b></td>
             <td class="start"><a href="show_table2.php?table=instrument&sortcol=Name&title=Instrumente">Daten anzeigen</a></td>
-            <td class="start"><a href="insert_instrument.php?title=Instrument">Neu erfassen</a></td>
+            <td class="start"><a href="edit_instrument.php?title=Instrument&option=insert">Neu erfassen</a></td>
         </tr> 
         
 
         <tr>
             <td class="start"><b>Besonderheiten</b></td>
-            <td class="start"><a href="show_table2.php?table=v_lookup&sortcol=Name&title=Besonderheiten">Daten anzeigen</a></td>
-            <td class="start"><a href="insert_lookup.php?title=Besonderheit">Neu erfassen</a></td>
+            <td class="start"><a href="show_table2.php?table=v_lookup&sortcol=LookupType,Name&title=Besonderheiten">Daten anzeigen</a></td>
+            <td class="start"><a href="edit_lookup.php?title=Besonderheit&option=insert">Neu erfassen</a></td>
         </tr>
         
         <tr>
             <td class="start"><b>Besonderheit Typen</b></td>
             <td class="start"><a href="show_table2.php?table=lookup_type&sortcol=Name&title=Besonderheit Typen">Daten anzeigen</a></td>
-            <td class="start"><a href="insert_lookup_type.php?title=Besonderheit Typ">Neu erfassen</a></td>
+            <td class="start"><a href="edit_lookup_type.php?title=Besonderheit-Typ&option=insert">Neu erfassen</a></td>
         </tr>
-
-
                 
         </table>
 
@@ -126,7 +124,7 @@ include('head.php');
         <tr>
             <td class="start"><b>Abfragen</b></td>
             <td class="start"><a href="show_table2.php?table=v_abfrage&sortcol=Name&title=Abfragen&add_link_show">Daten anzeigen</a></td>
-            <td class="start"><a href="insert_abfrage.php?title=Abfrage">Neu erfassen</a>
+            <td class="start"><a href="edit_abfrage.php?title=Abfrage&option=insert">Neu erfassen</a>
             </td>
         </tr>
 <!-- 

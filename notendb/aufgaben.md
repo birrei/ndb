@@ -2,31 +2,36 @@
 # in Arbeit 
 
 Thema: Übernahme in Lookups ("Besonderheiten"): Stricharten, Notenwerte, Übung
+  * XXXAG: "Lagen" auch zu Besonderheiten? 
+ * Bereinigung überlappender Besonderheiten 
+ * Eindeutigkeits-Prüfung für "Name" 
+ * Löschung eines "Besonderheit"-Typs  
 
-offen: 
-  * Abfrage für Übersicht in Musikstück anpassen
-  * Screen für Verschieben von Lookup zu Lookuptypen 
-  * Entfernung der alten Kategorien (Erfassungs-Unterformulare, Suche, Startseite) 
-  * "Lagen" auch zu Besonderheiten? 
-  * XXX Suche: LookupIDs werden kombiniert (oder - Verknüpfung über die Gruppen hinweg-> noch anpassen)
-  * delete_*.php / delete-Methoden nach Vorlage "lookup" anpassen 
+ * insert mit edit_*.php-Formular starten (insert-Formulare wegräumen) 
 
-erledigt: 
- * OK: In Sichten / Feld "Besonderheiten": Typ nur 1 x aufführen 
+
+* edit_*.php, delete_*.php -> Link zu Übersicht 
 
 
 ------
+* Screens: tab-Reihenfolgen anpassen (Links rausnehmen )
+
+* delete_*.php / delete-Methoden nach Vorlage "lookup" anpassen 
+
+* Abfragen: Erfassung für SQL Code in separaten Screen auslagern 
 
 * Besetzung: 2. Feld "Besetzungscode" 
 
+* Doku: Die Auswahl der für die Erfassung verwendeten Felder richtet sich danach, ob die erfassten Werte für die praktische Suche des AG Belang sind. GGf. könnte das für andere Nutzer ggf. anders sein. (Wünsche später evt. noch aufnehmen, falls Anwendung Interesse findet)  
+
 * XXXAG Bei Suche, Problem Filterung von Feldinhalt-Listen bei Auswahl. 
-     Update: für "Besonderheiten" gelöst, für andere Kategorien steht es noch an.  
+     Update: für "Besonderheiten" gelöst, für andere Kategorien noch anstehend 
 
 * Metadaten Test, falls der Name schon existiert 
 
 * Test view: "Satz ohne Schwierigkeitsgrad" -> Ändern ! 
 
-* edit_*.php, delete_*.php -> Link zu Übersicht 
+
 * insert_*.php: Übersichtstabelle entfernen, stattdessen Link zur Übersicht 
 
 * Fortsetzung Anpassung Formulare: "Aktualisieren" / "Hinzufügen"  

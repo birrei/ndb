@@ -55,8 +55,8 @@ FROM
     LEFT JOIN instrument on instrument.ID = satz_schwierigkeitsgrad.InstrumentID 
 
     left join satz_lookup on satz_lookup.SatzID = satz.ID 
-    left join lookup on lookup.ID = satz_lookup.LookupID 
-    left join lookup_type on lookup_type.ID = lookup.LookupTypeID
+    -- left join lookup on lookup.ID = satz_lookup.LookupID 
+    -- left join lookup_type on lookup_type.ID = lookup.LookupTypeID
 
     left join v_satz_lookuptypes on v_satz_lookuptypes.SatzID = satz.ID 
 

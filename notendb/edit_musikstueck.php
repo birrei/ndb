@@ -51,13 +51,13 @@ echo '
 <table class="eingabe"> 
 <tr>    
 <label>
-<td class="eingabe">ID:</td>  
+<td class="eingabe"><b>ID:</b></td>  
 <td class="eingabe">'.$musikstueck->ID.'</td>
 </label>
 </tr> 
 <tr>    
 <label>
-<td class="eingabe">Sammlung:</td>  
+<td class="eingabe"><b>Sammlung:</b></td>  
 <td class="eingabe">
 '; 
 
@@ -68,28 +68,30 @@ echo ' <a href="edit_sammlung.php?ID='.$musikstueck->SammlungID.'&title=Sammlung
 echo '</tr></label>
 <tr>    
 <label>
-<td class="eingabe">Nummer:</td>  
+<td class="eingabe"><b>Nummer:</b></td>  
 <td class="eingabe"><input type="text" name="Nummer" value="'.$musikstueck->Nummer.'" size="30" autofocus="autofocus" oninput="changeBackgroundColor(this)"></td>
 </label>
 </tr> 
 
 <tr>    
   <label>
-  <td class="eingabe">Name:</td>  
+  <td class="eingabe"><b>Name:</b></td>  
   <td class="eingabe"><input type="text" name="Name" value="'.htmlentities($musikstueck->Name).'" size="100" maxlength="100" required="required" oninput="changeBackgroundColor(this)"> (max. 100 Zeichen)</td>
   </label>
 </tr> 
 
 <tr>    
 <label>
-<td class="eingabe">Komponist:</td>  
+<td class="eingabe"><b>Komponist:</b></td>  
 <td class="eingabe">    
 '; 
   $komponisten = new Komponist();
   $komponisten->print_select($musikstueck->KomponistID); 
 
 echo  ' </label> 
-<a href="insert_komponist.php?title=Komponist" target="_blank">Neu erfassen</a>
+&nbsp; <a href="edit_komponist.php?title=Komponist&option=insert" target="_blank">Neu erfassen</a>
+ | <a href="show_table2.php?table=v_komponist&sortcol=Name&title=Komponisten" target="_blank">Daten anzeigen</a>
+
 </td>
 </tr> 
 
@@ -97,48 +99,53 @@ echo  ' </label>
 
 <tr>    
   <label>
-  <td class="eingabe">Opus:</td>  
+  <td class="eingabe"><b>Opus:</b></td>  
   <td class="eingabe"><input type="text" name="Opus" value="'.$musikstueck->Opus.'" size="45" maxlength="80" oninput="changeBackgroundColor(this)"></td>
   </label>
 </tr> 
 
 <tr>    
   <label>
-  <td class="eingabe">Bearbeiter:</td>  
+  <td class="eingabe"><b>Bearbeiter:</td>  
   <td class="eingabe"><input type="text" name="Bearbeiter" value="'.$musikstueck->Bearbeiter.'" size="45" maxlength="80" oninput="changeBackgroundColor(this)"></td>
   </label>
 </tr> 
 
 <tr>    
 <label>
-  <td class="eingabe">Epoche:</td>  
+  <td class="eingabe"><b>Epoche:</b>
+  
+  </td>  
   <td class="eingabe">    
   '; 
     $epochen = new Epoche();
     $epochen->print_select($musikstueck->EpocheID); 
 
   echo  ' </label>  
-  <a href="insert_epoche.php?title=Epoche" target="_blank">Neu erfassen</a>
+  &nbsp; <a href="edit_epoche.php?title=Epoche&option=insert" target="_blank">Neu erfassen</a>
+      | <a href="show_table2.php?table=epoche&sortcol=Name&title=Epochen" target="_blank">Daten anzeigen</a>
+ 
   </td>
    
 </tr> 
 
 <tr>    
 <label>
-  <td class="eingabe">Gattung:</td>  
+  <td class="eingabe"><b>Gattung:</b></td>  
   <td class="eingabe">    
   '; 
     $gattungen = new Gattung();
     $gattungen->print_select($musikstueck->GattungID); 
 
   echo  '  </label>  
-  <a href="insert_gattung.php?title=Gattung" target="_blank">Neu erfassen</a>
+  &nbsp; <a href="edit_gattung.php?title=Gattung&option=insert" target="_blank">Neu erfassen</a>
+   | <a href="show_table2.php?table=gattung&sortcol=Name&title=Gattungen" target="_blank">Daten anzeigen</a>
   </td>
 </tr> 
 
 <tr>    
 <label>
-<td class="eingabe">Aufführungsjahre:</td>  
+<td class="eingabe"><b>Aufführungsjahre:</b></td>  
 <td class="eingabe"><input type="text" name="JahrAuffuehrung" value="'.$musikstueck->JahrAuffuehrung.'" size="45" maxlength="80" oninput="changeBackgroundColor(this)"></td>
 </label>
 </tr>         
@@ -155,8 +162,9 @@ echo  ' </label>
     </form>
 
   <tr> 
-    <td class="eingabe">Verwendungszweck(e):
-      <br><a href="insert_verwendungszweck.php?title=Verwendungszweck" target="_blank">Neu erfassen</a>
+    <td class="eingabe"><b>Verwendungszweck(e):</b>
+      <br><a href="edit_verwendungszweck.php?title=Verwendungszweck&option=insert" target="_blank">Neu erfassen</a>
+      <br><a href="show_table2.php?table=verwendungszweck&sortcol=Name&title=Verwendungszwecke" target="_blank">Daten anzeigen</a>
       <br><a href="edit_musikstueck_list_verwendungszwecke.php?MusikstueckID='.$musikstueck->ID.'" target="Verwendungszwecke">Aktualisieren</a>
     </td> 
     <td class="eingabe">
@@ -165,8 +173,9 @@ echo  ' </label>
   </tr> 
 
   <tr> 
-    <td class="eingabe">Besetzung(en):
-      <br> <a href="insert_besetzung.php?title=Besetzung" target="_blank">Neu erfassen</a>
+    <td class="eingabe"><b>Besetzung(en):</b>
+      <br> <a href="edit_besetzung.php?title=Besetzung&option=insert" target="_blank">Neu erfassen</a>
+      <br> <a href="show_table2.php?table=besetzung&sortcol=Name&title=Besetzungen" target="_blank">Daten anzeigen</a>      
       <br> <a href="edit_musikstueck_list_besetzungen.php?MusikstueckID='.$musikstueck->ID.'" target="Besetzungen">Aktualisieren</a>    
       </td> 
     <td class="eingabe">
@@ -175,7 +184,7 @@ echo  ' </label>
   </tr> 
 
   <tr> 
-    <td class="eingabe">Sätze:
+    <td class="eingabe"><b>Sätze:</b>
     <br><a href="edit_satz.php?MusikstueckID='.$musikstueck->ID.'&option=insert&title=Satz" target="_blank">Satz hinzufügen</a>
     <br><a href="edit_musikstueck_list_saetze.php?MusikstueckID='.$musikstueck->ID.'" target="Saetze">Aktualisieren</a>
     
