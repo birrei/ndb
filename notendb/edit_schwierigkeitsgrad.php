@@ -17,7 +17,7 @@ if (!isset($_GET["option"]) and isset($_GET["ID"]))  {
 }
 if (isset($_GET["option"]) and $_GET["option"]=='insert') {
   // nach insert geladen   
-  $schwierigkeitsgrad->insert_row($_GET["Name"]); 
+  $schwierigkeitsgrad->insert_row(''); 
   $info->print_action_info($schwierigkeitsgrad->ID, 'insert');     
 }
 if (isset($_POST["option"]) and $_POST["option"]=='edit') {
@@ -26,6 +26,8 @@ if (isset($_POST["option"]) and $_POST["option"]=='edit') {
   $schwierigkeitsgrad->update_row($_POST["Name"]); 
   $info->print_action_info($schwierigkeitsgrad->ID, 'update');     
 }
+
+$info->print_link_show_table('schwierigkeitsgrad', 'sortcol=Name', 'Schwierigkeitsgrade'); 
 
 echo '
 <form action="edit_schwierigkeitsgrad.php" method="post">

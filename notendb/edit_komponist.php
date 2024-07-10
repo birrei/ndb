@@ -33,8 +33,9 @@ if (isset($_POST["option"]) and $_POST["option"]=='edit') {
   $info->print_action_info($komponist->ID, 'update');     
 }
 
-echo '
-<form action="edit_komponist.php" method="post">
+$info->print_link_show_table('v_komponist', 'sortcol=Name', 'Komponisten'); 
+
+echo '<form action="edit_komponist.php" method="post">
 
 <table class="eingabe"> 
 <tr>    

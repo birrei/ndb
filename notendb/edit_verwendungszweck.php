@@ -27,6 +27,7 @@ if (isset($_POST["option"]) and $_POST["option"]=='edit') {
   $info->print_action_info($verwendungszweck->ID, 'update');     
 }
 
+$info->print_link_show_table('verwendungszweck', 'sortcol=Name', 'Verwendungszwecke'); 
 
 echo '
 <form action="edit_verwendungszweck.php" method="post">

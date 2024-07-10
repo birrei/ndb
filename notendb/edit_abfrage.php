@@ -35,11 +35,12 @@ if (isset($_POST["option"]) and $_POST["option"]=='edit') {
   $info->print_action_info($abfrage->ID, 'update');     
 }
 
+$info->print_link_show_table('v_abfrage', 'sortcol=Name', 'Abfragen'); 
+
 if ($abfrage->success) {
 echo '
   <p>
   <a href="show_abfrage.php?ID='.$abfrage->ID.'&title=Abfrage">Abfrage-Ergebnis anzeigen</a>
-  | <a href="show_table2.php?table=v_abfrage&sortcol=Name&title=Abfragen&add_link_show">zur Übersicht</a>
 </p> 
 
 <form action="edit_abfrage.php" method="post">
@@ -81,29 +82,21 @@ echo '
     </label>
   </tr> 
 
-
-
   <tr> 
     <td class="eingabe"></td> 
     <td class="eingabe"><input type="submit" name="senden" value="Speichern">  
     </td>
   </tr> 
 
-
 </table> 
 <input type="hidden" name="option" value="edit"> 
 <input type="hidden" name="title" value="Abfrage">          
 <input type="hidden" name="ID" value="' . $abfrage->ID. '">
 
-</form>
-
-
-<p>
-<a href="delete_abfrage.php?ID=' . $abfrage->ID . '&title=Abfrage löschen">Abfrage löschen</a>
-</p>
-
-'; 
-} 
+</form>'; 
+}
+$info->print_link_delete_row($abfrage->table_name, $abfrage->ID,'Abfrage'); 
+ 
 
 include('foot.php');
 

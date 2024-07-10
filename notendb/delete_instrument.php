@@ -22,7 +22,7 @@ if (isset($_GET["ID"])) {
 
       <input class="btnDelete" type="submit" name="confirm" value="Löschung bestätigen">
       <input type="hidden" name="ID" value="' . $instrument->ID . '">
-      <input type="hidden" name="title" value="Satz löschen">        
+      <input type="hidden" name="title" value="Instrument löschen">        
       </form>
       </p> 
       <p> <a href="edit_instrument.php?ID='. $instrument->ID . '&title=Instrument">Abbrechen / Zurück</a></p> 
@@ -34,12 +34,7 @@ if (isset($_POST["confirm"])) {
   $instrument->ID=$_POST["ID"]; 
   $instrument->delete(); 
   echo '<p>Die Seite kann geschlossen werden.</p>';   
-  echo '<p><a href="show_table2.php?table=instrument&sortcol=Name&title=Instrumente">Zur Übersicht Instrumente</a></p>';   
-  echo '<p><a href="index.php">Zur Startseite</a></p>';   
-             
-
-
-  
+  $info->print_link_show_table('instrument', 'sortcol=Name', 'Instrumente'); 
 }
 
 

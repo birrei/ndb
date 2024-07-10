@@ -27,6 +27,8 @@ if (isset($_POST["option"]) and $_POST["option"]=='edit') {
   $info->print_action_info($standort->ID, 'update');     
 }
 
+$info->print_link_show_table('standort', 'sortcol=Name', 'Standorte'); 
+
 echo '
 <form action="edit_standort.php" method="post">
 <table class="eingabe"> 

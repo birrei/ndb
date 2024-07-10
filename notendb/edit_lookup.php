@@ -29,6 +29,10 @@ if (isset($_POST["option"]) and $_POST["option"]=='edit') {
   $info->print_action_info($lookup->ID, 'update');     
 }
 
+$info->print_link_show_table('v_lookup', 'sortcol=Name,LookupType', 'Besonderheiten'); 
+
+
+
 echo '
 <form action="edit_lookup.php" method="post">
 <table class="eingabe"> 

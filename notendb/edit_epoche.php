@@ -28,6 +28,7 @@ if (isset($_POST["option"]) and $_POST["option"]=='edit') {
 }
 
 
+$info->print_link_show_table('epoche', 'sortcol=Name', 'Epochen'); 
 
 echo '
 <form action="edit_epoche.php" method="post">

@@ -167,6 +167,38 @@
     }
   }  
 
+  function delete(){
+    include_once("cl_db.php");
+    $conn = new DbConn(); 
+    $db=$conn->db; 
+
+    $select = $db->prepare("SELECT * from sammlung WHERE VerlagID=:VerlagID");
+    $select->bindValue(':VerlagID', $this->ID); 
+    $select->execute();  
+    if ($select->rowCount() > 0 ){
+      $this->load_row(); 
+      echo '<p>Der Verlag ID '.$this->ID.' "'.$this->Name.'" 
+        kann nicht gelöscht werden, da noch eine Zuordnung auf '.$select->rowCount().' Sammlungen existiert. </p>';   
+      return false;            
+    }
+ 
+    $delete = $db->prepare("DELETE FROM `verlag` WHERE ID=:ID"); 
+    $delete->bindValue(':ID', $this->ID);  
+
+    try {
+      $delete->execute(); 
+      echo '<p>Die Zeile wurde gelöscht.</p>'; 
+      return true;         
+    }
+    catch (PDOException $e) {
+      include_once("cl_html_info.php"); 
+      $info = new HtmlInfo();      
+      $info->print_user_error(); 
+      $info->print_error($delete, $e);  
+      return false;  
+    }  
+  }  
+
 
 
 }

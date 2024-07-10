@@ -35,8 +35,9 @@ if (isset($_POST["option"]) and $_POST["option"]=='edit') {
   $info->print_action_info($sammlung->ID, 'update');     
 }
 
+$info->print_link_show_table('v_sammlung', 'sortcol=Name', 'Sammlungen'); 
+
 echo '<p> 
-<a href="show_table2.php?table=v_sammlung&sortcol=ID&sortorder=DESC&title=Sammlungen">Alle Sammlungen anzeigen</a> | 
 <a href="edit_sammlung.php?title=Sammlung&option=insert">Neue Sammlung erfassen</a>
 <!-- XXX evt. Absicherung, dass im akt. Formular alles gespeichert ist --> 
 

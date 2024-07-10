@@ -2,11 +2,12 @@
 <?php 
 include('head.php');
 include('cl_abfrage.php');
+include("cl_html_info.php");
 
 echo '<h2>Abfrage löschen</h2>'; 
 
 $abfrage=new Abfrage(); 
-
+$info=new HtmlInfo(); 
 
 if (isset($_GET["ID"])) {
   /* Aufruf Lösch-Link edit_musikstueck.php  */
@@ -34,7 +35,8 @@ if (isset($_GET["ID"])) {
 if (isset($_POST["confirm"])) {
   $abfrage->ID=$_POST["ID"]; 
   $abfrage->delete(); 
-  echo '<p>Die Seite kann geschlossen werden.</p>';      
+  echo '<p>Die Seite kann geschlossen werden.</p>';  
+  $info->print_link_show_table('v_abfrage', 'sortcol=Name', 'Abfragen');     
 }
 
 

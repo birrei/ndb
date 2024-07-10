@@ -27,6 +27,8 @@ if (isset($_POST["option"]) and $_POST["option"]=='edit') {
   $info->print_action_info($besetzung->ID, 'update');     
 }
 
+$info->print_link_show_table('besetzung', 'sortcol=Name', 'Besetzungen'); 
+
 echo '
 <form action="edit_besetzung.php" method="post">
 <table class="eingabe"> 

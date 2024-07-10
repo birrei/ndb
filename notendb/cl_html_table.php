@@ -175,7 +175,7 @@ class HtmlTable {
             $html .= '</table>'; 
         }
         else {
-           //  $html .= '<p>Keine Daten vorhanden.</p> '; 
+           $html .= '<p>Keine Daten vorhanden.</p> '; 
         }
         echo $html;
     }

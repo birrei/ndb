@@ -54,9 +54,24 @@ class HtmlInfo {
         echo $this->html; 
     }
 
-    function print_table_link($table_name, $sortcol='Name', $sortorder='ASC')  {
-        echo '<p><a href="show_table2.php?table='.$table_name.'&sortcol='.$sortcol.'&sortorder='.$sortorder.'" target="_blank">Tabelle anzeigen</a> (es öffnet sich ein neues Fenster)</p>'; 
-    } 
+    // function print_table_link($table_name, $sortcol='Name', $sortorder='ASC')  {
+    //     echo '<p><a href="show_table2.php?table='.$table_name.'&sortcol='.$sortcol.'&sortorder='.$sortorder.'" target="_blank">Tabelle anzeigen</a> (es öffnet sich ein neues Fenster)</p>'; 
+    // } 
 
+    function print_link_show_table($target_table, $sortinfo, $target_title, $show_newtab=false) {
+        echo '<p>
+            <a href="show_table2.php?table='.$target_table.'&'.$sortinfo.'&title='.$target_title.'"'.($show_newtab?' target="_blank"':'').'>Alle '.$target_title.' anzeigen</a>
+            </p>';
+
+    }
+    function print_link_delete_row($target_table, $ID, $target_title) {
+        echo '<p>
+               <a href="delete_'.$target_table.'.php?ID='.$ID.'&title='.$target_title.' löschen">'.$target_title.' löschen</a>
+              </p>';
+
+    }
 }
+
+
+
 ?>

@@ -4,6 +4,7 @@ include('head.php');
 include("cl_verlag.php");
 include("cl_html_info.php");
 
+
 echo '<h2>Verlag bearbeiten</h2>'; 
 
 $verlag = new Verlag();
@@ -26,6 +27,8 @@ if (isset($_POST["option"]) and $_POST["option"]=='edit') {
   $verlag->update_row($_POST["Name"], $_POST["Bemerkung"]); 
   $info->print_action_info($verlag->ID, 'update');     
 }
+
+$info->print_link_show_table('verlag', 'sortcol=Name', 'Verlage'); 
 
 echo '
 <form action="edit_verlag.php" method="post">
@@ -66,6 +69,8 @@ echo '
 </form>
 '; 
 
+$info->print_link_delete_row($verlag->table_name, $verlag->ID,'Verlag'); 
+ 
 include('foot.php');
 
 ?>

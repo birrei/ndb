@@ -104,7 +104,7 @@ include('head.php');
         <tr>
             <td class="start"><b>Besonderheiten</b></td>
             <td class="start"><a href="show_table2.php?table=v_lookup&sortcol=LookupType,Name&title=Besonderheiten">Daten anzeigen</a></td>
-            <td class="start"><a href="edit_lookup.php?title=Besonderheit&option=insert">Neu erfassen</a></td>
+            <td class="start"><a href="insert_lookup.php?title=Besonderheit&option=insert">Neu erfassen</a></td>
         </tr>
         
         <tr>

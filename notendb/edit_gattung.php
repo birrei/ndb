@@ -28,6 +28,9 @@ if (isset($_POST["option"]) and $_POST["option"]=='edit') {
 }
 
 
+$info->print_link_show_table('gattung', 'sortcol=Name', 'Gattungen'); 
+
+
 echo '
 <form action="edit_gattung.php" method="post">
 <table class="eingabe"> 

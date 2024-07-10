@@ -33,10 +33,10 @@ if (isset($_POST["confirm"])) {
   $lookup->ID=$_POST["ID"]; 
   if($lookup->delete()) { 
     echo '<p>Die Seite kann geschlossen werden.</p>';
+    $info->print_link_show_table('v_lookup', 'sortcol=Name', 'Besonderheiten');     
   } else {
     echo '<p> <a href="edit_lookup.php?ID='. $lookup->ID .'&title=Besonderheit">Abbrechen / Zurück</a></p>';  
-  }       
-              
+  }                   
 }
 
 include('foot.php');
