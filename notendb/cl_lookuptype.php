@@ -163,7 +163,10 @@ class Lookuptype {
   function setArrData(){
     include_once("cl_db.php");
 
-    $query_lookups = 'select ID, Name, type_key from lookup_type order by ID';
+    $query_lookups = 'select ID, Name, type_key 
+                    from lookup_type 
+                    where ID IN (SELECT DISTINCT LookupTypeID from lookup) 
+                    order by ID';
     $conn = new DbConn(); 
     $db=$conn->db; 
     $select = $db->prepare($query_lookups); 

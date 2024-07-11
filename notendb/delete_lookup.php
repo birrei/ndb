@@ -2,9 +2,12 @@
 <?php 
 include('head.php');
 include('cl_lookup.php');
+include("cl_html_info.php");
+
 echo '<h2>Besonderheit löschen</h2>'; 
 
 $lookup=new Lookup(); 
+$info=new HtmlInfo(); 
 
 if (isset($_GET["ID"])) {
   $lookup->ID= $_GET["ID"]; 
