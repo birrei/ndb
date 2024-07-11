@@ -63,6 +63,10 @@ echo '
 </form>
 '; 
 
+
+$info->print_link_delete_row($erprobt->table_name, $erprobt->ID, $erprobt->Title); 
+
+
 include('foot.php');
 
 ?>

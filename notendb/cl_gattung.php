@@ -6,6 +6,8 @@ class Gattung {
   public $ID;
   public $Name;
   public $titles_selected_list; 
+  public $Title='Gattung';
+  public $Titles='Gattungen';  
 
   public function __construct(){
     $this->table_name='gattung'; 
@@ -155,7 +157,42 @@ class Gattung {
       $info->print_user_error(); 
       $info->print_error($stmt, $e); 
     }
+  } 
+  
+  
+  function delete(){
+    include_once("cl_db.php");
+    $conn = new DbConn(); 
+    $db=$conn->db; 
+
+    $select = $db->prepare("SELECT * from musikstueck WHERE GattungID=:GattungID");
+    $select->bindValue(':GattungID', $this->ID); 
+    $select->execute();  
+    if ($select->rowCount() > 0 ){
+      $this->load_row(); 
+      echo '<p>Die Gattung ID '.$this->ID.' "'.$this->Name.'" 
+        kann nicht gelöscht werden, da noch eine Zuordnung auf '.$select->rowCount().' 
+        Musikstücke existiert. </p>';   
+      return false;            
+    }
+ 
+    $delete = $db->prepare("DELETE FROM `gattung` WHERE ID=:ID"); 
+    $delete->bindValue(':ID', $this->ID);  
+
+    try {
+      $delete->execute(); 
+      echo '<p>Die Zeile wurde gelöscht.</p>'; 
+      return true;         
+    }
+    catch (PDOException $e) {
+      include_once("cl_html_info.php"); 
+      $info = new HtmlInfo();      
+      $info->print_user_error(); 
+      $info->print_error($delete, $e);  
+      return false;  
+    }  
   }  
+
 
 }
 

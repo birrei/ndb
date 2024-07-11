@@ -69,7 +69,7 @@ echo '
 </form>
 '; 
 
-$info->print_link_delete_row($verlag->table_name, $verlag->ID,'Verlag'); 
+$info->print_link_delete_row($verlag->table_name, $verlag->ID, $verlag->Title); 
  
 include('foot.php');
 

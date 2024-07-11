@@ -62,6 +62,8 @@ echo '
 </form>
 '; 
 
+$info->print_link_delete_row($besetzung->table_name, $besetzung->ID,'Besetzung'); 
+
 include('foot.php');
 
 ?>

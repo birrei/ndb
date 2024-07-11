@@ -64,6 +64,9 @@ echo '
 </form>
 '; 
 
+$info->print_link_delete_row($gattung->table_name, $gattung->ID, $gattung->Title); 
+
+
 include('foot.php');
 
 ?>

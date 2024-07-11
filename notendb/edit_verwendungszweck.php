@@ -61,6 +61,8 @@ echo '
 </form>
 '; 
 
+$info->print_link_delete_row($verwendungszweck->table_name, $verwendungszweck->ID, $verwendungszweck->Title); 
+
 include('foot.php');
 
 ?>

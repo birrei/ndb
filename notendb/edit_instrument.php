@@ -62,6 +62,10 @@ echo '
 </form>
 '; 
 
+
+$info->print_link_delete_row($instrument->table_name, $instrument->ID, $instrument->Title); 
+
+
 include('foot.php');
 
 ?>

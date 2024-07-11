@@ -8,6 +8,8 @@
   public $Name;
   public $Bemerkung;
   public $titles_selected_list; 
+  public $Title='Verlag';
+  public $Titles='Verlage';  
 
   public function __construct(){
     $this->table_name='verlag'; 

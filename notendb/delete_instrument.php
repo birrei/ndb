@@ -2,13 +2,14 @@
 <?php 
 include('head.php');
 include('cl_instrument.php');
+include("cl_html_info.php");
 
 echo '<h2>Instrument löschen</h2>'; 
 
 $instrument=new Instrument(); 
+$info=new HtmlInfo(); 
 
 if (isset($_GET["ID"])) {
-  /* Aufruf Lösch-Link edit_musikstueck.php  */
   $instrument->ID= $_GET["ID"]; 
   $instrument->load_row(); 
   if (!isset($_POST["confirm"])) {
@@ -32,11 +33,13 @@ if (isset($_GET["ID"])) {
 
 if (isset($_POST["confirm"])) {
   $instrument->ID=$_POST["ID"]; 
-  $instrument->delete(); 
-  echo '<p>Die Seite kann geschlossen werden.</p>';   
-  $info->print_link_show_table('instrument', 'sortcol=Name', 'Instrumente'); 
+  if($instrument->delete()) { 
+    echo '<p>Die Seite kann geschlossen werden.</p>';
+    $info->print_link_show_table('instrument', 'sortcol=Name', 'Instrumente');     
+  } else {
+    echo '<p> <a href="edit_instrument.php?ID='. $instrument->ID .'&title=Instrument">Abbrechen / Zurück</a></p>';  
+  }                   
 }
-
 
 include('foot.php');
 

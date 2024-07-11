@@ -27,7 +27,6 @@ if (isset($_POST["option"]) and $_POST["option"]=='edit') {
   $info->print_action_info($epoche->ID, 'update');     
 }
 
-
 $info->print_link_show_table('epoche', 'sortcol=Name', 'Epochen'); 
 
 echo '
@@ -62,6 +61,8 @@ echo '
 
 </form>
 '; 
+
+$info->print_link_delete_row($epoche->table_name, $epoche->ID, $epoche->Title); 
 
 
 include('foot.php');
