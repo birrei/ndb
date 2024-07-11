@@ -10,14 +10,11 @@ include("cl_besetzung.php");
 include("cl_verwendungszweck.php"); 
 include("cl_standort.php"); 
 include("cl_komponist.php"); 
-include("cl_strichart.php"); 
 include("cl_verlag.php"); 
 include("cl_gattung.php"); 
 include("cl_epoche.php"); 
-include("cl_notenwert.php");
 include("cl_erprobt.php");  
 include("cl_schwierigkeitsgrad.php");  
-include("cl_uebung.php");  
 include("cl_instrument.php");  
 
 include("cl_lookup.php");   
