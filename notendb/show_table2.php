@@ -11,6 +11,8 @@ $sortorder='ASC'; // Sortier-Reihenfolge, default aufwärts
 $edit_table_title=''; // Titel der Seite, die über den Bearbeiten-Link aufgerufen wird 
 $add_link_show=false;  // true, falls eine zusätzlliche Spalte "Anzeigen" ergänzt werden soll
 $edit_link_show_newpage=false; // true: Das öffnen des Bearbeiten-Links soll in einem neuen Fenster erfolgen 
+$tables_exclude_insertlink=array('musikstueck','satz');
+$tables_use_insertfile=array('lookup');
 
 /*************** */
 
@@ -55,8 +57,17 @@ try {
   include_once("cl_html_table.php");      
   $html = new HtmlTable($select); 
   $html->add_link_show=$add_link_show; 
-  // echo '<h3>Objekt: '.$table.'</h3>'; 
-  // $html->print_table($edit_table, $edit_link_show_newpage,'', $edit_table_title); 
+  echo '<h3>'.$edit_table_title.'</h3>'; 
+  
+  // Link für Neu-Erfassung anzeigen? 
+  if (!in_array($edit_table,$tables_exclude_insertlink)) {
+    if (in_array($edit_table, $tables_use_insertfile)) {
+      echo '<p><a href="insert_'.$edit_table.'.php?title='.$edit_table_title.'&option=insert">Neu erfassen</a></p>';
+    }
+    else {
+      echo '<p><a href="edit_'.$edit_table.'.php?title='.$edit_table_title.'&option=insert">Neu erfassen</a></p>';
+    }      
+  }
   $html->print_table($edit_table, $edit_link_show_newpage,'', $edit_table_title); 
 }
 catch (PDOException $e) {
