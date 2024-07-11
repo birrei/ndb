@@ -11,6 +11,8 @@ class Komponist {
   public $Sterbejahr;
   public $Bemerkung;
   public $titles_selected_list; 
+  public $Title='Komponist';
+  public $Titles='Komponisten';  
 
   public function __construct(){
     $this->table_name='komponist'; 
@@ -192,7 +194,37 @@ class Komponist {
       $info->print_error($stmt, $e); 
     }
   }    
+  function delete(){
+    include_once("cl_db.php");
+    $conn = new DbConn(); 
+    $db=$conn->db; 
+    $select = $db->prepare("SELECT * from musikstueck WHERE KomponistID=:KomponistID");
+    $select->bindValue(':KomponistID', $this->ID); 
+    $select->execute();  
+    if ($select->rowCount() > 0 ){
+      $this->load_row(); 
+      echo '<p>Der Komponist ID: '.$this->ID.', Name: "'.$this->Vorname.' '.$this->Nachname.'"  
+            kann nicht gelöscht werden da noch eine Zuordnung auf '.$select->rowCount().' 
+            Musikstücke existiert. </p>';   
+      return false;            
+    }
  
+    $delete = $db->prepare("DELETE FROM `komponist` WHERE ID=:ID"); 
+    $delete->bindValue(':ID', $this->ID);  
+
+    try {
+      $delete->execute(); 
+      echo '<p>Die Zeile wurde gelöscht.</p>'; 
+      return true;         
+    }
+    catch (PDOException $e) {
+      include_once("cl_html_info.php"); 
+      $info = new HtmlInfo();      
+      $info->print_user_error(); 
+      $info->print_error($delete, $e);  
+      return false;  
+    }      
+  }
 }
 
 ?>

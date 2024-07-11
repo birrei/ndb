@@ -93,6 +93,8 @@ echo '<form action="edit_komponist.php" method="post">
   </form>
   '; 
 
+  $info->print_link_delete_row($komponist->table_name, $komponist->ID,$komponist->Title); 
+ 
 
 include('foot.php');
 

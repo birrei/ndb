@@ -61,6 +61,8 @@ echo '
 </form>
 '; 
 
+$info->print_link_delete_row($standort->table_name, $standort->ID,$standort->Title); 
+ 
 include('foot.php');
 
 ?>
