@@ -38,10 +38,8 @@ if (isset($_POST["option"]) and $_POST["option"]=='edit') {
 $info->print_link_show_table('v_sammlung', 'sortcol=Name', 'Sammlungen'); 
 
 echo '<p> 
-<a href="edit_sammlung.php?title=Sammlung&option=insert">Neue Sammlung erfassen</a>
-<!-- XXX evt. Absicherung, dass im akt. Formular alles gespeichert ist --> 
-
-</p>'; 
+      <a href="edit_sammlung.php?title=Sammlung&option=insert">Neue Sammlung erfassen</a>
+      </p>'; 
 
   echo '
   <form action="edit_sammlung.php" method="post">
