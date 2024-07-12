@@ -1,6 +1,6 @@
 
 <?php 
-include('head.php');
+include('head_raw.php');
 include("cl_lookuptype.php");
 include("cl_lookup.php");
 include("cl_html_info.php");
@@ -29,7 +29,7 @@ if (isset($_POST["option"]) and $_POST["option"]=='edit') {
   $info->print_action_info($lookup->ID, 'update');     
 }
 
-$info->print_link_show_table('v_lookup', 'sortcol=Name,LookupType', 'Besonderheiten'); 
+// $info->print_link_show_table('v_lookup', 'sortcol=Name,LookupType', 'Besonderheiten'); 
 
 
 
@@ -46,7 +46,9 @@ echo '
 
     <tr>    
     <label>
-    <td class="eingabe">Typ/Kategorie:</td>  
+    <td class="eingabe">Typ/Kategorie:
+    
+    </td>  
     <td class="eingabe">    
           '; 
           $lookup_type = new Lookuptype();
@@ -54,6 +56,7 @@ echo '
 
     echo '
     </label>
+  </td>
     </tr>
 
     
@@ -86,6 +89,6 @@ echo '
 
 '; 
 
-include('foot.php');
+include('foot_raw.php');
 
 ?>

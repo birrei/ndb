@@ -100,15 +100,16 @@ include('head.php');
             <td class="start"><a href="edit_instrument.php?title=Instrument&option=insert">Neu erfassen</a></td>
         </tr> 
         
-
+<!-- 
         <tr>
             <td class="start"><b>Besonderheiten</b></td>
             <td class="start"><a href="show_table2.php?table=v_lookup&sortcol=LookupType,Name&title=Besonderheiten">Daten anzeigen</a></td>
             <td class="start"><a href="insert_lookup.php?title=Besonderheit&option=insert">Neu erfassen</a></td>
         </tr>
-        
+--> 
+           
         <tr>
-            <td class="start"><b>Besonderheit Typen</b></td>
+            <td class="start"><b>Besonderheiten:</b></td>
             <td class="start"><a href="show_table2.php?table=lookup_type&sortcol=Name&title=Besonderheit Typen">Daten anzeigen</a></td>
             <td class="start"><a href="edit_lookup_type.php?title=Besonderheit-Typ&option=insert">Neu erfassen</a></td>
         </tr>

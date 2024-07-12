@@ -2,8 +2,6 @@
 <?php 
 include('head_raw.php');
 
-/* XXX noch abfangen: falls alle Besetzungen zugeordnet sind, soll eine Info erfolgen und das u.a. Formular nicht mehr angezeigt werden. */ 
-
 ?> 
 <form action="edit_musikstueck_list_besetzungen.php" method="get">
 <table class="eingabe"> 

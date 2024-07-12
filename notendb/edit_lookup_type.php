@@ -50,31 +50,54 @@ echo '
   <tr>    
     <label>
     <td class="eingabe">Relation:</td>  
-    <td class="eingabe"><input type="text" name="Relation" value="'.$lookuptype->Relation.'" size="45" maxlength="80" required="required"> ("sammlung", "musikstueck" oder "satz")</td>
+    <td class="eingabe"><input type="text" name="Relation" value="'.$lookuptype->Relation.'" size="45" maxlength="80" required="required"> ("sammlung", "musikstueck" oder "satz")
+    </td>
     </label>
   </tr> 
 
   <tr>    
     <label>
     <td class="eingabe">Type Key:</td>  
-    <td class="eingabe"><input type="text" name="type_key" value="'.$lookuptype->type_key.'" size="45" maxlength="80" required="required"> (technischer eindeutiger Schlüssel, Begriff frei wählbar XXX)</td>
+    <td class="eingabe"><input type="text" name="type_key" value="'.$lookuptype->type_key.'" size="45" maxlength="80" required="required"> (technischer eindeutiger Schlüssel, Begriff frei wählbar XXX)
+    </td>
     </label>
   </tr> 
 
   <tr> 
     <td class="eingabe"></td> 
     <td class="eingabe"><input type="submit" name="senden" value="Speichern">
+    </td>
+  </tr> 
+
+
+  <input type="hidden" name="option" value="edit">     
+  <input type="hidden" name="title" value="Besonderheit Typ">    
+  <input type="hidden" name="ID" value="' . $lookuptype->ID. '">
+
+
+  <tr> 
+    <td class="eingabe">Besonderheiten:
+    
+      <p> <a href="edit_lookup_type_add_lookup.php?LookupTypeID='.$lookuptype->ID.'" target="Lookups">Besonderheit hinzufügen</a></p>
+      <p> <a href="edit_lookup_type_list_lookups.php?LookupTypeID='.$lookuptype->ID.'" target="Lookups">Aktualisieren</a></p>
+      
+
+    </td> 
+    <td class="eingabe">
+    
+    <iframe src="edit_lookup_type_list_lookups.php?LookupTypeID='.$lookuptype->ID.'" width="70%" height="400" name="Lookups"></iframe>
 
     </td>
   </tr> 
 
 </table> 
-<input type="hidden" name="option" value="edit">     
-<input type="hidden" name="title" value="Besonderheit Typ">    
-<input type="hidden" name="ID" value="' . $lookuptype->ID. '">
 
 </form>
+
 '; 
+
+$info->print_link_delete_row($lookuptype->table_name, $lookuptype->ID,$lookuptype->Title); 
+
 
 include('foot.php');
 

@@ -8,7 +8,9 @@ class Lookuptype {
   public $type_key;
   public $ArrData=[]; 
   public $titles_selected_list; 
-  
+  public $Title='Besonderheit-Typ';
+  public $Titles='Besonderheit-Typen'; 
+
   public function __construct(){
     $this->table_name='lookup_type'; 
   }
@@ -181,7 +183,70 @@ class Lookuptype {
              ); 
         }
         // print_r($this->ArrData); // test
+  }
+
+
+  function delete(){
+    include_once("cl_db.php");
+    $conn = new DbConn(); 
+    $db=$conn->db; 
+
+    $select = $db->prepare("SELECT * from lookup WHERE LookupTypeID=:LookupTypeID");
+    $select->bindValue(':LookupTypeID', $this->ID); 
+    $select->execute();  
+    if ($select->rowCount() > 0 ){
+      $this->load_row(); 
+      echo '<p>Der Besonderheit-Typ ID '.$this->ID.' "'.$this->Name.'"  
+      kann nicht gelöscht werden, da noch eine Zuordnung auf '.$select->rowCount().' Besonderheiten existiert. </p>';   
+      return false;            
     }
+
+    $delete = $db->prepare("DELETE FROM lookup_type WHERE ID=:ID"); 
+    $delete->bindValue(':ID', $this->ID);  
+
+    try {
+      $delete->execute(); 
+      echo '<p>Die Besonderheit wurde gelöscht.</p>';    
+      return true;       
+    }
+    catch (PDOException $e) {
+      // print_r($e); 
+      include_once("cl_html_info.php"); 
+      $info = new HtmlInfo();      
+      $info->print_user_error(); 
+      $info->print_error($delete, $e); 
+      return false;  
+    }  
+  }   
+
+  function print_table_lookups($target_file){
+    $query="SELECT ID, Name FROM v_lookup where LookupTypeID=:LookupTypeID"; 
+
+    include_once("cl_db.php");
+    $conn = new DbConn(); 
+    $db=$conn->db; 
+  
+    $stmt = $db->prepare($query); 
+    $stmt->bindParam(':LookupTypeID', $this->ID, PDO::PARAM_INT); 
+      
+    try {
+      $stmt->execute(); 
+      include_once("cl_html_table.php");      
+      $html = new HtmlTable($stmt); 
+      // $html->print_table(); 
+      // $html->print_table_with_del_link($target_file, 'LookupTypeID', $this->ID); 
+      $html->link_edit_table = 'lookup'; 
+      // $html->link_edit_filename=$target_file;
+
+      $html->print_table2(); 
+    }
+    catch (PDOException $e) {
+      include_once("cl_html_info.php"); 
+      $info = new HtmlInfo();      
+      $info->print_user_error(); 
+      $info->print_error($stmt, $e); 
+    }
+  }
 
 }
 

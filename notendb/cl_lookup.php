@@ -13,6 +13,8 @@ class Lookup {
   public $LookupTypeName; 
   public $ID_List; 
   public $titles_selected_list; 
+  public $Title='Besonderheit';
+  public $Titles='Besonderheiten';  
 
   public function __construct(){
     $this->table_name='lookup'; 
@@ -136,7 +138,7 @@ class Lookup {
 
 
 
-  function print_table($LookupTypeID=''){
+  function print_table($LookupTypeID='', $edit_newpage=true){
 
     $query="SELECT * from v_lookup WHERE 1=1 "; 
     $query.=($LookupTypeID!=''?"AND LookupTypeID = :LookupTypeID ":"");
@@ -156,7 +158,7 @@ class Lookup {
       $select->execute(); 
       include_once("cl_html_table.php");      
       $html = new HtmlTable($select); 
-      $html->print_table($this->table_name, true); 
+      $html->print_table($this->table_name, $edit_newpage); 
       
     }
     catch (PDOException $e) {

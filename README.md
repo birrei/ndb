@@ -1,9 +1,10 @@
 ﻿
 # Change Log  
 
-11.07.2024: 
+12.07.2024: 
  * auf Übersicht-Tabelle link für "Neu anlegen" anzeigen
  * Lösch-Funktion für jede Tabelle  
+ * Überarbeitung Pflege "Besonderheiten" 
 
 10.07.2024: 
  * Stricharten, Notenwerte und Übung übernommen zu "Besonderheiten" 
@@ -11,7 +12,7 @@
 05.07.2024: 
 
 Schwierigkeitsgrad mit Differenzierung nach Instrument (Instrument kann auch ein Ensemble sein). Bisherige Klappliste ist jetzt Mehrfachauswahl-Unterformular. Im Suchformular sind die Attribute getrennt angezeigt. 
- 
+
 Info: als Standardwert für "Instrument" ist für alle "(Instrument unbestimmt)" eingetragen, mit Ausnahmen akt. Sammlung iD 167 -> anschauen. Ggf. Updates erforderlich? 
 
 Verbesserung der gespeicherten Suche 

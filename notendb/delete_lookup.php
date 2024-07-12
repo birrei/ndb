@@ -1,6 +1,6 @@
 
 <?php 
-include('head.php');
+include('head_raw.php');
 include('cl_lookup.php');
 include("cl_html_info.php");
 
@@ -34,15 +34,17 @@ if (isset($_GET["ID"])) {
 
 if (isset($_POST["confirm"])) {
   $lookup->ID=$_POST["ID"]; 
+  $lookup->load_row(); 
   if($lookup->delete()) { 
-    echo '<p>Die Seite kann geschlossen werden.</p>';
-    $info->print_link_show_table('v_lookup', 'sortcol=Name', 'Besonderheiten');     
+    echo '<p> <a href="edit_lookup_type_list_lookups.php?LookupTypeID='. $lookup->LookupTypeID .'">Zur Liste</a></p>'; 
+    // echo '<p>Die Seite kann geschlossen werden.</p>';
+    // $info->print_link_show_table('v_lookup', 'sortcol=Name', 'Besonderheiten');     
   } else {
     echo '<p> <a href="edit_lookup.php?ID='. $lookup->ID .'&title=Besonderheit">Abbrechen / Zurück</a></p>';  
   }                   
 }
 
-include('foot.php');
+include('foot_raw.php');
 
 ?>
 

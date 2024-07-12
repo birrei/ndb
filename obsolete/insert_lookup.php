@@ -18,7 +18,10 @@ if (isset($_POST["LookupTypeID"])) {
 <table class="eingabe">
 <tr>    
   <label>
-  <td class="eingabe">Typ: </td>      
+  <td class="eingabe">Typ: 
+
+  
+  </td>      
      <td class="eingabe"><?php 
                   
       $lookuptyp = new Lookuptype(); 
@@ -26,7 +29,8 @@ if (isset($_POST["LookupTypeID"])) {
 
       ?>
         (Auswahl filtert Übersichtstabelle)
-      
+        &nbsp; <a href="edit_lookup_type.php?title=Besonderheit-Typ&option=insert" target="_blank">Neuen erfassen</a>
+        | <a href="show_table2.php?table=lookup_type&sortcol=Name&title=Besonderheit Typen">Daten anzeigen</a>
       </td>
    </label>
 </tr>
