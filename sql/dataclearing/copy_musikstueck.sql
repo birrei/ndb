@@ -34,7 +34,7 @@ Name
 , GattungID
 , EpocheID
 from musikstueck 
-where ID=207
+where ID=366
 ; 
 
 
@@ -65,7 +65,7 @@ insert into satz
 
 )
 select 
-     MusikstueckID
+     367 as MusikstueckID
     , Name
     , Tonart
     , Taktart
@@ -79,7 +79,7 @@ select
     , SchwierigkeitsgradID
     , BesonderheitID
 from satz 
-where ID =386
+where ID =595
 
 
 

@@ -168,7 +168,7 @@ echo  ' </label>
       <br><a href="edit_musikstueck_list_verwendungszwecke.php?MusikstueckID='.$musikstueck->ID.'" target="Verwendungszwecke">Aktualisieren</a>
     </td> 
     <td class="eingabe">
-      <iframe src="edit_musikstueck_list_verwendungszwecke.php?MusikstueckID='.$musikstueck->ID.'" width="500" height="100" name="Verwendungszwecke"></iframe> 
+      <iframe src="edit_musikstueck_list_verwendungszwecke.php?MusikstueckID='.$musikstueck->ID.'" width="100%" height="100" name="Verwendungszwecke"></iframe> 
     </td>
   </tr> 
 
@@ -179,7 +179,7 @@ echo  ' </label>
       <br> <a href="edit_musikstueck_list_besetzungen.php?MusikstueckID='.$musikstueck->ID.'" target="Besetzungen">Aktualisieren</a>    
       </td> 
     <td class="eingabe">
-      <iframe src="edit_musikstueck_list_besetzungen.php?MusikstueckID='.$musikstueck->ID.'" width="500" height="100" name="Besetzungen"></iframe>
+      <iframe src="edit_musikstueck_list_besetzungen.php?MusikstueckID='.$musikstueck->ID.'" width="100%" height="100" name="Besetzungen"></iframe>
     </td>
   </tr> 
 
