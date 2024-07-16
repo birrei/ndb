@@ -206,7 +206,7 @@ class Lookuptype {
 
     try {
       $delete->execute(); 
-      echo '<p>Die Besonderheit wurde gelöscht.</p>';    
+      echo '<p>Der Besonderheit-Typ wurde gelöscht.</p>';    
       return true;       
     }
     catch (PDOException $e) {

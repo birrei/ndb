@@ -14,6 +14,9 @@ class Musikstueck {
   public $EpocheID;
   public $JahrAuffuehrung;
   
+  public $Title='Musikstück';
+  public $Titles='Musikstücke';  
+
   public function __construct(){
     $this->table_name='musikstueck';     
 
@@ -154,6 +157,7 @@ class Musikstueck {
 
   function print_table_besetzungen($target_file){
     $query="SELECT mb.ID
+         -- , mb.BesetzungID
         , b.Name                              
     FROM `musikstueck` m 
     inner join musikstueck_besetzung mb 
@@ -174,7 +178,6 @@ class Musikstueck {
       $stmt->execute(); 
       include_once("cl_html_table.php");      
       $html = new HtmlTable($stmt); 
-      // $html->print_table(); 
       $html->print_table_with_del_link($target_file, 'MusikstueckID', $this->ID); 
     }
     catch (PDOException $e) {
@@ -502,7 +505,7 @@ class Musikstueck {
 
     try {
       $delete->execute(); 
-      echo '<p>Das Musikstück wurde gelöscht.</p>';          
+      echo '<p>Das Musikstück wurde gelöscht.</p>';             
     }
     catch (PDOException $e) {
       include_once("cl_html_info.php"); 

@@ -59,17 +59,26 @@ class HtmlInfo {
     // } 
 
     function print_link_show_table($target_table, $sortinfo, $target_title, $show_newtab=false) {
-        echo '<p>
-            <a href="show_table2.php?table='.$target_table.'&'.$sortinfo.'&title='.$target_title.'"'.($show_newtab?' target="_blank"':'').'>Alle '.$target_title.' anzeigen</a>
-            </p>';
+        echo '<a href="show_table2.php?table='.$target_table.'&'.$sortinfo.'&title='.$target_title.'"'.($show_newtab?' target="_blank"':'').'>Alle '.$target_title.' anzeigen</a>';
 
+    }
+    function print_link_insert($target_table, $target_title) {
+        echo '<a href="edit_'.$target_table.'.php?title='.$target_title.'&option=insert">'.$target_title.' neu erfassen</a>';
     }
     function print_link_delete_row($target_table, $ID, $target_title) {
         echo '<p>
                <a href="delete_'.$target_table.'.php?ID='.$ID.'&title='.$target_title.' löschen">'.$target_title.' löschen</a>
               </p>';
+    }
+    function print_link_edit($target_table,$ID, $target_title, $option='', $newpage=true) {
+        echo '<a href="edit_'.$target_table.'.php?ID='.$ID.'&title='.$target_title.''.($option!=''?'&option='.$option:'').'"'.($newpage?' target="_blank"':'').'>'.$target_title.' bearbeiten</a>';
+    }
+    
+    function print_screen_header($header_text) {
+        echo '<span style="font-size:18pt;font-weight:bold">'.$header_text.'</span>';
 
     }
+
 }
 
 

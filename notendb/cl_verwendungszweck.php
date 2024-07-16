@@ -193,7 +193,7 @@ class Verwendungszweck {
 
     try {
       $delete->execute(); 
-      echo '<p>Die Zeile wurde gelöscht.</p>'; 
+      echo '<p>Der Verwendungszweck wurde gelöscht.</p>'; 
       return true;         
     }
     catch (PDOException $e) {

@@ -184,7 +184,7 @@
 
     try {
       $delete->execute(); 
-      echo '<p>Die Zeile wurde gelöscht.</p>'; 
+      echo '<p>Das Instrument wurde gelöscht.</p>'; 
       return true;         
     }
     catch (PDOException $e) {

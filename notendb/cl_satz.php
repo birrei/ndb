@@ -577,10 +577,7 @@ class Satz {
     include_once("cl_db.php");
     $conn = new DbConn(); 
     $db=$conn->db; 
-
-    // $this->delete_uebungen();   
-    // $this->delete_notenwerte(); 
-    // $this->delete_stricharten();     
+  
     $this->delete_lookups(); 
     $this->delete_schwierigkeitsgrade(); 
  
@@ -589,7 +586,7 @@ class Satz {
 
     try {
       $delete->execute(); 
-      echo '<p>Der Satz wurde gelöscht.</p>';          
+      echo '<p>Der Satz wurde gelöscht. </p>';                 
     }
     catch (PDOException $e) {
       include_once("cl_html_info.php"); 

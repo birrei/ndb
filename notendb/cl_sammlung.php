@@ -13,10 +13,12 @@ class Sammlung {
   public $StandortID; 
   public $Bemerkung;
 
+  public $Title='Sammlung';
+  public $Titles='Sammlungen';  
+
   public function __construct(){
     $this->table_name='sammlung'; 
   }
-
 
   function insert_row($Name) {         
     include_once("cl_db.php");
@@ -317,7 +319,7 @@ class Sammlung {
 
     try {
       $delete->execute(); 
-      echo '<p>Die Sammlung wurde gelöscht.</p>';          
+      echo '<p>Die Sammlung wurde gelöscht. </p>';          
     }
     catch (PDOException $e) {
       include_once("cl_html_info.php"); 

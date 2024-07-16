@@ -189,7 +189,7 @@
 
     try {
       $delete->execute(); 
-      echo '<p>Die Zeile wurde gelöscht.</p>'; 
+      echo '<p>Der Verlag wurde gelöscht.</p>'; 
       return true;         
     }
     catch (PDOException $e) {
