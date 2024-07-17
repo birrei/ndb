@@ -43,14 +43,14 @@ echo '
   <tr>    
     <label>
     <td class="eingabe">Name:</td>  
-    <td class="eingabe"><input type="text" name="Name" value="'.$lookuptype->Name.'" size="80" required="required" autofocus="autofocus"></td>
+    <td class="eingabe"><input type="text" name="Name" value="'.$lookuptype->Name.'" size="80" required="required" autofocus="autofocus" oninput="changeBackgroundColor(this)"></td>
     </label>
   </tr> 
 
   <tr>    
     <label>
     <td class="eingabe">Relation:</td>  
-    <td class="eingabe"><input type="text" name="Relation" value="'.$lookuptype->Relation.'" size="45" maxlength="80" required="required"> ("sammlung", "musikstueck" oder "satz")
+    <td class="eingabe"><input type="text" name="Relation" value="'.$lookuptype->Relation.'" size="45" maxlength="80" required="required" oninput="changeBackgroundColor(this)"> ("sammlung", "musikstueck" oder "satz")
     </td>
     </label>
   </tr> 
@@ -58,7 +58,7 @@ echo '
   <tr>    
     <label>
     <td class="eingabe">Type Key:</td>  
-    <td class="eingabe"><input type="text" name="type_key" value="'.$lookuptype->type_key.'" size="45" maxlength="80" required="required"> (technischer eindeutiger Schlüssel, Begriff frei wählbar XXX)
+    <td class="eingabe"><input type="text" name="type_key" value="'.$lookuptype->type_key.'" size="45" maxlength="80" required="required" oninput="changeBackgroundColor(this)"> (technischer eindeutiger Schlüssel, Begriff frei wählbar XXX)
     </td>
     </label>
   </tr> 
