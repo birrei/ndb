@@ -19,7 +19,7 @@ if (isset($_GET["ID"])) {
       <br/>
       <br/>
       ID: '.$erprobt->ID.'  <br/>
-      Name:  '.$erprobt->Name.'  <br/><br/>
+      Name: '.$erprobt->Name.'  <br/><br/>
 
       <input class="btnDelete" type="submit" name="confirm" value="Löschung bestätigen">
       <input type="hidden" name="ID" value="' . $erprobt->ID . '">
@@ -35,9 +35,9 @@ if (isset($_POST["confirm"])) {
   $erprobt->ID=$_POST["ID"]; 
   if($erprobt->delete()) { 
     echo '<p>Die Seite kann geschlossen werden.</p>';
-    $info->print_link_show_table('erprobt', 'sortcol=Name', 'Erprobt');     
+    $info->print_link_show_table($erprobt->table_name, 'sortcol=Name', $erprobt->Title);     
   } else {
-    echo '<p> <a href="edit_erprobt.php?ID='. $erprobt->ID .'&title=Erprobt">Abbrechen / Zurück</a></p>';  
+    $info->print_link_edit($erprobt->table_name, $erprobt->ID,$erprobt->Title,'',false);
   }                   
 }
 

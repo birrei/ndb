@@ -2,10 +2,12 @@
 <?php 
 include('head.php');
 include('cl_sammlung.php');
+include('cl_html_info.php');
 
 echo '<h2>Sammlung löschen</h2>'; 
 
 $sammlung=new Sammlung(); 
+$info=new HtmlInfo(); 
 
 if (isset($_GET["ID"])) {
   /* Aufruf Lösch-Link edit_musikstueck.php  */
@@ -22,7 +24,7 @@ if (isset($_GET["ID"])) {
 
       <input class="btnDelete" type="submit" name="confirm" value="Löschung bestätigen">
       <input type="hidden" name="ID" value="' . $sammlung->ID . '">
-      <input type="hidden" name="title" value="Satz löschen">        
+      <input type="hidden" name="title" value="Sammlung löschen">        
       </form>
       </p> 
       <p> <a href="edit_sammlung.php?ID='. $sammlung->ID . '&title=Sammlung">Abbrechen / Zurück</a></p> 
@@ -33,7 +35,7 @@ if (isset($_GET["ID"])) {
 if (isset($_POST["confirm"])) {
   $sammlung->ID=$_POST["ID"]; 
   $sammlung->delete(); 
-  echo '<p>Die Seite kann geschlossen werden.</p>';      
+  $info->print_link_show_table($sammlung->table_name,'sortcol=ID&sortorder=DESC',$sammlung->Titles); 
 }
 
 

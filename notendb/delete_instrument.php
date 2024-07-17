@@ -34,11 +34,10 @@ if (isset($_GET["ID"])) {
 if (isset($_POST["confirm"])) {
   $instrument->ID=$_POST["ID"]; 
   if($instrument->delete()) { 
-    echo '<p>Die Seite kann geschlossen werden.</p>';
-    $info->print_link_show_table('instrument', 'sortcol=Name', 'Instrumente');     
+    $info->print_link_show_table($instrument->table_name, 'sortcol=Name', $instrument->Titles,false);     
   } else {
-    echo '<p> <a href="edit_instrument.php?ID='. $instrument->ID .'&title=Instrument">Abbrechen / Zurück</a></p>';  
-  }                   
+    $info->print_link_edit($instrument->table_name, $instrument->ID,$instrument->Title,'',false);
+  }                       
 }
 
 include('foot.php');

@@ -5,7 +5,7 @@ include("cl_lookuptype.php");
 include("cl_lookup.php");
 include("cl_html_info.php");
 
-echo '<h2>Besonderheit bearbeiten</h2>'; 
+// echo '<h2>Besonderheit bearbeiten</h2>'; 
 
 $lookup = new Lookup();
 $info= new HtmlInfo(); 

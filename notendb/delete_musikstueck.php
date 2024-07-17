@@ -2,11 +2,12 @@
 <?php 
 include('head.php');
 include('cl_musikstueck.php');
+include('cl_html_info.php');
 
 echo '<h2>Musikstück löschen</h2>'; 
 
 $musikstueck=new Musikstueck(); 
-
+$info=new HtmlInfo(); 
 
 if (isset($_GET["ID"])) {
   /* Aufruf Lösch-Link edit_musikstueck.php  */
@@ -35,7 +36,7 @@ if (isset($_GET["ID"])) {
 if (isset($_POST["confirm"])) {
   $musikstueck->ID=$_POST["ID"]; 
   $musikstueck->delete(); 
-  echo '<p>Die Seite kann geschlossen werden.</p>';      
+  // $info->print_link_show_table($musikstueck->table_name,'sortcol=ID&sortorder=DESC',$musikstueck->Titles);     
 }
 
 

@@ -11,13 +11,12 @@ $info=new HtmlInfo();
 
 
 if (isset($_GET["ID"])) {
-  /* Aufruf Lösch-Link edit_musikstueck.php  */
   $verlag->ID= $_GET["ID"]; 
   $verlag->load_row(); 
   if (!isset($_POST["confirm"])) {
       echo '
       <form action="delete_verlag.php" method="post">
-      <p><b>Folgende Verlag wird gelöscht: </b>
+      <p><b>Folgender Verlag wird gelöscht: </b>
       <br/>
       <br/>
       ID: '.$verlag->ID.'  <br/>
@@ -36,10 +35,9 @@ if (isset($_GET["ID"])) {
 if (isset($_POST["confirm"])) {
   $verlag->ID=$_POST["ID"]; 
   if($verlag->delete()) { 
-    echo '<p>Die Seite kann geschlossen werden.</p>';
-    $info->print_link_show_table('verlag', 'sortcol=Name', 'Verlage');     
+    $info->print_link_show_table($verlag->table_name, 'sortcol=Name', $verlag->Titles,false);     
   } else {
-    echo '<p> <a href="edit_verlag.php?ID='. $verlag->ID .'&title=Verlag">Abbrechen / Zurück</a></p>';  
+    $info->print_link_edit($verlag->table_name, $verlag->ID,$verlag->Title,'',false);
   }                   
 }
 

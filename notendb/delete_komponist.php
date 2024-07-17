@@ -32,11 +32,10 @@ if (isset($_GET["ID"]) & !isset($_POST["confirm"])) {
 if (isset($_POST["confirm"])) {
   $komponist->ID=$_POST["ID"]; 
   if($komponist->delete()) { 
-    echo '<p>Die Seite kann geschlossen werden.</p>';
-    $info->print_link_show_table('komponist', 'sortcol=Nachname,Vorname', 'Komponisten');     
+    $info->print_link_show_table($komponist->table_name, 'sortcol=Nachname,Vorname', $komponist->Titles,false);     
   } else {
-    echo '<p> <a href="edit_komponist.php?ID='. $komponist->ID .'&title=Komponist">Abbrechen / Zurück</a></p>';  
-  }                   
+    $info->print_link_edit($komponist->table_name, $komponist->ID,$komponist->Title,'',false);
+  }                       
 }
 
 include('foot.php');

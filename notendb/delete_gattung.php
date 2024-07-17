@@ -34,10 +34,9 @@ if (isset($_GET["ID"])) {
 if (isset($_POST["confirm"])) {
   $gattung->ID=$_POST["ID"]; 
   if($gattung->delete()) { 
-    echo '<p>Die Seite kann geschlossen werden.</p>';
-    $info->print_link_show_table('gattung', 'sortcol=Name', 'Gattungen');     
+    $info->print_link_show_table($gattung->table_name, 'sortcol=Name', $gattung->Titles);      
   } else {
-    echo '<p> <a href="edit_gattung.php?ID='. $gattung->ID .'&title=Gattung">Abbrechen / Zurück</a></p>';  
+    $info->print_link_edit($gattung->table_name, $gattung->ID,$gattung->Title,'',false);
   }                   
 }
 

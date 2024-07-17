@@ -36,10 +36,9 @@ if (isset($_GET["ID"])) {
 if (isset($_POST["confirm"])) {
   $besetzung->ID=$_POST["ID"]; 
   if($besetzung->delete()) { 
-    echo '<p>Die Seite kann geschlossen werden.</p>';
-    $info->print_link_show_table('besetzung', 'sortcol=Name', 'Besetzungen');     
+    $info->print_link_show_table($besetzung->table_name, 'sortcol=Name', $besetzung->Titles, false);     
   } else {
-    echo '<p> <a href="edit_besetzung.php?ID='. $besetzung->ID .'&title=Besetzung">Abbrechen / Zurück</a></p>';  
+    $info->print_link_edit($besetzung->table_name, $besetzung->ID,$besetzung->Title,'',false);     
   }                   
 }
 

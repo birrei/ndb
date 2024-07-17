@@ -4,7 +4,7 @@ include('head.php');
 include('cl_lookuptype.php');
 include("cl_html_info.php");
 
-echo '<h2>Lookuptype löschen</h2>'; 
+echo '<h2>Besonderheit-Typ löschen</h2>'; 
 
 $lookuptype=new Lookuptype(); 
 $info=new HtmlInfo(); 
@@ -17,7 +17,7 @@ if (isset($_GET["ID"])) {
   if (!isset($_POST["confirm"])) {
       echo '
       <form action="delete_lookup_type.php" method="post">
-      <p><b>Folgende Lookuptype wird gelöscht: </b>
+      <p><b>Folgender Besonderheit-Typ wird gelöscht: </b>
       <br/>
       <br/>
       ID: '.$lookuptype->ID.'  <br/>
@@ -36,10 +36,9 @@ if (isset($_GET["ID"])) {
 if (isset($_POST["confirm"])) {
   $lookuptype->ID=$_POST["ID"]; 
   if($lookuptype->delete()) { 
-    echo '<p>Die Seite kann geschlossen werden.</p>';
-    $info->print_link_show_table('lookup_type', 'sortcol=Name', 'Lookuptypen');     
+    $info->print_link_show_table($lookuptype->table_name, 'sortcol=Name', $lookuptype->Titles);     
   } else {
-    echo '<p> <a href="edit_lookup_type.php?ID='. $lookuptype->ID .'&title=Lookuptype">Abbrechen / Zurück</a></p>';  
+     $info->print_link_edit($lookuptype->table_name, $lookuptype->ID,$lookuptype->Title);
   }                   
 }
 

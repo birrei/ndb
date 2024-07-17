@@ -32,10 +32,10 @@ if (isset($_GET["ID"]) & !isset($_POST["confirm"])) {
 if (isset($_POST["confirm"])) {
   $standort->ID=$_POST["ID"]; 
   if($standort->delete()) { 
-    echo '<p>Die Seite kann geschlossen werden.</p>';
-    $info->print_link_show_table('standort', 'sortcol=Name', 'Standorte');     
+    $info->print_link_show_table($standort->table_name,'sortcol=Name',$standort->Titles, false);     
   } else {
-    echo '<p> <a href="edit_standort.php?ID='. $standort->ID .'&title=Standort">Abbrechen / Zurück</a></p>';  
+     $info->print_link_edit($standort->table_name, $standort->ID,$standort->Title,'',false);
+
   }                   
 }
 

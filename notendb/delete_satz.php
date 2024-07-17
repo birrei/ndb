@@ -31,9 +31,7 @@ if (isset($_GET["ID"])) {
 
 if (isset($_POST["confirm"])) {
   $satz->ID=$_POST["ID"]; 
-  $satz->delete(); 
-  echo '<p>Die Seite kann geschlossen werden.</p>';        
-              
+  $satz->delete();       
 }
 
 

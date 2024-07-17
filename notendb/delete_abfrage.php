@@ -35,8 +35,7 @@ if (isset($_GET["ID"])) {
 if (isset($_POST["confirm"])) {
   $abfrage->ID=$_POST["ID"]; 
   $abfrage->delete(); 
-  echo '<p>Die Seite kann geschlossen werden.</p>';  
-  $info->print_link_show_table('v_abfrage', 'sortcol=Name', 'Abfragen');     
+  $info->print_link_show_table( 'v_abfrage',  'sortcol=Name', 'Abfragen', false, '&add_link_show');     
 }
 
 

@@ -35,10 +35,9 @@ if (isset($_GET["ID"])) {
 if (isset($_POST["confirm"])) {
   $verwendungszweck->ID=$_POST["ID"]; 
   if($verwendungszweck->delete()) { 
-    echo '<p>Die Seite kann geschlossen werden.</p>';
     $info->print_link_show_table('verwendungszweck', 'sortcol=Name', 'Verwendungszwecke');     
   } else {
-    echo '<p> <a href="edit_verwendungszweck.php?ID='. $verwendungszweck->ID .'&title=Verwendungszweck">Abbrechen / Zurück</a></p>';  
+    $info->print_link_edit($verwendungszweck->table_name, $verwendungszweck->ID,$verwendungszweck->Title, '', false);
   }                   
 }
 
