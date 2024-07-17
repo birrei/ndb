@@ -11,8 +11,8 @@ $sortorder='ASC'; // Sortier-Reihenfolge, default aufwärts
 $edit_table_title=''; // Titel der Seite, die über den Bearbeiten-Link aufgerufen wird 
 $add_link_show=false;  // true, falls eine zusätzlliche Spalte "Anzeigen" ergänzt werden soll
 $edit_link_show_newpage=false; // true: Das öffnen des Bearbeiten-Links soll in einem neuen Fenster erfolgen 
-$tables_exclude_insertlink=array('musikstueck','satz');
-$tables_use_insertfile=array('lookup');
+$tables_exclude_insertlink=array('musikstueck','satz', 'lookup');
+$tables_use_insertfile=array('lookup'); // aktuell nicht genutzt, Stand 15.07.2024
 
 /*************** */
 
