@@ -6,10 +6,15 @@ include("cl_verlag.php");
 include("cl_standort.php");
 include("cl_html_info.php");
 
-echo '<h2>Sammlung bearbeiten</h2>'; 
 
 $sammlung = new Sammlung();
 $info= new HtmlInfo(); 
+
+$info->print_screen_header('Sammlung bearbeiten'); 
+echo ' | '; 
+$info->print_link_show_table('v_sammlung', 'sortcol=Name', 'Sammlungen'); 
+echo ' | '; 
+$info->print_link_insert($sammlung->table_name, $sammlung->Title); 
 
 if (!isset($_GET["option"]) and isset($_GET["ID"]))  {
   // geöffnet über einen "Bearbeiten"-Link
@@ -35,10 +40,10 @@ if (isset($_POST["option"]) and $_POST["option"]=='edit') {
   $info->print_action_info($sammlung->ID, 'update');     
 }
 
-$info->print_link_show_table('v_sammlung', 'sortcol=Name', 'Sammlungen'); 
+
 
 echo '<p> 
-      <a href="edit_sammlung.php?title=Sammlung&option=insert">Neue Sammlung erfassen</a>
+     
       </p>'; 
 
   echo '
@@ -70,10 +75,11 @@ echo '<p>
           $verlage = new Verlag();
           $verlage->print_select($sammlung->VerlagID); 
 
-    echo ' </label>  
-    &nbsp;<a href="edit_verlag.php?title=Verlag&option=insert" target="_blank">Neu erfassen</a>
-    | <a href="show_table2.php?table=verlag&sortcol=Name&title=Verlage" target="_blank">Daten anzeigen</a>
-  
+    echo ' </label>  &nbsp;
+    <a href="edit_verlag.php?title=Verlag&ID='.$sammlung->VerlagID.'" target="_blank" tabindex="-1" >Bearbeiten</a> |
+    <a href="show_table2.php?table=verlag&sortcol=Name&title=Verlage" target="_blank" tabindex="-1" >Daten anzeigen</a> | 
+    <a href="edit_verlag.php?title=Verlag&option=insert" target="_blank" tabindex="-1">Neu erfassen</a>
+
     </tr>
 
     <tr>    
@@ -86,10 +92,11 @@ echo '<p>
           $standorte = new Standort();
           $standorte->print_select($sammlung->StandortID); 
 
-    echo '</label>  
-    &nbsp;<a href="edit_standort.php?title=Standort&option=insert" target="_blank">Neu erfassen</a>
-     | <a href="show_table2.php?table=standort&sortcol=Name&title=Standorte" target="_blank">Daten anzeigen</a>
-   
+    echo '</label>  &nbsp;
+    <a href="edit_standort.php?ID='.$sammlung->StandortID.'&title=Standort" target="_blank">Bearbeiten</a> |
+    <a href="show_table2.php?table=standort&sortcol=Name&title=Standorte" target="_blank">Daten anzeigen</a> | 
+    <a href="edit_standort.php?title=Standort&option=insert" target="_blank">Neu erfassen</a>
+
     </tr>
 
     <tr>    
