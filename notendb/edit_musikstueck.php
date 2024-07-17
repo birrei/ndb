@@ -64,7 +64,7 @@ echo '
 $sammlung = new Sammlung();
 $sammlung->print_select($musikstueck->SammlungID); 
 
-echo ' <a href="edit_sammlung.php?ID='.$musikstueck->SammlungID.'&title=Sammlung">Gehe zu Sammlung</a>'; 
+echo ' <a href="edit_sammlung.php?ID='.$musikstueck->SammlungID.'&title=Sammlung" tabindex="-1">Gehe zu Sammlung</a>'; 
 echo '</tr></label>
 <tr>    
 <label>
@@ -88,9 +88,10 @@ echo '</tr></label>
   $komponisten = new Komponist();
   $komponisten->print_select($musikstueck->KomponistID); 
 
-echo  ' </label> 
-&nbsp; <a href="edit_komponist.php?title=Komponist&option=insert" target="_blank">Neu erfassen</a>
- | <a href="show_table2.php?table=v_komponist&sortcol=Name&title=Komponisten" target="_blank">Daten anzeigen</a>
+echo  ' </label> &nbsp; 
+<a href="edit_komponist.php?ID='.$musikstueck->KomponistID.'&title=Komponist" target="_blank" tabindex="-1">Bearbeiten</a> | 
+<a href="show_table2.php?table=v_komponist&sortcol=Name&title=Komponisten" target="_blank" tabindex="-1">Daten anzeigen</a> | 
+<a href="edit_komponist.php?title=Komponist&option=insert" target="_blank" tabindex="-1">Neu erfassen</a>
 
 </td>
 </tr> 
@@ -121,10 +122,10 @@ echo  ' </label>
     $epochen = new Epoche();
     $epochen->print_select($musikstueck->EpocheID); 
 
-  echo  ' </label>  
-  &nbsp; <a href="edit_epoche.php?title=Epoche&option=insert" target="_blank">Neu erfassen</a>
-      | <a href="show_table2.php?table=epoche&sortcol=Name&title=Epochen" target="_blank">Daten anzeigen</a>
- 
+  echo  ' </label>  &nbsp; 
+    <a href="edit_epoche.php?ID='.$musikstueck->EpocheID.'&title=Epoche" target="_blank" tabindex="-1">Bearbeiten</a> | 
+    <a href="show_table2.php?table=epoche&sortcol=Name&title=Epochen" target="_blank" tabindex="-1">Daten anzeigen</a> |
+    <a href="edit_epoche.php?title=Epoche&option=insert" target="_blank" tabindex="-1">Neu erfassen</a>
   </td>
    
 </tr> 
@@ -137,9 +138,10 @@ echo  ' </label>
     $gattungen = new Gattung();
     $gattungen->print_select($musikstueck->GattungID); 
 
-  echo  '  </label>  
-  &nbsp; <a href="edit_gattung.php?title=Gattung&option=insert" target="_blank">Neu erfassen</a>
-   | <a href="show_table2.php?table=gattung&sortcol=Name&title=Gattungen" target="_blank">Daten anzeigen</a>
+  echo  '  </label>&nbsp; 
+     <a href="edit_gattung.php?ID='.$musikstueck->GattungID.'&title=Gattung" target="_blank" tabindex="-1">Bearbeiten</a> | 
+     <a href="show_table2.php?table=gattung&sortcol=Name&title=Gattungen" target="_blank" tabindex="-1">Daten anzeigen</a> |
+     <a href="edit_gattung.php?title=Gattung&option=insert" target="_blank" tabindex="-1">Neu erfassen</a> 
   </td>
 </tr> 
 

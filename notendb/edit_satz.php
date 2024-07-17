@@ -68,7 +68,7 @@ echo
   $musikstueck->ID=$satz->MusikstueckID; 
   $musikstueck->print_select($satz->MusikstueckID); 
   
-  echo ' <a href="edit_musikstueck.php?ID='.$satz->MusikstueckID.'&title=Musikstück">Gehe zu Musikstück</a>'; 
+  echo ' <a href="edit_musikstueck.php?ID='.$satz->MusikstueckID.'&title=Musikstück" tabindex="-1">Gehe zu Musikstück</a>'; 
   echo '
   </td>  
   </label>
@@ -134,13 +134,18 @@ echo
     <td class="eingabe">'; 
       $erprobt=new Erprobt(); 
       $erprobt->print_select($satz->ErprobtID); 
-    echo  
-    '</td>
+    echo  '
+    &nbsp; 
+    <a href="edit_erprobt.php?ID='.$satz->ErprobtID.'&title=Erprobt" target="_blank" tabindex="-1">Bearbeiten</a> | 
+    <a href="show_table2.php?table=erprobt&sortcol=Name&title=Erprobt" target="_blank" tabindex="-1">Daten anzeigen</a> | 
+    <a href="edit_erprobt.php?title=Erprobt&option=insert" target="_blank" tabindex="-1">Neu erfassen</a>
+
+    </td>
   </tr>
 
   <tr>    
     <label>
-    <td class="eingabe"><b>Lagen:</b></td>  
+    <td class="eingabe"><b>Lagen:</b> (zu Besonderheiten?) </td>  
     <td class="eingabe"><input type="text" name="Lagen" value="'.$satz->Lagen.'" size="45" maxlength="80" oninput="changeBackgroundColor(this)"></td>
     </label>
   </tr> 
@@ -169,7 +174,7 @@ echo
 
   <tr> 
   <td class="eingabe"><b>Schwierigkeitsgrad(e):</b>
-      <br> <a href="edit_instrument.php?title=Instrument&option=insert" target="_blank">Neu erfassen (Instrument)</a>   
+      <br> <a href="edit_instrument.php?title=Instrument&option=insert" target="_blank">Neues Instrument erfassen</a>   
       <br> <a href="show_table2.php?table=instrument&sortcol=Name&title=Instrumente" target="_blank">Übersicht Instrumente</a>  
       <br> <a href="edit_satz_list_schwierigkeitsgrade.php?SatzID='.$satz->ID.'" target="Schwierigkeitsgrade">Aktualisieren</a> 
   </td> 
@@ -178,11 +183,8 @@ echo
   </td>
   </tr> 
 
-
-    
   <tr> 
   <td class="eingabe"><b>Besonderheiten:</b>
-            <br> <a href="insert_lookup.php?title=Besonderheit" target="_blank">Neu erfassen (Besonderheit)</a>
             <br> <a href="show_table2.php?table=v_lookup&sortcol=LookupType,Name&title=Besonderheiten" target="_blank">Übersicht Besonderheiten</a>  
             <br> <a href="edit_satz_list_lookups.php?SatzID='.$satz->ID.'" target="Lookups">Aktualisieren</a>    
   </td> 
