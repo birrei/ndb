@@ -1,5 +1,6 @@
 CREATE  OR REPLACE VIEW v_test_satz_ohne_erprobt AS 
-        select s.Name as Sammlung_Name
+
+select s.Name as Sammlung_Name
         , m.Name as Musikstueck_Name
         , sa.Nr 
         , sa.Name as Satz_Name 
