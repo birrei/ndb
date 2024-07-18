@@ -61,8 +61,7 @@ $title_complete=($title_page!=''?$title_page.' - '.$title_base:$title_base);
 
     
 <a href="index.php?title=Start">Startseite</a> | 
-    <a href="suche.php?title=Suche">Suche</a> | 
-    <a href="tests.php?title=Tests">Tests</a>
+    <a href="suche.php?title=Suche">Suche</a>
 
 <hr>
 <?php 

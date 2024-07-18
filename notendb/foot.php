@@ -4,12 +4,13 @@
 <p>
     
     <a href="index.php?title=Start">Startseite</a> | 
-    <a href="suche.php?title=Suche">Suche</a> | 
-    <a href="tests.php?title=Tests">Tests</a>
+    <a href="suche.php?title=Suche">Suche</a> 
+
 
 
   <!--  
-    
+        <a href="tests.php?title=Tests">Tests</a>
+
     <a href="index.php?title=Start" target="_blank">Startseite</a> | 
     <a href="suche.php?title=Suche" target="_blank">Suche</a> | 
     <a href="tests.php?title=Tests" target="_blank">Tests</a>
