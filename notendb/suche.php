@@ -392,7 +392,8 @@ $Suche->Beschreibung.='* Anzeige-Ebene: '.$Ebene.PHP_EOL;
             , GROUP_CONCAT(DISTINCT concat(schwierigkeitsgrad.Name, ' - ', instrument.Name)  order by schwierigkeitsgrad.Name SEPARATOR ', ') `Schwierigkeitsgrade`                   
             , erprobt.Name as Erprobt             
             , v_satz_lookuptypes.LookupList as Besonderheiten                  
-            , satz.Lagen 
+            , satz.Lagen
+            , satz.Orchsterbesetzung 
             , satz.Bemerkung                         
             ";        
       $edit_table='satz';                 
@@ -497,6 +498,7 @@ $Suche->Beschreibung.='* Anzeige-Ebene: '.$Ebene.PHP_EOL;
                             satz.Tonart LIKE '%".$suchtext."%' OR
                             satz.Tempobezeichnung LIKE '%".$suchtext."%' OR
                             satz.Bemerkung LIKE '%".$suchtext."%' OR 
+                            satz.Orchesterbesetzung LIKE '%".$suchtext."%' OR                             
                             besetzung.Name LIKE '%".$suchtext."%' )". PHP_EOL;         
       }
 

@@ -318,6 +318,7 @@ class Musikstueck {
               , GROUP_CONCAT(DISTINCT concat(schwierigkeitsgrad.Name, ' - ', instrument.Name)  order by schwierigkeitsgrad.Name SEPARATOR ', ') `Schwierigkeitsgrade`  
               , erprobt.Name as Erprobt              
               , satz.Lagen
+              , satz.Orchesterbesetzung
               , v_satz_lookuptypes.LookupList as Besonderheiten              
               , satz.Bemerkung               
             FrOM satz 

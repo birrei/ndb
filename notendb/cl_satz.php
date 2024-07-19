@@ -16,6 +16,7 @@ class Satz {
   // public $Stricharten;
   public $ErprobtID;
   public $Bemerkung='';
+  public $Orchesterbesetzung=''; 
   
   public function __construct(){
     $this->table_name='satz';     
@@ -63,6 +64,7 @@ class Satz {
             , $Lagen
             , $ErprobtID
             , $Bemerkung
+            , $Orchesterbesetzung
     
          ) {
 
@@ -82,7 +84,8 @@ class Satz {
                           -- SchwierigkeitsgradID=:SchwierigkeitsgradID, 
                           Lagen=:Lagen, 
                           ErprobtID=:ErprobtID, 
-                          Bemerkung=:Bemerkung
+                          Bemerkung=:Bemerkung,
+                          Orchesterbesetzung=:Orchesterbesetzung
                           WHERE `ID` = :ID"); 
   
     $update->bindParam(':ID', $this->ID);
@@ -97,6 +100,7 @@ class Satz {
     $update->bindParam(':Lagen', $Lagen);
     $update->bindParam(':ErprobtID', $ErprobtID, ($ErprobtID==''? PDO::PARAM_NULL:PDO::PARAM_INT));
     $update->bindParam(':Bemerkung', $Bemerkung);
+    $update->bindParam(':Orchesterbesetzung', $Orchesterbesetzung);    
 
     try {
       $update->execute(); 
@@ -129,6 +133,7 @@ class Satz {
                       ,`Lagen`
                       ,`ErprobtID`
                       , COALESCE(Bemerkung,'') as Bemerkung 
+                      , COALESCE(Orchesterbesetzung,'') as Orchesterbesetzung                       
     FROM `satz`
     WHERE `ID` = :ID");
 
@@ -148,7 +153,7 @@ class Satz {
     $this->Lagen=$row_data["Lagen"];
     $this->ErprobtID=$row_data["ErprobtID"];
     $this->Bemerkung=$row_data["Bemerkung"];
-    
+    $this->Orchesterbesetzung=$row_data["Orchesterbesetzung"];
 
   }
   
@@ -240,104 +245,104 @@ class Satz {
 
   }
 
-  function add_notenwert($NotenwertID){
-    include_once("cl_db.php");
-    $conn = new DbConn(); 
-    $db=$conn->db; 
+  // function add_notenwert($NotenwertID){
+  //   include_once("cl_db.php");
+  //   $conn = new DbConn(); 
+  //   $db=$conn->db; 
 
-    $insert = $db->prepare("INSERT INTO `satz_notenwert` SET
-        `SatzID`     = :SatzID,  
-        `NotenwertID`     = :NotenwertID");
+  //   $insert = $db->prepare("INSERT INTO `satz_notenwert` SET
+  //       `SatzID`     = :SatzID,  
+  //       `NotenwertID`     = :NotenwertID");
 
-    $insert->bindValue(':SatzID', $this->ID);  
-    $insert->bindValue(':NotenwertID', $NotenwertID);  
+  //   $insert->bindValue(':SatzID', $this->ID);  
+  //   $insert->bindValue(':NotenwertID', $NotenwertID);  
 
-    try {
-      $insert->execute(); 
-    }
-    catch (PDOException $e) {
-      include_once("cl_html_info.php"); 
-      $info = new HtmlInfo();      
-      $info->print_user_error(); 
-      $info->print_error($insert, $e);  
-    }  
-  }
+  //   try {
+  //     $insert->execute(); 
+  //   }
+  //   catch (PDOException $e) {
+  //     include_once("cl_html_info.php"); 
+  //     $info = new HtmlInfo();      
+  //     $info->print_user_error(); 
+  //     $info->print_error($insert, $e);  
+  //   }  
+  // }
 
-  function delete_notenwert($ID){
-    include_once("cl_db.php");
-    $conn = new DbConn(); 
-    $db=$conn->db; 
+  // function delete_notenwert($ID){
+  //   include_once("cl_db.php");
+  //   $conn = new DbConn(); 
+  //   $db=$conn->db; 
 
-    $delete = $db->prepare("DELETE FROM `satz_notenwert` WHERE ID=:ID"); 
-    $delete->bindValue(':ID', $ID);  
+  //   $delete = $db->prepare("DELETE FROM `satz_notenwert` WHERE ID=:ID"); 
+  //   $delete->bindValue(':ID', $ID);  
 
-    try {
-      $delete->execute(); 
-    }
-    catch (PDOException $e) {
-      include_once("cl_html_info.php"); 
-      $info = new HtmlInfo();      
-      $info->print_user_error(); 
-      $info->print_error($delete, $e);  
-    }  
-  }
+  //   try {
+  //     $delete->execute(); 
+  //   }
+  //   catch (PDOException $e) {
+  //     include_once("cl_html_info.php"); 
+  //     $info = new HtmlInfo();      
+  //     $info->print_user_error(); 
+  //     $info->print_error($delete, $e);  
+  //   }  
+  // }
 
-  function delete_notenwerte(){
-    include_once("cl_db.php");
-    $conn = new DbConn(); 
-    $db=$conn->db; 
+  // function delete_notenwerte(){
+  //   include_once("cl_db.php");
+  //   $conn = new DbConn(); 
+  //   $db=$conn->db; 
 
-    $delete = $db->prepare("DELETE FROM `satz_notenwert` WHERE SatzID=:ID"); 
-    $delete->bindValue(':ID', $this->ID);  
+  //   $delete = $db->prepare("DELETE FROM `satz_notenwert` WHERE SatzID=:ID"); 
+  //   $delete->bindValue(':ID', $this->ID);  
 
-    try {
-      $delete->execute(); 
-    }
-    catch (PDOException $e) {
-      include_once("cl_html_info.php"); 
-      $info = new HtmlInfo();      
-      $info->print_user_error(); 
-      $info->print_error($delete, $e);  
-    }  
-  }
+  //   try {
+  //     $delete->execute(); 
+  //   }
+  //   catch (PDOException $e) {
+  //     include_once("cl_html_info.php"); 
+  //     $info = new HtmlInfo();      
+  //     $info->print_user_error(); 
+  //     $info->print_error($delete, $e);  
+  //   }  
+  // }
 
-  function delete_strichart($ID){
-    include_once("cl_db.php");
-    $conn = new DbConn(); 
-    $db=$conn->db; 
+  // function delete_strichart($ID){
+  //   include_once("cl_db.php");
+  //   $conn = new DbConn(); 
+  //   $db=$conn->db; 
 
-    $delete = $db->prepare("DELETE FROM `satz_strichart` WHERE ID=:ID"); 
-    $delete->bindValue(':ID', $ID);  
+  //   $delete = $db->prepare("DELETE FROM `satz_strichart` WHERE ID=:ID"); 
+  //   $delete->bindValue(':ID', $ID);  
 
-    try {
-      $delete->execute(); 
-    }
-    catch (PDOException $e) {
-      include_once("cl_html_info.php"); 
-      $info = new HtmlInfo();      
-      $info->print_user_error(); 
-      $info->print_error($delete, $e);  
-    }  
-  }
+  //   try {
+  //     $delete->execute(); 
+  //   }
+  //   catch (PDOException $e) {
+  //     include_once("cl_html_info.php"); 
+  //     $info = new HtmlInfo();      
+  //     $info->print_user_error(); 
+  //     $info->print_error($delete, $e);  
+  //   }  
+  // }
 
-  function delete_stricharten(){
-    include_once("cl_db.php");
-    $conn = new DbConn(); 
-    $db=$conn->db; 
+  // function delete_stricharten(){
+  //   include_once("cl_db.php");
+  //   $conn = new DbConn(); 
+  //   $db=$conn->db; 
 
-    $delete = $db->prepare("DELETE FROM `satz_strichart` WHERE SatzID=:ID"); 
-    $delete->bindValue(':ID', $this->ID);  
+  //   $delete = $db->prepare("DELETE FROM `satz_strichart` WHERE SatzID=:ID"); 
+  //   $delete->bindValue(':ID', $this->ID);  
 
-    try {
-      $delete->execute(); 
-    }
-    catch (PDOException $e) {
-      include_once("cl_html_info.php"); 
-      $info = new HtmlInfo();      
-      $info->print_user_error(); 
-      $info->print_error($delete, $e);  
-    }  
-  }
+  //   try {
+  //     $delete->execute(); 
+  //   }
+  //   catch (PDOException $e) {
+  //     include_once("cl_html_info.php"); 
+  //     $info = new HtmlInfo();      
+  //     $info->print_user_error(); 
+  //     $info->print_error($delete, $e);  
+  //   }  
+  // }
 
   function print_select($value_selected=''){
 
@@ -404,72 +409,72 @@ class Satz {
     }  
   }
 
-  function delete_uebung($ID){
-    include_once("cl_db.php");
-    $conn = new DbConn(); 
-    $db=$conn->db; 
+  // function delete_uebung($ID){
+  //   include_once("cl_db.php");
+  //   $conn = new DbConn(); 
+  //   $db=$conn->db; 
 
-    $delete = $db->prepare("DELETE FROM `satz_uebung` WHERE ID=:ID"); 
-    $delete->bindValue(':ID', $ID);  
+  //   $delete = $db->prepare("DELETE FROM `satz_uebung` WHERE ID=:ID"); 
+  //   $delete->bindValue(':ID', $ID);  
 
-    try {
-      $delete->execute(); 
-    }
-    catch (PDOException $e) {
-      include_once("cl_html_info.php"); 
-      $info = new HtmlInfo();      
-      $info->print_user_error(); 
-      $info->print_error($delete, $e);  
-    }  
-  }
-  function delete_uebungen(){
-    include_once("cl_db.php");
-    $conn = new DbConn(); 
-    $db=$conn->db; 
+  //   try {
+  //     $delete->execute(); 
+  //   }
+  //   catch (PDOException $e) {
+  //     include_once("cl_html_info.php"); 
+  //     $info = new HtmlInfo();      
+  //     $info->print_user_error(); 
+  //     $info->print_error($delete, $e);  
+  //   }  
+  // }
+  // function delete_uebungen(){
+  //   include_once("cl_db.php");
+  //   $conn = new DbConn(); 
+  //   $db=$conn->db; 
 
-    $delete = $db->prepare("DELETE FROM `satz_uebung` WHERE SatzID=:ID"); 
-    $delete->bindValue(':ID', $this->ID);  
+  //   $delete = $db->prepare("DELETE FROM `satz_uebung` WHERE SatzID=:ID"); 
+  //   $delete->bindValue(':ID', $this->ID);  
 
-    try {
-      $delete->execute(); 
-    }
-    catch (PDOException $e) {
-      include_once("cl_html_info.php"); 
-      $info = new HtmlInfo();      
-      $info->print_user_error(); 
-      $info->print_error($delete, $e);  
-    }  
-  }
-  function print_table_uebungen($target_file){
-    $query="SELECT satz_uebung.ID
-          -- , satz_uebung.UebungID
-             , uebung.Name                              
-          FROM satz_uebung          
-          INNER JOIN uebung 
-            on uebung.ID=satz_uebung.UebungID
-          WHERE satz_uebung.SatzID = :SatzID 
-          ORDER by uebung.Name"; 
+  //   try {
+  //     $delete->execute(); 
+  //   }
+  //   catch (PDOException $e) {
+  //     include_once("cl_html_info.php"); 
+  //     $info = new HtmlInfo();      
+  //     $info->print_user_error(); 
+  //     $info->print_error($delete, $e);  
+  //   }  
+  // }
+  // function print_table_uebungen($target_file){
+  //   $query="SELECT satz_uebung.ID
+  //         -- , satz_uebung.UebungID
+  //            , uebung.Name                              
+  //         FROM satz_uebung          
+  //         INNER JOIN uebung 
+  //           on uebung.ID=satz_uebung.UebungID
+  //         WHERE satz_uebung.SatzID = :SatzID 
+  //         ORDER by uebung.Name"; 
 
-    include_once("cl_db.php");
-    $conn = new DbConn(); 
-    $db=$conn->db; 
+  //   include_once("cl_db.php");
+  //   $conn = new DbConn(); 
+  //   $db=$conn->db; 
   
-    $stmt = $db->prepare($query); 
-    $stmt->bindParam(':SatzID', $this->ID, PDO::PARAM_INT); 
+  //   $stmt = $db->prepare($query); 
+  //   $stmt->bindParam(':SatzID', $this->ID, PDO::PARAM_INT); 
 
-    try {
-      $stmt->execute(); 
-      include_once("cl_html_table.php");      
-      $html = new HtmlTable($stmt); 
-      $html->print_table_with_del_link($target_file, 'SatzID', $this->ID); 
-    }
-    catch (PDOException $e) {
-      include_once("cl_html_info.php"); 
-      $info = new HtmlInfo();      
-      $info->print_user_error(); 
-      $info->print_error($stmt, $e); 
-    }
-  }  
+  //   try {
+  //     $stmt->execute(); 
+  //     include_once("cl_html_table.php");      
+  //     $html = new HtmlTable($stmt); 
+  //     $html->print_table_with_del_link($target_file, 'SatzID', $this->ID); 
+  //   }
+  //   catch (PDOException $e) {
+  //     include_once("cl_html_info.php"); 
+  //     $info = new HtmlInfo();      
+  //     $info->print_user_error(); 
+  //     $info->print_error($stmt, $e); 
+  //   }
+  // }  
   
   function print_table_lookups($target_file, $LookupTypeID=0){
     // 

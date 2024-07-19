@@ -38,7 +38,7 @@ if (isset($_POST["option"])) {
                   , $_POST["Lagen"]
                   , $_POST["ErprobtID"]
                   , $_POST["Bemerkung"]
-                  
+                  , $_POST["Orchesterbesetzung"]                  
                     ); 
     $info= new HtmlInfo(); 
     $info->print_action_info($satz->ID, 'update'); 
@@ -96,6 +96,7 @@ echo
     </label>
   </tr> 
 
+
   <tr>    
     <label>
     <td class="eingabe"><b>Taktart:</b></td>  
@@ -109,6 +110,7 @@ echo
     <td class="eingabe"><input type="text" name="Tempobezeichnung" value="'.$satz->Tempobezeichnung.'" size="45" maxlength="80" oninput="changeBackgroundColor(this)"></td>
     </label>
   </tr> 
+
 
   <tr>    
     <label>
@@ -147,6 +149,13 @@ echo
     <label>
     <td class="eingabe"><b>Lagen:</b> (zu Besonderheiten?) </td>  
     <td class="eingabe"><input type="text" name="Lagen" value="'.$satz->Lagen.'" size="45" maxlength="80" oninput="changeBackgroundColor(this)"></td>
+    </label>
+  </tr> 
+
+    <tr>    
+    <label>
+    <td class="eingabe"><b>Orchesterbesetzung:</b></td>  
+    <td class="eingabe"><input type="text" name="Orchesterbesetzung" value="'.$satz->Orchesterbesetzung.'" size="100" maxlength="80" oninput="changeBackgroundColor(this)"></td>
     </label>
   </tr> 
 
