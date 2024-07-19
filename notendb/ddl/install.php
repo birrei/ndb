@@ -1,5 +1,5 @@
 <?php 
-include('../head.php');
+include('../head_raw.php');
 include("../cl_db.php"); 
 include("../cl_html_info.php"); 
 
@@ -7,6 +7,10 @@ include("../cl_html_info.php");
 Script führt die SQL-Commands aus allen *.sql-Dateien (die im gleichen Ordner liegen) aus. 
 Enthält eine Datei mehrere SQL-Commands, müssen diese durch ein Semikolon ";" getrennt sein. 
 */
+
+?> 
+<div style="font-family: 'Courier New', Courier, monospace; padding: 50px">
+<?php 
 
 $dir='.'; 
 
@@ -47,6 +51,12 @@ if ( is_dir ( $dir )){
 }
 echo "</ol>";
 
-include('../foot.php');
+?> 
+</div>
+<?php 
+
+
+include('../foot_raw.php');
 
 ?>
+

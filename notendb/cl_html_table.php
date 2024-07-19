@@ -11,11 +11,10 @@ class HtmlTable {
     public $link_edit_filename=''; // falls Zusammensetzung "edit_" nicht verwendet werden soll, $link_edit_table dann leer lassen! 
     public $edit_newpage=false; 
 
-    // $this->link_edit_filename
-
     public $add_link_delete=false; // 
 
     public $add_link_show=false; // falls eine "show_*.php" für ein Tabelle vorgesehen ist (akt. show_abfrage.php)
+    public $add_param_name; // für $add_link_show=true: "&Name=(wert im Name-Feld der Datenzeile)" ergänzen 
 
     function __construct($stmt) {
         $this->stmt = $stmt; 
@@ -75,7 +74,9 @@ class HtmlTable {
                         }                                        
                     }
                     if ($this->add_link_show)  {
-                        $html .= '<td class="resultset"><a href="show_'.$this->link_edit_table.'.php?ID='.$row["ID"].($this->link_edit_title!=''?'&title='.$this->link_edit_title:'').'"'. ($this->edit_newpage?' target="_blank"':''). '>Anzeigen</a></td>'. PHP_EOL;
+                        // $html .= '<td class="resultset"><a href="show_'.$this->link_edit_table.'.php?ID='.$row["ID"].($this->link_edit_title!=''?'&title='.$this->link_edit_title:'').'"'. ($this->edit_newpage?' target="_blank"':''). '>Anzeigen</a></td>'. PHP_EOL;
+                        $html .= '<td class="resultset"><a href="show_'.$this->link_edit_table.'.php?ID='.$row["ID"].($this->link_edit_title!=''?'&title='.$this->link_edit_title:'').'&Name='.$row["Name"].'"'. ($this->edit_newpage?' target="_blank"':''). '>Anzeigen</a></td>'. PHP_EOL;
+                                     
                     }
                     if ($this->add_link_delete)  {
                         $html .= '<td class="resultset"><a href="delete_'.$this->link_edit_table.'.php?ID='.$row["ID"].($this->link_edit_title!=''?'&title='.$this->link_edit_title:'').'"'. ($this->edit_newpage?' target="_blank"':''). '>Löschen</a></td>'. PHP_EOL;

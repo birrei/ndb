@@ -2,7 +2,8 @@
 <?php 
 include('../head.php');
 include("../cl_db.php");
-
+include("../cl_html_table.php");  
+include("../cl_html_info.php"); 
 
 if (isset($_POST['abfrage'])) {
      $sql = trim($_POST['abfrage']);
@@ -47,13 +48,13 @@ if (isset($_POST['aktion']) and $_POST['aktion']=='ausfuehren') {
                 $stmt->execute(); 
                 echo '<p>'.$stmt->rowCount().' Zeilen betroffen</p>'; 
                 if ($stmt->columnCount() > 0 ) {
-                    include_once("cl_html_table.php");      
+    
                     $html = new HtmlTable($stmt); 
                     $html->print_table();  
                 }           
             }
             catch (PDOException $e) {
-                include_once("cl_html_info.php"); 
+
                 $info = new HtmlInfo();      
                 $info->print_user_error(); 
                 $info->print_error($stmt, $e); 

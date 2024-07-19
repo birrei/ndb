@@ -36,12 +36,12 @@ if (isset($_POST["option"]) and $_POST["option"]=='edit') {
   $info->print_action_info($abfrage->ID, 'update');     
 }
 
-$info->print_link_show_table('v_abfrage', 'sortcol=Name', 'Abfragen',false, '&add_link_show'); 
+$info->print_link_show_table('v_abfrage', 'sortcol=Name', 'Abfragen',false, '&add_link_show&Name='.$abfrage->Name); 
 
 if ($abfrage->success) {
 echo '
   <p>
-  <a href="show_abfrage.php?ID='.$abfrage->ID.'&title=Abfrage">Abfrage-Ergebnis anzeigen</a>
+  <a href="show_abfrage.php?ID='.$abfrage->ID.'&title=Abfrage&Name='.$abfrage->Name.'">Abfrage-Ergebnis anzeigen</a>
 </p> 
 
 <form action="edit_abfrage.php" method="post">

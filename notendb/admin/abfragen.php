@@ -14,10 +14,10 @@ include("../cl_abfrage.php");
 $tests[] = array('name' => 'Test - Sammlungen ohne Musikstück'
               , 'query'   => "
               select s.ID, s.Name
-from sammlung s 
-left join musikstueck m on s.ID = m.SammlungID 
-where m.ID is null 
-order by s.ID DESC 
+                from sammlung s 
+                left join musikstueck m on s.ID = m.SammlungID 
+                where m.ID is null 
+                order by s.ID DESC 
               "
               , 'table'   => "sammlung"              
               );
@@ -53,12 +53,12 @@ $tests[] = array('name' => 'Test - Musikstücke ohne Satz'
 
 $tests[] = array('name' => 'Test - Musikstücke ohne Komponist'
            , 'query'   => "select s.Name as Sammlung_Name, m.ID, m.Name as Musikstueck_Name
-from sammlung s 
-left join musikstueck m on s.ID = m.SammlungID 
-left join komponist k 
-on m.KomponistID = k.ID
-where k.ID is null 
-order by m.ID DESC 
+                from sammlung s 
+                left join musikstueck m on s.ID = m.SammlungID 
+                left join komponist k 
+                on m.KomponistID = k.ID
+                where k.ID is null 
+                order by m.ID DESC 
 "
            , 'table'   => "musikstueck"              
           );
@@ -105,12 +105,12 @@ $tests[] = array(
 /* Satz */
 
 $tests[] = array('name' => 'Test - Satz ohne Spieldauer'
-, 'query'   => "     select s.Name as Sammlung_Name
-        , sa.ID
+, 'query'   => "select sa.ID   
+        , s.Name as Sammlung_Name
         , m.Name as Musikstueck_Name
-        , sa.Nr
-        , sa.Name 
-        , sa.Spieldauer
+        , sa.Nr as Satz_Nr
+        , sa.Name as Satz_Name
+        , sa.Bemerkung as Satz_Bemerkung 
     from musikstueck m 
     inner join  sammlung s on s.ID = m.SammlungID 
     inner join satz sa on sa.MusikstueckID = m.ID 

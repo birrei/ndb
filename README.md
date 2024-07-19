@@ -1,10 +1,12 @@
 ﻿
 # Change Log  
 
-12.07.2024: 
+19.07.2024: 
  * auf Übersicht-Tabelle link für "Neu anlegen" anzeigen
  * Lösch-Funktion für jede Tabelle  
  * Überarbeitung Pflege "Besonderheiten" 
+ * Tests zu "Abfragen" übertragen (keine separaten Views, keine separate Seite) 
+
 
 10.07.2024: 
  * Stricharten, Notenwerte und Übung übernommen zu "Besonderheiten" 

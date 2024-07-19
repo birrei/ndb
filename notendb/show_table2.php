@@ -40,6 +40,7 @@ if (isset($_GET['edit_link_show_newpage'])) {
   $edit_link_show_newpage=true; 
 }
 
+
 /*************** */
 
 $query = 'SELECT * FROM '.$object.($sortcol!='' ?' ORDER BY '.$sortcol.' '.$sortorder:'');
@@ -68,7 +69,14 @@ try {
       echo '<p><a href="edit_'.$edit_table.'.php?title='.$edit_table_title.'&option=insert">Neu erfassen</a></p>';
     }      
   }
-  $html->print_table($edit_table, $edit_link_show_newpage,'', $edit_table_title); 
+  // -------------
+  $html->link_edit_table=$edit_table; 
+  $html->edit_newpage = $edit_link_show_newpage; 
+  $html->link_edit_title= $edit_table_title; 
+  $html->print_table2(); 
+  // ---- 
+
+  // $html->print_table($edit_table, $edit_link_show_newpage,'', $edit_table_title); 
 }
 catch (PDOException $e) {
   include_once("cl_html_info.php"); 

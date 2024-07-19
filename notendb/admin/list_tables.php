@@ -7,7 +7,6 @@ include("../cl_db.php");
 
 $query = 'show tables';
 
-
 $conn = new DbConn(); 
 $db=$conn->db; 
 $select = $db->prepare($query); 
