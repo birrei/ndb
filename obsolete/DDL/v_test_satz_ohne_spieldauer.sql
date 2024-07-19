@@ -1,6 +1,6 @@
 
     CREATE  OR REPLACE VIEW v_test_satz_ohne_spieldauer AS 
-        select s.Name as Sammlung_Name
+select s.Name as Sammlung_Name
         , sa.ID
         , m.Name as Musikstueck_Name
         , sa.Nr

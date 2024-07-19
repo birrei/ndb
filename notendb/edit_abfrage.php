@@ -36,7 +36,7 @@ if (isset($_POST["option"]) and $_POST["option"]=='edit') {
   $info->print_action_info($abfrage->ID, 'update');     
 }
 
-$info->print_link_show_table('v_abfrage', 'sortcol=Name', 'Abfragen'); 
+$info->print_link_show_table('v_abfrage', 'sortcol=Name', 'Abfragen',false, '&add_link_show'); 
 
 if ($abfrage->success) {
 echo '
@@ -79,7 +79,7 @@ echo '
   <tr>    
     <label>
     <td class="eingabe">Tabelle für Bearbeitung:</td>  
-    <td class="eingabe"><input type="text" name="Tabelle" value="'.$abfrage->Tabelle.'" size="45" maxlength="80" required="required" autofocus="autofocus" oninput="changeBackgroundColor(this)"></td>
+    <td class="eingabe"><input type="text" name="Tabelle" value="'.$abfrage->Tabelle.'" size="45" maxlength="80" autofocus="autofocus" oninput="changeBackgroundColor(this)"></td>
     </label>
   </tr> 
 

@@ -35,7 +35,7 @@ if (isset($_GET["ID"])) {
 if (isset($_POST["confirm"])) {
   $sammlung->ID=$_POST["ID"]; 
   $sammlung->delete(); 
-  $info->print_link_show_table($sammlung->table_name,'sortcol=ID&sortorder=DESC',$sammlung->Titles); 
+  $info->print_link_show_table('v_sammlung','sortcol=ID&sortorder=DESC',$sammlung->Titles); 
 }
 
 

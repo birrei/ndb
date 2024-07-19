@@ -41,34 +41,51 @@ class Abfrage {
   }  
  
   function insert_row2() {
-    /* falls Objekt-Variablen schon gesetzt sind */
+    /* 
+     - falls Objekt-Variablen schon gesetzt sind 
+       - Falls Name schon vorhanden, wird die betr. Abfrage überschrieben
+       (falls Name bereits mehrfach vorhanden, wird die höchste ID verwendet) 
+    */
+    $this->Abfrage = $this->getSQLcleaned($this->Abfrage);
+        
     include_once("cl_db.php");
     $conn = new DbConn(); 
     $db=$conn->db; 
+    
+    $checkselect = $db->prepare("SELECT MAX(ID) as maxID FROM abfrage WHERE Name=:Name");
+    $checkselect->bindParam(':Name', $this->Name);
+    $checkselect->execute(); 
+    $existingID=intval($checkselect->fetchColumn()); // = 0, falls Name nicht vorhanden  
 
-    $insert = $db->prepare("INSERT INTO `abfrage` 
-              SET `Name` = :Name, 
-                Beschreibung=:Beschreibung, 
-                Abfrage=:Abfrage,
-                Tabelle=:Tabelle
-              ");
+    if($existingID > 0 )  {
+      $this->ID = $existingID; 
+      $this->update_row($this->Name, $this->Beschreibung,$this->Abfrage, $this->Tabelle); 
+    } else {
+      $insert = $db->prepare("INSERT 
+                INTO `abfrage` 
+                SET `Name` = :Name, 
+                  Beschreibung=:Beschreibung, 
+                  Abfrage=:Abfrage,
+                  Tabelle=:Tabelle");
 
-    $insert->bindParam(':Name', $this->Name);
-    $insert->bindParam(':Beschreibung', $this->Beschreibung);
-    $insert->bindParam(':Abfrage', $this->Abfrage);    
-    $insert->bindParam(':Tabelle', $this->Tabelle);  
+ 
+      $insert->bindParam(':Name', $this->Name);
+      $insert->bindParam(':Beschreibung', $this->Beschreibung);
+      $insert->bindParam(':Abfrage', $this->Abfrage);    
+      $insert->bindParam(':Tabelle', $this->Tabelle);  
 
-    try {
-      $insert->execute(); 
-      $this->ID=$db->lastInsertId();
-      $this->load_row(); 
-      $this->success=true; 
-    }
-      catch (PDOException $e) {
-      include_once("cl_html_info.php"); 
-      $info = new HtmlInfo();      
-      $info->print_user_error(); 
-      $info->print_error($insert, $e);  ; 
+      try {
+        $insert->execute(); 
+        $this->ID=$db->lastInsertId();
+        $this->load_row(); 
+        $this->success=true; 
+      }
+        catch (PDOException $e) {
+        include_once("cl_html_info.php"); 
+        $info = new HtmlInfo();      
+        $info->print_user_error(); 
+        $info->print_error($insert, $e);  ; 
+      }
     }
   }  
 
@@ -185,6 +202,11 @@ class Abfrage {
     }  
   }  
 
+  function getSQLcleaned($strSQL) {
+
+    return preg_replace('/\\\s\\\s+/', ' ', $strSQL); 
+
+  }
 
 
 }

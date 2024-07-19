@@ -59,12 +59,11 @@ class HtmlInfo {
     // } 
 
     function print_link_show_table($target_table, $sortinfo, $target_title, $show_newtab=false, $additional_params='') {
-        echo '<a href="show_table2.php?table='.$target_table.
-        '&'.$sortinfo.'&title='.$target_title.($additional_params!=''?$additional_params:'').'"'.($show_newtab?' target="_blank"':'').'>Alle '.$target_title.' anzeigen</a>';
+        echo '<a href="show_table2.php?table='.$target_table.'&'.$sortinfo.'&title='.$target_title.($additional_params!=''?$additional_params:'').'"'.($show_newtab?' target="_blank"':'').'>Alle '.$target_title.' anzeigen</a>';
 
     }
     function print_link_insert($target_table, $target_title) {
-        echo '<a href="edit_'.$target_table.'.php?title='.$target_title.'&option=insert">'.$target_title.' neu erfassen</a>';
+        echo '<a href="edit_'.$target_table.'.php?title='.$target_title.'&option=insert">'.$target_title.' erfassen</a>';
     }
     function print_link_delete_row($target_table, $ID, $target_title) {
         echo '<p>

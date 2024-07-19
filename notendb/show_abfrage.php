@@ -17,9 +17,7 @@ if ($abfrage->success) {
   $show_edit_link=true;
 
   echo '<h3>'.$abfrage->Name.'</h3>'; 
-  // echo '<h4>'.$abfrage->Beschreibung.'</h4>';
   echo '<pre>'.$abfrage->Beschreibung.'</pre>';
-
 
   echo '<p><a href="edit_abfrage.php?ID='.$abfrage->ID.'&title=Abfrage">Abfrage bearbeiten</a></p> '; 
 
@@ -36,8 +34,14 @@ if ($abfrage->success) {
       $select->execute(); 
       include_once("cl_html_table.php");      
       $html = new HtmlTable($select); 
-    
-      $html->print_table($table_edit, true,'', $edit_title); 
+      if ($table_edit!='') {
+        $html->link_edit_table=$table_edit;    
+        $html->add_link_edit = true; 
+      } else {
+        $html->add_link_edit = false; 
+      }
+      $html->print_table2();
+
     }
     catch (PDOException $e) {
       include_once("cl_html_info.php"); 
