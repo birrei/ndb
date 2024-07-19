@@ -1,7 +1,7 @@
 
 <?php 
-include('head.php');
-include("cl_db.php");
+include('../head.php');
+include("../cl_db.php");
 
 
 if (isset($_POST['abfrage'])) {
@@ -64,7 +64,7 @@ if (isset($_POST['aktion']) and $_POST['aktion']=='ausfuehren') {
     }
 }
 
-include('foot.php');
+include('../foot.php');
 ?>
 
 
