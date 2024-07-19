@@ -6,6 +6,9 @@
 if ( isset($_REQUEST["title"]) ){
   $title_page=$_REQUEST["title"]; 
 }
+if ( isset($_GET["Name"]) ){
+  $title_page=$_GET["Name"]; 
+}
 
 if ($title_page=='') 
 {
