@@ -4,8 +4,8 @@
 <p>
     
     <a href="index.php?title=Start">Startseite</a> | 
-    <a href="suche.php?title=Suche">Suche</a> 
-
+    <a href="suche.php?title=Suche">Suche</a> | 
+    <a href="help.php?title=Hilfe">Hilfe</a>    
 
 
   <!--  

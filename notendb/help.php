@@ -6,45 +6,33 @@ include('head.php');
 
 <hr />
 
-<p>Kapitel: </p>
-<ul>
-    <li><a href="#erfassung">Erfassung</a></li>
-    <ul>
-        <li><a href="#erfassung_besonderheit">Erfassung Besonderheiten-Typ</a></li>
-    </ul>
-    <li><a href="#suche">Suche</a><li>
-    <li><a href="#info1">Info: Speicherprinzipien</a><li>
-</ul>
+
+<p>Inhalt</p>
+<p class="inhalt1"><a href="#erfassung">Erfassung</a></p>
+<p class="inhalt2"><a href="#erfassungsammlung">Sammlung erfassen</a></p>
+<p class="inhalt2"><a href="#erfassungmusikstueck">Musikstück erfassen</a></p>
+<p class="inhalt2"><a href="#erfassungsatz">Satz erfassen</a></p>
+
 
 <hr />
 
-<h1 id="erfassung">Erfassung / Bearbeitung</h1>
+<h1 id="erfassung">Erfassung</h1>
+<h2 id="erfassungsammmlung">Sammlung</h2>
+<p> .... </p> 
 
-<p> <b>Neue Einheit erfassen </b>: Beim erstmaligen anlegen eines Datensatzes werden im 
-Formular nur die Haupt-Felder (z.B. Nummer, Name) abgefragt. 
-Beim speichern werden diese Felder übernommen 
-und eine eindeutige ID erzeugt, es wird zum "Bearbeiten"-Formular weitergeleitet.  
-Im Anschluss werden im Dialog "Bearbeiten" ggf. noch noch weitere Eigenschaften erfasst werden. 
+<h2 id="erfassungmusikstueck">Musikstück</h2>
+<p> .... </p> 
 
-<p><b>Erfassung Satz: "Spieldauer": </b>: Der Spieldauer-Wert wird als Sekunden-Wert gespeichert, Das Feld "Minuten" dient als Hilfsmittel. 
+<h2 id="erfassungsatz">Screen "Satz erfassen"</h2>
+
+Falls es nur einen Satz gibt, ist der Satz die Fortsetzung des Musikstücks. 
+
+
+<p><b>"Spieldauer": </b>: Der Spieldauer-Wert wird als Sekunden-Wert gespeichert, Das Feld "Minuten" dient als Hilfsmittel. 
 Folgende Vorgehensweisen sind alternativ möglich: 
 <br>1) Sekunden-Wert direkt eingeben
 <br>2) Minutenwert eingeben (Format Zahl oder Format "(minuten):(sekunden)"). Die Minuten-Eingabe wird automatisch in Sekunden umgerechnet. 
 </p>
-
-<p id="#erfassung_besonderheit">Erfassung Besonderheiten</p>
-
-<pre> 
-Anlegen eigener Kategorien: 
-- Startseite: "Besonderheit Typen" > "Neu erfassen"
-
-
-Kategorie löschen 
-- ! noch nicht in der Anwendung möglich, bitte DataClearing beantragen 
-- Script: delete_lookup_type.sql 
-
-
-</pre>
 
 
 
@@ -72,20 +60,6 @@ Kategorie löschen
     Beispiel: Gesucht wird im Feld "Bearbeiter", nicht jedoch im Feld "Komponist" ("Komponist" ist über die Auswahl-Boxen filterbar) 
 
 
-<hr />
-
-<h1 id="info1"> Formularelemente und Speicherprinzipien </h1>
-
-    <ul> 
-        <li>(Text-)Felder</li>
-        <li>Zuordnungen (aus Meta-Datentabellen)
-        <ul>
-            <li>Einfach-Zuordnungen (z.B. Musikstück > Komponist, Musikstück > Epoche) </li>
-            <li>Mehrfach-Zordnungen (z.B: Musikstück > Besetzung, Satz > Stricharten)</li>
-        </ul>
-        </li>
-        <li>Untereinheiten  (Sammlung -> Musikstücke bzw. Musikstueck -> Sätze )</li>        
-    </ul>
 
 
 

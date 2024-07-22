@@ -393,7 +393,7 @@ $Suche->Beschreibung.='* Anzeige-Ebene: '.$Ebene.PHP_EOL;
             , erprobt.Name as Erprobt             
             , v_satz_lookuptypes.LookupList as Besonderheiten                  
             , satz.Lagen
-            , satz.Orchsterbesetzung 
+            , satz.Orchesterbesetzung 
             , satz.Bemerkung                         
             ";        
       $edit_table='satz';                 

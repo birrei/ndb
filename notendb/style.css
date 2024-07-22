@@ -9,6 +9,10 @@ td, th {
     vertical-align: top; 
 }
 
+/***** Hilfe  ****************/
+
+p.inhalt1 {text-indent:10px;}
+p.inhalt2 {text-indent:20px;}
 
 /***** Start  ****************/
 div.start {
