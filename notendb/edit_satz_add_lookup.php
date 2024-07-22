@@ -14,7 +14,7 @@ if (isset($_POST["LookupTypeID"])) {
 <table class="eingabe">
 <tr>    
   <label>
-     <td class="eingabe">Besonderheit Typ: 
+     <td class="eingabe"><i>Vorauswahl / Filter Typ:</i>  
       <?php 
                   
       $lookuptyp = new Lookuptype(); 
@@ -31,12 +31,14 @@ if (isset($_POST["LookupTypeID"])) {
 <table class="eingabe"> 
 <tr>    
   <label>
-     <td class="eingabe">Besonderheit: 
+     <td class="eingabe">Attribut: 
          <?php 
           include_once("cl_lookup.php");         
           $lookup = new Lookup(); 
           if ($LookupTypeID!='') {
             $lookup->print_select2($LookupTypeID, 'satz', $_GET["SatzID"]); 
+          } else {
+            $lookup->print_select('',  $_GET["SatzID"]); 
           }
     ?>
    </label>    
