@@ -50,7 +50,7 @@ class Lookup {
     include_once("cl_db.php");  
     include_once("cl_html_select.php");
 
-    $query="SELECT Lookup.ID
+    $query="SELECT lookup.ID
             , concat(lookup_type.Name, ': ', lookup.Name) as Besonderheit
             FROM lookup 
             INNER JOIN lookup_type 

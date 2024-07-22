@@ -188,16 +188,16 @@ echo
       <br> <a href="edit_satz_list_schwierigkeitsgrade.php?SatzID='.$satz->ID.'" target="Schwierigkeitsgrade">Aktualisieren</a> 
   </td> 
   <td class="eingabe">
-    <iframe src="edit_satz_list_schwierigkeitsgrade.php?SatzID='.$satz->ID.'" width="500" height="100" name="Schwierigkeitsgrade"></iframe>
+    <iframe src="edit_satz_list_schwierigkeitsgrade.php?SatzID='.$satz->ID.'" width="70%" height="100" name="Schwierigkeitsgrade"></iframe>
   </td>
   </tr> 
 
   <tr> 
   <td class="eingabe"><b>Besonderheiten:</b>
-            <br> <a href="show_table2.php?table=v_lookup&sortcol=LookupType,Name&title=Besonderheiten" target="_blank">Übersicht Besonderheiten</a>  
+            <br> <a href="show_table2.php?table=lookup_type&sortcol=Name&title=Besonderheit Typen" target="_blank">Übersicht Besonderheiten</a>  
             <br> <a href="edit_satz_list_lookups.php?SatzID='.$satz->ID.'" target="Lookups">Aktualisieren</a>    
   </td> 
-  <td class="eingabe"><iframe src="edit_satz_list_lookups.php?SatzID='.$satz->ID.'" width="500" height="300" name="Lookups"></iframe>
+  <td class="eingabe"><iframe src="edit_satz_list_lookups.php?SatzID='.$satz->ID.'" width="70%" height="300" name="Lookups"></iframe>
   </td>
   </tr> 
 
