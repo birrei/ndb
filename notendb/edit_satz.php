@@ -91,6 +91,14 @@ echo
 
   <tr>    
     <label>
+    <td class="eingabe"><b>Tempobezeichnung:</b></td>  
+    <td class="eingabe"><input type="text" name="Tempobezeichnung" value="'.$satz->Tempobezeichnung.'" size="45" maxlength="80" oninput="changeBackgroundColor(this)"></td>
+    </label>
+  </tr> 
+
+
+  <tr>    
+    <label>
     <td class="eingabe"><b>Tonart:</b></td>  
     <td class="eingabe"><input type="text" name="Tonart" value="'.$satz->Tonart.'" size="45" maxlength="80" oninput="changeBackgroundColor(this)"></td>
     </label>
@@ -103,14 +111,6 @@ echo
     <td class="eingabe"><input type="text" name="Taktart" value="'.$satz->Taktart.'" size="45" maxlength="80" oninput="changeBackgroundColor(this)"></td>
     </label>
   </tr> 
-
-  <tr>    
-    <label>
-    <td class="eingabe"><b>Tempobezeichnung:</b></td>  
-    <td class="eingabe"><input type="text" name="Tempobezeichnung" value="'.$satz->Tempobezeichnung.'" size="45" maxlength="80" oninput="changeBackgroundColor(this)"></td>
-    </label>
-  </tr> 
-
 
   <tr>    
     <label>
