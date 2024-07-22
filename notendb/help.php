@@ -2,11 +2,6 @@
 include('head.php');
 ?>
 
-<pre>Entwurf! </pre>
-
-<hr />
-
-
 <p>Inhalt</p>
 <p class="inhalt1"><a href="#erfassung">Erfassung</a></p>
 <p class="inhalt2"><a href="#erfassungsammlung">Sammlung erfassen</a></p>
@@ -17,13 +12,13 @@ include('head.php');
 <hr />
 
 <h1 id="erfassung">Erfassung</h1>
-<h2 id="erfassungsammmlung">Sammlung</h2>
+<h2 id="erfassungsammmlung">Sammlung erfassen</h2>
 <p> .... </p> 
 
-<h2 id="erfassungmusikstueck">Musikstück</h2>
+<h2 id="erfassungmusikstueck">Musikstück erfassen</h2>
 <p> .... </p> 
 
-<h2 id="erfassungsatz">Screen "Satz erfassen"</h2>
+<h2 id="erfassungsatz">Satz erfassen</h2>
 
 Falls es nur einen Satz gibt, ist der Satz die Fortsetzung des Musikstücks. 
 
