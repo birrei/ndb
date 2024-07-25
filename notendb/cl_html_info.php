@@ -74,8 +74,8 @@ class HtmlInfo {
         echo '<a href="edit_'.$target_table.'.php?ID='.$ID.'&title='.$target_title.''.($option!=''?'&option='.$option:'').'"'.($newpage?' target="_blank"':'').'>'.$target_title.' bearbeiten</a>';
     }
     
-    function print_screen_header($header_text) {
-        echo '<span style="font-size:18pt;font-weight:bold">'.$header_text.'</span>';
+    function print_screen_header($header_text, $suffix='') {
+        echo '<span style="font-size:15pt;font-weight:bold;padding-top: 10px">'.$header_text.($suffix!=''?$suffix:'').'</span>';
 
     }
 

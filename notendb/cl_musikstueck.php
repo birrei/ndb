@@ -140,19 +140,23 @@ class Musikstueck {
 
     $select->bindParam(':ID', $this->ID, PDO::PARAM_INT);
     $select->execute(); 
-    $row_data= $select->fetch();
 
-    
-    $this->Nummer=$row_data["Nummer"];
-    $this->Name=$row_data["Name"];
-    $this->SammlungID=$row_data["SammlungID"];
-    $this->KomponistID=$row_data["KomponistID"];
-    $this->Opus=$row_data["Opus"];
-    $this->GattungID=$row_data["GattungID"];
-    $this->Bearbeiter=$row_data["Bearbeiter"];
-    $this->EpocheID=$row_data["EpocheID"];
-    $this->JahrAuffuehrung=$row_data["JahrAuffuehrung"];    
-
+    if ($select->rowCount()==1) {
+      $row_data=$select->fetch();      
+      $this->Nummer=$row_data["Nummer"];
+      $this->Name=$row_data["Name"];
+      $this->SammlungID=$row_data["SammlungID"];
+      $this->KomponistID=$row_data["KomponistID"];
+      $this->Opus=$row_data["Opus"];
+      $this->GattungID=$row_data["GattungID"];
+      $this->Bearbeiter=$row_data["Bearbeiter"];
+      $this->EpocheID=$row_data["EpocheID"];
+      $this->JahrAuffuehrung=$row_data["JahrAuffuehrung"];    
+      return true;    
+    } 
+    else {
+      return false; 
+    }
   }
 
   function print_table_besetzungen($target_file){

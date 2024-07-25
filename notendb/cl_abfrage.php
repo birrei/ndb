@@ -9,7 +9,7 @@ class Abfrage {
   public $Beschreibung='';
   public $Abfrage; // XXX Umbennenen in "Abfragetext"  
   public $Tabelle;
-  public $success=false; 
+  // public $success=false; 
 
   public function __construct(){
     $this->table_name='abfrage'; 
@@ -30,7 +30,6 @@ class Abfrage {
       $insert->execute(); 
       $this->ID=$db->lastInsertId();
       $this->load_row(); 
-      $this->success=true; 
     }
       catch (PDOException $e) {
       include_once("cl_html_info.php"); 
@@ -46,7 +45,7 @@ class Abfrage {
        - Falls Name schon vorhanden, wird die betr. Abfrage überschrieben
        (falls Name bereits mehrfach vorhanden, wird die höchste ID verwendet) 
     */
-    $this->Abfrage = $this->getSQLcleaned($this->Abfrage);
+    // $this->Abfrage = $this->getSQLcleaned($this->Abfrage);
         
     include_once("cl_db.php");
     $conn = new DbConn(); 
@@ -78,7 +77,6 @@ class Abfrage {
         $insert->execute(); 
         $this->ID=$db->lastInsertId();
         $this->load_row(); 
-        $this->success=true; 
       }
         catch (PDOException $e) {
         include_once("cl_html_info.php"); 
@@ -104,7 +102,6 @@ class Abfrage {
       include_once("cl_html_table.php");      
       $html = new HtmlTable($select); 
       $html->print_table($this->table_name, true); 
-      $this->success=true;   
     }
     catch (PDOException $e) {
       include_once("cl_html_info.php"); 
@@ -138,7 +135,6 @@ class Abfrage {
     try {
       $update->execute(); 
       $this->load_row(); 
-      $this->success=true; 
     }
     catch (PDOException $e) {
       include_once("cl_html_info.php"); 
@@ -163,24 +159,20 @@ class Abfrage {
  
     $select->bindParam(':ID', $this->ID, PDO::PARAM_INT);
     $select->execute(); 
-    $row_data=$select->fetch();
-
-    // echo '<p>Anzahl Zeilen: '.$select->rowCount(); 
 
     if ($select->rowCount()==1) {
-      // falls ID existiert 
-      $this->success=true; 
+      $row_data=$select->fetch();      
       $this->Name=$row_data["Name"];    
       $this->Beschreibung=$row_data["Beschreibung"];
       $this->Abfrage=$row_data["Abfrage"];
       $this->Tabelle=$row_data["Tabelle"]; 
-    } else 
-    {
-      echo '<p>Der Datensatz konnte nicht geladen werden, die ID '.$this->ID.' existiert nicht.'; 
+      return true; 
+    } 
+    else {
+      return false; 
     }
  
   }  
-
   
   function delete(){
     include_once("cl_db.php");
@@ -191,22 +183,23 @@ class Abfrage {
 
     try {
       $delete->execute(); 
-      $this->success=true; 
-      echo '<p>Die Abfrage wurde gelöscht.</p>';          
+      echo '<p>Die Abfrage wurde gelöscht.</p>';
+      return true;           
     }
     catch (PDOException $e) {
       include_once("cl_html_info.php"); 
       $info = new HtmlInfo();      
       $info->print_user_error(); 
       $info->print_error($delete, $e);  
+      return false; 
     }  
   }  
 
-  function getSQLcleaned($strSQL) {
+  // function getSQLcleaned($strSQL) {
 
-    return preg_replace('/\\\s\\\s+/', ' ', $strSQL); 
+  //   return preg_replace('/\\\s\\\s+/', ' ', $strSQL); 
 
-  }
+  // }
 
 
 }

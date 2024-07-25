@@ -123,9 +123,15 @@ class Schwierigkeitsgrad {
 
     $select->bindParam(':ID', $this->ID, PDO::PARAM_INT);
     $select->execute(); 
-    $row_data=$select->fetch();
-    $this->Name=$row_data["Name"];
-    
+
+    if ($select->rowCount()==1) {
+      $row_data=$select->fetch();      
+      $this->Name=$row_data["Name"];    
+      return true; 
+    } 
+    else {
+      return false; 
+    }    
   }  
   
   function print_select_multi($options_selected=[]){

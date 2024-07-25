@@ -121,7 +121,6 @@
   }
 
   function load_row() {
-    /****** Paramter aus gegebener ID auslesen */      
     include_once("cl_db.php");   
     $conn = new DbConn(); 
     $db=$conn->db; 
@@ -130,14 +129,17 @@
                           FROM `verlag`
                           WHERE `ID` = :ID");
 
- 
     $select->bindParam(':ID', $this->ID, PDO::PARAM_INT);
     $select->execute(); 
     $row_data=$select->fetch();
 
-    $this->Name=$row_data["Name"];
-    $this->Bemerkung=$row_data["Bemerkung"];
-    
+    if ($select->rowCount()==1) {
+      $this->Name=$row_data["Name"];
+      $this->Bemerkung=$row_data["Bemerkung"];
+      return true; 
+    } else {
+      return false; 
+    }
     
   }  
 

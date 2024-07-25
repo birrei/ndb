@@ -154,31 +154,41 @@ class Linktype {
 
     $select->bindParam(':ID', $this->ID, PDO::PARAM_INT);
     $select->execute(); 
-    $row_data=$select->fetch();
-    $this->Name=$row_data["Name"];
-    $this->Relation=$row_data["Relation"];
-    $this->type_key=$row_data["type_key"];    
+   
+    if ($select->rowCount()==1) {
+      $row_data=$select->fetch();      
+      $this->Name=$row_data["Name"];
+      $this->Relation=$row_data["Relation"];
+      $this->type_key=$row_data["type_key"];  
+      return true; 
+    } 
+    else {
+      return false; 
+    }
+
   }  
 
-  function setArrData(){
-    include_once("cl_db.php");
 
-    $query_lookups = 'select ID, Name, type_key from linktype order by ID';
-    $conn = new DbConn(); 
-    $db=$conn->db; 
-    $select = $db->prepare($query_lookups); 
-    $select->execute(); 
-    $result = $select->fetchAll(PDO::FETCH_ASSOC);
+  // Verwendung? XXX 
+  // function setArrData(){
+  //   include_once("cl_db.php");
 
-    foreach ($result as $row) {
-        $this->ArrData[] = array(
-              'ID'=>$row["ID"], 
-              'Name'=>$row["Name"],
-              'type_key'=>$row["type_key"]              
-             ); 
-        }
-        // print_r($this->ArrData); // test
-    }
+  //   $query_lookups = 'select ID, Name, type_key from linktype order by ID';
+  //   $conn = new DbConn(); 
+  //   $db=$conn->db; 
+  //   $select = $db->prepare($query_lookups); 
+  //   $select->execute(); 
+  //   $result = $select->fetchAll(PDO::FETCH_ASSOC);
+
+  //   foreach ($result as $row) {
+  //       $this->ArrData[] = array(
+  //             'ID'=>$row["ID"], 
+  //             'Name'=>$row["Name"],
+  //             'type_key'=>$row["type_key"]              
+  //            ); 
+  //       }
+  //       // print_r($this->ArrData); // test
+  //   }
 
   function print_select_multi($options_selected=[]){
     include_once("cl_db.php");  

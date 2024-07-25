@@ -197,6 +197,8 @@ class Lookup {
 
   function load_row() {
     include_once("cl_db.php");   
+    include_once("cl_lookuptype.php"); 
+
     $conn = new DbConn(); 
     $db=$conn->db; 
 
@@ -206,15 +208,23 @@ class Lookup {
 
     $select->bindParam(':ID', $this->ID, PDO::PARAM_INT);
     $select->execute(); 
-    $row_data=$select->fetch();
-    $this->Name=$row_data["Name"];
-    $this->LookupTypeID=$row_data["LookupTypeID"]; 
-    
-    include_once("cl_lookuptype.php"); 
-    $lookuptype=new Lookuptype();
-    $lookuptype->ID = $this->LookupTypeID; 
-    $lookuptype->load_row();
-    $this->LookupTypeName=$lookuptype->Name; 
+
+    if ($select->rowCount()==1) {
+      $row_data=$select->fetch();      
+      $this->Name=$row_data["Name"];    
+      $this->LookupTypeID=$row_data["LookupTypeID"]; 
+
+      $lookuptype=new Lookuptype();
+      $lookuptype->ID = $this->LookupTypeID; 
+      $lookuptype->load_row();
+      $this->LookupTypeName=$lookuptype->Name; 
+
+      return true; 
+    } 
+    else {
+      return false; 
+    }
+
   }  
 
   function print_select_multi($type_key, $options_selected=[], $caption=''){

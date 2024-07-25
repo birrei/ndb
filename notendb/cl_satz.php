@@ -139,22 +139,24 @@ class Satz {
 
     $select->bindParam(':ID', $this->ID, PDO::PARAM_INT);
     $select->execute(); 
-    $row_data= $select->fetch();
-
-
-    $this->Name=$row_data["Name"];
-    $this->Nr=$row_data["Nr"];
-    $this->MusikstueckID=$row_data["MusikstueckID"];
-    $this->Tonart=$row_data["Tonart"];
-    $this->Taktart=$row_data["Taktart"];
-    $this->Tempobezeichnung=$row_data["Tempobezeichnung"];
-    $this->Spieldauer=$row_data["Spieldauer"];
-    // $this->SchwierigkeitsgradID=$row_data["SchwierigkeitsgradID"];
-    $this->Lagen=$row_data["Lagen"];
-    $this->ErprobtID=$row_data["ErprobtID"];
-    $this->Bemerkung=$row_data["Bemerkung"];
-    $this->Orchesterbesetzung=$row_data["Orchesterbesetzung"];
-
+    if ($select->rowCount()==1) {
+      $row_data=$select->fetch();      
+      $this->Name=$row_data["Name"];
+      $this->Nr=$row_data["Nr"];
+      $this->MusikstueckID=$row_data["MusikstueckID"];
+      $this->Tonart=$row_data["Tonart"];
+      $this->Taktart=$row_data["Taktart"];
+      $this->Tempobezeichnung=$row_data["Tempobezeichnung"];
+      $this->Spieldauer=$row_data["Spieldauer"];
+      $this->Lagen=$row_data["Lagen"];
+      $this->ErprobtID=$row_data["ErprobtID"];
+      $this->Bemerkung=$row_data["Bemerkung"];
+      $this->Orchesterbesetzung=$row_data["Orchesterbesetzung"];    
+      return true; 
+    } 
+    else {
+      return false; 
+    }
   }
   
   function print_table_notenwerte($target_file){

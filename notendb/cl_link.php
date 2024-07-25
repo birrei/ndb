@@ -93,13 +93,18 @@ class Link {
 
     $select->bindParam(':ID', $this->ID, PDO::PARAM_INT);
     $select->execute(); 
-    $row_data=$select->fetch();
-    $this->SammlungID=$row_data["SammlungID"]; 
-    $this->LinktypeID=$row_data["LinktypeID"];  
-    $this->Bezeichnung=$row_data["Bezeichnung"];
-    $this->URL=$row_data["URL"];  
-     
-       
+
+    if ($select->rowCount()==1) {
+      $row_data=$select->fetch();
+      $this->SammlungID=$row_data["SammlungID"]; 
+      $this->LinktypeID=$row_data["LinktypeID"];  
+      $this->Bezeichnung=$row_data["Bezeichnung"];
+      $this->URL=$row_data["URL"];    
+      return true; 
+    } 
+    else {
+      return false; 
+    }  
   }  
 
   function delete(){

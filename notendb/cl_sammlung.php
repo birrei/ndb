@@ -145,7 +145,6 @@ class Sammlung {
     }
   }
 
-
   function load_row() {
     include_once("cl_db.php");   
     $conn = new DbConn(); 
@@ -163,13 +162,20 @@ class Sammlung {
 
     $select->bindParam(':ID', $this->ID, PDO::PARAM_INT);
     $select->execute(); 
-    $row_data= $select->fetch();
 
-    $this->Name=$row_data["Name"];
-    $this->VerlagID=$row_data["VerlagID"];
-    $this->Bestellnummer=$row_data["Bestellnummer"];
-    $this->StandortID=$row_data["StandortID"];
-    $this->Bemerkung=$row_data["Bemerkung"];      
+    if ($select->rowCount()==1) {
+      $row_data=$select->fetch();      
+      $this->Name=$row_data["Name"];
+      $this->VerlagID=$row_data["VerlagID"];
+      $this->Bestellnummer=$row_data["Bestellnummer"];
+      $this->StandortID=$row_data["StandortID"];
+      $this->Bemerkung=$row_data["Bemerkung"];    
+      return true; 
+    } 
+    else {
+      return false; 
+    }
+  
   }
 
   function print_table_musikstuecke(){

@@ -60,14 +60,18 @@ class Komponist {
     WHERE `ID` = :ID");
     $select->bindParam(':ID', $this->ID, PDO::PARAM_INT);
     $select->execute(); 
-    $row_data=$select->fetch();
-
-    $this->Vorname=$row_data["Vorname"];
-    $this->Nachname=$row_data["Nachname"];
-    $this->Geburtsjahr=$row_data["Geburtsjahr"];
-    $this->Sterbejahr=$row_data["Sterbejahr"];
-    $this->Bemerkung=$row_data["Bemerkung"];
-     
+    if ($select->rowCount()==1) {
+      $row_data=$select->fetch();      
+      $this->Vorname=$row_data["Vorname"];
+      $this->Nachname=$row_data["Nachname"];
+      $this->Geburtsjahr=$row_data["Geburtsjahr"];
+      $this->Sterbejahr=$row_data["Sterbejahr"];
+      $this->Bemerkung=$row_data["Bemerkung"];
+      return true; 
+    } 
+    else {
+      return false; 
+    }
   }  
 
   function update_row(

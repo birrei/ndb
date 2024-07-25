@@ -156,10 +156,17 @@ class Lookuptype {
 
     $select->bindParam(':ID', $this->ID, PDO::PARAM_INT);
     $select->execute(); 
-    $row_data=$select->fetch();
-    $this->Name=$row_data["Name"];
-    $this->Relation=$row_data["Relation"];
-    $this->type_key=$row_data["type_key"];    
+
+    if ($select->rowCount()==1) {
+      $row_data=$select->fetch();      
+      $this->Name=$row_data["Name"];
+      $this->Relation=$row_data["Relation"];
+      $this->type_key=$row_data["type_key"];      
+      return true; 
+    } 
+    else {
+      return false; 
+    }   
   }  
 
   function setArrData(){
