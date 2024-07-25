@@ -4,73 +4,86 @@ include('head.php');
 include("cl_verlag.php");
 include("cl_html_info.php");
 
-
-echo '<h2>Verlag bearbeiten</h2>'; 
-
 $verlag = new Verlag();
 $info= new HtmlInfo(); 
 
-if (!isset($_GET["option"]) and isset($_GET["ID"]))  {
-  // geöffnet über einen "Bearbeiten"-Link
-  $verlag->ID=$_GET["ID"];
-  $verlag->load_row();  
-  $info->print_action_info($verlag->ID, 'view');    
-}
-if (isset($_GET["option"]) and $_GET["option"]=='insert') {
-  // nach insert geladen   
-  $verlag->insert_row(''); 
-  $info->print_action_info($verlag->ID, 'insert');     
-}
-if (isset($_POST["option"]) and $_POST["option"]=='edit') {
-  // in akt. Datei nach dem editieren gespeichert 
-  $verlag->ID = $_POST["ID"];    
-  $verlag->update_row($_POST["Name"], $_POST["Bemerkung"]); 
-  $info->print_action_info($verlag->ID, 'update');     
-}
+$show_data=false; 
 
+$info->print_screen_header('Verlag bearbeiten', ' | '); 
 $info->print_link_show_table('verlag', 'sortcol=Name', 'Verlage'); 
 
-echo '
-<form action="edit_verlag.php" method="post">
-<table class="eingabe"> 
-  <tr>    
-  <label>
-  <td class="eingabe">ID:</td>  
-  <td class="eingabe">'.$verlag->ID.'</td>
-  </label>
+if (isset($_REQUEST["option"])) {
+  switch($_REQUEST["option"]) {
+    case 'open': // geöffnet über einen "Bearbeiten"-Link
+      $verlag->ID=$_GET["ID"]; 
+      if ($verlag->load_row()) {
+        $show_data=true;       
+      }      
+      break; 
+
+    case 'insert': 
+      $verlag->insert_row(''); 
+      $show_data=true; 
+      break; 
+    
+    case 'update': 
+      $verlag->ID = $_POST["ID"];    
+      $verlag->update_row($_POST["Name"], $_POST["Bemerkung"]); 
+      $show_data=true;          
+      break; 
+  }
+
+}
+
+if ($show_data) {
+
+  echo '<p> 
+  <form action="edit_verlag.php" method="post">
+  <table class="eingabe"> 
+    <tr>    
+    <label>
+    <td class="eingabe">ID:</td>  
+    <td class="eingabe">'.$verlag->ID.'</td>
+    </label>
+      </tr> 
+
+    <tr>    
+      <label>
+      <td class="eingabe">Name:</td>  
+      <td class="eingabe"><input type="text" name="Name" value="'.$verlag->Name.'" size="45" maxlength="80" required="required" autofocus="autofocus" oninput="changeBackgroundColor(this)"></td>
+      </label>
     </tr> 
 
-  <tr>    
-    <label>
-    <td class="eingabe">Name:</td>  
-    <td class="eingabe"><input type="text" name="Name" value="'.$verlag->Name.'" size="45" maxlength="80" required="required" autofocus="autofocus" oninput="changeBackgroundColor(this)"></td>
-    </label>
-  </tr> 
 
+    <tr>    
+      <label>
+      <td class="eingabe">Bemerkung:</td>  
+      <td class="eingabe"><input type="text" name="Bemerkung" value="'.$verlag->Bemerkung.'" size="45" maxlength="80"  oninput="changeBackgroundColor(this)"></td>
+      </label>
+    </tr> 
 
-  <tr>    
-    <label>
-    <td class="eingabe">Bemerkung:</td>  
-    <td class="eingabe"><input type="text" name="Bemerkung" value="'.$verlag->Bemerkung.'" size="45" maxlength="80"  oninput="changeBackgroundColor(this)"></td>
-    </label>
-  </tr> 
+    <tr> 
+      <td class="eingabe"></td> 
+      <td class="eingabe"><input type="submit" name="senden" value="Speichern">
 
-  <tr> 
-    <td class="eingabe"></td> 
-    <td class="eingabe"><input type="submit" name="senden" value="Speichern">
+      </td>
+    </tr> 
 
-    </td>
-  </tr> 
+  </table> 
+  <input type="hidden" name="option" value="update">        
+  <input type="hidden" name="ID" value="' . $verlag->ID. '">
 
-</table> 
-<input type="hidden" name="option" value="edit">        
-<input type="hidden" name="ID" value="' . $verlag->ID. '">
+  </form>
+  </p> 
 
-</form>
-'; 
+  '; 
 
-$info->print_link_delete_row($verlag->table_name, $verlag->ID, $verlag->Title); 
- 
+  $info->print_link_delete_row($verlag->table_name, $verlag->ID, $verlag->Title); 
+}
+else {
+  $info->print_user_error(); 
+}
+
 include('foot.php');
 
 ?>

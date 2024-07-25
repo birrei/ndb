@@ -346,7 +346,11 @@ class Musikstueck {
       $stmt->execute(); 
       include_once("cl_html_table.php");      
       $html = new HtmlTable($stmt); 
-      $html->print_table('satz', true,'', 'Satz'); 
+      // $html->print_table('satz', true,'', 'Satz'); 
+      $html->link_table='satz'; 
+      $html->link_title='Satz'; 
+      $html->open_newpage=true; 
+      $html->print_table2();       
       
     }
     catch (PDOException $e) {

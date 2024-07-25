@@ -70,9 +70,9 @@ try {
     }      
   }
   // -------------
-  $html->link_edit_table=$edit_table; 
-  $html->edit_newpage = $edit_link_show_newpage; 
-  $html->link_edit_title= $edit_table_title; 
+  $html->link_table=$edit_table; 
+  $html->open_newpage = $edit_link_show_newpage; 
+  $html->link_title= $edit_table_title; 
   $html->print_table2(); 
   // ---- 
 

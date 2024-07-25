@@ -35,7 +35,7 @@ if ($abfrage->success) {
       include_once("cl_html_table.php");      
       $html = new HtmlTable($select); 
       if ($table_edit!='') {
-        $html->link_edit_table=$table_edit;    
+        $html->link_table=$table_edit;    
         $html->add_link_edit = true; 
       } else {
         $html->add_link_edit = false; 

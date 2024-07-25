@@ -14,41 +14,42 @@ $info->print_screen_header('Sammlung bearbeiten');
 echo ' | '; 
 $info->print_link_show_table('v_sammlung', 'sortcol=Name', 'Sammlungen'); 
 echo ' | '; 
-$info->print_link_insert($sammlung->table_name, $sammlung->Title); 
+$info->print_link_insert($sammlung->table_name, 'Neue '.$sammlung->Title); 
 
-if (!isset($_GET["option"]) and isset($_GET["ID"]))  {
-  // geöffnet über einen "Bearbeiten"-Link
-  $sammlung->ID=$_GET["ID"];
-  $sammlung->load_row();  
-  $info->print_action_info($sammlung->ID, 'view');    
+$show_data=false; 
+
+
+if (isset($_REQUEST["option"])) {
+  switch($_REQUEST["option"]) {
+    case 'open': // über "Bearbeiten"-Link
+      $sammlung->ID=$_GET["ID"];
+      if ($sammlung->load_row()) {
+        $show_data=true;       
+      }
+      break; 
+
+    case 'insert': 
+      $sammlung->insert_row(''); 
+      $show_data=true; 
+      break; 
+    
+    case 'update': 
+      $sammlung->ID = $_POST["ID"];    
+      $sammlung->update_row(
+        $_POST["Name"]
+        , $_POST["VerlagID"]
+        , $_POST["StandortID"]
+        , $_POST["Bestellnummer"]
+        , $_POST["Bemerkung"]
+      ); 
+      $show_data=true;           
+      break; 
+  }
 }
-if (isset($_GET["option"]) and $_GET["option"]=='insert') {
-  // nach insert geladen   
-  $sammlung->insert_row(''); 
-  $info->print_action_info($sammlung->ID, 'insert');     
-}
-if (isset($_POST["option"]) and $_POST["option"]=='edit') {
-  // in akt. Datei nach dem editieren gespeichert 
-  $sammlung->ID = $_POST["ID"];    
-  $sammlung->update_row(
-    $_POST["Name"]
-    , $_POST["VerlagID"]
-    , $_POST["StandortID"]
-    , $_POST["Bestellnummer"]
-    , $_POST["Bemerkung"]
-  ); 
-  $info->print_action_info($sammlung->ID, 'update');     
-}
 
-
-
-echo '<p> 
-     
-      </p>'; 
-
+if ($show_data) {
   echo '
   <form action="edit_sammlung.php" method="post">
-
   <table class="eingabe"> 
   <tr>    
   <label>
@@ -64,7 +65,6 @@ echo '<p>
       </label>
     </tr> 
     
-    
     <tr>    
     <label>
     <td class="eingabe"><b>Verlag:</b></td>  
@@ -76,7 +76,7 @@ echo '<p>
           $verlage->print_select($sammlung->VerlagID); 
 
     echo ' </label>  &nbsp;
-    <a href="edit_verlag.php?title=Verlag&ID='.$sammlung->VerlagID.'" target="_blank" tabindex="-1" >Bearbeiten</a> |
+    <a href="edit_verlag.php?title=Verlag&ID='.$sammlung->VerlagID.'&option=open" target="_blank" tabindex="-1" >Bearbeiten</a> |
     <a href="show_table2.php?table=verlag&sortcol=Name&title=Verlage" target="_blank" tabindex="-1" >Daten anzeigen</a> | 
     <a href="edit_verlag.php?title=Verlag&option=insert" target="_blank" tabindex="-1">Neu erfassen</a>
 
@@ -93,7 +93,7 @@ echo '<p>
           $standorte->print_select($sammlung->StandortID); 
 
     echo '</label>  &nbsp;
-    <a href="edit_standort.php?ID='.$sammlung->StandortID.'&title=Standort" target="_blank">Bearbeiten</a> |
+    <a href="edit_standort.php?ID='.$sammlung->StandortID.'&title=Standort&option=open" target="_blank">Bearbeiten</a> |
     <a href="show_table2.php?table=standort&sortcol=Name&title=Standorte" target="_blank">Daten anzeigen</a> | 
     <a href="edit_standort.php?title=Standort&option=insert" target="_blank">Neu erfassen</a>
 
@@ -117,7 +117,7 @@ echo '<p>
 
     </tr> 
         <input type="hidden" name="ID" value="' . $sammlung->ID. '">
-        <input type="hidden" name="option" value="edit">      
+        <input type="hidden" name="option" value="update">      
         <input type="hidden" name="title" value="Sammlung"> 
     </form>
 
@@ -157,6 +157,11 @@ echo '<p>
     </p>
 
   '; 
+} 
+else {
+    $info->print_user_error(); 
+}
+
 
 include('foot.php');
 

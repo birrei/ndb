@@ -242,7 +242,7 @@ class Lookuptype {
       $html = new HtmlTable($stmt); 
       // $html->print_table(); 
       // $html->print_table_with_del_link($target_file, 'LookupTypeID', $this->ID); 
-      $html->link_edit_table = 'lookup'; 
+      $html->link_table = 'lookup'; 
       // $html->link_edit_filename=$target_file;
 
       $html->print_table2(); 

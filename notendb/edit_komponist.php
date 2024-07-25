@@ -9,92 +9,108 @@ echo '<h2>Komponist bearbeiten</h2>';
 $komponist = new Komponist();
 $info= new HtmlInfo(); 
 
-if (!isset($_GET["option"]) and isset($_GET["ID"]))  {
-  // geöffnet über einen "Bearbeiten"-Link
-  $komponist->ID=$_GET["ID"];
-  $komponist->load_row();  
-  $info->print_action_info($komponist->ID, 'view');    
-}
-if (isset($_GET["option"]) and $_GET["option"]=='insert') {
-  // nach insert geladen   
-  $komponist->insert_row('', ''); ;  
-  $info->print_action_info($komponist->ID, 'insert');     
-}
-if (isset($_POST["option"]) and $_POST["option"]=='edit') {
-  // in akt. Datei nach dem editieren gespeichert 
-  $komponist->ID = $_POST["ID"];    
-  $komponist->update_row(
-                      $_POST["Vorname"]
-                      , $_POST["Nachname"]
-                      , $_POST["Geburtsjahr"]
-                      , $_POST["Sterbejahr"]
-                      , $_POST["Bemerkung"]                      
-                    ); 
-  $info->print_action_info($komponist->ID, 'update');     
-}
+$show_data=false; 
 
 $info->print_link_show_table('v_komponist', 'sortcol=Name', 'Komponisten'); 
 
-echo '<form action="edit_komponist.php" method="post">
 
-<table class="eingabe"> 
-<tr>    
-<label>
-<td class="eingabe">ID:</td>  
-<td class="eingabe">'.$komponist->ID.'</td>
-</label>
-  </tr> 
+if (isset($_REQUEST["option"])) {
+  switch($_REQUEST["option"]) {
+    case 'open': // über "Bearbeiten"-Link
+      $komponist->ID=$_GET["ID"];
+      if ($komponist->load_row()) {
+        $show_data=true;       
+      }
+      break; 
 
-  <tr>    
-    <label>
-    <td class="eingabe">Vorname:</td>  
-    <td class="eingabe"><input type="text" name="Vorname" value="'.$komponist->Vorname.'" size="45" maxlength="80" autofocus="autofocus" oninput="changeBackgroundColor(this)"></td>
-    </label>
-  </tr> 
+    case 'insert': 
+      $komponist->insert_row('', ''); ;
+      $show_data=true; 
+      break; 
+    
+    case 'update': 
+      $komponist->ID = $_POST["ID"];    
+      $komponist->update_row(
+        $_POST["Vorname"]
+        , $_POST["Nachname"]
+        , $_POST["Geburtsjahr"]
+        , $_POST["Sterbejahr"]
+        , $_POST["Bemerkung"]   
+      )
+          ;
+      $show_data=true;           
+      break; 
+  }
+}
 
-  <tr>    
-    <label>
-    <td class="eingabe">Nachname:</td>  
-    <td class="eingabe"><input type="text" name="Nachname" value="'.$komponist->Nachname.'" size="45" maxlength="80" required="required" oninput="changeBackgroundColor(this)"></td>
-    </label>
-  </tr> 
 
+if ($show_data) {
+    
+  echo '<form action="edit_komponist.php" method="post">
+
+  <table class="eingabe"> 
   <tr>    
   <label>
-  <td class="eingabe">Geburtsjahr:</td>  
-  <td class="eingabe"><input type="text" name="Geburtsjahr" value="'.$komponist->Geburtsjahr.'" size="10" maxlength="80" oninput="changeBackgroundColor(this)"></td>
+  <td class="eingabe">ID:</td>  
+  <td class="eingabe">'.$komponist->ID.'</td>
   </label>
-</tr> 
-<tr>    
-  <label>
-  <td class="eingabe">Sterbejahr:</td>  
-  <td class="eingabe"><input type="text" name="Sterbejahr" value="'.$komponist->Sterbejahr.'" size="10" maxlength="80" oninput="changeBackgroundColor(this)"></td>
-  </label>
-</tr> 
+    </tr> 
 
+    <tr>    
+      <label>
+      <td class="eingabe">Vorname:</td>  
+      <td class="eingabe"><input type="text" name="Vorname" value="'.$komponist->Vorname.'" size="45" maxlength="80" autofocus="autofocus" oninput="changeBackgroundColor(this)"></td>
+      </label>
+    </tr> 
+
+    <tr>    
+      <label>
+      <td class="eingabe">Nachname:</td>  
+      <td class="eingabe"><input type="text" name="Nachname" value="'.$komponist->Nachname.'" size="45" maxlength="80" required="required" oninput="changeBackgroundColor(this)"></td>
+      </label>
+    </tr> 
+
+    <tr>    
+    <label>
+    <td class="eingabe">Geburtsjahr:</td>  
+    <td class="eingabe"><input type="text" name="Geburtsjahr" value="'.$komponist->Geburtsjahr.'" size="10" maxlength="80" oninput="changeBackgroundColor(this)"></td>
+    </label>
+  </tr> 
   <tr>    
     <label>
-    <td class="eingabe">Bemerkung:</td>  
-    <td class="eingabe"><input type="text" name="Bemerkung" value="'.$komponist->Bemerkung.'" size="80" maxlength="80" oninput="changeBackgroundColor(this)"></td>
+    <td class="eingabe">Sterbejahr:</td>  
+    <td class="eingabe"><input type="text" name="Sterbejahr" value="'.$komponist->Sterbejahr.'" size="10" maxlength="80" oninput="changeBackgroundColor(this)"></td>
     </label>
   </tr> 
 
-  <tr> 
-    <td class="eingabe"></td> 
-    <input type="hidden" name="option" value="edit">      
-    <input type="hidden" name="title" value="Komponist"> 
-    <td class="eingabe"><input type="submit" name="senden" value="Speichern">  
-    </td>
-  </tr> 
+    <tr>    
+      <label>
+      <td class="eingabe">Bemerkung:</td>  
+      <td class="eingabe"><input type="text" name="Bemerkung" value="'.$komponist->Bemerkung.'" size="80" maxlength="80" oninput="changeBackgroundColor(this)"></td>
+      </label>
+    </tr> 
 
-  </table> 
-  <input type="hidden" name="ID" value="' . $komponist->ID. '">
+    <tr> 
+      <td class="eingabe"></td> 
+      <input type="hidden" name="option" value="update">      
+      <input type="hidden" name="title" value="Komponist"> 
+      <td class="eingabe"><input type="submit" name="senden" value="Speichern">  
+      </td>
+    </tr> 
 
-  </form>
-  '; 
+    </table> 
+    <input type="hidden" name="ID" value="' . $komponist->ID. '">
 
-  $info->print_link_delete_row($komponist->table_name, $komponist->ID,$komponist->Title); 
- 
+    </form>
+    '; 
+
+    $info->print_link_delete_row($komponist->table_name, $komponist->ID,$komponist->Title); 
+
+  } 
+  else {
+      $info->print_user_error(); 
+  }
+    
 
 include('foot.php');
 

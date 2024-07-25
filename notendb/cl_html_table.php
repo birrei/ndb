@@ -5,11 +5,11 @@ class HtmlTable {
     public $count_cols; 
     public $count_rows; 
 
-    public $add_link_edit=true; 
-    public $link_edit_table=''; 
-    public $link_edit_title=''; 
-    public $link_edit_filename=''; // falls Zusammensetzung "edit_" nicht verwendet werden soll, $link_edit_table dann leer lassen! 
-    public $edit_newpage=false; 
+    public $add_link_edit=true; // "Bearbeiten"-Spalte hinzufügen 
+    public $link_table=''; 
+    public $link_title=''; 
+    public $link_edit_filename=''; // falls Zusammensetzung "edit_" nicht verwendet werden soll, $link_table dann leer lassen! 
+    public $open_newpage=false; 
 
     public $add_link_delete=false; // 
 
@@ -66,20 +66,20 @@ class HtmlTable {
                     if ($this->add_link_edit) {
                         if ($this->link_edit_filename!='') {
                             // echo '------------';
-                            $html .= '<td class="resultset"><a href="'.$this->link_edit_filename.'?ID='.$row["ID"].'"&option=open'. ($this->edit_newpage?' target="_blank"':''). '>Bearbeiten</a></td>'. PHP_EOL;                     
+                            $html .= '<td class="resultset"><a href="'.$this->link_edit_filename.'?ID='.$row["ID"].'"&option=open'. ($this->open_newpage?' target="_blank"':''). '>Bearbeiten</a></td>'. PHP_EOL;                     
                         }
-                        if ($this->link_edit_table!='') {
-                            $html .= '<td class="resultset"><a href="edit_'.$this->link_edit_table.'.php?ID='.$row["ID"].'&option=open'.($this->link_edit_title!=''?'&title='.$this->link_edit_title:'').'"'. ($this->edit_newpage?' target="_blank"':''). '>Bearbeiten</a></td>'. PHP_EOL;
-                            // $html .= '<td><a href="edit_'.$edit_table_name.'.php?ID='.$row["ID"].'"'. ($edit_newpage?' target="_blank"':''). '>Bearbeiten</a></td>'. PHP_EOL;
+                        if ($this->link_table!='') {
+                            $html .= '<td class="resultset"><a href="edit_'.$this->link_table.'.php?ID='.$row["ID"].'&option=open'.($this->link_title!=''?'&title='.$this->link_title:'').'"'. ($this->open_newpage?' target="_blank"':''). '>Bearbeiten</a></td>'. PHP_EOL;
+                            // $html .= '<td><a href="edit_'.$edit_table_name.'.php?ID='.$row["ID"].'"'. ($open_newpage?' target="_blank"':''). '>Bearbeiten</a></td>'. PHP_EOL;
                         }                                        
                     }
                     if ($this->add_link_show)  {
-                        // $html .= '<td class="resultset"><a href="show_'.$this->link_edit_table.'.php?ID='.$row["ID"].($this->link_edit_title!=''?'&title='.$this->link_edit_title:'').'"'. ($this->edit_newpage?' target="_blank"':''). '>Anzeigen</a></td>'. PHP_EOL;
-                        $html .= '<td class="resultset"><a href="show_'.$this->link_edit_table.'.php?ID='.$row["ID"].($this->link_edit_title!=''?'&title='.$this->link_edit_title:'').'&Name='.$row["Name"].'"'. ($this->edit_newpage?' target="_blank"':''). '>Anzeigen</a></td>'. PHP_EOL;
+                        // $html .= '<td class="resultset"><a href="show_'.$this->link_table.'.php?ID='.$row["ID"].($this->link_title!=''?'&title='.$this->link_title:'').'"'. ($this->open_newpage?' target="_blank"':''). '>Anzeigen</a></td>'. PHP_EOL;
+                        $html .= '<td class="resultset"><a href="show_'.$this->link_table.'.php?ID='.$row["ID"].($this->link_title!=''?'&title='.$this->link_title:'').'&Name='.$row["Name"].'"'. ($this->open_newpage?' target="_blank"':''). '>Anzeigen</a></td>'. PHP_EOL;
                                      
                     }
                     if ($this->add_link_delete)  {
-                        $html .= '<td class="resultset"><a href="delete_'.$this->link_edit_table.'.php?ID='.$row["ID"].($this->link_edit_title!=''?'&title='.$this->link_edit_title:'').'"'. ($this->edit_newpage?' target="_blank"':''). '>Löschen</a></td>'. PHP_EOL;
+                        $html .= '<td class="resultset"><a href="delete_'.$this->link_table.'.php?ID='.$row["ID"].($this->link_title!=''?'&title='.$this->link_title:'').'"'. ($this->open_newpage?' target="_blank"':''). '>Löschen</a></td>'. PHP_EOL;
                     }                       
                     $html .= '</tr>'. PHP_EOL;
                 } 
@@ -93,11 +93,11 @@ class HtmlTable {
         echo $html;
     }
 
-    function print_table($edit_table_name='', $edit_newpage=false, $edit_link='', $edit_title='') {
+    function print_table($edit_table_name='', $open_newpage=false, $edit_link='', $edit_title='') {
         /* 
         - $edit_table_name <> '': eine zusätzliche Spalte mit "Bearbeiten-Link" wird angezeigt. 
             Der Bearbeiten- Link wird nach folgender Systematik ausgegeben: edit_<$edit_table_name>.php?ID=<ID> 
-        - $edit_newpage=true: dem Bearbeitungs-Link wird ein target="_blank" hinzugefügt
+        - $open_newpage=true: dem Bearbeitungs-Link wird ein target="_blank" hinzugefügt
         - $edit_link <> '': Alternative für $edit_table_name (edit_table_name muss dann leer sein). 
             Verwendung für die Fälle, in denen  die Bearbeiten-Link - Systematik per $edit_table_name nicht geeignet ist.
             für Tabellen-Anzeigen in iframes und mind. 1 mitgelieferten Basis-Parameter (Beispiel: edit_sammlung_list_links.php) 
@@ -139,22 +139,22 @@ class HtmlTable {
                         }
                     }
                     if ($this->link_edit_filename!='') {
-                        $html .= '<td class="resultset"><a href="'.$edit_link.'&ID='.$row["ID"].'"'. ($edit_newpage?' target="_blank"':''). '>Bearbeiten</a></td>'. PHP_EOL;                     
+                        $html .= '<td class="resultset"><a href="'.$edit_link.'&ID='.$row["ID"].'"'. ($open_newpage?' target="_blank"':''). '>Bearbeiten</a></td>'. PHP_EOL;                     
                     }
                     if ($edit_link!='') {
-                        $html .= '<td class="resultset"><a href="'.$edit_link.'&ID='.$row["ID"].'"'. ($edit_newpage?' target="_blank"':''). '>Bearbeiten</a></td>'. PHP_EOL;                     
+                        $html .= '<td class="resultset"><a href="'.$edit_link.'&ID='.$row["ID"].'"'. ($open_newpage?' target="_blank"':''). '>Bearbeiten</a></td>'. PHP_EOL;                     
                     } elseif 
                     ($edit_table_name!='') {
-                        $html .= '<td class="resultset"><a href="edit_'.$edit_table_name.'.php?ID='.$row["ID"].($edit_title!=''?'&title='.$edit_title:'').'"'. ($edit_newpage?' target="_blank"':''). '>Bearbeiten</a></td>'. PHP_EOL;
-                        // $html .= '<td><a href="edit_'.$edit_table_name.'.php?ID='.$row["ID"].'"'. ($edit_newpage?' target="_blank"':''). '>Bearbeiten</a></td>'. PHP_EOL;
+                        $html .= '<td class="resultset"><a href="edit_'.$edit_table_name.'.php?ID='.$row["ID"].($edit_title!=''?'&title='.$edit_title:'').'"'. ($open_newpage?' target="_blank"':''). '>Bearbeiten</a></td>'. PHP_EOL;
+                        // $html .= '<td><a href="edit_'.$edit_table_name.'.php?ID='.$row["ID"].'"'. ($open_newpage?' target="_blank"':''). '>Bearbeiten</a></td>'. PHP_EOL;
                     }                         
                 
    
                     if ($this->add_link_show)  {
-                        $html .= '<td class="resultset"><a href="show_'.$edit_table_name.'.php?ID='.$row["ID"].($edit_title!=''?'&title='.$edit_title:'').'"'. ($edit_newpage?' target="_blank"':''). '>Anzeigen</a></td>'. PHP_EOL;
+                        $html .= '<td class="resultset"><a href="show_'.$edit_table_name.'.php?ID='.$row["ID"].($edit_title!=''?'&title='.$edit_title:'').'"'. ($open_newpage?' target="_blank"':''). '>Anzeigen</a></td>'. PHP_EOL;
                     }
                     if ($this->add_link_delete)  {
-                        $html .= '<td class="resultset"><a href="delete_'.$edit_table_name.'.php?ID='.$row["ID"].($edit_title!=''?'&title='.$edit_title:'').'"'. ($edit_newpage?' target="_blank"':''). '>Löschen</a></td>'. PHP_EOL;
+                        $html .= '<td class="resultset"><a href="delete_'.$edit_table_name.'.php?ID='.$row["ID"].($edit_title!=''?'&title='.$edit_title:'').'"'. ($open_newpage?' target="_blank"':''). '>Löschen</a></td>'. PHP_EOL;
                     }                       
                     $html .= '</tr>'. PHP_EOL;
                 } 
@@ -244,11 +244,11 @@ class HtmlTable {
 
                     }
                     // if ($edit_table_name!='') {
-                    //     $html .= '<td><a href="edit_'.$edit_table_name.'.php?ID='.$row["ID"].($edit_title!=''?'&title='.$edit_title:'').'"'. ($edit_newpage?' target="_blank"':''). '>Bearbeiten</a></td>'. PHP_EOL;
-                    //     // $html .= '<td><a href="edit_'.$edit_table_name.'.php?ID='.$row["ID"].'"'. ($edit_newpage?' target="_blank"':''). '>Bearbeiten</a></td>'. PHP_EOL;
+                    //     $html .= '<td><a href="edit_'.$edit_table_name.'.php?ID='.$row["ID"].($edit_title!=''?'&title='.$edit_title:'').'"'. ($open_newpage?' target="_blank"':''). '>Bearbeiten</a></td>'. PHP_EOL;
+                    //     // $html .= '<td><a href="edit_'.$edit_table_name.'.php?ID='.$row["ID"].'"'. ($open_newpage?' target="_blank"':''). '>Bearbeiten</a></td>'. PHP_EOL;
                     // } 
                     // elseif   ($edit_link!='') {
-                    //     $html .= '<td><a href="'.$edit_link.'&ID='.$row["ID"].'"'. ($edit_newpage?' target="_blank"':''). '>Bearbeiten</a></td>'. PHP_EOL;                     
+                    //     $html .= '<td><a href="'.$edit_link.'&ID='.$row["ID"].'"'. ($open_newpage?' target="_blank"':''). '>Bearbeiten</a></td>'. PHP_EOL;                     
                     // }  
                     
                     $html .= '</tr>'. PHP_EOL;
