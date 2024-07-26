@@ -27,7 +27,7 @@ class Musikstueck {
 
     $Nummer=($Nummer==''? $this->get_next_nummer():$Nummer);
 
-    $Name=($Name==''?'(Musikstück '.$Nummer.')':$Name); // falls Name leer ist,  wird "Musikstück <Nr>" gespeichert 
+    // $Name=($Name==''?'(Musikstück '.$Nummer.')':$Name); // falls Name leer ist,  wird "Musikstück <Nr>" gespeichert 
     
     $conn = new DbConn(); 
     $db=$conn->db; 
