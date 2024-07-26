@@ -559,9 +559,12 @@ $Suche->Beschreibung.='* Anzeige-Ebene: '.$Ebene.PHP_EOL;
             $select->execute(); 
             include_once("cl_html_table.php");      
             $html = new HtmlTable($select); 
-
-            $html->print_table($edit_table, True, '', $Ebene); 
-  
+            // $html->print_table($edit_table, True, '', $Ebene); 
+            $html->add_link_edit=true; 
+            $html->link_table=$edit_table; 
+            $html->link_title=$Ebene; 
+            $html->open_newpage=true; 
+            $html->print_table2(); 
           }
           catch (PDOException $e) {
             include_once("cl_html_info.php"); 

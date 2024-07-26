@@ -145,7 +145,6 @@ if ($show_data) {
       <a href="edit_erprobt.php?ID='.$satz->ErprobtID.'&title=Erprobt&option=open" target="_blank" tabindex="-1">Bearbeiten</a> | 
       <a href="show_table2.php?table=erprobt&sortcol=Name&title=Erprobt" target="_blank" tabindex="-1">Daten anzeigen</a> | 
       <a href="edit_erprobt.php?title=Erprobt&option=insert" target="_blank" tabindex="-1">Neu erfassen</a>
-
       </td>
     </tr>
 
@@ -156,10 +155,10 @@ if ($show_data) {
       </label>
     </tr> 
 
-      <tr>    
+    <tr>    
       <label>
       <td class="eingabe"><b>Orchesterbesetzung:</b></td>  
-      <td class="eingabe"><input type="text" name="Orchesterbesetzung" value="'.$satz->Orchesterbesetzung.'" size="100" maxlength="80" oninput="changeBackgroundColor(this)"></td>
+      <td class="eingabe"><input type="text" name="Orchesterbesetzung" value="'.$satz->Orchesterbesetzung.'" size="120" oninput="changeBackgroundColor(this)"></td>
       </label>
     </tr> 
 

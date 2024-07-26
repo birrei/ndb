@@ -7,10 +7,10 @@ include("cl_html_info.php");
 $abfrage = new Abfrage();
 $info= new HtmlInfo(); 
 
-$show_data=false; 
-
 $info->print_screen_header('Abfrage bearbeiten', ' | '); 
 $info->print_link_show_table('v_abfrage', 'sortcol=Name', 'Abfragen',false, '&add_link_show&Name='.$abfrage->Name); 
+
+$show_data=false; 
 
 if (isset($_REQUEST["option"])) {
   switch($_REQUEST["option"]) {

@@ -9,62 +9,70 @@ echo '<h2>Erprobt-Eintrag bearbeiten</h2>';
 $erprobt=new Erprobt(); 
 $info= new HtmlInfo(); 
 
-if (!isset($_GET["option"]) and isset($_GET["ID"]))  {
-  // geöffnet über einen "Bearbeiten"-Link
-  $erprobt->ID=$_GET["ID"];
-  $erprobt->load_row();  
-  $info->print_action_info($erprobt->ID, 'view');    
-}
-if (isset($_GET["option"]) and $_GET["option"]=='insert') {
-  // nach insert geladen   
-  $erprobt->insert_row(''); 
-  $info->print_action_info($erprobt->ID, 'insert');     
-}
-if (isset($_POST["option"]) and $_POST["option"]=='edit') {
-  // in akt. Datei nach dem editieren gespeichert 
-  $erprobt->ID = $_POST["ID"];    
-  $erprobt->update_row($_POST["Name"]); 
-  $info->print_action_info($erprobt->ID, 'update');     
+$show_data=false; 
+
+if (isset($_REQUEST["option"])) {
+  switch($_REQUEST["option"]) {
+    case 'open': // über "Bearbeiten"-Link
+      $erprobt->ID=$_GET["ID"];
+      if ($erprobt->load_row()) {
+        $show_data=true;       
+      }
+      break; 
+
+    case 'insert': 
+      $erprobt->insert_row('');
+      $show_data=true; 
+      break; 
+    
+    case 'update': 
+      $erprobt->ID = $_POST["ID"];    
+      $erprobt->update_row($_POST["Name"]); 
+      $show_data=true;           
+      break; 
+  }
 }
 
-$info->print_link_show_table('erprobt', 'sortcol=Name', 'Erprobt-Attribute'); 
+$info->print_link_show_table('erprobt', 'sortcol=Name', 'Erprobt-Einträge'); 
 
+if ($show_data) {
+  echo '
+  <form action="edit_erprobt.php" method="post">
+  <table class="eingabe"> 
+    <tr>    
+    <label>
+    <td class="eingabe">ID:</td>  
+    <td class="eingabe">'.$erprobt->ID.'</td>
+    </label>
+      </tr> 
 
-echo '
-<form action="edit_erprobt.php" method="post">
-<table class="eingabe"> 
-  <tr>    
-  <label>
-  <td class="eingabe">ID:</td>  
-  <td class="eingabe">'.$erprobt->ID.'</td>
-  </label>
+    <tr>    
+      <label>
+      <td class="eingabe">Name:</td>  
+      <td class="eingabe"><input type="text" name="Name" value="'.$erprobt->Name.'" size="45" maxlength="80" required="required" autofocus="autofocus" oninput="changeBackgroundColor(this)"></td>
+      </label>
     </tr> 
 
-  <tr>    
-    <label>
-    <td class="eingabe">Name:</td>  
-    <td class="eingabe"><input type="text" name="Name" value="'.$erprobt->Name.'" size="45" maxlength="80" required="required" autofocus="autofocus" oninput="changeBackgroundColor(this)"></td>
-    </label>
-  </tr> 
+    <tr> 
+      <td class="eingabe"></td> 
+      <td class="eingabe"><input type="submit" name="senden" value="Speichern">
 
+      </td>
+    </tr> 
 
-  <tr> 
-    <td class="eingabe"></td> 
-    <td class="eingabe"><input type="submit" name="senden" value="Speichern">
+  </table> 
+  <input type="hidden" name="option" value="update">  
+  <input type="hidden" name="title" value="Erprobt">        
+  <input type="hidden" name="ID" value="' . $erprobt->ID. '">
 
-    </td>
-  </tr> 
+  </form>
+  '; 
 
-</table> 
-<input type="hidden" name="option" value="edit">  
-<input type="hidden" name="title" value="Erprobt">        
-<input type="hidden" name="ID" value="' . $erprobt->ID. '">
-
-</form>
-'; 
-
-
-$info->print_link_delete_row($erprobt->table_name, $erprobt->ID, $erprobt->Title); 
+  $info->print_link_delete_row($erprobt->table_name, $erprobt->ID, $erprobt->Title); 
+} 
+else {
+    $info->print_user_error(); 
+}
 
 
 include('foot.php');

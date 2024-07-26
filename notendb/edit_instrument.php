@@ -9,61 +9,70 @@ echo '<h2>Instrument bearbeiten</h2>';
 $instrument = new Instrument();
 $info= new HtmlInfo(); 
 
-if (!isset($_GET["option"]) and isset($_GET["ID"]))  {
-  // geöffnet über einen "Bearbeiten"-Link
-  $instrument->ID=$_GET["ID"];
-  $instrument->load_row();  
-  $info->print_action_info($instrument->ID, 'view');    
+$show_data=false; 
+
+if (isset($_REQUEST["option"])) {
+  switch($_REQUEST["option"]) {
+    case 'open': // über "Bearbeiten"-Link
+      $instrument->ID=$_GET["ID"];
+      if ($instrument->load_row()) {
+        $show_data=true;       
+      }
+      break; 
+
+    case 'insert': 
+      $instrument->insert_row('');
+      $show_data=true; 
+      break; 
+    
+    case 'update': 
+      $instrument->ID = $_POST["ID"];    
+      $instrument->update_row($_POST["Name"]); 
+      $show_data=true;           
+      break; 
+  }
 }
-if (isset($_GET["option"]) and $_GET["option"]=='insert') {
-  // nach insert geladen   
-  $instrument->insert_row(''); 
-  $info->print_action_info($instrument->ID, 'insert');     
-}
-if (isset($_POST["option"]) and $_POST["option"]=='edit') {
-  // in akt. Datei nach dem editieren gespeichert 
-  $instrument->ID = $_POST["ID"];    
-  $instrument->update_row($_POST["Name"]); 
-  $info->print_action_info($instrument->ID, 'update');     
-}
+
 
 $info->print_link_show_table('instrument', 'sortcol=Name', 'Instrumente'); 
 
+if ($show_data) {
+  echo '
+  <form action="edit_instrument.php" method="post">
+  <table class="eingabe"> 
+    <tr>    
+    <label>
+    <td class="eingabe">ID:</td>  
+    <td class="eingabe">'.$instrument->ID.'</td>
+    </label>
+      </tr> 
 
-echo '
-<form action="edit_instrument.php" method="post">
-<table class="eingabe"> 
-  <tr>    
-  <label>
-  <td class="eingabe">ID:</td>  
-  <td class="eingabe">'.$instrument->ID.'</td>
-  </label>
+    <tr>    
+      <label>
+      <td class="eingabe">Name:</td>  
+      <td class="eingabe"><input type="text" name="Name" value="'.$instrument->Name.'" size="45" maxlength="80" required="required" autofocus="autofocus" oninput="changeBackgroundColor(this)"></td>
+      </label>
     </tr> 
 
-  <tr>    
-    <label>
-    <td class="eingabe">Name:</td>  
-    <td class="eingabe"><input type="text" name="Name" value="'.$instrument->Name.'" size="45" maxlength="80" required="required" autofocus="autofocus" oninput="changeBackgroundColor(this)"></td>
-    </label>
-  </tr> 
 
+    <tr> 
+      <td class="eingabe"></td> 
+      <td class="eingabe"><input type="submit" name="senden" value="Speichern">
 
-  <tr> 
-    <td class="eingabe"></td> 
-    <td class="eingabe"><input type="submit" name="senden" value="Speichern">
+      </td>
+    </tr> 
 
-    </td>
-  </tr> 
+  </table> 
+  <input type="hidden" name="option" value="update">        
+  <input type="hidden" name="ID" value="' . $instrument->ID. '">
 
-</table> 
-<input type="hidden" name="option" value="edit">        
-<input type="hidden" name="ID" value="' . $instrument->ID. '">
-
-</form>
-'; 
-
-
-$info->print_link_delete_row($instrument->table_name, $instrument->ID, $instrument->Title); 
+  </form>
+  '; 
+  $info->print_link_delete_row($instrument->table_name, $instrument->ID, $instrument->Title);   
+} 
+else {
+  $info->print_user_error(); 
+}
 
 
 include('foot.php');

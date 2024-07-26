@@ -12,7 +12,7 @@ $info= new HtmlInfo();
 
 $info->print_screen_header('Sammlung bearbeiten'); 
 echo ' | '; 
-$info->print_link_show_table('v_sammlung', 'sortcol=Name', 'Sammlungen'); 
+$info->print_link_show_table('v_sammlung', 'sortcol=ID&sortorder=DESC', 'Sammlungen'); 
 echo ' | '; 
 $info->print_link_insert($sammlung->table_name, 'Neue '.$sammlung->Title); 
 
@@ -48,7 +48,7 @@ if (isset($_REQUEST["option"])) {
 }
 
 if ($show_data) {
-  echo '
+  echo '<p> 
   <form action="edit_sammlung.php" method="post">
   <table class="eingabe"> 
   <tr>    
@@ -133,7 +133,7 @@ if ($show_data) {
 
       <tr> 
       <td class="eingabe"><b>Links</b>
-      <p> <a href="edit_sammlung_add_link.php?SammlungID='.$sammlung->ID.'" target="Links">Link hinzufügen</a></p>
+      <p> <a href="edit_link.php?SammlungID='.$sammlung->ID.'&option=insert" target="Links">Link hinzufügen</a></p>
       <p> <a href="edit_sammlung_list_links.php?SammlungID='.$sammlung->ID.'" target="Links">Aktualisieren</a></p>
       
       </td> 

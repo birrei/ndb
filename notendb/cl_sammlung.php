@@ -301,8 +301,11 @@ class Sammlung {
       include_once("cl_html_table.php");      
       $html = new HtmlTable($stmt); 
       $html->add_link_delete=true; 
-      // $html->print_table('link', true); 
-      $html->print_table('link', false, 'edit_sammlung_add_link.php?option=edit&SammlungID='.$this->ID); 
+      $html->link_table='link'; 
+      $html->link_title='Link'; 
+      $html->open_newpage=false; 
+      $html->print_table2(); 
+
       
     }
     catch (PDOException $e) {

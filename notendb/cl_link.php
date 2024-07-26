@@ -15,22 +15,16 @@ class Link {
     $this->table_name='link'; 
   }
 
-  function insert_row ($LinktypeID, $Bezeichnung, $URL) {
+  function insert_row () {
     include_once("cl_db.php");
     $conn = new DbConn(); 
     $db=$conn->db; 
 
     $insert = $db->prepare("INSERT INTO `link` 
-              SET SammlungID = :SammlungID
-              , LinktypeID= :LinktypeID
-              , Bezeichnung=:Bezeichnung
-              , `URL` = :URL"           
+              SET SammlungID = :SammlungID"       
            );
 
     $insert->bindParam(':SammlungID', $this->SammlungID);
-    $insert->bindParam(':LinktypeID', $LinktypeID);
-    $insert->bindParam(':Bezeichnung', $Bezeichnung);
-    $insert->bindParam(':URL', $URL);
 
     try {
       $insert->execute(); 
@@ -44,6 +38,37 @@ class Link {
       $info->print_error($insert, $e);  ; 
     }
   }  
+ 
+
+  // function insert_row ($LinktypeID, $Bezeichnung, $URL) {
+  //   include_once("cl_db.php");
+  //   $conn = new DbConn(); 
+  //   $db=$conn->db; 
+
+  //   $insert = $db->prepare("INSERT INTO `link` 
+  //             SET SammlungID = :SammlungID
+  //             , LinktypeID= :LinktypeID
+  //             , Bezeichnung=:Bezeichnung
+  //             , `URL` = :URL"           
+  //          );
+
+  //   $insert->bindParam(':SammlungID', $this->SammlungID);
+  //   $insert->bindParam(':LinktypeID', $LinktypeID);
+  //   $insert->bindParam(':Bezeichnung', $Bezeichnung);
+  //   $insert->bindParam(':URL', $URL);
+
+  //   try {
+  //     $insert->execute(); 
+  //     $this->ID=$db->lastInsertId();
+  //     $this->load_row();   
+  //   }
+  //     catch (PDOException $e) {
+  //     include_once("cl_html_info.php"); 
+  //     $info = new HtmlInfo();      
+  //     $info->print_user_error(); 
+  //     $info->print_error($insert, $e);  ; 
+  //   }
+  // }  
  
   
   function update_row ($LinktypeID, $Bezeichnung, $URL) {

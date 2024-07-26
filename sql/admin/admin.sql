@@ -56,3 +56,5 @@ ALTER TABLE satz DROP CONSTRAINT satz_ibfk_4;
 ALTER TABLE schwierigkeitsgrad CHANGE `ID` `ID` INT NOT NULL ; 
 show columns from schwierigkeitsgrad;
 
+/** Spalte vergrößern *****/
+ALTER TABLE `satz` CHANGE `Orchesterbesetzung` `Orchesterbesetzung` varchar(250); 
