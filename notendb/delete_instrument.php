@@ -34,7 +34,7 @@ if (isset($_GET["ID"])) {
 if (isset($_POST["confirm"])) {
   $instrument->ID=$_POST["ID"]; 
   if($instrument->delete()) { 
-    $info->print_link_show_table($instrument->table_name, 'sortcol=Name', $instrument->Titles,false);     
+    $info->print_link_table($instrument->table_name, 'sortcol=Name', $instrument->Titles,false);     
   } else {
     $info->print_link_edit($instrument->table_name, $instrument->ID,$instrument->Title,'',false);
   }                       

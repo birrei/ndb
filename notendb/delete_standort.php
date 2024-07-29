@@ -32,7 +32,7 @@ if (isset($_GET["ID"]) & !isset($_POST["confirm"])) {
 if (isset($_POST["confirm"])) {
   $standort->ID=$_POST["ID"]; 
   if($standort->delete()) { 
-    $info->print_link_show_table($standort->table_name,'sortcol=Name',$standort->Titles, false);     
+    $info->print_link_table($standort->table_name,'sortcol=Name',$standort->Titles, false);     
   } else {
      $info->print_link_edit($standort->table_name, $standort->ID,$standort->Title,'',false);
 

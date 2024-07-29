@@ -10,11 +10,11 @@ $info= new HtmlInfo();
 $show_data=false; 
 
 $info->print_screen_header('Verlag bearbeiten', ' | '); 
-$info->print_link_show_table('verlag', 'sortcol=Name', 'Verlage'); 
+$info->print_link_table('verlag', 'sortcol=Name', 'Verlage'); 
 
 if (isset($_REQUEST["option"])) {
   switch($_REQUEST["option"]) {
-    case 'open': // geöffnet über einen "Bearbeiten"-Link
+    case 'edit': // geöffnet über einen "Bearbeiten"-Link
       $verlag->ID=$_GET["ID"]; 
       if ($verlag->load_row()) {
         $show_data=true;       

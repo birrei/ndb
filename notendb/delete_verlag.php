@@ -35,7 +35,7 @@ if (isset($_GET["ID"])) {
 if (isset($_POST["confirm"])) {
   $verlag->ID=$_POST["ID"]; 
   if($verlag->delete()) { 
-    $info->print_link_show_table($verlag->table_name, 'sortcol=Name', $verlag->Titles,false);     
+    $info->print_link_table($verlag->table_name, 'sortcol=Name', $verlag->Titles,false);     
   } else {
     $info->print_link_edit($verlag->table_name, $verlag->ID,$verlag->Title,'',false);
   }                   

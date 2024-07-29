@@ -32,7 +32,7 @@ if (isset($_GET["ID"]) & !isset($_POST["confirm"])) {
 if (isset($_POST["confirm"])) {
   $komponist->ID=$_POST["ID"]; 
   if($komponist->delete()) { 
-    $info->print_link_show_table($komponist->table_name, 'sortcol=Nachname,Vorname', $komponist->Titles,false);     
+    $info->print_link_table($komponist->table_name, 'sortcol=Nachname,Vorname', $komponist->Titles,false);     
   } else {
     $info->print_link_edit($komponist->table_name, $komponist->ID,$komponist->Title,'',false);
   }                       

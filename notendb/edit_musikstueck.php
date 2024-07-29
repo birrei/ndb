@@ -8,17 +8,14 @@ include("cl_gattung.php");
 include("cl_epoche.php");
 include('cl_html_info.php');
 
-echo '<h2>Musikstück bearbeiten</h2>';
-
 $show_data=false;       
 
 $musikstueck = new Musikstueck();
-$info= new HtmlInfo(); 
 
 
 if (isset($_REQUEST["option"])) {
   switch($_REQUEST["option"]) {
-    case 'open': // über "Bearbeiten"-Link
+    case 'edit': // über "Bearbeiten"-Link
       $musikstueck->ID=$_GET["ID"];
       if ($musikstueck->load_row()) {
         $show_data=true;       
@@ -48,10 +45,15 @@ if (isset($_REQUEST["option"])) {
   }
 }
 
+$info= new HtmlInfo(); 
+
+
+$info->print_screen_header($musikstueck->Title.' bearbeiten'); 
+
 
 if ($show_data) {
     
-  echo '
+  echo '<p> 
   <form action="edit_musikstueck.php?title=Musikstueck" method="post">
 
   <table class="eingabe"> 
@@ -70,7 +72,7 @@ if ($show_data) {
   $sammlung = new Sammlung();
   $sammlung->print_select($musikstueck->SammlungID); 
 
-  echo ' <a href="edit_sammlung.php?ID='.$musikstueck->SammlungID.'&title=Sammlung&option=open" tabindex="-1">Gehe zu Sammlung</a>'; 
+  echo ' <a href="edit_sammlung.php?ID='.$musikstueck->SammlungID.'&title=Sammlung&option=edit" tabindex="-1">Gehe zu Sammlung</a>'; 
   echo '</tr></label>
   <tr>    
   <label>
@@ -94,15 +96,16 @@ if ($show_data) {
     $komponisten = new Komponist();
     $komponisten->print_select($musikstueck->KomponistID); 
 
-  echo  ' </label> &nbsp; 
-  <a href="edit_komponist.php?ID='.$musikstueck->KomponistID.'&title=Komponist&option=open" target="_blank" tabindex="-1">Bearbeiten</a> | 
-  <a href="show_table2.php?table=v_komponist&sortcol=Name&title=Komponisten" target="_blank" tabindex="-1">Daten anzeigen</a> | 
-  <a href="edit_komponist.php?title=Komponist&option=insert" target="_blank" tabindex="-1">Neu erfassen</a>
+  echo  ' </label> &nbsp; '; 
+  
+  $info->print_link_edit($komponisten->table_name, $musikstueck->KomponistID, $komponisten->Title, true, ' | '); 
+  $info->print_link_table($komponisten->table_name,'sortcol=Nachname,Vorname',$komponisten->Titles,true,'',' | ');    
+  $info->print_link_insert($komponisten->table_name,$komponisten->Title,true); 
 
+
+  echo '
   </td>
   </tr> 
-
-
 
   <tr>    
     <label>
@@ -128,26 +131,31 @@ if ($show_data) {
       $epochen = new Epoche();
       $epochen->print_select($musikstueck->EpocheID); 
 
-    echo  ' </label>  &nbsp; 
-      <a href="edit_epoche.php?ID='.$musikstueck->EpocheID.'&title=Epoche&option=open" target="_blank" tabindex="-1">Bearbeiten</a> | 
-      <a href="show_table2.php?table=epoche&sortcol=Name&title=Epochen" target="_blank" tabindex="-1">Daten anzeigen</a> |
-      <a href="edit_epoche.php?title=Epoche&option=insert" target="_blank" tabindex="-1">Neu erfassen</a>
-    </td>
+    echo  ' </label>  &nbsp; ';
     
-  </tr> 
+    $info->print_link_edit($epochen->table_name, $musikstueck->EpocheID, $epochen->Title, true, ' | '); 
+    $info->print_link_table($epochen->table_name,'sortcol=Name',$epochen->Titles,true,'',' | ');    
+    $info->print_link_insert($epochen->table_name,$epochen->Title,true); 
+  
+    echo '
+    </td>
+    </tr> 
 
-  <tr>    
-  <label>
+   <tr>    
+   <label>
     <td class="eingabe"><b>Gattung:</b></td>  
     <td class="eingabe">    
     '; 
       $gattungen = new Gattung();
       $gattungen->print_select($musikstueck->GattungID); 
 
-    echo  '  </label>&nbsp; 
-      <a href="edit_gattung.php?ID='.$musikstueck->GattungID.'&title=Gattung&option=open" target="_blank" tabindex="-1">Bearbeiten</a> | 
-      <a href="show_table2.php?table=gattung&sortcol=Name&title=Gattungen" target="_blank" tabindex="-1">Daten anzeigen</a> |
-      <a href="edit_gattung.php?title=Gattung&option=insert" target="_blank" tabindex="-1">Neu erfassen</a> 
+    echo  '  </label>&nbsp; '; 
+    
+    $info->print_link_edit($gattungen->table_name, $musikstueck->GattungID, $gattungen->Title, true, ' | '); 
+    $info->print_link_table($gattungen->table_name,'sortcol=Name',$gattungen->Titles,true,'',' | ');    
+    $info->print_link_insert($gattungen->table_name,$gattungen->Title,true); 
+      
+    echo '
     </td>
   </tr> 
 
@@ -170,10 +178,10 @@ if ($show_data) {
     </form>
 
     <tr> 
-      <td class="eingabe"><b>Verwendungszweck(e):</b>
-        <br><a href="edit_verwendungszweck.php?title=Verwendungszweck&option=insert" target="_blank">Neu erfassen</a>
-        <br><a href="show_table2.php?table=verwendungszweck&sortcol=Name&title=Verwendungszwecke" target="_blank">Daten anzeigen</a>
-        <br><a href="edit_musikstueck_list_verwendungszwecke.php?MusikstueckID='.$musikstueck->ID.'" target="Verwendungszwecke">Aktualisieren</a>
+      <td class="eingabe"><b>Verwendungszweck(e):</b><br/>';
+      $info->print_link_insert('verwendungszweck','Verwendungszweck', true, '<br/>');  
+      $info->print_link_table('verwendungszweck','sortcol=Name','Verwendungszwecke',true,'','<br/>');   
+      echo '<a href="edit_musikstueck_list_verwendungszwecke.php?MusikstueckID='.$musikstueck->ID.'" target="Verwendungszwecke">Aktualisieren</a> - &gt;
       </td> 
       <td class="eingabe">
         <iframe src="edit_musikstueck_list_verwendungszwecke.php?MusikstueckID='.$musikstueck->ID.'" width="100%" height="100" name="Verwendungszwecke"></iframe> 
@@ -181,10 +189,11 @@ if ($show_data) {
     </tr> 
 
     <tr> 
-      <td class="eingabe"><b>Besetzung(en):</b>
-        <br> <a href="edit_besetzung.php?title=Besetzung&option=insert" target="_blank">Neu erfassen</a>
-        <br> <a href="show_table2.php?table=besetzung&sortcol=Name&title=Besetzungen" target="_blank">Daten anzeigen</a>      
-        <br> <a href="edit_musikstueck_list_besetzungen.php?MusikstueckID='.$musikstueck->ID.'" target="Besetzungen">Aktualisieren</a>    
+      <td class="eingabe"><b>Besetzung(en):</b><br/>';
+      $info->print_link_insert('besetzung','Besetzungen', true, '<br/>');  
+      $info->print_link_table('besetzung','sortcol=Name','Besetzungen',true,'','<br/>');      
+      
+      echo '<a href="edit_musikstueck_list_besetzungen.php?MusikstueckID='.$musikstueck->ID.'" target="Besetzungen">Aktualisieren</a> - &gt;    
         </td> 
       <td class="eingabe">
         <iframe src="edit_musikstueck_list_besetzungen.php?MusikstueckID='.$musikstueck->ID.'" width="100%" height="100" name="Besetzungen"></iframe>

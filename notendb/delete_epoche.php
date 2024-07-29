@@ -35,7 +35,7 @@ if (isset($_POST["confirm"])) {
   $epoche->ID=$_POST["ID"]; 
   if($epoche->delete()) { 
     echo '<p>Die Seite kann geschlossen werden.</p>';
-    $info->print_link_show_table($epoche->table_name, 'sortcol=Name', $epoche->Titles, false);     
+    $info->print_link_table($epoche->table_name, 'sortcol=Name', $epoche->Titles, false);     
   } else {
     $info->print_link_edit($epoche->table_name, $epoche->ID,$epoche->Title,'',false);
   }                   

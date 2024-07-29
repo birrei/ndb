@@ -13,7 +13,7 @@ $show_data=false;
 
 if (isset($_REQUEST["option"])) {
   switch($_REQUEST["option"]) {
-    case 'open': // über "Bearbeiten"-Link
+    case 'edit': // über "Bearbeiten"-Link
       $instrument->ID=$_GET["ID"];
       if ($instrument->load_row()) {
         $show_data=true;       
@@ -34,7 +34,7 @@ if (isset($_REQUEST["option"])) {
 }
 
 
-$info->print_link_show_table('instrument', 'sortcol=Name', 'Instrumente'); 
+$info->print_link_table('instrument', 'sortcol=Name', 'Instrumente'); 
 
 if ($show_data) {
   echo '

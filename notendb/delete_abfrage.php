@@ -35,7 +35,7 @@ if (isset($_GET["ID"])) {
 if (isset($_POST["confirm"])) {
   $abfrage->ID=$_POST["ID"]; 
   $abfrage->delete(); 
-  $info->print_link_show_table( 'v_abfrage',  'sortcol=Name', 'Abfragen', false, '&add_link_show');     
+  $info->print_link_table( 'v_abfrage',  'sortcol=Name', 'Abfragen', false, '&add_link_show');     
 }
 
 

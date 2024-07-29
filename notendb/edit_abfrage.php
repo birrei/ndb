@@ -8,13 +8,13 @@ $abfrage = new Abfrage();
 $info= new HtmlInfo(); 
 
 $info->print_screen_header('Abfrage bearbeiten', ' | '); 
-$info->print_link_show_table('v_abfrage', 'sortcol=Name', 'Abfragen',false, '&add_link_show&Name='.$abfrage->Name); 
+$info->print_link_table('v_abfrage', 'sortcol=Name', 'Abfragen',false, '&add_link_show&Name='.$abfrage->Name); 
 
 $show_data=false; 
 
 if (isset($_REQUEST["option"])) {
   switch($_REQUEST["option"]) {
-    case 'open': // über "Bearbeiten"-Link
+    case 'edit': // über "Bearbeiten"-Link
       $abfrage->ID=$_GET["ID"];
       if ($abfrage->load_row()) {
         $show_data=true;       

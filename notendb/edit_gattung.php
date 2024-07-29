@@ -9,13 +9,13 @@ echo '<h2>Gattung bearbeiten</h2>';
 $gattung = new Gattung();
 $info= new HtmlInfo(); 
 
-$info->print_link_show_table('gattung', 'sortcol=Name', 'Gattungen'); 
+$info->print_link_table('gattung', 'sortcol=Name', 'Gattungen'); 
 
 $show_data=false; 
 
 if (isset($_REQUEST["option"])) {
   switch($_REQUEST["option"]) {
-    case 'open': // über "Bearbeiten"-Link
+    case 'edit': // über "Bearbeiten"-Link
       $gattung->ID=$_GET["ID"];
       if ($gattung->load_row()) {
         $show_data=true;       

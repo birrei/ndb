@@ -11,12 +11,12 @@ $info= new HtmlInfo();
 
 $show_data=false; 
 
-$info->print_link_show_table('v_komponist', 'sortcol=Name', 'Komponisten'); 
+$info->print_link_table('v_komponist', 'sortcol=Name', 'Komponisten'); 
 
 
 if (isset($_REQUEST["option"])) {
   switch($_REQUEST["option"]) {
-    case 'open': // über "Bearbeiten"-Link
+    case 'edit': // über "Bearbeiten"-Link
       $komponist->ID=$_GET["ID"];
       if ($komponist->load_row()) {
         $show_data=true;       

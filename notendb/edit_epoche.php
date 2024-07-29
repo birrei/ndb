@@ -9,13 +9,13 @@ echo '<h2>Epoche bearbeiten</h2>';
 $epoche = new Epoche();
 $info= new HtmlInfo(); 
 
-$info->print_link_show_table('epoche', 'sortcol=Name', 'Epochen'); 
+$info->print_link_table('epoche', 'sortcol=Name', 'Epochen'); 
 
 $show_data=false; 
 
 if (isset($_REQUEST["option"])) {
   switch($_REQUEST["option"]) {
-    case 'open': // über "Bearbeiten"-Link
+    case 'edit': // über "Bearbeiten"-Link
       $epoche->ID=$_GET["ID"];
       if ($epoche->load_row()) {
         $show_data=true;       

@@ -16,7 +16,7 @@ $show_data=false;
 
 if (isset($_REQUEST["option"])) {
   switch($_REQUEST["option"]) {
-    case 'open': // über "Bearbeiten"-Link
+    case 'edit': // über "Bearbeiten"-Link
       $satz->ID=$_GET["ID"];
       if ($satz->load_row()) {
         $show_data=true;       
@@ -72,7 +72,7 @@ if ($show_data) {
     $musikstueck->ID=$satz->MusikstueckID; 
     $musikstueck->print_select($satz->MusikstueckID); 
     
-    echo ' <a href="edit_musikstueck.php?ID='.$satz->MusikstueckID.'&title=Musikstück&option=open" tabindex="-1">Gehe zu Musikstück</a>'; 
+    echo ' <a href="edit_musikstueck.php?ID='.$satz->MusikstueckID.'&title=Musikstück&option=edit" tabindex="-1">Gehe zu Musikstück</a>'; 
     echo '
     </td>  
     </label>
@@ -142,7 +142,7 @@ if ($show_data) {
         $erprobt->print_select($satz->ErprobtID); 
       echo  '
       &nbsp; 
-      <a href="edit_erprobt.php?ID='.$satz->ErprobtID.'&title=Erprobt&option=open" target="_blank" tabindex="-1">Bearbeiten</a> | 
+      <a href="edit_erprobt.php?ID='.$satz->ErprobtID.'&title=Erprobt&option=edit" target="_blank" tabindex="-1">Bearbeiten</a> | 
       <a href="show_table2.php?table=erprobt&sortcol=Name&title=Erprobt" target="_blank" tabindex="-1">Daten anzeigen</a> | 
       <a href="edit_erprobt.php?title=Erprobt&option=insert" target="_blank" tabindex="-1">Neu erfassen</a>
       </td>

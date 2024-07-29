@@ -22,7 +22,7 @@ $show_data=false;
 
 if (isset($_REQUEST["option"])) {
   switch($_REQUEST["option"]) {
-    case 'open': // über "Bearbeiten"-Link
+    case 'edit': // über "Bearbeiten"-Link
       $link->ID=$_GET["ID"];
       if ($link->load_row()) {
         $show_data=true;       

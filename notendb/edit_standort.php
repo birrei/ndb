@@ -9,13 +9,13 @@ $standort = new Standort();
 $info= new HtmlInfo(); 
 
 echo '<h2>Standort bearbeiten</h2>'; 
-$info->print_link_show_table('standort', 'sortcol=Name', 'Standorte'); 
+$info->print_link_table('standort', 'sortcol=Name', 'Standorte'); 
 
 $show_data=false; 
 
 if (isset($_REQUEST["option"])) {
   switch($_REQUEST["option"]) {
-    case 'open': // über "Bearbeiten"-Link
+    case 'edit': // über "Bearbeiten"-Link
       $standort->ID=$_GET["ID"];
       if ($standort->load_row()) {
         $show_data=true;       

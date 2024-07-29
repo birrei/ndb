@@ -13,7 +13,7 @@ $show_data=false;
 
 if (isset($_REQUEST["option"])) {
   switch($_REQUEST["option"]) {
-    case 'open': // über "Bearbeiten"-Link
+    case 'edit': // über "Bearbeiten"-Link
       $lookuptype->ID=$_GET["ID"];
       if ($lookuptype->load_row()) {
         $show_data=true;       
@@ -34,7 +34,7 @@ if (isset($_REQUEST["option"])) {
 }
 
 
-$info->print_link_show_table('lookup_type', 'sortcol=Name', 'Besonderheit-Typen'); 
+$info->print_link_table('lookup_type', 'sortcol=Name', 'Besonderheit-Typen'); 
 
 if ($show_data) {
     

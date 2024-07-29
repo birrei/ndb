@@ -35,7 +35,7 @@ if (isset($_GET["ID"])) {
 if (isset($_POST["confirm"])) {
   $verwendungszweck->ID=$_POST["ID"]; 
   if($verwendungszweck->delete()) { 
-    $info->print_link_show_table('verwendungszweck', 'sortcol=Name', 'Verwendungszwecke');     
+    $info->print_link_table('verwendungszweck', 'sortcol=Name', 'Verwendungszwecke');     
   } else {
     $info->print_link_edit($verwendungszweck->table_name, $verwendungszweck->ID,$verwendungszweck->Title, '', false);
   }                   

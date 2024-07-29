@@ -36,7 +36,7 @@ if (isset($_GET["ID"])) {
 if (isset($_POST["confirm"])) {
   $lookuptype->ID=$_POST["ID"]; 
   if($lookuptype->delete()) { 
-    $info->print_link_show_table($lookuptype->table_name, 'sortcol=Name', $lookuptype->Titles);     
+    $info->print_link_table($lookuptype->table_name, 'sortcol=Name', $lookuptype->Titles);     
   } else {
      $info->print_link_edit($lookuptype->table_name, $lookuptype->ID,$lookuptype->Title);
   }                   

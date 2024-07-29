@@ -11,12 +11,12 @@ $besetzung = new Besetzung();;
 $info= new HtmlInfo(); 
 
 
-$info->print_link_show_table('besetzung', 'sortcol=Name', 'Besetzungen'); 
+$info->print_link_table('besetzung', 'sortcol=Name', 'Besetzungen'); 
 
 
 if (isset($_REQUEST["option"])) {
   switch($_REQUEST["option"]) {
-    case 'open': // über "Bearbeiten"-Link
+    case 'edit': // über "Bearbeiten"-Link
       $besetzung->ID=$_GET["ID"];
       if ($besetzung->load_row()) {
         $show_data=true;       

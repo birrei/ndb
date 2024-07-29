@@ -34,7 +34,7 @@ if (isset($_GET["ID"])) {
 if (isset($_POST["confirm"])) {
   $gattung->ID=$_POST["ID"]; 
   if($gattung->delete()) { 
-    $info->print_link_show_table($gattung->table_name, 'sortcol=Name', $gattung->Titles);      
+    $info->print_link_table($gattung->table_name, 'sortcol=Name', $gattung->Titles);      
   } else {
     $info->print_link_edit($gattung->table_name, $gattung->ID,$gattung->Title,'',false);
   }                   

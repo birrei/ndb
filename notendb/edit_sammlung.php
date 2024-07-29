@@ -6,22 +6,13 @@ include("cl_verlag.php");
 include("cl_standort.php");
 include("cl_html_info.php");
 
-
 $sammlung = new Sammlung();
-$info= new HtmlInfo(); 
-
-$info->print_screen_header('Sammlung bearbeiten'); 
-echo ' | '; 
-$info->print_link_show_table('v_sammlung', 'sortcol=ID&sortorder=DESC', 'Sammlungen'); 
-echo ' | '; 
-$info->print_link_insert($sammlung->table_name, 'Neue '.$sammlung->Title); 
 
 $show_data=false; 
 
-
 if (isset($_REQUEST["option"])) {
   switch($_REQUEST["option"]) {
-    case 'open': // über "Bearbeiten"-Link
+    case 'edit': // über "Bearbeiten"-Link
       $sammlung->ID=$_GET["ID"];
       if ($sammlung->load_row()) {
         $show_data=true;       
@@ -47,8 +38,15 @@ if (isset($_REQUEST["option"])) {
   }
 }
 
+$info= new HtmlInfo(); 
+
+$info->print_screen_header($sammlung->Title.' bearbeiten', ' | '); 
+$info->print_link_table('v_sammlung', 'sortcol=ID&sortorder=DESC', $sammlung->Titles,false, '', ' | '); 
+$info->print_link_insert($sammlung->table_name, $sammlung->Title, false); 
+
+
 if ($show_data) {
-  echo '<p> 
+  echo '
   <form action="edit_sammlung.php" method="post">
   <table class="eingabe"> 
   <tr>    
@@ -57,14 +55,16 @@ if ($show_data) {
   <td class="eingabe">'.$sammlung->ID.'</td>
   </label>
     </tr> 
-
+   '; 
+  echo '
     <tr>    
       <label>
       <td class="eingabe"><b>Name:</b></td>  
       <td class="eingabe"><input type="text" name="Name" value="'.htmlentities($sammlung->Name).'" size="100" maxlength="100" required="required" autofocus="autofocus" oninput="changeBackgroundColor(this)"> (max. 100 Zeichen)</td>
       </label>
     </tr> 
-    
+    '; 
+  echo '   
     <tr>    
     <label>
     <td class="eingabe"><b>Verlag:</b></td>  
@@ -76,27 +76,30 @@ if ($show_data) {
           $verlage->print_select($sammlung->VerlagID); 
 
     echo ' </label>  &nbsp;
-    <a href="edit_verlag.php?title=Verlag&ID='.$sammlung->VerlagID.'&option=open" target="_blank" tabindex="-1" >Bearbeiten</a> |
-    <a href="show_table2.php?table=verlag&sortcol=Name&title=Verlage" target="_blank" tabindex="-1" >Daten anzeigen</a> | 
-    <a href="edit_verlag.php?title=Verlag&option=insert" target="_blank" tabindex="-1">Neu erfassen</a>
+       '; 
 
+    $info->print_link_edit($verlage->table_name, $sammlung->VerlagID,$verlage->Title, true, ' | '); 
+    $info->print_link_table($verlage->table_name,'sortcol=Name',$verlage->Titles,true,'',' | ');    
+    $info->print_link_insert($verlage->table_name,$verlage->Title,true); 
+
+  echo '
     </tr>
 
     <tr>    
     <label>
     <td class="eingabe"><b>Standort:</b></td>  
-    <td class="eingabe">
-   
-    <!-- Auswahlliste Standort  -->         
+    <td class="eingabe">   
           '; 
           $standorte = new Standort();
           $standorte->print_select($sammlung->StandortID); 
 
-    echo '</label>  &nbsp;
-    <a href="edit_standort.php?ID='.$sammlung->StandortID.'&title=Standort&option=open" target="_blank">Bearbeiten</a> |
-    <a href="show_table2.php?table=standort&sortcol=Name&title=Standorte" target="_blank">Daten anzeigen</a> | 
-    <a href="edit_standort.php?title=Standort&option=insert" target="_blank">Neu erfassen</a>
+    echo '</label>  &nbsp;';
 
+    $info->print_link_edit($standorte->table_name, $sammlung->StandortID,$standorte->Title, true, ' | '); 
+    $info->print_link_table($standorte->table_name,'sortcol=Name',$standorte->Titles,true,'',' | ');    
+    $info->print_link_insert($standorte->table_name,$standorte->Title,true); 
+
+    echo '
     </tr>
 
     <tr>    

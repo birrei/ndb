@@ -36,7 +36,7 @@ if (isset($_GET["ID"])) {
 if (isset($_POST["confirm"])) {
   $musikstueck->ID=$_POST["ID"]; 
   $musikstueck->delete(); 
-  // $info->print_link_show_table($musikstueck->table_name,'sortcol=ID&sortorder=DESC',$musikstueck->Titles);     
+  // $info->print_link_table($musikstueck->table_name,'sortcol=ID&sortorder=DESC',$musikstueck->Titles);     
 }
 
 

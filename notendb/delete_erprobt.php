@@ -35,7 +35,7 @@ if (isset($_POST["confirm"])) {
   $erprobt->ID=$_POST["ID"]; 
   if($erprobt->delete()) { 
     echo '<p>Die Seite kann geschlossen werden.</p>';
-    $info->print_link_show_table($erprobt->table_name, 'sortcol=Name', $erprobt->Title);     
+    $info->print_link_table($erprobt->table_name, 'sortcol=Name', $erprobt->Title);     
   } else {
     $info->print_link_edit($erprobt->table_name, $erprobt->ID,$erprobt->Title,'',false);
   }                   

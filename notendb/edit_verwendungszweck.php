@@ -12,11 +12,11 @@ $info= new HtmlInfo();
 
 $show_data=false; 
 
-$info->print_link_show_table('verwendungszweck', 'sortcol=Name', 'Verwendungszwecke'); 
+$info->print_link_table('verwendungszweck', 'sortcol=Name', 'Verwendungszwecke'); 
 
 if (isset($_REQUEST["option"])) {
   switch($_REQUEST["option"]) {
-    case 'open': // über "Bearbeiten"-Link
+    case 'edit': // über "Bearbeiten"-Link
       $verwendungszweck->ID=$_GET["ID"];
       if ($verwendungszweck->load_row()) {
         $show_data=true;       

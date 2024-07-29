@@ -66,10 +66,10 @@ class HtmlTable {
                     if ($this->add_link_edit) {
                         if ($this->link_edit_filename!='') {
                             // echo '------------';
-                            $html .= '<td class="resultset"><a href="'.$this->link_edit_filename.'?ID='.$row["ID"].'"&option=open'. ($this->open_newpage?' target="_blank"':''). '>Bearbeiten</a></td>'. PHP_EOL;                     
+                            $html .= '<td class="resultset"><a href="'.$this->link_edit_filename.'?ID='.$row["ID"].'"&option=edit'. ($this->open_newpage?' target="_blank"':''). '>Bearbeiten</a></td>'. PHP_EOL;                     
                         }
                         if ($this->link_table!='') {
-                            $html .= '<td class="resultset"><a href="edit_'.$this->link_table.'.php?ID='.$row["ID"].'&option=open'.($this->link_title!=''?'&title='.$this->link_title:'').'"'. ($this->open_newpage?' target="_blank"':''). '>Bearbeiten</a></td>'. PHP_EOL;
+                            $html .= '<td class="resultset"><a href="edit_'.$this->link_table.'.php?ID='.$row["ID"].'&option=edit'.($this->link_title!=''?'&title='.$this->link_title:'').'"'. ($this->open_newpage?' target="_blank"':''). '>Bearbeiten</a></td>'. PHP_EOL;
                             // $html .= '<td><a href="edit_'.$edit_table_name.'.php?ID='.$row["ID"].'"'. ($open_newpage?' target="_blank"':''). '>Bearbeiten</a></td>'. PHP_EOL;
                         }                                        
                     }

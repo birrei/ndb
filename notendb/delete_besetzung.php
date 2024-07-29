@@ -36,7 +36,7 @@ if (isset($_GET["ID"])) {
 if (isset($_POST["confirm"])) {
   $besetzung->ID=$_POST["ID"]; 
   if($besetzung->delete()) { 
-    $info->print_link_show_table($besetzung->table_name, 'sortcol=Name', $besetzung->Titles, false);     
+    $info->print_link_table($besetzung->table_name, 'sortcol=Name', $besetzung->Titles, false);     
   } else {
     $info->print_link_edit($besetzung->table_name, $besetzung->ID,$besetzung->Title,'',false);     
   }                   
