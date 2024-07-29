@@ -4,8 +4,6 @@ include('head.php');
 include("cl_erprobt.php");
 include("cl_html_info.php");
 
-echo '<h2>Erprobt-Eintrag bearbeiten</h2>'; 
-
 $erprobt=new Erprobt(); 
 $info= new HtmlInfo(); 
 
@@ -33,7 +31,8 @@ if (isset($_REQUEST["option"])) {
   }
 }
 
-$info->print_link_table('erprobt', 'sortcol=Name', 'Erprobt-Einträge'); 
+$info->print_screen_header($erprobt->Title.' bearbeiten', ' | '); 
+$info->print_link_table($erprobt->table_name, 'sortcol=Name', $erprobt->Titles); 
 
 if ($show_data) {
   echo '

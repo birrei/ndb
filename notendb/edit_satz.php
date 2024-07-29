@@ -137,14 +137,16 @@ if ($show_data) {
     
     <tr>   
       <td class="eingabe"><b>Erprobt:</b></td>   
-      <td class="eingabe">'; 
+      <td class="eingabe">  '; 
         $erprobt=new Erprobt(); 
         $erprobt->print_select($satz->ErprobtID); 
+    
+      echo ' &nbsp; ';
+      $info->print_link_edit($erprobt->table_name, $satz->ErprobtID, $erprobt->Title, true, ' | '); 
+      $info->print_link_table($erprobt->table_name,'sortcol=Name',$erprobt->Titles,true,'',' | ');    
+      $info->print_link_insert($erprobt->table_name,$erprobt->Title,true); 
+
       echo  '
-      &nbsp; 
-      <a href="edit_erprobt.php?ID='.$satz->ErprobtID.'&title=Erprobt&option=edit" target="_blank" tabindex="-1">Bearbeiten</a> | 
-      <a href="show_table2.php?table=erprobt&sortcol=Name&title=Erprobt" target="_blank" tabindex="-1">Daten anzeigen</a> | 
-      <a href="edit_erprobt.php?title=Erprobt&option=insert" target="_blank" tabindex="-1">Neu erfassen</a>
       </td>
     </tr>
 
@@ -184,11 +186,14 @@ if ($show_data) {
 
     </form>
 
+
     <tr> 
-    <td class="eingabe"><b>Schwierigkeitsgrad(e):</b>
-        <br> <a href="edit_instrument.php?title=Instrument&option=insert" target="_blank">Neues Instrument erfassen</a>   
-        <br> <a href="show_table2.php?table=instrument&sortcol=Name&title=Instrumente" target="_blank">Übersicht Instrumente</a>  
-        <br> <a href="edit_satz_list_schwierigkeitsgrade.php?SatzID='.$satz->ID.'" target="Schwierigkeitsgrade">Aktualisieren</a> 
+    <td class="eingabe"><b>Schwierigkeitsgrad(e):</b><br />';
+    
+    $info->print_link_insert('instrument','Instrument', true, '<br/>');  
+    $info->print_link_table('instrument','sortcol=Name','Instrumente',true,'','<br/>');  
+
+    echo '<br> <a href="edit_satz_list_schwierigkeitsgrade.php?SatzID='.$satz->ID.'" target="Schwierigkeitsgrade">Aktualisieren</a> - &gt; 
     </td> 
     <td class="eingabe">
       <iframe src="edit_satz_list_schwierigkeitsgrade.php?SatzID='.$satz->ID.'" width="70%" height="100" name="Schwierigkeitsgrade"></iframe>
@@ -197,8 +202,8 @@ if ($show_data) {
 
     <tr> 
     <td class="eingabe"><b>Besonderheiten:</b>
-              <br> <a href="show_table2.php?table=lookup_type&sortcol=Name&title=Besonderheit Typen" target="_blank">Übersicht Besonderheiten</a>  
-              <br> <a href="edit_satz_list_lookups.php?SatzID='.$satz->ID.'" target="Lookups">Aktualisieren</a>    
+              <br> <a href="show_table2.php?table=lookup_type&sortcol=Name&title=Besonderheit Typen" target="_blank">Übersicht Besonderheiten</a>
+              <br> <br> <a href="edit_satz_list_lookups.php?SatzID='.$satz->ID.'" target="Lookups">Aktualisieren</a> - &gt;      
     </td> 
     <td class="eingabe"><iframe src="edit_satz_list_lookups.php?SatzID='.$satz->ID.'" width="70%" height="300" name="Lookups"></iframe>
     </td>

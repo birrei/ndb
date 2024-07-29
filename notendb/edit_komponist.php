@@ -4,14 +4,12 @@ include('head.php');
 include("cl_komponist.php");
 include("cl_html_info.php");
 
-echo '<h2>Komponist bearbeiten</h2>'; 
 
 $komponist = new Komponist();
 $info= new HtmlInfo(); 
 
 $show_data=false; 
 
-$info->print_link_table('v_komponist', 'sortcol=Name', 'Komponisten'); 
 
 
 if (isset($_REQUEST["option"])) {
@@ -42,6 +40,9 @@ if (isset($_REQUEST["option"])) {
       break; 
   }
 }
+
+$info->print_screen_header($komponist->Title.' bearbeiten', ' | '); 
+$info->print_link_table($komponist->table_name, 'sortcol=Nachname,Vorname', $komponist->Titles); 
 
 
 if ($show_data) {

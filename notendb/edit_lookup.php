@@ -35,9 +35,7 @@ if (isset($_REQUEST["option"])) {
   }
 }
 
-// $info->print_link_table('v_lookup', 'sortcol=Name,LookupType', 'Besonderheiten'); 
-
-
+/** kein Screen-Header, da als Unterformular eingesetzt  */
 if ($show_data) {
     
   echo '

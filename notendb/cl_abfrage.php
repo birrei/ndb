@@ -10,6 +10,8 @@ class Abfrage {
   public $Abfrage; // XXX Umbennenen in "Abfragetext"  
   public $Tabelle;
   // public $success=false; 
+  public $Title='Abfrage';
+  public $Titles='Abfragen';    
 
   public function __construct(){
     $this->table_name='abfrage'; 

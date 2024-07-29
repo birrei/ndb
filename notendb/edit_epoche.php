@@ -4,12 +4,8 @@ include('head.php');
 include("cl_epoche.php");
 include("cl_html_info.php");
 
-echo '<h2>Epoche bearbeiten</h2>'; 
-
 $epoche = new Epoche();
 $info= new HtmlInfo(); 
-
-$info->print_link_table('epoche', 'sortcol=Name', 'Epochen'); 
 
 $show_data=false; 
 
@@ -35,6 +31,8 @@ if (isset($_REQUEST["option"])) {
   }
 }
 
+$info->print_screen_header($epoche->Title.' bearbeiten', ' | '); 
+$info->print_link_table($epoche->table_name, 'sortcol=Name', $epoche->Titles); 
 
 if ($show_data) {
     

@@ -4,14 +4,8 @@ include('head.php');
 include("cl_besetzung.php");
 include("cl_html_info.php");
 
-echo '<h2>Besetzung bearbeiten</h2>'; 
-
-
 $besetzung = new Besetzung();;
 $info= new HtmlInfo(); 
-
-
-$info->print_link_table('besetzung', 'sortcol=Name', 'Besetzungen'); 
 
 
 if (isset($_REQUEST["option"])) {
@@ -35,6 +29,9 @@ if (isset($_REQUEST["option"])) {
       break; 
   }
 }
+
+$info->print_screen_header($besetzung->Title.' bearbeiten', ' | '); 
+$info->print_link_table($besetzung->table_name, 'sortcol=Name', $besetzung->Titles); 
 
 if ($show_data) {
   echo '

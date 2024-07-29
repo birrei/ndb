@@ -4,12 +4,9 @@ include('head.php');
 include("cl_gattung.php");
 include("cl_html_info.php");
 
-echo '<h2>Gattung bearbeiten</h2>'; 
 
 $gattung = new Gattung();
 $info= new HtmlInfo(); 
-
-$info->print_link_table('gattung', 'sortcol=Name', 'Gattungen'); 
 
 $show_data=false; 
 
@@ -35,6 +32,8 @@ if (isset($_REQUEST["option"])) {
   }
 }
 
+$info->print_screen_header($gattung->Title.' bearbeiten', ' | '); 
+$info->print_link_table($gattung->table_name, 'sortcol=Name', $gattung->Titles); 
 
 if ($show_data) {
   echo '

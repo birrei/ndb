@@ -9,8 +9,6 @@ $info= new HtmlInfo();
 
 $show_data=false; 
 
-$info->print_screen_header('Verlag bearbeiten', ' | '); 
-$info->print_link_table('verlag', 'sortcol=Name', 'Verlage'); 
 
 if (isset($_REQUEST["option"])) {
   switch($_REQUEST["option"]) {
@@ -34,6 +32,9 @@ if (isset($_REQUEST["option"])) {
   }
 
 }
+
+$info->print_screen_header($verlag->Title.' bearbeiten', ' | '); 
+$info->print_link_table($verlag->table_name, 'sortcol=Name', $verlag->Titles); 
 
 if ($show_data) {
 

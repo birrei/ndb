@@ -4,8 +4,6 @@ include('head.php');
 include("cl_lookuptype.php");
 include("cl_html_info.php");
 
-echo '<h2>Besonderheit Typ bearbeiten</h2>'; 
-
 $lookuptype = new Lookuptype();
 $info= new HtmlInfo(); 
 
@@ -33,8 +31,9 @@ if (isset($_REQUEST["option"])) {
   }
 }
 
+$info->print_screen_header($lookuptype->Title.' bearbeiten', ' | '); 
+$info->print_link_table($lookuptype->table_name, 'sortcol=Name', $lookuptype->Titles); 
 
-$info->print_link_table('lookup_type', 'sortcol=Name', 'Besonderheit-Typen'); 
 
 if ($show_data) {
     

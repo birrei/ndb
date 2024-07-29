@@ -73,6 +73,7 @@ if ($show_data) {
   $sammlung->print_select($musikstueck->SammlungID); 
 
   echo ' <a href="edit_sammlung.php?ID='.$musikstueck->SammlungID.'&title=Sammlung&option=edit" tabindex="-1">Gehe zu Sammlung</a>'; 
+  
   echo '</tr></label>
   <tr>    
   <label>
@@ -181,7 +182,7 @@ if ($show_data) {
       <td class="eingabe"><b>Verwendungszweck(e):</b><br/>';
       $info->print_link_insert('verwendungszweck','Verwendungszweck', true, '<br/>');  
       $info->print_link_table('verwendungszweck','sortcol=Name','Verwendungszwecke',true,'','<br/>');   
-      echo '<a href="edit_musikstueck_list_verwendungszwecke.php?MusikstueckID='.$musikstueck->ID.'" target="Verwendungszwecke">Aktualisieren</a> - &gt;
+      echo '<br> <a href="edit_musikstueck_list_verwendungszwecke.php?MusikstueckID='.$musikstueck->ID.'" target="Verwendungszwecke">Aktualisieren</a> - &gt;
       </td> 
       <td class="eingabe">
         <iframe src="edit_musikstueck_list_verwendungszwecke.php?MusikstueckID='.$musikstueck->ID.'" width="100%" height="100" name="Verwendungszwecke"></iframe> 
@@ -193,7 +194,7 @@ if ($show_data) {
       $info->print_link_insert('besetzung','Besetzungen', true, '<br/>');  
       $info->print_link_table('besetzung','sortcol=Name','Besetzungen',true,'','<br/>');      
       
-      echo '<a href="edit_musikstueck_list_besetzungen.php?MusikstueckID='.$musikstueck->ID.'" target="Besetzungen">Aktualisieren</a> - &gt;    
+      echo '<br> <a href="edit_musikstueck_list_besetzungen.php?MusikstueckID='.$musikstueck->ID.'" target="Besetzungen">Aktualisieren</a> - &gt;    
         </td> 
       <td class="eingabe">
         <iframe src="edit_musikstueck_list_besetzungen.php?MusikstueckID='.$musikstueck->ID.'" width="100%" height="100" name="Besetzungen"></iframe>
@@ -203,7 +204,7 @@ if ($show_data) {
     <tr> 
       <td class="eingabe"><b>Sätze:</b>
       <br><a href="edit_satz.php?MusikstueckID='.$musikstueck->ID.'&option=insert&title=Satz" target="_blank">Satz hinzufügen</a>
-      <br><a href="edit_musikstueck_list_saetze.php?MusikstueckID='.$musikstueck->ID.'" target="Saetze">Aktualisieren</a>
+      <br><br> <a href="edit_musikstueck_list_saetze.php?MusikstueckID='.$musikstueck->ID.'" target="Saetze">Aktualisieren</a> - &gt; 
       
       </td> 
       <td class="eingabe"><iframe src="edit_musikstueck_list_saetze.php?MusikstueckID='.$musikstueck->ID.'" width="100%" height="400" name="Saetze"></iframe>

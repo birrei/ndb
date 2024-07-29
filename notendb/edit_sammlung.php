@@ -127,7 +127,7 @@ if ($show_data) {
         <tr> 
         <td class="eingabe"><b>Musikstücke:</b>
         <p> <a href="edit_musikstueck.php?SammlungID='.$sammlung->ID.'&option=insert&title=Musikstück" target="_blank">Musikstück hinzufügen</a></p>
-        <p> <a href="edit_sammlung_list_musikstuecke.php?SammlungID='.$sammlung->ID.'" target="musikstuecke">Aktualisieren</a></p>
+        <p> <a href="edit_sammlung_list_musikstuecke.php?SammlungID='.$sammlung->ID.'" target="musikstuecke">Aktualisieren</a> - &gt; </p>
 
         </td> 
         <td class="eingabe"><iframe src="edit_sammlung_list_musikstuecke.php?SammlungID='.$sammlung->ID.'"  width="100%" height="400" name="musikstuecke"></iframe>
@@ -137,7 +137,7 @@ if ($show_data) {
       <tr> 
       <td class="eingabe"><b>Links</b>
       <p> <a href="edit_link.php?SammlungID='.$sammlung->ID.'&option=insert" target="Links">Link hinzufügen</a></p>
-      <p> <a href="edit_sammlung_list_links.php?SammlungID='.$sammlung->ID.'" target="Links">Aktualisieren</a></p>
+      <p> <a href="edit_sammlung_list_links.php?SammlungID='.$sammlung->ID.'" target="Links">Aktualisieren</a> - &gt; </p>
       
       </td> 
       <td class="eingabe"><iframe src="edit_sammlung_list_links.php?SammlungID='.$sammlung->ID.'" width="100%" height="200" name="Links"></iframe>

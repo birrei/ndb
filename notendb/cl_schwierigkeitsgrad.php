@@ -5,6 +5,8 @@ class Schwierigkeitsgrad {
   public $ID;
   public $Name;
   public $titles_selected_list; 
+  public $Title='Schwierigkeitsgrad';
+  public $Titles='Schwierigkeitsgrade';  
 
   public function __construct(){
     $this->table_name='schwierigkeitsgrad'; 

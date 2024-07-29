@@ -4,15 +4,11 @@ include('head.php');
 include("cl_verwendungszweck.php");
 include("cl_html_info.php");
 
-echo '<h2>Verwendungszweck bearbeiten</h2>'; 
 
 $verwendungszweck = new Verwendungszweck();
 $info= new HtmlInfo(); 
 
-
 $show_data=false; 
-
-$info->print_link_table('verwendungszweck', 'sortcol=Name', 'Verwendungszwecke'); 
 
 if (isset($_REQUEST["option"])) {
   switch($_REQUEST["option"]) {
@@ -35,6 +31,9 @@ if (isset($_REQUEST["option"])) {
       break; 
   }
 }
+
+$info->print_screen_header($verwendungszweck->Title.' bearbeiten', ' | '); 
+$info->print_link_table($verwendungszweck->table_name, 'sortcol=Name', $verwendungszweck->Titles); 
 
 if ($show_data) {
     

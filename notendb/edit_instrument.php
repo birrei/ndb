@@ -4,8 +4,6 @@ include('head.php');
 include("cl_instrument.php");
 include("cl_html_info.php");
 
-echo '<h2>Instrument bearbeiten</h2>'; 
-
 $instrument = new Instrument();
 $info= new HtmlInfo(); 
 
@@ -33,8 +31,9 @@ if (isset($_REQUEST["option"])) {
   }
 }
 
+$info->print_screen_header($instrument->Title.' bearbeiten', ' | '); 
+$info->print_link_table($instrument->table_name, 'sortcol=Name', $instrument->Titles); 
 
-$info->print_link_table('instrument', 'sortcol=Name', 'Instrumente'); 
 
 if ($show_data) {
   echo '

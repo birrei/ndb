@@ -8,8 +8,7 @@ include("cl_html_info.php");
 $standort = new Standort();
 $info= new HtmlInfo(); 
 
-echo '<h2>Standort bearbeiten</h2>'; 
-$info->print_link_table('standort', 'sortcol=Name', 'Standorte'); 
+
 
 $show_data=false; 
 
@@ -34,6 +33,10 @@ if (isset($_REQUEST["option"])) {
       break; 
   }
 }
+
+$info->print_screen_header($standort->Title.' bearbeiten', ' | '); 
+$info->print_link_table($standort->table_name, 'sortcol=Name', $standort->Titles); 
+
 
 if ($show_data) {
 

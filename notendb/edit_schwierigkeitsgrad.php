@@ -4,8 +4,6 @@ include('head.php');
 include("cl_schwierigkeitsgrad.php");
 include("cl_html_info.php");
 
-echo '<h2>Schwierigkeitsgrad-Eintrag bearbeiten</h2>'; 
-
 $schwierigkeitsgrad=new Schwierigkeitsgrad(); 
 $info= new HtmlInfo(); 
 
@@ -33,8 +31,8 @@ if (isset($_REQUEST["option"])) {
   }
 }
 
-
-$info->print_link_table('schwierigkeitsgrad', 'sortcol=Name', 'Schwierigkeitsgrade'); 
+$info->print_screen_header($schwierigkeitsgrad->Title.' bearbeiten', ' | '); 
+$info->print_link_table($schwierigkeitsgrad->table_name, 'sortcol=Name', $schwierigkeitsgrad->Titles); 
 
 if ($show_data) {
     
