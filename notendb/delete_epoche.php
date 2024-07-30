@@ -26,8 +26,8 @@ if (isset($_GET["ID"])) {
       <input type="hidden" name="title" value="Epoche löschen">        
       </form>
       </p> 
-      <p> <a href="edit_epoche.php?ID='. $epoche->ID . '&title=Epoche">Abbrechen / Zurück</a></p> 
       '; 
+      $info->print_link_edit($epoche->table_name,$epoche->ID,$epoche->Title,false);
   } 
 }
 

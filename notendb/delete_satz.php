@@ -23,9 +23,8 @@ if (isset($_GET["ID"])) {
       <input type="hidden" name="ID" value="' . $satz->ID . '">
       <input type="hidden" name="title" value="Satz löschen">        
       </form>
-      </p> 
-      <p> <a href="edit_satz.php?ID='. $satz->ID . '&title=Satz">Abbrechen / Zurück</a></p> 
-      '; 
+      </p> '; 
+      $info->print_link_edit($satz->table_name,$satz->ID,$satz->Title,false);            
   } 
 }
 

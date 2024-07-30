@@ -26,9 +26,8 @@ if (isset($_GET["ID"])) {
       <input type="hidden" name="ID" value="' . $sammlung->ID . '">
       <input type="hidden" name="title" value="Sammlung löschen">        
       </form>
-      </p> 
-      <p> <a href="edit_sammlung.php?ID='. $sammlung->ID . '&title=Sammlung">Abbrechen / Zurück</a></p> 
-      '; 
+      </p>  '; 
+      $info->print_link_edit($sammlung->table_name,$sammlung->ID,$sammlung->Title,false);         
   } 
 }
 

@@ -27,8 +27,8 @@ if (isset($_GET["ID"])) {
       <input type="hidden" name="title" value="Verlag löschen">        
       </form>
       </p> 
-      <p> <a href="edit_verlag.php?ID='. $verlag->ID . '&title=Verlag">Abbrechen / Zurück</a></p> 
       '; 
+      $info->print_link_edit($verlag->table_name,$verlag->ID,$verlag->Title,false);      
   } 
 }
 

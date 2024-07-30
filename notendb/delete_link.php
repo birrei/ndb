@@ -3,7 +3,7 @@
 include('head_raw.php');
 include('cl_link.php');
 
-echo '<h2>Link löschen</h2>'; 
+// echo '<h2>Link löschen</h2>'; 
 
 $link=new Link(); 
 
@@ -23,16 +23,17 @@ if (isset($_GET["ID"])) {
       <input type="hidden" name="title" value="Link löschen">        
       </form>
       </p> 
-      <p> <a href="edit_sammlung_list_links.php?ID='. $link->SammlungID . '&title=Link">Abbrechen / Zurück</a></p> 
+      <p> <a href="edit_sammlung_list_links.php?SammlungID='. $link->SammlungID . '&title=Link">Abbrechen / Zurück</a></p> 
       '; 
   } 
 }
 
 if (isset($_POST["confirm"])) {
   $link->ID=$_POST["ID"]; 
-  $link->delete(); 
- // echo '<p>Die Seite kann geschlossen werden.</p>';  // hier nicht sinnvoll, da Unterformular      
-              
+  $link->load_row();   
+  $link->delete();      
+  echo '<p> <a href="edit_sammlung_list_links.php?SammlungID='. $link->SammlungID . '&title=Link">Zur Liste</a></p>'; 
+                    
 }
 
 

@@ -25,9 +25,8 @@ if (isset($_GET["ID"])) {
       <input type="hidden" name="ID" value="' . $gattung->ID . '">
       <input type="hidden" name="title" value="Gattung löschen">        
       </form>
-      </p> 
-      <p> <a href="edit_gattung.php?ID='. $gattung->ID . '&title=Gattung">Abbrechen / Zurück</a></p> 
-      '; 
+      </p> '; 
+      $info->print_link_edit($gattung->table_name,$gattung->ID,$gattung->Title,false);            
   } 
 }
 

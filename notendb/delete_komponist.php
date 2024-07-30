@@ -24,9 +24,8 @@ if (isset($_GET["ID"]) & !isset($_POST["confirm"])) {
     <input type="hidden" name="ID" value="' . $komponist->ID . '">
     <input type="hidden" name="title" value="Komponist löschen">        
     </form>
-    </p> 
-    <p> <a href="edit_komponist.php?ID='. $komponist->ID . '&title=Komponist">Abbrechen / Zurück</a></p> 
-  '; 
+    </p>     '; 
+    $info->print_link_edit($komponist->table_name,$komponist->ID,$komponist->Title,false);        
   } 
 
 if (isset($_POST["confirm"])) {

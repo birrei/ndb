@@ -28,8 +28,8 @@ if (isset($_GET["ID"])) {
       <input type="hidden" name="title" value="Besetzung löschen">        
       </form>
       </p> 
-      <p> <a href="edit_besetzung.php?ID='. $besetzung->ID . '&title=Besetzung">Abbrechen / Zurück</a></p> 
       '; 
+      $info->print_link_edit($besetzung->table_name,$besetzung->ID,$besetzung->Title,false); 
   } 
 }
 

@@ -25,9 +25,8 @@ if (isset($_GET["ID"])) {
       <input type="hidden" name="ID" value="' . $instrument->ID . '">
       <input type="hidden" name="title" value="Instrument löschen">        
       </form>
-      </p> 
-      <p> <a href="edit_instrument.php?ID='. $instrument->ID . '&title=Instrument">Abbrechen / Zurück</a></p> 
-      '; 
+      </p>  '; 
+      $info->print_link_edit($instrument->table_name,$instrument->ID,$instrument->Title,false);           
   } 
 }
 

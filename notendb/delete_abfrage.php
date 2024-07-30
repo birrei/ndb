@@ -26,9 +26,8 @@ if (isset($_GET["ID"])) {
       <input type="hidden" name="ID" value="' . $abfrage->ID . '">
       <input type="hidden" name="title" value="Abfage löschen">        
       </form>
-      </p> 
-      <p> <a href="edit_abfrage.php?ID='. $abfrage->ID . '&title=Abfrage">Abbrechen / Zurück</a></p> 
       '; 
+      $info->print_link_edit($abfrage->table_name,$abfrage->ID,$abfrage->Title,false); 
   } 
 }
 

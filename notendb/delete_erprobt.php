@@ -26,8 +26,8 @@ if (isset($_GET["ID"])) {
       <input type="hidden" name="title" value="Erprobt löschen">        
       </form>
       </p> 
-      <p> <a href="edit_erprobt.php?ID='. $erprobt->ID . '&title=Erprobt">Abbrechen / Zurück</a></p> 
       '; 
+      $info->print_link_edit($erprobt->table_name,$erprobt->ID,$erprobt->Title,false);      
   } 
 }
 

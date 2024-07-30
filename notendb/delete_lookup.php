@@ -26,9 +26,8 @@ if (isset($_GET["ID"])) {
       <input type="hidden" name="ID" value="' . $lookup->ID . '">
       <input type="hidden" name="title" value="Besonderheit löschen">        
       </form>
-      </p> 
-      <p> <a href="edit_lookup.php?ID='. $lookup->ID . '&title=Besonderheit">Abbrechen / Zurück</a></p> 
-      '; 
+      </p>    '; 
+      $info->print_link_edit($lookup->table_name,$lookup->ID,$lookup->Title,false);             
   } 
 }
 

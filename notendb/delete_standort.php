@@ -24,9 +24,8 @@ if (isset($_GET["ID"]) & !isset($_POST["confirm"])) {
     <input type="hidden" name="ID" value="' . $standort->ID . '">
     <input type="hidden" name="title" value="Standort löschen">        
     </form>
-    </p> 
-    <p> <a href="edit_standort.php?ID='. $standort->ID . '&title=Standort">Abbrechen / Zurück</a></p> 
-  '; 
+    </p> '; 
+    $info->print_link_edit($standort->table_name,$standort->ID,$standort->Title,false);      
   } 
 
 if (isset($_POST["confirm"])) {

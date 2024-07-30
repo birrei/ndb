@@ -26,9 +26,8 @@ if (isset($_GET["ID"])) {
       <input type="hidden" name="ID" value="' . $verwendungszweck->ID . '">
       <input type="hidden" name="title" value="Verwendungszweck löschen">        
       </form>
-      </p> 
-      <p> <a href="edit_verwendungszweck.php?ID='. $verwendungszweck->ID . '&title=Verwendungszweck">Abbrechen / Zurück</a></p> 
-      '; 
+      </p>  '; 
+      $info->print_link_edit($verwendungszweck->table_name,$verwendungszweck->ID,$verwendungszweck->Title,false);     
   } 
 }
 

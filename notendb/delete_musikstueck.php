@@ -27,9 +27,8 @@ if (isset($_GET["ID"])) {
       <input type="hidden" name="ID" value="' . $musikstueck->ID . '">
       <input type="hidden" name="title" value="Musikstück löschen">        
       </form>
-      </p> 
-      <p> <a href="edit_musikstueck.php?ID='. $musikstueck->ID . '&title=Musikstück">Abbrechen / Zurück</a></p> 
-      '; 
+      </p>   '; 
+      $info->print_link_edit($musikstueck->table_name,$musikstueck->ID,$musikstueck->Title,false);        
   } 
 }
 
