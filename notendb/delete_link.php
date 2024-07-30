@@ -2,6 +2,7 @@
 <?php 
 include('head_raw.php');
 include('cl_link.php');
+include("cl_html_info.php");
 
 // echo '<h2>Link löschen</h2>'; 
 

@@ -9,7 +9,6 @@ echo '<h2>Verlag löschen</h2>';
 $verlag=new Verlag(); 
 $info=new HtmlInfo(); 
 
-
 if (isset($_GET["ID"])) {
   $verlag->ID= $_GET["ID"]; 
   $verlag->load_row(); 

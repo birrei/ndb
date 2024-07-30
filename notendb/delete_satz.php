@@ -2,6 +2,7 @@
 <?php 
 include('head.php');
 include('cl_satz.php');
+include("cl_html_info.php");
 
 echo '<h2>Satz löschen</h2>'; 
 
