@@ -15,7 +15,7 @@ select
     , musikstueck.JahrAuffuehrung
     , GROUP_CONCAT(DISTINCT besetzung.Name order by besetzung.Name SEPARATOR ', ') Besetzungen   
     , GROUP_CONCAT(DISTINCT verwendungszweck.Name order by verwendungszweck.Name SEPARATOR ', ') Verwendungszwecke  
-    , GROUP_CONCAT(DISTINCT satz.Nr order by satz.Nr SEPARATOR ', ') Satznummern      
+    , GROUP_CONCAT(DISTINCT satz.Nr order by satz.Nr SEPARATOR ', ') Saetze      
     , musikstueck.ID 
    FROM 
     sammlung 
