@@ -348,7 +348,7 @@ $Suche->Beschreibung.='* Anzeige-Ebene: '.$Ebene.PHP_EOL;
             , verlag.Name as Verlag
             , GROUP_CONCAT(DISTINCT linktype.Name order by linktype.Name SEPARATOR ', ') Links            
             , sammlung.Bemerkung 
-            , GROUP_CONCAT(DISTINCT musikstueck.Name order by musikstueck.Nummer SEPARATOR ', ') Musikstuecke
+            , GROUP_CONCAT(DISTINCT musikstueck.Nummer order by musikstueck.Nummer SEPARATOR ', ') Musikstuecke
             , sammlung.Bestellnummer 
             ";
         $edit_table='sammlung'; 
@@ -366,7 +366,7 @@ $Suche->Beschreibung.='* Anzeige-Ebene: '.$Ebene.PHP_EOL;
             , musikstueck.JahrAuffuehrung            
             , GROUP_CONCAT(DISTINCT besetzung.Name order by besetzung.Name SEPARATOR ', ') Besetzungen
             , GROUP_CONCAT(DISTINCT verwendungszweck.Name order by verwendungszweck.Name SEPARATOR ', ') Verwendungszwecke   
-            , GROUP_CONCAT(DISTINCT satz.Name order by satz.Nr SEPARATOR ', ') Saetze                 
+            , GROUP_CONCAT(DISTINCT satz.Nr order by satz.Nr SEPARATOR ', ') Saetze                 
             ";         
 
         $edit_table='musikstueck'; 

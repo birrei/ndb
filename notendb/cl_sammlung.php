@@ -238,7 +238,7 @@ class Sammlung {
             , epoche.Name as Epoche
             , GROUP_CONCAT(DISTINCT besetzung.Name order by besetzung.Name SEPARATOR ', ') Besetzungen
             , GROUP_CONCAT(DISTINCT verwendungszweck.Name order by verwendungszweck.Name SEPARATOR ', ') Verwendungszwecke                                         
-            , GROUP_CONCAT(DISTINCT satz.Name order by satz.Nr SEPARATOR ', ') Sätze                                         
+            , GROUP_CONCAT(DISTINCT satz.Nr order by satz.Nr SEPARATOR ', ') Sätze                                         
     from musikstueck 
       left join v_komponist komponist on musikstueck.KomponistID = komponist.ID
       left join gattung on gattung.ID = musikstueck.GattungID   
@@ -276,7 +276,6 @@ class Sammlung {
       $info->print_error($stmt, $e); 
     }
   }  
-
 
   function print_table_links(){
 
