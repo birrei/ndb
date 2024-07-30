@@ -17,6 +17,10 @@ class Satz {
   public $ErprobtID;
   public $Bemerkung='';
   public $Orchesterbesetzung=''; 
+
+  public $Title='Satz';
+  public $Titles='Sätze';  
+
   
   public function __construct(){
     $this->table_name='satz';     

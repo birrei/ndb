@@ -83,7 +83,7 @@ if (isset($_REQUEST["option"])) {
   <tr> 
   <td class="eingabe"><input type="submit" value="Speichern"></td>
   <td class="eingabe">
-  <a href="edit_sammlung_list_links.php?SammlungID=<?php echo $link->SammlungID; ?>">Zurück zur Listenansicht</a>
+  <a href="edit_sammlung_list_links.php?SammlungID=<?php echo $link->SammlungID; ?>">Liste anzeigen</a>
 
   </td>
   </tr>

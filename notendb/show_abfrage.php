@@ -7,9 +7,10 @@ include("cl_html_info.php");
 
 $abfrage = new Abfrage();
 $abfrage->ID=$_GET['ID'];
-$abfrage->load_row(); 
 
-if ($abfrage->success) {
+$info = new HtmlInfo(); 
+
+if ($abfrage->load_row()) {
 
   $query = $abfrage->Abfrage; 
   $table_edit = $abfrage->Tabelle; 
@@ -19,7 +20,7 @@ if ($abfrage->success) {
   echo '<h3>'.$abfrage->Name.'</h3>'; 
   echo '<pre>'.$abfrage->Beschreibung.'</pre>';
 
-  echo '<p><a href="edit_abfrage.php?ID='.$abfrage->ID.'&title=Abfrage">Abfrage bearbeiten</a></p> '; 
+  $info->print_link_edit($abfrage->table_name, $abfrage->ID,$abfrage->Title,false, '<p></p>'); 
 
   // echo '<pre>'.$query.'</pre>'; 
 
