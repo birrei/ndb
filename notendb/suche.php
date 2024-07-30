@@ -96,7 +96,7 @@ $Suche->Beschreibung.='* Anzeige-Ebene: '.$Ebene.PHP_EOL;
 <div class="search-filter">
 <form id="Suche" action="" method="post">
 
-<fieldset style="width:90%">Ebene: 
+<fieldset style="width:90%">Anzeige-Ebene: 
     <input type="radio" id="sm" name="Ebene" value="Sammlung" <?php echo ($Ebene=='Sammlung'?'checked':'') ?>>
     <label for="sm">Sammlung</label> 
     <input type="radio" id="mu" name="Ebene" value="Musikstueck" <?php echo ($Ebene=='Musikstueck'?'checked':'') ?>> 
@@ -105,13 +105,13 @@ $Suche->Beschreibung.='* Anzeige-Ebene: '.$Ebene.PHP_EOL;
     <label for="st">Satz</label> 
   </fieldset>
 
-<p></p>  
+<p>
+  <!---- Suche / Suche zurücksetzen -----> 
 <input type="submit" value="Suchen" class="btnSave">
 <input type="button" id="btnReset_All" value="Alle Filter zurücksetzen" onclick="Reset_All();" /> 
 
 <!---- Entscheidung Suche speichern ja / nein -----> 
-<input type="checkbox" id="sp" name="SucheSpeichern">
-<label for="sp">Suche speichern</label> 
+<br/><input type="checkbox" id="sp" name="SucheSpeichern"><label for="sp">Suche speichern</label> 
 
 <!-- Button: alle Filter zurücksetzen --> 
 <script type="text/javascript">  
@@ -126,6 +126,24 @@ $Suche->Beschreibung.='* Anzeige-Ebene: '.$Ebene.PHP_EOL;
           }
       }  
 </script> 
+<?php 
+/************** Suchtext  **********/  
+if (isset($_POST['suchtext'])) {
+  $suchtext = $_POST['suchtext'];  
+  if ($suchtext!='') { 
+      $Suche->Beschreibung.='* Suchtext: '.$suchtext.PHP_EOL; 
+      $filter=true; 
+  }
+}  
+?>
+<p>Suchtext: <br> 
+  <input type="text" id="suchtext" name="suchtext" size="30px" value="<?php echo $suchtext; ?>" autofocus> 
+  <input type="button" id="btnReset_suchtext" value="Filter zurücksetzen" onclick="Reset_suchtext();" />  
+      <script type="text/javascript">  
+              function Reset_suchtext() {  
+                document.getElementById("suchtext").value='';  
+          }  
+      </script> 
 
 <?php 
   /* Standort  */
@@ -308,26 +326,9 @@ $Suche->Beschreibung.='* Anzeige-Ebene: '.$Ebene.PHP_EOL;
     $lookup->print_select_multi($lookup_type_key,$lookup_values_selected, $lookup_type_name.':');
     $Suche->Beschreibung.=(count($lookup_values_selected)?$lookup->titles_selected_list:'');   
   }
-
-/************** Suchtext  **********/  
-  if (isset($_POST['suchtext'])) {
-    $suchtext = $_POST['suchtext'];  
-    if ($suchtext!='') { 
-        $Suche->Beschreibung.='* Suchtext: '.$suchtext.PHP_EOL; 
-        $filter=true; 
-    }
-  }   
+ 
   ?>
-  <p>Suchtext: <br> 
-    <input type="text" id="suchtext" name="suchtext" size="20" value="<?php echo $suchtext; ?>"> 
 
-    <br><input type="button" id="btnReset_suchtext" value="Filter zurücksetzen" onclick="Reset_suchtext();" />  
-        <script type="text/javascript">  
-                function Reset_suchtext() {  
-                  document.getElementById("suchtext").value='';  
-            }  
-        </script> 
-    </p>
 
 </form>
 
@@ -461,15 +462,6 @@ $Suche->Beschreibung.='* Anzeige-Ebene: '.$Ebene.PHP_EOL;
       if($filterEpochen!=''){
         $query.=' AND musikstueck.EpocheID '.$filterEpochen. PHP_EOL; 
       }           
-      // if($filterStricharten!=''){
-      //   $query.=' AND satz_strichart.StrichartID '.$filterStricharten. PHP_EOL; 
-      // }
-      // if($filterNotenwerte!=''){
-      //   $query.=' AND satz_notenwert.NotenwertID '.$filterNotenwerte. PHP_EOL; 
-      // }
-      // if($filterUebungen!=''){
-      //   $query.=' AND satz_uebung.UebungID '.$filterUebungen. PHP_EOL; 
-      // }       
       if($filterErprobt!=''){
         $query.=' AND satz.ErprobtID '.$filterErprobt. PHP_EOL; 
       }
@@ -498,8 +490,15 @@ $Suche->Beschreibung.='* Anzeige-Ebene: '.$Ebene.PHP_EOL;
                             satz.Tonart LIKE '%".$suchtext."%' OR
                             satz.Tempobezeichnung LIKE '%".$suchtext."%' OR
                             satz.Bemerkung LIKE '%".$suchtext."%' OR 
-                            satz.Orchesterbesetzung LIKE '%".$suchtext."%' OR                             
-                            besetzung.Name LIKE '%".$suchtext."%' )". PHP_EOL;         
+                            satz.Orchesterbesetzung LIKE '%".$suchtext."%' OR
+  	                        verlag.Name LIKE '%".$suchtext."%' OR
+                            standort.Name LIKE '%".$suchtext."%' OR  
+                            komponist.Name LIKE '%".$suchtext."%' OR 
+                            gattung.Name LIKE '%".$suchtext."%' OR 
+                            epoche.Name LIKE '%".$suchtext."%' OR  
+                            besetzung.Name LIKE '%".$suchtext."%' OR 
+                            verwendungszweck.Name LIKE '%".$suchtext."%' OR 
+                            v_satz_lookuptypes.LookupList LIKE '%".$suchtext."%')". PHP_EOL;         
       }
 
       /* Gruppierung abhängig von Ebene  */
@@ -508,7 +507,8 @@ $Suche->Beschreibung.='* Anzeige-Ebene: '.$Ebene.PHP_EOL;
           $query.=" group by sammlung.ID". PHP_EOL;     
           break; 
         case 'Musikstueck': 
-          $query.=" group by musikstueck.ID". PHP_EOL;         
+         $query.=" group by musikstueck.ID". PHP_EOL;    
+          // $query.=" group by satz.MusikstueckID". PHP_EOL;     
           break; 
         case 'Satz': 
           $query.=" group by satz.ID". PHP_EOL;             
@@ -544,7 +544,7 @@ $Suche->Beschreibung.='* Anzeige-Ebene: '.$Ebene.PHP_EOL;
         echo '<p>Die Suchabfrage wurde gespeichert: <br />'; 
         echo '<a href="show_abfrage.php?ID='.$Suche->ID.'&title=Abfrage" target="_blank">Abfrage-Ergebnis anzeigen</a>
             | <a href="edit_abfrage.php?ID='.$Suche->ID.'&title=Abfrage" target="_blank">Abfrage bearbeiten</a>
-               | <a href="show_table2.php?table=v_abfrage&sortcol=ID&sortorder=DESC&title=Abfragen&add_link_show" target="_blank">Übersicht Abfragen</a>         
+            | <a href="show_table2.php?table=v_abfrage&sortcol=ID&sortorder=DESC&title=Abfragen&add_link_show" target="_blank">Übersicht Abfragen</a>         
             ';
             
         } else {
