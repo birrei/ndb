@@ -50,14 +50,22 @@ if ($show_data) {
     <tr>    
       <label>
       <td class="eingabe">Name:</td>  
-      <td class="eingabe"><input type="text" name="Name" value="'.$lookuptype->Name.'" size="80" required="required" autofocus="autofocus" oninput="changeBackgroundColor(this)"></td>
+      <td class="eingabe"><input type="text" name="Name" value="'.$lookuptype->Name.'" size="80"autofocus="autofocus"></td>
       </label>
     </tr> 
 
     <tr>    
       <label>
       <td class="eingabe">Relation:</td>  
-      <td class="eingabe"><input type="text" name="Relation" value="'.$lookuptype->Relation.'" size="45" maxlength="80" required="required" oninput="changeBackgroundColor(this)"> ("sammlung", "musikstueck" oder "satz")
+      <td class="eingabe">
+      
+      <select name="Relation"  required="required" oninput="changeBackgroundColor(this)">
+          <option value=""></option>      
+          <option value="sammlung"'.($lookuptype->Relation=='sammlung'?' selected':'').'>Sammlung</option>
+          <option value="musikstueck"'.($lookuptype->Relation=='musikstueck'?' selected':'').'>Musikstück</option>
+          <option value="satz"'.($lookuptype->Relation=='satz'?' selected':'').'>Satz</option>
+      </select>
+
       </td>
       </label>
     </tr> 

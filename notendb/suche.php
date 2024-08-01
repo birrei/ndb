@@ -248,7 +248,7 @@ if (isset($_POST['suchtext'])) {
   $komponist->print_select_multi($Komponisten);     
   $Suche->Beschreibung.=(count($Komponisten)>0?$komponist->titles_selected_list:''); 
  
-  /* Linktypen  */      
+  /************ Linktypen  ************** */      
   if (isset($_POST['Linktypen'])) {
     $Linktypen = $_POST['Linktypen']; 
     $filterLinktypen = 'IN ('.implode(',', $Linktypen).')'; 
@@ -305,9 +305,10 @@ if (isset($_POST['suchtext'])) {
   </p>
   <?php 
 
-/************** Besonderheiten **********/
+/************** Besonderheiten Satz **********/
 
   $lookuptypes=new Lookuptype(); 
+  $lookuptypes->Relation='satz'; 
   $lookuptypes->setArrData(); 
   $filterLookups2=''; 
 

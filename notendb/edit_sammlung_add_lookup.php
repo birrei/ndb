@@ -18,17 +18,17 @@ if (isset($_POST["LookupTypeID"])) {
       <?php 
                   
       $lookuptyp = new Lookuptype(); 
-      $lookuptyp->Relation = 'satz'; 
+      $lookuptyp->Relation = 'sammlung'; 
       $lookuptyp->print_preselect($LookupTypeID); 
 
       ?>
       </td>
    </label>
    </tr>
-    <input type="hidden" name="SatzID" value="<?php echo $_GET["SatzID"]; ?>"> 
+    <input type="hidden" name="SammlungID" value="<?php echo $_GET["SammlungID"]; ?>"> 
 </form>
 
-<form action="edit_satz_list_lookups.php" method="get">
+<form action="edit_sammlung_list_lookups.php" method="get">
 <table class="eingabe"> 
 <tr>    
   <label>
@@ -36,11 +36,11 @@ if (isset($_POST["LookupTypeID"])) {
          <?php 
           include_once("cl_lookup.php");         
           $lookup = new Lookup(); 
-          $lookup->LookupTypeRelation='satz';
+          $lookup->LookupTypeRelation='sammlung';
           if ($LookupTypeID!='') {
-            $lookup->print_select2($LookupTypeID, $_GET["SatzID"]); 
+            $lookup->print_select2($LookupTypeID,$_GET["SammlungID"]); 
           } else {
-            $lookup->print_select('',  $_GET["SatzID"]); 
+            $lookup->print_select('',  $_GET["SammlungID"]); 
           }
     ?>
    </label>    
@@ -51,7 +51,7 @@ if (isset($_POST["LookupTypeID"])) {
   <td class="eingabe"><input type="submit" value="Speichern"></td>
  </tr>
  </table> 
- <input type="hidden" name="SatzID" value="<?php echo $_GET["SatzID"]; ?>"> 
+ <input type="hidden" name="SammlungID" value="<?php echo $_GET["SammlungID"]; ?>"> 
  <input type="hidden" name="LookupTypeID" value="<?php echo $LookupTypeID; ?>">  
  <input type="hidden" name="option" value="insert"> 
  </form>

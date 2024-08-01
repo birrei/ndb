@@ -186,7 +186,6 @@ if ($show_data) {
 
     </form>
 
-
     <tr> 
     <td class="eingabe"><b>Schwierigkeitsgrad(e):</b><br />';
     

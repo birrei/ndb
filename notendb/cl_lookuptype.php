@@ -70,18 +70,21 @@ class Lookuptype {
     include_once("cl_db.php");  
     include_once("cl_html_select.php");
 
-    $query="SELECT ID, Name from lookup_type order by Name";
-
+    $query="SELECT ID, Name 
+                  FROM lookup_type
+                  WHERE Relation=:Relation  
+                  ORDER BY Name";
+    
     $conn = new DbConn(); 
     $db=$conn->db; 
 
     $stmt = $db->prepare($query); 
+    $stmt->bindParam(':Relation', $this->Relation);
 
     try {
       $stmt->execute(); 
       $html = new HtmlSelect($stmt); 
       $html->print_preselect("LookupTypeID", $value_selected, true); 
-      
     }
     catch (PDOException $e) {
       include_once("cl_html_info.php"); 
@@ -172,13 +175,15 @@ class Lookuptype {
   function setArrData(){
     include_once("cl_db.php");
 
-    $query_lookups = 'select ID, Name, type_key 
-                    from lookup_type 
-                    where ID IN (SELECT DISTINCT LookupTypeID from lookup) 
-                    order by ID';
+    $query_lookups = 'SELECT ID, Name, type_key 
+                      FROM lookup_type 
+                      WHERE Relation=:Relation 
+                      AND ID IN (SELECT DISTINCT LookupTypeID from lookup) 
+                      order by ID';
     $conn = new DbConn(); 
     $db=$conn->db; 
     $select = $db->prepare($query_lookups); 
+    $select->bindParam(':Relation', $this->Relation);    
     $select->execute(); 
     $result = $select->fetchAll(PDO::FETCH_ASSOC);
 

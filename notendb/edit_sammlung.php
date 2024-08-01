@@ -145,6 +145,18 @@ if ($show_data) {
       </td>
     </tr> 
 
+
+
+    <tr> 
+    <td class="eingabe"><b>Besonderheiten:</b>
+              <br> <a href="show_table2.php?table=lookup_type&sortcol=Name&title=Besonderheit Typen" target="_blank">Übersicht Besonderheiten</a>
+              <br> <br> <a href="edit_sammlung_list_lookups.php?SammlungID='.$sammlung->ID.'" target="Lookups">Aktualisieren</a> - &gt;      
+    </td> 
+    <td class="eingabe"><iframe src="edit_sammlung_list_lookups.php?SammlungID='.$sammlung->ID.'" width="70%" height="300" name="Lookups"></iframe>
+    </td>
+    </tr> 
+
+    
     
     <tr>    
       <label>

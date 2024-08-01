@@ -389,7 +389,97 @@ class Sammlung {
       $info->print_error($delete, $e);  
     }  
   }  
-    
+
+
+  function print_table_lookups($target_file, $LookupTypeID=0){
+
+    $query="SELECT sammlung_lookup.ID
+             , lookup_type.Name as Typ     
+             , lookup.Name  
+          FROM sammlung_lookup          
+          INNER JOIN lookup 
+            on lookup.ID=sammlung_lookup.LookupID
+          INNER JOIN lookup_type
+            on lookup_type.ID = lookup.LookupTypeID
+            and lookup_type.Relation='sammlung' 
+          WHERE sammlung_lookup.SammlungID = :SammlungID";
+          $query.=($LookupTypeID>0?" AND lookup.LookupTypeID = :LookupTypeID":""); 
+          $query.=" ORDER by lookup_type.Name, lookup.Name"; 
+
+    // echo $query; 
+
+    include_once("cl_db.php");
+    $conn = new DbConn(); 
+    $db=$conn->db; 
+  
+    $stmt = $db->prepare($query); 
+    $stmt->bindParam(':SammlungID', $this->ID, PDO::PARAM_INT);
+    if ($LookupTypeID>0) {
+      $stmt->bindParam(':LookupTypeID', $LookupTypeID, PDO::PARAM_INT);
+    } 
+
+    try {
+      $stmt->execute(); 
+      include_once("cl_html_table.php");      
+      $html = new HtmlTable($stmt); 
+      $html->print_table_with_del_link($target_file, 'SammlungID', $this->ID); 
+    }
+    catch (PDOException $e) {
+      include_once("cl_html_info.php"); 
+      $info = new HtmlInfo();      
+      $info->print_user_error(); 
+      $info->print_error($stmt, $e); 
+    }
+  }   
+  
+  
+  function add_lookup($LookupID){
+
+    include_once("cl_db.php");
+    $conn = new DbConn(); 
+    $db=$conn->db; 
+
+    $insert = $db->prepare("INSERT INTO `sammlung_lookup` SET
+        `SammlungID`     = :SammlungID,  
+        `LookupID`     = :LookupID");
+
+    $insert->bindValue(':SammlungID', $this->ID);  
+    $insert->bindValue(':LookupID', $LookupID);  
+
+    try {
+      $insert->execute(); 
+    }
+    catch (PDOException $e) {
+      include_once("cl_html_info.php"); 
+      $info = new HtmlInfo();      
+      $info->print_user_error(); 
+      $info->print_error($insert, $e);  
+    }  
+  } 
+  
+  function delete_lookup($ID){
+    include_once("cl_db.php");
+    $conn = new DbConn(); 
+    $db=$conn->db; 
+
+    $delete = $db->prepare("DELETE FROM `sammlung_lookup` WHERE ID=:ID"); 
+    $delete->bindValue(':ID', $ID);  
+
+    try {
+      $delete->execute(); 
+    }
+    catch (PDOException $e) {
+      include_once("cl_html_info.php"); 
+      $info = new HtmlInfo();      
+      $info->print_user_error(); 
+      $info->print_error($delete, $e);  
+    }  
+  }
+
+
+
+
+  
 }
 
  

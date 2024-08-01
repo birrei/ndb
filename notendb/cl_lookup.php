@@ -11,6 +11,7 @@ class Lookup {
   public $LookupTypeID; 
   public $LookupTypeKey;   
   public $LookupTypeName; 
+  public $LookupTypeRelation; 
   public $ID_List; 
   public $titles_selected_list; 
   public $Title='Besonderheit';
@@ -45,33 +46,60 @@ class Lookup {
     }
   }  
  
-  function print_select($value_selected='',$referenced_SatzID=''){
+  function print_select($value_selected='',$RelationID=''){
       
     include_once("cl_db.php");  
     include_once("cl_html_select.php");
 
     $query="SELECT lookup.ID
-            , concat(lookup_type.Name, ': ', lookup.Name) as Besonderheit
-            FROM lookup 
-            INNER JOIN lookup_type 
-            ON lookup_type.ID=lookup.LookupTypeID 
-            WHERE 1=1 ";
+          , concat(lookup_type.Name, ': ', lookup.Name) as Besonderheit
+          FROM lookup 
+          INNER JOIN lookup_type 
+          ON lookup_type.ID=lookup.LookupTypeID 
+          WHERE lookup_type.Relation=:Relation ";
 
-    if ($referenced_SatzID!=''){
-        $query.='AND lookup.ID NOT IN 
-              (SELECT LookupID FROM satz_lookup 
-               WHERE SatzID=:SatzID) ';
-    }
+
+    if ($RelationID!=''){
+      switch ($this->LookupTypeRelation) {
+        case 'sammlung': 
+          $query.='AND lookup.ID NOT IN 
+                  (SELECT LookupID FROM sammlung_lookup 
+                  WHERE SammlungID=:SammlungID)'; 
+          break; 
+
+        case 'satz': 
+          $query.='AND lookup.ID NOT IN 
+                  (SELECT LookupID FROM satz_lookup 
+                  WHERE SatzID=:SatzID)';  
+          break; 
+
+        }
+      }
 
     $query.='ORDER BY Besonderheit'; 
+
+   // echo '<pre>'.$query.'</pre>';     // test 
 
     $conn = new DbConn(); 
     $db=$conn->db; 
 
     $stmt = $db->prepare($query); 
+    $stmt->bindParam(':Relation', $this->LookupTypeRelation);
 
-    if ($referenced_SatzID!=''){
-      $stmt->bindParam(':SatzID', $referenced_SatzID);
+    if ($RelationID!=''){
+
+
+      switch ($this->LookupTypeRelation) {
+        case 'sammlung': 
+          $stmt->bindParam(':SammlungID', $RelationID);
+          break; 
+
+        case 'satz': 
+          $stmt->bindParam(':SatzID', $RelationID);
+          break; 
+
+        }     
+
     }  
 
     try {
@@ -88,7 +116,7 @@ class Lookup {
     }
   }
 
-  function print_select2($LookupTypeID, $Relation, $referenced_RelationID='',$value_selected=''){
+  function print_select2($LookupTypeID, $RelationID='',$value_selected=''){
     // Lookup für einen ausgewählten Typ   
     include_once("cl_db.php");  
     include_once("cl_html_select.php");
@@ -101,15 +129,25 @@ class Lookup {
             WHERE 1=1 
             AND LookupTypeID=:LookupTypeID ";
 
-    if ($Relation=='satz' & $referenced_RelationID!=''){
-        $query.='AND lookup.ID NOT IN 
-              (SELECT LookupID FROM satz_lookup 
-               WHERE SatzID=:referenced_RelationID) ';
+    if ($RelationID!=''){
+        switch($this->LookupTypeRelation) {
+          case 'sammlung': 
+            $query.='AND lookup.ID NOT IN 
+                (SELECT LookupID FROM sammlung_lookup 
+                WHERE SammlungID=:RelationID) ';               
+            break; 
+            
+          case 'satz': 
+            $query.='AND lookup.ID NOT IN 
+                (SELECT LookupID FROM satz_lookup 
+                WHERE SatzID=:RelationID) ';            
+              break; 
+        }
     }
 
     $query.='ORDER BY lookup.Name'; 
 
-    // echo $query; 
+    // echo $query; // Test 
 
     $conn = new DbConn(); 
     $db=$conn->db; 
@@ -117,8 +155,8 @@ class Lookup {
     $stmt = $db->prepare($query); 
     $stmt->bindParam(':LookupTypeID', $LookupTypeID);    
 
-    if ($referenced_RelationID!=''){
-      $stmt->bindParam(':referenced_RelationID', $referenced_RelationID);
+    if ($RelationID!=''){
+      $stmt->bindParam(':RelationID', $RelationID);
     }  
 
     try {
