@@ -7,6 +7,7 @@ include("cl_html_info.php");
 echo '<h2>Satz löschen</h2>'; 
 
 $satz=new Satz(); 
+$info=new HtmlInfo(); 
 
 if (isset($_GET["ID"])) {
   /* noch nicht gelöscht  */
@@ -31,7 +32,7 @@ if (isset($_GET["ID"])) {
 
 if (isset($_POST["confirm"])) {
   $satz->ID=$_POST["ID"]; 
-  $satz->delete();       
+  $satz->delete(); // hier keine Abhängigkeiten-Prüfung        
 }
 
 

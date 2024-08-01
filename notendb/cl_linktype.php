@@ -4,10 +4,9 @@ class Linktype {
   public $table_name; 
   public $ID;
   public $Name;
-  public $Relation;
-  public $type_key;
-  public $ArrData=[]; 
   public $titles_selected_list; 
+  public $Title='Link-Typ';
+  public $Titles='Link-Typen';  
 
   public function __construct(){
     $this->table_name='linktype'; 
@@ -115,21 +114,17 @@ class Linktype {
     }
   }
 
-  function update_row($Name, $Relation, $type_key) {
+  function update_row($Name) {
     include_once("cl_db.php");   
     $conn = new DbConn(); 
     $db=$conn->db; 
     
     $update = $db->prepare("UPDATE `linktype` 
-                            SET Name     = :Name, 
-                              Relation   = :Relation, 
-                              type_key   = :type_key
+                            SET Name     = :Name
                             WHERE `ID` = :ID"); 
 
     $update->bindParam(':ID', $this->ID, PDO::PARAM_INT);
     $update->bindParam(':Name', $Name);
-    $update->bindParam(':Relation', $Relation);
-    $update->bindParam(':type_key', $type_key);
 
     try {
       $update->execute(); 
@@ -148,7 +143,7 @@ class Linktype {
     $conn = new DbConn(); 
     $db=$conn->db; 
 
-    $select = $db->prepare("SELECT ID, Name, Relation, type_key
+    $select = $db->prepare("SELECT ID, Name
                           FROM `linktype`
                           WHERE `ID` = :ID");
 
@@ -157,9 +152,7 @@ class Linktype {
    
     if ($select->rowCount()==1) {
       $row_data=$select->fetch();      
-      $this->Name=$row_data["Name"];
-      $this->Relation=$row_data["Relation"];
-      $this->type_key=$row_data["type_key"];  
+      $this->Name=$row_data["Name"]; 
       return true; 
     } 
     else {

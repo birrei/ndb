@@ -10,7 +10,10 @@ class Link {
   public $LinktypeID; 
   public $SammlungID; 
   public $titles_selected_list; 
-  
+  public $Title='Link';
+  public $Titles='Links';  
+
+
   public function __construct(){
     $this->table_name='link'; 
   }

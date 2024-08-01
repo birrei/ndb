@@ -62,6 +62,12 @@ if (isset($_REQUEST["option"])) {
       $linktyp = new Linktype(); 
       $linktyp->print_select($link->LinktypeID); 
       ?>
+
+      <?php
+      $info->print_link_edit($linktyp->table_name, $link->LinktypeID, $linktyp->Title, true, ' | '); 
+      $info->print_link_table($linktyp->table_name,'sortcol=Name',$linktyp->Titles,true,'',' | ');    
+      $info->print_link_insert($linktyp->table_name,$linktyp->Title,true);        
+      ?>
       </td>
    </label>
   </tr>
@@ -83,7 +89,12 @@ if (isset($_REQUEST["option"])) {
   <tr> 
   <td class="eingabe"><input type="submit" value="Speichern"></td>
   <td class="eingabe">
-  <a href="edit_sammlung_list_links.php?SammlungID=<?php echo $link->SammlungID; ?>">Liste anzeigen</a>
+  <a href="edit_sammlung_list_links.php?SammlungID=<?php echo $link->SammlungID; ?>">Liste anzeigen</a> | 
+  <?php 
+  $info->print_link_delete_row($link->table_name, $link->ID, $link->Title, false); 
+
+
+  ?>
 
   </td>
   </tr>
@@ -96,6 +107,8 @@ if (isset($_REQUEST["option"])) {
 </form>
 
 <?php 
+
+
 
 include('foot_raw.php');
 

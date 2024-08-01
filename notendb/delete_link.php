@@ -24,7 +24,7 @@ if (isset($_GET["ID"])) {
       <input type="hidden" name="title" value="Link löschen">        
       </form>
       </p> 
-      <p> <a href="edit_sammlung_list_links.php?SammlungID='. $link->SammlungID . '&title=Link">Abbrechen / Zurück</a></p> 
+      <p> <a href="edit_sammlung_list_links.php?SammlungID='. $link->SammlungID . '&title=Link">Zur Liste</a></p> 
       '; 
   } 
 }

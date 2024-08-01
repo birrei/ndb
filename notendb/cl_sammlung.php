@@ -238,7 +238,7 @@ class Sammlung {
             , epoche.Name as Epoche
             , GROUP_CONCAT(DISTINCT besetzung.Name order by besetzung.Name SEPARATOR ', ') Besetzungen
             , GROUP_CONCAT(DISTINCT verwendungszweck.Name order by verwendungszweck.Name SEPARATOR ', ') Verwendungszwecke                                         
-            , GROUP_CONCAT(DISTINCT satz.Nr order by satz.Nr SEPARATOR ', ') Sätze                                         
+            , GROUP_CONCAT(DISTINCT satz.Nr order by satz.Nr SEPARATOR ', ') Saetze                                         
     from musikstueck 
       left join v_komponist komponist on musikstueck.KomponistID = komponist.ID
       left join gattung on gattung.ID = musikstueck.GattungID   
@@ -299,7 +299,7 @@ class Sammlung {
       $stmt->execute(); 
       include_once("cl_html_table.php");      
       $html = new HtmlTable($stmt); 
-      $html->add_link_delete=true; 
+      // $html->add_link_delete=true; 
       $html->link_table='link'; 
       $html->link_title='Link'; 
       $html->open_newpage=false; 
