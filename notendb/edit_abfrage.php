@@ -38,7 +38,8 @@ if (isset($_REQUEST["option"])) {
 }
 
 $info->print_screen_header($abfrage->Title.' bearbeiten', ' | '); 
-$info->print_link_table($abfrage->table_name, 'sortcol=Name', $abfrage->Titles); 
+// $info->print_link_table($abfrage->table_name, 'sortcol=Name', $abfrage->Titles); 
+$info->print_link_table('v_abfrage', 'sortcol=Name', $abfrage->Titles); 
 
 if ($show_data) {
   echo '

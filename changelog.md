@@ -1,5 +1,8 @@
 ﻿
 # Change Log  
+02.08.2024
+ * Neu: "Sammlung Besonderheiten" (z.B. "Verfügbarkeit" > "Kauf geplant") 
+ 
 
 19.07.2024: 
  * auf Übersicht-Tabelle link für "Neu anlegen" anzeigen

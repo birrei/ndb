@@ -5,11 +5,13 @@ include("../cl_html_info.php");
 
 /* 
 Script führt die SQL-Commands aus allen *.sql-Dateien (die im gleichen Ordner liegen) aus. 
-Enthält eine Datei mehrere SQL-Commands, müssen diese durch ein Semikolon ";" getrennt sein. 
+Eine Datei kan mehrere SQL-Commands enthalte, diese müssen dann durch ein Semikolon ";" getrennt sein. 
 */
 
 ?> 
-<div style="font-family: 'Courier New', Courier, monospace; padding: 50px">
+
+<div style="padding: 50px"> 
+<h3>Installation DDL</h3>    
 <?php 
 
 $dir='.'; 
@@ -20,7 +22,7 @@ if ( is_dir ( $dir )){
     while (($file = readdir($handle)) !== false)
     {
       if (pathinfo($file)['extension']=='sql') {
-        echo '<p>Datei: '.$file.'</p>'; 
+        // echo '<p>Datei: '.$file.'</p>'; 
 
         $sqltext = file_get_contents($file, true);
         $cmds = explode(';', $sqltext);
@@ -30,26 +32,28 @@ if ( is_dir ( $dir )){
 
         foreach($cmds as $cmd){
           $sql= trim($cmd); 
-          echo '<p>SQL:<br /><pre>'.$sql.'</pre></p>'; 
+          // echo '<p>SQL:<br /><pre>'.$sql.'</pre></p>'; 
           $stmt = $db->prepare($sql); 
           try {    
             $stmt->execute(); 
-            echo '<p>SQL wurde erfolgreich ausgeführt.</p>';
+            echo '<p>Datei '.$file.' wurde erfolgreich ausgeführt.</p>';
           }
           catch (PDOException $e) {
             // include_once("cl_html_info.php"); 
             $info = new HtmlInfo();      
             $info->print_user_error(); 
             $info->print_error($stmt, $e); 
+            echo '<br>Datei '.$file.' wurde nicht erfolgreich ausgeführt. SQL:<br/>';
+            echo '<pre>'.$sql.'</pre>'; 
           }
-          echo '<p>/********************************************/<br />'; 
+          // echo '<p>/********************************************/<br />'; 
         }
       }
     }
     closedir($handle);
   }
 }
-echo "</ol>";
+echo "</div>";
 
 ?> 
 </div>

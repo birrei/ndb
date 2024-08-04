@@ -19,7 +19,7 @@ class Lookuptype {
     include_once("cl_db.php");
     $conn = new DbConn(); 
     $db=$conn->db; 
-
+    
     $insert = $db->prepare("INSERT INTO `lookup_type` 
               SET `Name`     = :Name"              
            );
@@ -164,7 +164,8 @@ class Lookuptype {
       $row_data=$select->fetch();      
       $this->Name=$row_data["Name"];
       $this->Relation=$row_data["Relation"];
-      $this->type_key=$row_data["type_key"];      
+      $this->type_key=$row_data["type_key"];
+      $this->type_key=(empty($row_data["type_key"])?'typekey'.strval($this->ID):$row_data["type_key"]);        
       return true; 
     } 
     else {

@@ -1,12 +1,15 @@
 create or replace view v_sammlung as
-select s.ID
-    , s.Name
-    , v.Name as Verlag
-    , st.Name as Standort
-    , s.Bestellnummer
-    , s.Bemerkung 
-from sammlung s
-        left join verlag v on s.VerlagID = v.ID 
-        left join standort st on s.StandortID = st.ID
+select sammlung.ID
+    , sammlung.Name
+    , verlag.Name as Verlag
+    , standort.Name as Standort
+    , sammlung.Bemerkung
+    , v_sammlung_lookuptypes.LookupList as Besonderheiten       
+    , sammlung.Bestellnummer     
+from sammlung 
+    left join verlag  on sammlung.VerlagID = verlag.ID 
+    left join standort on sammlung.StandortID = standort.ID
+    LEFT JOIN sammlung_lookup on sammlung_lookup.SammlungID = sammlung.ID       
+    LEFT JOIN v_sammlung_lookuptypes on v_sammlung_lookuptypes.SammlungID = sammlung.ID         
 
 

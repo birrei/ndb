@@ -130,10 +130,20 @@ if ($show_data) {
         <p> <a href="edit_sammlung_list_musikstuecke.php?SammlungID='.$sammlung->ID.'" target="musikstuecke">Aktualisieren</a> - &gt; </p>
 
         </td> 
-        <td class="eingabe"><iframe src="edit_sammlung_list_musikstuecke.php?SammlungID='.$sammlung->ID.'"  width="100%" height="400" name="musikstuecke"></iframe>
+        <td class="eingabe"><iframe src="edit_sammlung_list_musikstuecke.php?SammlungID='.$sammlung->ID.'"  width="100%" height="200" name="musikstuecke"></iframe>
       </td>
       </tr> 
 
+
+      <tr> 
+      <td class="eingabe"><b>Besonderheiten:</b>
+                <br> <a href="show_table2.php?table=lookup_type&sortcol=Name&title=Attribut-Typen" target="_blank">Alle Besonderheiten</a>
+                <br> <br> <a href="edit_sammlung_list_lookups.php?SammlungID='.$sammlung->ID.'" target="Lookups">Aktualisieren</a> - &gt;      
+      </td> 
+      <td class="eingabe"><iframe src="edit_sammlung_list_lookups.php?SammlungID='.$sammlung->ID.'" width="70%" height="150" name="Lookups"></iframe>
+      </td>
+      </tr> 
+  
       <tr> 
       <td class="eingabe"><b>Links</b>
       <p> <a href="edit_link.php?SammlungID='.$sammlung->ID.'&option=insert" target="Links">Link hinzufügen</a></p>
@@ -146,15 +156,6 @@ if ($show_data) {
     </tr> 
 
 
-
-    <tr> 
-    <td class="eingabe"><b>Besonderheiten:</b>
-              <br> <a href="show_table2.php?table=lookup_type&sortcol=Name&title=Besonderheit Typen" target="_blank">Übersicht Besonderheiten</a>
-              <br> <br> <a href="edit_sammlung_list_lookups.php?SammlungID='.$sammlung->ID.'" target="Lookups">Aktualisieren</a> - &gt;      
-    </td> 
-    <td class="eingabe"><iframe src="edit_sammlung_list_lookups.php?SammlungID='.$sammlung->ID.'" width="70%" height="300" name="Lookups"></iframe>
-    </td>
-    </tr> 
 
     
     

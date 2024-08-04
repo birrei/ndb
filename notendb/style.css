@@ -66,3 +66,9 @@ input.btnSave {
 	grid-template-columns: 350pt 100%;
     grid-gap: 5px;    
 }
+
+p.navi-trenner {
+    color:red; 
+    background-color:aquamarine;
+
+}

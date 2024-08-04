@@ -57,9 +57,9 @@ $filterVerwendungszweck='';
 $filterKomponisten='';   
 $filterGattungen='';  
 $filterEpochen='';    
-$filterStricharten=''; 
-$filterNotenwerte='';  
-$filterUebungen='';  
+// $filterStricharten=''; 
+// $filterNotenwerte='';  
+// $filterUebungen='';  
 $filterErprobt=''; 
 $filterSchwierigkeitsgrad=''; 
 $filterInstrumente=''; 
@@ -128,6 +128,7 @@ $Suche->Beschreibung.='* Anzeige-Ebene: '.$Ebene.PHP_EOL;
 </script> 
 <?php 
 /************** Suchtext  **********/  
+
 if (isset($_POST['suchtext'])) {
   $suchtext = $_POST['suchtext'];  
   if ($suchtext!='') { 
@@ -145,89 +146,11 @@ if (isset($_POST['suchtext'])) {
           }  
       </script> 
 
+<p class="navi-trenner">Sammlung </p> 
+
 <?php 
-  /* Standort  */
-  if (isset($_POST['Standorte'])) {
-    $Standorte = $_POST['Standorte'];   // Array gewählte Standorte 
-    $filterStandorte = 'IN ('.implode(',', $Standorte).')'; 
-    $filter=true;     
-  }
-  $standort = new Standort();
-  $standort->print_select_multi($Standorte);      
-  $Suche->Beschreibung.=(count($Standorte)>0?$standort->titles_selected_list:'');    
 
-  /* Besetzung  */
-  if (isset($_POST['Besetzungen'])) {
-    $Besetzungen = $_POST['Besetzungen'];    
-    $filterBesetzung = 'IN ('.implode(',', $Besetzungen).')'; 
-    $filter=true;        
-  }
-  $besetzung = new Besetzung();
-  $besetzung->print_select_multi($Besetzungen); 
-  $Suche->Beschreibung.=(count($Besetzungen)>0?$besetzung->titles_selected_list:'');  
-
-  /* Verwendungszwecke  */
-  if (isset($_POST['Verwendungszwecke'])) {
-    $Verwendungszwecke = $_POST['Verwendungszwecke'];   
-    $filterVerwendungszweck = 'IN ('.implode(',', $Verwendungszwecke).')'; 
-    $filter=true;     
-  }  
-  $verwendungszweck = new Verwendungszweck();
-  $verwendungszweck->print_select_multi($Verwendungszwecke);    
-  $Suche->Beschreibung.=(count($Verwendungszwecke)>0?$verwendungszweck->titles_selected_list:'');  
-
-  /* Gattungen  */
-  $gattung = new Gattung();
-  $gattung->print_select_multi($Gattungen);  
-  $Suche->Beschreibung.=(count($Gattungen)>0?$gattung->titles_selected_list:'');
-  if (isset($_POST['Gattungen'])) {
-    $Gattungen = $_POST['Gattungen'];  
-    $filterGattungen = 'IN ('.implode(',', $Gattungen).')'; 
-    $filter=true;     
-  }      
-
-  /* Epochen  */
-  if (isset($_POST['Epochen'])) {
-    $Epochen = $_POST['Epochen'];   
-    $filterEpochen = 'IN ('.implode(',', $Epochen).')'; 
-    $filter=true; 
-  }    
-  $epochen = new Epoche();
-  $epochen->print_select_multi($Epochen); 
-  $Suche->Beschreibung.=(count($Epochen)>0?$epochen->titles_selected_list:'');  
-  
-  /* Schwierigkeitsgrad  */
-  if (isset($_POST['Schwierigkeitsgrad'])) {
-    $Schierigkeitsgrad = $_POST['Schwierigkeitsgrad']; 
-    $filterSchwierigkeitsgrad= 'IN ('.implode(',', $Schierigkeitsgrad).')'; 
-    $filter=true;       
-  }
-  $schierigkeitsgrad = new Schwierigkeitsgrad();
-  $schierigkeitsgrad->print_select_multi($Schierigkeitsgrad);  
-  $Suche->Beschreibung.=(count($Schierigkeitsgrad)>0?$schierigkeitsgrad->titles_selected_list:'');
- 
-  /* Instrumente  */
-  if (isset($_POST['Instrumente'])) {
-    $Instrumente = $_POST['Instrumente'];  
-    $filterInstrumente= 'IN ('.implode(',', $Instrumente).')'; 
-    $filter=true;      
-  } 
-  $instrument = new Instrument();
-  $instrument->print_select_multi($Instrumente);        
-  $Suche->Beschreibung.=(count($Instrumente)>0?$instrument->titles_selected_list:'');
-  
-  /* Erprobt  */
-  if (isset($_POST['Erprobt'])) {
-    $Erprobt = $_POST['Erprobt'];   
-    $filterErprobt= 'IN ('.implode(',', $Erprobt).')'; 
-    $filter=true;     
-  } 
-  $erprobt = new Erprobt();
-  $erprobt->print_select_multi($Erprobt);  
-  $Suche->Beschreibung.=(count($Erprobt)>0?$erprobt->titles_selected_list:'');            
-
-
-  /* Verlag  */
+/************* Verlag  ***********/
   if (isset($_POST['Verlage'])) {
     $Verlage = $_POST['Verlage']; 
     $filterVerlage = 'IN ('.implode(',', $Verlage).')'; 
@@ -237,18 +160,40 @@ if (isset($_POST['suchtext'])) {
   $verlag->print_select_multi($Verlage);
   $Suche->Beschreibung.=(count($Verlage)>0?$verlag->titles_selected_list:'');            
 
+/************* Standort  ***********/
+  if (isset($_POST['Standorte'])) {
+    $Standorte = $_POST['Standorte'];   // Array gewählte Standorte 
+    $filterStandorte = 'IN ('.implode(',', $Standorte).')'; 
+    $filter=true;     
+  }
+  $standort = new Standort();
+  $standort->print_select_multi($Standorte);      
+  $Suche->Beschreibung.=(count($Standorte)>0?$standort->titles_selected_list:'');    
 
-  /* Komponisten  */
-  if (isset($_POST['Komponisten'])) {
-    $Komponisten = $_POST['Komponisten'];   
-    $filterKomponisten = 'IN ('.implode(',', $Komponisten).')'; 
-    $filter=true;        
-  }   
-  $komponist = new Komponist();
-  $komponist->print_select_multi($Komponisten);     
-  $Suche->Beschreibung.=(count($Komponisten)>0?$komponist->titles_selected_list:''); 
- 
-  /************ Linktypen  ************** */      
+
+  /*********  Sammlung Besonderheiten **********/  
+  $lookuptypes=new Lookuptype(); 
+  $lookuptypes->Relation='sammlung'; 
+  $lookuptypes->setArrData(); 
+  $filterLookups_sammlung=''; 
+
+  for ($i = 0; $i < count($lookuptypes->ArrData); $i++) {
+    $lookup=New Lookup(); 
+    $lookup->LookupTypeID=$lookuptypes->ArrData[$i]["ID"];
+    $lookup_type_name=$lookuptypes->ArrData[$i]["Name"]; 
+    $lookup_type_key= $lookuptypes->ArrData[$i]["type_key"]; // z.B: "besdynam" ect.  
+    $lookup_values_selected=[];      
+    if (isset($_POST[$lookup_type_key])) {
+      $lookup_values_selected= $_POST[$lookup_type_key]; 
+      $filterLookups_sammlung.=' AND sammlung_lookup.LookupID IN ('.implode(',', $lookup_values_selected).') -- '.$lookup_type_name.''. PHP_EOL; 
+      $filter=true; 
+    } 
+    $lookup->print_select_multi($lookup_type_key,$lookup_values_selected, $lookup_type_name.':');
+    $Suche->Beschreibung.=(count($lookup_values_selected)?$lookup->titles_selected_list:'');   
+  }
+
+/************ Linktypen  ************** */  
+
   if (isset($_POST['Linktypen'])) {
     $Linktypen = $_POST['Linktypen']; 
     $filterLinktypen = 'IN ('.implode(',', $Linktypen).')'; 
@@ -258,6 +203,97 @@ if (isset($_POST['suchtext'])) {
   $linktyp->print_select_multi($Linktypen);      
   $Suche->Beschreibung.=(count($Linktypen)>0?$linktyp->titles_selected_list:''); 
 
+?>
+<p class="navi-trenner">Musikstück </p> 
+<?php 
+
+/************* Komponisten  ***********/
+  if (isset($_POST['Komponisten'])) {
+    $Komponisten = $_POST['Komponisten'];   
+    $filterKomponisten = 'IN ('.implode(',', $Komponisten).')'; 
+    $filter=true;        
+  }   
+  $komponist = new Komponist();
+  $komponist->print_select_multi($Komponisten);     
+  $Suche->Beschreibung.=(count($Komponisten)>0?$komponist->titles_selected_list:''); 
+ 
+
+/************* Besetzungen  ***********/
+  if (isset($_POST['Besetzungen'])) {
+    $Besetzungen = $_POST['Besetzungen'];    
+    $filterBesetzung = 'IN ('.implode(',', $Besetzungen).')'; 
+    $filter=true;        
+  }
+  $besetzung = new Besetzung();
+  $besetzung->print_select_multi($Besetzungen); 
+  $Suche->Beschreibung.=(count($Besetzungen)>0?$besetzung->titles_selected_list:'');  
+
+/************* Verwendungszwecke  ***********/
+  if (isset($_POST['Verwendungszwecke'])) {
+    $Verwendungszwecke = $_POST['Verwendungszwecke'];   
+    $filterVerwendungszweck = 'IN ('.implode(',', $Verwendungszwecke).')'; 
+    $filter=true;     
+  }  
+  $verwendungszweck = new Verwendungszweck();
+  $verwendungszweck->print_select_multi($Verwendungszwecke);    
+  $Suche->Beschreibung.=(count($Verwendungszwecke)>0?$verwendungszweck->titles_selected_list:'');  
+
+/************* Gattungen  ***********/
+
+  if (isset($_POST['Gattungen'])) {
+    $Gattungen = $_POST['Gattungen'];  
+    $filterGattungen = 'IN ('.implode(',', $Gattungen).')'; 
+    $filter=true;     
+  }      
+  $gattung = new Gattung();
+  $gattung->print_select_multi($Gattungen);  
+  $Suche->Beschreibung.=(count($Gattungen)>0?$gattung->titles_selected_list:'');
+
+/************* Gattungen  ***********/
+  if (isset($_POST['Epochen'])) {
+    $Epochen = $_POST['Epochen'];   
+    $filterEpochen = 'IN ('.implode(',', $Epochen).')'; 
+    $filter=true; 
+  }    
+  $epochen = new Epoche();
+  $epochen->print_select_multi($Epochen); 
+  $Suche->Beschreibung.=(count($Epochen)>0?$epochen->titles_selected_list:'');  
+  
+
+  ?>
+  <p class="navi-trenner">Satz</p> 
+  <?php   
+
+
+/************* Schwierigkeitsgrad  ***********/
+  if (isset($_POST['Schwierigkeitsgrad'])) {
+    $Schierigkeitsgrad = $_POST['Schwierigkeitsgrad']; 
+    $filterSchwierigkeitsgrad= 'IN ('.implode(',', $Schierigkeitsgrad).')'; 
+    $filter=true;       
+  }
+  $schierigkeitsgrad = new Schwierigkeitsgrad();
+  $schierigkeitsgrad->print_select_multi($Schierigkeitsgrad);  
+  $Suche->Beschreibung.=(count($Schierigkeitsgrad)>0?$schierigkeitsgrad->titles_selected_list:'');
+ 
+/************* Schwierigkeitsgrad / Instrumente  ***********/
+  if (isset($_POST['Instrumente'])) {
+    $Instrumente = $_POST['Instrumente'];  
+    $filterInstrumente= 'IN ('.implode(',', $Instrumente).')'; 
+    $filter=true;      
+  } 
+  $instrument = new Instrument();
+  $instrument->print_select_multi($Instrumente);        
+  $Suche->Beschreibung.=(count($Instrumente)>0?$instrument->titles_selected_list:'');
+  
+/************* Erprobt  ***********/
+  if (isset($_POST['Erprobt'])) {
+    $Erprobt = $_POST['Erprobt'];   
+    $filterErprobt= 'IN ('.implode(',', $Erprobt).')'; 
+    $filter=true;     
+  } 
+  $erprobt = new Erprobt();
+  $erprobt->print_select_multi($Erprobt);  
+  $Suche->Beschreibung.=(count($Erprobt)>0?$erprobt->titles_selected_list:'');            
 
 /*******  Spieldauer  ****************/  
 
@@ -303,14 +339,16 @@ if (isset($_POST['suchtext'])) {
         }   
     </script> 
   </p>
+ 
   <?php 
+
 
 /************** Besonderheiten Satz **********/
 
   $lookuptypes=new Lookuptype(); 
   $lookuptypes->Relation='satz'; 
   $lookuptypes->setArrData(); 
-  $filterLookups2=''; 
+  $filterLookups_satz=''; 
 
   for ($i = 0; $i < count($lookuptypes->ArrData); $i++) {
     $lookup=New Lookup(); 
@@ -321,7 +359,7 @@ if (isset($_POST['suchtext'])) {
     if (isset($_POST[$lookup_type_key])) {
       $lookup_values_selected= $_POST[$lookup_type_key]; 
       // $lookup_all_values_selected = array_merge($lookup_all_values_selected, $lookup_values_selected);  // falsch! (jede lookup-Gruppe muss für Filter separat ausgelesen )
-      $filterLookups2.=' AND satz_lookup.LookupID IN ('.implode(',', $lookup_values_selected).') -- '.$lookup_type_name.''. PHP_EOL; 
+      $filterLookups_satz.=' AND satz_lookup.LookupID IN ('.implode(',', $lookup_values_selected).') -- '.$lookup_type_name.''. PHP_EOL; 
       $filter=true; 
     } 
     $lookup->print_select_multi($lookup_type_key,$lookup_values_selected, $lookup_type_name.':');
@@ -329,7 +367,6 @@ if (isset($_POST['suchtext'])) {
   }
  
   ?>
-
 
 </form>
 
@@ -348,9 +385,10 @@ if (isset($_POST['suchtext'])) {
             ,sammlung.Name as Sammlung
             , standort.Name as Standort
             , verlag.Name as Verlag
-            , GROUP_CONCAT(DISTINCT linktype.Name order by linktype.Name SEPARATOR ', ') Links            
             , sammlung.Bemerkung 
             , GROUP_CONCAT(DISTINCT musikstueck.Nummer order by musikstueck.Nummer SEPARATOR ', ') Musikstuecke
+            , v_sammlung_lookuptypes.LookupList as Besonderheiten   
+            , GROUP_CONCAT(DISTINCT linktype.Name order by linktype.Name SEPARATOR ', ') Links                             
             , sammlung.Bestellnummer 
             ";
         $edit_table='sammlung'; 
@@ -405,27 +443,27 @@ if (isset($_POST['suchtext'])) {
 
     $query.="
       FROM sammlung 
-      LEFT JOIN standort  on sammlung.StandortID = standort.ID    
-      LEFT JOIN verlag  on sammlung.VerlagID = verlag.ID
-      LEFT JOIN link  on sammlung.ID = link.SammlungID
-      LEFT JOIN linktype  on linktype.ID = link.LinktypeID
-      LEFT JOIN musikstueck on sammlung.ID = musikstueck.SammlungID 
-      LEFT JOIN v_komponist komponist on komponist.ID = musikstueck.KomponistID
-      LEFT JOIN gattung on gattung.ID = musikstueck.GattungID  
-      LEFT JOIN epoche on epoche.ID = musikstueck.EpocheID              
-      LEFT JOIN musikstueck_besetzung on musikstueck.ID = musikstueck_besetzung.MusikstueckID
-      LEFT JOIN besetzung on musikstueck_besetzung.BesetzungID = besetzung.ID
-      LEFT JOIN musikstueck_verwendungszweck on musikstueck.ID = musikstueck_verwendungszweck.MusikstueckID 
-      LEFT JOIN verwendungszweck on musikstueck_verwendungszweck.VerwendungszweckID=verwendungszweck.ID    
-      LEFT JOIN satz on satz.MusikstueckID = musikstueck.ID 
-      LEFT JOIN erprobt on erprobt.ID = satz.ErprobtID       
-      left JOIN satz_schwierigkeitsgrad on satz_schwierigkeitsgrad.SatzID = satz.ID 
-      LEFT JOIN schwierigkeitsgrad on schwierigkeitsgrad.ID = satz_schwierigkeitsgrad.SchwierigkeitsgradID 
-      LEFT JOIN instrument on instrument.ID = satz_schwierigkeitsgrad.InstrumentID 
-      left join satz_lookup on satz_lookup.SatzID = satz.ID 
-      -- left join lookup on lookup.ID = satz_lookup.LookupID 
-      -- left join lookup_type on lookup_type.ID = lookup.LookupTypeID
-      left join v_satz_lookuptypes on v_satz_lookuptypes.SatzID = satz.ID 
+        LEFT JOIN standort  on sammlung.StandortID = standort.ID    
+        LEFT JOIN verlag  on sammlung.VerlagID = verlag.ID
+        LEFT JOIN link  on sammlung.ID = link.SammlungID
+        LEFT JOIN linktype  on linktype.ID = link.LinktypeID
+        LEFT JOIN musikstueck on sammlung.ID = musikstueck.SammlungID 
+        LEFT JOIN v_komponist komponist on komponist.ID = musikstueck.KomponistID
+        LEFT JOIN gattung on gattung.ID = musikstueck.GattungID  
+        LEFT JOIN epoche on epoche.ID = musikstueck.EpocheID              
+        LEFT JOIN musikstueck_besetzung on musikstueck.ID = musikstueck_besetzung.MusikstueckID
+        LEFT JOIN besetzung on musikstueck_besetzung.BesetzungID = besetzung.ID
+        LEFT JOIN musikstueck_verwendungszweck on musikstueck.ID = musikstueck_verwendungszweck.MusikstueckID 
+        LEFT JOIN verwendungszweck on musikstueck_verwendungszweck.VerwendungszweckID=verwendungszweck.ID    
+        LEFT JOIN satz on satz.MusikstueckID = musikstueck.ID 
+        LEFT JOIN erprobt on erprobt.ID = satz.ErprobtID       
+        left JOIN satz_schwierigkeitsgrad on satz_schwierigkeitsgrad.SatzID = satz.ID 
+        LEFT JOIN schwierigkeitsgrad on schwierigkeitsgrad.ID = satz_schwierigkeitsgrad.SchwierigkeitsgradID 
+        LEFT JOIN instrument on instrument.ID = satz_schwierigkeitsgrad.InstrumentID 
+        LEFT JOIN satz_lookup on satz_lookup.SatzID = satz.ID 
+        LEFT JOIN v_satz_lookuptypes on v_satz_lookuptypes.SatzID = satz.ID
+        LEFT JOIN sammlung_lookup on sammlung_lookup.SammlungID = sammlung.ID       
+        LEFT JOIN v_sammlung_lookuptypes on v_sammlung_lookuptypes.SammlungID = sammlung.ID 
 
       WHERE 1=1 ". PHP_EOL; 
 
@@ -472,8 +510,8 @@ if (isset($_POST['suchtext'])) {
       if($filterInstrumente!=''){
         $query.=' AND satz_schwierigkeitsgrad.InstrumentID '.$filterInstrumente. PHP_EOL; 
       }
-      // $query.=($filterLookups!=''?' AND satz_lookup.LookupID '.$filterLookups.PHP_EOL:''); 
-      $query.=($filterLookups2!=''?$filterLookups2.PHP_EOL:''); 
+      $query.=($filterLookups_sammlung!=''?$filterLookups_sammlung.PHP_EOL:''); 
+      $query.=($filterLookups_satz!=''?$filterLookups_satz.PHP_EOL:''); 
                        
       if($filterSpieldauer!=''){
         $query.=' AND satz.Spieldauer '.$filterSpieldauer. PHP_EOL; 
@@ -499,7 +537,9 @@ if (isset($_POST['suchtext'])) {
                             epoche.Name LIKE '%".$suchtext."%' OR  
                             besetzung.Name LIKE '%".$suchtext."%' OR 
                             verwendungszweck.Name LIKE '%".$suchtext."%' OR 
-                            v_satz_lookuptypes.LookupList LIKE '%".$suchtext."%')". PHP_EOL;         
+                            v_satz_lookuptypes.LookupList LIKE '%".$suchtext."%' OR
+                            v_sammlung_lookuptypes.LookupList LIKE '%".$suchtext."%'                            
+                            )". PHP_EOL;         
       }
 
       /* Gruppierung abhängig von Ebene  */
@@ -530,7 +570,7 @@ if (isset($_POST['suchtext'])) {
       }
 
       // echo '<pre>'.$query.'</pre>'; // Test  
-      // echo '<pre>'.$filterLookups2.'</pre>'; // Test    
+      // echo '<pre>'.$filterLookups_satz.'</pre>'; // Test    
     
       if ($Suche->Beschreibung!='') {
         echo '<p>Auswahl:</p><pre>'.$Suche->Beschreibung.'</pre>';
