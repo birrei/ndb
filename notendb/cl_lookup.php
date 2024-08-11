@@ -52,7 +52,8 @@ class Lookup {
     include_once("cl_html_select.php");
 
     $query="SELECT lookup.ID
-          , concat(lookup_type.Name, ': ', lookup.Name) as Besonderheit
+          -- , concat(lookup_type.Name, ': ', lookup.Name) as Besonderheit
+          , lookup.Name as Besonderheit
           FROM lookup 
           INNER JOIN lookup_type 
           ON lookup_type.ID=lookup.LookupTypeID 
@@ -288,6 +289,7 @@ class Lookup {
     try {
       $select->execute(); 
       $html = new HtmlSelect($select); 
+      $html->visible_rows=15; //         XXX Wert konfigurierbar machen (Tabellen-Feld)
       $html->print_select_multi($type_key, $type_key.'[]', $options_selected,$caption);
       $this->titles_selected_list = $html->titles_selected_list;
       // echo  'cl_lookup: '.$this->titles_selected_list;
