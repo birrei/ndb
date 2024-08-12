@@ -50,6 +50,10 @@ aND TABLE_SCHEMA = 'test'
 
 /***** foreign key löschen ******/
 
+
+ALTER TABLE `lookup_type` ADD `Bemerkung` VARCHAR(100) NULL ; 
+
+
 ALTER TABLE satz DROP CONSTRAINT satz_ibfk_4;
 
 
