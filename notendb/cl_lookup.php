@@ -1,5 +1,4 @@
 <?php 
-
 /* Für Attribute, die aus "ID" / "Name" bestehen und per Mehrfach-Zuordnung verwendet werden 
 
 */
@@ -16,6 +15,7 @@ class Lookup {
   public $titles_selected_list; 
   public $Title='Besonderheit';
   public $Titles='Besonderheiten';  
+  
 
   public function __construct(){
     $this->table_name='lookup'; 
@@ -53,7 +53,7 @@ class Lookup {
 
     $query="SELECT lookup.ID
           -- , concat(lookup_type.Name, ': ', lookup.Name) as Besonderheit
-          , lookup.Name as Besonderheit
+              , lookup.Name as Besonderheit
           FROM lookup 
           INNER JOIN lookup_type 
           ON lookup_type.ID=lookup.LookupTypeID 
@@ -269,6 +269,7 @@ class Lookup {
   function print_select_multi($type_key, $options_selected=[], $caption=''){
     include_once("cl_db.php");  
     include_once("cl_html_select.php");
+    include_once("cl_lookuptype.php");
     
     // $this->ID_List=implode(',', $options_selected); 
 
@@ -278,19 +279,24 @@ class Lookup {
           ORDER BY Name 
           "; 
 
-    include_once("cl_db.php");
     $conn = new DbConn(); 
     $db=$conn->db; 
+
+    $lookuptype=new Lookuptype(); 
+    $lookuptype->ID = $this->LookupTypeID;
+    $lookuptype->load_row(); 
+
     // echo $query; 
     $select = $db->prepare($query); 
     $select->bindParam(':LookupTypeID', $this->LookupTypeID);
-     
 
     try {
       $select->execute(); 
       $html = new HtmlSelect($select); 
-      $html->visible_rows=15; //         XXX Wert konfigurierbar machen (Tabellen-Feld)
+      // $html->visible_rows=15; //         XXX Wert konfigurierbar machen (Tabellen-Feld)
+      $html->visible_rows=$lookuptype->selsize; 
       $html->print_select_multi($type_key, $type_key.'[]', $options_selected,$caption);
+
       $this->titles_selected_list = $html->titles_selected_list;
       // echo  'cl_lookup: '.$this->titles_selected_list;
            

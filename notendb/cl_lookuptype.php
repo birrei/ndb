@@ -6,10 +6,12 @@ class Lookuptype {
   public $Name;
   public $Relation;
   public $type_key;
+  public int $selsize; // Anzahl Zeilen Multi-Select Box (Suche)     
   public $ArrData=[]; 
   public $titles_selected_list; 
   public $Title='Besonderheit-Typ';
-  public $Titles='Besonderheit-Typen'; 
+  public $Titles='Besonderheit-Typen';
+   
 
   public function __construct(){
     $this->table_name='lookup_type'; 
@@ -120,7 +122,7 @@ class Lookuptype {
     }
   }
 
-  function update_row($Name, $Relation, $type_key) {
+  function update_row($Name, $Relation, $type_key, $selsize) {
     include_once("cl_db.php");   
     $conn = new DbConn(); 
     $db=$conn->db; 
@@ -128,13 +130,15 @@ class Lookuptype {
     $update = $db->prepare("UPDATE `lookup_type` 
                             SET Name     = :Name, 
                               Relation   = :Relation, 
-                              type_key   = :type_key
+                              type_key   = :type_key, 
+                              selsize = :selsize
                             WHERE `ID` = :ID"); 
 
     $update->bindParam(':ID', $this->ID, PDO::PARAM_INT);
     $update->bindParam(':Name', $Name);
     $update->bindParam(':Relation', $Relation);
     $update->bindParam(':type_key', $type_key);
+    $update->bindParam(':selsize', $selsize);    
 
     try {
       $update->execute(); 
@@ -153,7 +157,7 @@ class Lookuptype {
     $conn = new DbConn(); 
     $db=$conn->db; 
 
-    $select = $db->prepare("SELECT ID, Name, Relation, type_key
+    $select = $db->prepare("SELECT ID, Name, Relation, type_key, selsize
                           FROM `lookup_type`
                           WHERE `ID` = :ID");
 
@@ -164,8 +168,9 @@ class Lookuptype {
       $row_data=$select->fetch();      
       $this->Name=$row_data["Name"];
       $this->Relation=$row_data["Relation"];
-      $this->type_key=$row_data["type_key"];
-      $this->type_key=(empty($row_data["type_key"])?'typekey'.strval($this->ID):$row_data["type_key"]);        
+      // $this->type_key=$row_data["type_key"];
+      $this->type_key=(empty($row_data["type_key"])?'typekey'.strval($this->ID):$row_data["type_key"]); 
+      $this->selsize=$row_data["selsize"];
       return true; 
     } 
     else {
@@ -176,7 +181,7 @@ class Lookuptype {
   function setArrData(){
     include_once("cl_db.php");
 
-    $query_lookups = 'SELECT ID, Name, type_key 
+    $query_lookups = 'SELECT ID, Name, type_key, selsize 
                       FROM lookup_type 
                       WHERE Relation=:Relation 
                       AND ID IN (SELECT DISTINCT LookupTypeID from lookup) 
@@ -192,7 +197,8 @@ class Lookuptype {
         $this->ArrData[] = array(
               'ID'=>$row["ID"], 
               'Name'=>$row["Name"],
-              'type_key'=>$row["type_key"]              
+              'type_key'=>$row["type_key"],
+              'selsize'=>$row["selsize"]              
              ); 
         }
         // print_r($this->ArrData); // test
@@ -232,6 +238,7 @@ class Lookuptype {
     }  
   }   
 
+  // XXX target_file rausnehmen 
   function print_table_lookups($target_file){
     $query="SELECT ID, Name FROM v_lookup where LookupTypeID=:LookupTypeID"; 
 

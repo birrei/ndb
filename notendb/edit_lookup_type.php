@@ -25,7 +25,7 @@ if (isset($_REQUEST["option"])) {
     
     case 'update': 
       $lookuptype->ID = $_POST["ID"];    
-      $lookuptype->update_row($_POST["Name"],$_POST["Relation"],$_POST["type_key"] ); 
+      $lookuptype->update_row($_POST["Name"],$_POST["Relation"],$_POST["type_key"],$_POST["selsize"]); 
       $show_data=true;           
       break; 
   }
@@ -74,6 +74,14 @@ if ($show_data) {
       <label>
       <td class="eingabe">Type Key:</td>  
       <td class="eingabe"><input type="text" name="type_key" value="'.$lookuptype->type_key.'" size="45" maxlength="80" required="required" oninput="changeBackgroundColor(this)"> 
+      </td>
+      </label>
+    </tr> 
+
+    <tr>    
+      <label>
+      <td class="eingabe">Auswahlbox Anzahl Zeilen:</td>  
+      <td class="eingabe"><input type="text" name="selsize" value="'.$lookuptype->selsize.'" size="10" maxlength="80" required="required" oninput="changeBackgroundColor(this)"> 
       </td>
       </label>
     </tr> 
