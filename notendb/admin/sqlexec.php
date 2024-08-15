@@ -1,6 +1,6 @@
 
 <?php 
-include('../head.php');
+include('../head_raw.php');
 include("../cl_db.php");
 include("../cl_html_table.php");  
 include("../cl_html_info.php"); 
@@ -65,7 +65,7 @@ if (isset($_POST['aktion']) and $_POST['aktion']=='ausfuehren') {
     }
 }
 
-include('../foot.php');
+include('../foot_raw.php');
 ?>
 
 
