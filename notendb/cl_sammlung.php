@@ -431,8 +431,7 @@ class Sammlung {
       $info->print_error($stmt, $e); 
     }
   }   
-  
-  
+    
   function add_lookup($LookupID){
 
     include_once("cl_db.php");
@@ -476,6 +475,80 @@ class Sammlung {
     }  
   }
 
+  function add_verwendungszweck($VerwendungszweckID){
+    // Verwendungszweck bei allen Musikstücken ergänzen  
+
+    include_once("cl_db.php");
+    $conn = new DbConn(); 
+    $db=$conn->db; 
+
+    $sql = "
+      insert into musikstueck_verwendungszweck (MusikstueckID, VerwendungszweckID)
+      select musikstueck.ID
+            , :VerwendungszweckID as VerwendungszweckID 
+      from sammlung 
+      inner join musikstueck on sammlung.ID = musikstueck.SammlungID
+      left join musikstueck_verwendungszweck on musikstueck_verwendungszweck.MusikstueckID = musikstueck.ID
+      and musikstueck_verwendungszweck.VerwendungszweckID = :VerwendungszweckID
+      left join verwendungszweck on verwendungszweck.ID = musikstueck_verwendungszweck.VerwendungszweckID 
+      where 1=1 
+        and sammlung.ID = :SammlungID 
+        and musikstueck_verwendungszweck.VerwendungszweckID IS NULL
+    "; 
+
+    $update = $db->prepare($sql); 
+
+    $update->bindParam(':SammlungID', $this->ID, PDO::PARAM_INT);
+    $update->bindParam(':VerwendungszweckID', $VerwendungszweckID, PDO::PARAM_INT);
+
+    try {
+      $update->execute();
+      echo 'OK'; 
+    }
+    catch (PDOException $e) {
+      include_once("cl_html_info.php"); 
+      $info = new HtmlInfo();      
+      $info->print_user_error(); 
+      $info->print_error($stmt, $e); 
+    }
+  } 
+
+  function add_besetzung($BesetzungID){
+    // Verwendungszweck bei allen Musikstücken ergänzen  
+
+    include_once("cl_db.php");
+    $conn = new DbConn(); 
+    $db=$conn->db; 
+
+    $sql = "
+          insert into musikstueck_besetzung (MusikstueckID, BesetzungID)
+          select musikstueck.ID
+                , :BesetzungID as BesetzungID -- ID der zu ergänzenden Besetzung  
+          from sammlung 
+          inner join musikstueck on sammlung.ID = musikstueck.SammlungID
+          left join musikstueck_besetzung on musikstueck_besetzung.MusikstueckID = musikstueck.ID
+          and musikstueck_besetzung.BesetzungID =:BesetzungID  -- ID der zu ergänzenden Besetzung  
+          left join besetzung on besetzung.ID = musikstueck_besetzung.BesetzungID 
+          where sammlung.ID =:SammlungID -- ID der Sammlung 
+          and musikstueck_besetzung.BesetzungID IS NULL; 
+    "; 
+
+    $update = $db->prepare($sql); 
+
+    $update->bindParam(':SammlungID', $this->ID, PDO::PARAM_INT);
+    $update->bindParam(':BesetzungID', $BesetzungID, PDO::PARAM_INT);
+
+    try {
+      $update->execute();
+      echo 'OK';       
+    }
+    catch (PDOException $e) {
+      include_once("cl_html_info.php"); 
+      $info = new HtmlInfo();      
+      $info->print_user_error(); 
+      $info->print_error($stmt, $e); 
+    }
+  } 
 
 
 
