@@ -1,8 +1,8 @@
+/* -> sammlung_insert_verwendungszweck.php */
+
 /*
 Bei Sammlungen, die zu einem bestimmen Standort gehören, 
 soll bei allen Musikstücke ein definierter Verwendungszweck zugeordnet werden  
-
-
 -----------------------------------------------
 
 09.08.2024 

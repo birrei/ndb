@@ -33,7 +33,9 @@ select
     , satz.Orchesterbesetzung
     , satz.Bemerkung
     , satz.Lagen     
-    , satz.ID 
+    , satz.ID
+    , sammlung.ID as SammlungID 
+    , musikstueck.ID as MusikstueckID  
 FROM 
     satz 
     LEFT join musikstueck  on musikstueck.ID = satz.MusikstueckID  
