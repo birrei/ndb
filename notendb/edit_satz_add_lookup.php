@@ -38,9 +38,8 @@ if (isset($_POST["LookupTypeID"])) {
           $lookup = new Lookup(); 
           $lookup->LookupTypeRelation='satz';
           if ($LookupTypeID!='') {
-            // XXX 
-            $lookup->print_select('',  $_GET["SatzID"]);             
-            // $lookup->print_select2($LookupTypeID, $_GET["SatzID"]); // XXX 
+            // $lookup->print_select('',  $_GET["SatzID"]);             
+            $lookup->print_select2($LookupTypeID, $_GET["SatzID"]); // XXX 
           } else {
             $lookup->print_select('',  $_GET["SatzID"]); 
           }
