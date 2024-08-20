@@ -16,6 +16,8 @@ class Sammlung {
   public $Title='Sammlung';
   public $Titles='Sammlungen';  
 
+  public $mode=1; // bezug dml:  1: nur Sammlung, 2: inkl. Musikstücke, 3: inkl. Sätze
+
   public function __construct(){
     $this->table_name='sammlung'; 
   }
@@ -514,7 +516,7 @@ class Sammlung {
   } 
 
   function add_besetzung($BesetzungID){
-    // Verwendungszweck bei allen Musikstücken ergänzen  
+    // definierten Verwendungszweck bei allen Musikstücken ergänzen  
 
     include_once("cl_db.php");
     $conn = new DbConn(); 
@@ -550,7 +552,63 @@ class Sammlung {
     }
   } 
 
+  function copy(){
+    // $depth=1: nur Sammlung, 2: inkl. Musikstücke, 3: inkl. Sätze
+    include_once("cl_db.php");
+    include_once('cl_musikstueck.php'); 
 
+    $conn = new DbConn(); 
+    $db=$conn->db; 
+    echo '<p>Kopiere Sammlung ID: '.$this->ID.'</p>';
+
+    $sql="
+      INSERT INTO sammlung (Name, VerlagID, StandortID, Bemerkung)
+      SELECT CONCAT(Name, ' (Kopie)') as Name , VerlagID, StandortID, Bemerkung
+      from sammlung 
+      where ID=:ID 
+    ";
+    $insert = $db->prepare($sql); 
+    $insert->bindValue(':ID', $this->ID);  
+
+    // XXX Besonderheiten kopieren 
+    // XXX Links kopieren 
+
+
+    try {
+      $insert->execute(); 
+      $ID_New = $db->lastInsertId();    
+  
+      echo '<p>Sammlung Kopie ID: '.$ID_New.'</p>';        
+      
+      if ($this->mode=2) {
+        // musikstücke kopieren 
+        $select = $db->prepare("SELECT ID  
+        FROM `musikstueck` 
+        WHERE SammlungID=:ID"); 
+
+        $select->bindValue(':ID', $this->ID);  
+
+        $select->execute(); 
+
+        $res = $select->fetchAll(PDO::FETCH_ASSOC);
+
+        // echo '<p>Anzahl Musikstücke: '.count($res); 
+
+        foreach ($res as $row=>$value) {
+          $musikstueck = new Musikstueck(); 
+          $musikstueck->ID = $value["ID"]; 
+          $musikstueck->SammlungID = $ID_New; 
+          $musikstueck->copy();  
+        }
+      }
+    }
+    catch (PDOException $e) {
+      include_once("cl_html_info.php"); 
+      $info = new HtmlInfo();      
+      $info->print_user_error(); 
+      $info->print_error($insert, $e);  
+    }  
+  }  
 
   
 }

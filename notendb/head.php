@@ -37,7 +37,9 @@ if ($title_page=='')
     case 'test.php':
       $title_page='Test'; 
       break;                                                                                       
-              
+      case 'dataclearing.php':
+        $title_page='Dataclearing'; 
+        break;                   
     } 
 }
 

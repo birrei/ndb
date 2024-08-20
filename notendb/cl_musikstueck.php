@@ -508,6 +508,106 @@ class Musikstueck {
       $info->print_error($delete, $e);  
     }  
   }  
+
+  function copy(){
+    include_once("cl_db.php");
+    include_once("cl_satz.php");    
+    $conn = new DbConn(); 
+    $db=$conn->db; 
+
+    $sql="insert into musikstueck (
+            Name
+            , Opus
+            , SammlungID
+            , Nummer
+            , KomponistID
+            , Bearbeiter
+            , JahrAuffuehrung
+            , GattungID
+            , EpocheID
+        )
+        select Name
+        , Opus
+        , :SammlungID as SammlungID
+        , Nummer
+        , KomponistID
+        , Bearbeiter
+        , JahrAuffuehrung
+        , GattungID
+        , EpocheID
+        from musikstueck 
+        where ID=:ID";
+    $insert = $db->prepare($sql); 
+    $insert->bindValue(':ID', $this->ID);  
+    $insert->bindValue(':SammlungID', $this->SammlungID);  // entspr. Kontext: alte oder neue SammmlungID 
+
+  
+    try {
+      $insert->execute(); 
+      $ID_New = $db->lastInsertId();    
+
+      // saetze kopieren  
+    
+      $select = $db->prepare("SELECT ID  
+                    FROM `satz` 
+                    WHERE MusikstueckID=:ID"); 
+
+      $select->bindValue(':ID', $this->ID);  
+
+      $select->execute(); 
+
+      $res = $select->fetchAll(PDO::FETCH_ASSOC);
+
+      // echo '<p>Anzahl Sätze: '.count($res); 
+
+      foreach ($res as $row=>$value) {
+        $satz = new Satz(); 
+        $satz->ID = $value["ID"]; 
+        $satz->MusikstueckID = $ID_New; 
+        $satz->copy();  
+      }      
+      
+      // verwendungszwecke kopieren 
+
+      $sql="insert into musikstueck_verwendungszweck
+                (MusikstueckID, VerwendungszweckID) 
+          select :MusikstueckID_New as MusikstueckID
+                , VerwendungszweckID 
+          from musikstueck_verwendungszweck 
+          where MusikstueckID=:ID";
+
+      $insert = $db->prepare($sql); 
+      $insert->bindValue(':ID', $this->ID);  
+      $insert->bindValue(':MusikstueckID_New', $ID_New);  // entspr. Kontext: alte oder neue SammmlungID 
+      $insert->execute(); 
+
+      // besetzungen kopieren 
+
+      $sql="insert into musikstueck_besetzung
+                (MusikstueckID, BesetzungID) 
+          select :MusikstueckID_New as MusikstueckID
+                , BesetzungID 
+          from musikstueck_besetzung 
+          where MusikstueckID=:ID";
+
+      $insert = $db->prepare($sql); 
+      $insert->bindValue(':ID', $this->ID);  
+      $insert->bindValue(':MusikstueckID_New', $ID_New);  // entspr. Kontext: alte oder neue SammmlungID 
+      $insert->execute(); 
+
+      echo '<p>Musikstück ID '.$this->ID.' wurde kopiert. Neue ID: '.$ID_New.'</p>';  
+
+               
+    }
+    catch (PDOException $e) {
+      include_once("cl_html_info.php"); 
+      $info = new HtmlInfo();      
+      $info->print_user_error(); 
+      $info->print_error($insert, $e);  
+    }  
+  }  
+
+
   
 }
 

@@ -518,6 +518,8 @@ class Satz {
     }  
   }
   
+
+
   function delete(){
     include_once("cl_db.php");
     $conn = new DbConn(); 
@@ -657,6 +659,84 @@ class Satz {
       $info->print_error($delete, $e);  
     }  
   }
+
+ function copy(){
+    include_once("cl_db.php");
+    $conn = new DbConn(); 
+    $db=$conn->db; 
+
+    $sql="
+        insert into satz (
+          MusikstueckID
+          , Name
+          , Tonart
+          , Taktart
+          , Tempobezeichnung
+          , Spieldauer
+          , Bemerkung
+          , Nr
+          , ErprobtID
+      )
+      select 
+          :MusikstueckID as MusikstueckID
+          , Name
+          , Tonart
+          , Taktart
+          , Tempobezeichnung
+          , Spieldauer
+          , Bemerkung
+          , Nr
+          , ErprobtID
+      from satz 
+      where ID=:ID 
+    ";
+    $insert = $db->prepare($sql); 
+    $insert->bindValue(':ID', $this->ID);  
+    $insert->bindValue(':MusikstueckID', $this->MusikstueckID);  // entspr. Kontext: altes oder neues Musikstueck 
+    
+
+    try {
+      $insert->execute(); 
+      $ID_New = $db->lastInsertId();    
+
+
+      // schwierigkeitsgrade 
+      $sql="insert into satz_schwierigkeitsgrad
+                (SatzID, SchwierigkeitsgradID, InstrumentID) 
+          select :SatzID_new as SatzID
+                , SchwierigkeitsgradID
+                , InstrumentID
+          from satz_schwierigkeitsgrad 
+          where SatzID=:ID";
+
+      $insert = $db->prepare($sql); 
+      $insert->bindValue(':ID', $this->ID);  
+      $insert->bindValue(':SatzID_new', $ID_New);  
+      $insert->execute();  
+       
+      // lookups 
+      $sql="insert into satz_lookup
+                (SatzID, LookupID) 
+          select :SatzID_new as SatzID
+                , LookupID
+          from satz_lookup 
+          where SatzID=:ID";
+
+      $insert = $db->prepare($sql); 
+      $insert->bindValue(':ID', $this->ID);  
+      $insert->bindValue(':SatzID_new', $ID_New);  
+      $insert->execute();  
+      
+      echo '<p>Satz ID '.$this->ID.' wurde kopiert. Neue ID: '.$ID_New.'</p>';      
+      
+    }
+    catch (PDOException $e) {
+      include_once("cl_html_info.php"); 
+      $info = new HtmlInfo();      
+      $info->print_user_error(); 
+      $info->print_error($insert, $e);  
+    }  
+  }  
 
 }
 
