@@ -55,7 +55,6 @@ insert into satz
 , Taktart
 , Tempobezeichnung
 , Spieldauer
-, Lagen
 , Bemerkung
 , Nr
 , Notenwerte
@@ -71,12 +70,10 @@ select
     , Taktart
     , Tempobezeichnung
     , Spieldauer
-    , Lagen
     , Bemerkung
     , Nr
     , Notenwerte
     , ErprobtID
-    , SchwierigkeitsgradID
     , BesonderheitID
 from satz 
 where ID =595

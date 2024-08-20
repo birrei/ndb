@@ -43,7 +43,6 @@ A-- LTER TABLE `sammlung` CHANGE `Bestellnummer` `Bestellnummer` VARCHAR(25) CHA
 --     , s.Tempobezeichnung
 --     , s.Spieldauer
 --     , s.Schwierigkeitsgrad
---     , s.Lagen 
 --     , s.Stricharten 
 --     , s.Erprobt 
 --     , s.Notenwerte

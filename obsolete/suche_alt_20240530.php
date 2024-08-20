@@ -515,7 +515,6 @@ if ("POST" == $_SERVER["REQUEST_METHOD"]) {
             , GROUP_CONCAT(DISTINCT notenwert.Name order by notenwert.Name SEPARATOR ', ') Notenwerte
             , GROUP_CONCAT(DISTINCT uebung.Name order by uebung.Name SEPARATOR ', ') Uebungen
             , GROUP_CONCAT(DISTINCT concat(lookup_type.Name, ': ', lookup.Name)  order by  concat(lookup_type.Name, ': ', lookup.Name)  SEPARATOR ', ') Besonderheiten                    
-            , sa.Lagen 
             , sa.Bemerkung                         
             ";        
       $edit_table='satz';                 

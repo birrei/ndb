@@ -460,7 +460,6 @@ if ("POST" == $_SERVER["REQUEST_METHOD"]) {
             , GROUP_CONCAT(DISTINCT str.Name order by str.Name SEPARATOR ', ') Stricharten              
             , GROUP_CONCAT(DISTINCT notenwert.Name order by notenwert.Name SEPARATOR ', ') Notenwerte
             , GROUP_CONCAT(DISTINCT uebung.Name order by uebung.Name SEPARATOR ', ') Uebungen               
-            , sa.Lagen 
             , sa.Bemerkung                         
             ";        
       $edit_table='satz';                 

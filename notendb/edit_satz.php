@@ -39,7 +39,6 @@ if (isset($_REQUEST["option"])) {
           , $_POST["Taktart"]
           , $_POST["Tempobezeichnung"]
           , $_POST["Spieldauer"]
-          , $_POST["Lagen"]
           , $_POST["ErprobtID"]
           , $_POST["Bemerkung"]
           , $_POST["Orchesterbesetzung"]                  
@@ -149,13 +148,6 @@ if ($show_data) {
       echo  '
       </td>
     </tr>
-
-    <tr>    
-      <label>
-      <td class="eingabe"><b>Lagen:</b> (zu Besonderheiten?) </td>  
-      <td class="eingabe"><input type="text" name="Lagen" value="'.$satz->Lagen.'" size="45" maxlength="80" oninput="changeBackgroundColor(this)"></td>
-      </label>
-    </tr> 
 
     <tr>    
       <label>

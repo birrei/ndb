@@ -6,7 +6,6 @@
 
 
 
-ALTER TABLE `satz` CHANGE `Lagen` `Lagen` VARCHAR(70) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL;
 
 ALTER TABLE `satz` CHANGE `Erprobt` `Erprobt` VARCHAR(50) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL;
 

@@ -6,7 +6,6 @@
 -- select * from strichart;
 -- select * from notenwert;
 -- select * from uebung;
--- -- XXX Lagen ... 
 
 
 

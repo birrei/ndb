@@ -31,8 +31,7 @@ select
     , v_satz_lookuptypes.LookupList as Besonderheiten
     , GROUP_CONCAT(DISTINCT concat(schwierigkeitsgrad.Name, ' - ', instrument.Name)  order by schwierigkeitsgrad.Name SEPARATOR ', ') as Schwierigkeitsgrade 
     , satz.Orchesterbesetzung
-    , satz.Bemerkung
-    , satz.Lagen     
+    , satz.Bemerkung   
     , satz.ID
     , sammlung.ID as SammlungID 
     , musikstueck.ID as MusikstueckID  

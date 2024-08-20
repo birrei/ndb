@@ -321,7 +321,6 @@ class Musikstueck {
                 ) as Spieldauer                    
               , GROUP_CONCAT(DISTINCT concat(schwierigkeitsgrad.Name, ' - ', instrument.Name)  order by schwierigkeitsgrad.Name SEPARATOR ', ') `Schwierigkeitsgrade`  
               , erprobt.Name as Erprobt              
-              , satz.Lagen
               , satz.Orchesterbesetzung
               , v_satz_lookuptypes.LookupList as Besonderheiten              
               , satz.Bemerkung               
@@ -578,7 +577,7 @@ class Musikstueck {
 
       $insert = $db->prepare($sql); 
       $insert->bindValue(':ID', $this->ID);  
-      $insert->bindValue(':MusikstueckID_New', $ID_New);  // entspr. Kontext: alte oder neue SammmlungID 
+      $insert->bindValue(':MusikstueckID_New', $ID_New);  
       $insert->execute(); 
 
       // besetzungen kopieren 
@@ -592,7 +591,7 @@ class Musikstueck {
 
       $insert = $db->prepare($sql); 
       $insert->bindValue(':ID', $this->ID);  
-      $insert->bindValue(':MusikstueckID_New', $ID_New);  // entspr. Kontext: alte oder neue SammmlungID 
+      $insert->bindValue(':MusikstueckID_New', $ID_New); 
       $insert->execute(); 
 
       echo '<p>Musikstück ID '.$this->ID.' wurde kopiert. Neue ID: '.$ID_New.'</p>';  

@@ -432,7 +432,6 @@ if (isset($_POST['suchtext'])) {
             , GROUP_CONCAT(DISTINCT concat(schwierigkeitsgrad.Name, ' - ', instrument.Name)  order by schwierigkeitsgrad.Name SEPARATOR ', ') `Schwierigkeitsgrade`                   
             , erprobt.Name as Erprobt             
             , v_satz_lookuptypes.LookupList as Besonderheiten                  
-            , satz.Lagen
             , satz.Orchesterbesetzung 
             , satz.Bemerkung                         
             ";        

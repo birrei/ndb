@@ -212,15 +212,6 @@ $tests[] = array('name' => 'Alle verwendeten Tempobezeichnungen'
         , 'table'   => ""              
         );
 
-$tests[] = array('name' => 'Alle verwendeten Lagen'
-        , 'query'   => "
-                select distinct Lagen from satz  
-                where Lagen is not null 
-                and Lagen <> ''
-                order by Lagen 
-                    "
-        , 'table'   => ""              
-        );
 
 
 echo '<pre>'; 

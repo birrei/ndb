@@ -21,7 +21,6 @@ select
     , satz.Taktart
     , satz.Tempobezeichnung
     , satz.Spieldauer
-    , satz.Lagen 
     , erprobt.Name as Erprobt 
     , schwierigkeitsgrad.Name as Schwierigkeitsgrad
     , GROUP_CONCAT(DISTINCT uebung.Name order by uebung.Name SEPARATOR ', ') Uebung 
