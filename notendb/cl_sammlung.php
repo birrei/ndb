@@ -16,7 +16,7 @@ class Sammlung {
   public $Title='Sammlung';
   public $Titles='Sammlungen';  
 
-  public $mode=1; // bezug dml:  1: nur Sammlung, 2: inkl. Musikstücke, 3: inkl. Sätze
+  public $mode=1; // bezug dml:  1: nur Sammlung, 2: inkl. Musikstücke +  Sätze
 
   public function __construct(){
     $this->table_name='sammlung'; 
@@ -505,7 +505,7 @@ class Sammlung {
 
     try {
       $update->execute();
-      echo 'OK'; 
+      echo '<p>Verwendungszweck ID '.$BesetzungID.' wurde '.$update->rowCount().' x hinzugefügt.</p>';     
     }
     catch (PDOException $e) {
       include_once("cl_html_info.php"); 
@@ -542,7 +542,7 @@ class Sammlung {
 
     try {
       $update->execute();
-      echo 'OK';       
+      echo '<p>Besetzung ID '.$BesetzungID.' wurde '.$update->rowCount().' x hinzugefügt.</p>';         
     }
     catch (PDOException $e) {
       include_once("cl_html_info.php"); 
@@ -552,14 +552,24 @@ class Sammlung {
     }
   } 
 
-  function copy(){
-    // $depth=1: nur Sammlung, 2: inkl. Musikstücke, 3: inkl. Sätze
+  function copy(
+        $include_musikstuecke=false
+        , $include_verwendungszwecke=false
+        , $include_besetzung=false
+        , $include_saetze=false  
+        , $include_satz_schwierigkeitgrad=false        
+        , $include_satz_lookup=false                        
+        , 
+      ){
+
     include_once("cl_db.php");
     include_once('cl_musikstueck.php'); 
 
+    
+    echo '<p>Starte Kopie Sammlung ID '.$this->ID.'</p>';      
+
     $conn = new DbConn(); 
     $db=$conn->db; 
-    echo '<p>Kopiere Sammlung ID: '.$this->ID.'</p>';
 
     $sql="
       INSERT INTO sammlung (Name, VerlagID, StandortID, Bemerkung)
@@ -570,17 +580,13 @@ class Sammlung {
     $insert = $db->prepare($sql); 
     $insert->bindValue(':ID', $this->ID);  
 
-    // XXX Besonderheiten kopieren 
-    // XXX Links kopieren 
-
-
     try {
       $insert->execute(); 
       $ID_New = $db->lastInsertId();    
   
       echo '<p>Sammlung Kopie ID: '.$ID_New.'</p>';        
       
-      if ($this->mode=2) {
+      if ($include_musikstuecke) {
         // musikstücke kopieren 
         $select = $db->prepare("SELECT ID  
         FROM `musikstueck` 
@@ -598,8 +604,15 @@ class Sammlung {
           $musikstueck = new Musikstueck(); 
           $musikstueck->ID = $value["ID"]; 
           $musikstueck->SammlungID = $ID_New; 
-          $musikstueck->copy();  
+          $musikstueck->copy(
+             $include_verwendungszwecke
+            , $include_besetzung
+            , $include_saetze  
+            , $include_satz_schwierigkeitgrad        
+            , $include_satz_lookup  
+          );  
         }
+        echo '<p>Musikstücke wurden kopiert.</p>';              
       }
     }
     catch (PDOException $e) {

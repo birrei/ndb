@@ -11,9 +11,6 @@ class Satz {
   public $Taktart;
   public $Tempobezeichnung;
   public $Spieldauer;
-  // public $SchwierigkeitsgradID;
-  public $Lagen;
-  // public $Stricharten;
   public $ErprobtID;
   public $Bemerkung='';
   public $Orchesterbesetzung=''; 
@@ -64,8 +61,6 @@ class Satz {
             , $Taktart
             , $Tempobezeichnung
             , $Spieldauer
-            // , $SchwierigkeitsgradID
-            , $Lagen
             , $ErprobtID
             , $Bemerkung
             , $Orchesterbesetzung
@@ -85,8 +80,6 @@ class Satz {
                           Taktart=:Taktart, 
                           Tempobezeichnung=:Tempobezeichnung, 
                           Spieldauer=:Spieldauer, 
-                          -- SchwierigkeitsgradID=:SchwierigkeitsgradID, 
-                          Lagen=:Lagen, 
                           ErprobtID=:ErprobtID, 
                           Bemerkung=:Bemerkung,
                           Orchesterbesetzung=:Orchesterbesetzung
@@ -100,8 +93,6 @@ class Satz {
     $update->bindParam(':Taktart', $Taktart);
     $update->bindParam(':Tempobezeichnung', $Tempobezeichnung);
     $update->bindParam(':Spieldauer', $Spieldauer, ($Spieldauer==''? PDO::PARAM_NULL:PDO::PARAM_INT));
-    // $update->bindParam(':SchwierigkeitsgradID', $SchwierigkeitsgradID, ($SchwierigkeitsgradID==''? PDO::PARAM_NULL:PDO::PARAM_INT));    
-    $update->bindParam(':Lagen', $Lagen);
     $update->bindParam(':ErprobtID', $ErprobtID, ($ErprobtID==''? PDO::PARAM_NULL:PDO::PARAM_INT));
     $update->bindParam(':Bemerkung', $Bemerkung);
     $update->bindParam(':Orchesterbesetzung', $Orchesterbesetzung);    
@@ -134,7 +125,6 @@ class Satz {
                       ,`Tempobezeichnung`
                       ,`Spieldauer`
                       ,`SchwierigkeitsgradID`
-                      ,`Lagen`
                       ,`ErprobtID`
                       , COALESCE(Bemerkung,'') as Bemerkung 
                       , COALESCE(Orchesterbesetzung,'') as Orchesterbesetzung                       
@@ -152,7 +142,6 @@ class Satz {
       $this->Taktart=$row_data["Taktart"];
       $this->Tempobezeichnung=$row_data["Tempobezeichnung"];
       $this->Spieldauer=$row_data["Spieldauer"];
-      $this->Lagen=$row_data["Lagen"];
       $this->ErprobtID=$row_data["ErprobtID"];
       $this->Bemerkung=$row_data["Bemerkung"];
       $this->Orchesterbesetzung=$row_data["Orchesterbesetzung"];    
@@ -660,8 +649,11 @@ class Satz {
     }  
   }
 
- function copy(){
+ function copy( $include_schwierigkeitsgrade=false, $include_lookups=false){
     include_once("cl_db.php");
+
+    echo '<p>Starte Kopie Satz ID '.$this->ID.'</p>';      
+
     $conn = new DbConn(); 
     $db=$conn->db; 
 
@@ -692,41 +684,47 @@ class Satz {
     ";
     $insert = $db->prepare($sql); 
     $insert->bindValue(':ID', $this->ID);  
-    $insert->bindValue(':MusikstueckID', $this->MusikstueckID);  // entspr. Kontext: altes oder neues Musikstueck 
+    $insert->bindValue(':MusikstueckID', $this->MusikstueckID);  
     
 
     try {
       $insert->execute(); 
       $ID_New = $db->lastInsertId();    
 
+      if ($include_schwierigkeitsgrade) {
+        // schwierigkeitsgrade 
+        $sql="insert into satz_schwierigkeitsgrad
+                  (SatzID, SchwierigkeitsgradID, InstrumentID) 
+            select :SatzID_new as SatzID
+                  , SchwierigkeitsgradID
+                  , InstrumentID
+            from satz_schwierigkeitsgrad 
+            where SatzID=:ID";
 
-      // schwierigkeitsgrade 
-      $sql="insert into satz_schwierigkeitsgrad
-                (SatzID, SchwierigkeitsgradID, InstrumentID) 
-          select :SatzID_new as SatzID
-                , SchwierigkeitsgradID
-                , InstrumentID
-          from satz_schwierigkeitsgrad 
-          where SatzID=:ID";
+        $insert = $db->prepare($sql); 
+        $insert->bindValue(':ID', $this->ID);  
+        $insert->bindValue(':SatzID_new', $ID_New);  
+        $insert->execute();  
+        echo '<p>Schwierigkeitsgrade wurden kopiert.</p>';              
+      }
 
-      $insert = $db->prepare($sql); 
-      $insert->bindValue(':ID', $this->ID);  
-      $insert->bindValue(':SatzID_new', $ID_New);  
-      $insert->execute();  
-       
-      // lookups 
-      $sql="insert into satz_lookup
-                (SatzID, LookupID) 
-          select :SatzID_new as SatzID
-                , LookupID
-          from satz_lookup 
-          where SatzID=:ID";
+      if ($include_lookups) {
+        // lookups (Besonderheiten)
+        $sql="insert into satz_lookup
+                  (SatzID, LookupID) 
+            select :SatzID_new as SatzID
+                  , LookupID
+            from satz_lookup 
+            where SatzID=:ID";
 
-      $insert = $db->prepare($sql); 
-      $insert->bindValue(':ID', $this->ID);  
-      $insert->bindValue(':SatzID_new', $ID_New);  
-      $insert->execute();  
+        $insert = $db->prepare($sql); 
+        $insert->bindValue(':ID', $this->ID);  
+        $insert->bindValue(':SatzID_new', $ID_New);  
+        $insert->execute();  
+        echo '<p>Besonderheiten wurden kopiert.</p>';             
       
+      }
+
       echo '<p>Satz ID '.$this->ID.' wurde kopiert. Neue ID: '.$ID_New.'</p>';      
       
     }
