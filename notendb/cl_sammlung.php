@@ -505,7 +505,7 @@ class Sammlung {
 
     try {
       $update->execute();
-      echo '<p>Verwendungszweck ID '.$BesetzungID.' wurde '.$update->rowCount().' x hinzugefügt.</p>';     
+      echo '<p>Verwendungszweck ID '.$VerwendungszweckID.' wurde '.$update->rowCount().' x hinzugefügt.</p>';     
     }
     catch (PDOException $e) {
       include_once("cl_html_info.php"); 
