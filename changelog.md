@@ -1,9 +1,18 @@
 ﻿
 # Change Log  
+
+22.08.2024 - Gespeicherte Abfragen mit 2 getrenten Eingabeformularen 
+  * Anwendermodus (Name, Beschreibung)
+  * Expertemodus (SQL Abfrage-Text, Referenztabelle)  
+
+21.08.2024 - Dataclearings-Seite (dataclearing.php): Funktionen (bisher): 
+  * Sammlung kopieren (wahlweise mit allen Musikstücken/Sätzen und deren Eigenschaften)
+  * Besetzung zu allen Musikstückstücken einer Sammlung hinzufügen 
+  * Verwendungszweck zu allen Musikstückstücken einer Sammlung hinzufügen 
+
 02.08.2024
  * Neu: "Sammlung Besonderheiten" (z.B. "Verfügbarkeit" > "Kauf geplant") 
  
-
 19.07.2024: 
  * auf Übersicht-Tabelle link für "Neu anlegen" anzeigen
  * Lösch-Funktion für jede Tabelle  
