@@ -65,9 +65,14 @@ class HtmlInfo {
 
 /* Standard-Verlinkungen */
 
-    function print_link_edit($target_table,$ID, $target_title, $newpage=true, $suffix='') {
+    function print_link_edit($target_table, $ID, $target_title, $newpage=true, $suffix='') {
         echo '<a href="edit_'.$target_table.'.php?ID='.$ID.'&title='.$target_title.'&option=edit"'.($newpage?' target="_blank"':'').' tabindex="-1">'.$target_title.' bearbeiten</a>'.($suffix!=''?$suffix:'');
     }
+    function print_link_edit2($target_table, $ID, $target_title, $newpage=true, $suffix='') {
+        // für ev. 2. Version eines Bearbeitungsformualrs 
+        echo '<a href="edit_'.$target_table.'2.php?ID='.$ID.'&title='.$target_title.'&option=edit"'.($newpage?' target="_blank"':'').' tabindex="-1">'.$target_title.' bearbeiten</a>'.($suffix!=''?$suffix:'');
+    }
+
 
     function print_link_insert($target_table, $target_title, $newpage=true, $suffix='') {
         echo '<a href="edit_'.$target_table.'.php?title='.$target_title.'&option=insert"'.($newpage?' target="_blank"':'').' tabindex="-1">'.$target_title.' neu erfassen</a>'.($suffix!=''?$suffix:'');

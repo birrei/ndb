@@ -25,9 +25,9 @@ if (isset($_REQUEST["option"])) {
     
     case 'update': 
       $abfrage->ID = $_POST["ID"];    
-      $abfrage->update_row(
-            $_POST["Name"]
-          , $_POST["Beschreibung"]   
+      $abfrage->update_row2(
+           $_POST["Abfrage"]      
+          , $_POST["Tabelle"]      
           )
           ;
       $show_data=true;           
@@ -35,22 +35,17 @@ if (isset($_REQUEST["option"])) {
   }
 }
 
-$info->print_screen_header($abfrage->Title.' bearbeiten', ' | '); 
+$info->print_screen_header($abfrage->Title.'-Text bearbeiten', ' | '); 
 $info->print_link_table('v_abfrage', 'sortcol=Name', $abfrage->Titles,true); 
 
-
 if ($show_data) {
+  echo '<p><a href="show_abfrage.php?ID='.$abfrage->ID.'&title=Abfrage&Name='.$abfrage->Name.'">Abfrage-Ergebnis anzeigen</a> | ';
+  $info->print_link_edit($abfrage->table_name, $abfrage->ID,'Abfrage',false);
 
-
-echo '
-  <p>
-  <a href="show_abfrage.php?ID='.$abfrage->ID.'&title=Abfrage&Name='.$abfrage->Name.'">Abfrage-Ergebnis anzeigen</a> | '; 
-  $info->print_link_edit2($abfrage->table_name, $abfrage->ID,'Abfrage-Text',false);  
-
-
-  echo '</p>
-  <form action="edit_abfrage.php" method="post">
+   echo '  </p> 
+   <form action="edit_abfrage2.php" method="post">
   <table class="eingabe" width="100%"> 
+
     <tr>    
     <label>
     <td class="eingabe">ID:</td>  
@@ -58,21 +53,23 @@ echo '
     </label>
       </tr> 
 
+
+    <tr>    
+        <label>
+        <td class="eingabe">Abfrage (SQL):</td>  
+        <td class="eingabe">
+        <textarea name="Abfrage" rows=15 cols=120 oninput="changeBackgroundColor(this)">'.htmlentities($abfrage->Abfrage).'</textarea> (max. 10000 Zeichen)
+        </td>
+        </label>
+      </tr> 
+
     <tr>    
       <label>
-      <td class="eingabe">Name:</td>  
-      <td class="eingabe"><input type="text" name="Name" value="'.htmlentities($abfrage->Name).'" size="100%" required="required" autofocus="autofocus" oninput="changeBackgroundColor(this)"></td>
-      </label>
-    </tr>     
-    <tr>    
-      <label>
-      <td class="eingabe">Beschreibung:</td>  
-      <td class="eingabe">
-      <textarea name="Beschreibung" rows=5 cols=120 oninput="changeBackgroundColor(this)">'.htmlentities($abfrage->Beschreibung).'</textarea> (max. 250 Zeichen)  
-      </td>
+      <td class="eingabe">Tabelle für Bearbeitung:</td>  
+      <td class="eingabe"><input type="text" name="Tabelle" value="'.$abfrage->Tabelle.'" size="45" maxlength="80" autofocus="autofocus" oninput="changeBackgroundColor(this)"></td>
       </label>
     </tr> 
-   
+
     <tr> 
       <td class="eingabe"></td> 
       <td class="eingabe"><input type="submit" name="senden" value="Speichern">  
@@ -86,7 +83,6 @@ echo '
 
   </form>'; 
 
-  $info->print_link_delete_row($abfrage->table_name, $abfrage->ID,'Abfrage'); 
 
 } 
 else {

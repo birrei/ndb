@@ -114,8 +114,8 @@ class Abfrage {
   }
 
 
-  function update_row($Name,$Beschreibung, $Abfrage, $Tabelle ) {
-
+  function update_row($Name,$Beschreibung) {
+    // Nur Name und Beschreibung 
     include_once("cl_db.php");   
     $conn = new DbConn(); 
     $db=$conn->db; 
@@ -124,13 +124,36 @@ class Abfrage {
                             SET
                             `Name`     = :Name
                             , Beschreibung = :Beschreibung
-                            , Abfrage=:Abfrage
-                            , Tabelle = :Tabelle
                             WHERE `ID` = :ID"); 
 
     $update->bindParam(':ID', $this->ID, PDO::PARAM_INT);
     $update->bindParam(':Name', $Name);
     $update->bindParam(':Beschreibung', $Beschreibung);
+
+    try {
+      $update->execute(); 
+      $this->load_row(); 
+    }
+    catch (PDOException $e) {
+      include_once("cl_html_info.php"); 
+      $info = new HtmlInfo();      
+      $info->print_user_error(); 
+      $info->print_error($stmt, $e); 
+    }
+  }
+
+  function update_row2($Abfrage, $Tabelle ) {
+    // nur SQL / Tabelle 
+    include_once("cl_db.php");   
+    $conn = new DbConn(); 
+    $db=$conn->db; 
+    
+    $update = $db->prepare("UPDATE `abfrage` 
+                            SET Abfrage=:Abfrage
+                            , Tabelle = :Tabelle
+                            WHERE `ID` = :ID"); 
+
+    $update->bindParam(':ID', $this->ID, PDO::PARAM_INT);
     $update->bindParam(':Abfrage', $Abfrage);    
     $update->bindParam(':Tabelle', $Tabelle);    
 
