@@ -8,6 +8,7 @@ include('../head_raw.php');
 <p><a href="list_tables.php">list_tables.php</a> (db objekte auflisten)</p> 
 <p><a href="abfragen.php">abfragen.php</a> (vordefnierte Abfragen einlesen)</p> 
 <p><a href="../ddl/install.php">ddl/install.php</a> (views installieren)</p> 
+<p><a href="backup.php">backup.php</a> Script Datenbank-Backup  (Export: backup.sql)</p> 
 
 
 </div>
