@@ -429,7 +429,7 @@ if (isset($_POST['suchtext'])) {
                 satz.Spieldauer MOD 60
                 , ''''''
               ) as Spieldauer              
-            , GROUP_CONCAT(DISTINCT concat(schwierigkeitsgrad.Name, ' - ', instrument.Name)  order by schwierigkeitsgrad.Name SEPARATOR ', ') `Schwierigkeitsgrade`                   
+            , GROUP_CONCAT(DISTINCT concat(instrument.Name, ': ', schwierigkeitsgrad.Name)  order by schwierigkeitsgrad.Name SEPARATOR ', ') `Schwierigkeitsgrade`                   
             , erprobt.Name as Erprobt             
             , v_satz_lookuptypes.LookupList as Besonderheiten                  
             , satz.Orchesterbesetzung 
