@@ -6,19 +6,6 @@ include('head_raw.php');
 <table class="eingabe"> 
 
 
-<tr>    
-  <label>
-     <td class="eingabe">
-        Schwierigkeitsgrad: 
-         <?php 
-          include_once("cl_schwierigkeitsgrad.php");         
-          $schwierigkeitsgrad = new Schwierigkeitsgrad(); 
-          $schwierigkeitsgrad->print_select('',  $_GET["SatzID"]); 
-    ?>
-   </label>    
-  </td>
-</tr>
-
 
 <tr>    
   <label>
@@ -28,6 +15,20 @@ include('head_raw.php');
           include_once("cl_instrument.php");         
           $instrument = new Instrument(); 
           $instrument->print_select('',  $_GET["SatzID"]); 
+    ?>
+   </label>    
+  </td>
+</tr>
+
+
+<tr>    
+  <label>
+     <td class="eingabe">
+        Schwierigkeitsgrad: 
+         <?php 
+          include_once("cl_schwierigkeitsgrad.php");         
+          $schwierigkeitsgrad = new Schwierigkeitsgrad(); 
+          $schwierigkeitsgrad->print_select('',  $_GET["SatzID"]); 
     ?>
    </label>    
   </td>

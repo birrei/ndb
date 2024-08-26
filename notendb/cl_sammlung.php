@@ -395,7 +395,7 @@ class Sammlung {
 
   function print_table_lookups($target_file, $LookupTypeID=0){
 
-    $query="SELECT sammlung_lookup.ID
+    $query="SELECT lookup.ID
              , lookup_type.Name as Typ     
              , lookup.Name  
           FROM sammlung_lookup          
@@ -463,8 +463,11 @@ class Sammlung {
     $conn = new DbConn(); 
     $db=$conn->db; 
 
-    $delete = $db->prepare("DELETE FROM `sammlung_lookup` WHERE ID=:ID"); 
-    $delete->bindValue(':ID', $ID);  
+    $delete = $db->prepare("DELETE FROM `sammlung_lookup` 
+                            WHERE SammlungID=:SammlungID 
+                            AND LookupID=:LookupID"); 
+    $delete->bindValue(':SammlungID', $this->ID);  
+    $delete->bindValue(':LookupID', $ID);  
 
     try {
       $delete->execute(); 
@@ -477,80 +480,6 @@ class Sammlung {
     }  
   }
 
-  function add_verwendungszweck($VerwendungszweckID){
-    // Verwendungszweck bei allen Musikstücken ergänzen  
-
-    include_once("cl_db.php");
-    $conn = new DbConn(); 
-    $db=$conn->db; 
-
-    $sql = "
-      insert into musikstueck_verwendungszweck (MusikstueckID, VerwendungszweckID)
-      select musikstueck.ID
-            , :VerwendungszweckID as VerwendungszweckID 
-      from sammlung 
-      inner join musikstueck on sammlung.ID = musikstueck.SammlungID
-      left join musikstueck_verwendungszweck on musikstueck_verwendungszweck.MusikstueckID = musikstueck.ID
-      and musikstueck_verwendungszweck.VerwendungszweckID = :VerwendungszweckID
-      left join verwendungszweck on verwendungszweck.ID = musikstueck_verwendungszweck.VerwendungszweckID 
-      where 1=1 
-        and sammlung.ID = :SammlungID 
-        and musikstueck_verwendungszweck.VerwendungszweckID IS NULL
-    "; 
-
-    $update = $db->prepare($sql); 
-
-    $update->bindParam(':SammlungID', $this->ID, PDO::PARAM_INT);
-    $update->bindParam(':VerwendungszweckID', $VerwendungszweckID, PDO::PARAM_INT);
-
-    try {
-      $update->execute();
-      echo '<p>Verwendungszweck ID '.$VerwendungszweckID.' wurde '.$update->rowCount().' x hinzugefügt.</p>';     
-    }
-    catch (PDOException $e) {
-      include_once("cl_html_info.php"); 
-      $info = new HtmlInfo();      
-      $info->print_user_error(); 
-      $info->print_error($stmt, $e); 
-    }
-  } 
-
-  function add_besetzung($BesetzungID){
-    // definierten Verwendungszweck bei allen Musikstücken ergänzen  
-
-    include_once("cl_db.php");
-    $conn = new DbConn(); 
-    $db=$conn->db; 
-
-    $sql = "
-          insert into musikstueck_besetzung (MusikstueckID, BesetzungID)
-          select musikstueck.ID
-                , :BesetzungID as BesetzungID -- ID der zu ergänzenden Besetzung  
-          from sammlung 
-          inner join musikstueck on sammlung.ID = musikstueck.SammlungID
-          left join musikstueck_besetzung on musikstueck_besetzung.MusikstueckID = musikstueck.ID
-          and musikstueck_besetzung.BesetzungID =:BesetzungID  -- ID der zu ergänzenden Besetzung  
-          left join besetzung on besetzung.ID = musikstueck_besetzung.BesetzungID 
-          where sammlung.ID =:SammlungID -- ID der Sammlung 
-          and musikstueck_besetzung.BesetzungID IS NULL; 
-    "; 
-
-    $update = $db->prepare($sql); 
-
-    $update->bindParam(':SammlungID', $this->ID, PDO::PARAM_INT);
-    $update->bindParam(':BesetzungID', $BesetzungID, PDO::PARAM_INT);
-
-    try {
-      $update->execute();
-      echo '<p>Besetzung ID '.$BesetzungID.' wurde '.$update->rowCount().' x hinzugefügt.</p>';         
-    }
-    catch (PDOException $e) {
-      include_once("cl_html_info.php"); 
-      $info = new HtmlInfo();      
-      $info->print_user_error(); 
-      $info->print_error($stmt, $e); 
-    }
-  } 
 
   function copy(
         $include_musikstuecke=false
@@ -623,11 +552,116 @@ class Sammlung {
     }  
   }  
 
+  function add_besetzung($BesetzungID){
+    // dataclearing: Besetzung bei allen Musikstücken ergänzen  
+   include_once("cl_db.php");
+   include_once("cl_musikstueck.php");    
+   $conn = new DbConn(); 
+   $db=$conn->db; 
+
+   $select = $db->prepare("SELECT ID  
+   FROM `musikstueck` 
+   WHERE SammlungID=:ID"); 
+
+   $select->bindValue(':ID', $this->ID);  
+
+   $select->execute(); 
+
+   $res = $select->fetchAll(PDO::FETCH_ASSOC);
+
+   echo '<p>Anzahl Musikstücke: '.count($res); 
+
+   foreach ($res as $row=>$value) {
+     $musikstueck = new Musikstueck(); 
+     $musikstueck->ID = $value["ID"]; 
+     $musikstueck->add_besetzung($BesetzungID);
+    }    
+
+  } 
+
+  function delete_besetzung($BesetzungID){
+    // dataclearing: eine Besetzung bei allen Musikstücken entfernen 
+
+    include_once("cl_db.php");
+    include_once("cl_musikstueck.php");    
+    $conn = new DbConn(); 
+    $db=$conn->db; 
+
+    $select = $db->prepare("SELECT ID  
+    FROM `musikstueck` 
+    WHERE SammlungID=:ID"); 
+
+    $select->bindValue(':ID', $this->ID);  
+
+    $select->execute(); 
+
+    $res = $select->fetchAll(PDO::FETCH_ASSOC);
+
+    echo '<p>Anzahl Musikstücke: '.count($res); 
+
+    foreach ($res as $row=>$value) {
+      $musikstueck = new Musikstueck(); 
+      $musikstueck->ID = $value["ID"]; 
+      $musikstueck->delete_besetzung($BesetzungID);
+    }    
+  } 
+
   
+  function add_verwendungszweck($VerwendungszweckID){
+      // dataclearing: Verwendungszweck bei allen Musikstücken ergänzen  
+      include_once("cl_db.php");
+      include_once("cl_musikstueck.php");    
+      $conn = new DbConn(); 
+      $db=$conn->db; 
+   
+      $select = $db->prepare("SELECT ID  
+      FROM `musikstueck` 
+      WHERE SammlungID=:ID"); 
+   
+      $select->bindValue(':ID', $this->ID);  
+   
+      $select->execute(); 
+   
+      $res = $select->fetchAll(PDO::FETCH_ASSOC);
+   
+      echo '<p>Anzahl Musikstücke: '.count($res); 
+   
+      foreach ($res as $row=>$value) {
+        $musikstueck = new Musikstueck(); 
+        $musikstueck->ID = $value["ID"]; 
+        $musikstueck->add_verwendungszweck($VerwendungszweckID);
+       }    
+   
+  } 
+
+  function delete_verwendungszweck($VerwendungszweckID){
+    // dataclearing: einen Verwendungszeck bei allen Musikstücken entfernen 
+
+    include_once("cl_db.php");
+    include_once("cl_musikstueck.php");    
+    $conn = new DbConn(); 
+    $db=$conn->db; 
+
+    $select = $db->prepare("SELECT ID  
+    FROM `musikstueck` 
+    WHERE SammlungID=:ID"); 
+
+    $select->bindValue(':ID', $this->ID);  
+
+    $select->execute(); 
+
+    $res = $select->fetchAll(PDO::FETCH_ASSOC);
+
+    echo '<p>Anzahl Musikstücke: '.count($res); 
+
+    foreach ($res as $row=>$value) {
+      $musikstueck = new Musikstueck(); 
+      $musikstueck->ID = $value["ID"]; 
+      $musikstueck->delete_verwendungszweck($VerwendungszweckID);
+    }    
+  } 
+
 }
-
- 
-
 
 
 ?>

@@ -29,7 +29,6 @@
 
     SHOW CREATE view test.v_sammlung
 
-
     select * 
     from INFORMATION_SCHEMA.KEY_COLUMN_USAGE
     where 1=1
@@ -66,8 +65,8 @@
     ALTER TABLE satz DROP CONSTRAINT satz_ibfk_4;
 
 -- MySQL (ev. bis 5.7.)
-    -- @FrankForte the "single command" doesn't work as MySQL (at least 5.7.28 and AFAIK 8.0 too) doesn't support DROP FOREIGN KEY IF EXISTS syntax. MariaDB supports it. – 
-    -- Ruslan Stelmachenko
+    -- the "single command" doesn't work as MySQL (at least 5.7.28 and AFAIK 8.0 too) 
+    -- doesn't support DROP FOREIGN KEY IF EXISTS syntax. MariaDB supports it. – 
     -- https://stackoverflow.com/questions/14122031/how-to-remove-constraints-from-my-mysql-table
 
     -- ALTER TABLE `table_name` DROP FOREIGN KEY `id_name_fk`;

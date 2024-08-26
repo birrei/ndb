@@ -405,8 +405,7 @@ class Satz {
   }
 
   function print_table_lookups($target_file, $LookupTypeID=0){
-    // 
-    $query="SELECT satz_lookup.ID
+    $query="SELECT lookup.ID
              , lookup_type.Name as Typ     
              , lookup.Name  
           FROM satz_lookup          
@@ -474,8 +473,11 @@ class Satz {
     $conn = new DbConn(); 
     $db=$conn->db; 
 
-    $delete = $db->prepare("DELETE FROM `satz_lookup` WHERE ID=:ID"); 
-    $delete->bindValue(':ID', $ID);  
+    $delete = $db->prepare("DELETE FROM `satz_lookup` 
+          WHERE SatzID=:SatzID
+          AND LookupID=:LookupID "); 
+    $delete->bindValue(':SatzID', $this->ID);            
+    $delete->bindValue(':LookupID', $ID);  
 
     try {
       $delete->execute(); 
@@ -533,9 +535,9 @@ class Satz {
   }  
 
   function print_table_schwierigkeitsgrade($target_file){
-    $query="SELECT satz_schwierigkeitsgrad.ID
-              , schwierigkeitsgrad.Name as Schwierigkeitsgrad
-              , instrument.Name as Instrument 
+    $query="SELECT instrument.ID 
+          , instrument.Name as Instrument 
+          , schwierigkeitsgrad.Name as Grad
           FROM satz_schwierigkeitsgrad 
           inner join schwierigkeitsgrad 
               on  schwierigkeitsgrad.ID = satz_schwierigkeitsgrad.SchwierigkeitsgradID
@@ -635,8 +637,13 @@ class Satz {
     $conn = new DbConn(); 
     $db=$conn->db; 
 
-    $delete = $db->prepare("DELETE FROM `satz_schwierigkeitsgrad` WHERE ID=:ID"); 
-    $delete->bindValue(':ID', $ID);  
+    $delete = $db->prepare("DELETE 
+                          FROM `satz_schwierigkeitsgrad` 
+                          WHERE SatzID=:SatzID
+                          AND InstrumentID=:InstrumentID"
+                        ); 
+    $delete->bindValue(':SatzID', $this->ID);  
+    $delete->bindValue(':InstrumentID', $ID);      
 
     try {
       $delete->execute(); 

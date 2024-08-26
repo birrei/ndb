@@ -16,7 +16,7 @@ if (isset($_GET["option"])){
       }
     } 
     if($_GET["option"]=='delete') {
-        $sammlung->delete_lookup($_GET["ID"]); // ID = sammlung_lookup.ID 
+        $sammlung->delete_lookup($_GET["ID"]); 
     } 
 }
 

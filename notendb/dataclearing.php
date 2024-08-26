@@ -8,28 +8,44 @@ $VerwendungszweckID='';
 
 echo '<pre>';  
 if (isset($_POST["form-name"])){
-    // print_r($_POST); 
+    print_r($_POST); 
     switch($_POST["form-name"]) {
-        case 'Sammlung: Besetzung ergänzen': 
+        case 'sammlung-besetzung': 
             if (!empty($_POST["SammlungID"]) & !empty($_POST["BesetzungID"])) {
                 include_once('cl_sammlung.php');                     
                 $SammlungID=$_POST["SammlungID"]; 
                 $BesetzungID=$_POST["BesetzungID"];                 
                 $sammlung = new Sammlung(); 
                 $sammlung->ID=$SammlungID; 
-                $sammlung->add_besetzung($BesetzungID);
-
-    
+                
+                if (isset($_POST["sammlung_delete_besetzung"])) {
+                  echo 'Auswahl: Besetzung entfernen';                   
+                    $sammlung->delete_besetzung($BesetzungID);
+                }
+                else {                                
+                  echo 'Auswahl: Besetzung hinzufügen'; 
+                    $sammlung->add_besetzung($BesetzungID);
+                }
+   
             }
             break; 
-        case 'Sammlung: Verwendungszweck ergänzen': 
+        case 'sammlung-verwendungszweck': 
                 if (!empty($_POST["SammlungID"]) & !empty($_POST["VerwendungszweckID"])) {
                     include_once('cl_sammlung.php');                     
                     $SammlungID=$_POST["SammlungID"]; 
                     $VerwendungszweckID=$_POST["VerwendungszweckID"];                 
                     $sammlung = new Sammlung(); 
                     $sammlung->ID=$SammlungID; 
-                    $sammlung->add_verwendungszweck($VerwendungszweckID);
+                    // $sammlung->add_verwendungszweck($VerwendungszweckID);
+                    if (isset($_POST["sammlung_delete_verwendungszweck"])) {
+                      echo 'Auswahl: verwendungszweck entfernen';                   
+                        $sammlung->delete_verwendungszweck($VerwendungszweckID);
+                    }
+                    else {                                
+                      echo 'Auswahl: verwendungszweck hinzufügen'; 
+                        $sammlung->add_verwendungszweck($VerwendungszweckID);
+                    }
+                           
                 }
                 break; 
         case 'Sammlung kopieren': 
@@ -60,75 +76,62 @@ if (isset($_POST["form-name"])){
 }
 echo '</pre>';  
 ?>
+<h2> Sammlung kopieren </h2>
 
-<table> 
-  <!--sammlung-kopieren"-->   
-  <form action="" method="post" name="sammlung-kopieren">
-    <tr>    
-      <td class="eingabe"><b>Sammlung kopieren </b><br />
-    </td>  
-      <td class="eingabe">
-        <label> SammlungID: <input type="text" name="SammlungID" value="<?php echo $SammlungID; ?>" size="5" ></label><br />
-<!-- noch XXX: besser: Checkbox-Gruppen  --> 
-        <input type="checkbox" name="include_musikstuecke" value="true" checked><label for="include_musikstuecke">Musikstücke einschließen</label><br>
-        <input type="checkbox" name="include_verwendungszwecke" checked><label for="include_verwendungszwecke">Verwendungszwecke einschließen</label><br>
-        <input type="checkbox" name="include_besetzungen" checked><label for="include_besetzungen">Besetzungen einschließen</label><br>
-        <input type="checkbox" name="include_saetze" checked><label for="include_saetze">Sätze einschließen</label><br>
-        <input type="checkbox" name="include_schwierigkeitsgrade" checked><label for="include_schwierigkeitsgrade">Schwierigkeitsgrade einschließen</label><br>
-        <input type="checkbox" name="include_satz_lookups" checked><label for="include_satz_lookups">Satz Besonderheiten einschließen</label><br>
+<form action="" method="post" name="sammlung-kopieren">
+    
+    <label> SammlungID: <input type="text" name="SammlungID" value="<?php echo $SammlungID; ?>" size="5" ></label><br />
+  <!-- noch XXX: besser: Checkbox-Gruppen  --> 
+    <input type="checkbox" name="include_musikstuecke" value="true" checked><label for="include_musikstuecke">Musikstücke einschließen</label><br>
+    <input type="checkbox" name="include_verwendungszwecke" checked><label for="include_verwendungszwecke">Verwendungszwecke einschließen</label><br>
+    <input type="checkbox" name="include_besetzungen" checked><label for="include_besetzungen">Besetzungen einschließen</label><br>
+    <input type="checkbox" name="include_saetze" checked><label for="include_saetze">Sätze einschließen</label><br>
+    <input type="checkbox" name="include_schwierigkeitsgrade" checked><label for="include_schwierigkeitsgrade">Schwierigkeitsgrade einschließen</label><br>
+    <input type="checkbox" name="include_satz_lookups" checked><label for="include_satz_lookups">Satz Besonderheiten einschließen</label><br>
 
-      </td> 
-      <td class="eingabe">
-          <input type="submit" name="submit" value="ausführen">    
-          <input type="hidden" name="form-name" value="Sammlung kopieren">             
-      </td>
+      <input type="submit" name="submit" value="ausführen">    
+      <input type="hidden" name="form-name" value="Sammlung kopieren">             
 
-    </tr> 
     </form>
 
+    <hr >
+<!--- ****************************************************************************** --> 
 
-  <!-- sammlung-insert-besetzung -->   
 
-  <form action="" method="post" name="sammlung-insert-besetzung">
-    <tr>    
-      <td class="eingabe"><b>Sammlung: Besetzung ergänzen </b><br />
-        Allen Musikstücken einer Sammlung wird eine definierte Besetzung zugeordnet
-    </td>  
-      <td class="eingabe">
-             <label> SammlungID: <input type="text" name="SammlungID" value="<?php echo $SammlungID; ?>" size="5" ></label>
-             <label> BesetzungID: <input type="text" name="BesetzungID" size="5" ></label>
-      </td> 
-      <td class="eingabe">
-          <input type="submit" name="submit" value="ausführen">    
-          <input type="hidden" name="form-name" value="Sammlung: Besetzung ergänzen">             
-      </td>
 
-    </tr> 
+  <h2> Sammlung: Besetzung ergänzen / entfernen </h2>
+    Bei Musikstücken einer Sammlung wird eine definierte Besetzung zugeordnet / entfernt 
+
+    <form action="" method="post" name="sammlung-besetzung">
+
+  <label> SammlungID: <input type="text" name="SammlungID" value="<?php echo $SammlungID; ?>" size="5" ></label>
+  <label> BesetzungID: <input type="text" name="BesetzungID" size="5" ></label>
+
+  <input type="hidden" name="form-name" value="sammlung-besetzung">   
+  <input type="checkbox" name="sammlung_delete_besetzung"><label for="sammlung_delete_besetzung">entfernen</label> 
+  <input type="submit" name="submit" value="ausführen">    
+
     </form>
 
+    <hr >
+
+<!--- ****************************************************************************** --> 
+
+<h2>Sammlung: Verwendungszweck ergänzen / entfernen </h2>
+Bei allen Musikstücken einer Sammlung wird ein definierter Verwendungszweck zugeordnet / entfernt 
 
   <!-- sammlung-insert-verwendungszweck -->   
-  <form action="" method="post" name="sammlung-insert-verwendungszweck">
-    <tr>    
-      <td class="eingabe"><b>Sammlung: Verwendungszweck ergänzen </b><br />
-        Allen Musikstücken einer Sammlung wird ein definierter Verwendungszweck zugeordnet 
-    </td>  
-      <td class="eingabe">
-             <label> SammlungID: <input type="text" name="SammlungID" value="<?php echo $SammlungID; ?>" size="5" ></label>
-             <label> VerwendungszweckID: <input type="text" name="VerwendungszweckID" size="5" ></label>
-      </td> 
-      <td class="eingabe">
-          <input type="submit" name="submit" value="ausführen">    
-          <input type="hidden" name="form-name" value="Sammlung: Verwendungszweck ergänzen">             
-      </td>
+  <form action="" method="post" name="sammlung-verwendungszweck">
 
-    </tr> 
+      <label> SammlungID: <input type="text" name="SammlungID" value="<?php echo $SammlungID; ?>" size="5" ></label>
+      <label> VerwendungszweckID: <input type="text" name="VerwendungszweckID" size="5" ></label>
+      <input type="checkbox" name="sammlung_delete_verwendungszweck"><label for="sammlung_delete_verwendungszweck">entfernen</label> 
+
+      <input type="submit" name="submit" value="ausführen">    
+      <input type="hidden" name="form-name" value="sammlung-verwendungszweck">             
+
     </form>
 
-
-
-
-    </table>
 
 
 

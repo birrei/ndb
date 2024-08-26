@@ -29,7 +29,7 @@ select
         ) as Spieldauer
     , erprobt.Name as Erprobt
     , v_satz_lookuptypes.LookupList as Besonderheiten
-    , GROUP_CONCAT(DISTINCT concat(schwierigkeitsgrad.Name, ' - ', instrument.Name)  order by schwierigkeitsgrad.Name SEPARATOR ', ') as Schwierigkeitsgrade 
+    , GROUP_CONCAT(DISTINCT concat(instrument.Name, ': ', schwierigkeitsgrad.Name)  order by schwierigkeitsgrad.Name SEPARATOR ', ') as Schwierigkeitsgrade 
     , satz.Orchesterbesetzung
     , satz.Bemerkung   
     , satz.ID

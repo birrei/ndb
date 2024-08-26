@@ -160,8 +160,7 @@ class Musikstueck {
   }
 
   function print_table_besetzungen($target_file){
-    $query="SELECT mb.ID
-         -- , mb.BesetzungID
+    $query="SELECT b.ID
         , b.Name                              
     FROM `musikstueck` m 
     inner join musikstueck_besetzung mb 
@@ -193,16 +192,15 @@ class Musikstueck {
   }
 
   function print_table_verwendungszwecke($target_file){
-    $query="SELECT mb.ID
-       -- , b.ID as VerwID
-        , b.Name                      
+    $query="SELECT v.ID
+        , v.Name                      
     FROM `musikstueck` m 
     inner join musikstueck_verwendungszweck mb 
       on m.ID=mb.MusikstueckID          
-    inner join verwendungszweck b
-      on b.ID=mb.VerwendungszweckID 
+    inner join verwendungszweck v
+      on v.ID=mb.VerwendungszweckID 
     WHERE mb.MusikstueckID = :MusikstueckID 
-    ORDER by b.Name"; 
+    ORDER by v.Name"; 
 
     include_once("cl_db.php");
     $conn = new DbConn(); 
@@ -231,7 +229,7 @@ class Musikstueck {
       $conn = new DbConn(); 
       $db=$conn->db; 
 
-      $insert = $db->prepare("INSERT INTO `musikstueck_besetzung` SET
+      $insert = $db->prepare("INSERT IGNORE INTO `musikstueck_besetzung` SET
                             `MusikstueckID`     = :MusikstueckID,
                             `BesetzungID`     = :BesetzungID");
 
@@ -255,7 +253,7 @@ class Musikstueck {
     $conn = new DbConn(); 
     $db=$conn->db; 
 
-    $insert = $db->prepare("INSERT INTO `musikstueck_verwendungszweck` SET
+    $insert = $db->prepare("INSERT IGNORE INTO `musikstueck_verwendungszweck` SET
                           `MusikstueckID`     = :MusikstueckID,
                           `VerwendungszweckID`     = :VerwendungszweckID");
 
@@ -319,7 +317,7 @@ class Musikstueck {
                   satz.Spieldauer MOD 60
                   , ''''''
                 ) as Spieldauer                    
-              , GROUP_CONCAT(DISTINCT concat(schwierigkeitsgrad.Name, ' - ', instrument.Name)  order by schwierigkeitsgrad.Name SEPARATOR ', ') `Schwierigkeitsgrade`  
+              , GROUP_CONCAT(DISTINCT concat(instrument.Name, ': ', schwierigkeitsgrad.Name)  order by schwierigkeitsgrad.Name SEPARATOR ', ') `Schwierigkeitsgrade`  
               , erprobt.Name as Erprobt              
               , satz.Orchesterbesetzung
               , v_satz_lookuptypes.LookupList as Besonderheiten              
@@ -380,8 +378,13 @@ class Musikstueck {
     $conn = new DbConn(); 
     $db=$conn->db; 
 
-    $delete = $db->prepare("DELETE FROM `musikstueck_verwendungszweck` WHERE ID=:ID"); 
-    $delete->bindValue(':ID', $ID);  
+    $delete = $db->prepare("DELETE 
+                          FROM `musikstueck_verwendungszweck` 
+                          WHERE MusikstueckID=:MusikstueckID
+                          AND VerwendungszweckID=:VerwendungszweckID
+                          "); 
+    $delete->bindValue(':MusikstueckID', $this->ID);  
+    $delete->bindValue(':VerwendungszweckID', $ID);      
 
     try {
       $delete->execute(); 
@@ -420,8 +423,13 @@ class Musikstueck {
     $conn = new DbConn(); 
     $db=$conn->db; 
 
-    $delete = $db->prepare("DELETE FROM `musikstueck_besetzung` WHERE ID=:ID"); 
-    $delete->bindValue(':ID', $ID);  
+    $delete = $db->prepare("DELETE FROM `musikstueck_besetzung` 
+                          WHERE MusikstueckID=:MusikstueckID
+                          AND BesetzungID=:BesetzungID
+                          "
+                          ); 
+    $delete->bindValue(':MusikstueckID', $this->ID);  
+    $delete->bindValue(':BesetzungID', $ID);      
 
     try {
       $delete->execute(); 
