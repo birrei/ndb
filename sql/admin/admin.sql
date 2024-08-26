@@ -1,18 +1,22 @@
-/* Datenbank */ 
+/* Info Datenbank */ 
 
---- Version 
+--- mysql Version anzeigen  
     select version();
 
     -- alle Tabellen anzeigen 
     show tables;
 
+
     --- alle views anzeigen 
+    SELECT *
+    FROM information_schema.TABLES 
+    WHERE TABLE_TYPE LIKE 'VIEW'; 
+
+    --- sql für views löschen  
     SELECT CONCAT('DROP VIEW IF EXISTS ', TABLE_NAME, ';') as cmd  
     FROM information_schema.TABLES 
     WHERE TABLE_TYPE LIKE 'VIEW'; 
 
-
-/* Objekte */
 
     /* Info Tabelle */ 
     describe test.verlag
@@ -35,30 +39,47 @@
 
 /* Foreign keys anzeigen */
 
-USE INFORMATION_SCHEMA;
-SELECT TABLE_NAME,
-       COLUMN_NAME,
-       CONSTRAINT_NAME,
-       REFERENCED_TABLE_NAME,
-       REFERENCED_COLUMN_NAME
-FROM KEY_COLUMN_USAGE
-WHERE 1=1 
-aND TABLE_SCHEMA = 'test' 
-      AND TABLE_NAME = 'satz'
-      AND REFERENCED_COLUMN_NAME IS NOT NULL;
+    USE INFORMATION_SCHEMA;
+    SELECT TABLE_NAME,
+        COLUMN_NAME,
+        CONSTRAINT_NAME,
+        REFERENCED_TABLE_NAME,
+        REFERENCED_COLUMN_NAME
+    FROM KEY_COLUMN_USAGE
+    WHERE 1=1 
+    aND TABLE_SCHEMA = 'test' 
+        AND TABLE_NAME = 'satz'
+        AND REFERENCED_COLUMN_NAME IS NOT NULL;
 
 
-/***** foreign key löschen ******/
+/* DDL */
+
+/***** unique key erstellen  ******/
+    ALTER TABLE satz_schwierigkeitsgrad
+    ADD CONSTRAINT uc_satz_schwierigkeitsgrad 
+    UNIQUE (SatzID, SchwierigkeitsgradID, InstrumentID)
+    ;
 
 
-ALTER TABLE `lookup_type` ADD `Bemerkung` VARCHAR(100) NULL ; 
+/***** constraint löschen ******/
+-- MariaDB: 
+    ALTER TABLE satz DROP CONSTRAINT satz_ibfk_4;
+
+-- MySQL (ev. bis 5.7.)
+    -- @FrankForte the "single command" doesn't work as MySQL (at least 5.7.28 and AFAIK 8.0 too) doesn't support DROP FOREIGN KEY IF EXISTS syntax. MariaDB supports it. – 
+    -- Ruslan Stelmachenko
+    -- https://stackoverflow.com/questions/14122031/how-to-remove-constraints-from-my-mysql-table
+
+    -- ALTER TABLE `table_name` DROP FOREIGN KEY `id_name_fk`;
+    -- ALTER TABLE `table_name` DROP INDEX  `id_name_fk`;
 
 
-ALTER TABLE satz DROP CONSTRAINT satz_ibfk_4;
+/***** spalte ergänzen ******/
+    ALTER TABLE `lookup_type` ADD `Bemerkung` VARCHAR(100) NULL ; 
 
-
-ALTER TABLE schwierigkeitsgrad CHANGE `ID` `ID` INT NOT NULL ; 
-show columns from schwierigkeitsgrad;
+/***** spalte datentyp ändern ******/
+    ALTER TABLE schwierigkeitsgrad CHANGE `ID` `ID` INT NOT NULL ; 
+    show columns from schwierigkeitsgrad;
 
 /** Spalte vergrößern *****/
-ALTER TABLE `satz` CHANGE `Orchesterbesetzung` `Orchesterbesetzung` varchar(250); 
+    ALTER TABLE `satz` CHANGE `Orchesterbesetzung` `Orchesterbesetzung` varchar(250); 
