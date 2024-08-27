@@ -583,7 +583,7 @@ if (isset($_POST['suchtext'])) {
         $Suche->insert_row2(); 
         echo '<p>Die Suchabfrage wurde gespeichert: <br />'; 
         echo '<a href="show_abfrage.php?ID='.$Suche->ID.'&title=Abfrage" target="_blank">Abfrage-Ergebnis anzeigen</a>
-            | <a href="edit_abfrage.php?ID='.$Suche->ID.'&title=Abfrage" target="_blank">Abfrage bearbeiten</a>
+            | <a href="edit_abfrage.php?ID='.$Suche->ID.'&title=Abfrage&option=edit" target="_blank">Abfrage bearbeiten</a>
             | <a href="show_table2.php?table=v_abfrage&sortcol=ID&sortorder=DESC&title=Abfragen&add_link_show" target="_blank">Übersicht Abfragen</a>         
             ';
             
