@@ -36,7 +36,8 @@ if (isset($_REQUEST["option"])) {
 }
 
 $info->print_screen_header($abfrage->Title.'-Text bearbeiten', ' | '); 
-$info->print_link_table('v_abfrage', 'sortcol=Name', $abfrage->Titles,true); 
+// $info->print_link_table('v_abfrage', 'sortcol=Name', $abfrage->Titles,true); 
+echo '<a href="show_table2.php?table=v_abfrage&sortcol=ID&sortorder=DESC&title=Abfragen&add_link_show" target="_blank">Übersicht Abfragen</a>'; 
 
 if ($show_data) {
   echo '<p><a href="show_abfrage.php?ID='.$abfrage->ID.'&title=Abfrage&Name='.$abfrage->Name.'">Abfrage-Ergebnis anzeigen</a> | ';
@@ -53,6 +54,14 @@ if ($show_data) {
     </label>
       </tr> 
 
+
+      <tr>    
+      <label>
+      <td class="eingabe">Name:</td>  
+      <td class="eingabe">'.$abfrage->Name.'</td>
+      </label>
+        </tr> 
+  
 
     <tr>    
         <label>

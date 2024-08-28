@@ -36,13 +36,11 @@ if (isset($_REQUEST["option"])) {
 }
 
 $info->print_screen_header($abfrage->Title.' bearbeiten', ' | '); 
-$info->print_link_table('v_abfrage', 'sortcol=Name', $abfrage->Titles,true); 
-
+// $info->print_link_table('v_abfrage', 'sortcol=Name', $abfrage->Titles,true); // es fehlt Zusatz &add_link_show
+echo '<a href="show_table2.php?table=v_abfrage&sortcol=ID&sortorder=DESC&title=Abfragen&add_link_show" target="_blank">Übersicht Abfragen</a>'; 
 
 if ($show_data) {
-
-
-echo '
+  echo '
   <p>
   <a href="show_abfrage.php?ID='.$abfrage->ID.'&title=Abfrage&Name='.$abfrage->Name.'">Abfrage-Ergebnis anzeigen</a> | '; 
   $info->print_link_edit2($abfrage->table_name, $abfrage->ID,'Abfrage-Text',false);  
