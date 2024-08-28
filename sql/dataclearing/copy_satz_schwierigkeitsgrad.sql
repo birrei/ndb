@@ -17,10 +17,10 @@ left Join musikstueck on musikstueck.ID = satz.MusikstueckID
 left JOIN satz_schwierigkeitsgrad ssref 
     on  ssref.SatzID = satz_schwierigkeitsgrad.SatzID
     -- and  ssref.InstrumentID = satz_schwierigkeitsgrad.InstrumentID    
-    and   ssref.InstrumentID=2
+    and   ssref.InstrumentID=2 -- Orchester 
 WHERE 1=1 
-and musikstueck.SammlungID = 268
-and satz_schwierigkeitsgrad.InstrumentID = 12 -- Violine 1
+and musikstueck.SammlungID = 280
+and satz_schwierigkeitsgrad.InstrumentID = 17 -- Violine : 12, Viola: 17 
 and ssref.InstrumentID IS NULL
 
 order by satz_schwierigkeitsgrad.SatzID

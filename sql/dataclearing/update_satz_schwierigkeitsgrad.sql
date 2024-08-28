@@ -1,8 +1,12 @@
 /*
-in Auswahl soll bei allen Schwierigkeitsgraden ein bestimmtes Instrument 
+In Sammlung soll bei allen Schwierigkeitsgraden ein bestimmtes Instrument 
 durch ein bestimmtes anderes Instrument ersetzt werden. 
 */
 
+
+/* unbekannt -> Orchester 
+  ! nur SammlungID anpassen ! 
+*/
 
 update satz_schwierigkeitsgrad as s 
 inner join 
@@ -15,12 +19,35 @@ inner join
     inner Join musikstueck on musikstueck.ID = satz.MusikstueckID 
 
     WHERE 1=1 
-    and musikstueck.SammlungID = 280
-    and satz_schwierigkeitsgrad.InstrumentID = 12 -- Violine 1
-    and satz_schwierigkeitsgrad.InstrumentID <> 17 -- Ersetzer (Einschränkung wg. dubletten-Vermeidung)
+    and musikstueck.SammlungID = 132
+    and satz_schwierigkeitsgrad.InstrumentID = 1 -- 1 (unbekannt)
+    and satz_schwierigkeitsgrad.InstrumentID <> 2 -- Ziel-ID (Einschränkung wg. dubletten-Vermeidung)
 ) ref 
 on ref.ID = s.ID 
-set s.InstrumentID =  17
+set s.InstrumentID =  2 -- Orchester 
+
+
+
+
+
+
+-- update satz_schwierigkeitsgrad as s 
+-- inner join 
+-- (
+--     SELECT musikstueck.SammlungID
+--       , satz_schwierigkeitsgrad.ID 
+--     from satz
+--     inner join satz_schwierigkeitsgrad on satz_schwierigkeitsgrad.SatzID = satz.ID 
+--     inner join instrument on instrument.ID = satz_schwierigkeitsgrad.InstrumentID 
+--     inner Join musikstueck on musikstueck.ID = satz.MusikstueckID 
+
+--     WHERE 1=1 
+--     and musikstueck.SammlungID = 280
+--     and satz_schwierigkeitsgrad.InstrumentID = 12 -- Violine 1
+--     and satz_schwierigkeitsgrad.InstrumentID <> 17 -- Ersetzer (Einschränkung wg. dubletten-Vermeidung)
+-- ) ref 
+-- on ref.ID = s.ID 
+-- set s.InstrumentID =  17
 
 
 -- ID	Name	Bearbeiten
