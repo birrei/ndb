@@ -342,7 +342,6 @@ if (isset($_POST['suchtext'])) {
  
   <?php 
 
-
 /************** Besonderheiten Satz **********/
 
   $lookuptypes=new Lookuptype(); 
@@ -351,29 +350,44 @@ if (isset($_POST['suchtext'])) {
   $filterLookups_satz=''; 
 
   for ($i = 0; $i < count($lookuptypes->ArrData); $i++) {
+    // print_r($lookuptypes->ArrData[$i]);  // Test     
+    $lookup_check_excl=false; 
+    $lookup_type_name=$lookuptypes->ArrData[$i]["Name"]; 
+    $lookup_type_key= $lookuptypes->ArrData[$i]["type_key"]; 
     $lookup=New Lookup(); 
     $lookup->LookupTypeID=$lookuptypes->ArrData[$i]["ID"];
-    $lookup_type_name=$lookuptypes->ArrData[$i]["Name"]; 
-    $lookup_type_key= $lookuptypes->ArrData[$i]["type_key"]; // z.B: "besdynam" ect.  
-    $lookup_values_selected=[];      
+    $lookup_values=[]; // alle Lookupwerte eines Typs 
+    $lookup_values_selected=[];    // ausgewählte Lookup-Werte 
+    $lookup_values_not_selected=[];  // nicht ausgewählte Lookup-Werte 
+    $lookup_values = $lookup->getArrLookups();
+    // print_r($lookup_values); // Test 
     if (isset($_POST[$lookup_type_key])) {
+      $filter=true;       
       $lookup_values_selected= $_POST[$lookup_type_key]; 
-      // $lookup_all_values_selected = array_merge($lookup_all_values_selected, $lookup_values_selected);  // falsch! (jede lookup-Gruppe muss für Filter separat ausgelesen )
-      $filterLookups_satz.=' AND satz_lookup.LookupID IN ('.implode(',', $lookup_values_selected).') -- '.$lookup_type_name.''. PHP_EOL; 
-      $filter=true; 
+      // print_r($lookup_values_selected); // test 
+      if (isset($_POST['ex_'.$lookup_type_key])) {
+        $lookup_check_excl=true; 
+        // ausgewählte Eintraege filtern           
+        for ($i = 0; $i < count($lookup_values_selected); $i++) {
+          $filterLookups_satz.=' AND satz.ID IN (SELECT SatzID from satz_lookup WHERE LookupID='.$lookup_values_selected[$i].') '. PHP_EOL; 
+        }
+        $lookup_values_not_selected = array_diff($lookup_values, $lookup_values_selected); // nicht ausgewählte Werte    
+        // nicht ausgewählte Eintraege wegfiltern 
+        $filterLookups_satz.=' AND satz.ID NOT IN (SELECT DISTINCT SatzID from satz_lookup WHERE LookupID IN ('.implode(',', $lookup_values_not_selected).')) '. PHP_EOL; 
+      } 
+      else {
+        $filterLookups_satz.=' AND satz_lookup.LookupID IN ('.implode(',', $lookup_values_selected).') '. PHP_EOL;         
+      }
+      // echo '<pre>'.$filterLookups_satz.'</pre>'; 
     } 
-    $lookup->print_select_multi($lookup_type_key,$lookup_values_selected, $lookup_type_name.':');
-    $Suche->Beschreibung.=(count($lookup_values_selected)?$lookup->titles_selected_list:'');   
+    $lookup->print_select_multi($lookup_type_key,$lookup_values_selected, $lookup_type_name.':', true, $lookup_check_excl);
+    $Suche->Beschreibung.=(count($lookup_values_selected)>0?$lookup->titles_selected_list:'');   
   }
  
   ?>
-
 </form>
-
 </div> <!-- ende class search-filter --> 
 <div class="search-table">
-
-
 <?php
 
   if ($filter ) {
@@ -612,9 +626,7 @@ if (isset($_POST['suchtext'])) {
             $info->print_user_error(); 
             $info->print_error($select, $e); 
           }    
-
       }
-
 
     } // Ende if($filter)
     else {

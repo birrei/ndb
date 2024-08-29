@@ -42,10 +42,17 @@ class HtmlSelect {
         echo $html;
     }    
 
-    function print_select_multi($id, $keyname, $options_selected=[], $caption='') {
-        $html = '';
+    function print_select_multi($id
+        , $keyname
+        , $options_selected=[]
+        , $caption=''
+        , $print_check_excl=false // Anzeige Box Aussschluss-Suche
+        , $check_excl=false // Ausschluss-Suche aktiviert 
+        ) {
+        // $add_check_excl: Checkbox für Ausschluss-Suche anzeigen 
+        $html = '<p>';
         if ($caption!='') {
-            $html.='<p><b>'.$caption.'</b><br/>'. PHP_EOL;
+            $html.='<b>'.$caption.'</b><br/>'. PHP_EOL;
         }
         if ($this->count_rows > 0) {
             $html.= '<select id="'.$id.'" name="'.$keyname.'" multiple size="'.$this->visible_rows.'" style="width:100%;font-size:9pt">' . PHP_EOL;  
@@ -70,10 +77,13 @@ class HtmlSelect {
                 var dropDown = document.getElementById("'.$id.'");  
                 dropDown.selectedIndex = -1;  
             }  
-        </script>';
-        if ($caption!='') {
-            $html.='</p>'. PHP_EOL;;
-        }
+            </script>';
+        if ($print_check_excl) {
+            $html.='<input type="checkbox" name="ex_'.$id.'" '.($check_excl?' checked':'').'>
+             <label for="ex_'.$id.'">Genaue Suche</label>';
+        }   
+
+        $html.='</p>'. PHP_EOL;;
         echo $html;
         $this->titles_selected_list= '* '.$caption.' '.implode('; ', $this->option_titles_selected).PHP_EOL; 
     }    

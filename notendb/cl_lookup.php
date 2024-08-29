@@ -266,7 +266,10 @@ class Lookup {
 
   }  
 
-  function print_select_multi($type_key, $options_selected=[], $caption=''){
+  function print_select_multi($type_key, $options_selected=[], $caption=''
+          , $print_check_excl=false // Anzeige Box Aussschluss-Suche
+          , $check_excl=false // Ausschluss-Suche aktiviert 
+  ){
     include_once("cl_db.php");  
     include_once("cl_html_select.php");
     include_once("cl_lookuptype.php");
@@ -295,11 +298,9 @@ class Lookup {
       $html = new HtmlSelect($select); 
       // $html->visible_rows=15; //         XXX Wert konfigurierbar machen (Tabellen-Feld)
       $html->visible_rows=$lookuptype->selsize; 
-      $html->print_select_multi($type_key, $type_key.'[]', $options_selected,$caption);
-
+      $html->print_select_multi($type_key, $type_key.'[]', $options_selected,$caption,  $print_check_excl, $check_excl); // mit Ausschluss-Suche
       $this->titles_selected_list = $html->titles_selected_list;
       // echo  'cl_lookup: '.$this->titles_selected_list;
-           
     }
     catch (PDOException $e) {
       include_once("cl_html_info.php"); 
@@ -341,6 +342,31 @@ class Lookup {
       return false;  
     }  
   } 
+
+  
+  function getArrLookups(){
+    // alle Typen einer Relation 
+    include_once("cl_db.php");
+    $arrTmp=[]; 
+
+    $query_lookups = 'SELECT ID, Name
+                      FROM lookup 
+                      WHERE LookupTypeID=:LookupTypeID 
+                      order by Name';
+    $conn = new DbConn(); 
+    $db=$conn->db; 
+    $select = $db->prepare($query_lookups); 
+    $select->bindParam(':LookupTypeID', $this->LookupTypeID);    
+    $select->execute(); 
+    $result = $select->fetchAll(PDO::FETCH_ASSOC);
+
+    foreach ($result as $row) {
+      $arrTmp[] = $row["ID"];       
+    }
+    // print_r($arrTmp); // test
+    return  $arrTmp; 
+  }
+
 
 }
 

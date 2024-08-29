@@ -179,6 +179,7 @@ class Lookuptype {
   }  
 
   function setArrData(){
+    // alle Typen einer Relation 
     include_once("cl_db.php");
 
     $query_lookups = 'SELECT ID, Name, type_key, selsize 
