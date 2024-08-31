@@ -82,7 +82,7 @@ if (isset($_REQUEST["option"])) {
   <tr>    
   <label>
   <td class="eingabe">URL:</td>  
-  <td class="eingabe"><input type="text" name="URL" value="<?php echo $link->URL; ?>" size="150" required="required" oninput="changeBackgroundColor(this)"></td>
+  <td class="eingabe"><input type="text" name="URL" value="<?php echo $link->URL; ?>" size="100" required="required" oninput="changeBackgroundColor(this)"></td>
   </label>
   </tr> 
 
@@ -92,8 +92,6 @@ if (isset($_REQUEST["option"])) {
   <a href="edit_sammlung_list_links.php?SammlungID=<?php echo $link->SammlungID; ?>">Liste anzeigen</a> | 
   <?php 
   $info->print_link_delete_row($link->table_name, $link->ID, $link->Title, false); 
-
-
   ?>
 
   </td>

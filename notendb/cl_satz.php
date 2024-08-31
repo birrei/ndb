@@ -743,6 +743,72 @@ class Satz {
     }  
   }  
 
+
+  function print_table_erprobte(){
+    $query="SELECT satz_erprobt.ID 
+          , erprobt.Name as Erprobt
+          , satz_erprobt.Jahr
+          , satz_erprobt.Bemerkung  
+          FROM satz_erprobt 
+          left join erprobt 
+          on  erprobt.ID = satz_erprobt.ErprobtID 
+          WHERE satz_erprobt.SatzID = :SatzID 
+          order by satz_erprobt.Jahr DESC 
+        "; 
+
+    include_once("cl_db.php");
+    $conn = new DbConn(); 
+    $db=$conn->db; 
+  
+    $stmt = $db->prepare($query); 
+    $stmt->bindParam(':SatzID', $this->ID, PDO::PARAM_INT); 
+
+    try {
+      $stmt->execute(); 
+      include_once("cl_html_table.php");      
+      $html = new HtmlTable($stmt); 
+      // $html->print_table_with_del_link($target_file, 'SatzID', $this->ID); 
+
+      $html->link_table='satz_erprobt'; 
+      $html->link_title='Erprobt'; 
+      $html->open_newpage=false; 
+      $html->print_table2(); 
+
+    }
+    catch (PDOException $e) {
+      include_once("cl_html_info.php"); 
+      $info = new HtmlInfo();      
+      $info->print_user_error(); 
+      $info->print_error($stmt, $e); 
+    }
+  }    
+
+  function add_erprobt($Bemerkung){
+
+    include_once("cl_db.php");
+    $conn = new DbConn(); 
+    $db=$conn->db; 
+
+    $insert = $db->prepare("INSERT INTO `satz_erprobt` SET
+        `Bemerkung`     = :Bemerkung
+        "
+
+      );
+
+    $insert->bindValue(':SatzID', $this->ID);  
+    $insert->bindValue(':LookupID', $ErprobtID);  
+
+    try {
+      $insert->execute(); 
+    }
+    catch (PDOException $e) {
+      include_once("cl_html_info.php"); 
+      $info = new HtmlInfo();      
+      $info->print_user_error(); 
+      $info->print_error($insert, $e);  
+    }  
+  }
+
 }
 
  

@@ -1,4 +1,4 @@
-/* Info Datenbank */ 
+/* Info  */ 
 
 --- mysql Version anzeigen  
     select version();
@@ -59,6 +59,14 @@
     UNIQUE (SatzID, SchwierigkeitsgradID, InstrumentID)
     ;
 
+/***** foreign key erstellen  ******/
+    ALTER TABLE satz_schwierigkeitsgrad 
+        ADD  FOREIGN KEY (SatzID) 
+        REFERENCES satz(ID) 
+        ON DELETE RESTRICT ON UPDATE RESTRICT
+        ;
+
+
 
 /***** constraint löschen ******/
 -- MariaDB: 
@@ -69,12 +77,13 @@
     -- doesn't support DROP FOREIGN KEY IF EXISTS syntax. MariaDB supports it. – 
     -- https://stackoverflow.com/questions/14122031/how-to-remove-constraints-from-my-mysql-table
 
-    -- ALTER TABLE `table_name` DROP FOREIGN KEY `id_name_fk`;
-    -- ALTER TABLE `table_name` DROP INDEX  `id_name_fk`;
+    ALTER TABLE `table_name` DROP FOREIGN KEY `id_name_fk`;
+    ALTER TABLE `table_name` DROP INDEX  `id_name_fk`;
 
 
 /***** spalte ergänzen ******/
     ALTER TABLE `lookup_type` ADD `Bemerkung` VARCHAR(100) NULL ; 
+    ALTER TABLE `erprobt` ADD `Jahr` YEAR; -- https://mariadb.com/kb/en/year-data-type/   
 
 /***** spalte datentyp ändern ******/
     ALTER TABLE schwierigkeitsgrad CHANGE `ID` `ID` INT NOT NULL ; 
@@ -82,3 +91,22 @@
 
 /** Spalte vergrößern *****/
     ALTER TABLE `satz` CHANGE `Orchesterbesetzung` `Orchesterbesetzung` varchar(250); 
+
+/***** spalte löschen ******/
+    ALTER TABLE my_table DROP IF EXISTS my_column;
+    ALTER TABLE satz DROP COLUMN Lagen;
+
+
+
+/****************************************************/
+-- Der Datentyp einer Fremdschlüssel-Spalte soll geändert werden 
+     
+     ALTER TABLE `satz` DROP FOREIGN KEY `satz_ibfk_2`;
+
+     ALTER TABLE satz CHANGE `ErprobtID` `ErprobtID` INT; 
+
+     ALTER TABLE erprobt CHANGE `ID` `INT` INT; 
+
+
+
+

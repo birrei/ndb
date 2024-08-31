@@ -103,17 +103,16 @@ if ($show_data) {
     <tr>    
       <label>
       <td class="eingabe"><b>Tonart:</b></td>  
-      <td class="eingabe"><input type="text" name="Tonart" value="'.$satz->Tonart.'" size="45" maxlength="80" oninput="changeBackgroundColor(this)"></td>
+      <td class="eingabe">
+      <input type="text" name="Tonart" value="'.$satz->Tonart.'" size="45" oninput="changeBackgroundColor(this)">
       </label>
+     <label>
+      Taktart: 
+      <input type="text" name="Taktart" value="'.$satz->Taktart.'" size="45" oninput="changeBackgroundColor(this)"></td>
+            </label>
+      </td>
     </tr> 
 
-
-    <tr>    
-      <label>
-      <td class="eingabe"><b>Taktart:</b></td>  
-      <td class="eingabe"><input type="text" name="Taktart" value="'.$satz->Taktart.'" size="45" maxlength="80" oninput="changeBackgroundColor(this)"></td>
-      </label>
-    </tr> 
 
     <tr>    
       <label>
@@ -133,21 +132,6 @@ if ($show_data) {
         </td>
         </label>
     </tr> 
-    
-    <tr>   
-      <td class="eingabe"><b>Erprobt:</b></td>   
-      <td class="eingabe">  '; 
-        $erprobt=new Erprobt(); 
-        $erprobt->print_select($satz->ErprobtID); 
-    
-      echo ' &nbsp; ';
-      $info->print_link_edit($erprobt->table_name, $satz->ErprobtID, $erprobt->Title, true, ' | '); 
-      $info->print_link_table($erprobt->table_name,'sortcol=Name',$erprobt->Titles,true,'',' | ');    
-      $info->print_link_insert($erprobt->table_name,$erprobt->Title,true); 
-
-      echo  '
-      </td>
-    </tr>
 
     <tr>    
       <label>
@@ -160,7 +144,7 @@ if ($show_data) {
     <label>
     <td class="eingabe"><b>Bemerkung:</b></td>  
     <td class="eingabe">
-    <textarea name="Bemerkung" rows=5 cols=100 maxlength="500" oninput="changeBackgroundColor(this)">'.htmlentities($satz->Bemerkung).'</textarea> (max. 500 Zeichen)
+    <textarea name="Bemerkung" rows=3 cols=100 maxlength="500" oninput="changeBackgroundColor(this)">'.htmlentities($satz->Bemerkung).'</textarea> (max. 500 Zeichen)
     </td>
     </label>
   </tr>
@@ -196,11 +180,39 @@ if ($show_data) {
               <br> <a href="show_table2.php?table=lookup_type&sortcol=Name&title=Besonderheit Typen" target="_blank">Übersicht Besonderheiten</a>
               <br> <br> <a href="edit_satz_list_lookups.php?SatzID='.$satz->ID.'" target="Lookups">Aktualisieren</a> - &gt;      
     </td> 
-    <td class="eingabe"><iframe src="edit_satz_list_lookups.php?SatzID='.$satz->ID.'" width="70%" height="300" name="Lookups"></iframe>
+    <td class="eingabe"><iframe src="edit_satz_list_lookups.php?SatzID='.$satz->ID.'" width="70%" height="100" name="Lookups"></iframe>
     </td>
     </tr> 
 
+
+    <tr> 
+    <td class="eingabe"><b>Erprobt:</b><br />';
     
+    // $info->print_link_insert('erprobt','Erprobt', true, '<br/>');  
+    // $info->print_link_table('erprobt','sortcol=Name','Erprobt-Attribute',true,'','<br/>');  
+
+    echo '<br> <a href="edit_satz_list_erprobte.php?SatzID='.$satz->ID.'" target="Erprobte">Aktualisieren</a> - &gt; 
+    </td> 
+    <td class="eingabe">
+      <iframe src="edit_satz_list_erprobte.php?SatzID='.$satz->ID.'" width="70%" height="100" name="Erprobte"></iframe>
+    </td>
+    </tr> 
+    
+        <tr>   
+      <td class="eingabe"><b>Erprobt:</b></td>   
+      <td class="eingabe"> (ALT!, nicht verwenden) '; 
+        $erprobt=new Erprobt(); 
+        $erprobt->print_select($satz->ErprobtID); 
+    
+      // echo ' &nbsp; ';
+      // $info->print_link_edit($erprobt->table_name, $satz->ErprobtID, $erprobt->Title, true, ' | '); 
+      // $info->print_link_table($erprobt->table_name,'sortcol=Name',$erprobt->Titles,true,'',' | ');    
+      // $info->print_link_insert($erprobt->table_name,$erprobt->Title,true); 
+
+      echo  '
+      </td>
+    </tr>
+
   </table> 
 
   <p>
