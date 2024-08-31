@@ -10,3 +10,6 @@ Datenbank mit Web-Anwendung, Erfassung und Abfrage von Notenmaterial für Musiku
 # Team
  * 1 Musiklehrer / Orchesterleitung
  * 1 Entwickler
+
+# Status
+In Arbeit. Fertigstellung der Grundfunktionen aktuell geplant für Ende 2025
