@@ -518,6 +518,7 @@ class Satz {
   
     $this->delete_lookups(); 
     $this->delete_schwierigkeitsgrade(); 
+    $this->delete_erprobte(); 
  
     $delete = $db->prepare("DELETE FROM `satz` WHERE ID=:ID"); 
     $delete->bindValue(':ID', $this->ID);  
@@ -790,9 +791,7 @@ class Satz {
     $db=$conn->db; 
 
     $insert = $db->prepare("INSERT INTO `satz_erprobt` SET
-        `Bemerkung`     = :Bemerkung
-        "
-
+        `Bemerkung`     = :Bemerkung"
       );
 
     $insert->bindValue(':SatzID', $this->ID);  
@@ -809,6 +808,25 @@ class Satz {
     }  
   }
 
+  function delete_erprobte(){
+    include_once("cl_db.php");
+    $conn = new DbConn(); 
+    $db=$conn->db; 
+
+    $delete = $db->prepare("DELETE FROM `satz_erprobt` WHERE SatzID=:ID"); 
+    $delete->bindValue(':ID', $this->ID);  
+
+    try {
+      $delete->execute(); 
+    }
+    catch (PDOException $e) {
+      include_once("cl_html_info.php"); 
+      $info = new HtmlInfo();      
+      $info->print_user_error(); 
+      $info->print_error($delete, $e);  
+    }  
+  }
+    
 }
 
  
