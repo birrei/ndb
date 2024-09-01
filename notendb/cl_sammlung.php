@@ -375,7 +375,8 @@ class Sammlung {
     echo '<p>Lösche Sammlung ID:'.$this->ID.':</p>';
 
     $this->delete_links();
-    $this->delete_musikstuecke();      
+    $this->delete_musikstuecke();  
+    $this->delete_lookups();          
  
     $delete = $db->prepare("DELETE FROM `sammlung` WHERE ID=:ID"); 
     $delete->bindValue(':ID', $this->ID);  
@@ -660,6 +661,28 @@ class Sammlung {
       $musikstueck->delete_verwendungszweck($VerwendungszweckID);
     }    
   } 
+
+  function delete_lookups(){
+    include_once("cl_db.php");
+    $conn = new DbConn(); 
+    $db=$conn->db; 
+
+    $delete = $db->prepare("DELETE FROM `sammlung_lookup` 
+                            WHERE SammlungID=:SammlungID "); 
+    $delete->bindValue(':SammlungID', $this->ID);  
+
+    try {
+      $delete->execute(); 
+
+    }
+    catch (PDOException $e) {
+      include_once("cl_html_info.php"); 
+      $info = new HtmlInfo();      
+      $info->print_user_error(); 
+      $info->print_error($delete, $e);  
+    }  
+  }
+
 
 }
 
