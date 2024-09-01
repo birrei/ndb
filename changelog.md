@@ -1,6 +1,8 @@
 ﻿
 # Change Log  
 
+01.09.2024 - Umstellung Erprobt auf Mehrfach-Zuordnung, Integration Jahr
+
 27.08.2024 - Genaue Suche  
 Suche-Seite bei ausgewählten Suchkategorien (akt. nur Satz Besonderheiten - später erweiterbar. Geeignet für alle Mehrfachzuordnungen) Beispiele zur Funktionsweise / Logik : 
 * Beispiel 1: "Suche nach Notenwert "Achtel: 

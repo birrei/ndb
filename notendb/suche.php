@@ -444,7 +444,14 @@ if (isset($_POST['suchtext'])) {
                 , ''''''
               ) as Spieldauer              
             , GROUP_CONCAT(DISTINCT concat(instrument.Name, ': ', schwierigkeitsgrad.Name)  order by schwierigkeitsgrad.Name SEPARATOR ', ') `Schwierigkeitsgrade`                   
-            , erprobt.Name as Erprobt             
+            , GROUP_CONCAT(DISTINCT  
+                CASE 
+	                when satz_erprobt.Jahr is null 
+  		            then erprobt.Name 
+  		            else concat(satz_erprobt.Jahr, ': ', erprobt.Name)
+  	            end 
+                order by satz_erprobt.Jahr 
+                DESC SEPARATOR ', ') as Erprobt                
             , v_satz_lookuptypes.LookupList as Besonderheiten                  
             , satz.Orchesterbesetzung 
             , satz.Bemerkung                         
@@ -469,7 +476,8 @@ if (isset($_POST['suchtext'])) {
         LEFT JOIN musikstueck_verwendungszweck on musikstueck.ID = musikstueck_verwendungszweck.MusikstueckID 
         LEFT JOIN verwendungszweck on musikstueck_verwendungszweck.VerwendungszweckID=verwendungszweck.ID    
         LEFT JOIN satz on satz.MusikstueckID = musikstueck.ID 
-        LEFT JOIN erprobt on erprobt.ID = satz.ErprobtID       
+        LEFT JOIN satz_erprobt on satz.ID = satz_erprobt.SatzID 
+        LEFT JOIN erprobt on erprobt.ID = satz_erprobt.ErprobtID  
         left JOIN satz_schwierigkeitsgrad on satz_schwierigkeitsgrad.SatzID = satz.ID 
         LEFT JOIN schwierigkeitsgrad on schwierigkeitsgrad.ID = satz_schwierigkeitsgrad.SchwierigkeitsgradID 
         LEFT JOIN instrument on instrument.ID = satz_schwierigkeitsgrad.InstrumentID 
@@ -514,9 +522,9 @@ if (isset($_POST['suchtext'])) {
       if($filterEpochen!=''){
         $query.=' AND musikstueck.EpocheID '.$filterEpochen. PHP_EOL; 
       }           
-      if($filterErprobt!=''){
-        $query.=' AND satz.ErprobtID '.$filterErprobt. PHP_EOL; 
-      }
+
+      $query.=($filterErprobt!=''?' AND satz_erprobt.ErprobtID '.$filterErprobt. PHP_EOL:''); 
+
       if($filterSchwierigkeitsgrad!=''){
         $query.=' AND satz_schwierigkeitsgrad.SchwierigkeitsgradID '.$filterSchwierigkeitsgrad. PHP_EOL; 
       }

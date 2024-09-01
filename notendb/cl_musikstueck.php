@@ -318,12 +318,20 @@ class Musikstueck {
                   , ''''''
                 ) as Spieldauer                    
               , GROUP_CONCAT(DISTINCT concat(instrument.Name, ': ', schwierigkeitsgrad.Name)  order by schwierigkeitsgrad.Name SEPARATOR ', ') `Schwierigkeitsgrade`  
-              , erprobt.Name as Erprobt              
+              , GROUP_CONCAT(DISTINCT  
+                  CASE 
+                    when satz_erprobt.Jahr is null 
+                    then erprobt.Name 
+                    else concat(satz_erprobt.Jahr, ': ', erprobt.Name)
+                  end 
+                  order by satz_erprobt.Jahr 
+                  DESC SEPARATOR ', ') as Erprobt                
               , satz.Orchesterbesetzung
               , v_satz_lookuptypes.LookupList as Besonderheiten              
               , satz.Bemerkung               
-            FrOM satz 
-              left JOIN erprobt on erprobt.ID = satz.ErprobtID
+            FROM satz 
+              LEFT JOIN satz_erprobt on satz.ID = satz_erprobt.SatzID 
+              LEFT JOIN erprobt on erprobt.ID = satz_erprobt.ErprobtID
               left JOIN satz_schwierigkeitsgrad on satz_schwierigkeitsgrad.SatzID = satz.ID 
               LEFT JOIN schwierigkeitsgrad on schwierigkeitsgrad.ID = satz_schwierigkeitsgrad.SchwierigkeitsgradID 
               LEFT JOIN instrument on instrument.ID = satz_schwierigkeitsgrad.InstrumentID 

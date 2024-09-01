@@ -5,7 +5,7 @@ select
     -- , verlag.Name as Verlag 
     -- , standort.Name as Standort
     -- , sammlung.Bestellnummer
-    , sammlung.Bemerkung as `Sammlung Bemerkung` 
+    -- , sammlung.Bemerkung as `Sammlung Bemerkung` 
 /* musikstueck */
   --  , musikstueck.Nummer AS Musikstueck_Nr
     , musikstueck.Name AS Musikstueck
@@ -27,7 +27,15 @@ select
         satz.Spieldauer MOD 60
         , ''''''
         ) as Spieldauer
-    , GROUP_CONCAT(DISTINCT concat(satz_erprobt.Jahr, ': ', erprobt.Name) order by satz_erprobt.Jahr DESC SEPARATOR ', ') as Erprobt 
+    -- , GROUP_CONCAT(DISTINCT concat(satz_erprobt.Jahr, ': ', erprobt.Name) order by satz_erprobt.Jahr DESC SEPARATOR ', ') as Erprobt 
+    , GROUP_CONCAT(DISTINCT  
+                CASE 
+	                when satz_erprobt.Jahr is null 
+  		            then erprobt.Name 
+  		            else concat(satz_erprobt.Jahr, ': ', erprobt.Name)
+  	            end 
+                order by satz_erprobt.Jahr 
+                DESC SEPARATOR ', ') as Erprobt     
     , v_satz_lookuptypes.LookupList as Besonderheiten
     , GROUP_CONCAT(DISTINCT concat(instrument.Name, ': ', schwierigkeitsgrad.Name)  order by schwierigkeitsgrad.Name SEPARATOR ', ') as Schwierigkeitsgrade 
     , satz.Orchesterbesetzung

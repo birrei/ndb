@@ -60,7 +60,8 @@ class SatzErprobt {
     $update->bindParam(':ID', $this->ID);
     $update->bindParam(':SatzID', $SatzID);
     $update->bindParam(':ErprobtID', $ErprobtID);
-    $update->bindParam(':Jahr', $Jahr);
+    // $update->bindParam(':Jahr', $Jahr);
+    $update->bindParam(':Jahr', $Jahr, ($Jahr==''? PDO::PARAM_NULL:PDO::PARAM_INT));
     $update->bindParam(':Bemerkung', $Bemerkung);
 
     try {

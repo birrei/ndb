@@ -108,17 +108,14 @@ if ($show_data) {
   </td>
   </tr> 
 
-  <tr>    
-    <label>
-    <td class="eingabe"><b>Opus:</b></td>  
-    <td class="eingabe"><input type="text" name="Opus" value="'.$musikstueck->Opus.'" size="45" maxlength="80" oninput="changeBackgroundColor(this)"></td>
-    </label>
-  </tr> 
 
   <tr>    
     <label>
     <td class="eingabe"><b>Bearbeiter:</td>  
-    <td class="eingabe"><input type="text" name="Bearbeiter" value="'.$musikstueck->Bearbeiter.'" size="45" maxlength="80" oninput="changeBackgroundColor(this)"></td>
+    <td class="eingabe">
+    <input type="text" name="Bearbeiter" value="'.$musikstueck->Bearbeiter.'" size="45" maxlength="80" oninput="changeBackgroundColor(this)">
+    Opus: <input type="text" name="Opus" value="'.$musikstueck->Opus.'" size="45" maxlength="80" oninput="changeBackgroundColor(this)">
+    </td>
     </label>
   </tr> 
 
@@ -159,13 +156,6 @@ if ($show_data) {
     echo '
     </td>
   </tr> 
-
-  <tr>    
-  <label>
-  <td class="eingabe"><b>Aufführungsjahre:</b></td>  
-  <td class="eingabe"><input type="text" name="JahrAuffuehrung" value="'.$musikstueck->JahrAuffuehrung.'" size="45" maxlength="80" oninput="changeBackgroundColor(this)"></td>
-  </label>
-  </tr>         
 
   <tr> 
     <td class="eingabe"></td> 
@@ -211,6 +201,15 @@ if ($show_data) {
     </td>
     </tr> 
                 
+
+    
+  <tr>    
+  <label>
+  <td class="eingabe"><b>Aufführungsjahre:</b></td>  
+  <td class="eingabe">(ALT, nicht verwenden!) <input type="text" name="JahrAuffuehrung" value="'.$musikstueck->JahrAuffuehrung.'" size="45" maxlength="80" oninput="changeBackgroundColor(this)"></td>
+  </label>
+  </tr>         
+
 
   </table> 
 
