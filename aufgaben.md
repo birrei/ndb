@@ -6,7 +6,9 @@
 * Übersicht Sammlung: Sortierung nach Name
 * Suche, Ergebnisanzeige: Anzahl Zeilen angezeigen  
 * Eigenes Git-Repository für das Projekt 
+* Suche: Filter nach Erprobt Jahr
 
+* Notensymbole Schrift
 
 ### Verbesserungen 
 * Überall html -> print_table2 verwenden

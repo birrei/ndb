@@ -3,15 +3,8 @@
 
 01.09.2024 - Umstellung Erprobt auf Mehrfach-Zuordnung, Integration Jahr
 
-27.08.2024 - Genaue Suche  
-Suche-Seite bei ausgewählten Suchkategorien (akt. nur Satz Besonderheiten - später erweiterbar. Geeignet für alle Mehrfachzuordnungen) Beispiele zur Funktionsweise / Logik : 
-* Beispiel 1: "Suche nach Notenwert "Achtel: 
-  * Normale Suche findet alle Sätze, bei denen Notenwert "Achtel" (ggf. zusammen mit anderen Notenwerten) vorkommt  
-  * Genaue Suche findet alle Sätze, bei denen nur Notenwert "Achtel" vorkomm. Sätze, bei denen weitere Notenwerte vorkommen, werden ausgeschlossen.    
-* Beispiel 2: "Suche nach Notenwerten "Achtel" und "Sechzentel"
-  * Normale Suche findet alle Sätze, bei denen u.a. "Achtel" oder "Viertel" vorkommen. 
-  * Genaue Suche findet Sätze, bei denen nur "Achtel" und "Sechzehntel" vorkommen. Sätze, bei denen nur einer der beiden beiden Notenwerte oder weitere Notenwerte vorkommen, werden ausgeschossen. 
-     
+27.08.2024 - Genaue Suche für Satz > Besonderheiten. Hilfe-Text dazu.   
+
 22.08.2024 - Gespeicherte Abfragen mit 2 getrennten Eingabeformularen 
   * Anwendermodus (Name, Beschreibung)
   * Expertemodus (SQL Abfrage-Text, Referenztabelle)  

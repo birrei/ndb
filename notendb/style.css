@@ -10,9 +10,13 @@ td, th {
 }
 
 /***** Hilfe  ****************/
+div.hilfeseite {
+    width: 60%; 
+}
 
 p.inhalt1 {text-indent:10px;}
 p.inhalt2 {text-indent:20px;}
+p.inhalt3 {text-indent:30px;}
 
 /***** Start  ****************/
 div.start {
@@ -71,9 +75,4 @@ p.navi-trenner {
     color:red; 
     background-color:aquamarine;
 
-}
-select  
-{
- padding: 0px; 
- 
 }
