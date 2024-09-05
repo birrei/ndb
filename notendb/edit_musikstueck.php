@@ -213,11 +213,8 @@ if ($show_data) {
 
   </table> 
 
-  <p>
-  <a href="delete_musikstueck.php?ID=' . $musikstueck->ID . '&title=Musikstück löschen">Musikstück löschen</a>
-  </p>
   '; 
-
+  $info->print_link_delete_row2($musikstueck->table_name, $musikstueck->ID, $musikstueck->Title, false);   
 } 
 else {
     $info->print_user_error(); 

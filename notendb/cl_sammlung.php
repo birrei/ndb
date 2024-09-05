@@ -383,13 +383,15 @@ class Sammlung {
 
     try {
       $delete->execute(); 
-      echo '<p>Die Sammlung wurde gelöscht. </p>';          
+      echo '<p>Die Sammlung wurde gelöscht. </p>'; 
+      return true;          
     }
     catch (PDOException $e) {
       include_once("cl_html_info.php"); 
       $info = new HtmlInfo();      
       $info->print_user_error(); 
       $info->print_error($delete, $e);  
+      return false; 
     }  
   }  
 

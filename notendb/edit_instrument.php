@@ -67,7 +67,7 @@ if ($show_data) {
 
   </form>
   '; 
-  $info->print_link_delete_row($instrument->table_name, $instrument->ID, $instrument->Title);   
+  $info->print_link_delete_row2($instrument->table_name, $instrument->ID, $instrument->Title, false);   
 } 
 else {
   $info->print_user_error(); 

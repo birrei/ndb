@@ -113,13 +113,15 @@ class Link {
 
     try {
       $delete->execute(); 
-      echo '<p>Der Link wurde gelöscht.</p>';          
+      echo '<p>Der Link wurde gelöscht.</p>'; 
+      return true;          
     }
     catch (PDOException $e) {
       include_once("cl_html_info.php"); 
       $info = new HtmlInfo();      
       $info->print_user_error(); 
       $info->print_error($delete, $e);  
+      return false ; 
     }  
   }  
 

@@ -67,7 +67,7 @@ if ($show_data) {
   </form>
   '; 
 
-  $info->print_link_delete_row($besetzung->table_name, $besetzung->ID, $besetzung->Title, false); 
+  $info->print_link_delete_row2($besetzung->table_name, $besetzung->ID, $besetzung->Title, false); 
 
 } 
 else {

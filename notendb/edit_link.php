@@ -91,7 +91,7 @@ if (isset($_REQUEST["option"])) {
   <td class="eingabe">
   <a href="edit_sammlung_list_links.php?SammlungID=<?php echo $link->SammlungID; ?>">Liste anzeigen</a> | 
   <?php 
-  $info->print_link_delete_row($link->table_name, $link->ID, $link->Title, false); 
+  $info->print_link_delete_row2($link->table_name, $link->ID, $link->Title, false); 
   ?>
 
   </td>

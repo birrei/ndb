@@ -220,11 +220,6 @@ class Abfrage {
     }  
   }  
 
-  // function getSQLcleaned($strSQL) {
-
-  //   return preg_replace('/\\\s\\\s+/', ' ', $strSQL); 
-
-  // }
 
 
 }

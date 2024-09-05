@@ -84,13 +84,8 @@ if ($show_data) {
   <input type="hidden" name="ID" value="' . $lookup->ID. '">
 
   </form>
-
-
-  <p>
-  <a href="delete_lookup.php?ID=' . $lookup->ID . '&title=Besonderheit löschen">Besonderheit löschen</a>
-  </p>
-
   '; 
+  $info->print_link_delete_row2($lookup->table_name, $lookup->ID, $lookup->Title, false); 
 } 
 else {
     $info->print_user_error(); 

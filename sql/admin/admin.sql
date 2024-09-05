@@ -110,3 +110,20 @@
 
 
 
+
+/** nachträglich AUTO_INCREMENT hinzufügen *****/
+
+
+    ALTER TABLE satz_erprobt DROP FOREIGN KEY `satz_erprobt_ibfk_2`;
+
+    ALTER TABLE  erprobt CHANGE `ID` `ID` INT NOT NULL AUTO_INCREMENT; 
+ 
+    ALTER TABLE satz_erprobt 
+    ADD  FOREIGN KEY (ErprobtID) 
+    REFERENCES erprobt(ID) 
+    ON DELETE RESTRICT ON UPDATE RESTRICT
+    ;
+
+
+    SHOW COLUMNS FROM erprobt;
+    select * from erprobt;

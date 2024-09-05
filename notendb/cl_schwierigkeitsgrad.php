@@ -163,6 +163,39 @@ class Schwierigkeitsgrad {
     }
   }  
 
+  function delete(){
+    include_once("cl_db.php");
+    $conn = new DbConn(); 
+    $db=$conn->db; 
+
+    $select = $db->prepare("SELECT * from satz_schwierigkeitsgrad WHERE SchwierigkeitsgradID=:SchwierigkeitsgradID");
+    $select->bindValue(':SchwierigkeitsgradID', $this->ID); 
+    $select->execute();  
+    if ($select->rowCount() > 0 ){
+      $this->load_row(); 
+      echo '<p>Der Schwierigkeitsgrad ID '.$this->ID.' "'.$this->Name.'" 
+        kann nicht gelöscht werden, da noch eine Zuordnung auf '.$select->rowCount().' 
+        Sätze existiert. </p>';   
+      return false;            
+    }
+ 
+    $delete = $db->prepare("DELETE FROM `schwierigkeitsgrad` WHERE ID=:ID"); 
+    $delete->bindValue(':ID', $this->ID);  
+
+    try {
+      $delete->execute(); 
+      echo '<p>Der Schwierigkeitsgrad wurde gelöscht.</p>'; 
+      return true;         
+    }
+    catch (PDOException $e) {
+      include_once("cl_html_info.php"); 
+      $info = new HtmlInfo();      
+      $info->print_user_error(); 
+      $info->print_error($delete, $e);  
+      return false;  
+    }  
+  }   
+
 }
 
  

@@ -78,8 +78,13 @@ class HtmlInfo {
         echo '<a href="edit_'.$target_table.'.php?title='.$target_title.'&option=insert"'.($newpage?' target="_blank"':'').' tabindex="-1">'.$target_title.' neu erfassen</a>'.($suffix!=''?$suffix:'');
     }
 
-    function print_link_delete_row($target_table, $ID, $target_title, $newpage=true, $suffix='') {
-        echo '<a href="delete_'.$target_table.'.php?ID='.$ID.'&title='.$target_title.' löschen"'.($newpage?' target="_blank"':'').' tabindex="-1">'.$target_title.' löschen</a>'.($suffix!=''?$suffix:'');
+    // function print_link_delete_row($target_table, $ID, $target_title, $newpage=true, $suffix='') {
+    //     // XXX Obsolete, Nach Abschluss Umsetellung Löschen 
+    //     echo '<a href="delete_'.$target_table.'.php?ID='.$ID.'&title='.$target_title.' löschen"'.($newpage?' target="_blank"':'').' tabindex="-1">'.$target_title.' löschen</a>'.($suffix!=''?$suffix:'');
+    // }
+
+    function print_link_delete_row2($target_table, $ID, $target_title, $newpage=false, $suffix='') {
+        echo '<a href="delete.php?table='.$target_table.'&ID='.$ID.'&title='.$target_title.' löschen"'.($newpage?' target="_blank"':'').' tabindex="-1">'.$target_title.' löschen</a>'.($suffix!=''?$suffix:'');
     }
 
 

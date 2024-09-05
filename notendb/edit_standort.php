@@ -71,7 +71,7 @@ if ($show_data) {
   </form>
   '; 
 
-  $info->print_link_delete_row($standort->table_name, $standort->ID,$standort->Title); 
+  $info->print_link_delete_row2($standort->table_name, $standort->ID,$standort->Title); 
   
 } 
 else {

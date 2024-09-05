@@ -79,7 +79,7 @@ if ($show_data) {
 
   '; 
 
-  $info->print_link_delete_row($verlag->table_name, $verlag->ID, $verlag->Title); 
+  $info->print_link_delete_row2($verlag->table_name, $verlag->ID, $verlag->Title, false); 
 }
 else {
   $info->print_user_error(); 

@@ -54,6 +54,23 @@ if ($show_data) {
       </label>
     </tr> 
 
+
+    <tr> 
+      <td class="eingabe">Besonderheiten:
+      
+        <p> <a href="edit_lookup_type_add_lookup.php?LookupTypeID='.$lookuptype->ID.'" target="Lookups">Besonderheit hinzufügen</a></p>
+        <p> <a href="edit_lookup_type_list_lookups.php?LookupTypeID='.$lookuptype->ID.'" target="Lookups">Aktualisieren</a></p>
+        
+
+      </td> 
+      <td class="eingabe">
+      
+      <iframe src="edit_lookup_type_list_lookups.php?LookupTypeID='.$lookuptype->ID.'" width="70%" height="400" name="Lookups"></iframe>
+
+      </td>
+    </tr> 
+
+
     <tr>    
       <label>
       <td class="eingabe">Relation:</td>  
@@ -97,27 +114,12 @@ if ($show_data) {
     <input type="hidden" name="title" value="Besonderheit Typ">    
     <input type="hidden" name="ID" value="' . $lookuptype->ID. '">
 
-
-    <tr> 
-      <td class="eingabe">Besonderheiten:
-      
-        <p> <a href="edit_lookup_type_add_lookup.php?LookupTypeID='.$lookuptype->ID.'" target="Lookups">Besonderheit hinzufügen</a></p>
-        <p> <a href="edit_lookup_type_list_lookups.php?LookupTypeID='.$lookuptype->ID.'" target="Lookups">Aktualisieren</a></p>
-        
-
-      </td> 
-      <td class="eingabe">
-      
-      <iframe src="edit_lookup_type_list_lookups.php?LookupTypeID='.$lookuptype->ID.'" width="70%" height="400" name="Lookups"></iframe>
-
-      </td>
-    </tr> 
-
+    
   </table> 
   </form>
   '; 
 
-  $info->print_link_delete_row($lookuptype->table_name, $lookuptype->ID,$lookuptype->Title); 
+  $info->print_link_delete_row2($lookuptype->table_name, $lookuptype->ID,$lookuptype->Title); 
 } 
 else {
     $info->print_user_error(); 

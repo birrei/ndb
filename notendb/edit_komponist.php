@@ -105,7 +105,7 @@ if ($show_data) {
     </form>
     '; 
 
-    $info->print_link_delete_row($komponist->table_name, $komponist->ID,$komponist->Title); 
+    $info->print_link_delete_row2($komponist->table_name, $komponist->ID,$komponist->Title); 
 
   } 
   else {

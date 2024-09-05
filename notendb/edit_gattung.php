@@ -69,7 +69,7 @@ if ($show_data) {
   </form>
   '; 
 
-  $info->print_link_delete_row($gattung->table_name, $gattung->ID, $gattung->Title); 
+  $info->print_link_delete_row2($gattung->table_name, $gattung->ID, $gattung->Title); 
 } 
 else {
     $info->print_user_error(); 

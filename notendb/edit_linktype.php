@@ -72,7 +72,7 @@ if ($show_data) {
 
   '; 
 
-  $info->print_link_delete_row($linktype->table_name, $linktype->ID, $linktype->Title); 
+  $info->print_link_delete_row2($linktype->table_name, $linktype->ID, $linktype->Title); 
 }
 else {
   $info->print_user_error(); 

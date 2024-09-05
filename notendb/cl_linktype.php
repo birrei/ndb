@@ -209,6 +209,40 @@ class Linktype {
       $info->print_error($stmt, $e); 
     }
   }  
+
+  
+  function delete(){
+    include_once("cl_db.php");
+    $conn = new DbConn(); 
+    $db=$conn->db; 
+
+    $select = $db->prepare("SELECT * from link WHERE LinktypeID=:LinktypeID");
+    $select->bindValue(':LinktypeID', $this->ID); 
+    $select->execute();  
+    if ($select->rowCount() > 0 ){
+      $this->load_row(); 
+      echo '<p>Der Link-Typ ID '.$this->ID.' "'.$this->Name.'"  
+      kann nicht gelöscht werden, da noch eine Zuordnung fuer '.$select->rowCount().' Links existiert. </p>';   
+      return false;            
+    }
+
+    $delete = $db->prepare("DELETE FROM linktype WHERE ID=:ID"); 
+    $delete->bindValue(':ID', $this->ID);  
+
+    try {
+      $delete->execute(); 
+      echo '<p>Der Link-Typ wurde gelöscht.</p>';    
+      return true;       
+    }
+    catch (PDOException $e) {
+      // print_r($e); 
+      include_once("cl_html_info.php"); 
+      $info = new HtmlInfo();      
+      $info->print_user_error(); 
+      $info->print_error($delete, $e); 
+      return false;  
+    }  
+  }   
   
 }
 

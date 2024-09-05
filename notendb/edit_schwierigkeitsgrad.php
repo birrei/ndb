@@ -68,6 +68,7 @@ if ($show_data) {
 
   </form>
   '; 
+  $info->print_link_delete_row2($schwierigkeitsgrad->table_name, $schwierigkeitsgrad->ID, $schwierigkeitsgrad->Title);     
 } 
 else {
     $info->print_user_error(); 

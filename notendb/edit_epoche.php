@@ -69,7 +69,7 @@ if ($show_data) {
   </form>
   '; 
 
-  $info->print_link_delete_row($epoche->table_name, $epoche->ID, $epoche->Title); 
+  $info->print_link_delete_row2($epoche->table_name, $epoche->ID, $epoche->Title); 
 } 
 else {
     $info->print_user_error(); 

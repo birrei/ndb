@@ -217,7 +217,7 @@ class Lookuptype {
     if ($select->rowCount() > 0 ){
       $this->load_row(); 
       echo '<p>Der Besonderheit-Typ ID '.$this->ID.' "'.$this->Name.'"  
-      kann nicht gelöscht werden, da noch eine Zuordnung auf '.$select->rowCount().' Besonderheiten existiert. </p>';   
+      kann nicht gelöscht werden, da noch eine Zuordnung fuer '.$select->rowCount().' Besonderheiten existiert. </p>';   
       return false;            
     }
 

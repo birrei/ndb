@@ -506,7 +506,6 @@ class Musikstueck {
     // echo '<p>lösche Musikstück ID:'.$this->ID.':</p>';
     $this->delete_verwendungszwecke();   
     $this->delete_besetzungen();
-
     $this->delete_saetze();      
  
     $delete = $db->prepare("DELETE FROM `musikstueck` WHERE ID=:ID"); 
@@ -514,13 +513,15 @@ class Musikstueck {
 
     try {
       $delete->execute(); 
-      echo '<p>Das Musikstück wurde gelöscht.</p>';             
+      echo '<p>Das Musikstück wurde gelöscht.</p>';    
+      return true;          
     }
     catch (PDOException $e) {
       include_once("cl_html_info.php"); 
       $info = new HtmlInfo();      
       $info->print_user_error(); 
-      $info->print_error($delete, $e);  
+      $info->print_error($delete, $e); 
+      return false;  
     }  
   }  
 

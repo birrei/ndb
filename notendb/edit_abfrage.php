@@ -84,7 +84,7 @@ if ($show_data) {
 
   </form>'; 
 
-  $info->print_link_delete_row($abfrage->table_name, $abfrage->ID,'Abfrage'); 
+  $info->print_link_delete_row2($abfrage->table_name, $abfrage->ID,'Abfrage'); 
 
 } 
 else {

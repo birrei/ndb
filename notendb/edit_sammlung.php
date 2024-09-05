@@ -168,11 +168,11 @@ if ($show_data) {
 
 
     </table>
-    <p>
-    <a href="delete_sammlung.php?ID=' . $sammlung->ID . '&title=Sammlung löschen">Sammlung löschen</a>
-    </p>
 
   '; 
+ 
+  $info->print_link_delete_row2($sammlung->table_name, $sammlung->ID, $sammlung->Title, false);   
+
 } 
 else {
     $info->print_user_error(); 

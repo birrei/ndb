@@ -214,11 +214,9 @@ if ($show_data) {
     </tr>
 
   </table> 
-
-  <p>
-  <a href="delete_satz.php?ID=' . $satz->ID . '&title=Satz löschen">Satz löschen</a>
-  </p>
   '; 
+  $info->print_link_delete_row2($satz->table_name, $satz->ID, $satz->Title, false); 
+
 } 
 else {
     $info->print_user_error(); 

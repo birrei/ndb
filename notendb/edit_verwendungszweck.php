@@ -69,7 +69,7 @@ if ($show_data) {
   </form>
   '; 
 
-  $info->print_link_delete_row($verwendungszweck->table_name, $verwendungszweck->ID, $verwendungszweck->Title); 
+  $info->print_link_delete_row2($verwendungszweck->table_name, $verwendungszweck->ID, $verwendungszweck->Title); 
 
 } 
 else {
