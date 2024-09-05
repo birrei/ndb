@@ -170,7 +170,7 @@ class Erprobt {
     $conn = new DbConn(); 
     $db=$conn->db; 
 
-    $select = $db->prepare("SELECT * from satz WHERE ErprobtID=:ErprobtID");
+    $select = $db->prepare("SELECT * from satz_erprobt WHERE ErprobtID=:ErprobtID");
     $select->bindValue(':ErprobtID', $this->ID); 
     $select->execute();  
     if ($select->rowCount() > 0 ){
