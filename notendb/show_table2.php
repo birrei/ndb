@@ -74,9 +74,6 @@ try {
   $html->open_newpage = $edit_link_show_newpage; 
   $html->link_title= $edit_table_title; 
   $html->print_table2(); 
-  // ---- 
-
-  // $html->print_table($edit_table, $edit_link_show_newpage,'', $edit_table_title); 
 }
 catch (PDOException $e) {
   include_once("cl_html_info.php"); 

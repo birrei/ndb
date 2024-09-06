@@ -120,8 +120,9 @@ class Besetzung {
       $select->execute(); 
       include_once("cl_html_table.php");      
       $html = new HtmlTable($select); 
-      $html->print_table($this->table_name, true); 
-      
+      $html->link_table= $this->table_name;
+      $html->print_table2();  
+
     }
     catch (PDOException $e) {
       include_once("cl_html_info.php"); 

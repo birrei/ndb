@@ -48,9 +48,9 @@ if (isset($_POST['aktion']) and $_POST['aktion']=='ausfuehren') {
                 $stmt->execute(); 
                 echo '<p>'.$stmt->rowCount().' Zeilen betroffen</p>'; 
                 if ($stmt->columnCount() > 0 ) {
-    
                     $html = new HtmlTable($stmt); 
-                    $html->print_table();  
+                    $html->link_table= $this->table_name;
+                    $html->print_table2(); 
                 }           
             }
             catch (PDOException $e) {

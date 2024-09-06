@@ -111,8 +111,8 @@ class Lookuptype {
       $select->execute(); 
       include_once("cl_html_table.php");      
       $html = new HtmlTable($select); 
-      $html->print_table($this->table_name, true); 
-      
+      $html->link_table= $this->table_name;
+      $html->print_table2();       
     }
     catch (PDOException $e) {
       include_once("cl_html_info.php"); 
@@ -239,7 +239,6 @@ class Lookuptype {
     }  
   }   
 
-  // XXX target_file rausnehmen 
   function print_table_lookups($target_file){
     $query="SELECT ID, Name FROM v_lookup where LookupTypeID=:LookupTypeID"; 
 
@@ -254,11 +253,7 @@ class Lookuptype {
       $stmt->execute(); 
       include_once("cl_html_table.php");      
       $html = new HtmlTable($stmt); 
-      // $html->print_table(); 
-      // $html->print_table_with_del_link($target_file, 'LookupTypeID', $this->ID); 
       $html->link_table = 'lookup'; 
-      // $html->link_edit_filename=$target_file;
-
       $html->print_table2(); 
     }
     catch (PDOException $e) {

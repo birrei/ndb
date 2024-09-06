@@ -621,7 +621,6 @@ if (isset($_POST['suchtext'])) {
             $select->execute(); 
             include_once("cl_html_table.php");      
             $html = new HtmlTable($select); 
-            // $html->print_table($edit_table, True, '', $Ebene); 
             $html->add_link_edit=true; 
             $html->link_table=$edit_table; 
             $html->link_title=$Ebene; 

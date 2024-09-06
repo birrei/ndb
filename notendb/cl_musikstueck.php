@@ -213,7 +213,6 @@ class Musikstueck {
       $stmt->execute(); 
       include_once("cl_html_table.php");      
       $html = new HtmlTable($stmt); 
-      // $html->print_table(); 
       $html->print_table_with_del_link($target_file, 'MusikstueckID', $this->ID); 
     }
     catch (PDOException $e) {
@@ -351,7 +350,6 @@ class Musikstueck {
       $stmt->execute(); 
       include_once("cl_html_table.php");      
       $html = new HtmlTable($stmt); 
-      // $html->print_table('satz', true,'', 'Satz'); 
       $html->link_table='satz'; 
       $html->link_title='Satz'; 
       $html->open_newpage=true; 
