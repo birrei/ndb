@@ -87,9 +87,9 @@ class HtmlTable {
             }
             $html .= '</table>'; 
         }
-        else {
-           $html .= '<p>Keine Daten vorhanden.</p> '; 
-        }
+        // else {
+        //    $html .= '<p>Keine Daten vorhanden.</p> '; 
+        // }
         echo $html;
     }
 

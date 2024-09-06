@@ -10,9 +10,9 @@ class SatzErprobt {
   public $Jahr; 
   public $Bemerkung; 
 
-  // public $titles_selected_list; 
-  // public $Title='SatzErprobt';
-  // public $Titles='SatzErprobts';  
+  public $titles_selected_list; 
+  public $Title='SatzErprobt';
+  public $Titles='SatzErprobts';  
 
   public function __construct(){
     $this->table_name='satz_erprobt'; 
@@ -109,20 +109,21 @@ class SatzErprobt {
     include_once("cl_db.php");
     $conn = new DbConn(); 
     $db=$conn->db; 
-    echo '<p>Lösche satz_erprobt ID: '.$this->ID.':</p>';
- 
+    // echo '<p>Lösche satz_erprobt ID: '.$this->ID.':</p>';
     $delete = $db->prepare("DELETE FROM `satz_erprobt` WHERE ID=:ID"); 
     $delete->bindValue(':ID', $this->ID);  
 
     try {
       $delete->execute(); 
-      echo '<p>Zeile wurde gelöscht.</p>';          
+      echo '<p>Zeile wurde gelöscht.</p>';   
+      return true;        
     }
     catch (PDOException $e) {
       include_once("cl_html_info.php"); 
       $info = new HtmlInfo();      
       $info->print_user_error(); 
       $info->print_error($delete, $e);  
+      return false; 
     }  
   }  
 

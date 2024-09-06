@@ -103,6 +103,13 @@ switch($table) {
     $show_table_link=false;      
     $show_html_head=false; 
 
+
+  case 'satz_erprobt': 
+    include_once('cl_satz_erprobt.php');
+    $objekt = new SatzErprobt();
+    $show_table_link=false;      
+    $show_html_head=false; 
+  
   break;  
 
   case 'abfrage': 
@@ -128,7 +135,9 @@ include("cl_html_info.php");
 if (isset($objekt)) { 
     $objekt->ID = $_REQUEST["ID"];
     $objekt->load_row(); 
-    echo '<h2>'.$objekt->Title.' löschen</h2>'; 
+    if ($show_html_head) {
+      echo '<h2>'.$objekt->Title.' löschen</h2>'; 
+    }
     $info=new HtmlInfo(); 
     if (isset($_POST["confirm"])) {
       if($objekt->delete()) { 
