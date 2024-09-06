@@ -38,7 +38,6 @@ if (isset($_REQUEST["option"])) {
             , $_POST["GattungID"]
             , $_POST["Bearbeiter"]
             , $_POST["EpocheID"]
-            , $_POST["JahrAuffuehrung"]
             );
       $show_data=true;           
       break; 
@@ -201,14 +200,6 @@ if ($show_data) {
     </td>
     </tr> 
                 
-
-    
-  <tr>    
-  <label>
-  <td class="eingabe"><b>Aufführungsjahre:</b></td>  
-  <td class="eingabe">(ALT, nicht verwenden!) <input type="text" name="JahrAuffuehrung" value="'.$musikstueck->JahrAuffuehrung.'" size="45" maxlength="80" oninput="changeBackgroundColor(this)"></td>
-  </label>
-  </tr>         
 
 
   </table> 

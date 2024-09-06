@@ -18,7 +18,6 @@ insert into musikstueck (
     , Nummer
     , KomponistID
     , Bearbeiter
-    , JahrAuffuehrung
     , GattungID
     , EpocheID
 )
@@ -30,7 +29,6 @@ Name
 , Nummer
 , KomponistID
 , Bearbeiter
-, JahrAuffuehrung
 , GattungID
 , EpocheID
 from musikstueck 

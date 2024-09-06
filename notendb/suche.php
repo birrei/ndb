@@ -416,8 +416,7 @@ if (isset($_POST['suchtext'])) {
             , komponist.Name as Komponist
             , musikstueck.Bearbeiter 
             , gattung.Name as Gattung 
-            , epoche.Name as Epoche
-            , musikstueck.JahrAuffuehrung            
+            , epoche.Name as Epoche         
             , GROUP_CONCAT(DISTINCT besetzung.Name order by besetzung.Name SEPARATOR ', ') Besetzungen
             , GROUP_CONCAT(DISTINCT verwendungszweck.Name order by verwendungszweck.Name SEPARATOR ', ') Verwendungszwecke   
             , GROUP_CONCAT(DISTINCT satz.Nr order by satz.Nr SEPARATOR ', ') Saetze                 
@@ -544,7 +543,6 @@ if (isset($_POST['suchtext'])) {
                             musikstueck.Name LIKE '%".$suchtext."%' OR                              
                             musikstueck.Opus LIKE '%".$suchtext."%' OR
                             musikstueck.Bearbeiter LIKE '%".$suchtext."%' OR
-                            musikstueck.JahrAuffuehrung LIKE '%".$suchtext."%' OR
                             satz.Name LIKE '%".$suchtext."%' OR
                             satz.Taktart LIKE '%".$suchtext."%' OR
                             satz.Tonart LIKE '%".$suchtext."%' OR

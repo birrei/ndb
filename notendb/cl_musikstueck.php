@@ -12,7 +12,6 @@ class Musikstueck {
   public $GattungID;
   public $Bearbeiter;
   public $EpocheID;
-  public $JahrAuffuehrung;
   
   public $Title='Musikstück';
   public $Titles='Musikstücke';  
@@ -64,7 +63,6 @@ class Musikstueck {
             , $GattungID
             , $Bearbeiter
             , $EpocheID
-            , $JahrAuffuehrung
          ) {
    
     // echo '<p>Nummer: '.$Nummer;   
@@ -75,8 +73,7 @@ class Musikstueck {
     // echo '<br>Bearbeiter: '.$Bearbeiter;
     // echo '<br>GattungID: '.$GattungID;    
     // echo '<br>EpocheID: '.$EpocheID;    
-    // echo '<br>JahrAuffuehrung: '.$JahrAuffuehrung;   
-    
+
 
     include_once("cl_db.php");   
     $conn = new DbConn(); 
@@ -91,8 +88,7 @@ class Musikstueck {
               `Opus`     = :Opus,   
               `GattungID`     = :GattungID,                               
               `Bearbeiter`     = :Bearbeiter,   
-              `EpocheID`     = :EpocheID,   
-              `JahrAuffuehrung` = :JahrAuffuehrung
+              `EpocheID`     = :EpocheID
               WHERE `ID` = :ID");           
 
     $update->bindParam(':ID', $this->ID);
@@ -104,7 +100,6 @@ class Musikstueck {
     $update->bindParam(':GattungID', $GattungID,($GattungID=='' ? PDO::PARAM_NULL : PDO::PARAM_INT));
     $update->bindParam(':Bearbeiter', $Bearbeiter);
     $update->bindParam(':EpocheID', $EpocheID,($EpocheID=='' ? PDO::PARAM_NULL : PDO::PARAM_INT));
-    $update->bindParam(':JahrAuffuehrung', $JahrAuffuehrung);
 
     try {
       $update->execute(); 
@@ -134,7 +129,6 @@ class Musikstueck {
       ,`Bearbeiter`
       ,`EpocheID`
       ,`GattungID`
-      ,`JahrAuffuehrung`
     FROM `musikstueck`
     WHERE `ID` = :ID");
 
@@ -150,8 +144,7 @@ class Musikstueck {
       $this->Opus=$row_data["Opus"];
       $this->GattungID=$row_data["GattungID"];
       $this->Bearbeiter=$row_data["Bearbeiter"];
-      $this->EpocheID=$row_data["EpocheID"];
-      $this->JahrAuffuehrung=$row_data["JahrAuffuehrung"];    
+      $this->EpocheID=$row_data["EpocheID"];   
       return true;    
     } 
     else {
@@ -544,7 +537,6 @@ class Musikstueck {
             , Nummer
             , KomponistID
             , Bearbeiter
-            , JahrAuffuehrung
             , GattungID
             , EpocheID
         )
@@ -554,7 +546,6 @@ class Musikstueck {
         , Nummer
         , KomponistID
         , Bearbeiter
-        , JahrAuffuehrung
         , GattungID
         , EpocheID
         from musikstueck 

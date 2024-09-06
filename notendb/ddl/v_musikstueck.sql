@@ -12,7 +12,6 @@ select
     , musikstueck.Bearbeiter
     , epoche.Name as Epoche 
     , gattung.Name as Gattung 
-    , musikstueck.JahrAuffuehrung
     , GROUP_CONCAT(DISTINCT besetzung.Name order by besetzung.Name SEPARATOR ', ') Besetzungen   
     , GROUP_CONCAT(DISTINCT verwendungszweck.Name order by verwendungszweck.Name SEPARATOR ', ') Verwendungszwecke  
     , GROUP_CONCAT(DISTINCT satz.Nr order by satz.Nr SEPARATOR ', ') Saetze      
