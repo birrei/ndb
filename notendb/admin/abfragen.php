@@ -132,9 +132,10 @@ select s.Name as Sammlung_Name
 from musikstueck m 
     inner join  sammlung s on s.ID = m.SammlungID 
     inner join satz sa on sa.MusikstueckID = m.ID 
-    left join erprobt on erprobt.ID = sa.ErprobtID 
- where erprobt.ID is NULL
+    left join satz_erprobt on satz_erprobt.SatzID = sa.ID 
+where satz_erprobt.SatzID is NULL
 order by sa.ID DESC 
+
 "
 , 'table'   => "satz"              
 );
