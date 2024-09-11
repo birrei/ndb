@@ -20,10 +20,12 @@ switch($table) {
   case 'musikstueck': 
     include_once('cl_musikstueck.php');
     $objekt = new Musikstueck(); 
+    $show_table_link=false;     
   break;  
   case 'satz': 
     include_once('cl_satz.php');
     $objekt = new Satz(); 
+    $show_table_link=false;         
   break;      
   // ------------------------
 
