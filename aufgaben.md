@@ -11,7 +11,8 @@
 
 * Notensymbole Schrift
 
-### Verbesserungen 
+### Verbesserungen, Korrekturen 
+* delete.php: Löschung Musikstück / Satz ohne abschließenn Tabellenlink  
 * Überall html -> print_table2 verwenden
 * Erfassung: Umgang mit fehlerhaften Eingabewerten (zu lang, ect.)
 * Übersichtstabellen -> Anzahl Zeilen begrenzen
