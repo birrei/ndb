@@ -1,9 +1,18 @@
 <?php 
 include('head.php');
 ?>
-<h1> Notendatenbank   </h1> 
+<style>
+h1 {
+    background-color: lightblue; 
+}
+h3 {
+    background-color: greenyellow; 
+}
+
+</style>
 
 <table class="start">
+<tr> <td colspan="3" class="start"> <h1> Notendatenbank   </h1> </td> </tr>    
         <tr>
             <td class="start"><b>Sammlung</b></td>
             <td class="start"><a href="show_table2.php?table=v_sammlung&sortcol=ID&sortorder=DESC&title=Sammlungen">Daten anzeigen</a></td>
@@ -20,7 +29,8 @@ include('head.php');
             <td class="start">Erfassung über Musikstück</td>
         </tr>
 
-<!---  Sammlung Stammdaten  --> 
+<!---   --> 
+<tr> <td colspan="3" class="start"> <h3>Sammlung Stammdaten </h3> </td> </tr>
         <tr>
             <td class="start"><b>Verlage</b></td>
             <td class="start"><a href="show_table2.php?table=verlag&sortcol=Name&title=Verlage">Daten anzeigen</a></td>
@@ -32,7 +42,9 @@ include('head.php');
             <td class="start"><a href="edit_standort.php?title=Standort&option=insert">Neu erfassen</a></td>
         </tr>
 
-<!---  Musikstück Stammdaten  --> 
+
+        <tr> <td colspan="3" class="start"> <h3>Musikstück Stammdaten</h3> </td> </tr>
+
         <tr>
             <td class="start"><b>Komponisten</b></td>
             <td class="start"><a href="show_table2.php?table=v_komponist&sortcol=Name&title=Komponisten">Daten anzeigen</a></td>
@@ -62,8 +74,8 @@ include('head.php');
         </tr>
   
         
-<!---  Satz Stammdaten   --> 
-
+<!---   Stammdaten   --> 
+        <tr> <td colspan="3" class="start"> <h3>Satz Stammdaten</h3> </td> </tr>
         <tr>
             <td class="start"><b>Erprobt</b></td>
             <td class="start"><a href="show_table2.php?table=erprobt&sortcol=Name&title=Erprobt">Daten anzeigen</a></td>
@@ -80,7 +92,8 @@ include('head.php');
             <td class="start"><a href="edit_instrument.php?title=Instrument&option=insert">Neu erfassen</a></td>
         </tr> 
         
-        
+        <tr> <td colspan="3" class="start"> <h3>Sonst</h3> </td> </tr>
+
         <tr>
             <td class="start"><b>Besonderheiten</b></td>
             <td class="start"><a href="show_table2.php?table=v_lookup&sortcol=LookupTypeName,Name&title=Besonderheiten">Daten anzeigen</a></td>
@@ -109,6 +122,13 @@ include('head.php');
             <td class="start"><a href="edit_abfrage.php?title=Abfrage&option=insert">Neu erfassen</a>
             </td>
         </tr>
+
+        <tr>
+            <td class="start"><b>Auto Updates</b></td>
+            <td class="start"><a href="show_table2.php?table=auto_update&sortcol=ID&title=Auto-Update Einstellungen">Daten anzeigen</a></td>
+            <td class="start">geplant XXX </td>
+        </tr>
+
 
 </table
 
