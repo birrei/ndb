@@ -197,21 +197,7 @@ if ($show_data) {
       <iframe src="edit_satz_list_erprobte.php?SatzID='.$satz->ID.'" width="70%" height="100" name="Erprobte"></iframe>
     </td>
     </tr> 
-    
-        <tr>   
-      <td class="eingabe"><b>Erprobt:</b></td>   
-      <td class="eingabe"> (ALT!, nicht verwenden) '; 
-        $erprobt=new Erprobt(); 
-        $erprobt->print_select($satz->ErprobtID); 
-    
-      // echo ' &nbsp; ';
-      // $info->print_link_edit($erprobt->table_name, $satz->ErprobtID, $erprobt->Title, true, ' | '); 
-      // $info->print_link_table($erprobt->table_name,'sortcol=Name',$erprobt->Titles,true,'',' | ');    
-      // $info->print_link_insert($erprobt->table_name,$erprobt->Title,true); 
 
-      echo  '
-      </td>
-    </tr>
 
   </table> 
   '; 
