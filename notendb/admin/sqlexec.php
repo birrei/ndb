@@ -49,7 +49,7 @@ if (isset($_POST['aktion']) and $_POST['aktion']=='ausfuehren') {
                 echo '<p>'.$stmt->rowCount().' Zeilen betroffen</p>'; 
                 if ($stmt->columnCount() > 0 ) {
                     $html = new HtmlTable($stmt); 
-                    $html->link_table= $this->table_name;
+                    // $html->link_table= $this->table_name;
                     $html->print_table2(); 
                 }           
             }
