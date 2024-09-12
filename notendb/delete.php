@@ -16,59 +16,61 @@ switch($table) {
   case 'sammlung': 
     include_once('cl_sammlung.php');
     $objekt = new Sammlung(); 
-  break;    
+    break;   
+     
   case 'musikstueck': 
     include_once('cl_musikstueck.php');
     $objekt = new Musikstueck(); 
     $show_table_link=false;     
-  break;  
+    break; 
+
   case 'satz': 
     include_once('cl_satz.php');
     $objekt = new Satz(); 
     $show_table_link=false;         
-  break;      
+    break;      
   // ------------------------
 
   case 'standort': 
     include_once('cl_standort.php');
     $objekt = new Standort(); 
-  break; 
+    break; 
 
   case 'verlag': 
     include_once('cl_verlag.php');
     $objekt = new Verlag(); 
-  break; 
+    break; 
 
   case 'komponist': 
     include_once('cl_komponist.php');
     $objekt = new Komponist(); 
     $tablelink_table='v_komponist'; // view-Name 
-  break; 
+    break; 
 
   case 'besetzung': 
     include_once('cl_besetzung.php');
     $objekt = new Besetzung(); 
-  break; 
+    break; 
   
   case 'verwendungszweck': 
     include_once('cl_verwendungszweck.php');
     $objekt = new Verwendungszweck(); 
-  break; 
+    break; 
 
   case 'gattung': 
     include_once('cl_gattung.php');
     $objekt = new Gattung(); 
-  break; 
+    break; 
 
   case 'epoche': 
     include_once('cl_epoche.php');
     $objekt = new Epoche(); 
-  break; 
+    break; 
 
   case 'erprobt': 
     include_once('cl_erprobt.php');
     $objekt = new Erprobt(); 
-  break; 
+    break; 
 
   case 'lookup': 
     include_once('cl_lookup.php');
@@ -76,51 +78,49 @@ switch($table) {
     $tablelink_table='v_lookup'; // view-Name
     $show_html_head=false;          
     $show_table_link=false;       
-  break; 
+    break; 
 
   case 'instrument': 
     include_once('cl_instrument.php');
     $objekt = new Instrument(); 
-  break; 
+    break; 
 
 
   case 'schwierigkeitsgrad': 
     include_once('cl_schwierigkeitsgrad.php');
     $objekt = new Schwierigkeitsgrad(); 
-  break;     
+    break;     
 
   case 'lookup_type': 
     include_once('cl_lookuptype.php');
     $objekt = new Lookuptype();     
-  break; 
+    break; 
 
   case 'linktype': 
     include_once('cl_linktype.php');
     $objekt = new Linktype();        
-  break; 
+    break; 
 
   case 'link': 
     include_once('cl_link.php');
     $objekt = new Link();
     $show_table_link=false;      
     $show_html_head=false; 
-
+    break;  
 
   case 'satz_erprobt': 
     include_once('cl_satz_erprobt.php');
     $objekt = new SatzErprobt();
     $show_table_link=false;      
     $show_html_head=false; 
-  
-  break;  
+    break;  
 
   case 'abfrage': 
     include_once('cl_abfrage.php');
     $objekt = new Abfrage();     
     $tablelink_table='v_abfrage'; // view-Name      
-  break; 
-    
-
+    break; 
+  
 }
 
 if ($show_html_head) {
