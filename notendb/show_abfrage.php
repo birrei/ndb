@@ -41,6 +41,7 @@ if ($abfrage->load_row()) {
       } else {
         $html->add_link_edit = false; 
       }
+      $html->open_newpage=true; 
       $html->print_table2();
 
     }
