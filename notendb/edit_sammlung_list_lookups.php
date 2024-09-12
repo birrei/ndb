@@ -26,7 +26,7 @@ echo '<table>
         $sammlung->print_table_lookups(basename(__FILE__), 0); // XXX 
 echo '</td>
           <td>
-        <a href="edit_sammlung_add_lookup.php?SammlungID='.$sammlung->ID.'">[hinzufügen]</a>'; 
+        <a href="edit_sammlung_add_lookup.php?SammlungID='.$sammlung->ID.'" class="form-link">[hinzufügen]</a>'; 
 
         
 echo '</td>

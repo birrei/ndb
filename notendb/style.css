@@ -33,9 +33,46 @@ div.start {
 } */
 td.start {
     padding: 3px;
-
 }
 
+/***** Formulare  ****************/
+
+table.eingabe {
+    margin-top: 20px;
+    width: 100%;     
+}
+td.eingabe  {
+    border: 1px solid white;
+    border-collapse: collapse; 
+}
+
+input.btnSave {
+    font-weight: bold;width:50%; 
+    background-color: lightgreen;
+}
+
+input.btnSave:hover {
+    background-color: red;
+}
+
+.form-link {
+    font-size: 10pt;
+    text-decoration: none;
+    background-color: #EEEEEE;
+    color: #333333;
+    padding: 2px 6px 2px 6px;
+    border-top: 1px solid #CCCCCC;
+    border-right: 1px solid #333333;
+    border-bottom: 1px solid #333333;
+    border-left: 1px solid #CCCCCC;
+    margin-right: 3px;
+  }
+  .form-link:hover {
+    background-color: lightblue;
+  }
+
+
+  
 /***** Datenausgaben  ****************/
 table.resultset {
     border: 1px solid black;
@@ -50,18 +87,6 @@ th.resultset {
 td.resultset {
     border: 1px solid black;    
     padding: 2px;   
-}
-table.eingabe {
-    width: 100%; 
-}
-td.eingabe  {
-    border: 1px solid white;
-    border-collapse: collapse; 
-}
-
-input.btnSave {
-    font-weight: bold;width:50%; 
-    background-color: lightgreen;
 }
 
 /***** Suche  ****************/

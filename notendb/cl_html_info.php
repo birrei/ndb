@@ -59,39 +59,50 @@ class HtmlInfo {
     // } 
 
     function print_link_table($target_table, $sortinfo, $target_title, $show_newtab=false, $additional_params='', $suffix='') {
-        echo '<a href="show_table2.php?table='.$target_table.'&'.$sortinfo.'&title='.$target_title.($additional_params!=''?$additional_params:'').'"'.($show_newtab?' target="_blank"':'').' tabindex="-1">Alle '.$target_title.' anzeigen</a>'.($suffix!=''?$suffix:'');
+        echo '<a href="show_table2.php?table='.$target_table.'&'.$sortinfo.'&title='.$target_title.($additional_params!=''?$additional_params:'').'"'.($show_newtab?' target="_blank"':'').' tabindex="-1" class="form-link">Tabelle anzeigen</a>'.($suffix!=''?$suffix:'');
+        // echo '<a href="show_table2.php?table='.$target_table.'&'.$sortinfo.'&title='.$target_title.($additional_params!=''?$additional_params:'').'"'.($show_newtab?' target="_blank"':'').' tabindex="-1" class="form-link">Alle '.$target_title.' anzeigen</a>'.($suffix!=''?$suffix:'');
 
     }
 
 /* Standard-Verlinkungen */
 
     function print_link_edit($target_table, $ID, $target_title, $newpage=true, $suffix='') {
-        echo '<a href="edit_'.$target_table.'.php?ID='.$ID.'&title='.$target_title.'&option=edit"'.($newpage?' target="_blank"':'').' tabindex="-1">'.$target_title.' bearbeiten</a>'.($suffix!=''?$suffix:'');
+        echo '<a href="edit_'.$target_table.'.php?ID='.$ID.'&title='.$target_title.'&option=edit"'.($newpage?' target="_blank"':'').' tabindex="-1" class="form-link">Bearbeiten</a>'.($suffix!=''?$suffix:'');
+        // echo '<a href="edit_'.$target_table.'.php?ID='.$ID.'&title='.$target_title.'&option=edit"'.($newpage?' target="_blank"':'').' tabindex="-1" class="form-link">'.$target_title.' bearbeiten</a>'.($suffix!=''?$suffix:'');
+        
     }
+    
     function print_link_edit2($target_table, $ID, $target_title, $newpage=true, $suffix='') {
         // für ev. 2. Version eines Bearbeitungsformualrs 
-        echo '<a href="edit_'.$target_table.'2.php?ID='.$ID.'&title='.$target_title.'&option=edit"'.($newpage?' target="_blank"':'').' tabindex="-1">'.$target_title.' bearbeiten</a>'.($suffix!=''?$suffix:'');
+        echo '<a href="edit_'.$target_table.'2.php?ID='.$ID.'&title='.$target_title.'&option=edit"'.($newpage?' target="_blank"':'').' tabindex="-1" class="form-link">'.$target_title.' bearbeiten</a>'.($suffix!=''?$suffix:'');
+        echo '<a href="edit_'.$target_table.'2.php?ID='.$ID.'&title='.$target_title.'&option=edit"'.($newpage?' target="_blank"':'').' tabindex="-1" class="form-link">bearbeiten</a>'.($suffix!=''?$suffix:'');
+        
+    
     }
 
 
     function print_link_insert($target_table, $target_title, $newpage=true, $suffix='') {
-        echo '<a href="edit_'.$target_table.'.php?title='.$target_title.'&option=insert"'.($newpage?' target="_blank"':'').' tabindex="-1">'.$target_title.' neu erfassen</a>'.($suffix!=''?$suffix:'');
+        // echo '<a href="edit_'.$target_table.'.php?title='.$target_title.'&option=insert"'.($newpage?' target="_blank"':'').' tabindex="-1" class="form-link">'.$target_title.' neu erfassen</a>'.($suffix!=''?$suffix:'');
+        
+        // Nur "neu erfassen", ohne Titel-Bezeichnung 
+        echo '<a href="edit_'.$target_table.'.php?title='.$target_title.'&option=insert"'.($newpage?' target="_blank"':'').' tabindex="-1" class="form-link">Neu erfassen</a>'.($suffix!=''?$suffix:'');
+    
     }
 
     // function print_link_delete_row($target_table, $ID, $target_title, $newpage=true, $suffix='') {
     //     // XXX Obsolete, Nach Abschluss Umsetellung Löschen 
-    //     echo '<a href="delete_'.$target_table.'.php?ID='.$ID.'&title='.$target_title.' löschen"'.($newpage?' target="_blank"':'').' tabindex="-1">'.$target_title.' löschen</a>'.($suffix!=''?$suffix:'');
+    //     echo '<a href="delete_'.$target_table.'.php?ID='.$ID.'&title='.$target_title.' löschen"'.($newpage?' target="_blank"':'').' tabindex="-1" class="form-link">'.$target_title.' löschen</a>'.($suffix!=''?$suffix:'');
     // }
 
     function print_link_delete_row2($target_table, $ID, $target_title, $newpage=false, $suffix='') {
-        echo '<a href="delete.php?table='.$target_table.'&ID='.$ID.'&title='.$target_title.' löschen"'.($newpage?' target="_blank"':'').' tabindex="-1">'.$target_title.' löschen</a>'.($suffix!=''?$suffix:'');
+        echo '<a href="delete.php?table='.$target_table.'&ID='.$ID.'&title='.$target_title.' löschen"'.($newpage?' target="_blank"':'').' tabindex="-1" class="form-link">'.$target_title.' löschen</a>'.($suffix!=''?$suffix:'');
     }
 
 
 /* Seiten-Überschriften */   
 
     function print_screen_header($header_text, $suffix='') {
-        echo '<span style="font-size:15pt;font-weight:bold;padding-top: 10px">'.$header_text.($suffix!=''?$suffix:'').'</span>';
+        echo '<span style="font-size:15pt;font-weight:bold;padding-top: 10px;margin-right: 20px;">'.$header_text.($suffix!=''?$suffix:'').'</span>';
 
     }
 

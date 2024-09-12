@@ -56,6 +56,13 @@ if (isset($_REQUEST["option"])) {
 <table class="eingabe"> 
 <tr>    
   <label>
+  <td class="eingabe">ID:</td>  
+  <td class="eingabe"><?php echo $link->ID; ?></td>
+  </label>
+    </tr> 
+
+<tr>    
+  <label>
      <td class="eingabe">Typ: </td>
      <td class="eingabe">
       <?php 

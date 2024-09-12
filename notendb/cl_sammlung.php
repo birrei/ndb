@@ -79,7 +79,7 @@ class Sammlung {
           $Name
           , $VerlagID
           , $StandortID
-          , $Bestellnummer
+         //  , $Bestellnummer
           , $Bemerkung
          ) 
     {
@@ -93,7 +93,6 @@ class Sammlung {
             `Name`     = :Name,
             `VerlagID`     = :VerlagID,   
             `StandortID`     = :StandortID,                              
-            `Bestellnummer`     = :Bestellnummer,   
             `Bemerkung`     = :Bemerkung                               
             WHERE `ID` = :ID");           
 
@@ -101,7 +100,7 @@ class Sammlung {
       $update->bindParam(':Name', $Name);
       $update->bindParam(':VerlagID', $VerlagID,($VerlagID=='' ? PDO::PARAM_NULL : PDO::PARAM_INT));
       $update->bindParam(':StandortID', $StandortID,($StandortID=='' ? PDO::PARAM_NULL : PDO::PARAM_INT));      
-      $update->bindParam(':Bestellnummer', $Bestellnummer);
+      // $update->bindParam(':Bestellnummer', $Bestellnummer);
       $update->bindParam(':Bemerkung', $Bemerkung);
 
 

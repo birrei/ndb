@@ -25,7 +25,7 @@ echo '<table>
         $musikstueck->print_table_verwendungszwecke(basename(__FILE__)); 
 echo '</td>
           <td>
-          <a href="edit_musikstueck_add_verwendungszweck.php?MusikstueckID='.$musikstueck->ID.'">[hinzufügen]</a>
+          <a href="edit_musikstueck_add_verwendungszweck.php?MusikstueckID='.$musikstueck->ID.'" class="form-link">[hinzufügen]</a>
         </td>
         </tr>
     </table>'; 

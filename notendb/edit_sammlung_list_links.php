@@ -5,9 +5,15 @@ include("cl_sammlung.php");
 
 $sammlung=new Sammlung(); 
 $sammlung->ID=$_GET["SammlungID"];  
-$sammlung->print_table_links();
 
-// echo '<p> <a href="edit_sammlung_add_link.php?SammlungID='.$_GET["SammlungID"].'">Link hinzufügen</a></p>'; 
+echo '<table>
+     <tr>
+     <td>'; 
+$sammlung->print_table_links();        
+echo '</td>
+      <td> <a href="edit_link.php?SammlungID='.$sammlung->ID.'&option=insert" class="form-link">[hinzufügen]</a></td>
+     </tr>
+    </table>'; 
 
 include('foot_raw.php');
 ?>

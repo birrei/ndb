@@ -30,7 +30,7 @@ if (isset($_REQUEST["option"])) {
         $_POST["Name"]
         , $_POST["VerlagID"]
         , $_POST["StandortID"]
-        , $_POST["Bestellnummer"]
+        // , $_POST["Bestellnummer"]
         , $_POST["Bemerkung"]
       ); 
       $show_data=true;           
@@ -40,8 +40,8 @@ if (isset($_REQUEST["option"])) {
 
 $info= new HtmlInfo(); 
 
-$info->print_screen_header($sammlung->Title.' bearbeiten', ' | '); 
-$info->print_link_table('v_sammlung', 'sortcol=ID&sortorder=DESC', $sammlung->Titles,false, '', ' | '); 
+$info->print_screen_header($sammlung->Title.' bearbeiten'); 
+$info->print_link_table('v_sammlung', 'sortcol=ID&sortorder=DESC', $sammlung->Titles,false, ''); 
 $info->print_link_insert($sammlung->table_name, $sammlung->Title, false); 
 
 
@@ -78,8 +78,8 @@ if ($show_data) {
     echo ' </label>  &nbsp;
        '; 
 
-    $info->print_link_edit($verlage->table_name, $sammlung->VerlagID,$verlage->Title, true, ' | '); 
-    $info->print_link_table($verlage->table_name,'sortcol=Name',$verlage->Titles,true,'',' | ');    
+    $info->print_link_edit($verlage->table_name, $sammlung->VerlagID,$verlage->Title, true); 
+    $info->print_link_table($verlage->table_name,'sortcol=Name',$verlage->Titles,true,'');    
     $info->print_link_insert($verlage->table_name,$verlage->Title,true); 
 
   echo '
@@ -95,8 +95,8 @@ if ($show_data) {
 
     echo '</label>  &nbsp;';
 
-    $info->print_link_edit($standorte->table_name, $sammlung->StandortID,$standorte->Title, true, ' | '); 
-    $info->print_link_table($standorte->table_name,'sortcol=Name',$standorte->Titles,true,'',' | ');    
+    $info->print_link_edit($standorte->table_name, $sammlung->StandortID,$standorte->Title, true); 
+    $info->print_link_table($standorte->table_name,'sortcol=Name',$standorte->Titles,true,'');    
     $info->print_link_insert($standorte->table_name,$standorte->Title,true); 
 
     echo '
@@ -126,8 +126,8 @@ if ($show_data) {
 
         <tr> 
         <td class="eingabe"><b>Musikstücke:</b>
-        <p> <a href="edit_musikstueck.php?SammlungID='.$sammlung->ID.'&option=insert&title=Musikstück" target="_blank">Musikstück hinzufügen</a></p>
-        <p> <a href="edit_sammlung_list_musikstuecke.php?SammlungID='.$sammlung->ID.'" target="musikstuecke">Aktualisieren</a> - &gt; </p>
+        <p> <a href="edit_musikstueck.php?SammlungID='.$sammlung->ID.'&option=insert&title=Musikstück" target="_blank" class="form-link">Musikstück hinzufügen</a></p>
+        <p> <a href="edit_sammlung_list_musikstuecke.php?SammlungID='.$sammlung->ID.'" target="musikstuecke" class="form-link">Aktualisieren - &gt;</a></p>
 
         </td> 
         <td class="eingabe"><iframe src="edit_sammlung_list_musikstuecke.php?SammlungID='.$sammlung->ID.'"  width="100%" height="200" name="musikstuecke"></iframe>
@@ -137,8 +137,8 @@ if ($show_data) {
 
       <tr> 
       <td class="eingabe"><b>Besonderheiten:</b>
-                <br> <a href="show_table2.php?table=lookup_type&sortcol=Name&title=Attribut-Typen" target="_blank">Alle Besonderheiten</a>
-                <br> <br> <a href="edit_sammlung_list_lookups.php?SammlungID='.$sammlung->ID.'" target="Lookups">Aktualisieren</a> - &gt;      
+                <p><a href="show_table2.php?table=lookup_type&sortcol=Name&title=Attribut-Typen" target="_blank" class="form-link">Alle Besonderheiten</a></p>
+                <p> <a href="edit_sammlung_list_lookups.php?SammlungID='.$sammlung->ID.'" target="Lookups" class="form-link">Aktualisieren - &gt;</a> </p>     
       </td> 
       <td class="eingabe"><iframe src="edit_sammlung_list_lookups.php?SammlungID='.$sammlung->ID.'" width="70%" height="150" name="Lookups"></iframe>
       </td>
@@ -146,24 +146,12 @@ if ($show_data) {
   
       <tr> 
       <td class="eingabe"><b>Links</b>
-      <p> <a href="edit_link.php?SammlungID='.$sammlung->ID.'&option=insert" target="Links">Link hinzufügen</a></p>
-      <p> <a href="edit_sammlung_list_links.php?SammlungID='.$sammlung->ID.'" target="Links">Aktualisieren</a> - &gt; </p>
+      <p> <a href="edit_sammlung_list_links.php?SammlungID='.$sammlung->ID.'" target="Links" class="form-link">Aktualisieren - &gt; </a></p>
       
       </td> 
       <td class="eingabe"><iframe src="edit_sammlung_list_links.php?SammlungID='.$sammlung->ID.'" width="100%" height="200" name="Links"></iframe>
     
       </td>
-    </tr> 
-
-
-
-    
-    
-    <tr>    
-      <label>
-      <td class="eingabe"><b>Bestellnummer:</b></td>  
-      <td class="eingabe"><input type="text" name="Bestellnummer" value="'.$sammlung->Bestellnummer.'" size="45" oninput="changeBackgroundColor(this)"></td>
-      </label>
     </tr> 
 
 

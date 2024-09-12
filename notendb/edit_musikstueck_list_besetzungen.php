@@ -22,7 +22,7 @@ echo '<table>
         $musikstueck->print_table_besetzungen(basename(__FILE__)); 
 echo '</td>
           <td>
-        <a href="edit_musikstueck_add_besetzung.php?MusikstueckID='.$musikstueck->ID.'">[hinzufügen]</a>
+        <a href="edit_musikstueck_add_besetzung.php?MusikstueckID='.$musikstueck->ID.'" class="form-link">[hinzufügen]</a>
         </td>
         </tr>
     </table>'; 
