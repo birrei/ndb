@@ -26,7 +26,7 @@ echo '<table>
         $satz->print_table_lookups(basename(__FILE__), 0); // XXX 
 echo '</td>
           <td>
-        <a href="edit_satz_add_lookup.php?SatzID='.$satz->ID.'">[hinzufügen]</a>'; 
+        <a href="edit_satz_add_lookup.php?SatzID='.$satz->ID.'" class="form-link">[hinzufügen]</a>'; 
 
         
 echo '</td>

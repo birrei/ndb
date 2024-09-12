@@ -1,6 +1,6 @@
 ﻿
 ###  Aufgaben in Arbeit  
-* Erprobt- Attribut erweitern 
+* auto_update 
 
 ### Offene Aufgaben 
 * Sammlung "Druckansicht" 
@@ -8,11 +8,10 @@
 * Suche, Ergebnisanzeige: Anzahl Zeilen angezeigen  
 * Eigenes Git-Repository für das Projekt 
 * Suche: Filter nach Erprobt Jahr
-
 * Notensymbole Schrift
 
 ### Verbesserungen, Korrekturen 
-* delete.php: Löschung Musikstück / Satz ohne abschließenn Tabellenlink  
+
 * Überall html -> print_table2 verwenden
 * Erfassung: Umgang mit fehlerhaften Eingabewerten (zu lang, ect.)
 * Übersichtstabellen -> Anzahl Zeilen begrenzen
@@ -30,9 +29,14 @@
 * Spracheingabe 
 - Fehlerbehandlung: Bearbeiten-Formular wird bei nicht exisiterender ID geöffnet (siehe Vorlage edit_abfrage.php, cl_abfrage.php) 
 * Kalender-Tabelle 
+* Feld "Bestellnummer" entfernen ?
+* Eingabefelder maxlength prüfen -> soll db Feldlänge entsprechen 
+* Eingabefelder autofocus prüfen 
 
 
 
 
 ### erledigte Aufgaben 
 * Delete-Funktionen ergänzen (satz->erprobt, sammmlung->besonderheiten) 
+* delete.php: Löschung Musikstück / Satz ohne abschließenden Tabellenlink  
+* Erprobt- Attribut erweitern 

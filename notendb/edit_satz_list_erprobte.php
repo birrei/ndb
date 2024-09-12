@@ -25,7 +25,7 @@ echo '<table>
         $satz->print_table_erprobte(); 
 echo '</td>
     <td>
-    <a href="edit_satz_erprobt.php?SatzID='.$satz->ID.'&option=insert">[hinzufügen]</a>
+    <a href="edit_satz_erprobt.php?SatzID='.$satz->ID.'&option=insert" class="form-link">[hinzufügen]</a>
     </td>
     </tr>
     </table>'; 

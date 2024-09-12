@@ -38,7 +38,7 @@ td.start {
 /***** Formulare  ****************/
 
 table.eingabe {
-    margin-top: 20px;
+    margin-top: 5px;
     width: 100%;     
 }
 td.eingabe  {
@@ -47,7 +47,8 @@ td.eingabe  {
 }
 
 input.btnSave {
-    font-weight: bold;width:50%; 
+    font-weight: bold;
+    width:25%; 
     background-color: lightgreen;
 }
 

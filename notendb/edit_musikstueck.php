@@ -71,7 +71,7 @@ if ($show_data) {
   $sammlung = new Sammlung();
   $sammlung->print_select($musikstueck->SammlungID); 
 
-  echo ' <a href="edit_sammlung.php?ID='.$musikstueck->SammlungID.'&title=Sammlung&option=edit" tabindex="-1">Gehe zu Sammlung</a>'; 
+  echo ' <a href="edit_sammlung.php?ID='.$musikstueck->SammlungID.'&title=Sammlung&option=edit" tabindex="-1" class="form-link">Gehe zu Sammlung</a>'; 
   
   echo '</tr></label>
   <tr>    

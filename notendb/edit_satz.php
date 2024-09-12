@@ -71,7 +71,7 @@ if ($show_data) {
     $musikstueck->ID=$satz->MusikstueckID; 
     $musikstueck->print_select($satz->MusikstueckID); 
     
-    echo ' <a href="edit_musikstueck.php?ID='.$satz->MusikstueckID.'&title=Musikstück&option=edit" tabindex="-1">Gehe zu Musikstück</a>'; 
+    echo ' <a href="edit_musikstueck.php?ID='.$satz->MusikstueckID.'&title=Musikstück&option=edit" tabindex="-1" class="form-link">Gehe zu Musikstück</a>'; 
     echo '
     </td>  
     </label>
@@ -163,12 +163,12 @@ if ($show_data) {
     </form>
 
     <tr> 
-    <td class="eingabe"><b>Schwierigkeitsgrad(e):</b><br />';
+    <td class="eingabe"><b>Schwierigkeitsgrad(e):</b><br /><br />';
     
-    $info->print_link_insert('instrument','Instrument', true, '<br/>');  
-    $info->print_link_table('instrument','sortcol=Name','Instrumente',true,'','<br/>');  
+    $info->print_link_insert('instrument','Instrument', true);  
+    $info->print_link_table('instrument','sortcol=Name','Instrumente',true,'');  
 
-    echo '<br> <a href="edit_satz_list_schwierigkeitsgrade.php?SatzID='.$satz->ID.'" target="Schwierigkeitsgrade">Aktualisieren</a> - &gt; 
+    echo '<p><a href="edit_satz_list_schwierigkeitsgrade.php?SatzID='.$satz->ID.'" target="Schwierigkeitsgrade" class="form-link">Aktualisieren - &gt;</a> </p>
     </td> 
     <td class="eingabe">
       <iframe src="edit_satz_list_schwierigkeitsgrade.php?SatzID='.$satz->ID.'" width="70%" height="100" name="Schwierigkeitsgrade"></iframe>
@@ -176,9 +176,9 @@ if ($show_data) {
     </tr> 
 
     <tr> 
-    <td class="eingabe"><b>Besonderheiten:</b>
-              <br> <a href="show_table2.php?table=lookup_type&sortcol=Name&title=Besonderheit Typen" target="_blank">Übersicht Besonderheiten</a>
-              <br> <br> <a href="edit_satz_list_lookups.php?SatzID='.$satz->ID.'" target="Lookups">Aktualisieren</a> - &gt;      
+    <td class="eingabe"><b>Besonderheiten:</b><br /><br />
+              <a href="show_table2.php?table=lookup_type&sortcol=Name&title=Besonderheit Typen" target="_blank" class="form-link">Tabelle anzeigen</a>
+              <p><a href="edit_satz_list_lookups.php?SatzID='.$satz->ID.'" target="Lookups" class="form-link">Aktualisieren - &gt;</a>   </p>   
     </td> 
     <td class="eingabe"><iframe src="edit_satz_list_lookups.php?SatzID='.$satz->ID.'" width="70%" height="100" name="Lookups"></iframe>
     </td>
@@ -191,7 +191,7 @@ if ($show_data) {
     // $info->print_link_insert('erprobt','Erprobt', true, '<br/>');  
     // $info->print_link_table('erprobt','sortcol=Name','Erprobt-Attribute',true,'','<br/>');  
 
-    echo '<br> <a href="edit_satz_list_erprobte.php?SatzID='.$satz->ID.'" target="Erprobte">Aktualisieren</a> - &gt; 
+    echo '<br> <a href="edit_satz_list_erprobte.php?SatzID='.$satz->ID.'" target="Erprobte" class="form-link">Aktualisieren - &gt;</a> 
     </td> 
     <td class="eingabe">
       <iframe src="edit_satz_list_erprobte.php?SatzID='.$satz->ID.'" width="70%" height="100" name="Erprobte"></iframe>
