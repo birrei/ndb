@@ -11,10 +11,10 @@ inner join
     from musikstueck 
     WHERE Nummer=1 
     and KomponistID IS NOT NULL 
-    AND SammlungID = 274 
+    AND SammlungID = 274  -- XX SammlungID 
     group by SammlungID
 ) m_ref
 on m.SammlungID = m_ref.SammlungID 
 set m.KomponistID = m_ref.KomponistID_ref
-where m.SammlungID = 274 
+where m.SammlungID = 274  -- XX SammlungID 
 and m.KomponistID IS NULL
