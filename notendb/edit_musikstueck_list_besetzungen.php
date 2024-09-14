@@ -16,16 +16,14 @@ if (isset($_GET["option"])){
         $musikstueck->delete_besetzung($_GET["ID"]); // ID = musikstueck_besetzung.ID 
     } 
 }
-echo '<table>
-     <tr>
-     <td>'; 
-        $musikstueck->print_table_besetzungen(basename(__FILE__)); 
-echo '</td>
-          <td>
-        <a href="edit_musikstueck_add_besetzung.php?MusikstueckID='.$musikstueck->ID.'" class="form-link">[hinzufügen]</a>
-        </td>
-        </tr>
-    </table>'; 
+
+echo '<div style="float:left">'; 
+
+$musikstueck->print_table_besetzungen(basename(__FILE__)); 
+
+echo '</div>'; 
+
+echo '&nbsp;<a href="edit_musikstueck_add_besetzung.php?MusikstueckID='.$musikstueck->ID.'" class="form-link">Hinzufügen</a>'; 
 
 
 include('foot_raw.php');

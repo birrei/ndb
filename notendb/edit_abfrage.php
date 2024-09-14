@@ -35,17 +35,12 @@ if (isset($_REQUEST["option"])) {
   }
 }
 
-$info->print_screen_header($abfrage->Title.' bearbeiten', ' | '); 
-$info->print_link_table('v_abfrage', 'sortcol=Name', $abfrage->Titles,true); // es fehlt Zusatz &add_link_show
-// echo '<a href="show_table2.php?table=v_abfrage&sortcol=Name&title=Abfragen&add_link_show" target="_blank">Übersicht Abfragen</a>'; 
+$info->print_screen_header($abfrage->Title.' bearbeiten'); 
+$info->print_link_table('v_abfrage', 'sortcol=Name&add_link_show', $abfrage->Titles,true);
 
 if ($show_data) {
-  echo '
-  <p>
-  <a href="show_abfrage.php?ID='.$abfrage->ID.'&title=Abfrage&Name='.$abfrage->Name.'">Abfrage-Ergebnis anzeigen</a> | '; 
+  echo '<a href="show_abfrage.php?ID='.$abfrage->ID.'&title=Abfrage&Name='.$abfrage->Name.'" class="form-link">Ergebnis anzeigen</a>'; 
   $info->print_link_edit2($abfrage->table_name, $abfrage->ID,'Abfrage-Text',false);  
-
-
   echo '</p>
   <form action="edit_abfrage.php" method="post">
   <table class="eingabe" width="100%"> 

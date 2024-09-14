@@ -34,7 +34,7 @@ if (isset($_REQUEST["option"])) {
   }
 }
 
-$info->print_screen_header($standort->Title.' bearbeiten', ' | '); 
+$info->print_screen_header($standort->Title.' bearbeiten'); 
 $info->print_link_table($standort->table_name, 'sortcol=Name', $standort->Titles); 
 
 

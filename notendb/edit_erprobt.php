@@ -31,7 +31,7 @@ if (isset($_REQUEST["option"])) {
   }
 }
 
-$info->print_screen_header($erprobt->Title.' bearbeiten', ' | '); 
+$info->print_screen_header($erprobt->Title.' bearbeiten'); 
 $info->print_link_table($erprobt->table_name, 'sortcol=Name', $erprobt->Titles); 
 
 if ($show_data) {

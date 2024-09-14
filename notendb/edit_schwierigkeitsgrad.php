@@ -31,7 +31,7 @@ if (isset($_REQUEST["option"])) {
   }
 }
 
-$info->print_screen_header($schwierigkeitsgrad->Title.' bearbeiten', ' | '); 
+$info->print_screen_header($schwierigkeitsgrad->Title.' bearbeiten'); 
 $info->print_link_table($schwierigkeitsgrad->table_name, 'sortcol=Name', $schwierigkeitsgrad->Titles); 
 
 if ($show_data) {

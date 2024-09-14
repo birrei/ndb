@@ -35,13 +35,18 @@ if (isset($_REQUEST["option"])) {
   }
 }
 
-$info->print_screen_header($abfrage->Title.'-Text bearbeiten', ' | '); 
+$info->print_screen_header($abfrage->Title.'-Text bearbeiten'); 
 // $info->print_link_table('v_abfrage', 'sortcol=Name', $abfrage->Titles,true); 
-echo '<a href="show_table2.php?table=v_abfrage&sortcol=ID&sortorder=DESC&title=Abfragen&add_link_show" target="_blank">Übersicht Abfragen</a>'; 
+// echo '<a href="show_table2.php?table=v_abfrage&sortcol=ID&sortorder=DESC&title=Abfragen&add_link_show" target="_blank">Übersicht Abfragen</a>'; 
+$info->print_link_table('v_abfrage', 'sortcol=Name&add_link_show', $abfrage->Titles,true);
 
 if ($show_data) {
-  echo '<p><a href="show_abfrage.php?ID='.$abfrage->ID.'&title=Abfrage&Name='.$abfrage->Name.'">Abfrage-Ergebnis anzeigen</a> | ';
-  $info->print_link_edit($abfrage->table_name, $abfrage->ID,'Abfrage',false);
+
+  echo '<a href="show_abfrage.php?ID='.$abfrage->ID.'&title=Abfrage&Name='.$abfrage->Name.'" class="form-link">Ergebnis anzeigen</a>'; 
+ 
+  // $info->print_link_edit($abfrage->table_name, $abfrage->ID,'Abfrage',false);
+
+  echo '<a href="edit_abfrage.php?ID='.$abfrage->ID.'&title=Abfrage&option=edit" tabindex="-1" class="form-link">Abfrage-Beschreibung bearbeiten</a>'; 
 
    echo '  </p> 
    <form action="edit_abfrage2.php" method="post">

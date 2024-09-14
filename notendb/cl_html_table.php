@@ -11,6 +11,7 @@ class HtmlTable {
     public $link_edit_filename=''; // falls Zusammensetzung "edit_" nicht verwendet werden soll, $link_table dann leer lassen! 
     public $open_newpage=false; 
 
+
     public $add_link_delete=false; // 
 
     public $add_link_show=false; // falls eine "show_*.php" für ein Tabelle vorgesehen ist (akt. show_abfrage.php)

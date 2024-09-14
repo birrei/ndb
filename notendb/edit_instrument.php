@@ -31,7 +31,7 @@ if (isset($_REQUEST["option"])) {
   }
 }
 
-$info->print_screen_header($instrument->Title.' bearbeiten', ' | '); 
+$info->print_screen_header($instrument->Title.' bearbeiten'); 
 $info->print_link_table($instrument->table_name, 'sortcol=Name', $instrument->Titles); 
 
 

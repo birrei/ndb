@@ -20,18 +20,15 @@ if (isset($_GET["option"])){
     } 
 }
 
-echo '<table>
-     <tr>
-     <td>'; 
-        $sammlung->print_table_lookups(basename(__FILE__), 0); // XXX 
-echo '</td>
-          <td>
-        <a href="edit_sammlung_add_lookup.php?SammlungID='.$sammlung->ID.'" class="form-link">[hinzufügen]</a>'; 
 
-        
-echo '</td>
-        </tr>
-    </table>'; 
+echo '<div style="float:left">'; 
+
+$sammlung->print_table_lookups(basename(__FILE__), 0); 
+
+echo '</div>'; 
+
+echo '&nbsp;<a href="edit_sammlung_add_lookup.php?SammlungID='.$sammlung->ID.'" class="form-link">Hinzufügen</a>'; 
+
 
 include('foot_raw.php');
 

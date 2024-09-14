@@ -32,7 +32,7 @@ if (isset($_REQUEST["option"])) {
   }
 }
 
-$info->print_screen_header($gattung->Title.' bearbeiten', ' | '); 
+$info->print_screen_header($gattung->Title.' bearbeiten'); 
 $info->print_link_table($gattung->table_name, 'sortcol=Name', $gattung->Titles); 
 
 if ($show_data) {

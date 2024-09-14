@@ -171,7 +171,7 @@ if ($show_data) {
     echo '<p><a href="edit_satz_list_schwierigkeitsgrade.php?SatzID='.$satz->ID.'" target="Schwierigkeitsgrade" class="form-link">Aktualisieren - &gt;</a> </p>
     </td> 
     <td class="eingabe">
-      <iframe src="edit_satz_list_schwierigkeitsgrade.php?SatzID='.$satz->ID.'" width="70%" height="100" name="Schwierigkeitsgrade"></iframe>
+      <iframe src="edit_satz_list_schwierigkeitsgrade.php?SatzID='.$satz->ID.'&source=iframe" width="70%" height="100" name="Schwierigkeitsgrade"></iframe>
     </td>
     </tr> 
 
@@ -180,7 +180,7 @@ if ($show_data) {
               <a href="show_table2.php?table=lookup_type&sortcol=Name&title=Besonderheit Typen" target="_blank" class="form-link">Tabelle anzeigen</a>
               <p><a href="edit_satz_list_lookups.php?SatzID='.$satz->ID.'" target="Lookups" class="form-link">Aktualisieren - &gt;</a>   </p>   
     </td> 
-    <td class="eingabe"><iframe src="edit_satz_list_lookups.php?SatzID='.$satz->ID.'" width="70%" height="100" name="Lookups"></iframe>
+    <td class="eingabe"><iframe src="edit_satz_list_lookups.php?SatzID='.$satz->ID.'&source=iframe" width="70%" height="100" name="Lookups"></iframe>
     </td>
     </tr> 
 
@@ -194,10 +194,9 @@ if ($show_data) {
     echo '<br> <a href="edit_satz_list_erprobte.php?SatzID='.$satz->ID.'" target="Erprobte" class="form-link">Aktualisieren - &gt;</a> 
     </td> 
     <td class="eingabe">
-      <iframe src="edit_satz_list_erprobte.php?SatzID='.$satz->ID.'" width="70%" height="100" name="Erprobte"></iframe>
+      <iframe src="edit_satz_list_erprobte.php?SatzID='.$satz->ID.'&source=iframe" width="70%" height="100" name="Erprobte"></iframe>
     </td>
     </tr> 
-
 
   </table> 
   '; 

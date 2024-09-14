@@ -9,14 +9,6 @@ td, th {
     vertical-align: top; 
 }
 
-/***** Hilfe  ****************/
-div.hilfeseite {
-    width: 60%; 
-}
-
-p.inhalt1 {text-indent:10px;}
-p.inhalt2 {text-indent:20px;}
-p.inhalt3 {text-indent:30px;}
 
 /***** Start  ****************/
 div.start {
@@ -53,7 +45,7 @@ input.btnSave {
 }
 
 input.btnSave:hover {
-    background-color: red;
+    background-color: green;
 }
 
 .form-link {
@@ -69,7 +61,7 @@ input.btnSave:hover {
     margin-right: 3px;
   }
   .form-link:hover {
-    background-color: lightblue;
+    background-color: gray;
   }
 
 
@@ -79,6 +71,8 @@ table.resultset {
     border: 1px solid black;
     border-collapse: collapse; 
     font-size: 10pt;  
+    margin: 0px; 
+    padding: 0px; 
 }
 th.resultset {
     border: 1px solid black;
@@ -102,3 +96,13 @@ p.navi-trenner {
     background-color:aquamarine;
 
 }
+
+
+/***** Hilfe  ****************/
+div.hilfeseite {
+    width: 60%; 
+}
+
+p.inhalt1 {text-indent:10px;}
+p.inhalt2 {text-indent:20px;}
+p.inhalt3 {text-indent:30px;}

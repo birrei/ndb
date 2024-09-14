@@ -20,18 +20,15 @@ if (isset($_GET["option"])){
     } 
 }
 
-echo '<table>
-     <tr>
-     <td>'; 
-        $satz->print_table_lookups(basename(__FILE__), 0); // XXX 
-echo '</td>
-          <td>
-        <a href="edit_satz_add_lookup.php?SatzID='.$satz->ID.'" class="form-link">[hinzufügen]</a>'; 
 
-        
-echo '</td>
-        </tr>
-    </table>'; 
+echo '<div style="float:left">'; 
+
+$satz->print_table_lookups(basename(__FILE__)); 
+
+echo '</div>'; 
+
+echo '&nbsp;<a href="edit_satz_add_lookup.php?SatzID='.$satz->ID.'" class="form-link">Hinzufügen</a>'; 
+
 
 include('foot_raw.php');
 

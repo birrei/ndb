@@ -41,7 +41,7 @@ if (isset($_REQUEST["option"])) {
   }
 }
 
-$info->print_screen_header($komponist->Title.' bearbeiten', ' | '); 
+$info->print_screen_header($komponist->Title.' bearbeiten'); 
 $info->print_link_table($komponist->table_name, 'sortcol=Nachname,Vorname', $komponist->Titles); 
 
 

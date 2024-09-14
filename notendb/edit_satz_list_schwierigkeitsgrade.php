@@ -19,16 +19,17 @@ if (isset($_GET["option"])){
 }
 
 
-echo '<table>
-     <tr>
-     <td>'; 
-        $satz->print_table_schwierigkeitsgrade(basename(__FILE__)); 
-echo '</td>
-          <td>
-        <a href="edit_satz_add_schwierigkeitsgrad.php?SatzID='.$satz->ID.'" class="form-link">[hinzufügen]</a>
-        </td>
-        </tr>
-    </table>'; 
+
+
+echo '<div style="float:left">'; 
+
+$satz->print_table_schwierigkeitsgrade(basename(__FILE__)); 
+
+echo '</div>'; 
+
+echo '&nbsp;<a href="edit_satz_add_schwierigkeitsgrad.php?SatzID='.$satz->ID.'" class="form-link">Hinzufügen</a>'; 
+
+
 
 include('foot_raw.php');
 

@@ -1,5 +1,13 @@
 
-<?php 
+<?php
+
+// $source=''; 
+
+// if (isset($_REQUEST["source"])) {
+//   $source=$_REQUEST["source"]; 
+// }
+
+echo '<p>source: '.$source; 
 include('head_raw.php');
 include("cl_lookuptype.php");
 include("cl_lookup.php");
@@ -41,6 +49,7 @@ if ($show_data) {
   echo '
   <form action="edit_lookup.php" method="post">
   <table class="eingabe"> 
+
     <tr>    
     <label>
     <td class="eingabe">ID:</td>  
@@ -51,18 +60,15 @@ if ($show_data) {
       <tr>    
       <label>
       <td class="eingabe">Typ/Kategorie:
-      
       </td>  
       <td class="eingabe">    
             '; 
             $lookup_type = new Lookuptype();
             $lookup_type->print_select($lookup->LookupTypeID); 
-
       echo '
       </label>
     </td>
       </tr>
-
       
     <tr>    
       <label>

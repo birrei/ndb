@@ -31,7 +31,7 @@ if (isset($_REQUEST["option"])) {
   }
 }
 
-$info->print_screen_header($lookuptype->Title.' bearbeiten', ' | '); 
+$info->print_screen_header($lookuptype->Title.' bearbeiten'); 
 $info->print_link_table($lookuptype->table_name, 'sortcol=Name', $lookuptype->Titles); 
 
 
@@ -65,7 +65,7 @@ if ($show_data) {
       </td> 
       <td class="eingabe">
       
-      <iframe src="edit_lookup_type_list_lookups.php?LookupTypeID='.$lookuptype->ID.'" width="70%" height="400" name="Lookups"></iframe>
+      <iframe src="edit_lookup_type_list_lookups.php?LookupTypeID='.$lookuptype->ID.'&source=iframe" width="70%" height="400" name="Lookups"></iframe>
 
       </td>
     </tr> 

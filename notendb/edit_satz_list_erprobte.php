@@ -13,22 +13,18 @@ if (isset($_GET["option"])){
             $satz->add_erprobt(''); 
         }
     } 
-    // if($_GET["option"]=='delete') {
-    //     $satz->delete_schwierigkeitsgrad($_GET["ID"]); // ID = satz_schwierigkeitsgrad.ID 
-    // } 
 }
 
-echo '<table>
-     <tr>
-      <td>'; 
-        // $satz->print_table_erprobte(basename(__FILE__)); 
-        $satz->print_table_erprobte(); 
-echo '</td>
-    <td>
-    <a href="edit_satz_erprobt.php?SatzID='.$satz->ID.'&option=insert" class="form-link">[hinzufügen]</a>
-    </td>
-    </tr>
-    </table>'; 
+
+echo '<div style="float:left">'; 
+
+// $satz->print_table_erprobte(basename(__FILE__)); 
+$satz->print_table_erprobte(); 
+
+echo '</div>'; 
+
+echo '&nbsp;<a href="edit_satz_erprobt.php?SatzID='.$satz->ID.'&option=insert" class="form-link">Hinzufügen</a>'; 
+
 
 include('foot_raw.php');
 

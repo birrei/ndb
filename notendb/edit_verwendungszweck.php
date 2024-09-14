@@ -32,7 +32,7 @@ if (isset($_REQUEST["option"])) {
   }
 }
 
-$info->print_screen_header($verwendungszweck->Title.' bearbeiten', ' | '); 
+$info->print_screen_header($verwendungszweck->Title.' bearbeiten'); 
 $info->print_link_table($verwendungszweck->table_name, 'sortcol=Name', $verwendungszweck->Titles); 
 
 if ($show_data) {

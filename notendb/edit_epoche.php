@@ -31,7 +31,7 @@ if (isset($_REQUEST["option"])) {
   }
 }
 
-$info->print_screen_header($epoche->Title.' bearbeiten', ' | '); 
+$info->print_screen_header($epoche->Title.' bearbeiten'); 
 $info->print_link_table($epoche->table_name, 'sortcol=Name', $epoche->Titles); 
 
 if ($show_data) {

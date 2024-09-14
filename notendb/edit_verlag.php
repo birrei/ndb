@@ -33,7 +33,7 @@ if (isset($_REQUEST["option"])) {
 
 }
 
-$info->print_screen_header($verlag->Title.' bearbeiten', ' | '); 
+$info->print_screen_header($verlag->Title.' bearbeiten'); 
 $info->print_link_table($verlag->table_name, 'sortcol=Name', $verlag->Titles); 
 
 if ($show_data) {

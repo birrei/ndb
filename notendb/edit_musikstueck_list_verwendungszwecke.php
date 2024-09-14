@@ -19,16 +19,13 @@ if (isset($_GET["option"])){
 }
 
 
-echo '<table>
-     <tr>
-     <td>'; 
-        $musikstueck->print_table_verwendungszwecke(basename(__FILE__)); 
-echo '</td>
-          <td>
-          <a href="edit_musikstueck_add_verwendungszweck.php?MusikstueckID='.$musikstueck->ID.'" class="form-link">[hinzufügen]</a>
-        </td>
-        </tr>
-    </table>'; 
+echo '<div style="float:left">'; 
+
+$musikstueck->print_table_verwendungszwecke(basename(__FILE__)); 
+
+echo '</div>'; 
+
+echo '&nbsp;<a href="edit_musikstueck_add_verwendungszweck.php?MusikstueckID='.$musikstueck->ID.'" class="form-link">Hinzufügen</a>'; 
 
 
 
