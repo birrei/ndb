@@ -111,7 +111,7 @@ class Lookuptype {
       $select->execute(); 
       include_once("cl_html_table.php");      
       $html = new HtmlTable($select); 
-      $html->link_table= $this->table_name;
+      $html->edit_link_table= $this->table_name;
       $html->print_table2();       
     }
     catch (PDOException $e) {
@@ -253,7 +253,7 @@ class Lookuptype {
       $stmt->execute(); 
       include_once("cl_html_table.php");      
       $html = new HtmlTable($stmt); 
-      $html->link_table = 'lookup'; 
+      $html->edit_link_table = 'lookup'; 
       $html->print_table2(); 
     }
     catch (PDOException $e) {

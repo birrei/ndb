@@ -180,7 +180,15 @@ class Musikstueck {
       $stmt->execute(); 
       include_once("cl_html_table.php");      
       $html = new HtmlTable($stmt); 
-      $html->print_table_with_del_link($target_file, 'MusikstueckID', $this->ID); 
+
+      $html->add_link_edit=false;
+      $html->add_link_delete=true;
+      $html->del_link_filename=$target_file; 
+      $html->del_link_parent_key='MusikstueckID'; 
+      $html->del_link_parent_id= $this->ID; 
+      $html->show_missing_data_message=false; 
+      $html->print_table2();       
+
     }
     catch (PDOException $e) {
       include_once("cl_html_info.php"); 
@@ -212,7 +220,13 @@ class Musikstueck {
       $stmt->execute(); 
       include_once("cl_html_table.php");      
       $html = new HtmlTable($stmt); 
-      $html->print_table_with_del_link($target_file, 'MusikstueckID', $this->ID); 
+      $html->add_link_edit=false;
+      $html->add_link_delete=true;
+      $html->del_link_filename=$target_file; 
+      $html->del_link_parent_key='MusikstueckID'; 
+      $html->del_link_parent_id= $this->ID; 
+      $html->show_missing_data_message=false; 
+      $html->print_table2();      
     }
     catch (PDOException $e) {
       include_once("cl_html_info.php"); 
@@ -349,9 +363,9 @@ class Musikstueck {
       $stmt->execute(); 
       include_once("cl_html_table.php");      
       $html = new HtmlTable($stmt); 
-      $html->link_table='satz'; 
-      $html->link_title='Satz'; 
-      $html->open_newpage=true; 
+      $html->edit_link_table='satz'; 
+      $html->edit_link_title='Satz'; 
+      $html->edit_link_open_newpage=true; 
       $html->print_table2();       
       
     }

@@ -247,7 +247,13 @@ class Satz {
       $stmt->execute(); 
       include_once("cl_html_table.php");      
       $html = new HtmlTable($stmt); 
-      $html->print_table_with_del_link($target_file, 'SatzID', $this->ID); 
+      $html->add_link_edit=false;
+      $html->add_link_delete=true;
+      $html->del_link_filename=$target_file; 
+      $html->del_link_parent_key='SatzID'; 
+      $html->del_link_parent_id= $this->ID; 
+      $html->show_missing_data_message=false; 
+      $html->print_table2();       
     }
     catch (PDOException $e) {
       include_once("cl_html_info.php"); 
@@ -373,7 +379,13 @@ class Satz {
       $stmt->execute(); 
       include_once("cl_html_table.php");      
       $html = new HtmlTable($stmt); 
-      $html->print_table_with_del_link($target_file, 'SatzID', $this->ID); 
+      $html->add_link_edit=false;
+      $html->add_link_delete=true;
+      $html->del_link_filename=$target_file; 
+      $html->del_link_parent_key='SatzID'; 
+      $html->del_link_parent_id= $this->ID; 
+      $html->show_missing_data_message=false; 
+      $html->print_table2();           
     }
     catch (PDOException $e) {
       include_once("cl_html_info.php"); 
@@ -583,11 +595,9 @@ class Satz {
       $stmt->execute(); 
       include_once("cl_html_table.php");      
       $html = new HtmlTable($stmt); 
-      // $html->print_table_with_del_link($target_file, 'SatzID', $this->ID); 
-
-      $html->link_table='satz_erprobt'; 
-      $html->link_title='Erprobt'; 
-      $html->open_newpage=false; 
+      $html->edit_link_table='satz_erprobt'; 
+      $html->edit_link_title='Erprobt'; 
+      $html->edit_link_open_newpage=false; 
       $html->print_table2(); 
 
     }

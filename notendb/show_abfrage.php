@@ -36,12 +36,12 @@ if ($abfrage->load_row()) {
       include_once("cl_html_table.php");      
       $html = new HtmlTable($select); 
       if ($table_edit!='') {
-        $html->link_table=$table_edit;    
+        $html->edit_link_table=$table_edit;    
         $html->add_link_edit = true; 
       } else {
         $html->add_link_edit = false; 
       }
-      $html->open_newpage=true; 
+      $html->edit_link_open_newpage=true; 
       $html->print_table2();
 
     }

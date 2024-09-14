@@ -620,9 +620,9 @@ if (isset($_POST['suchtext'])) {
             include_once("cl_html_table.php");      
             $html = new HtmlTable($select); 
             $html->add_link_edit=true; 
-            $html->link_table=$edit_table; 
-            $html->link_title=$Ebene; 
-            $html->open_newpage=true; 
+            $html->edit_link_table=$edit_table; 
+            $html->edit_link_title=$Ebene; 
+            $html->edit_link_open_newpage=true; 
             $html->print_table2(); 
           }
           catch (PDOException $e) {

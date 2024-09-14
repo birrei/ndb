@@ -177,7 +177,7 @@ class Lookup {
 
 
 
-  function print_table($LookupTypeID='', $open_newpage=true){
+  function print_table($LookupTypeID='', $edit_link_open_newpage=true){
 
     $query="SELECT * from v_lookup WHERE 1=1 "; 
     $query.=($LookupTypeID!=''?"AND LookupTypeID = :LookupTypeID ":"");
@@ -197,7 +197,7 @@ class Lookup {
       $select->execute(); 
       include_once("cl_html_table.php");      
       $html = new HtmlTable($select); 
-      $html->link_table= $this->table_name;
+      $html->edit_link_table= $this->table_name;
       $html->print_table2(); 
     }
     catch (PDOException $e) {

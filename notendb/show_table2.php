@@ -70,9 +70,9 @@ try {
     }      
   }
   // -------------
-  $html->link_table=$edit_table; 
-  $html->open_newpage = $edit_link_show_newpage; 
-  $html->link_title= $edit_table_title; 
+  $html->edit_link_table=$edit_table; 
+  $html->edit_link_open_newpage = $edit_link_show_newpage; 
+  $html->edit_link_title= $edit_table_title; 
   $html->print_table2(); 
 }
 catch (PDOException $e) {

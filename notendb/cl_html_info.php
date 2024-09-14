@@ -29,11 +29,11 @@ class HtmlInfo {
     //     switch ($action_name){
     //         case 'view': 
     //             $this->html.= ' wird angezeigt.'; 
-    //             // $html.=  '<a href="edit_'.$table_name.'.php?ID=' . $ID . '"' . ($open_newpage!='' ?' target="_blank"':''). '>[Zeile bearbeiten]</a></p>';  
+    //             // $html.=  '<a href="edit_'.$table_name.'.php?ID=' . $ID . '"' . ($edit_link_open_newpage!='' ?' target="_blank"':''). '>[Zeile bearbeiten]</a></p>';  
     //             break;             
     //         case 'insert': 
     //             $this->html.= ' wurde erfasst.'; 
-    //             // $html.=  '<a href="edit_'.$table_name.'.php?ID=' . $ID . '"' . ($open_newpage!='' ?' target="_blank"':''). '>[Zeile bearbeiten]</a></p>';  
+    //             // $html.=  '<a href="edit_'.$table_name.'.php?ID=' . $ID . '"' . ($edit_link_open_newpage!='' ?' target="_blank"':''). '>[Zeile bearbeiten]</a></p>';  
     //             break; 
     //         case 'update': 
     //             $this->html.= ' wurde aktualisiert.';  

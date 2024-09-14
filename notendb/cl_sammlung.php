@@ -64,7 +64,7 @@ class Sammlung {
       $select->execute(); 
       include_once("cl_html_table.php");      
       $html = new HtmlTable($select); 
-      $html->link_table= $this->table_name;
+      $html->edit_link_table= $this->table_name;
       $html->print_table2(); 
     }
     catch (PDOException $e) {
@@ -217,9 +217,9 @@ class Sammlung {
       $stmt->execute(); 
       include_once("cl_html_table.php");      
       $html = new HtmlTable($stmt); 
-      $html->link_table='musikstueck'; 
-      $html->link_title='Musikstück'; 
-      $html->open_newpage=true; 
+      $html->edit_link_table='musikstueck'; 
+      $html->edit_link_title='Musikstück'; 
+      $html->edit_link_open_newpage=true; 
       $html->print_table2(); 
 
     }
@@ -254,9 +254,9 @@ class Sammlung {
       include_once("cl_html_table.php");      
       $html = new HtmlTable($stmt); 
       // $html->add_link_delete=true; 
-      $html->link_table='link'; 
-      $html->link_title='Link'; 
-      $html->open_newpage=false; 
+      $html->edit_link_table='link'; 
+      $html->edit_link_title='Link'; 
+      $html->edit_link_open_newpage=false; 
       $html->print_table2(); 
 
       
@@ -379,7 +379,13 @@ class Sammlung {
       $stmt->execute(); 
       include_once("cl_html_table.php");      
       $html = new HtmlTable($stmt); 
-      $html->print_table_with_del_link($target_file, 'SammlungID', $this->ID); 
+      $html->add_link_edit=false;
+      $html->add_link_delete=true;
+      $html->del_link_filename=$target_file; 
+      $html->del_link_parent_key='SammlungID'; 
+      $html->del_link_parent_id= $this->ID; 
+      $html->show_missing_data_message=false; 
+      $html->print_table2(); 
     }
     catch (PDOException $e) {
       include_once("cl_html_info.php"); 
