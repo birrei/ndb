@@ -9,9 +9,10 @@
 * Eigenes Git-Repository für das Projekt 
 * Suche: Filter nach Erprobt Jahr
 * Notensymbole Schrift
+* Übersichtstabellen Sortier-Links
 
 ### Verbesserungen, Korrekturen 
-
+* Übersichtstabellen: Bearbeiten-Links müssen auf neuen Tab verweisen
 * Überall html -> print_table2 verwenden
 * Erfassung: Umgang mit fehlerhaften Eingabewerten (zu lang, ect.)
 * Übersichtstabellen -> Anzahl Zeilen begrenzen
@@ -19,6 +20,9 @@
 * Benutzer-Login 
 * Konfiguration Fehlerausgabe
 * Tabellen Spalten-Sortierung
+* "Plural-Problem" 
+* ~ Suche: Filter IDs über GET zur Verfügung stellen
+* DAtum Spalten "erstellt" und "geändert" bei allen Tabellen
 
 
 ### Offene Aufgaben Prio 2
@@ -32,7 +36,8 @@
 * Feld "Bestellnummer" entfernen ?
 * Eingabefelder maxlength prüfen -> soll db Feldlänge entsprechen 
 * Eingabefelder autofocus prüfen 
-
+* Erklärung: Warum "Besetzungen" als Einheiten, und nicht aufgefächert in einzelne Instrumente? 
+* Handytaugliches Layout 
 
 
 
