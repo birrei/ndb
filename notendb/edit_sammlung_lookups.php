@@ -27,7 +27,7 @@ $sammlung->print_table_lookups(basename(__FILE__), 0);
 
 echo '</div>'; 
 
-echo '&nbsp;<a href="edit_sammlung_add_lookup.php?SammlungID='.$sammlung->ID.'" class="form-link">Hinzufügen</a>'; 
+echo '&nbsp;<a href="edit_sammlung_lookup.php?SammlungID='.$sammlung->ID.'" class="form-link">Hinzufügen</a>'; 
 
 
 include('foot_raw.php');

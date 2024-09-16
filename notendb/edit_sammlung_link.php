@@ -5,15 +5,6 @@ include('cl_linktype.php');
 include("cl_link.php"); 
 include("cl_html_info.php"); 
 
-/* Datei bei erstem Aufruf  über Link "Hinzufügen" aus edit_sammlung_list_links.php */
-// $SammlungID=$_REQUEST["SammlungID"]; 
-
-// $ID='';
-// $Bezeichnung=''; 
-// $URL=''; 
-// $LinktypeID=''; 
-// $next_option='insert';
-
 $link = new Link();
 $info= new HtmlInfo(); 
 
@@ -54,12 +45,6 @@ if (isset($_REQUEST["option"])) {
 
 <form action="" method="post">
 <table class="eingabe"> 
-<tr>    
-  <label>
-  <td class="eingabe">ID:</td>  
-  <td class="eingabe"><?php echo $link->ID; ?></td>
-  </label>
-    </tr> 
 
 <tr>    
   <label>
@@ -82,14 +67,14 @@ if (isset($_REQUEST["option"])) {
   <tr>    
   <label>
   <td class="eingabe">Bezeichnung:</td>  
-  <td class="eingabe"><input type="text" name="Bezeichnung" value="<?php echo htmlentities($link->Bezeichnung); ?>" size="100" required="required" oninput="changeBackgroundColor(this)"></td>
+  <td class="eingabe"><input type="text" name="Bezeichnung" value="<?php echo htmlentities($link->Bezeichnung); ?>" size="70" required="required" oninput="changeBackgroundColor(this)"></td>
   </label>
   </tr> 
 
   <tr>    
   <label>
   <td class="eingabe">URL:</td>  
-  <td class="eingabe"><input type="text" name="URL" value="<?php echo $link->URL; ?>" size="100" required="required" oninput="changeBackgroundColor(this)"></td>
+  <td class="eingabe"><input type="text" name="URL" value="<?php echo $link->URL; ?>" size="70" required="required" oninput="changeBackgroundColor(this)"></td>
   </label>
   </tr> 
 

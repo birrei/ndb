@@ -598,6 +598,7 @@ class Satz {
       $html->edit_link_table='satz_erprobt'; 
       $html->edit_link_title='Erprobt'; 
       $html->edit_link_open_newpage=false; 
+      $html->show_missing_data_message=false;       
       $html->print_table2(); 
 
     }

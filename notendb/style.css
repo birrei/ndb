@@ -41,7 +41,7 @@ td.eingabe  {
 input.btnSave {
     font-weight: bold;
     width:120px; 
-    background-color: lightgreen;
+    /* background-color: lightgreen; */
 }
 
 input.btnSave:hover {
@@ -75,7 +75,7 @@ input.btnSave:hover {
     border-bottom: 1px solid #333333;
     border-left: 1px solid #CCCCCC;
     margin-right: 3px;
-}
+  }
 .form-link:hover {
     background-color: gray;
 }

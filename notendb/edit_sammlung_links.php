@@ -13,7 +13,7 @@ $sammlung->print_table_links();
 
 echo '</div>'; 
 
-echo '&nbsp;<a href="edit_link.php?SammlungID='.$sammlung->ID.'&option=insert" class="form-link">Hinzufügen</a>'; 
+echo '&nbsp;<a href="edit_sammlung_link.php?SammlungID='.$sammlung->ID.'&option=insert" class="form-link">Hinzufügen</a>'; 
 
 
 include('foot_raw.php');

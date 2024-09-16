@@ -49,7 +49,7 @@ if ($show_data) {
     <tr>    
       <label>
       <td class="eingabe">Name:</td>  
-      <td class="eingabe"><input type="text" name="Name" value="'.$instrument->Name.'" size="45" maxlength="80" required="required" autofocus="autofocus" oninput="changeBackgroundColor(this)"></td>
+      <td class="eingabe"><input type="text" name="Name" value="'.htmlspecialchars($instrument->Name).'" size="45" maxlength="80" required="required" autofocus="autofocus" oninput="changeBackgroundColor(this)"></td>
       </label>
     </tr> 
 

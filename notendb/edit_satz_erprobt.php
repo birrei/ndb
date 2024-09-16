@@ -77,7 +77,7 @@ if (isset($_REQUEST["option"])) {
   <tr> 
   <td class="eingabe"><input class="btnSave" type="submit" value="Speichern"></td>
   <td class="eingabe">
-  <a href="edit_satz_list_erprobte.php?SatzID=<?php echo $satzErprobt->SatzID; ?>" class="form-link">Liste anzeigen</a> |     
+  <a href="edit_satz_list_erprobte.php?SatzID=<?php echo $satzErprobt->SatzID; ?>" class="form-link">Liste anzeigen</a>     
   <?php 
    $info->print_link_delete_row2($satzErprobt->table_name, $satzErprobt->ID, '', false); 
   // XXX $info->print_satzErprobt_delete_row($satzErprobt->table_name, $satzErprobt->ID, $satzErprobt->Title, false); 

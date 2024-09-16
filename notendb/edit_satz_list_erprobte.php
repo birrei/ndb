@@ -25,7 +25,7 @@ echo '</div>';
 
 echo '&nbsp;<a href="edit_satz_erprobt.php?SatzID='.$satz->ID.'&option=insert" class="form-link">Hinzufügen</a>'; 
 
-
+    
 include('foot_raw.php');
 
 ?>

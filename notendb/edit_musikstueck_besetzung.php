@@ -3,7 +3,7 @@
 include('head_raw.php');
 
 ?> 
-<form action="edit_musikstueck_list_besetzungen.php" method="get">
+<form action="edit_musikstueck_besetzungen.php" method="get">
 <table class="eingabe"> 
    <tr>    
     <label>

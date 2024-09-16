@@ -96,11 +96,11 @@ if ($show_data) {
     $komponisten = new Komponist();
     $komponisten->print_select($musikstueck->KomponistID); 
 
-  echo  ' </label> &nbsp; '; 
-  
-  $info->print_link_edit($komponisten->table_name, $musikstueck->KomponistID, $komponisten->Title, true); 
-  $info->print_link_table($komponisten->table_name,'sortcol=Nachname,Vorname',$komponisten->Titles,true,'');    
-  $info->print_link_insert($komponisten->table_name,$komponisten->Title,true); 
+    echo  ' </label> &nbsp; '; 
+    
+    $info->print_link_edit($komponisten->table_name, $musikstueck->KomponistID, $komponisten->Title, true); 
+    $info->print_link_table($komponisten->table_name,'sortcol=Nachname,Vorname',$komponisten->Titles,true,'');    
+    $info->print_link_insert($komponisten->table_name,$komponisten->Title,true); 
 
 
   echo '
@@ -128,13 +128,13 @@ if ($show_data) {
       $epochen = new Epoche();
       $epochen->print_select($musikstueck->EpocheID); 
 
-    echo  ' </label>  &nbsp; ';
-    
-    $info->print_link_edit($epochen->table_name, $musikstueck->EpocheID, $epochen->Title, true); 
-    $info->print_link_table($epochen->table_name,'sortcol=Name',$epochen->Titles,true,'');    
-    $info->print_link_insert($epochen->table_name,$epochen->Title,true); 
-  
-    echo '
+        echo  ' </label>  &nbsp; ';
+        
+        $info->print_link_edit($epochen->table_name, $musikstueck->EpocheID, $epochen->Title, true); 
+        $info->print_link_table($epochen->table_name,'sortcol=Name',$epochen->Titles,true,'');    
+        $info->print_link_insert($epochen->table_name,$epochen->Title,true); 
+      
+        echo '
     </td>
     </tr> 
 
@@ -146,13 +146,13 @@ if ($show_data) {
       $gattungen = new Gattung();
       $gattungen->print_select($musikstueck->GattungID); 
 
-    echo  '  </label>&nbsp; '; 
-    
-    $info->print_link_edit($gattungen->table_name, $musikstueck->GattungID, $gattungen->Title, true); 
-    $info->print_link_table($gattungen->table_name,'sortcol=Name',$gattungen->Titles,true,'');    
-    $info->print_link_insert($gattungen->table_name,$gattungen->Title,true); 
+      echo  '  </label>&nbsp; '; 
       
-    echo '
+      $info->print_link_edit($gattungen->table_name, $musikstueck->GattungID, $gattungen->Title, true); 
+      $info->print_link_table($gattungen->table_name,'sortcol=Name',$gattungen->Titles,true,'');    
+      $info->print_link_insert($gattungen->table_name,$gattungen->Title,true); 
+        
+      echo '
     </td>
   </tr> 
 
@@ -167,12 +167,36 @@ if ($show_data) {
       <input type="hidden" name="title" value="Musikstueck">  
     </form>
 
+
+
+    <!--- *********************************** --> 
+
+    
     <tr> 
-      <td class="eingabe"><b>Verwendungszwecke:</b><br />
-      <p> <a href="edit_musikstueck_list_verwendungszwecke.php?MusikstueckID='.$musikstueck->ID.'" target="Verwendungszwecke" class="form-link">Aktualisieren - &gt;</a></p>
+      <td class="eingabe">
+
+      <p><a href="edit_musikstueck_verwendungszwecke.php?MusikstueckID='.$musikstueck->ID.'" target="Info" class="form-link">Verwendungszwecke</a></p>
+      <p><a href="edit_musikstueck_besetzungen.php?MusikstueckID='.$musikstueck->ID.'" target="Info" class="form-link">Besetzungen</a>  </p> 
+         
       </td> 
       <td class="eingabe">
-        <iframe src="edit_musikstueck_list_verwendungszwecke.php?MusikstueckID='.$musikstueck->ID.'" height="100" name="Verwendungszwecke" class="form-iframe-var1"></iframe>';
+        <iframe src="edit_musikstueck_verwendungszwecke.php?MusikstueckID='.$musikstueck->ID.'" height="150" name="Info" class="form-iframe-var2"></iframe>';
+         
+        echo '
+      </td>
+    </tr> 
+
+
+    <!--- *********************************** --> 
+
+
+
+    <tr> 
+      <td class="eingabe"><b>Verwendungszwecke:</b><br />
+      <p> <a href="edit_musikstueck_verwendungszwecke.php?MusikstueckID='.$musikstueck->ID.'" target="Verwendungszwecke" class="form-link">Aktualisieren - &gt;</a></p>
+      </td> 
+      <td class="eingabe">
+        <iframe src="edit_musikstueck_verwendungszwecke.php?MusikstueckID='.$musikstueck->ID.'" height="100" name="Verwendungszwecke" class="form-iframe-var1"></iframe>';
         $info->print_link_table('verwendungszweck','sortcol=Name','Verwendungszwecke',true,'');   
         $info->print_link_insert('verwendungszweck','verwendungszwecke', true);              
         echo '
@@ -195,10 +219,10 @@ if ($show_data) {
     <tr> 
       <td class="eingabe"><b>Sätze:</b><br/><br />
       <a href="edit_satz.php?MusikstueckID='.$musikstueck->ID.'&option=insert&title=Satz" target="_blank" class="form-link">Satz hinzufügen</a>
-      <br><br> <a href="edit_musikstueck_list_saetze.php?MusikstueckID='.$musikstueck->ID.'" target="Saetze" class="form-link">Aktualisieren - &gt; </a>
+      <br><br> <a href="edit_musikstueck_saetze.php?MusikstueckID='.$musikstueck->ID.'" target="Saetze" class="form-link">Aktualisieren - &gt; </a>
       
       </td> 
-      <td class="eingabe"><iframe src="edit_musikstueck_list_saetze.php?MusikstueckID='.$musikstueck->ID.'" height="200" name="Saetze" class="form-iframe-var2"></iframe>
+      <td class="eingabe"><iframe src="edit_musikstueck_saetze.php?MusikstueckID='.$musikstueck->ID.'" height="200" name="Saetze" class="form-iframe-var2"></iframe>
     </td>
     </tr> 
                 

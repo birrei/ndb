@@ -23,7 +23,7 @@ $musikstueck->print_table_besetzungen(basename(__FILE__));
 
 echo '</div>'; 
 
-echo '&nbsp;<a href="edit_musikstueck_add_besetzung.php?MusikstueckID='.$musikstueck->ID.'" class="form-link">Hinzufügen</a>'; 
+echo '&nbsp;<a href="edit_musikstueck_besetzung.php?MusikstueckID='.$musikstueck->ID.'" class="form-link">Hinzufügen</a>'; 
 
 
 include('foot_raw.php');

@@ -106,7 +106,7 @@ if ($show_data) {
       <label>
       <td class="eingabe"><b>Bemerkung:</b></td>
       <td class="eingabe">
-      <textarea name="Bemerkung" rows=5 cols=120 oninput="changeBackgroundColor(this)">'.htmlentities($sammlung->Bemerkung).'</textarea> 
+      <textarea name="Bemerkung" rows=1 cols=120 oninput="changeBackgroundColor(this)">'.htmlentities($sammlung->Bemerkung).'</textarea> 
       
       </td>
       </label>
@@ -127,35 +127,27 @@ if ($show_data) {
         <tr> 
         <td class="eingabe"><b>Musikstücke:</b>
         <p> <a href="edit_musikstueck.php?SammlungID='.$sammlung->ID.'&option=insert&title=Musikstück" target="_blank" class="form-link">Musikstück hinzufügen</a></p>
-        <p> <a href="edit_sammlung_list_musikstuecke.php?SammlungID='.$sammlung->ID.'" target="musikstuecke" class="form-link">Aktualisieren - &gt;</a></p>
+        <p> <a href="edit_sammlung_musikstuecke.php?SammlungID='.$sammlung->ID.'" target="musikstuecke" class="form-link">Aktualisieren - &gt;</a></p>
 
         </td> 
         <td class="eingabe">
-          <iframe src="edit_sammlung_list_musikstuecke.php?SammlungID='.$sammlung->ID.'"  height="200" name="musikstuecke" class="form-iframe-var2"></iframe>
+          <iframe src="edit_sammlung_musikstuecke.php?SammlungID='.$sammlung->ID.'"  height="150" name="musikstuecke" class="form-iframe-var2"></iframe>
       </td>
       </tr> 
 
-
       <tr> 
-      <td class="eingabe"><b>Besonderheiten:</b>
+      <td class="eingabe">
+            <p><a href="edit_sammlung_lookups.php?SammlungID='.$sammlung->ID.'" target="Info" class="form-link">Besonderheiten</a></p>    
+            <p><a href="edit_sammlung_links.php?SammlungID='.$sammlung->ID.'" target="Info" class="form-link">Links</a></p> 
+      </td>
    
-                <p> <a href="edit_sammlung_list_lookups.php?SammlungID='.$sammlung->ID.'" target="Lookups" class="form-link">Aktualisieren - &gt;</a> </p>     
-      </td> 
-      <td class="eingabe"><iframe src="edit_sammlung_list_lookups.php?SammlungID='.$sammlung->ID.'" height="120" name="Lookups" class="form-iframe-var1"></iframe>';
-      echo '<a href="show_table2.php?table=lookup_type&sortcol=Name&title=Attribut-Typen" target="_blank" class="form-link">Tabelle anzeigen</a>'; // XXX 
-      echo '
+      <td class="eingabe">
+
+      
+           <iframe src="edit_sammlung_lookups.php?SammlungID='.$sammlung->ID.'" height="200" name="Info" class="form-iframe-var2"></iframe>
       </td>
       </tr> 
   
-      <tr> 
-      <td class="eingabe"><b>Links</b>
-      <p> <a href="edit_sammlung_list_links.php?SammlungID='.$sammlung->ID.'" target="Links" class="form-link">Aktualisieren - &gt; </a></p>
-      
-      </td> 
-      <td class="eingabe"><iframe src="edit_sammlung_list_links.php?SammlungID='.$sammlung->ID.'" height="150" name="Links" class="form-iframe-var2"></iframe>
-    
-      </td>
-    </tr> 
 
 
     </table>

@@ -106,7 +106,7 @@ class Link {
     include_once("cl_db.php");
     $conn = new DbConn(); 
     $db=$conn->db; 
-    echo '<p>Lösche Link ID: '.$this->ID.':</p>';
+    // echo '<p>Lösche Link ID: '.$this->ID.':</p>';
  
     $delete = $db->prepare("DELETE FROM `link` WHERE ID=:ID"); 
     $delete->bindValue(':ID', $this->ID);  
