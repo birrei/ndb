@@ -89,7 +89,7 @@ echo '</pre>';
     <input type="checkbox" name="include_schwierigkeitsgrade" checked><label for="include_schwierigkeitsgrade">Schwierigkeitsgrade einschließen</label><br>
     <input type="checkbox" name="include_satz_lookups" checked><label for="include_satz_lookups">Satz Besonderheiten einschließen</label><br>
 
-      <input type="submit" name="submit" value="ausführen">    
+      <input class="btnSave" type="submit" name="submit" value="ausführen">    
       <input type="hidden" name="form-name" value="Sammlung kopieren">             
 
     </form>
@@ -109,7 +109,7 @@ echo '</pre>';
 
   <input type="hidden" name="form-name" value="sammlung-besetzung">   
   <input type="checkbox" name="sammlung_delete_besetzung"><label for="sammlung_delete_besetzung">entfernen</label> 
-  <input type="submit" name="submit" value="ausführen">    
+  <input class="btnSave" type="submit" name="submit" value="ausführen">    
 
     </form>
 
@@ -127,7 +127,7 @@ Bei allen Musikstücken einer Sammlung wird ein definierter Verwendungszweck zug
       <label> VerwendungszweckID: <input type="text" name="VerwendungszweckID" size="5" ></label>
       <input type="checkbox" name="sammlung_delete_verwendungszweck"><label for="sammlung_delete_verwendungszweck">entfernen</label> 
 
-      <input type="submit" name="submit" value="ausführen">    
+      <input class="btnSave" type="submit" name="submit" value="ausführen">    
       <input type="hidden" name="form-name" value="sammlung-verwendungszweck">             
 
     </form>

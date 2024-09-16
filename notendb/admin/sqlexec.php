@@ -21,7 +21,7 @@ else {
             <textarea name="abfrage" id="abfrage" cols="120" rows="20"><?php echo $sql; ?></textarea>
         </label>
         <input type="hidden" name="aktion" value="ausfuehren">    
-        <input type="submit" value="ausfuehren">
+        <input class="btnSave" type="submit" value="ausfuehren">
     </form>
 </td>
 </tr>

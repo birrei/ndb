@@ -95,7 +95,7 @@ if ($show_data) {
       <td class="eingabe"></td> 
       <input type="hidden" name="option" value="update">      
       <input type="hidden" name="title" value="Komponist"> 
-      <td class="eingabe"><input type="submit" name="senden" value="Speichern">  
+      <td class="eingabe"><input class="btnSave" type="submit" name="senden" value="Speichern">  
       </td>
     </tr> 
 

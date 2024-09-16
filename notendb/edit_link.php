@@ -71,8 +71,8 @@ if (isset($_REQUEST["option"])) {
       ?>
 
       <?php
-      $info->print_link_edit($linktyp->table_name, $link->LinktypeID, $linktyp->Title, true, ' | '); 
-      $info->print_link_table($linktyp->table_name,'sortcol=Name',$linktyp->Titles,true,'',' | ');    
+      $info->print_link_edit($linktyp->table_name, $link->LinktypeID, $linktyp->Title, true); 
+      $info->print_link_table($linktyp->table_name,'sortcol=Name',$linktyp->Titles,true,'');    
       $info->print_link_insert($linktyp->table_name,$linktyp->Title,true);        
       ?>
       </td>
@@ -94,7 +94,7 @@ if (isset($_REQUEST["option"])) {
   </tr> 
 
   <tr> 
-  <td class="eingabe"><input type="submit" value="Speichern"></td>
+  <td class="eingabe"><input class="btnSave" type="submit" value="Speichern"></td>
   <td class="eingabe">
   <a href="edit_sammlung_list_links.php?SammlungID=<?php echo $link->SammlungID; ?>">Liste anzeigen</a> | 
   <?php 

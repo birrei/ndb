@@ -53,23 +53,17 @@ if ($show_data) {
       <td class="eingabe"><input type="text" name="Name" value="'.$lookuptype->Name.'" size="80" autofocus="autofocus" required></td>
       </label>
     </tr> 
-
-
     <tr> 
       <td class="eingabe">Besonderheiten:
-      
-        <p> <a href="edit_lookup_type_add_lookup.php?LookupTypeID='.$lookuptype->ID.'" target="Lookups">Besonderheit hinzufügen</a></p>
-        <p> <a href="edit_lookup_type_list_lookups.php?LookupTypeID='.$lookuptype->ID.'" target="Lookups">Aktualisieren</a></p>
-        
-
+        <p> <a href="edit_lookup_type_add_lookup.php?LookupTypeID='.$lookuptype->ID.'" target="Lookups" class="form-link">Besonderheit hinzufügen</a></p>
+        <p> <a href="edit_lookup_type_list_lookups.php?LookupTypeID='.$lookuptype->ID.'" target="Lookups" class="form-link">Aktualisieren</a></p>
       </td> 
       <td class="eingabe">
       
-      <iframe src="edit_lookup_type_list_lookups.php?LookupTypeID='.$lookuptype->ID.'&source=iframe" width="70%" height="400" name="Lookups"></iframe>
+        <iframe src="edit_lookup_type_list_lookups.php?LookupTypeID='.$lookuptype->ID.'&source=iframe" height="400" name="Lookups" class="form-iframe-var1"></iframe>
 
       </td>
     </tr> 
-
 
     <tr>    
       <label>
@@ -105,17 +99,15 @@ if ($show_data) {
 
     <tr> 
       <td class="eingabe"></td> 
-      <td class="eingabe"><input type="submit" name="senden" value="Speichern">
+      <td class="eingabe"><input class="btnSave" type="submit" name="senden" value="Speichern">
       </td>
     </tr> 
-
+    </table> 
 
     <input type="hidden" name="option" value="update">     
     <input type="hidden" name="title" value="Besonderheit Typ">    
     <input type="hidden" name="ID" value="' . $lookuptype->ID. '">
 
-    
-  </table> 
   </form>
   '; 
 

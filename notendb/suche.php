@@ -107,7 +107,7 @@ $Suche->Beschreibung.='* Anzeige-Ebene: '.$Ebene.PHP_EOL;
 
 <p>
   <!---- Suche / Suche zurücksetzen -----> 
-<input type="submit" value="Suchen" class="btnSave">
+<input class="btnSave" type="submit" value="Suchen" class="btnSave">
 <input type="button" id="btnReset_All" value="Alle Filter zurücksetzen" onclick="Reset_All();" /> 
 
 <!---- Entscheidung Suche speichern ja / nein -----> 

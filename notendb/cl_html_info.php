@@ -1,7 +1,8 @@
 <?php 
 class HtmlInfo {
     public $html;
-    public $info_datetime;    
+    public $info_datetime;
+    public $option_linktext=0; // Ausführlichkeit Linktext. 0 = ohne Titel (z.B: "bearbeiten"), 1 = mit Titel (z.B. "Verwendungszweck bearbeiten")      
     
     function __construct() {
         $this->html = ''; 
@@ -54,14 +55,17 @@ class HtmlInfo {
         echo $this->html; 
     }
 
-    // function print_table_link($table_name, $sortcol='Name', $sortorder='ASC')  {
-    //     echo '<p><a href="show_table2.php?table='.$table_name.'&sortcol='.$sortcol.'&sortorder='.$sortorder.'" target="_blank">Tabelle anzeigen</a> (es öffnet sich ein neues Fenster)</p>'; 
-    // } 
-
     function print_link_table($target_table, $sortinfo, $target_title, $show_newtab=false, $additional_params='', $suffix='') {
-        echo '<a href="show_table2.php?table='.$target_table.'&'.$sortinfo.'&title='.$target_title.($additional_params!=''?$additional_params:'').'"'.($show_newtab?' target="_blank"':'').' tabindex="-1" class="form-link">Tabelle anzeigen</a>'.($suffix!=''?$suffix:'');
-        // echo '<a href="show_table2.php?table='.$target_table.'&'.$sortinfo.'&title='.$target_title.($additional_params!=''?$additional_params:'').'"'.($show_newtab?' target="_blank"':'').' tabindex="-1" class="form-link">Alle '.$target_title.' anzeigen</a>'.($suffix!=''?$suffix:'');
+        switch($this->option_linktext) {
+            case 0:
+                echo '<a href="show_table2.php?table='.$target_table.'&'.$sortinfo.'&title='.$target_title.($additional_params!=''?$additional_params:'').'"'.($show_newtab?' target="_blank"':'').' tabindex="-1" class="form-link">Tabelle anzeigen</a>'.($suffix!=''?$suffix:'');
+                break; 
 
+            case 1: 
+                echo '<a href="show_table2.php?table='.$target_table.'&'.$sortinfo.'&title='.$target_title.($additional_params!=''?$additional_params:'').'"'.($show_newtab?' target="_blank"':'').' tabindex="-1" class="form-link">'.$target_title.' anzeigen</a>'.($suffix!=''?$suffix:'');
+                break; 
+        }
+   
     }
 
 /* Standard-Verlinkungen */

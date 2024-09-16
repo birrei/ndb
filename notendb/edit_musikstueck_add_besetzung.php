@@ -20,7 +20,7 @@ include('head_raw.php');
 </tr>
   <input type="hidden" name="MusikstueckID" value="<?php echo $_GET["MusikstueckID"]; ?>"> 
    <tr> 
-    <td class="eingabe"><input type="submit" value="Speichern"></td>
+    <td class="eingabe"><input class="btnSave" type="submit" value="Speichern"></td>
 </tr>
 </table> 
 <input type="hidden" name="option" value="insert">

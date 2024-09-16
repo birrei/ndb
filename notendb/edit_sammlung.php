@@ -130,17 +130,20 @@ if ($show_data) {
         <p> <a href="edit_sammlung_list_musikstuecke.php?SammlungID='.$sammlung->ID.'" target="musikstuecke" class="form-link">Aktualisieren - &gt;</a></p>
 
         </td> 
-        <td class="eingabe"><iframe src="edit_sammlung_list_musikstuecke.php?SammlungID='.$sammlung->ID.'"  width="100%" height="200" name="musikstuecke"></iframe>
+        <td class="eingabe">
+          <iframe src="edit_sammlung_list_musikstuecke.php?SammlungID='.$sammlung->ID.'"  height="200" name="musikstuecke" class="form-iframe-var2"></iframe>
       </td>
       </tr> 
 
 
       <tr> 
       <td class="eingabe"><b>Besonderheiten:</b>
-                <p><a href="show_table2.php?table=lookup_type&sortcol=Name&title=Attribut-Typen" target="_blank" class="form-link">Alle Besonderheiten</a></p>
+   
                 <p> <a href="edit_sammlung_list_lookups.php?SammlungID='.$sammlung->ID.'" target="Lookups" class="form-link">Aktualisieren - &gt;</a> </p>     
       </td> 
-      <td class="eingabe"><iframe src="edit_sammlung_list_lookups.php?SammlungID='.$sammlung->ID.'" width="70%" height="150" name="Lookups"></iframe>
+      <td class="eingabe"><iframe src="edit_sammlung_list_lookups.php?SammlungID='.$sammlung->ID.'" height="120" name="Lookups" class="form-iframe-var1"></iframe>';
+      echo '<a href="show_table2.php?table=lookup_type&sortcol=Name&title=Attribut-Typen" target="_blank" class="form-link">Tabelle anzeigen</a>'; // XXX 
+      echo '
       </td>
       </tr> 
   
@@ -149,7 +152,7 @@ if ($show_data) {
       <p> <a href="edit_sammlung_list_links.php?SammlungID='.$sammlung->ID.'" target="Links" class="form-link">Aktualisieren - &gt; </a></p>
       
       </td> 
-      <td class="eingabe"><iframe src="edit_sammlung_list_links.php?SammlungID='.$sammlung->ID.'" width="100%" height="200" name="Links"></iframe>
+      <td class="eingabe"><iframe src="edit_sammlung_list_links.php?SammlungID='.$sammlung->ID.'" height="150" name="Links" class="form-iframe-var2"></iframe>
     
       </td>
     </tr> 

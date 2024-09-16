@@ -48,7 +48,7 @@ if (isset($_POST["LookupTypeID"])) {
 </tr>
 
 <tr> 
-  <td class="eingabe"><input type="submit" value="Speichern"></td>
+  <td class="eingabe"><input class="btnSave" type="submit" value="Speichern"></td>
  </tr>
  </table> 
  <input type="hidden" name="SammlungID" value="<?php echo $_GET["SammlungID"]; ?>"> 

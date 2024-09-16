@@ -40,7 +40,7 @@ td.eingabe  {
 
 input.btnSave {
     font-weight: bold;
-    width:25%; 
+    width:120px; 
     background-color: lightgreen;
 }
 
@@ -48,7 +48,23 @@ input.btnSave:hover {
     background-color: green;
 }
 
+.form-iframe-var1 {
+   /* iframe verknuepfungs-tabellen*/
+    width: 70%; 
+    float:left; /* Ziel: Anordnung der Hinzufügen-Button rechts daneben*/
+    margin-right: 3px;
+
+}
+.form-iframe-var2 {
+    /* iframe untergeordnete tabellen */
+        width: 100%;
+        float:left; 
+        margin-right: 3px;
+    
+    }
+
 .form-link {
+    /* Links im Formular als Button erscheinen lassen */ 
     font-size: 10pt;
     text-decoration: none;
     background-color: #EEEEEE;
@@ -59,10 +75,10 @@ input.btnSave:hover {
     border-bottom: 1px solid #333333;
     border-left: 1px solid #CCCCCC;
     margin-right: 3px;
-  }
-  .form-link:hover {
+}
+.form-link:hover {
     background-color: gray;
-  }
+}
 
 
   

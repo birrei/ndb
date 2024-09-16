@@ -17,7 +17,7 @@ include('head_raw.php');
     </label>
 </tr>
 <tr> 
-    <td class="eingabe"><input type="submit" value="Speichern"></td>
+    <td class="eingabe"><input class="btnSave" type="submit" value="Speichern"></td>
 </tr>
 </table> 
 <input type="hidden" name="option" value="insert"> 

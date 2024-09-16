@@ -1,13 +1,7 @@
 
 <?php
 
-// $source=''; 
 
-// if (isset($_REQUEST["source"])) {
-//   $source=$_REQUEST["source"]; 
-// }
-
-echo '<p>source: '.$source; 
 include('head_raw.php');
 include("cl_lookuptype.php");
 include("cl_lookup.php");
@@ -79,7 +73,7 @@ if ($show_data) {
 
     <tr> 
       <td class="eingabe"></td> 
-      <td class="eingabe"><input type="submit" name="senden" value="Speichern">
+      <td class="eingabe"><input class="btnSave" type="submit" name="senden" value="Speichern">
 
       </td>
     </tr> 
