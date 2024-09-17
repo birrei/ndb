@@ -30,7 +30,7 @@ td.start {
 
 table.eingabe {
     margin-top: 5px;
-    background-color: lightgray;
+    /* background-color: lightgray; */
     width: 100%;     
 }
 td.eingabe  {
