@@ -73,22 +73,41 @@ if (isset($_REQUEST["option"])) {
   </label>
   </tr> 
 
-
+  <tr>
+  <td class="eingabe"></td>
+  <td class="eingabe"><input class="btnSave" type="submit" value="Speichern"></td>  
+</tr>
+  
   <tr> 
-  <td class="eingabe"><input class="btnSave" type="submit" value="Speichern"></td>
+  <td class="eingabe"></td>
   <td class="eingabe">
-  <a href="edit_satz_erprobte.php?SatzID=<?php echo $satzErprobt->SatzID; ?>" class="form-link">Liste anzeigen</a>     
-  <?php 
+      <a href="edit_satz_erprobte.php?SatzID=<?php echo $satzErprobt->SatzID; ?>" class="form-link">Zurück zur Tabelle</a>     
+      <?php 
 
-   $info->print_link_delete_row2($satzErprobt->table_name, $satzErprobt->ID, '', false); 
-  // XXX $info->print_satzErprobt_delete_row($satzErprobt->table_name, $satzErprobt->ID, $satzErprobt->Title, false); 
-  $info->option_linktext=1; 
-  $info->print_link_table('erprobt','sortcol=Name','Erprobt-Attribute',true,'');  
 
-  ?>
+      // XXX $info->print_satzErprobt_delete_row($satzErprobt->table_name, $satzErprobt->ID, $satzErprobt->Title, false); 
+      $info->option_linktext=1; 
+      $info->print_link_table('erprobt','sortcol=Name','Erprobt-Attribute',true,'');  
+
+      ?>
 
   </td>
   </tr>
+
+
+  <tr>
+  <td class="eingabe">
+<?php
+
+$info->print_link_delete_row2($satzErprobt->table_name, $satzErprobt->ID, '', false); 
+
+?>
+
+  </td>
+  <td class="eingabe"></td>  
+</tr>
+
+
  </table> 
 
  <input type="hidden" name="SatzID" value="<?php echo $satzErprobt->SatzID; ?>"> 
