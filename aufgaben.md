@@ -1,6 +1,6 @@
 ﻿
 ###  Aufgaben in Arbeit  
-* auto_update 
+* auto_update - noch: "Erprobt" 
 
 ### Offene Aufgaben 
 * Sammlung "Druckansicht" 
@@ -12,20 +12,24 @@
 * Übersichtstabellen Sortier-Links
 
 ### Verbesserungen, Korrekturen 
+* Suche: Beschreibung ergänzen, wenn Genaue Suche ausgewählt 
+* iframe-Formulare: Speicherverhalten vereinheitlichen 
 * Übersichtstabellen: Bearbeiten-Links müssen auf neuen Tab verweisen
 * Überall html -> print_table2 verwenden
 * Erfassung: Umgang mit fehlerhaften Eingabewerten (zu lang, ect.)
 * Übersichtstabellen -> Anzahl Zeilen begrenzen
 * Logging (Datum, Name)
-* Benutzer-Login 
 * Konfiguration Fehlerausgabe
 * Tabellen Spalten-Sortierung
 * "Plural-Problem" 
-* ~ Suche: Filter IDs über GET zur Verfügung stellen
+* Suche: Filter IDs über GET zur Verfügung stellen
 * DAtum Spalten "erstellt" und "geändert" bei allen Tabellen
+* iframe-Formular: Autofocus auf ertes Feld ? 
+* Auswahlformulare: Verhalten, wenn Werte "verbraucht" sind (cl_html_select.php, print_select - test dev Schwierigkeitsgrad) 
 
 
 ### Offene Aufgaben Prio 2
+* Benutzer-Verwaltung  
 * Formulare: Spaltenbezeichung fett drucken 
 * Hilfe: Erfassung Schwierigkeitsgrad / Instrumente 
 * Tabelle Schüler, Termin 
@@ -39,9 +43,10 @@
 * Erklärung: Warum "Besetzungen" als Einheiten, und nicht aufgefächert in einzelne Instrumente? 
 * Handytaugliches Layout 
 
-
-
 ### erledigte Aufgaben 
 * Delete-Funktionen ergänzen (satz->erprobt, sammmlung->besonderheiten) 
 * delete.php: Löschung Musikstück / Satz ohne abschließenden Tabellenlink  
 * Erprobt- Attribut erweitern 
+
+### Notizen für Doku: 
+* Untertabellen / Unterformulare - Unterschied 1) mit / 2) ohne Schnell-Löschmöglichkeit: 1: Gespeichert sind nur Verknüpfungsinformationen (die leicht wiederhergestellt werden können).    

@@ -111,9 +111,9 @@ erledigt:
 
 - Neue Tabelle satz_schwierigkeitsgrad: sql\features\20240701_instrument.sql
 - X Testdaten in satz_schwierigkeitsgrad einfügen 
-- edit_satz.php -> iframe + datei edit_satz_list_schwierigkeitsgrade.php
+- edit_satz.php -> iframe + datei edit_satz_schwierigkeitsgrade.php
 - cl_satz.php -> add_schwierigkeitsgrad
-- edit_satz_add_schwierigkeitsgrad.php 
+- edit_satz_schwierigkeitsgrad.php 
 - cl_satz.php: delete_schwierigkeitsgrade
 - cl_satz.php: bei "delete": delete_schwierigkeitsgrade
 

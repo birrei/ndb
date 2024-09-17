@@ -73,10 +73,10 @@ class HtmlTable {
                     }
                     if ($this->add_link_edit) {
                         if ($this->edit_link_filename!='') {
-                            $html .= '<td class="resultset"><a href="'.$this->edit_link_filename.'?ID='.$row["ID"].'&option=edit"'. ($this->edit_link_open_newpage?' target="_blank"':''). '>Bearbeiten</a></td>'. PHP_EOL;                     
+                            $html .= '<td class="resultset"><a href="'.$this->edit_link_filename.'?ID='.$row["ID"].'&option=edit"'. ($this->edit_link_open_newpage?' target="_blank"':''). ' tabindex="-1">Bearbeiten</a></td>'. PHP_EOL;                     
                         }
                         if ($this->edit_link_table!='') {
-                            $html .= '<td class="resultset"><a href="edit_'.$this->edit_link_table.'.php?ID='.$row["ID"].'&option=edit'.($this->edit_link_title!=''?'&title='.$this->edit_link_title:'').'"'. ($this->edit_link_open_newpage?' target="_blank"':''). '>Bearbeiten</a></td>'. PHP_EOL;
+                            $html .= '<td class="resultset"><a href="edit_'.$this->edit_link_table.'.php?ID='.$row["ID"].'&option=edit'.($this->edit_link_title!=''?'&title='.$this->edit_link_title:'').'"'. ($this->edit_link_open_newpage?' target="_blank"':''). ' tabindex="-1">Bearbeiten</a></td>'. PHP_EOL;
                         }                                        
                     }
                     if ($this->add_link_show)  {
@@ -85,11 +85,11 @@ class HtmlTable {
                     if ($this->add_link_delete) {
                         if ($this->del_link_filename!='') {
                             // Standard-Verwendung: Verknüpfungs-Tabellen, schnelle Löschung
-                            $html .= '<td class="resultset"><a href="'.$this->del_link_filename.'?'.$this->del_link_parent_key.'='.$this->del_link_parent_id.'&ID='.$row["ID"].'&option=delete">Löschen</a></td>'. PHP_EOL;                     
+                            $html .= '<td class="resultset"><a href="'.$this->del_link_filename.'?'.$this->del_link_parent_key.'='.$this->del_link_parent_id.'&ID='.$row["ID"].'&option=delete" tabindex="-1">Löschen</a></td>'. PHP_EOL;                     
                         }
                         if ($this->del_link_table!='') {
                             // Standard-Verwendung: Löschung mit Bestätigungs-Dialog in delete.php
-                            $html .= '<td class="resultset"><a href="delete.php?table='.$this->del_link_table.'&ID='.$row["ID"].($this->del_link_title!=''?'&title='.$this->del_link_title:'').'"'. ($this->del_link_open_newpage?' target="_blank"':'').'>Löschen</a></td>'. PHP_EOL;  
+                            $html .= '<td class="resultset"><a href="delete.php?table='.$this->del_link_table.'&ID='.$row["ID"].($this->del_link_title!=''?'&title='.$this->del_link_title:'').'"'. ($this->del_link_open_newpage?' target="_blank"':'').' tabindex="-1">Löschen</a></td>'. PHP_EOL;  
                         }                                        
                     }                    
                     //    

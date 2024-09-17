@@ -27,7 +27,7 @@ $satz->print_table_schwierigkeitsgrade(basename(__FILE__));
 
 echo '</div>'; 
 
-echo '&nbsp;<a href="edit_satz_add_schwierigkeitsgrad.php?SatzID='.$satz->ID.'" class="form-link">Hinzufügen</a>'; 
+echo '&nbsp;<a href="edit_satz_schwierigkeitsgrad.php?SatzID='.$satz->ID.'" class="form-link">Hinzufügen</a>'; 
 
 
 

@@ -192,31 +192,6 @@ if ($show_data) {
 
 
     <tr> 
-      <td class="eingabe"><b>Verwendungszwecke:</b><br />
-      <p> <a href="edit_musikstueck_verwendungszwecke.php?MusikstueckID='.$musikstueck->ID.'" target="Verwendungszwecke" class="form-link">Aktualisieren - &gt;</a></p>
-      </td> 
-      <td class="eingabe">
-        <iframe src="edit_musikstueck_verwendungszwecke.php?MusikstueckID='.$musikstueck->ID.'" height="100" name="Verwendungszwecke" class="form-iframe-var1"></iframe>';
-        $info->print_link_table('verwendungszweck','sortcol=Name','Verwendungszwecke',true,'');   
-        $info->print_link_insert('verwendungszweck','verwendungszwecke', true);              
-        echo '
-      </td>
-    </tr> 
-
-    <tr> 
-      <td class="eingabe"><b>Besetzungen:</b><br/>
-      <p><a href="edit_musikstueck_list_besetzungen.php?MusikstueckID='.$musikstueck->ID.'" target="Besetzungen" class="form-link">Aktualisieren - &gt;</a>  </p> 
-        </td> 
-      <td class="eingabe">
-        <iframe src="edit_musikstueck_list_besetzungen.php?MusikstueckID='.$musikstueck->ID.'" width="100%" height="100" name="Besetzungen" class="form-iframe-var1"></iframe>';
-        $info->print_link_table('besetzung','sortcol=Name','Besetzungen',true,'');     
-        $info->print_link_insert('besetzung','Besetzungen', true);  
-      
-        echo '
-      </td>
-    </tr> 
-
-    <tr> 
       <td class="eingabe"><b>Sätze:</b><br/><br />
       <a href="edit_satz.php?MusikstueckID='.$musikstueck->ID.'&option=insert&title=Satz" target="_blank" class="form-link">Satz hinzufügen</a>
       <br><br> <a href="edit_musikstueck_saetze.php?MusikstueckID='.$musikstueck->ID.'" target="Saetze" class="form-link">Aktualisieren - &gt; </a>

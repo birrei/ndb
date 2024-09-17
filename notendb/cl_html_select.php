@@ -10,6 +10,7 @@ class HtmlSelect {
     public $option_titles_selected=[]; // alle ausgewählten titles  
     public $titles_list; // String, der die Liste der Titels enthält 
     public $titles_selected_list; // String, der die Liste der ausgewählten Titels enthält
+    public $autofocus=false; // true, wenn Auswahlbox beim Öffnen eines Formulars den Focus erhalten soll  
 
     // config. multi-select 
     protected $visible_rows_default=5; // Zeilen Standard
@@ -30,7 +31,7 @@ class HtmlSelect {
     function print_select($keyname, $value_selected='', $add_null_option=true) {
         $html = '';
         if ($this->count_rows > 0) {
-            $html = '<select name="'.$keyname.'" autofocus oninput="changeBackgroundColor(this);">' . PHP_EOL;    
+            $html = '<select name="'.$keyname.'" oninput="changeBackgroundColor(this);"'.($this->autofocus?' autofocus="autofocus"':'').'>' . PHP_EOL;    
             if($add_null_option) {
                 $html .= '<option value="" '.($value_selected=='' ? 'selected' : ''). '></option>'. PHP_EOL;
             }
@@ -46,8 +47,8 @@ class HtmlSelect {
         , $keyname
         , $options_selected=[]
         , $caption=''
-        , $print_check_excl=false // Anzeige Box Aussschluss-Suche
-        , $check_excl=false // Ausschluss-Suche aktiviert 
+        , $print_check_excl=false // Anzeige Checkbox Genaue Suche
+        , $check_excl=false // Genaue Suche aktiviert 
         ) {
         // $add_check_excl: Checkbox für Ausschluss-Suche anzeigen 
         $html = '<p>';

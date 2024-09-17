@@ -106,6 +106,7 @@ class Lookup {
     try {
       $stmt->execute(); 
       $html = new HtmlSelect($stmt); 
+      $html->autofocus=true; 
       $html->print_select("LookupID", $value_selected, true); 
       
     }

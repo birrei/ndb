@@ -88,7 +88,7 @@ where erprobt.ID is not NULL
     * cl_satz.php: Feld "Erprobte" entfernen 
     * edit_satz.php: Feld "Erprobte" entfernen 
     * erstellen: edit_satz_add_erprobt.php (verbesserte Variante!)
-    * erstellen: edit_satz_list_erprobte.php  (verbesserte Variante!)
+    * erstellen: edit_satz_erprobte.php  (verbesserte Variante!)
     * Erfassung / Bearbeitung / Abrufe testen 
     * Ergänzen/anpassen: search_musikstueck.php 
     * View v_tmp_Erprobte löschen, def. aus ddl_views.sql entfernen

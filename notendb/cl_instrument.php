@@ -35,23 +35,33 @@
     }
   }  
  
-  function print_select($value_selected=''){
+  function print_select($value_selected='', $ref_SatzID=''){
       
     include_once("cl_db.php");  
     include_once("cl_html_select.php");
 
     $query="SELECT ID, Name 
-            FROM `instrument` 
-            order by `Name`"; 
+            FROM `instrument` "; 
+
+    if ($ref_SatzID!=''){
+      $query.='WHERE ID NOT IN 
+              (SELECT InstrumentID FROM satz_schwierigkeitsgrad   
+              WHERE SatzID=:SatzID) ';
+    }
+    $query.='ORDER BY `Name`'; 
 
     $conn = new DbConn(); 
     $db=$conn->db; 
 
     $stmt = $db->prepare($query); 
+    if ($ref_SatzID!=''){
+      $stmt->bindParam(':SatzID', $ref_SatzID);
+    }        
 
     try {
       $stmt->execute(); 
       $html = new HtmlSelect($stmt); 
+      $html->autofocus=true;       
       $html->print_select("InstrumentID", $value_selected, true); 
       
     }

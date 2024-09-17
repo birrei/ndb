@@ -60,7 +60,7 @@ if ($show_data) {
       </td> 
       <td class="eingabe">
       
-        <iframe src="edit_lookup_type_list_lookups.php?LookupTypeID='.$lookuptype->ID.'&source=iframe" height="400" name="Lookups" class="form-iframe-var1"></iframe>
+        <iframe src="edit_lookup_type_list_lookups.php?LookupTypeID='.$lookuptype->ID.'&source=iframe" height="400" name="Lookups" class="form-iframe-var2"></iframe>
 
       </td>
     </tr> 

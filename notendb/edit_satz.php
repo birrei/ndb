@@ -39,7 +39,7 @@ if (isset($_REQUEST["option"])) {
           , $_POST["Taktart"]
           , $_POST["Tempobezeichnung"]
           , $_POST["Spieldauer"]
-          , $_POST["ErprobtID"]
+         // , $_POST["ErprobtID"]
           , $_POST["Bemerkung"]
           , $_POST["Orchesterbesetzung"]                  
             ); 
@@ -144,7 +144,7 @@ if ($show_data) {
     <label>
     <td class="eingabe"><b>Bemerkung:</b></td>  
     <td class="eingabe">
-    <textarea name="Bemerkung" rows=3 cols=100 maxlength="500" oninput="changeBackgroundColor(this)">'.htmlentities($satz->Bemerkung).'</textarea> (max. 500 Zeichen)
+    <textarea name="Bemerkung" rows=1 cols=100 maxlength="500" oninput="changeBackgroundColor(this)">'.htmlentities($satz->Bemerkung).'</textarea> (max. 500 Zeichen)
     </td>
     </label>
   </tr>
@@ -162,43 +162,22 @@ if ($show_data) {
 
     </form>
 
-    <tr> 
-    <td class="eingabe"><b>Schwierigkeitsgrade:</b>';
-    echo '<p><a href="edit_satz_list_schwierigkeitsgrade.php?SatzID='.$satz->ID.'" target="Schwierigkeitsgrade" class="form-link">Aktualisieren - &gt;</a></p>
-    </td> 
-    <td class="eingabe">
-      <iframe src="edit_satz_list_schwierigkeitsgrade.php?SatzID='.$satz->ID.'&source=iframe" height="90" name="Schwierigkeitsgrade"  class="form-iframe-var1"></iframe>
-      '; 
-      $info->option_linktext=true; 
-      $info->print_link_table('instrument','sortcol=Name','Instrumente',true,'');  
-      print '<p>'; 
-      $info->print_link_table('schwierigkeitsgrad','sortcol=Name','Schwierigkeitsgrade',true,''); 
-      print '</p>';        
-      echo '
-      </td>
-    </tr> 
 
-    <tr> 
-      <td class="eingabe"><b>Besonderheiten:</b>
-            <p><a href="edit_satz_list_lookups.php?SatzID='.$satz->ID.'" target="Lookups" class="form-link">Aktualisieren - &gt;</a>   </p>
+  <tr> 
+    <td class="eingabe">
+      <p><a href="edit_satz_schwierigkeitsgrade.php?SatzID='.$satz->ID.'" target="Info" class="form-link">Schwierigkeitsgrade</a></p>
+      <p><a href="edit_satz_lookups.php?SatzID='.$satz->ID.'" target="Info" class="form-link">Besonderheiten       </a>   </p>
+      <p><a href="edit_satz_erprobte.php?SatzID='.$satz->ID.'" target="Info" class="form-link">Erprobt                     </a></p>
+
+    
       </td> 
-      <td class="eingabe"><iframe src="edit_satz_list_lookups.php?SatzID='.$satz->ID.'&source=iframe" height="90" name="Lookups" class="form-iframe-var1"></iframe>
-      '; 
-      $info->print_link_table('lookup_type','sortcol=Name','Besonderheit-Typen',true,'');        
-      echo '
-      </td>
-    </tr> 
-    <tr> 
-      <td class="eingabe"><b>Erprobt:</b><br />';
-      echo '<p><a href="edit_satz_list_erprobte.php?SatzID='.$satz->ID.'" target="Erprobte" class="form-link">Aktualisieren - &gt;</a> </p>
-      </td> 
-      <td class="eingabe">
-        <iframe src="edit_satz_list_erprobte.php?SatzID='.$satz->ID.'&source=iframe" height="120" name="Erprobte" class="form-iframe-var1"></iframe>
-      '; 
-      $info->print_link_table('erprobt','sortcol=Name','Erprobt-Attribute',true,'');  
-      echo '
-      </td>
-    </tr> 
+    <td class="eingabe">
+      <iframe src="edit_satz_erprobte.php?SatzID='.$satz->ID.'&source=iframe" height="300" name="Info" class="form-iframe-var2"></iframe>
+    '; 
+
+    echo '
+    </td>
+  </tr> 
 
   </table> 
   '; 

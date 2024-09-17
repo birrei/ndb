@@ -1,8 +1,9 @@
 
 <?php 
 include('head_raw.php');
+include("cl_html_info.php"); 
 ?> 
-<form action="edit_satz_list_schwierigkeitsgrade.php" method="get">
+<form action="edit_satz_schwierigkeitsgrade.php" method="get">
 <p>   </label> 
       Instrument: 
          <?php 
@@ -30,6 +31,13 @@ include('head_raw.php');
  </form>
 
 <?php
+$info = new HtmlInfo(); 
+$info->option_linktext=1; 
+$info->print_link_table('instrument','sortcol=Name','Instrumente',true,'');  
+print '<p>'; 
+$info->print_link_table('schwierigkeitsgrad','sortcol=Name','Schwierigkeitsgrade',true,''); 
+print '</p>';     
+
 include('foot_raw.php');
 
 ?>

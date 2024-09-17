@@ -66,6 +66,7 @@ class Besetzung {
     try {
       $stmt->execute(); 
       $html = new HtmlSelect($stmt); 
+      $html->autofocus=true; 
       $html->print_select("BesetzungID", $value_selected, true); 
       
     }

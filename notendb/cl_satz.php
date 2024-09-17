@@ -61,7 +61,7 @@ class Satz {
             , $Taktart
             , $Tempobezeichnung
             , $Spieldauer
-            , $ErprobtID
+            // , $ErprobtID
             , $Bemerkung
             , $Orchesterbesetzung
     
@@ -80,7 +80,6 @@ class Satz {
                           Taktart=:Taktart, 
                           Tempobezeichnung=:Tempobezeichnung, 
                           Spieldauer=:Spieldauer, 
-                          ErprobtID=:ErprobtID, 
                           Bemerkung=:Bemerkung,
                           Orchesterbesetzung=:Orchesterbesetzung
                           WHERE `ID` = :ID"); 
@@ -93,7 +92,6 @@ class Satz {
     $update->bindParam(':Taktart', $Taktart);
     $update->bindParam(':Tempobezeichnung', $Tempobezeichnung);
     $update->bindParam(':Spieldauer', $Spieldauer, ($Spieldauer==''? PDO::PARAM_NULL:PDO::PARAM_INT));
-    $update->bindParam(':ErprobtID', $ErprobtID, ($ErprobtID==''? PDO::PARAM_NULL:PDO::PARAM_INT));
     $update->bindParam(':Bemerkung', $Bemerkung);
     $update->bindParam(':Orchesterbesetzung', $Orchesterbesetzung);    
 
@@ -399,26 +397,6 @@ class Satz {
     include_once("cl_db.php");
     $conn = new DbConn(); 
     $db=$conn->db; 
-
-    // $InstrumentID=($InstrumentID==''?1:$InstrumentID); // falls Übergabeparamter leer, dann default 1 verwenden 
-
-    /* prüfen, ob die Kombination schon zugeordnet wurde  */
-
-    $select = $db->prepare("select ID FROM `satz_schwierigkeitsgrad` WHERE 
-                        `SatzID`     = :SatzID  
-                        AND `SchwierigkeitsgradID`     = :SchwierigkeitsgradID
-                        AND `InstrumentID`     = :InstrumentID
-        ");
-    $select->bindValue(':SatzID', $this->ID);  
-    $select->bindValue(':SchwierigkeitsgradID', $SchwierigkeitsgradID);  
-    $select->bindValue(':InstrumentID', $InstrumentID); 
-    
-    $select->execute(); 
-
-    if ($select->rowCount()>0) {
-        echo '<p>Speicherung nicht möglich, die ausgewählte Kombination existiert bereits.</p>';
-        return; 
-    }  
 
     $insert = $db->prepare("INSERT INTO `satz_schwierigkeitsgrad` SET
                         `SatzID`     = :SatzID,  

@@ -66,6 +66,7 @@ class Verwendungszweck {
     try {
       $stmt->execute(); 
       $html = new HtmlSelect($stmt); 
+      $html->autofocus=true; 
       $html->print_select("VerwendungszweckID", $value_selected, true); 
       
     }

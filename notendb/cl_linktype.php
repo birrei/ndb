@@ -51,6 +51,7 @@ class Linktype {
     try {
       $stmt->execute(); 
       $html = new HtmlSelect($stmt); 
+      $html->autofocus=true;       
       $html->print_select("LinktypeID", $value_selected, true); 
       
     }
