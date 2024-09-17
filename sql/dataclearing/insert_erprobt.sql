@@ -11,7 +11,7 @@ from satz
     left join satz_erprobt  
         on  satz_erprobt.SatzID = satz.ID
         and satz_erprobt.ErprobtID = 5  -- XX nein
-where sammlung.ID = 282 -- XX SammlungID 
+where sammlung.ID = 251 -- XX SammlungID 
 and satz_erprobt.ID IS NULL
 
 

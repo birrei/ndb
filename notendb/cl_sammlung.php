@@ -258,6 +258,7 @@ class Sammlung {
       $html->edit_link_filename='edit_sammlung_link.php'; 
       $html->edit_link_title='Link'; 
       $html->edit_link_open_newpage=false; 
+      $html->show_missing_data_message=false; 
       $html->print_table2(); 
 
       

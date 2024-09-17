@@ -17,7 +17,7 @@ class Satz {
 
   public $Title='Satz';
   public $Titles='Sätze';  
-
+  public $autoupdate = true; // XXXconfig ?  
   
   public function __construct(){
     $this->table_name='satz';     
@@ -50,7 +50,13 @@ class Satz {
       $info = new HtmlInfo();      
       $info->print_user_error(); 
       $info->print_error($stmt, $e);  
-    }  
+    } 
+
+    if ($this->autoupdate) {
+      $this->autoupdate_insert_erprobt(); 
+
+    }    
+    
   }
 
   function update_row(
@@ -630,6 +636,33 @@ class Satz {
       $info->print_error($delete, $e);  
     }  
   }
+
+  function autoupdate_insert_erprobt() {
+    include_once("cl_db.php");   
+    $conn = new DbConn(); 
+    $db=$conn->db; 
+    
+    // automatische Zuordnung pro Sammlung 
+    $sql="
+      insert into satz_erprobt (SatzID, ErprobtID) 
+      select satz.ID as SatzID, auto_update.upd_ID as ErprobtID 
+      from auto_update 
+          inner join musikstueck on musikstueck.SammlungID = auto_update.ref_ID     
+          inner join satz on satz.MusikstueckID = musikstueck.ID
+          left join satz_erprobt on satz_erprobt.SatzID = satz.ID 
+                                and satz_erprobt.ErprobtID = auto_update.upd_ID 
+      where auto_update.ref_colname='SammlungID'
+      and auto_update.upd_colname='ErprobtID'
+      and satz.ID = :ID 
+      and satz_erprobt.ID IS NULL 
+        ";
+
+    $insert = $db->prepare($sql); 
+    $insert->bindValue(':ID', $this->ID);  
+    echo '<p> Anzahl Einfuegungen Erprobt: '.$insert->rowCount().'</p>'; 
+    $insert->execute(); 
+  }
+
     
 }
 

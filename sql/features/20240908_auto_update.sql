@@ -27,9 +27,16 @@ VALUES('StandortID', 24, 'BesetzungID', 1); -- VL01 -> Violine und Klaver
 
 INSERT INTO auto_update (ref_colname, ref_ID, upd_colname, upd_ID)
 VALUES('StandortID', 24, 'VerwendungszweckID', 34);
+
 INSERT INTO auto_update (ref_colname, ref_ID, upd_colname, upd_ID)
 VALUES('StandortID', 24, 'VerwendungszweckID', 35); 
 
+INSERT INTO auto_update (ref_colname, ref_ID, upd_colname, upd_ID)
+VALUES('SammlungID', 251, 'ErprobtID', 5); 
+
+-- dev 
+INSERT INTO auto_update (ref_colname, ref_ID, upd_colname, upd_ID)
+VALUES('SammlungID', 73, 'ErprobtID', 97); 
 
 select * from auto_update order by ID DESC;
 
@@ -67,4 +74,19 @@ select * from auto_update order by ID DESC;
 -- and auto_update.upd_colname='VerwendungszweckID'
 -- and musikstueck_verwendungszweck.ID IS NULL;
 
+
+
+/*  Standort > Verwendungszweck */
+
+    insert into satz_erprobt (SatzID, ErprobtID) 
+    select satz.ID as SatzID, auto_update.upd_ID as ErprobtID 
+    from auto_update 
+        inner join musikstueck on musikstueck.SammlungID = auto_update.ref_ID     
+        inner join satz on satz.MusikstueckID = musikstueck.ID
+        left join satz_erprobt on satz_erprobt.SatzID = satz.ID 
+                              and satz_erprobt.ErprobtID = auto_update.upd_ID 
+    where auto_update.ref_colname='SammlungID'
+    and auto_update.upd_colname='ErprobtID'
+    and musikstueck.SammlungID = 251 -- :ID 
+    and satz_erprobt.ID IS NULL 
 
