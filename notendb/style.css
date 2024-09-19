@@ -40,8 +40,8 @@ td.eingabe  {
 
 input.btnSave {
     font-weight: bold;
-    width:120px; 
-    /* background-color: lightgreen; */
+    width:200px; 
+    background-color: lightgreen;
 }
 input.btnSave:hover {
     background-color: green;

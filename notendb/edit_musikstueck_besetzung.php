@@ -4,7 +4,7 @@ include('head_raw.php');
 include('cl_html_info.php');
 ?> 
 
-<form action="edit_musikstueck_besetzungen.php" method="get" style="float:left; margin:5px">
+<form action="edit_musikstueck_besetzungen.php" method="get">
 <label>
   <?php 
     include_once("cl_besetzung.php");
@@ -16,7 +16,7 @@ include('cl_html_info.php');
 <input type="hidden" name="MusikstueckID" value="<?php echo $_GET["MusikstueckID"]; ?>"> 
 <input type="hidden" name="option" value="insert">
 <input class="btnSave" type="submit" value="Speichern">
-
+<p> 
 <?php
   $info=new HtmlInfo(); 
   $info->option_linktext=1; 
@@ -24,6 +24,7 @@ include('cl_html_info.php');
   $info->print_link_insert('besetzung','Besetzungen', true);  
 ?>
 </form>
+</p> 
 
 <?php 
 

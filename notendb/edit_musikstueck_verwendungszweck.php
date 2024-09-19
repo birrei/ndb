@@ -14,13 +14,15 @@ include('cl_html_info.php');
 <input class="btnSave" type="submit" value="Speichern">
 <input type="hidden" name="option" value="insert"> 
 <input type="hidden" name="MusikstueckID" value="<?php echo $_GET["MusikstueckID"]; ?>"> 
-
+<p> 
 <?php 
 $info=new HtmlInfo(); 
 $info->option_linktext=1; 
 $info->print_link_table('verwendungszweck','sortcol=Name','Verwendungszwecke',true,'');   
 $info->print_link_insert('verwendungszweck','verwendungszwecke', true);   
 ?>
+</p> 
+
 </form>
 
 <?php

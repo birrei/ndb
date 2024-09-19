@@ -138,7 +138,7 @@ if ($show_data) {
       <tr> 
       <td class="eingabe">
             <p><a href="edit_sammlung_lookups.php?SammlungID='.$sammlung->ID.'" target="Info" class="form-link">Besonderheiten</a></p>    
-            <p><a href="edit_sammlung_links.php?SammlungID='.$sammlung->ID.'" target="Info" class="form-link">Links</a></p> 
+              <p><a href="edit_sammlung_links.php?SammlungID='.$sammlung->ID.'" target="Info" class="form-link">Links                 </a></p> 
       </td>
    
       <td class="eingabe">
