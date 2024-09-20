@@ -1,25 +1,12 @@
 CREATE OR REPLACE VIEW v_satz AS 
 select 
-/* Sammlung */ 
     sammlung.Name as Sammlung 
-    -- , verlag.Name as Verlag 
-    -- , standort.Name as Standort
-    -- , sammlung.Bestellnummer
-    -- , sammlung.Bemerkung as `Sammlung Bemerkung` 
-/* musikstueck */
-  --  , musikstueck.Nummer AS Musikstueck_Nr
     , musikstueck.Name AS Musikstueck
-   -- , musikstueck.Opus 
     , komponist.Name as Komponist 
-    -- , musikstueck.Bearbeiter
-    -- , epoche.Name as Epoche
-    -- , gattung.Name as Gattung 
-/* satz */     
     , satz.Nr 
     , satz.Name 
     , satz.Taktart
     , satz.Tempobezeichnung
-    -- , satz.Spieldauer
     , concat(
         satz.Spieldauer DIV 60
         ,''''
@@ -27,7 +14,6 @@ select
         satz.Spieldauer MOD 60
         , ''''''
         ) as Spieldauer
-    -- , GROUP_CONCAT(DISTINCT concat(satz_erprobt.Jahr, ': ', erprobt.Name) order by satz_erprobt.Jahr DESC SEPARATOR ', ') as Erprobt 
     , GROUP_CONCAT(DISTINCT  
                 CASE 
 	                when satz_erprobt.Jahr is null 
@@ -62,10 +48,7 @@ FROM
     LEFT JOIN schwierigkeitsgrad on schwierigkeitsgrad.ID = satz_schwierigkeitsgrad.SchwierigkeitsgradID 
     LEFT JOIN instrument on instrument.ID = satz_schwierigkeitsgrad.InstrumentID 
     left join satz_lookup on satz_lookup.SatzID = satz.ID 
-    -- left join lookup on lookup.ID = satz_lookup.LookupID 
-    -- left join lookup_type on lookup_type.ID = lookup.LookupTypeID
     left join v_satz_lookuptypes on v_satz_lookuptypes.SatzID = satz.ID 
--- where satz.ID = 449 -- Test
 group by satz.ID 
 order by sammlung.Name, musikstueck.Nummer, satz.Nr
 
