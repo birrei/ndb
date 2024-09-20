@@ -1,18 +1,18 @@
 <?php
 include('head.php');
 
-$object=$_GET['table']; // obligatorisch 
+$object=$_GET['table']; // obligatorisch, Name Tabelle oder View (falls View, Benennung: "v_[tabelle]")
 
-/****************/
 // optionale Übergabeparameter
 $edit_table=''; // Tabelle, auf die im Bearbeiten-Link verwiesen werden soll.  
 $sortcol='ID';  // Spalte, nach der sortiert werden soll, default: ID
 $sortorder='ASC'; // Sortier-Reihenfolge, default aufwärts 
 $edit_table_title=''; // Titel der Seite, die über den Bearbeiten-Link aufgerufen wird 
-$add_link_show=false;  // true, falls eine zusätzlliche Spalte "Anzeigen" ergänzt werden soll
+$add_link_show=false;  // true, falls eine zusätzliche Spalte "Anzeigen" ergänzt werden soll
 $edit_link_show_newpage=false; // true: Das öffnen des Bearbeiten-Links soll in einem neuen Fenster erfolgen 
 $tables_exclude_insertlink=array('musikstueck','satz', 'lookup');
 $tables_use_insertfile=array('lookup'); // aktuell nicht genutzt, Stand 15.07.2024
+$show_filter=false; // falls ein Filter-Box angezeigt werden soll
 
 /*************** */
 
@@ -30,6 +30,9 @@ if (isset($_GET['title'])) {
 if (isset($_GET['add_link_show'])) {
   $add_link_show=true; 
 }
+if (isset($_GET['show_filter'])) {
+  $show_filter=true; 
+}
 if (isset($_GET['sortcol'])) {
   $sortcol=$_GET['sortcol'];
 } 
@@ -40,12 +43,35 @@ if (isset($_GET['edit_link_show_newpage'])) {
   $edit_link_show_newpage=true; 
 }
 
+echo '<h3>'.$edit_table_title.'</h3>'.PHP_EOL; 
 
-/*************** */
+$query = 'SELECT * FROM '.$object.' WHERE 1=1 ';
 
-$query = 'SELECT * FROM '.$object.($sortcol!='' ?' ORDER BY '.$sortcol.' '.$sortorder:'');
 
-// echo '<pre>'.$query.'</pre>'; 
+/*********** Filter ********************/
+
+if($show_filter) {
+
+  echo '<form action="" method="post">'.PHP_EOL; 
+  switch ($object) {
+    case 'v_abfrage': 
+      include_once("cl_abfragetyp.php");
+      $AbfragetypID=(isset($_POST["AbfragetypID"])?$_POST["AbfragetypID"]:'');
+      $abfragetyp = new Abfragetyp(); 
+      echo 'Abfragetyp: '.PHP_EOL; 
+      $abfragetyp->print_preselect($AbfragetypID); 
+      $query.=($AbfragetypID!=''?'AND AbfragetypID='.$AbfragetypID.' '.PHP_EOL:''); 
+      
+    break; 
+  }
+  echo '</form>'.PHP_EOL; 
+}
+
+/*******************************/
+
+$query.= ($sortcol!='' ?' ORDER BY '.$sortcol.' '.PHP_EOL.$sortorder:''); 
+
+// echo '<pre>'.$query.'</pre>'; // Test 
 
 include_once("cl_db.php");
 $conn = new DbConn(); 
@@ -58,7 +84,6 @@ try {
   include_once("cl_html_table.php");      
   $html = new HtmlTable($select); 
   $html->add_link_show=$add_link_show; 
-  echo '<h3>'.$edit_table_title.'</h3>'; 
   
   // Link für Neu-Erfassung anzeigen? 
   if (!in_array($edit_table,$tables_exclude_insertlink)) {

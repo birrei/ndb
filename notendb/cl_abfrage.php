@@ -8,6 +8,8 @@ class Abfrage {
   public $Name;
   public $Beschreibung='';
   public $Abfrage; // XXX Umbennenen in "Abfragetext"  
+  public $AbfragetypID=0;
+  public $Abfragetyp='';  
   public $Tabelle;
   // public $success=false; 
   public $Title='Abfrage';
@@ -42,17 +44,22 @@ class Abfrage {
   }  
  
   function insert_row2() {
-    /* 
-     - falls Objekt-Variablen schon gesetzt sind 
-       - Falls Name schon vorhanden, wird die betr. Abfrage überschrieben
-       (falls Name bereits mehrfach vorhanden, wird die höchste ID verwendet) 
-    */
-    // $this->Abfrage = $this->getSQLcleaned($this->Abfrage);
-        
+    /* Anlass: Gespeicherte Suche  */
     include_once("cl_db.php");
     $conn = new DbConn(); 
     $db=$conn->db; 
+
+    if ($this->Abfragetyp!='') {
+      $this->AbfragetypID=$this->getTypID($this->Abfragetyp); 
+      if ($this->AbfragetypID==0) {
+         include_once("cl_abfragetyp.php");
+         $abfragetyp = new Abfragetyp(); 
+         $abfragetyp->insert_row($this->Abfragetyp); 
+         $this->AbfragetypID = $abfragetyp->ID; 
+      }
+    }
     
+    /* Falls Abfrage mit gleichem Namen schon vorhanden ist, erfolgt ein Update  */
     $checkselect = $db->prepare("SELECT MAX(ID) as maxID FROM abfrage WHERE Name=:Name");
     $checkselect->bindParam(':Name', $this->Name);
     $checkselect->execute(); 
@@ -60,20 +67,21 @@ class Abfrage {
 
     if($existingID > 0 )  {
       $this->ID = $existingID; 
-      $this->update_row($this->Name, $this->Beschreibung,$this->Abfrage, $this->Tabelle); 
+      $this->update_row($this->Name,  $this->Beschreibung, $this->AbfragetypID, $this->Abfrage, $this->Tabelle); 
     } else {
       $insert = $db->prepare("INSERT 
                 INTO `abfrage` 
                 SET `Name` = :Name, 
                   Beschreibung=:Beschreibung, 
+                  AbfragetypID=:AbfragetypID,                  
                   Abfrage=:Abfrage,
                   Tabelle=:Tabelle");
-
- 
+      
       $insert->bindParam(':Name', $this->Name);
       $insert->bindParam(':Beschreibung', $this->Beschreibung);
       $insert->bindParam(':Abfrage', $this->Abfrage);    
       $insert->bindParam(':Tabelle', $this->Tabelle);  
+      $insert->bindParam(':AbfragetypID', $this->AbfragetypID);        
 
       try {
         $insert->execute(); 
@@ -116,8 +124,8 @@ class Abfrage {
   }
 
 
-  function update_row($Name,$Beschreibung) {
-    // Nur Name und Beschreibung 
+  function update_row($Name,$Beschreibung,$AbfragetypID) {
+    // Nur Name, Beschreibung und Abfragetyp
     include_once("cl_db.php");   
     $conn = new DbConn(); 
     $db=$conn->db; 
@@ -126,10 +134,12 @@ class Abfrage {
                             SET
                             `Name`     = :Name
                             , Beschreibung = :Beschreibung
+                            , AbfragetypID= :AbfragetypID
                             WHERE `ID` = :ID"); 
 
     $update->bindParam(':ID', $this->ID, PDO::PARAM_INT);
     $update->bindParam(':Name', $Name);
+    $update->bindParam(':AbfragetypID', $AbfragetypID);    
     $update->bindParam(':Beschreibung', $Beschreibung);
 
     try {
@@ -140,7 +150,7 @@ class Abfrage {
       include_once("cl_html_info.php"); 
       $info = new HtmlInfo();      
       $info->print_user_error(); 
-      $info->print_error($stmt, $e); 
+      $info->print_error($update, $e); 
     }
   }
 
@@ -179,6 +189,7 @@ class Abfrage {
     $select = $db->prepare("SELECT ID
                                 , COALESCE(Name,'') Name    
                                 , COALESCE(Beschreibung,'') Beschreibung
+                                , AbfragetypID 
                                 , COALESCE(Abfrage,'') Abfrage
                                 , COALESCE(Tabelle,'') Tabelle
                           FROM `abfrage`
@@ -191,6 +202,7 @@ class Abfrage {
       $row_data=$select->fetch();      
       $this->Name=$row_data["Name"];    
       $this->Beschreibung=$row_data["Beschreibung"];
+      $this->AbfragetypID=$row_data["AbfragetypID"];      
       $this->Abfrage=$row_data["Abfrage"];
       $this->Tabelle=$row_data["Tabelle"]; 
       return true; 
@@ -222,6 +234,18 @@ class Abfrage {
     }  
   }  
 
+  function getTypID($Name) {
+    include_once("cl_db.php");
+    $conn = new DbConn(); 
+    $db=$conn->db; 
+
+    $sql="SELECT coalesce(MAX(ID),0) as TypID from `abfragetyp` WHERE Name=:Name"; 
+    $stmt = $db->prepare($sql); 
+    $stmt->bindParam(':Name', $Name);
+    $stmt->execute(); 
+    $col=$stmt->fetchColumn(); 
+    return $col;  
+  } 
 
 
 }

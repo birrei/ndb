@@ -120,7 +120,13 @@ switch($table) {
     $objekt = new Abfrage();     
     $tablelink_table='v_abfrage'; // view-Name      
     break; 
-  
+
+  case 'abfragetyp': 
+    include_once('cl_abfragetyp.php');
+    $objekt = new Abfragetyp();     
+    $tablelink_table='abfragetyp'; 
+    break; 
+      
 }
 
 if ($show_html_head) {

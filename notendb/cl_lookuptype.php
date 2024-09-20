@@ -96,7 +96,6 @@ class Lookuptype {
     }
   }
 
-
   function print_table(){
 
     $query="SELECT * from lookup_type ORDER by Name"; 
@@ -204,7 +203,6 @@ class Lookuptype {
         }
         // print_r($this->ArrData); // test
   }
-
 
   function delete(){
     include_once("cl_db.php");

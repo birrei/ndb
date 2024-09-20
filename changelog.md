@@ -1,6 +1,8 @@
 ﻿
 # Change Log  
 
+20.09.2024 - Integration Abfragetyp 
+
 11.09.2024 - auto-Update: autom. Ergänzung definierter Zuordnungen für eine definierte Einheit (z.B. für bestimmte Standort immer bestimmte Besetzungen)
 
 01.09.2024 - Umstellung Erprobt auf Mehrfach-Zuordnung, Integration Jahr

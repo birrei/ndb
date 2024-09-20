@@ -2,6 +2,7 @@
 <?php 
 include('head.php');
 include("cl_abfrage.php");
+include("cl_abfragetyp.php");
 include("cl_html_info.php");
 
 $abfrage = new Abfrage();
@@ -28,6 +29,7 @@ if (isset($_REQUEST["option"])) {
       $abfrage->update_row(
             $_POST["Name"]
           , $_POST["Beschreibung"]   
+          , $_POST["AbfragetypID"]   
           )
           ;
       $show_data=true;           
@@ -36,7 +38,7 @@ if (isset($_REQUEST["option"])) {
 }
 
 $info->print_screen_header($abfrage->Title.' bearbeiten'); 
-$info->print_link_table('v_abfrage', 'sortcol=Name&add_link_show', $abfrage->Titles,true);
+$info->print_link_table('v_abfrage', 'sortcol=Name&add_link_show&show_filter', $abfrage->Titles,true);
 
 if ($show_data) {
   echo '<a href="show_abfrage.php?ID='.$abfrage->ID.'&title=Abfrage&Name='.$abfrage->Name.'" class="form-link">Ergebnis anzeigen</a>'; 
@@ -50,6 +52,25 @@ if ($show_data) {
     <td class="eingabe">'.$abfrage->ID.'</td>
     </label>
       </tr> 
+
+
+    <tr>    
+    <label>
+    <td class="eingabe"><b>Abfragetyp:</b></td>  
+    <td class="eingabe">     
+          '; 
+          $abfragtypen = new Abfragetyp();
+          $abfragtypen->print_select($abfrage->AbfragetypID); 
+
+    echo ' </label>  &nbsp;
+       '; 
+
+    $info->print_link_edit($abfragtypen->table_name, $abfrage->AbfragetypID,$abfragtypen->Title, true); 
+    $info->print_link_table($abfragtypen->table_name,'sortcol=Name',$abfragtypen->Titles,true,'');    
+    $info->print_link_insert($abfragtypen->table_name,$abfragtypen->Title,true); 
+
+  echo '
+    </tr>
 
     <tr>    
       <label>

@@ -32,6 +32,7 @@ if (isset($_POST["LookupTypeID"])) {
 <input type="hidden" name="SatzID" value="<?php echo $_GET["SatzID"]; ?>"> 
 
 </form>
+
 <form action="edit_satz_lookups.php" method="get">
 <tr>
   <td class="eingabe2"> Besonderheit: </td>

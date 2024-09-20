@@ -599,12 +599,13 @@ if (isset($_POST['suchtext'])) {
         $timestamp = time();
         $Suche->Name= 'Suche '.date("d.m.Y - H:i", time()); // Temp. Name, kann später geändert werden
         $Suche->Abfrage = $query; 
-        $Suche->Tabelle = $edit_table; 
+        $Suche->Tabelle = $edit_table;
+        $Suche->Abfragetyp='Suche';  
         $Suche->insert_row2(); 
         echo '<p>Die Suchabfrage wurde gespeichert: <br />'; 
         echo '<a href="show_abfrage.php?ID='.$Suche->ID.'&title=Abfrage" target="_blank">Abfrage-Ergebnis anzeigen</a>
             | <a href="edit_abfrage.php?ID='.$Suche->ID.'&title=Abfrage&option=edit" target="_blank">Abfrage bearbeiten</a>
-            | <a href="show_table2.php?table=v_abfrage&sortcol=ID&sortorder=DESC&title=Abfragen&add_link_show" target="_blank">Übersicht Abfragen</a>         
+            | <a href="show_table2.php?table=v_abfrage&sortcol=ID&sortorder=DESC&title=Abfragen&add_link_show&show_filter" target="_blank">Übersicht Abfragen</a>         
             ';
             
         } else {
