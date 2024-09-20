@@ -10,23 +10,30 @@
 * Suche: Filter nach Erprobt Jahr
 * Notensymbole Schrift
 * Übersichtstabellen Sortier-Links
+* Logging (Datum, Name)
+* Konfiguration Fehlerausgabe
+* Tabellen Spalten-Sortierung
 
 ### Verbesserungen, Korrekturen 
+* delete-Routinen: Folge-Links prüfen  
 * Suche: Beschreibung ergänzen, wenn Genaue Suche ausgewählt 
 * iframe-Formulare: Speicherverhalten vereinheitlichen 
 * Übersichtstabellen: Bearbeiten-Links müssen auf neuen Tab verweisen
 * Überall html -> print_table2 verwenden
 * Erfassung: Umgang mit fehlerhaften Eingabewerten (zu lang, ect.)
 * Übersichtstabellen -> Anzahl Zeilen begrenzen
-* Logging (Datum, Name)
-* Konfiguration Fehlerausgabe
-* Tabellen Spalten-Sortierung
 * "Plural-Problem" 
 * Suche: Filter IDs über GET zur Verfügung stellen
 * DAtum Spalten "erstellt" und "geändert" bei allen Tabellen
 * iframe-Formular: Autofocus auf ertes Feld ? 
 * Auswahlformulare: Verhalten, wenn Werte "verbraucht" sind (cl_html_select.php, print_select - test dev Schwierigkeitsgrad) 
-
+* Validierung Eingabewerte
+* Sortierung über Spaltentitel (Javascript)
+* für alle edit-Formulare (auch stammdaten-Tabellen) htmlspecialchars() einsetzen
+* foreign keys benannt neu anlegen 
+* col unnsigned - defs entfernen 
+* Formulare Bezeichnungen alle Fett drucken 
+* "open new page" vereinheitlichen 
 
 ### Offene Aufgaben Prio 2
 * Benutzer-Verwaltung  
@@ -42,6 +49,10 @@
 * Eingabefelder autofocus prüfen 
 * Erklärung: Warum "Besetzungen" als Einheiten, und nicht aufgefächert in einzelne Instrumente? 
 * Handytaugliches Layout 
+
+* Projektbeschreibung erarbeiten 
+* Feld "Opus" -> ändern in "Werkverzeichnis" (zumindest im Formular)
+
 
 ### erledigte Aufgaben 
 * Delete-Funktionen ergänzen (satz->erprobt, sammmlung->besonderheiten) 
