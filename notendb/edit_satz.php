@@ -165,14 +165,14 @@ if ($show_data) {
 
   <tr> 
     <td class="eingabe">
-      <p><a href="edit_satz_schwierigkeitsgrade.php?SatzID='.$satz->ID.'" target="Info" class="form-link">Schwierigkeitsgrade</a></p>
-      <p><a href="edit_satz_lookups.php?SatzID='.$satz->ID.'" target="Info" class="form-link">Besonderheiten       </a>   </p>
-      <p><a href="edit_satz_erprobte.php?SatzID='.$satz->ID.'" target="Info" class="form-link">Erprobt                     </a></p>
+      <p><a href="edit_satz_schwierigkeitsgrade.php?SatzID='.$satz->ID.'" target="Info" class="form-link" onfocus="linkStyleFocus(this)">Schwierigkeitsgrade</a></p>
+      <p><a href="edit_satz_lookups.php?SatzID='.$satz->ID.'" target="Info" class="form-link" onfocus="linkStyleFocus(this)">Besonderheiten       </a>   </p>
+      <p><a href="edit_satz_erprobte.php?SatzID='.$satz->ID.'" target="Info" class="form-link" onfocus="linkStyleFocus(this)">Erprobt                     </a></p>
 
     
       </td> 
     <td class="eingabe">
-      <iframe src="edit_satz_erprobte.php?SatzID='.$satz->ID.'&source=iframe" height="300" name="Info" class="form-iframe-var2"></iframe>
+      <iframe src="edit_satz_schwierigkeitsgrade.php?SatzID='.$satz->ID.'&source=iframe" height="300" name="Info" class="form-iframe-var2"></iframe>
     '; 
 
     echo '

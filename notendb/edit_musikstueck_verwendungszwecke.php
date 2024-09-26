@@ -28,7 +28,6 @@ echo '</div>';
 echo '&nbsp;<a href="edit_musikstueck_verwendungszweck.php?MusikstueckID='.$musikstueck->ID.'" class="form-link">Hinzufügen</a>'; 
 
 
-
 include('foot_raw.php');
 
 ?>

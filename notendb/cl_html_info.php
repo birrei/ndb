@@ -3,7 +3,8 @@ class HtmlInfo {
     public $html;
     public $info_datetime;
     public $option_linktext=0; // Ausführlichkeit Linktext. 0 = ohne Titel (z.B: "bearbeiten"), 1 = mit Titel (z.B. "Verwendungszweck bearbeiten")      
-    
+    public $use_paragraph=false; // true: "<p>..</p>" ergänzen 
+
     function __construct() {
         $this->html = ''; 
         $this->info_datetime = date("d.m.Y H:i:s", time());
@@ -30,38 +31,51 @@ class HtmlInfo {
     function print_link_table($target_table, $sortinfo, $target_title, $show_newtab=false, $additional_params='', $suffix='') {
         switch($this->option_linktext) {
             case 0:
-                echo '<a href="show_table2.php?table='.$target_table.'&'.$sortinfo.'&title='.$target_title.($additional_params!=''?$additional_params:'').'"'.($show_newtab?' target="_blank"':'').' tabindex="-1" class="form-link">Tabelle anzeigen</a>'.($suffix!=''?$suffix:'');
+                echo '<a href="show_table2.php?table='.$target_table.'&'.$sortinfo.'&title='.$target_title.($additional_params!=''?$additional_params:'').'"'.($show_newtab?' target="_blank"':'').' tabindex="-1" class="form-link">Tabelle anzeigen</a>'.($suffix!=''?$suffix:'').($this->use_paragraph?'</p>':'');
                 break; 
 
             case 1: 
-                echo '<a href="show_table2.php?table='.$target_table.'&'.$sortinfo.'&title='.$target_title.($additional_params!=''?$additional_params:'').'"'.($show_newtab?' target="_blank"':'').' tabindex="-1" class="form-link">'.$target_title.' anzeigen</a>'.($suffix!=''?$suffix:'');
+                echo '<a href="show_table2.php?table='.$target_table.'&'.$sortinfo.'&title='.$target_title.($additional_params!=''?$additional_params:'').'"'.($show_newtab?' target="_blank"':'').' tabindex="-1" class="form-link">'.$target_title.' anzeigen</a>'.($suffix!=''?$suffix:'').($this->use_paragraph?'</p>':'');
                 break; 
         }
     }
 
 /* Standard-Verlinkungen */
 
+
+    function print_link($link_url, $link_text) {
+        echo ($this->use_paragraph?'<p>':'').'<a href="'.$link_url.'" tabindex="-1" class="form-link">'.$link_text.'</a>'.($this->use_paragraph?'</p>':''); 
+    }
+    function print_link_backToList($link_url) {
+        echo ($this->use_paragraph?'<p>':'').'<a href="'.$link_url.'" tabindex="-1" class="form-link">Zurück zur Liste</a>'.($this->use_paragraph?'</p>':''); 
+    }    
+    
+
     function print_link_edit($target_table, $ID, $target_title, $newpage=true, $suffix='') {
-        echo '<a href="edit_'.$target_table.'.php?ID='.$ID.'&title='.$target_title.'&option=edit"'.($newpage?' target="_blank"':'').' tabindex="-1" class="form-link">Bearbeiten</a>'.($suffix!=''?$suffix:'');
+        echo ($this->use_paragraph?'<p>':'').'<a href="edit_'.$target_table.'.php?ID='.$ID.'&title='.$target_title.'&option=edit"'.($newpage?' target="_blank"':'').' tabindex="-1" class="form-link">Bearbeiten</a>'.($suffix!=''?$suffix:'').($this->use_paragraph?'</p>':'');
         // echo '<a href="edit_'.$target_table.'.php?ID='.$ID.'&title='.$target_title.'&option=edit"'.($newpage?' target="_blank"':'').' tabindex="-1" class="form-link">'.$target_title.' bearbeiten</a>'.($suffix!=''?$suffix:'');
     }
     
     function print_link_edit2($target_table, $ID, $target_title, $newpage=true, $suffix='') {
         // für ev. 2. Version eines Bearbeitungsformualrs 
         // echo '<a href="edit_'.$target_table.'2.php?ID='.$ID.'&title='.$target_title.'&option=edit"'.($newpage?' target="_blank"':'').' tabindex="-1" class="form-link">'.$target_title.' bearbeiten</a>'.($suffix!=''?$suffix:'');
-        echo '<a href="edit_'.$target_table.'2.php?ID='.$ID.'&title='.$target_title.'&option=edit"'.($newpage?' target="_blank"':'').' tabindex="-1" class="form-link">Abfrage-Text bearbeiten</a>'.($suffix!=''?$suffix:'');
+        echo ($this->use_paragraph?'<p>':'').'<a href="edit_'.$target_table.'2.php?ID='.$ID.'&title='.$target_title.'&option=edit"'.($newpage?' target="_blank"':'').' tabindex="-1" class="form-link">Abfrage-Text bearbeiten</a>'.($suffix!=''?$suffix:'').($this->use_paragraph?'</p>':'');
     }
 
 
     function print_link_insert($target_table, $target_title, $newpage=true, $suffix='') {
-        // echo '<a href="edit_'.$target_table.'.php?title='.$target_title.'&option=insert"'.($newpage?' target="_blank"':'').' tabindex="-1" class="form-link">'.$target_title.' neu erfassen</a>'.($suffix!=''?$suffix:'');
+        echo ($this->use_paragraph?'<p>':'').'<a href="edit_'.$target_table.'.php?title='.$target_title.'&option=insert"'.($newpage?' target="_blank"':'').' tabindex="-1" class="form-link">'.$target_title.' neu erfassen</a>'.($suffix!=''?$suffix:'').($this->use_paragraph?'</p>':'');
         // Nur "neu erfassen", ohne Titel-Bezeichnung 
-        echo '<a href="edit_'.$target_table.'.php?title='.$target_title.'&option=insert"'.($newpage?' target="_blank"':'').' tabindex="-1" class="form-link">Neu erfassen</a>'.($suffix!=''?$suffix:'');
+        // echo '<a href="edit_'.$target_table.'.php?title='.$target_title.'&option=insert"'.($newpage?' target="_blank"':'').' tabindex="-1" class="form-link">Neu erfassen</a>'.($suffix!=''?$suffix:'');
     
     }
 
     function print_link_delete_row2($target_table, $ID, $target_title, $newpage=false, $suffix='') {
-        echo '<a href="delete.php?table='.$target_table.'&ID='.$ID.'&title='.$target_title.' löschen"'.($newpage?' target="_blank"':'').' tabindex="-1" class="form-link">'.$target_title.' löschen</a>'.($suffix!=''?$suffix:'');
+        echo ($this->use_paragraph?'<p>':'').'<a href="delete.php?table='.$target_table.'&ID='.$ID.'&title='.$target_title.' löschen"'.($newpage?' target="_blank"':'').' tabindex="-1" class="form-link">'.$target_title.' löschen</a>'.($suffix!=''?$suffix:'').($this->use_paragraph?'</p>':'');
+    }
+
+    function print_link_reload() {
+        echo ($this->use_paragraph?'<p>':'').'<a href="" tabindex="-1" class="form-link">Formular neu laden</a>'.($this->use_paragraph?'</p>':''); 
     }
 
 

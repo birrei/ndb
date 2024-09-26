@@ -24,6 +24,7 @@ class HtmlTable {
     public $add_param_name; // für $add_link_show=true: "&Name=(wert im Name-Feld der Datenzeile)" ergänzen 
 
     public $show_missing_data_message=true; 
+    public $in_iframe=false; 
 
     function __construct($stmt) {
         $this->stmt = $stmt; 

@@ -61,10 +61,20 @@ if($show_filter) {
       echo 'Abfragetyp: '.PHP_EOL; 
       $abfragetyp->print_preselect($AbfragetypID); 
       $query.=($AbfragetypID!=''?'AND AbfragetypID='.$AbfragetypID.' '.PHP_EOL:''); 
-      
     break; 
+
+    case 'v_lookup': 
+      include_once("cl_lookuptype.php");
+      $LookupTypeID=(isset($_POST["LookupTypeID"])?$_POST["LookupTypeID"]:'');
+      $lookuptype = new Lookuptype(); 
+      echo 'Besonderheit Typ: '.PHP_EOL; 
+      $lookuptype->print_preselect($LookupTypeID); 
+      $query.=($LookupTypeID!=''?'AND LookupTypeID='.$LookupTypeID.' '.PHP_EOL:''); 
+    break; 
+
   }
   echo '</form>'.PHP_EOL; 
+  echo '<p></p>'; 
 }
 
 /*******************************/

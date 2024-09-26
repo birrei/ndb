@@ -1,7 +1,6 @@
 
 <?php
 
-
 include('head_raw.php');
 include("cl_lookuptype.php");
 include("cl_lookup.php");
@@ -50,18 +49,20 @@ if ($show_data) {
     <td class="eingabe">'.$lookup->ID.'</td>
     </label>
       </tr> 
-
       <tr>    
-      <label>
-      <td class="eingabe">Typ/Kategorie:
-      </td>  
-      <td class="eingabe">    
-            '; 
-            $lookup_type = new Lookuptype();
-            $lookup_type->print_select($lookup->LookupTypeID); 
-      echo '
-      </label>
-    </td>
+        <label>
+        <td class="eingabe">Typ/Kategorie:
+        </td>  
+        <td class="eingabe">    
+              '; 
+              $lookup_type = new Lookuptype();
+              $lookup_type->print_select($lookup->LookupTypeID); 
+              
+              echo ' <a href="edit_lookup_type.php?ID='.$lookup->LookupTypeID.'&title=Typ&option=edit" tabindex="-1" class="form-link">Gehe zu Typ</a>'; 
+
+        echo '
+        </label>
+      </td>
       </tr>
       
     <tr>    

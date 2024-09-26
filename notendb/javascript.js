@@ -27,3 +27,10 @@ function changeBackgroundColor(element) {
   element.style.backgroundColor="#fad0e0"; // 
 
 }  
+
+function linkStyleFocus(element) {
+  element.style.backgroundColor="lightgreen"; 
+}
+function linkStyleNotFocus(element) {
+  element.style.backgroundColor="white"; 
+}

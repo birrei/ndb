@@ -126,8 +126,10 @@ if ($show_data) {
 
         <tr> 
         <td class="eingabe"><b>Musikstücke:</b>
-        <p> <a href="edit_musikstueck.php?SammlungID='.$sammlung->ID.'&option=insert&title=Musikstück" target="_blank" class="form-link">Musikstück hinzufügen</a></p>
-        <p> <a href="edit_sammlung_musikstuecke.php?SammlungID='.$sammlung->ID.'" target="musikstuecke" class="form-link">Aktualisieren - &gt;</a></p>
+        <p> <a href="edit_musikstueck.php?SammlungID='.$sammlung->ID.'&option=insert&title=Musikstück" target="_blank" class="form-link form-link-switch" onfocus="linkStyleFocus(this)">Musikstück hinzufügen</a></p>
+        <p> <a href="edit_sammlung_musikstuecke.php?SammlungID='.$sammlung->ID.'" target="musikstuecke" class="form-link form-link-switch">Aktualisieren - &gt;</a></p>
+
+
 
         </td> 
         <td class="eingabe">
@@ -137,8 +139,8 @@ if ($show_data) {
 
       <tr> 
       <td class="eingabe">
-            <p><a href="edit_sammlung_lookups.php?SammlungID='.$sammlung->ID.'" target="Info" class="form-link">Besonderheiten</a></p>    
-              <p><a href="edit_sammlung_links.php?SammlungID='.$sammlung->ID.'" target="Info" class="form-link">Links                 </a></p> 
+            <p><a href="edit_sammlung_lookups.php?SammlungID='.$sammlung->ID.'" target="Info" class="form-link form-link-switch" onfocus="linkStyleFocus(this)">Besonderheiten</a></p>    
+              <p><a href="edit_sammlung_links.php?SammlungID='.$sammlung->ID.'" target="Info" class="form-link form-link-switch" onfocus="linkStyleFocus(this)">Links                 </a></p> 
       </td>
    
       <td class="eingabe">
@@ -151,6 +153,7 @@ if ($show_data) {
 
 
     </table>
+
 
   '; 
  

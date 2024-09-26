@@ -150,8 +150,9 @@ if (isset($objekt)) {
     if (isset($_POST["confirm"])) {
       if($objekt->delete()) { 
         if($show_table_link) {
-          $info->print_link_table($tablelink_table, 'sortcol='.$tablelink_sortcol, $objekt->Titles,false);
-        }     
+          $info->print_link_table($tablelink_table, 'sortcol='.$tablelink_sortcol, $objekt->Titles,false);  
+        }
+        echo '<p>Die Zeile mit der ID '.$objekt->ID.' wurde aus '.$objekt->Titles.' gelöscht.';     
       } else {
         $info->print_link_edit($objekt->table_name, $objekt->ID,$objekt->Title,'',false);
       } 

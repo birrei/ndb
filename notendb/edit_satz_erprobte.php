@@ -3,6 +3,7 @@
 include('head_raw.php');
 
 include_once("cl_satz.php");
+include_once("cl_satz_erprobt.php");
 
 $satz=new Satz();
 $satz->ID=$_GET["SatzID"]; 
@@ -13,7 +14,18 @@ if (isset($_GET["option"])){
             $satz->add_erprobt(''); 
         }
     } 
+
+    if($_GET["option"]=='delete') {
+        $erprobt=new SatzErprobt(); 
+        $erprobt->ID=$_GET["ID"]; 
+        $erprobt->delete(); 
+    }     
 }
+
+if (isset($_GET["option"])){
+
+}
+
 
 
 echo '<div style="float:left">'; 

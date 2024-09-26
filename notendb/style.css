@@ -28,56 +28,81 @@ td.start {
 
 /***** Formulare  ****************/
 
-table.eingabe {
-    margin-top: 5px;
-    /* background-color: lightgray; */
-    width: 100%;     
-}
-td.eingabe  {
-    border: 1px solid white;
-    border-collapse: collapse; 
-}
-
-input.btnSave {
-    font-weight: bold;
-    width:200px; 
-    background-color: lightgreen;
-}
-input.btnSave:hover {
-    background-color: green;
-}
-
-.form-iframe-var1 {
-   /* iframe verknuepfungs-tabellen*/
-    width: 70%; 
-    float:left; /* Ziel: Anordnung der Hinzufügen-Button rechts daneben*/
-    margin-right: 3px;
-
-}
-.form-iframe-var2 {
-    /* iframe untergeordnete tabellen */
-        width: 100%;
-        float:left; 
-        margin-right: 3px;
+    table.eingabe {
+        margin-top: 5px;
+        /* background-color: lightgray; */
+        width: 100%;     
     }
+    td.eingabe  {
+        border: 1px solid white;
+        border-collapse: collapse; 
+    }
+    input.btnSave {
+        font-weight: bold;
+        width:200px; 
+        background-color: lightgreen;
+    }
+    input.btnSave:hover {
+        background-color: green;
+    }
+    .form-link {
+        /* Links im Formular als Button erscheinen lassen */ 
+        font-size: 10pt;
+        text-decoration: none;
+        background-color: #EEEEEE;
+        color: #333333;
+        padding: 2px 6px 2px 6px;
+        border-top: 1px solid #CCCCCC;
+        border-right: 1px solid #333333;
+        border-bottom: 1px solid #333333;
+        border-left: 1px solid #CCCCCC;
+        margin-right: 3px;
+        white-space:pre;    
+      }
+    /* .form-link:hover {
+        background-color: gray;
+    } */
+    /* .form-link-switch:active {
+        background-color: lightblue;
+    }
+    .form-link-switch:focus {
+        background-color: lightblue;
+    }             */
+    .form-iframe-var1 {
+        /* iframe verknuepfungs-tabellen*/
+         width: 70%; 
+         float:left; /* Ziel: Anordnung der Hinzufügen-Button rechts daneben*/
+         margin-right: 3px;
+     
+     }
+     .form-iframe-var2 {
+         /* iframe untergeordnete tabellen */
+             width: 100%;
+             float:left; 
+             margin-right: 3px;
+         }    
 
-.form-link {
-    /* Links im Formular als Button erscheinen lassen */ 
-    font-size: 10pt;
-    text-decoration: none;
-    background-color: #EEEEEE;
-    color: #333333;
-    padding: 2px 6px 2px 6px;
-    border-top: 1px solid #CCCCCC;
-    border-right: 1px solid #333333;
-    border-bottom: 1px solid #333333;
-    border-left: 1px solid #CCCCCC;
-    margin-right: 3px;
-    white-space:pre;    
-  }
-.form-link:hover {
-    background-color: gray;
-}
+/***** Formular-Raster in iframes  ****************/
+    table.eingabe2 {
+        margin-top: 5px;
+        /* background-color: lightgray; */
+        /* width: 30%;      */
+       
+    }
+    td.eingabe2 {
+        padding-right: 10px;      
+        padding-bottom: 3px;           
+    }
+    /* nur Test: */
+    /* td.eingabe2_1 {
+        background-color: red;    
+    }
+    td.eingabe2_2 {
+        background-color: yellow;   
+    }
+    td.eingabe2_3 {
+        background-color: lightblue;   
+    } */
 
 
   

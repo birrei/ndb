@@ -115,7 +115,7 @@ class SatzErprobt {
 
     try {
       $delete->execute(); 
-      echo '<p>Zeile wurde gelöscht.</p>';   
+      // echo '<p>Zeile wurde gelöscht.</p>';   
       return true;        
     }
     catch (PDOException $e) {

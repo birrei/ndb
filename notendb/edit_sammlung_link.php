@@ -15,6 +15,7 @@ if (isset($_REQUEST["option"])) {
   switch($_REQUEST["option"]) {
     case 'edit': // über "Bearbeiten"-Link
       $link->ID=$_GET["ID"];
+      $link->load_row(); 
       if ($link->load_row()) {
         $show_data=true;       
       }
@@ -42,19 +43,20 @@ if (isset($_REQUEST["option"])) {
 }
 
 ?> 
-
 <form action="" method="post">
-<table class="eingabe"> 
-
+<table class="eingabe2"> 
+<tr>    
+  <td class="eingabe2 eingabe2_1">ID</td>  
+  <td class="eingabe2 eingabe2_2"><?php echo $link->ID; ?></td>
+</tr> 
 <tr>    
   <label>
-     <td class="eingabe">Typ: </td>
-     <td class="eingabe">
+     <td class="eingabe2 eingabe2_1">Typ: </td>
+     <td class="eingabe2 eingabe2_2">
       <?php 
       $linktyp = new Linktype(); 
       $linktyp->print_select($link->LinktypeID); 
       ?>
-
       <?php
       $info->print_link_edit($linktyp->table_name, $link->LinktypeID, $linktyp->Title, true); 
       $info->print_link_table($linktyp->table_name,'sortcol=Name',$linktyp->Titles,true,'');    
@@ -66,28 +68,56 @@ if (isset($_REQUEST["option"])) {
 
   <tr>    
   <label>
-  <td class="eingabe">Bezeichnung:</td>  
-  <td class="eingabe"><input type="text" name="Bezeichnung" value="<?php echo htmlentities($link->Bezeichnung); ?>" size="70" required="required" oninput="changeBackgroundColor(this)"></td>
+  <td class="eingabe2 eingabe2_1">Bezeichnung:</td>  
+  <td class="eingabe2 eingabe2_2"><input type="text" name="Bezeichnung" value="<?php echo htmlentities($link->Bezeichnung); ?>" size="70" required="required" oninput="changeBackgroundColor(this)"></td>
   </label>
   </tr> 
 
   <tr>    
   <label>
-  <td class="eingabe">URL:</td>  
-  <td class="eingabe"><input type="text" name="URL" value="<?php echo $link->URL; ?>" size="70" required="required" oninput="changeBackgroundColor(this)"></td>
+  <td class="eingabe2 eingabe2_1">URL:</td>  
+  <td class="eingabe2 eingabe2_2">
+      <input type="text" name="URL" value="<?php echo $link->URL; ?>" size="70" required="required" oninput="changeBackgroundColor(this)">
+    </td>
   </label>
   </tr> 
 
   <tr> 
-  <td class="eingabe"><input class="btnSave" type="submit" value="Speichern"></td>
-  <td class="eingabe">
-  <a href="edit_sammlung_list_links.php?SammlungID=<?php echo $link->SammlungID; ?>">Liste anzeigen</a> | 
-  <?php 
-  $info->print_link_delete_row2($link->table_name, $link->ID, $link->Title, false); 
-  ?>
-
+  <td class="eingabe2 eingabe2_1">
+    <?php
+       $info->print_link_delete_row2($link->table_name, $link->ID, $link->Title, false); 
+    ?>
+  </td>
+  <td class="eingabe2 eingabe2_2">
+  <input class="btnSave" type="submit" value="Speichern">
   </td>
   </tr>
+
+
+  <tr>    
+  <td class="eingabe2 eingabe2_1"></td>  
+  <td class="eingabe2 eingabe2_2">
+    <?php 
+    $info->print_link_reload();    
+    ?>
+    </td>
+  </label>
+  </tr> 
+
+
+  <tr>    
+  <td class="eingabe2 eingabe2_1"></td>  
+  <td class="eingabe2 eingabe2_2">
+    <?php 
+
+    $info->print_link_backToList('edit_sammlung_links.php?SammlungID='.$link->SammlungID);         
+    ?>
+    </td>
+  </label>
+  </tr> 
+
+
+
  </table> 
 
  <input type="hidden" name="SammlungID" value="<?php echo $link->SammlungID; ?>"> 
@@ -96,6 +126,7 @@ if (isset($_REQUEST["option"])) {
 
 </form>
 
+<!-- kein "zur Liste" Link, da sonst Datenverlust --> 
 <?php 
 
 

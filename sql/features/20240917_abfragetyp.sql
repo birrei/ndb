@@ -51,7 +51,7 @@ select * from abfrage limit 1
 
 /**************************************/
 
-
+UPDATE abfrage SET AbfragetypID=9 WHERE Beschreibung LIKE '%Vordefiniert%';
 
 
 /*

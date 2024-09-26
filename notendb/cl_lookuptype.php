@@ -72,16 +72,27 @@ class Lookuptype {
     include_once("cl_db.php");  
     include_once("cl_html_select.php");
 
-    $query="SELECT ID, Name 
-                  FROM lookup_type
-                  WHERE Relation=:Relation  
-                  ORDER BY Name";
-    
+    if ($this->Relation!='') {
+      $query="SELECT ID, Name 
+      FROM lookup_type
+      WHERE Relation=:Relation  
+      ORDER BY Name";
+
+    } else {
+      $query="SELECT ID, concat(Name, ' (', Relation,')') as Name
+      FROM lookup_type
+      ORDER BY Relation, Name";
+    }
+  
+
     $conn = new DbConn(); 
     $db=$conn->db; 
 
     $stmt = $db->prepare($query); 
-    $stmt->bindParam(':Relation', $this->Relation);
+
+    if ($this->Relation!='') {
+      $stmt->bindParam(':Relation', $this->Relation);
+    } 
 
     try {
       $stmt->execute(); 

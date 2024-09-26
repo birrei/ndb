@@ -113,7 +113,7 @@ class Link {
 
     try {
       $delete->execute(); 
-      echo '<p>Der Link wurde gelöscht.</p>'; 
+      // echo '<p>Der Link wurde gelöscht.</p>'; 
       return true;          
     }
     catch (PDOException $e) {

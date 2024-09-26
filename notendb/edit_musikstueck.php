@@ -175,8 +175,8 @@ if ($show_data) {
     <tr> 
       <td class="eingabe">
 
-      <p><a href="edit_musikstueck_verwendungszwecke.php?MusikstueckID='.$musikstueck->ID.'" target="Info" class="form-link">Verwendungszwecke</a></p>
-      <p><a href="edit_musikstueck_besetzungen.php?MusikstueckID='.$musikstueck->ID.'" target="Info" class="form-link">Besetzungen</a>  </p> 
+      <p><a href="edit_musikstueck_verwendungszwecke.php?MusikstueckID='.$musikstueck->ID.'" target="Info" class="form-link" onfocus="linkStyleFocus(this)">Verwendungszwecke</a></p>
+      <p><a href="edit_musikstueck_besetzungen.php?MusikstueckID='.$musikstueck->ID.'" target="Info" class="form-link" onfocus="linkStyleFocus(this)">Besetzungen</a>  </p> 
          
       </td> 
       <td class="eingabe">
@@ -193,7 +193,7 @@ if ($show_data) {
 
     <tr> 
       <td class="eingabe"><b>Sätze:</b><br/><br />
-      <a href="edit_satz.php?MusikstueckID='.$musikstueck->ID.'&option=insert&title=Satz" target="_blank" class="form-link">Satz hinzufügen</a>
+      <a href="edit_satz.php?MusikstueckID='.$musikstueck->ID.'&option=insert&title=Satz" target="_blank" class="form-link" onfocus="linkStyleFocus(this)">Satz hinzufügen</a>
       <br><br> <a href="edit_musikstueck_saetze.php?MusikstueckID='.$musikstueck->ID.'" target="Saetze" class="form-link">Aktualisieren - &gt; </a>
       
       </td> 
