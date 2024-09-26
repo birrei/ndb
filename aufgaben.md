@@ -34,6 +34,7 @@
 * col unnsigned - defs entfernen 
 * Formulare Bezeichnungen alle Fett drucken 
 * "open new page" vereinheitlichen 
+* iframe-aufruf-Buttons: farbig, wenn aktiv 
 
 ### Offene Aufgaben Prio 2
 * Benutzer-Verwaltung  
