@@ -3,10 +3,10 @@
 class Link {
 
   public $table_name; 
-  public $ID;
-  public $Name;
-  public $Bezeichnung; 
-  public $URL; 
+  public $ID='';
+  public $Name='';
+  public $Bezeichnung=''; 
+  public $URL=''; 
   public $LinktypeID; 
   public $SammlungID; 
   public $titles_selected_list; 
@@ -46,16 +46,20 @@ class Link {
     $conn = new DbConn(); 
     $db=$conn->db; 
 
+    if ($this->ID=='') {
+      $this->insert_row(); 
+    } 
     $update = $db->prepare("UPDATE `link` 
               SET 
-                LinktypeID= :LinktypeID
+                SammlungID=:SammlungID 
+              , LinktypeID= :LinktypeID
               , Bezeichnung=:Bezeichnung
               , `URL` = :URL
-              WHERE ID=:ID
-              "           
+              WHERE ID=:ID"           
            );
 
     $update->bindParam(':ID', $this->ID);
+    $update->bindParam(':SammlungID', $this->SammlungID);    
     $update->bindParam(':LinktypeID', $LinktypeID);
     $update->bindParam(':Bezeichnung', $Bezeichnung);
     $update->bindParam(':URL', $URL);

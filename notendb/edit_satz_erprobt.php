@@ -6,8 +6,10 @@ include('cl_erprobt.php');
 include("cl_satz.php"); 
 include("cl_html_info.php"); 
 
-// $satz = new Satz();
+
 $satzErprobt = new SatzErprobt();
+// $satzErprobt->SatzID = $_GET["SatzID"]; 
+
 $info= new HtmlInfo(); 
 
 $show_data=false; 
@@ -23,8 +25,7 @@ if (isset($_REQUEST["option"])) {
 
     case 'insert': 
       $satzErprobt->SatzID = $_GET["SatzID"];         
-      $satzErprobt->insert_row();
-      $show_data=true; 
+      // $satzErprobt->insert_row();
       break; 
     
     case 'update': 
@@ -62,13 +63,16 @@ if (isset($_REQUEST["option"])) {
     ?>
   </td>    
 </tr>
+
+
 <tr>
   <td class="eingabe2 eingabe2_1">Jahr: </td>
   <td class="eingabe2 eingabe2_2">
-      <input type="text" name="Jahr" value="<?php echo $satzErprobt->Jahr; ?>" size="10" oninput="changeBackgroundColor(this)">
+    <input type="text" name="Jahr" value="<?php echo $satzErprobt->Jahr; ?>" size="10" oninput="changeBackgroundColor(this)">
   </td>  
   <td class="eingabe2 eingabe2_3"></td>    
 </tr>
+
 
 <tr>
   <td class="eingabe2 eingabe2_1">Bemerkung:</td>
@@ -79,20 +83,8 @@ if (isset($_REQUEST["option"])) {
 </tr>
 <tr>
   <td class="eingabe2 eingabe2_1"> 
-    <?php
-      $info->print_link_delete_row2($satzErprobt->table_name, $satzErprobt->ID, '', false); 
-    ?>
   </td>
   <td class="eingabe2 eingabe2_2"><input class="btnSave" type="submit" value="Speichern"></td>  
-  <td class="eingabe2 eingabe2_3"></td>    
-</tr>
-<tr>
-  <td class="eingabe2 eingabe2_1"> </td>
-  <td class="eingabe2 eingabe2_2">
-    <?php
-      $info->print_link_reload();    
-    ?>
-  </td>  
   <td class="eingabe2 eingabe2_3"></td>    
 </tr>
 <tr>

@@ -15,15 +15,25 @@ if (isset($_GET["option"])){
         }
     } 
 
-    if($_GET["option"]=='delete') {
+    if($_REQUEST["option"]=='delete') {
         $erprobt=new SatzErprobt(); 
-        $erprobt->ID=$_GET["ID"]; 
-        $erprobt->delete(); 
+        $erprobt->ID=$_REQUEST["ID"]; 
+
+        if (isset($_POST["confirm"])) {
+            $erprobt->delete(); 
+        }
+        else {
+            echo '
+            <form action="" method="post">
+            <p>ID '.$erprobt->ID.' wird gelöscht </b>
+            <input class="btnDelete" type="submit" name="confirm" value="Löschung bestätigen">
+            <input type="hidden" name="ID" value="' . $erprobt->ID . '">  
+            <input type="hidden" name="option" value="delete">        
+            </form>
+            </p>  '; 
+        }
+
     }     
-}
-
-if (isset($_GET["option"])){
-
 }
 
 

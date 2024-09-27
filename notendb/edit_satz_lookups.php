@@ -16,7 +16,7 @@ if (isset($_GET["option"])){
       }
     } 
     if($_GET["option"]=='delete') {
-        $satz->delete_lookup($_GET["ID"]); // ID = satz_lookup.ID 
+        $satz->delete_lookup($_GET["ID"]); 
     } 
 }
 

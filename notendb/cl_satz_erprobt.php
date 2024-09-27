@@ -4,11 +4,11 @@ class SatzErprobt {
 
   public $table_name; 
 
-  public $ID;
-  public $SatzID;
-  public $ErprobtID; 
+  public $ID='';
+  public $SatzID='';
+  public $ErprobtID=''; 
   public $Jahr; 
-  public $Bemerkung; 
+  public $Bemerkung=''; 
 
   public $titles_selected_list; 
   public $Title='SatzErprobt';
@@ -47,6 +47,10 @@ class SatzErprobt {
     $conn = new DbConn(); 
     $db=$conn->db; 
 
+    if ($this->ID=='') {
+      $this->insert_row(); 
+    } 
+    
     $update = $db->prepare("UPDATE `satz_erprobt` 
               SET 
                 SatzID= :SatzID

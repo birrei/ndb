@@ -18,7 +18,8 @@ class HtmlTable {
     public $del_link_title=''; 
     public $del_link_open_newpage=false;
     public $del_link_parent_key='';
-    public $del_link_parent_id='';         
+    public $del_link_parent_id='';
+    public $del_option = 1; // 1: schnelle          
 
     public $add_link_show=false; // falls eine "show_*.php" für ein Tabelle vorgesehen ist (akt. show_abfrage.php)
     public $add_param_name; // für $add_link_show=true: "&Name=(wert im Name-Feld der Datenzeile)" ergänzen 

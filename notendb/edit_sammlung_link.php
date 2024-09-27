@@ -23,14 +23,14 @@ if (isset($_REQUEST["option"])) {
 
     case 'insert': 
       $link->SammlungID = $_GET["SammlungID"];         
-      $link->insert_row();
+      // $link->insert_row();
       $show_data=true; 
       break; 
     
     case 'update': 
-      $link->ID = $_POST["ID"];    
-      $link=new Link();     
-      $link->ID = $_POST["ID"];    
+      // $link=new Link();     
+      $link->ID = $_POST["ID"];
+      $link->SammlungID = $_POST["SammlungID"];          
       $link->update_row(
         $_POST["LinktypeID"],
         $_POST["Bezeichnung"], 
@@ -45,10 +45,7 @@ if (isset($_REQUEST["option"])) {
 ?> 
 <form action="" method="post">
 <table class="eingabe2"> 
-<tr>    
-  <td class="eingabe2 eingabe2_1">ID</td>  
-  <td class="eingabe2 eingabe2_2"><?php echo $link->ID; ?></td>
-</tr> 
+ 
 <tr>    
   <label>
      <td class="eingabe2 eingabe2_1">Typ: </td>
@@ -84,25 +81,12 @@ if (isset($_REQUEST["option"])) {
 
   <tr> 
   <td class="eingabe2 eingabe2_1">
-    <?php
-       $info->print_link_delete_row2($link->table_name, $link->ID, $link->Title, false); 
-    ?>
   </td>
   <td class="eingabe2 eingabe2_2">
   <input class="btnSave" type="submit" value="Speichern">
   </td>
   </tr>
 
-
-  <tr>    
-  <td class="eingabe2 eingabe2_1"></td>  
-  <td class="eingabe2 eingabe2_2">
-    <?php 
-    $info->print_link_reload();    
-    ?>
-    </td>
-  </label>
-  </tr> 
 
 
   <tr>    
@@ -126,7 +110,7 @@ if (isset($_REQUEST["option"])) {
 
 </form>
 
-<!-- kein "zur Liste" Link, da sonst Datenverlust --> 
+
 <?php 
 
 
