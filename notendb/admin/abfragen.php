@@ -13,8 +13,9 @@ include("../cl_abfrage.php");
 
 $tests[] = array('name' => 'Test - Sammlungen ohne Musikstück'
               , 'query'   => "
-              select s.ID, s.Name
-                from sammlung s 
+              select s.ID, s.Name, standort.Name as Standort
+                from sammlung s
+                left join standort on standort.ID = s.StandortID 
                 left join musikstueck m on s.ID = m.SammlungID 
                 where m.ID is null 
                 order by s.ID DESC 
