@@ -23,21 +23,31 @@ if (isset($_REQUEST["option"])) {
       }
       break; 
 
-    case 'insert': 
+    case 'insert':       
       $satzErprobt->SatzID = $_GET["SatzID"];         
       // $satzErprobt->insert_row();
       break; 
     
     case 'update': 
-      $satzErprobt->ID = $_POST["ID"];    
-      $satzErprobt->update_row(
-        $_POST["SatzID"],        
-        $_POST["ErprobtID"],
-        $_POST["Jahr"], 
-        $_POST["Bemerkung"]
-      ); 
+      if ($_POST["ID"]=='') {
+        $satzErprobt->SatzID = $_REQUEST["SatzID"];         
+        $satzErprobt->insert_row();   
+        $satzErprobt->update_row(
+          $_POST["SatzID"],        
+          $_POST["ErprobtID"],
+          $_POST["Jahr"], 
+          $_POST["Bemerkung"]
+        );          
 
-      $show_data=false; // statt Formular Liste anzeigen           
+      } else {
+        $satzErprobt->ID = $_REQUEST["ID"];  
+        $satzErprobt->update_row(
+          $_POST["SatzID"],        
+          $_POST["ErprobtID"],
+          $_POST["Jahr"], 
+          $_POST["Bemerkung"]
+        );         
+      }         
       break; 
   }
 }

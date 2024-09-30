@@ -47,9 +47,13 @@ class SatzErprobt {
     $conn = new DbConn(); 
     $db=$conn->db; 
 
-    if ($this->ID=='') {
-      $this->insert_row(); 
-    } 
+    // echo '<p>update_row - Parameter:<br />'; 
+    // echo 'SatzID: '.$SatzID.'<br />';
+    // echo 'ErprobtID: '.$ErprobtID.'<br />';      
+    // echo 'Jahr: '.$Jahr.'<br />';     
+    // echo 'Bemerkung: '.$Bemerkung.'<br />';     
+    // echo 'Neue ID: '.$this->ID.'<br />';         
+    // echo '</p>';       
     
     $update = $db->prepare("UPDATE `satz_erprobt` 
               SET 

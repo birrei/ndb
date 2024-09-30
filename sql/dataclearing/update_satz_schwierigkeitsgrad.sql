@@ -1,12 +1,9 @@
 /*
-In Sammlung soll bei allen Schwierigkeitsgraden ein bestimmtes Instrument 
+In einer defnierten Sammlung soll bei allen Schwierigkeitsgraden ein bestimmtes Instrument 
 durch ein bestimmtes anderes Instrument ersetzt werden. 
 */
 
-
-/* unbekannt -> Orchester 
-  ! nur SammlungID anpassen ! 
-*/
+/* unbekannt -> Orchester / SammlungID anpassen! */
 
 update satz_schwierigkeitsgrad as s 
 inner join 
@@ -17,17 +14,13 @@ inner join
     inner join satz_schwierigkeitsgrad on satz_schwierigkeitsgrad.SatzID = satz.ID 
     inner join instrument on instrument.ID = satz_schwierigkeitsgrad.InstrumentID 
     inner Join musikstueck on musikstueck.ID = satz.MusikstueckID 
-
     WHERE 1=1 
-    and musikstueck.SammlungID = 132
-    and satz_schwierigkeitsgrad.InstrumentID = 1 -- 1 (unbekannt)
-    and satz_schwierigkeitsgrad.InstrumentID <> 2 -- Ziel-ID (Einschränkung wg. dubletten-Vermeidung)
+    and musikstueck.SammlungID = 132 -- XX SammlungID
+    and satz_schwierigkeitsgrad.InstrumentID = 1 -- XX 1 (unbekannt)
+    and satz_schwierigkeitsgrad.InstrumentID <> 2 -- XX 2 Orchester // Ziel-ID (Einschränkung wg. dubletten-Vermeidung)
 ) ref 
 on ref.ID = s.ID 
-set s.InstrumentID =  2 -- Orchester 
-
-
-
+set s.InstrumentID =  2 -- XX -- 2 Orchester // Ziel-ID 
 
 
 
