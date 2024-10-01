@@ -11,6 +11,8 @@ include('head.php');
 <p class="inhalt2"><a href="#erfassungsatz">Satz</a></p>
 <p class="inhalt3"><a href="#erfassungsatzspieldauer">Satz Spieldauer</a></p>
 
+<p class="inhalt2"><a href="#erfassungbesonderheiten">Besonderheiten</a></p>
+
 <p class="inhalt1"><a href="#suche"><b>Suche</b></a></p>
 <p class="inhalt2"><a href="#suchemehrfachauswahl1">Mehrfachauswahl: Einträge markieren</a></p>
 <p class="inhalt2"><a href="#suchemehrfachauswahl2">Mehrfachauswahl: Suchlogik</a></p>
@@ -38,6 +40,22 @@ Folgende Eingaben im Minuten-Feld sind alternativ möglich:
         Zeit-Format "mm:ss" (z.B: 01:30 bzw. 1:30 für 1 Minute und 30 Sekunden)
     </li>
 </ul>
+
+<h2 id="erfassungbesonderheiten">Besonderheiten</h2>
+
+<p> Besonderheiten können für Sammlungen oder Sätze erfasst werden. Jede Besonderheit wird einem Besonderheit-Typ untergeordnet. 
+    Der Typ ist für die Erfassung einer Besonderheit am Satz / an der Sammlung nicht zwinged erforderlich -  
+    jede Besonderheit hat (über Typen hinweg) eine eigene eindeutige ID. 
+    
+</p>
+
+<p>
+Wichtig ist die Typ-Zuordnung für die Suche: Auf der <a href="suche.php">Suche-Seite</a> 
+wird für jeden Typ eine Mehrfach-Auswahlbox mit den zugeordneten Besonerheiten angezeigt (weiteres dazu im Kapitel <a href="#suche">Suche</a>)  
+
+</p>
+
+
 
 
 <hr />
@@ -82,7 +100,8 @@ Folgende Eingaben im Minuten-Feld sind alternativ möglich:
     Die Standard-Suche findet alle Sätze, bei denen u.a. Notenwert "Achtel" - ggf. zusammen mit anderen Notenwerten - vorkommt 
      </li> 
 <li>
-    Die Genaue Suche findet alle Sätze, bei denen nur Notenwert "Achtel" vorkomm. Sätze, bei denen weitere Notenwerte vorkommen, werden ausgeschlossen.    
+    Die Genaue Suche findet alle Sätze, bei denen nur ein Notenwert, und zwar "Achtel" vorkommt. 
+    Sätze, bei denen weitere Notenwerte vorkommen, werden ausgeschlossen.    
 </li> 
 </ul>
 
@@ -93,7 +112,8 @@ Folgende Eingaben im Minuten-Feld sind alternativ möglich:
         Die Standard-Suche findet alle Sätze, bei denen u.a. "Achtel" oder "Viertel" vorkommen. 
     </li>
     <li>
-        Die Genaue Suche findet Sätze, bei denen nur "Achtel" und "Sechzehntel" vorkommen. Sätze, bei denen nur einer der beiden beiden Notenwerte oder weitere Notenwerte vorkommen, werden ausgeschossen. 
+        Die Genaue Suche findet Sätze, bei denen nur "Achtel" und "Sechzehntel" vorkommen. 
+        Sätze, bei denen nur einer der beiden beiden Notenwerte oder weitere Notenwerte vorkommen, werden ausgeschossen. 
     </li>
 </ul>
 
