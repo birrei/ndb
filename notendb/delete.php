@@ -157,18 +157,15 @@ if (isset($objekt)) {
     }
     $info=new HtmlInfo(); 
     if (isset($_POST["confirm"])) {
-      echo $objekt->ID; 
-
       if($objekt->delete()) { 
-        echo '<p>Die Zeile mit der ID '.$objekt->ID.' wurde aus '.$objekt->Titles.' gelöscht.';    
+        echo '<p>Die Zeile mit der ID '.$objekt->ID.' wurde aus '.$objekt->Title.' gelöscht.';    
         if($show_link_table) {
           $info->print_link_table($tablelink_table, 'sortcol='.$tablelink_sortcol, $objekt->Titles,false);  
         }
       } else {
-        echo '<p>keine löscheung ... XXX </p>'; 
+        echo '<p>Keine Löschung durchgeführt.</p>'; 
       }
       $info->print_link_edit($objekt->table_name, $objekt->ID,$objekt->Title,'',false);
-
     }
     else {
       echo '

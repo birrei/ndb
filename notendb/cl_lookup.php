@@ -344,9 +344,7 @@ class Lookup {
     }  
   } 
 
-  
   function getArrLookups(){
-    // alle Typen einer Relation 
     include_once("cl_db.php");
     $arrTmp=[]; 
 
