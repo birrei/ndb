@@ -26,6 +26,9 @@ if (isset($_REQUEST["option"])) {
     case 'update': 
       $lookuptype->ID = $_POST["ID"];    
       $lookuptype->update_row($_POST["Name"],$_POST["Relation"],$_POST["type_key"],$_POST["selsize"]); 
+      if ($lookuptype->textWarning!='') {
+        $info->print_user_error($lookuptype->textWarning); 
+      }
       $show_data=true;           
       break; 
   }

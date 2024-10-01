@@ -10,8 +10,13 @@ class HtmlInfo {
         $this->info_datetime = date("d.m.Y H:i:s", time());
     }
    
-    function print_user_error() {
-        $this->html='<p style="color: red;">Ein Fehler ist aufgetreten.</p>'; 
+    function print_user_error($text='') {
+        if ($text!='') {
+            $this->html='<p style="color: red;">'.$text.'</p>'; 
+        } else {
+            $this->html='<p style="color: red;">Ein Fehler ist aufgetreten.</p>'; 
+        }
+
         echo $this->html; 
     }
 

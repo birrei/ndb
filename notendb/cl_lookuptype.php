@@ -11,7 +11,8 @@ class Lookuptype {
   public $titles_selected_list; 
   public $Title='Besonderheit-Typ';
   public $Titles='Besonderheit-Typen';
-   
+  public $textInfo=''; 
+  public $textWarning=''; 
 
   public function __construct(){
     $this->table_name='lookup_type'; 
@@ -136,6 +137,24 @@ class Lookuptype {
     include_once("cl_db.php");   
     $conn = new DbConn(); 
     $db=$conn->db; 
+
+    // prüfen, ob Wert "Relation" geändert wurde. 
+    // Dieser darf nicht mehr geändert werden, falls bereits lookups vorhanden sind 
+    $select = $db->prepare("
+        select lookup_type.Relation 
+        from lookup_type 
+        inner join lookup on lookup.LookupTypeID = lookup_type.ID
+        where lookup_type.ID = :ID 
+        ");
+    $select->bindValue(':ID', $this->ID); 
+    $select->execute();  
+    if ($select->rowCount() > 0 ){
+      $Relation_exists=$select->fetchColumn(); 
+      if($Relation != $Relation_exists) {
+        $this->textWarning='Der Wert im Feld Relation kann nicht geändert werden, da bereits Zuordnungen vorhanden sind.';
+        $Relation=$Relation_exists; 
+      }      
+    }      
     
     $update = $db->prepare("UPDATE `lookup_type` 
                             SET Name     = :Name, 
@@ -153,12 +172,14 @@ class Lookuptype {
     try {
       $update->execute(); 
       $this->load_row(); 
+      return true; 
     }
     catch (PDOException $e) {
       include_once("cl_html_info.php"); 
       $info = new HtmlInfo();      
       $info->print_user_error(); 
       $info->print_error($stmt, $e); 
+      return false; 
     }
   }
 
