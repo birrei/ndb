@@ -41,7 +41,7 @@ if (isset($_REQUEST["option"])) {
 $info= new HtmlInfo(); 
 
 $info->print_screen_header($sammlung->Title.' bearbeiten'); 
-$info->print_link_table('v_sammlung', 'sortcol=ID&sortorder=DESC', $sammlung->Titles,false, ''); 
+$info->print_link_table('v_sammlung', 'sortcol=ID&sortorder=DESC', $sammlung->Titles,false,'&show_filter'); 
 $info->print_link_insert($sammlung->table_name, $sammlung->Title, false); 
 
 
