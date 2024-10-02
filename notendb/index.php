@@ -15,7 +15,7 @@ h3 {
 <tr> <td colspan="3" class="start"> <h1> Notendatenbank   </h1> </td> </tr>    
         <tr>
             <td class="start"><b>Sammlung</b></td>
-            <td class="start"><a href="show_table2.php?table=v_sammlung&sortcol=ID&sortorder=DESC&title=Sammlungen">Daten anzeigen</a></td>
+            <td class="start"><a href="show_table2.php?table=v_sammlung&sortcol=ID&sortorder=DESC&title=Sammlungen&show_filter">Daten anzeigen</a></td>
             <td class="start"><a href="edit_sammlung.php?title=Sammlung&option=insert">Neu erfassen</a></td>
         </tr>
         <tr>

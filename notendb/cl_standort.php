@@ -199,6 +199,33 @@ class Standort {
     }      
   }
 
+  function print_preselect($value_selected=''){
+      
+    include_once("cl_db.php");  
+    include_once("cl_html_select.php");
+
+    $query="SELECT ID, Name 
+                  FROM standort
+                  ORDER BY Name";
+    
+    $conn = new DbConn(); 
+    $db=$conn->db; 
+
+    $stmt = $db->prepare($query); 
+
+    try {
+      $stmt->execute(); 
+      $html = new HtmlSelect($stmt); 
+      $html->print_preselect("StandortID", $value_selected, true); 
+    }
+    catch (PDOException $e) {
+      include_once("cl_html_info.php"); 
+      $info = new HtmlInfo();      
+      $info->print_user_error(); 
+      $info->print_error($stmt, $e); 
+    }
+  }
+
 }
 
 

@@ -5,7 +5,8 @@ select sammlung.ID
     , standort.Name as Standort
     , sammlung.Bemerkung
     , v_sammlung_lookuptypes.LookupList as Besonderheiten       
-   -- , sammlung.Bestellnummer     
+   -- , sammlung.Bestellnummer   
+   , sammlung.StandortID  
 from sammlung 
     left join verlag  on sammlung.VerlagID = verlag.ID 
     left join standort on sammlung.StandortID = standort.ID

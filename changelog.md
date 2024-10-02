@@ -1,6 +1,10 @@
 ﻿
 # Change Log  
 
+02.10.2024 - Übersichtstabelle Sammlung > Filter "Standort" 
+
+01.10.2024 - Filter "Erprobt > Jahr" 
+
 20.09.2024 - Integration Abfragetyp 
 
 11.09.2024 - auto-Update: autom. Ergänzung definierter Zuordnungen für eine definierte Einheit (z.B. für bestimmte Standort immer bestimmte Besetzungen)

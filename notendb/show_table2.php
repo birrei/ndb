@@ -72,6 +72,15 @@ if($show_filter) {
       $query.=($LookupTypeID!=''?'AND LookupTypeID='.$LookupTypeID.' '.PHP_EOL:''); 
     break; 
 
+    case 'v_sammlung': 
+      include_once("cl_standort.php");
+      $StandortID=(isset($_POST["StandortID"])?$_POST["StandortID"]:'');
+      $standort = new Standort(); 
+      echo 'Standort: '.PHP_EOL; 
+      $standort->print_preselect($StandortID); 
+      $query.=($StandortID!=''?'AND StandortID='.$StandortID.' '.PHP_EOL:''); 
+    break;     
+
   }
   echo '</form>'.PHP_EOL; 
   echo '<p></p>'; 
