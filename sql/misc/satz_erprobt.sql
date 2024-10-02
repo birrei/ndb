@@ -1,0 +1,1 @@
+select * from satz_erprobt where Jahr IS NOT NULL ORDER BY Jahr 

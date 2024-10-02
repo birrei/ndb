@@ -43,6 +43,10 @@ $lookup_all_values_selected=[]; // im Suchfilter ausgewählte Besonderheiten-IDs
 
 $spieldauer_von=''; 
 $spieldauer_bis=''; 
+
+$ErprobtJahr_von=''; 
+$ErprobtJahr_bis=''; 
+
 $suchtext=''; 
 
 /***************************/
@@ -65,7 +69,8 @@ $filterSchwierigkeitsgrad='';
 $filterInstrumente=''; 
 
 $filterLookups=''; 
-$filterSpieldauer='';   
+$filterSpieldauer='';
+$filterErprobtJahr='';     
 $filterSuchtext='';  
 
 
@@ -172,6 +177,7 @@ if (isset($_POST['suchtext'])) {
 
 
   /*********  Sammlung Besonderheiten **********/  
+  // XXX noch analog zu Satz Besonderheiten umsetzen (Genaue Suche)
   $lookuptypes=new Lookuptype(); 
   $lookuptypes->Relation='sammlung'; 
   $lookuptypes->setArrData(); 
@@ -263,8 +269,6 @@ if (isset($_POST['suchtext'])) {
   ?>
   <p class="navi-trenner">Satz</p> 
   <?php   
-
-
 /************* Schwierigkeitsgrad  ***********/
   if (isset($_POST['Schwierigkeitsgrad'])) {
     $Schierigkeitsgrad = $_POST['Schwierigkeitsgrad']; 
@@ -295,6 +299,41 @@ if (isset($_POST['suchtext'])) {
   $erprobt->print_select_multi($Erprobt);  
   $Suche->Beschreibung.=(count($Erprobt)>0?$erprobt->titles_selected_list:'');            
 
+  /************* Erprobt Jahr ***********/
+  if (isset($_REQUEST['ErprobtJahr_von']) and isset($_REQUEST['ErprobtJahr_bis']) ) {
+    if ($_REQUEST['ErprobtJahr_von']!='') {
+      $ErprobtJahr_von=(is_numeric($_REQUEST['ErprobtJahr_von'])?$_REQUEST['ErprobtJahr_von']:'');
+    }
+    if ($_REQUEST['ErprobtJahr_bis']!='') {
+      $ErprobtJahr_bis=(is_numeric($_REQUEST['ErprobtJahr_bis'])?$_REQUEST['ErprobtJahr_bis']:''); 
+    }
+    if ($ErprobtJahr_von !='' and $ErprobtJahr_bis =='') {
+      $filterErprobtJahr='='.$ErprobtJahr_von.PHP_EOL; 
+      $Suche->Beschreibung.='* Erprobt Jahr: '.$ErprobtJahr_von.PHP_EOL;
+      $filter=true;       
+    }
+    if($ErprobtJahr_von !='' and $ErprobtJahr_bis !=''){
+      $filterErprobtJahr=' BETWEEN '.$ErprobtJahr_von.' AND '.$ErprobtJahr_bis; 
+      $Suche->Beschreibung.='* Erprobt Jahr: von '.$ErprobtJahr_von.' bis '.$ErprobtJahr_bis.PHP_EOL;
+      $filter=true; 
+    }
+  }
+
+  ?>    
+  <p><b>Erprobt Jahr:</b> 
+  von: <input type="text" id="ErprobtJahr_von" name="ErprobtJahr_von" size="5"  value="<?php echo $ErprobtJahr_von; ?>"> 
+  bis: <input type="text" id="ErprobtJahr_bis" name="ErprobtJahr_bis" size="5" value="<?php echo $ErprobtJahr_bis; ?>">
+  <input type="button" id="btnReset_ErprobtJahr" value="Filter zurücksetzen" onclick="Reset_ErprobtJahr();" />  
+  <script type="text/javascript">  
+        function Reset_ErprobtJahr() {  
+          document.getElementById("ErprobtJahr_von").value='';  
+          document.getElementById("ErprobtJahr_bis").value='';  
+        }
+    </script> 
+  </p>
+ 
+  <?php  
+  
 /*******  Spieldauer  ****************/  
 
   if (isset($_REQUEST['SpieldauerVon']) and isset($_REQUEST['SpieldauerBis']) ) {
@@ -366,6 +405,7 @@ if (isset($_POST['suchtext'])) {
       $lookup_values_selected= $_POST[$lookup_type_key]; 
       // print_r($lookup_values_selected); // test 
       if (isset($_POST['ex_'.$lookup_type_key])) {
+        // Checkbox "Genaue Suche" wurde aktiviert 
         $lookup_check_excl=true; 
         // ausgewählte Eintraege filtern           
         for ($i = 0; $i < count($lookup_values_selected); $i++) {
@@ -524,6 +564,8 @@ if (isset($_POST['suchtext'])) {
 
       $query.=($filterErprobt!=''?' AND satz_erprobt.ErprobtID '.$filterErprobt. PHP_EOL:''); 
 
+      $query.=($filterErprobtJahr!=''?' AND satz_erprobt.Jahr '.$filterErprobtJahr. PHP_EOL:'');       
+
       if($filterSchwierigkeitsgrad!=''){
         $query.=' AND satz_schwierigkeitsgrad.SchwierigkeitsgradID '.$filterSchwierigkeitsgrad. PHP_EOL; 
       }
@@ -536,6 +578,7 @@ if (isset($_POST['suchtext'])) {
       if($filterSpieldauer!=''){
         $query.=' AND satz.Spieldauer '.$filterSpieldauer. PHP_EOL; 
       }
+ 
       if($suchtext!=''){
         $query.="AND (sammlung.Name LIKE '%".$suchtext."%' OR  
                             sammlung.Bemerkung LIKE '%".$suchtext."%' OR 
