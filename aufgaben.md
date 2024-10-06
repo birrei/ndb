@@ -1,18 +1,21 @@
 ﻿
-###  Aufgaben in Arbeit  
-* auto_update - noch: "Erprobt" 
+
+
+###  Aufgaben in Arbeit
+
+- [ ] auto_update 
+- [ ] delete.ph: Löschbarkeit vor Nutzerbestätigung prüfen
 
 ### Offene Aufgaben 
-* Sammlung "Druckansicht" 
+* STartzeiten-Links auf Tabreihenfolge nehmen 
+* Sammlung "Druckansicht/Datenblatt" 
 * Übersicht Sammlung: Sortierung nach Name
+* Tabellen Spalten-Sortierung (per JavaScript, s. https://www.w3schools.com/howto/howto_js_sort_table.asp) 
 * Suche, Ergebnisanzeige: Anzahl Zeilen angezeigen  
 * Eigenes Git-Repository für das Projekt 
-* Suche: Filter nach Erprobt Jahr
-* Notensymbole Schrift
-* Übersichtstabellen Sortier-Links
 * Logging (Datum, Name)
 * Konfiguration Fehlerausgabe
-* Tabellen Spalten-Sortierung
+* Tabellen-Anzeige show_table2.php
 
 ### Verbesserungen, Korrekturen 
 * delete-Routinen: Folge-Links prüfen  
@@ -24,7 +27,7 @@
 * Übersichtstabellen -> Anzahl Zeilen begrenzen
 * "Plural-Problem" 
 * Suche: Filter IDs über GET zur Verfügung stellen
-* DAtum Spalten "erstellt" und "geändert" bei allen Tabellen
+* Datum Spalten "erstellt" und "geändert" bei allen Tabellen
 * iframe-Formular: Autofocus auf ertes Feld ? 
 * Auswahlformulare: Verhalten, wenn Werte "verbraucht" sind (cl_html_select.php, print_select - test dev Schwierigkeitsgrad) 
 * Validierung Eingabewerte
@@ -35,6 +38,7 @@
 * Formulare Bezeichnungen alle Fett drucken 
 * "open new page" vereinheitlichen 
 * iframe-aufruf-Buttons: farbig, wenn aktiv 
+* musikstueck: Spalte "JahrAuffuehrung" löschen
 
 ### Offene Aufgaben Prio 2
 * Benutzer-Verwaltung  
@@ -53,12 +57,16 @@
 
 * Projektbeschreibung erarbeiten 
 * Feld "Opus" -> ändern in "Werkverzeichnis" (zumindest im Formular)
+* Notensymbole Schrift
+
+
+
+### Notizen für Doku: 
+* Untertabellen / Unterformulare - Unterschied 1) mit / 2) ohne Schnell-Löschmöglichkeit: 1: Gespeichert sind nur Verknüpfungsinformationen (die leicht wiederhergestellt werden können).    
 
 
 ### erledigte Aufgaben 
 * Delete-Funktionen ergänzen (satz->erprobt, sammmlung->besonderheiten) 
 * delete.php: Löschung Musikstück / Satz ohne abschließenden Tabellenlink  
 * Erprobt- Attribut erweitern 
-
-### Notizen für Doku: 
-* Untertabellen / Unterformulare - Unterschied 1) mit / 2) ohne Schnell-Löschmöglichkeit: 1: Gespeichert sind nur Verknüpfungsinformationen (die leicht wiederhergestellt werden können).    
+* Suche: Filter nach Erprobt Jahr
