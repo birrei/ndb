@@ -19,7 +19,7 @@ class SatzErprobt {
   }
 
   function insert_row () {
-    include_once("cl_db.php");
+    include_once("dbconn/cl_db.php");
     $conn = new DbConn(); 
     $db=$conn->db; 
 
@@ -43,7 +43,7 @@ class SatzErprobt {
   }  
    
   function update_row ($SatzID,$ErprobtID, $Jahr, $Bemerkung) {
-    include_once("cl_db.php");
+    include_once("dbconn/cl_db.php");
     $conn = new DbConn(); 
     $db=$conn->db; 
 
@@ -85,7 +85,7 @@ class SatzErprobt {
   }  
  
   function load_row() {
-    include_once("cl_db.php");   
+    include_once("dbconn/cl_db.php");   
     $conn = new DbConn(); 
     $db=$conn->db; 
 
@@ -114,7 +114,7 @@ class SatzErprobt {
   }  
 
   function delete(){
-    include_once("cl_db.php");
+    include_once("dbconn/cl_db.php");
     $conn = new DbConn(); 
     $db=$conn->db; 
     // echo '<p>Lösche satz_erprobt ID: '.$this->ID.':</p>';

@@ -1,7 +1,7 @@
 <?php 
-include('../head_raw.php');
-include("../cl_db.php"); 
-include("../cl_html_info.php"); 
+include('../head.php');
+include("../../dbconn/cl_db.php"); 
+include("../../cl_html_info.php"); 
 
 /* 
 Script führt die SQL-Commands aus allen *.sql-Dateien (die im gleichen Ordner liegen) aus. 
@@ -11,7 +11,7 @@ Eine Datei kan mehrere SQL-Commands enthalte, diese müssen dann durch ein Semik
 ?> 
 
 <div style="padding: 50px"> 
-<h3>Installation DDL</h3>    
+<h3>Views installieren</h3>    
 <?php 
 
 $dir='.'; 
@@ -60,7 +60,7 @@ echo "</div>";
 <?php 
 
 
-include('../foot_raw.php');
+include('../foot.php');
 
 ?>
 

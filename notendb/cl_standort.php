@@ -14,7 +14,7 @@ class Standort {
   }
 
   function insert_row ($Name) {
-    include_once("cl_db.php");
+    include_once("dbconn/cl_db.php");
     $conn = new DbConn(); 
     $db=$conn->db; 
 
@@ -39,7 +39,7 @@ class Standort {
  
   function print_select($value_selected=''){
       
-    include_once("cl_db.php");  
+    include_once("dbconn/cl_db.php");  
     include_once("cl_html_select.php");
 
     $query="SELECT ID, Name 
@@ -69,7 +69,7 @@ class Standort {
 
     $query="SELECT * from standort ORDER by Name"; 
 
-    include_once("cl_db.php");
+    include_once("dbconn/cl_db.php");
     $conn = new DbConn(); 
     $db=$conn->db; 
 
@@ -91,7 +91,7 @@ class Standort {
   }
 
   function update_row($Name) {
-    include_once("cl_db.php");   
+    include_once("dbconn/cl_db.php");   
     $conn = new DbConn(); 
     $db=$conn->db; 
     
@@ -116,7 +116,7 @@ class Standort {
   }
 
   function load_row() {
-    include_once("cl_db.php");   
+    include_once("dbconn/cl_db.php");   
     $conn = new DbConn(); 
     $db=$conn->db; 
 
@@ -140,7 +140,7 @@ class Standort {
 
   function print_select_multi($options_selected=[]){
 
-    include_once("cl_db.php");  
+    include_once("dbconn/cl_db.php");  
     include_once("cl_html_select.php");
 
     $query="SELECT ID, Name 
@@ -167,7 +167,7 @@ class Standort {
   }  
 
   function delete(){
-    include_once("cl_db.php");
+    include_once("dbconn/cl_db.php");
     $conn = new DbConn(); 
     $db=$conn->db; 
 
@@ -201,7 +201,7 @@ class Standort {
 
   function print_preselect($value_selected=''){
       
-    include_once("cl_db.php");  
+    include_once("dbconn/cl_db.php");  
     include_once("cl_html_select.php");
 
     $query="SELECT ID, Name 

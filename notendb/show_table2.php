@@ -92,7 +92,7 @@ $query.= ($sortcol!='' ?' ORDER BY '.$sortcol.' '.PHP_EOL.$sortorder:'');
 
 // echo '<pre>'.$query.'</pre>'; // Test 
 
-include_once("cl_db.php");
+include_once("dbconn/cl_db.php");
 $conn = new DbConn(); 
 $db=$conn->db; 
 

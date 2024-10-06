@@ -18,7 +18,7 @@ class Link {
   }
 
   function insert_row () {
-    include_once("cl_db.php");
+    include_once("dbconn/cl_db.php");
     $conn = new DbConn(); 
     $db=$conn->db; 
 
@@ -42,7 +42,7 @@ class Link {
   }  
    
   function update_row ($LinktypeID, $Bezeichnung, $URL) {
-    include_once("cl_db.php");
+    include_once("dbconn/cl_db.php");
     $conn = new DbConn(); 
     $db=$conn->db; 
 
@@ -78,7 +78,7 @@ class Link {
  
 
   function load_row() {
-    include_once("cl_db.php");   
+    include_once("dbconn/cl_db.php");   
     $conn = new DbConn(); 
     $db=$conn->db; 
 
@@ -107,7 +107,7 @@ class Link {
   }  
 
   function delete(){
-    include_once("cl_db.php");
+    include_once("dbconn/cl_db.php");
     $conn = new DbConn(); 
     $db=$conn->db; 
     // echo '<p>Lösche Link ID: '.$this->ID.':</p>';

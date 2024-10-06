@@ -25,6 +25,7 @@ class HtmlTable {
     public $add_param_name; // für $add_link_show=true: "&Name=(wert im Name-Feld der Datenzeile)" ergänzen 
 
     public $show_missing_data_message=true; 
+    public $show_row_count=false; 
     public $in_iframe=false; 
 
     function __construct($stmt) {
@@ -37,16 +38,42 @@ class HtmlTable {
     
     function print_table2() {
  /* Verbesserung von print_table, ab jetzt diese verwenden! XXX  */
-        $html = '';
+        $html = ''. PHP_EOL;
 
         if ($this->count_cols > 0 & $this->count_rows > 0)
         {
-            $html = '<table class="resultset">';
-            $html .= '<thead>';
-            $html .= '<tr>'. PHP_EOL;
+            $html.= '<style>
+
+            td, th {
+                text-align: left;
+                vertical-align: top; 
+            }
+
+            table.resultset {
+                border: 1px solid black;
+                border-collapse: collapse; 
+                font-size: 10pt;  
+                margin: 0px; 
+                padding: 0px;        
+            }
+            th.resultset {
+                border: 1px solid black;
+                background-color: lightgrey;    
+                padding: 1px;       
+            }
+            td.resultset {
+                border: 1px solid black;    
+                padding: 2px;   
+            }
+            
+            
+                        } </style>';             
+            $html.= '<table class="resultset">'. PHP_EOL;
+            $html.= '<thead>'. PHP_EOL;
+            $html.= '<tr>'. PHP_EOL;
             for($i = 0; $i < $this->count_cols; ++$i) {
                 $colmeta=$this->stmt->getColumnMeta($i); // assoz. array 
-                $html .= '<th class="resultset">'.$colmeta['name'].'</th>';    
+                $html .= '<th class="resultset">'.$colmeta['name'].'</th>'. PHP_EOL;    
             }
             if ($this->add_link_edit) {
                 $html .= '<th class="resultset">Aktion</th>'. PHP_EOL;                     
@@ -97,59 +124,64 @@ class HtmlTable {
                     //    
                     $html .= '</tr>'. PHP_EOL;
                 } 
-                $html .= '</tbody>';   
+                $html .= '</tbody>'. PHP_EOL;   
             }
-            $html .= '</table>'; 
+            $html .= '</table>'. PHP_EOL; 
+            $html .= ($this->show_row_count?'<pre>'.$this->count_rows.' Zeilen betroffen</pre>':''); 
+
+
         }
         else {
-               $html .= ($this->show_missing_data_message?'<p>Keine Daten vorhanden.</p>':''); 
+               $html .= ($this->show_missing_data_message?'<pre>Keine Daten vorhanden.</pre>':''); 
         }
         echo $html;
     }
 
 
     
-    function print_table_tablelist() {
-        /* 
-        Verwendung in list_tables.php
-        einspaltige Tabelle mit Objekt-Namen, die als Link ausgegeben werden  
-        */
+//     function print_table_tablelist() {
+//         /* 
+//         Verwendung in list_tables.php
+//         einspaltige Tabelle mit Objekt-Namen, die als Link ausgegeben werden  
+//         */
  
-        $html = '';
+//         $html = '';
 
-        if ($this->count_cols > 0 & $this->count_rows > 0)
-        {
-            $html = '<table>';
-            // header 
-            $html .= '<thead>';
-            $html .= '<tr>'. PHP_EOL;
-            for($i = 0; $i < $this->count_cols; ++$i) {
-                $colmeta=$this->stmt->getColumnMeta($i); // assoz. array 
-                $html .= '<th>'.$colmeta['name'].'</th>';    
-            }
+//         if ($this->count_cols > 0 & $this->count_rows > 0)
+//         {
+//             $html = '<table>';
+//             // header 
+//             $html .= '<thead>';
+//             $html .= '<tr>'. PHP_EOL;
+//             for($i = 0; $i < $this->count_cols; ++$i) {
+//                 $colmeta=$this->stmt->getColumnMeta($i); // assoz. array 
+//                 $html .= '<th>'.$colmeta['name'].'</th>';    
+//             }
        
-            $html .=  '</tr>'. PHP_EOL;
-            $html .= '</thead>';
-            // zeilen  
-            if  ($this->count_rows > 0) {
-                foreach ($this->result as $row) {
-                    $html .= '<tr>'. PHP_EOL;
-                    foreach ($row as $key=>$cell){
-                        // echo $key; 
-                        $html .= '<td><a href="show_table2.php?table='.$cell.'">'.$cell.'</a></td>';                        
+//             $html .=  '</tr>'. PHP_EOL;
+//             $html .= '</thead>';
+//             // zeilen  
+//             if  ($this->count_rows > 0) {
+//                 foreach ($this->result as $row) {
+//                     $html .= '<tr>'. PHP_EOL;
+//                     foreach ($row as $key=>$cell){
+//                         // echo $key; 
+//                         $html .= '<td><a href="show_table2.php?table='.$cell.'">'.$cell.'</a></td>';                        
 
-                    }
+//                     }
                     
-                    $html .= '</tr>'. PHP_EOL;
-                } 
-            }
-            $html .= '</table>'; 
-        }
-        else {
-           $html .= '<p>Keine Daten vorhanden.</p> '; 
-        }
-        echo $html;
-    }
+//                     $html .= '</tr>'. PHP_EOL;
+//                 } 
+//             }
+//             $html .= '</table>'; 
+//         }
+//         else {
+//            $html .= '<p>Keine Daten vorhanden.</p> '; 
+//         }
+//         echo $html;
+//     }
+
+
  }
 
 

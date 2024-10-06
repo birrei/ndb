@@ -22,7 +22,7 @@ class Musikstueck {
   }
 
   function insert_row($Nummer='', $Name='') { 
-    include_once("cl_db.php");
+    include_once("dbconn/cl_db.php");
 
     $Nummer=($Nummer==''? $this->get_next_nummer():$Nummer);
 
@@ -81,7 +81,7 @@ class Musikstueck {
     // echo '<br>EpocheID: '.$EpocheID;    
 
 
-    include_once("cl_db.php");   
+    include_once("dbconn/cl_db.php");   
     $conn = new DbConn(); 
     $db=$conn->db; 
             
@@ -121,7 +121,7 @@ class Musikstueck {
 
 
   function load_row() {
-    include_once("cl_db.php");   
+    include_once("dbconn/cl_db.php");   
     $conn = new DbConn(); 
     $db=$conn->db; 
 
@@ -169,7 +169,7 @@ class Musikstueck {
     WHERE mb.MusikstueckID = :MusikstueckID 
     ORDER by b.Name"; 
 
-    include_once("cl_db.php");
+    include_once("dbconn/cl_db.php");
     $conn = new DbConn(); 
     $db=$conn->db; 
   
@@ -209,7 +209,7 @@ class Musikstueck {
     WHERE mb.MusikstueckID = :MusikstueckID 
     ORDER by v.Name"; 
 
-    include_once("cl_db.php");
+    include_once("dbconn/cl_db.php");
     $conn = new DbConn(); 
     $db=$conn->db; 
   
@@ -237,7 +237,7 @@ class Musikstueck {
   }
 
   function add_besetzung ($BesetzungID){
-      include_once("cl_db.php");
+      include_once("dbconn/cl_db.php");
       $conn = new DbConn(); 
       $db=$conn->db; 
 
@@ -261,7 +261,7 @@ class Musikstueck {
   }
 
   function add_verwendungszweck ($VerwendungszweckID){
-    include_once("cl_db.php");
+    include_once("dbconn/cl_db.php");
     $conn = new DbConn(); 
     $db=$conn->db; 
 
@@ -286,7 +286,7 @@ class Musikstueck {
 
   function print_select($value_selected=''){
     /***** select box (fake) *****/ 
-    include_once("cl_db.php");  
+    include_once("dbconn/cl_db.php");  
     include_once("cl_html_select.php");
 
     $query="SELECT DISTINCT `ID` as MusikstueckID
@@ -352,7 +352,7 @@ class Musikstueck {
             GROUP by satz.ID 
             ORDER by Nr"; 
                 
-    include_once("cl_db.php");
+    include_once("dbconn/cl_db.php");
     $conn = new DbConn(); 
     $db=$conn->db; 
 
@@ -379,7 +379,7 @@ class Musikstueck {
   
 
   function get_next_nummer () {
-    include_once("cl_db.php");
+    include_once("dbconn/cl_db.php");
     $conn = new DbConn(); 
     $db=$conn->db; 
 
@@ -393,7 +393,7 @@ class Musikstueck {
   }  
 
   function delete_verwendungszweck($ID){
-    include_once("cl_db.php");
+    include_once("dbconn/cl_db.php");
     $conn = new DbConn(); 
     $db=$conn->db; 
 
@@ -417,7 +417,7 @@ class Musikstueck {
   }  
 
   function delete_verwendungszwecke(){
-    include_once("cl_db.php");
+    include_once("dbconn/cl_db.php");
     $conn = new DbConn(); 
     $db=$conn->db; 
 
@@ -438,7 +438,7 @@ class Musikstueck {
   }    
 
   function delete_besetzung($ID){
-    include_once("cl_db.php");
+    include_once("dbconn/cl_db.php");
     $conn = new DbConn(); 
     $db=$conn->db; 
 
@@ -462,7 +462,7 @@ class Musikstueck {
   }
 
   function delete_besetzungen(){
-    include_once("cl_db.php");
+    include_once("dbconn/cl_db.php");
     $conn = new DbConn(); 
     $db=$conn->db; 
 
@@ -485,7 +485,7 @@ class Musikstueck {
   function delete_saetze(){
     // echo '<p> delete_saetze von Musikstueck ID: '.$this->ID; 
     
-    include_once("cl_db.php");
+    include_once("dbconn/cl_db.php");
     include_once('cl_satz.php'); 
 
     $conn = new DbConn(); 
@@ -511,7 +511,7 @@ class Musikstueck {
   }
 
   function delete(){
-    include_once("cl_db.php");
+    include_once("dbconn/cl_db.php");
     $conn = new DbConn(); 
     $db=$conn->db; 
     // echo '<p>lösche Musikstück ID:'.$this->ID.':</p>';
@@ -542,7 +542,7 @@ class Musikstueck {
                 , $include_satz_schwierigkeitgrad=false        
                 , $include_satz_lookup=false                                                        
                 ){
-    include_once("cl_db.php");
+    include_once("dbconn/cl_db.php");
     include_once("cl_satz.php");    
 
     echo '<p>Starte Kopie Musikstück ID '.$this->ID.'</p>';      
@@ -647,7 +647,7 @@ class Musikstueck {
   }  
 
   function autoupdate_insert_besetzungen() {
-    include_once("cl_db.php");   
+    include_once("dbconn/cl_db.php");   
     $conn = new DbConn(); 
     $db=$conn->db; 
     
@@ -673,7 +673,7 @@ class Musikstueck {
   }
 
   function autoupdate_insert_verwendungszwecke() {
-    include_once("cl_db.php");   
+    include_once("dbconn/cl_db.php");   
     $conn = new DbConn(); 
     $db=$conn->db; 
     

@@ -24,7 +24,7 @@ class Satz {
   }
 
   function insert_row($Nr='', $Name=''){         
-    include_once("cl_db.php");
+    include_once("dbconn/cl_db.php");
     $conn = new DbConn(); 
     $db=$conn->db; 
 
@@ -73,7 +73,7 @@ class Satz {
     
          ) {
 
-    include_once("cl_db.php");   
+    include_once("dbconn/cl_db.php");   
     $conn = new DbConn(); 
     $db=$conn->db; 
 
@@ -115,7 +115,7 @@ class Satz {
 
 
   function load_row() {
-    include_once("cl_db.php");   
+    include_once("dbconn/cl_db.php");   
     $conn = new DbConn(); 
     $db=$conn->db; 
 
@@ -128,7 +128,6 @@ class Satz {
                       ,`Taktart`
                       ,`Tempobezeichnung`
                       ,`Spieldauer`
-                      ,`SchwierigkeitsgradID`
                       ,`ErprobtID`
                       , COALESCE(Bemerkung,'') as Bemerkung 
                       , COALESCE(Orchesterbesetzung,'') as Orchesterbesetzung                       
@@ -158,7 +157,7 @@ class Satz {
 
   function print_select($value_selected=''){
 
-    include_once("cl_db.php");  
+    include_once("dbconn/cl_db.php");  
     include_once("cl_html_select.php");
 
     $query="SELECT DISTINCT 
@@ -186,7 +185,7 @@ class Satz {
   }
 
   function get_next_nr() {
-    include_once("cl_db.php");
+    include_once("dbconn/cl_db.php");
     $conn = new DbConn(); 
     $db=$conn->db; 
     $sql="SELECT (coalesce(MAX(Nr),0)) + 1 as next_nr from `satz` 
@@ -199,7 +198,7 @@ class Satz {
   }  
 
   function add_uebung($UebungID){
-    include_once("cl_db.php");
+    include_once("dbconn/cl_db.php");
     $conn = new DbConn(); 
     $db=$conn->db; 
 
@@ -237,7 +236,7 @@ class Satz {
 
     // echo $query; 
 
-    include_once("cl_db.php");
+    include_once("dbconn/cl_db.php");
     $conn = new DbConn(); 
     $db=$conn->db; 
   
@@ -269,7 +268,7 @@ class Satz {
 
   function add_lookup($LookupID){
 
-    include_once("cl_db.php");
+    include_once("dbconn/cl_db.php");
     $conn = new DbConn(); 
     $db=$conn->db; 
 
@@ -292,7 +291,7 @@ class Satz {
   }
 
   function delete_lookup($ID){
-    include_once("cl_db.php");
+    include_once("dbconn/cl_db.php");
     $conn = new DbConn(); 
     $db=$conn->db; 
 
@@ -314,7 +313,7 @@ class Satz {
   }
 
   function delete_lookups(){
-    include_once("cl_db.php");
+    include_once("dbconn/cl_db.php");
     $conn = new DbConn(); 
     $db=$conn->db; 
 
@@ -335,7 +334,7 @@ class Satz {
 
 
   function delete(){
-    include_once("cl_db.php");
+    include_once("dbconn/cl_db.php");
     $conn = new DbConn(); 
     $db=$conn->db; 
   
@@ -372,7 +371,7 @@ class Satz {
           WHERE satz_schwierigkeitsgrad.SatzID = :SatzID 
         "; 
 
-    include_once("cl_db.php");
+    include_once("dbconn/cl_db.php");
     $conn = new DbConn(); 
     $db=$conn->db; 
   
@@ -400,7 +399,7 @@ class Satz {
   }  
 
   function add_schwierigkeitsgrad($SchwierigkeitsgradID, $InstrumentID){
-    include_once("cl_db.php");
+    include_once("dbconn/cl_db.php");
     $conn = new DbConn(); 
     $db=$conn->db; 
 
@@ -426,7 +425,7 @@ class Satz {
   }
 
   function delete_schwierigkeitsgrade(){
-    include_once("cl_db.php");
+    include_once("dbconn/cl_db.php");
     $conn = new DbConn(); 
     $db=$conn->db; 
 
@@ -445,7 +444,7 @@ class Satz {
   }
 
   function delete_schwierigkeitsgrad($ID){
-    include_once("cl_db.php");
+    include_once("dbconn/cl_db.php");
     $conn = new DbConn(); 
     $db=$conn->db; 
 
@@ -469,7 +468,7 @@ class Satz {
   }
 
  function copy( $include_schwierigkeitsgrade=false, $include_lookups=false){
-    include_once("cl_db.php");
+    include_once("dbconn/cl_db.php");
 
     echo '<p>Starte Kopie Satz ID '.$this->ID.'</p>';      
 
@@ -568,7 +567,7 @@ class Satz {
           order by satz_erprobt.Jahr DESC 
         "; 
 
-    include_once("cl_db.php");
+    include_once("dbconn/cl_db.php");
     $conn = new DbConn(); 
     $db=$conn->db; 
   
@@ -601,7 +600,7 @@ class Satz {
 
   function add_erprobt($Bemerkung){
 
-    include_once("cl_db.php");
+    include_once("dbconn/cl_db.php");
     $conn = new DbConn(); 
     $db=$conn->db; 
 
@@ -624,7 +623,7 @@ class Satz {
   }
 
   function delete_erprobte(){
-    include_once("cl_db.php");
+    include_once("dbconn/cl_db.php");
     $conn = new DbConn(); 
     $db=$conn->db; 
 
@@ -643,7 +642,7 @@ class Satz {
   }
 
   function autoupdate_insert_erprobt() {
-    include_once("cl_db.php");   
+    include_once("dbconn/cl_db.php");   
     $conn = new DbConn(); 
     $db=$conn->db; 
     
@@ -664,8 +663,8 @@ class Satz {
 
     $insert = $db->prepare($sql); 
     $insert->bindValue(':ID', $this->ID);  
-    echo '<p> Anzahl Einfuegungen Erprobt: '.$insert->rowCount().'</p>'; 
     $insert->execute(); 
+    // echo '<p> Anzahl Einfuegungen Erprobt: '.$insert->rowCount().'</p>';     
   }
 
     

@@ -13,7 +13,7 @@ class Linktype {
   }
 
   function insert_row ($Name) {
-    include_once("cl_db.php");
+    include_once("dbconn/cl_db.php");
     $conn = new DbConn(); 
     $db=$conn->db; 
 
@@ -38,7 +38,7 @@ class Linktype {
  
   function print_select($value_selected=''){
       
-    include_once("cl_db.php");  
+    include_once("dbconn/cl_db.php");  
     include_once("cl_html_select.php");
 
     $query="SELECT ID, Name from linktype order by Name";
@@ -65,7 +65,7 @@ class Linktype {
 
   function print_preselect($value_selected=''){
       
-    include_once("cl_db.php");  
+    include_once("dbconn/cl_db.php");  
     include_once("cl_html_select.php");
 
     $query="SELECT ID, Name from linktype order by Name";
@@ -94,7 +94,7 @@ class Linktype {
 
     $query="SELECT * from linktype ORDER by Name"; 
 
-    include_once("cl_db.php");
+    include_once("dbconn/cl_db.php");
     $conn = new DbConn(); 
     $db=$conn->db; 
 
@@ -116,7 +116,7 @@ class Linktype {
   }
 
   function update_row($Name) {
-    include_once("cl_db.php");   
+    include_once("dbconn/cl_db.php");   
     $conn = new DbConn(); 
     $db=$conn->db; 
     
@@ -140,7 +140,7 @@ class Linktype {
   }
 
   function load_row() {
-    include_once("cl_db.php");   
+    include_once("dbconn/cl_db.php");   
     $conn = new DbConn(); 
     $db=$conn->db; 
 
@@ -165,7 +165,7 @@ class Linktype {
 
   // Verwendung? XXX 
   // function setArrData(){
-  //   include_once("cl_db.php");
+  //   include_once("dbconn/cl_db.php");
 
   //   $query_lookups = 'select ID, Name, type_key from linktype order by ID';
   //   $conn = new DbConn(); 
@@ -185,7 +185,7 @@ class Linktype {
   //   }
 
   function print_select_multi($options_selected=[]){
-    include_once("cl_db.php");  
+    include_once("dbconn/cl_db.php");  
     include_once("cl_html_select.php");
 
     $query="SELECT ID, Name 
@@ -213,7 +213,7 @@ class Linktype {
 
   
   function delete(){
-    include_once("cl_db.php");
+    include_once("dbconn/cl_db.php");
     $conn = new DbConn(); 
     $db=$conn->db; 
 

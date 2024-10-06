@@ -22,7 +22,7 @@ class Lookup {
   }
 
   function insert_row ($Name) {
-    include_once("cl_db.php");
+    include_once("dbconn/cl_db.php");
     $conn = new DbConn(); 
     $db=$conn->db; 
 
@@ -48,7 +48,7 @@ class Lookup {
  
   function print_select($value_selected='',$RelationID=''){
       
-    include_once("cl_db.php");  
+    include_once("dbconn/cl_db.php");  
     include_once("cl_html_select.php");
 
     $query="SELECT lookup.ID
@@ -120,7 +120,7 @@ class Lookup {
 
   function print_select2($LookupTypeID, $RelationID='',$value_selected=''){
     // Lookup für einen ausgewählten Typ   
-    include_once("cl_db.php");  
+    include_once("dbconn/cl_db.php");  
     include_once("cl_html_select.php");
 
     $query="SELECT lookup.ID
@@ -184,7 +184,7 @@ class Lookup {
     $query.=($LookupTypeID!=''?"AND LookupTypeID = :LookupTypeID ":"");
     $query.="ORDER by Name"; 
 
-    include_once("cl_db.php");
+    include_once("dbconn/cl_db.php");
     $conn = new DbConn(); 
     $db=$conn->db; 
     // echo $query; 
@@ -210,7 +210,7 @@ class Lookup {
   }
 
   function update_row($Name, $LookupTypeID) {
-    include_once("cl_db.php");   
+    include_once("dbconn/cl_db.php");   
     $conn = new DbConn(); 
     $db=$conn->db; 
     
@@ -236,7 +236,7 @@ class Lookup {
   }
 
   function load_row() {
-    include_once("cl_db.php");   
+    include_once("dbconn/cl_db.php");   
     include_once("cl_lookuptype.php"); 
 
     $conn = new DbConn(); 
@@ -271,7 +271,7 @@ class Lookup {
           , $print_check_excl=false // Anzeige Box Aussschluss-Suche
           , $check_excl=false // Ausschluss-Suche aktiviert 
   ){
-    include_once("cl_db.php");  
+    include_once("dbconn/cl_db.php");  
     include_once("cl_html_select.php");
     include_once("cl_lookuptype.php");
     
@@ -312,7 +312,7 @@ class Lookup {
   }  
 
   function delete(){
-    include_once("cl_db.php");
+    include_once("dbconn/cl_db.php");
     $conn = new DbConn(); 
     $db=$conn->db; 
 
@@ -345,7 +345,7 @@ class Lookup {
   } 
 
   function getArrLookups(){
-    include_once("cl_db.php");
+    include_once("dbconn/cl_db.php");
     $arrTmp=[]; 
 
     $query_lookups = 'SELECT ID, Name

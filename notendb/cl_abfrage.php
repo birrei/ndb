@@ -20,7 +20,7 @@ class Abfrage {
   }
 
   function insert_row ($Name) {
-    include_once("cl_db.php");
+    include_once("dbconn/cl_db.php");
     $conn = new DbConn(); 
     $db=$conn->db; 
 
@@ -45,7 +45,7 @@ class Abfrage {
  
   function insert_row2() {
     /* Anlass: Gespeicherte Suche  */
-    include_once("cl_db.php");
+    include_once("dbconn/cl_db.php");
     $conn = new DbConn(); 
     $db=$conn->db; 
 
@@ -102,7 +102,7 @@ class Abfrage {
 
     $query="SELECT * from abfrage ORDER by Name"; 
 
-    include_once("cl_db.php");
+    include_once("dbconn/cl_db.php");
     $conn = new DbConn(); 
     $db=$conn->db; 
 
@@ -126,7 +126,7 @@ class Abfrage {
 
   function update_row($Name,$Beschreibung,$AbfragetypID) {
     // Nur Name, Beschreibung und Abfragetyp
-    include_once("cl_db.php");   
+    include_once("dbconn/cl_db.php");   
     $conn = new DbConn(); 
     $db=$conn->db; 
     
@@ -156,7 +156,7 @@ class Abfrage {
 
   function update_row2($Abfrage, $Tabelle ) {
     // nur SQL / Tabelle 
-    include_once("cl_db.php");   
+    include_once("dbconn/cl_db.php");   
     $conn = new DbConn(); 
     $db=$conn->db; 
     
@@ -182,7 +182,7 @@ class Abfrage {
   }
 
   function load_row() {
-    include_once("cl_db.php");   
+    include_once("dbconn/cl_db.php");   
     $conn = new DbConn(); 
     $db=$conn->db; 
 
@@ -214,7 +214,7 @@ class Abfrage {
   }  
   
   function delete(){
-    include_once("cl_db.php");
+    include_once("dbconn/cl_db.php");
     $conn = new DbConn(); 
     $db=$conn->db; 
     $delete = $db->prepare("DELETE FROM `abfrage` WHERE ID=:ID"); 
@@ -235,7 +235,7 @@ class Abfrage {
   }  
 
   function getTypID($Name) {
-    include_once("cl_db.php");
+    include_once("dbconn/cl_db.php");
     $conn = new DbConn(); 
     $db=$conn->db; 
 

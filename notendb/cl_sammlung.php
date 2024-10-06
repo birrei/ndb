@@ -23,7 +23,7 @@ class Sammlung {
   }
 
   function insert_row($Name) {         
-    include_once("cl_db.php");
+    include_once("dbconn/cl_db.php");
 
     $conn = new DbConn(); 
     $db=$conn->db; 
@@ -54,7 +54,7 @@ class Sammlung {
       on v.ID = s.VerlagID  
     ORDER by s.Name"; 
 
-    include_once("cl_db.php");
+    include_once("dbconn/cl_db.php");
     $conn = new DbConn(); 
     $db=$conn->db; 
   
@@ -84,7 +84,7 @@ class Sammlung {
          ) 
     {
 
-      include_once("cl_db.php");   
+      include_once("dbconn/cl_db.php");   
       $conn = new DbConn(); 
       $db=$conn->db; 
           
@@ -119,7 +119,7 @@ class Sammlung {
 
   function print_select($value_selected=''){
     /***** select box (fake) *****/ 
-    include_once("cl_db.php");  
+    include_once("dbconn/cl_db.php");  
     include_once("cl_html_select.php");
 
     $query="SELECT DISTINCT 
@@ -148,7 +148,7 @@ class Sammlung {
   }
 
   function load_row() {
-    include_once("cl_db.php");   
+    include_once("dbconn/cl_db.php");   
     $conn = new DbConn(); 
     $db=$conn->db; 
 
@@ -206,7 +206,7 @@ class Sammlung {
     GROUP BY musikstueck.ID 
     ORDER by musikstueck.Nummer"; 
 
-    include_once("cl_db.php");
+    include_once("dbconn/cl_db.php");
     $conn = new DbConn(); 
     $db=$conn->db; 
   
@@ -242,7 +242,7 @@ class Sammlung {
           where link.SammlungID= :ID
       "; 
                       
-    include_once("cl_db.php");
+    include_once("dbconn/cl_db.php");
     $conn = new DbConn(); 
     $db=$conn->db; 
 
@@ -276,7 +276,7 @@ class Sammlung {
   }
   
   function delete_musikstuecke(){
-    include_once("cl_db.php");
+    include_once("dbconn/cl_db.php");
     include_once('cl_musikstueck.php'); 
 
     $conn = new DbConn(); 
@@ -302,7 +302,7 @@ class Sammlung {
   }
 
   function delete_links(){
-    include_once("cl_db.php");
+    include_once("dbconn/cl_db.php");
     include_once('cl_link.php'); 
 
     $conn = new DbConn(); 
@@ -327,7 +327,7 @@ class Sammlung {
   }
 
   function delete(){
-    include_once("cl_db.php");
+    include_once("dbconn/cl_db.php");
     $conn = new DbConn(); 
     $db=$conn->db; 
     echo '<p>Lösche Sammlung ID:'.$this->ID.':</p>';
@@ -371,7 +371,7 @@ class Sammlung {
 
     // echo $query; 
 
-    include_once("cl_db.php");
+    include_once("dbconn/cl_db.php");
     $conn = new DbConn(); 
     $db=$conn->db; 
   
@@ -403,7 +403,7 @@ class Sammlung {
     
   function add_lookup($LookupID){
 
-    include_once("cl_db.php");
+    include_once("dbconn/cl_db.php");
     $conn = new DbConn(); 
     $db=$conn->db; 
 
@@ -426,7 +426,7 @@ class Sammlung {
   } 
   
   function delete_lookup($ID){
-    include_once("cl_db.php");
+    include_once("dbconn/cl_db.php");
     $conn = new DbConn(); 
     $db=$conn->db; 
 
@@ -458,7 +458,7 @@ class Sammlung {
         , 
       ){
 
-    include_once("cl_db.php");
+    include_once("dbconn/cl_db.php");
     include_once('cl_musikstueck.php'); 
 
     
@@ -521,7 +521,7 @@ class Sammlung {
 
   function add_besetzung($BesetzungID){
     // dataclearing: Besetzung bei allen Musikstücken ergänzen  
-   include_once("cl_db.php");
+   include_once("dbconn/cl_db.php");
    include_once("cl_musikstueck.php");    
    $conn = new DbConn(); 
    $db=$conn->db; 
@@ -549,7 +549,7 @@ class Sammlung {
   function delete_besetzung($BesetzungID){
     // dataclearing: eine Besetzung bei allen Musikstücken entfernen 
 
-    include_once("cl_db.php");
+    include_once("dbconn/cl_db.php");
     include_once("cl_musikstueck.php");    
     $conn = new DbConn(); 
     $db=$conn->db; 
@@ -576,7 +576,7 @@ class Sammlung {
   
   function add_verwendungszweck($VerwendungszweckID){
       // dataclearing: Verwendungszweck bei allen Musikstücken ergänzen  
-      include_once("cl_db.php");
+      include_once("dbconn/cl_db.php");
       include_once("cl_musikstueck.php");    
       $conn = new DbConn(); 
       $db=$conn->db; 
@@ -604,7 +604,7 @@ class Sammlung {
   function delete_verwendungszweck($VerwendungszweckID){
     // dataclearing: einen Verwendungszeck bei allen Musikstücken entfernen 
 
-    include_once("cl_db.php");
+    include_once("dbconn/cl_db.php");
     include_once("cl_musikstueck.php");    
     $conn = new DbConn(); 
     $db=$conn->db; 
@@ -629,7 +629,7 @@ class Sammlung {
   } 
 
   function delete_lookups(){
-    include_once("cl_db.php");
+    include_once("dbconn/cl_db.php");
     $conn = new DbConn(); 
     $db=$conn->db; 
 

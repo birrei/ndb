@@ -1,13 +1,11 @@
 ﻿
-
-
 ###  Aufgaben in Arbeit
 
 - [ ] auto_update 
-- [ ] delete.ph: Löschbarkeit vor Nutzerbestätigung prüfen
+- [ ] delete.php: Löschbarkeit VOR Nutzerbestätigung prüfen
 
 ### Offene Aufgaben 
-* STartzeiten-Links auf Tabreihenfolge nehmen 
+* Startzeiten-Links aus Tabreihenfolge nehmen 
 * Sammlung "Druckansicht/Datenblatt" 
 * Übersicht Sammlung: Sortierung nach Name
 * Tabellen Spalten-Sortierung (per JavaScript, s. https://www.w3schools.com/howto/howto_js_sort_table.asp) 

@@ -13,7 +13,7 @@ class Erprobt {
   }
 
   function insert_row ($Name) {
-    include_once("cl_db.php");
+    include_once("dbconn/cl_db.php");
     $conn = new DbConn(); 
     $db=$conn->db; 
 
@@ -38,7 +38,7 @@ class Erprobt {
  
   function print_select($value_selected=''){
       
-    include_once("cl_db.php");  
+    include_once("dbconn/cl_db.php");  
     include_once("cl_html_select.php");
 
     $query='SELECT ID, Name 
@@ -69,7 +69,7 @@ class Erprobt {
 
     $query="SELECT * from erprobt ORDER by Name"; 
 
-    include_once("cl_db.php");
+    include_once("dbconn/cl_db.php");
     $conn = new DbConn(); 
     $db=$conn->db; 
 
@@ -91,7 +91,7 @@ class Erprobt {
   }
 
   function update_row($Name) {
-    include_once("cl_db.php");   
+    include_once("dbconn/cl_db.php");   
     $conn = new DbConn(); 
     $db=$conn->db; 
     
@@ -115,7 +115,7 @@ class Erprobt {
   }
 
   function load_row() {
-    include_once("cl_db.php");   
+    include_once("dbconn/cl_db.php");   
     $conn = new DbConn(); 
     $db=$conn->db; 
 
@@ -138,7 +138,7 @@ class Erprobt {
   }  
   
   function print_select_multi($options_selected=[]){
-    include_once("cl_db.php");  
+    include_once("dbconn/cl_db.php");  
     include_once("cl_html_select.php");
 
     $query="SELECT ID, Name 
@@ -166,7 +166,7 @@ class Erprobt {
 
 
   function delete(){
-    include_once("cl_db.php");
+    include_once("dbconn/cl_db.php");
     $conn = new DbConn(); 
     $db=$conn->db; 
 

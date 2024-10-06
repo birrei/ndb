@@ -1,7 +1,7 @@
 
 <?php 
 include('head.php');
-include("cl_db.php");
+include("dbconn/cl_db.php");
 
 include("cl_html_table.php");    
 include("cl_html_info.php");  
@@ -653,7 +653,7 @@ if (isset($_POST['suchtext'])) {
             
         } else {
           // Abfrage nicht speichern, Ergebnis ausgeben           
-          include_once("cl_db.php");
+          include_once("dbconn/cl_db.php");
           $conn = new DbConn(); 
           $db=$conn->db; 
           

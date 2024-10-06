@@ -19,7 +19,7 @@ class Lookuptype {
   }
 
   function insert_row ($Name) {
-    include_once("cl_db.php");
+    include_once("dbconn/cl_db.php");
     $conn = new DbConn(); 
     $db=$conn->db; 
     
@@ -44,7 +44,7 @@ class Lookuptype {
  
   function print_select($value_selected=''){
       
-    include_once("cl_db.php");  
+    include_once("dbconn/cl_db.php");  
     include_once("cl_html_select.php");
 
     $query="SELECT ID, Name from lookup_type order by Name";
@@ -70,7 +70,7 @@ class Lookuptype {
 
   function print_preselect($value_selected=''){
       
-    include_once("cl_db.php");  
+    include_once("dbconn/cl_db.php");  
     include_once("cl_html_select.php");
 
     if ($this->Relation!='') {
@@ -112,7 +112,7 @@ class Lookuptype {
 
     $query="SELECT * from lookup_type ORDER by Name"; 
 
-    include_once("cl_db.php");
+    include_once("dbconn/cl_db.php");
     $conn = new DbConn(); 
     $db=$conn->db; 
 
@@ -134,7 +134,7 @@ class Lookuptype {
   }
 
   function update_row($Name, $Relation, $type_key, $selsize) {
-    include_once("cl_db.php");   
+    include_once("dbconn/cl_db.php");   
     $conn = new DbConn(); 
     $db=$conn->db; 
 
@@ -184,7 +184,7 @@ class Lookuptype {
   }
 
   function load_row() {
-    include_once("cl_db.php");   
+    include_once("dbconn/cl_db.php");   
     $conn = new DbConn(); 
     $db=$conn->db; 
 
@@ -211,7 +211,7 @@ class Lookuptype {
 
   function setArrData(){
     // alle Typen einer Relation 
-    include_once("cl_db.php");
+    include_once("dbconn/cl_db.php");
 
     $query_lookups = 'SELECT ID, Name, type_key, selsize 
                       FROM lookup_type 
@@ -237,7 +237,7 @@ class Lookuptype {
   }
 
   function delete(){
-    include_once("cl_db.php");
+    include_once("dbconn/cl_db.php");
     $conn = new DbConn(); 
     $db=$conn->db; 
 
@@ -272,7 +272,7 @@ class Lookuptype {
   function print_table_lookups($target_file){
     $query="SELECT ID, Name FROM v_lookup where LookupTypeID=:LookupTypeID"; 
 
-    include_once("cl_db.php");
+    include_once("dbconn/cl_db.php");
     $conn = new DbConn(); 
     $db=$conn->db; 
   

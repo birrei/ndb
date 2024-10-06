@@ -19,7 +19,7 @@ class Komponist {
   }
 
   function insert_row ($Vorname, $Nachname) {                
-    include_once("cl_db.php");
+    include_once("dbconn/cl_db.php");
     $conn = new DbConn(); 
     $db=$conn->db; 
 
@@ -46,7 +46,7 @@ class Komponist {
   }
 
   function load_row() {
-    include_once("cl_db.php");   
+    include_once("dbconn/cl_db.php");   
     $conn = new DbConn(); 
     $db=$conn->db; 
 
@@ -81,7 +81,7 @@ class Komponist {
                 , $Sterbejahr
                 , $Bemerkung    
                   ) {
-    include_once("cl_db.php");   
+    include_once("dbconn/cl_db.php");   
     $conn = new DbConn(); 
     $db=$conn->db; 
     
@@ -116,7 +116,7 @@ class Komponist {
 
   function print_select($value_selected=''){
     /* Auswahl-Element Komponisten */   
-    include_once("cl_db.php");  
+    include_once("dbconn/cl_db.php");  
     include_once("cl_html_select.php");
 
     /* view v_select_komponist verwendet */
@@ -149,7 +149,7 @@ class Komponist {
     /***** HTML-Tabelle ausgeben  ***************/ 
     $query="SELECT * from v_komponist ORDER by Name"; 
 
-    include_once("cl_db.php");
+    include_once("dbconn/cl_db.php");
     $conn = new DbConn(); 
     $db=$conn->db; 
 
@@ -173,7 +173,7 @@ class Komponist {
 
   function print_select_multi($options_selected=[]){
 
-    include_once("cl_db.php");  
+    include_once("dbconn/cl_db.php");  
     include_once("cl_html_select.php");
 
     $query="SELECT ID, Name 
@@ -199,7 +199,7 @@ class Komponist {
     }
   }    
   function delete(){
-    include_once("cl_db.php");
+    include_once("dbconn/cl_db.php");
     $conn = new DbConn(); 
     $db=$conn->db; 
     $select = $db->prepare("SELECT * from musikstueck WHERE KomponistID=:KomponistID");

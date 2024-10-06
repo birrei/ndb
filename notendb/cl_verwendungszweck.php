@@ -14,7 +14,7 @@ class Verwendungszweck {
   }
 
   function insert_row ($Name) {
-    include_once("cl_db.php");
+    include_once("dbconn/cl_db.php");
     $conn = new DbConn(); 
     $db=$conn->db; 
 
@@ -39,7 +39,7 @@ class Verwendungszweck {
  
   function print_select($value_selected='',$referenced_MusikstueckID=''){
       
-    include_once("cl_db.php");  
+    include_once("dbconn/cl_db.php");  
     include_once("cl_html_select.php");
 
 
@@ -80,7 +80,7 @@ class Verwendungszweck {
 
   function print_select_multi($options_selected=[]){
 
-    include_once("cl_db.php");  
+    include_once("dbconn/cl_db.php");  
     include_once("cl_html_select.php");
 
     $query="SELECT ID, Name 
@@ -110,7 +110,7 @@ class Verwendungszweck {
 
     $query="SELECT * from verwendungszweck ORDER by Name"; 
 
-    include_once("cl_db.php");
+    include_once("dbconn/cl_db.php");
     $conn = new DbConn(); 
     $db=$conn->db; 
 
@@ -133,7 +133,7 @@ class Verwendungszweck {
 
   function update_row($Name) {
 
-    include_once("cl_db.php");   
+    include_once("dbconn/cl_db.php");   
     $conn = new DbConn(); 
     $db=$conn->db; 
     
@@ -158,7 +158,7 @@ class Verwendungszweck {
   }
 
   function load_row() {
-    include_once("cl_db.php");   
+    include_once("dbconn/cl_db.php");   
     $conn = new DbConn(); 
     $db=$conn->db; 
 
@@ -182,7 +182,7 @@ class Verwendungszweck {
   }  
 
   function delete(){
-    include_once("cl_db.php");
+    include_once("dbconn/cl_db.php");
     $conn = new DbConn(); 
     $db=$conn->db; 
 

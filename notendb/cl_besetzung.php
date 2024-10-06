@@ -15,7 +15,7 @@ class Besetzung {
   }
 
   function insert_row ($Name) {
-    include_once("cl_db.php");
+    include_once("dbconn/cl_db.php");
     $conn = new DbConn(); 
     $db=$conn->db; 
 
@@ -40,7 +40,7 @@ class Besetzung {
  
   function print_select($value_selected='',$referenced_MusikstueckID='') {
       
-    include_once("cl_db.php");  
+    include_once("dbconn/cl_db.php");  
     include_once("cl_html_select.php");
 
     $query='SELECT ID, Name 
@@ -80,7 +80,7 @@ class Besetzung {
 
   function print_select_multi($options_selected=[]){
 
-    include_once("cl_db.php");  
+    include_once("dbconn/cl_db.php");  
     include_once("cl_html_select.php");
 
     $query="SELECT ID, Name 
@@ -111,7 +111,7 @@ class Besetzung {
 
     $query="SELECT * from besetzung ORDER by Name"; 
 
-    include_once("cl_db.php");
+    include_once("dbconn/cl_db.php");
     $conn = new DbConn(); 
     $db=$conn->db; 
 
@@ -135,7 +135,7 @@ class Besetzung {
 
   function update_row($Name) {
 
-    include_once("cl_db.php");   
+    include_once("dbconn/cl_db.php");   
     $conn = new DbConn(); 
     $db=$conn->db; 
     
@@ -160,7 +160,7 @@ class Besetzung {
   }
 
   function load_row() {
-    include_once("cl_db.php");   
+    include_once("dbconn/cl_db.php");   
     $conn = new DbConn(); 
     $db=$conn->db; 
 
@@ -183,7 +183,7 @@ class Besetzung {
   }  
 
   function delete(){
-    include_once("cl_db.php");
+    include_once("dbconn/cl_db.php");
     $conn = new DbConn(); 
     $db=$conn->db; 
 

@@ -10,8 +10,9 @@ include('head.php');
 
 <p class="inhalt2"><a href="#erfassungsatz">Satz</a></p>
 <p class="inhalt3"><a href="#erfassungsatzspieldauer">Satz Spieldauer</a></p>
-
 <p class="inhalt2"><a href="#erfassungbesonderheiten">Besonderheiten</a></p>
+<p class="inhalt2"><a href="#erfassunghinweise">Hinweise</a></p>
+
 
 <p class="inhalt1"><a href="#suche"><b>Suche</b></a></p>
 <p class="inhalt2"><a href="#suchemehrfachauswahl1">Mehrfachauswahl: Einträge markieren</a></p>
@@ -46,7 +47,6 @@ Folgende Eingaben im Minuten-Feld sind alternativ möglich:
 <p> Besonderheiten können für Sammlungen oder Sätze erfasst werden. Jede Besonderheit wird einem Besonderheit-Typ untergeordnet. 
     Der Typ ist für die Erfassung einer Besonderheit am Satz / an der Sammlung nicht zwinged erforderlich -  
     jede Besonderheit hat (über Typen hinweg) eine eigene eindeutige ID. 
-    
 </p>
 
 <p>
@@ -56,7 +56,15 @@ wird für jeden Typ eine Mehrfach-Auswahlbox mit den zugeordneten Besonerheiten 
 </p>
 
 
+<h2 id="erfassunghinweise">Hinweise</h1> 
+<pre> 
+XXX Entwurf 
+Der Umfang der erfassen Informationen soll sich an in der Praxis benötigten Informationen (die später über die Suche abrufbar sein sollen) orientieren.
 
+Beispiel Erfassung einzelner Notenwerte: Nur sinnvoll bei Stücken, die später zu entsprechend Lehrzwecken gefunden werden sollen 
+(z.B. nur bis Schwierigkeitsgrad 2/3)
+
+</pre> 
 
 <hr />
 
@@ -119,6 +127,10 @@ wird für jeden Typ eine Mehrfach-Auswahlbox mit den zugeordneten Besonerheiten 
 
 <h2 id="suchetext">Textsuche</h2>
 <p> Sucht einen Textteil innerhalb aller Text-Felder.  
+
+
+
+<hr />
 
 
 </div>
