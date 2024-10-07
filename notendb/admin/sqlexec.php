@@ -1,10 +1,10 @@
 
 <?php 
 
-include('../head.php');
-include("../../dbconn/cl_db.php"); 
-include("../../cl_html_info.php"); 
-include("../../cl_html_table.php");  
+include('head.php');
+include("../dbconn/cl_db.php"); 
+include("../cl_html_info.php"); 
+include("../cl_html_table.php");  
 
 
 if (isset($_POST['abfrage'])) {
@@ -63,7 +63,7 @@ if (isset($_POST['aktion']) and $_POST['aktion']=='ausfuehren') {
 }
 
 
-include('../foot.php');
+include('foot.php');
 ?>
 
 
