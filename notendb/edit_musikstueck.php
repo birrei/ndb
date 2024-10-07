@@ -84,7 +84,7 @@ if ($show_data) {
   <tr>    
     <label>
     <td class="eingabe"><b>Name:</b></td>  
-    <td class="eingabe"><input type="text" name="Name" value="'.htmlentities($musikstueck->Name).'" size="100" maxlength="100" oninput="changeBackgroundColor(this)"> (max. 100 Zeichen)</td>
+    <td class="eingabe"><input type="text" name="Name" value="'.htmlentities($musikstueck->Name).'" size="100" oninput="changeBackgroundColor(this)"> (max. 500 Zeichen)</td>
     </label>
   </tr> 
 
