@@ -1,4 +1,3 @@
-
 <?php 
 include('head.php');
 include("dbconn/cl_db.php");
@@ -23,7 +22,7 @@ include("cl_linktype.php");
 include("cl_abfrage.php");
 
 $Standorte=[];   /* Sammlung */
-$Verlage=[];   /* Sammlung */
+// $Verlage=[];   /* Sammlung */
 $Linktypen=[];   /* Sammlung */
 
 $Komponisten=[];  // im Suchfilter ausgewählte Komponisten (IDs) 
@@ -82,56 +81,62 @@ $edit_table=''; /* Tabelle, die über Bearbeiten-Links in Ergebnis-Tabelle abruf
 
 $Suche = new Abfrage();
 
-if (isset($_POST['Ebene'])) {
-  $Ebene=$_POST["Ebene"];
+if (isset($_POST['Ansicht'])) {
+  $Ansicht=$_POST["Ansicht"];
 } else {
-  $Ebene='Sammlung'; // default 
+  $Ansicht='Sammlung'; // default 
 }
 
-$Suche->Beschreibung.='* Anzeige-Ebene: '.$Ebene.PHP_EOL; 
+// echo '<p>Ansicht: '.$Ansicht.'</p>'; // Test 
 
-/* 
- Die mit dem Absenden der Suche gesetzten Werte werden wieder in die Form-Elemente eingelesen. 
- Die Sucheinstellungen "bleiben stehen" und werden nur durch Betätigen der 
- "Filter zurücksetzen" - Buttons wieder aufgelöst 
-*/
-  
+$Suche->Beschreibung.='* Ansicht: '.$Ansicht.PHP_EOL; 
+
+
 ?> 
 <div class="search-page">
 <div class="search-filter">
 <form id="Suche" action="" method="post">
 
-<fieldset style="width:90%">Anzeige-Ebene: 
-    <input type="radio" id="sm" name="Ebene" value="Sammlung" <?php echo ($Ebene=='Sammlung'?'checked':'') ?>>
-    <label for="sm">Sammlung</label> 
-    <input type="radio" id="mu" name="Ebene" value="Musikstueck" <?php echo ($Ebene=='Musikstueck'?'checked':'') ?>> 
-    <label for="mu">Musikstück</label>
-    <input type="radio" id="st" name="Ebene" value="Satz" <?php echo ($Ebene=='Satz'?'checked':'') ?>>
-    <label for="st">Satz</label> 
-  </fieldset>
-
-<p>
-  <!---- Suche / Suche zurücksetzen -----> 
-<input class="btnSave" type="submit" value="Suchen" class="btnSave">
-<input type="button" id="btnReset_All" value="Alle Filter zurücksetzen" onclick="Reset_All();" /> 
+<!---- Ansicht -----> 
+Ansicht: 
+<select id="Ansicht" name="Ansicht">
+          <option value="Sammlung" <?php echo ($Ansicht=='Sammlung'?'selected':'');?>>Sammlung</option>      
+          <option value="Musikstueck" <?php echo ($Ansicht=='Musikstueck'?'selected':'');?>>Musikstück</option>
+          <option value="Satz" <?php echo ($Ansicht=='Satz'?'selected':'')?>>Satz</option>
+          <option value="Sammlung Links" <?php echo ($Ansicht=='Sammlung Links'?'selected':'')?>>Sammlung Links</option>          
+</select>
 
 <!---- Entscheidung Suche speichern ja / nein -----> 
-<br/><input type="checkbox" id="sp" name="SucheSpeichern"><label for="sp">Suche speichern</label> 
+&nbsp; &nbsp; <input type="checkbox" id="sp" name="SucheSpeichern"><label for="sp">Suche speichern</label> 
+
+
+<p>
+  <!---- Suche starten -----> 
+<input class="btnSave" type="submit" value="Suchen" class="btnSave">
+
 
 <!-- Button: alle Filter zurücksetzen --> 
+
+<input type="button" id="btnReset_All" value="Alle Filter zurücksetzen" onclick="Reset_All();" /> 
 <script type="text/javascript">  
           function Reset_All() {  
           for(i=0; i<document.forms[0].elements.length; i++){
             if(document.forms[0].elements[i].type == 'text'){
               document.forms[0].elements[i].value=""; 
             }
-            if(document.forms[0].elements[i].type == 'select-multiple'){
+            if(document.forms[0].elements[i].type == 'select-one'){
               document.forms[0].elements[i].selectedIndex = -1;
             }   
+            if(document.forms[0].elements[i].type == 'select-multiple'){
+              document.forms[0].elements[i].selectedIndex = -1;
+            }               
           }
       }  
 </script> 
+<p id="test"> </p> 
+
 <?php 
+
 /************** Suchtext  **********/  
 
 if (isset($_POST['suchtext'])) {
@@ -144,7 +149,7 @@ if (isset($_POST['suchtext'])) {
 ?>
 <p>Suchtext: <br> 
   <input type="text" id="suchtext" name="suchtext" size="30px" value="<?php echo $suchtext; ?>" autofocus> 
-  <input type="button" id="btnReset_suchtext" value="Filter zurücksetzen" onclick="Reset_suchtext();" />  
+  <input type="button" id="btnReset_suchtext" value="Suchtext leeren" onclick="Reset_suchtext();" />  
       <script type="text/javascript">  
               function Reset_suchtext() {  
                 document.getElementById("suchtext").value='';  
@@ -156,27 +161,64 @@ if (isset($_POST['suchtext'])) {
 <?php 
 
 /************* Verlag  ***********/
-  if (isset($_POST['Verlage'])) {
-    $Verlage = $_POST['Verlage']; 
-    $filterVerlage = 'IN ('.implode(',', $Verlage).')'; 
-    $filter=true;       
-  }
+ // select 
   $verlag = new Verlag();
-  $verlag->print_select_multi($Verlage);
-  $Suche->Beschreibung.=(count($Verlage)>0?$verlag->titles_selected_list:'');            
+  $VerlagID=''; 
+  if (isset($_POST['VerlagID']) ) {
+    if ($_POST['VerlagID']!='') {
+      $VerlagID = $_POST['VerlagID']; 
+      $verlag->ID=  $VerlagID; 
+      $verlag->load_row(); 
+      $filterVerlage='='.$VerlagID.' '; 
+      $Suche->Beschreibung.=($VerlagID!=''?'* Verlag: '.$verlag->Name.PHP_EOL:'');     
+      $filter=true;    
+    }   
+  }
+  echo $verlag->Title .' : &nbsp;&nbsp;&nbsp;'; 
+  $verlag->print_select($VerlagID);
+
+ // multi-select (verworfen)
+  // if (isset($_POST['Verlage'])) {
+  //   $Verlage = $_POST['Verlage']; 
+  //   $filterVerlage = 'IN ('.implode(',', $Verlage).')'; 
+  //   $filter=true;       
+  // }
+  // $verlag = new Verlag();
+  // $verlag->print_select_multi($Verlage);
+  // $verlag->print_select_multi($Verlage);
+  // $Suche->Beschreibung.=(count($Verlage)>0?$verlag->titles_selected_list:'');    
+
 
 /************* Standort  ***********/
-  if (isset($_POST['Standorte'])) {
-    $Standorte = $_POST['Standorte'];   // Array gewählte Standorte 
-    $filterStandorte = 'IN ('.implode(',', $Standorte).')'; 
-    $filter=true;     
-  }
+echo '<p>'; 
+
   $standort = new Standort();
-  $standort->print_select_multi($Standorte);      
-  $Suche->Beschreibung.=(count($Standorte)>0?$standort->titles_selected_list:'');    
+  $StandortID=''; 
+  if (isset($_POST['StandortID'])) {
+    if ( $_POST['StandortID']!='') {
+      $StandortID = $_POST['StandortID']; 
+      $standort->ID=  $StandortID; 
+      $standort->load_row(); 
+      $filterStandorte='='.$StandortID.' '; 
+      $Suche->Beschreibung.=($StandortID!=''?'* Standort: '.$standort->Name.PHP_EOL:'');     
+      $filter=true;       
+   }
+  }
+  echo $standort->Title .': &nbsp;'; 
+  $standort->print_select($StandortID);
 
+  echo '</p>'; 
 
-  /*********  Sammlung Besonderheiten **********/  
+  // if (isset($_POST['Standorte'])) {
+  //   $Standorte = $_POST['Standorte'];   // Array gewählte Standorte 
+  //   $filterStandorte = 'IN ('.implode(',', $Standorte).')'; 
+  //   $filter=true;     
+  // }
+  // $standort = new Standort();
+  // $standort->print_select_multi($Standorte);      
+  // $Suche->Beschreibung.=(count($Standorte)>0?$standort->titles_selected_list:'');    
+
+/*********  Sammlung Besonderheiten **********/  
   // XXX noch analog zu Satz Besonderheiten umsetzen (Genaue Suche)
   $lookuptypes=new Lookuptype(); 
   $lookuptypes->Relation='sammlung'; 
@@ -213,15 +255,31 @@ if (isset($_POST['suchtext'])) {
 <p class="navi-trenner">Musikstück </p> 
 <?php 
 
-/************* Komponisten  ***********/
-  if (isset($_POST['Komponisten'])) {
-    $Komponisten = $_POST['Komponisten'];   
-    $filterKomponisten = 'IN ('.implode(',', $Komponisten).')'; 
-    $filter=true;        
-  }   
+/************* Komponist  ***********/
   $komponist = new Komponist();
-  $komponist->print_select_multi($Komponisten);     
-  $Suche->Beschreibung.=(count($Komponisten)>0?$komponist->titles_selected_list:''); 
+  $KomponistID=''; 
+  if (isset($_POST['KomponistID'])) {
+    if ($_POST['KomponistID']!='') {
+      $KomponistID = $_POST['KomponistID']; 
+      $komponist->ID=  $KomponistID; 
+      $komponist->load_row(); 
+      $filterKomponisten='='.$KomponistID.' '; 
+      $Suche->Beschreibung.=($KomponistID!=''?'* Komponist: '.$komponist->Name.PHP_EOL:'');     
+      $filter=true;       
+    }
+  }
+  echo $komponist->Title .' : &nbsp;&nbsp;&nbsp;'; 
+  $komponist->print_select($KomponistID);
+
+
+  // if (isset($_POST['Komponisten'])) {
+  //   $Komponisten = $_POST['Komponisten'];   
+  //   $filterKomponisten = 'IN ('.implode(',', $Komponisten).')'; 
+  //   $filter=true;        
+  // }   
+  // $komponist = new Komponist();
+  // $komponist->print_select_multi($Komponisten);     
+  // $Suche->Beschreibung.=(count($Komponisten)>0?$komponist->titles_selected_list:''); 
  
 
 /************* Besetzungen  ***********/
@@ -244,26 +302,61 @@ if (isset($_POST['suchtext'])) {
   $verwendungszweck->print_select_multi($Verwendungszwecke);    
   $Suche->Beschreibung.=(count($Verwendungszwecke)>0?$verwendungszweck->titles_selected_list:'');  
 
-/************* Gattungen  ***********/
-
-  if (isset($_POST['Gattungen'])) {
-    $Gattungen = $_POST['Gattungen'];  
-    $filterGattungen = 'IN ('.implode(',', $Gattungen).')'; 
-    $filter=true;     
-  }      
+/************* Gattung  ***********/
+echo '<p>'; 
   $gattung = new Gattung();
-  $gattung->print_select_multi($Gattungen);  
-  $Suche->Beschreibung.=(count($Gattungen)>0?$gattung->titles_selected_list:'');
+  $GattungID=''; 
+  if (isset($_POST['GattungID'])) {
+      if ($_POST['GattungID']!='') {
+      $GattungID = $_POST['GattungID']; 
+      $gattung->ID=  $GattungID; 
+      $gattung->load_row(); 
+      $filterGattungen='='.$GattungID.' '; 
+      $Suche->Beschreibung.=($GattungID!=''?'* Gattung: '.$gattung->Name.PHP_EOL:'');     
+      $filter=true;       
+    }
+  }
+  echo $gattung->Title .' : &nbsp;&nbsp;&nbsp;'; 
+  $gattung->print_select($GattungID);
+  echo '</p>'; 
 
-/************* Gattungen  ***********/
-  if (isset($_POST['Epochen'])) {
-    $Epochen = $_POST['Epochen'];   
-    $filterEpochen = 'IN ('.implode(',', $Epochen).')'; 
-    $filter=true; 
-  }    
-  $epochen = new Epoche();
-  $epochen->print_select_multi($Epochen); 
-  $Suche->Beschreibung.=(count($Epochen)>0?$epochen->titles_selected_list:'');  
+  // if (isset($_POST['Gattungen'])) {
+  //   $Gattungen = $_POST['Gattungen'];  
+  //   $filterGattungen = 'IN ('.implode(',', $Gattungen).')'; 
+  //   $filter=true;     
+  // }      
+  // $gattung = new Gattung();
+  // $gattung->print_select_multi($Gattungen);  
+  // $Suche->Beschreibung.=(count($Gattungen)>0?$gattung->titles_selected_list:'');
+
+
+/************* Epochen  ***********/
+echo '<p>'; 
+
+  $epoche = new Epoche();
+  $EpocheID=''; 
+  if (isset($_POST['EpocheID'])) {
+    if ($_POST['EpocheID']!='') { 
+      $EpocheID = $_POST['EpocheID']; 
+      $epoche->ID=  $EpocheID; 
+      $epoche->load_row(); 
+      $filterEpochen='='.$EpocheID.' '; 
+      $Suche->Beschreibung.=($EpocheID!=''?'* Epoche: '.$epoche->Name.PHP_EOL:'');     
+      $filter=true;     
+    }  
+  }
+  echo $epoche->Title .' : &nbsp;&nbsp;&nbsp;'; 
+  $epoche->print_select($EpocheID);
+
+  echo '</p>'; 
+  // if (isset($_POST['Epochen'])) {
+  //   $Epochen = $_POST['Epochen'];   
+  //   $filterEpochen = 'IN ('.implode(',', $Epochen).')'; 
+  //   $filter=true; 
+  // }    
+  // $epochen = new Epoche();
+  // $epochen->print_select_multi($Epochen); 
+  // $Suche->Beschreibung.=(count($Epochen)>0?$epochen->titles_selected_list:'');  
   
 
   ?>
@@ -433,7 +526,7 @@ if (isset($_POST['suchtext'])) {
   if ($filter ) {
     $query=""; 
 
-    switch ($Ebene){
+    switch ($Ansicht){
       case 'Sammlung': 
         $query.="SELECT sammlung.ID
             ,sammlung.Name as Sammlung
@@ -443,10 +536,20 @@ if (isset($_POST['suchtext'])) {
             , GROUP_CONCAT(DISTINCT musikstueck.Nummer order by musikstueck.Nummer SEPARATOR ', ') Musikstuecke
             , v_sammlung_lookuptypes.LookupList as Besonderheiten   
             , GROUP_CONCAT(DISTINCT linktype.Name order by linktype.Name SEPARATOR ', ') Links                             
-            , sammlung.Bestellnummer 
             ";
         $edit_table='sammlung'; 
           break; 
+
+        case 'Sammlung Links': 
+            $query.="SELECT sammlung.ID
+                , standort.Name as Standort
+                , sammlung.Name as Sammlung
+                , linktype.Name as LinkTyp
+                , link.Bezeichnung
+                , link.URL
+                ";
+            $edit_table='sammlung'; 
+              break;    
       case 'Musikstueck': 
         $query.="SELECT musikstueck.ID
             ,sammlung.Name as Sammlung
@@ -527,7 +630,7 @@ if (isset($_POST['suchtext'])) {
 
       WHERE 1=1 ". PHP_EOL; 
 
-      switch ($Ebene){    
+      switch ($Ansicht){    
         case 'Musikstueck': 
           $query.=" AND musikstueck.ID IS NOT NULL ". PHP_EOL;         
           break; 
@@ -604,11 +707,14 @@ if (isset($_POST['suchtext'])) {
                             )". PHP_EOL;         
       }
 
-      /* Gruppierung abhängig von Ebene  */
-      switch ($Ebene){    
-        case 'Sammlung': 
+      /* Gruppierung abhängig von Ansicht   */
+      switch ($Ansicht){    
+        case 'Sammlung':         
           $query.=" group by sammlung.ID". PHP_EOL;     
-          break; 
+          break;    
+        case 'Sammlung Links':         
+            $query.=" group by sammlung.ID, link.Bezeichnung". PHP_EOL;     
+            break;                      
         case 'Musikstueck': 
          $query.=" group by musikstueck.ID". PHP_EOL;    
           // $query.=" group by satz.MusikstueckID". PHP_EOL;     
@@ -618,20 +724,21 @@ if (isset($_POST['suchtext'])) {
           break;      
       }
 
-      /* Sortierung abhängig von Ebene  */
-      switch ($Ebene){    
+      /* Sortierung abhängig von Ansicht  */
+      switch ($Ansicht){    
         case 'Sammlung': 
-          $query.=" ORDER BY sammlung.Name". PHP_EOL;     
+        case 'Sammlung Links':             
+          $query.=" ORDER BY standort.Name, sammlung.Name". PHP_EOL;     
           break; 
         case 'Musikstueck': 
-          $query.=" ORDER BY sammlung.Name, musikstueck.Nummer". PHP_EOL;         
+          $query.=" ORDER BY standort.Name, sammlung.Name, musikstueck.Nummer". PHP_EOL;         
           break; 
         case 'Satz': 
-          $query.=" ORDER BY sammlung.Name, musikstueck.Nummer, satz.Nr". PHP_EOL;           
+          $query.=" ORDER BY standort.Name, sammlung.Name, musikstueck.Nummer, satz.Nr". PHP_EOL;           
           break;      
       }
 
-      // echo '<pre>'.$query.'</pre>'; // Test  
+    // echo '<pre>'.$query.'</pre>'; // Test  
       // echo '<pre>'.$filterLookups_satz.'</pre>'; // Test    
     
       if ($Suche->Beschreibung!='') {
@@ -665,7 +772,7 @@ if (isset($_POST['suchtext'])) {
             $html = new HtmlTable($select); 
             $html->add_link_edit=true; 
             $html->edit_link_table=$edit_table; 
-            $html->edit_link_title=$Ebene; 
+            $html->edit_link_title=$Ansicht; 
             $html->edit_link_open_newpage=true; 
             $html->print_table2(); 
           }
