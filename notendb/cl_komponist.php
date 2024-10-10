@@ -7,6 +7,7 @@ class Komponist {
   public $ID;
   public $Vorname;
   public $Nachname;
+  public $Name; 
   public $Geburtsjahr;
   public $Sterbejahr;
   public $Bemerkung;
@@ -64,6 +65,7 @@ class Komponist {
       $row_data=$select->fetch();      
       $this->Vorname=$row_data["Vorname"];
       $this->Nachname=$row_data["Nachname"];
+      $this->Name = $row_data["Vorname"].' '.$row_data["Nachname"];
       $this->Geburtsjahr=$row_data["Geburtsjahr"];
       $this->Sterbejahr=$row_data["Sterbejahr"];
       $this->Bemerkung=$row_data["Bemerkung"];

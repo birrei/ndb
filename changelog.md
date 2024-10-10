@@ -1,6 +1,8 @@
 ﻿
 # Change Log  
 
+09.10.2024 - Suche: Auswahl "Ebene" ersetzt durch Auswahl "Ansicht", Auswahl-Box anstelle Radio-Buttons
+
 02.10.2024 - Übersichtstabelle Sammlung > Filter "Standort" 
 
 01.10.2024 - Filter "Erprobt > Jahr" 

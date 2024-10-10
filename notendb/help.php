@@ -11,14 +11,11 @@ include('head.php');
 <p class="inhalt2"><a href="#erfassungsatz">Satz</a></p>
 <p class="inhalt3"><a href="#erfassungsatzspieldauer">Satz Spieldauer</a></p>
 <p class="inhalt2"><a href="#erfassungbesonderheiten">Besonderheiten</a></p>
-<p class="inhalt2"><a href="#erfassunghinweise">Hinweise</a></p>
-
 
 <p class="inhalt1"><a href="#suche"><b>Suche</b></a></p>
 <p class="inhalt2"><a href="#suchemehrfachauswahl1">Mehrfachauswahl: Einträge markieren</a></p>
 <p class="inhalt2"><a href="#suchemehrfachauswahl2">Mehrfachauswahl: Suchlogik</a></p>
-
-
+<p class="inhalt2"><a href="#suche-ansicht">Ergebnistabelle: Ansicht, Gruppierung, Sortierung</a></p>
 
 <hr />
 
@@ -79,6 +76,28 @@ Beispiel Erfassung einzelner Notenwerte: Nur sinnvoll bei Stücken, die später 
     <li>Markierung mehrere Einträge bei gedrückter STRG-Taste oder (falls die gewünschten Einträge untereinander liegen) bei gedrückter SHIFT - Taste 
     </li>
 
+</ul>
+
+
+<h2 id="suche-ansicht">Ergebnistabelle: Ansicht, Gruppierung, Sortierung</h2>
+
+<ul> 
+    <li>
+        Ansicht "Sammlung": Ergebnistabelle wird auf Sammlung-Ebene gruppiert (Eine Zeile pro Sammlung)
+        <br />Die Sortierung erfolgt nach Standort Name, Sammmlung Name
+     </li> 
+     <li>
+        Ansicht "Sammlung mit Links": Ergebnistabelle wird auf Sammlung-/Link Ebene gruppiert (Eine Zeile pro Sammlung und Link) 
+        <br />Die Sortierung erfolgt nach Standort Name, Sammmlung Name
+     </li>      
+     <li>
+        Ansicht "Musikstück": Ergebnistabelle wird auf Musikstück-Ebene gruppiert gruppiert (Eine Zeile pro Musikstück)  
+        <br />Die Sortierung erfolgt nach Standort Name, Sammmlung Name, Musikstück Name         
+     </li> 
+     <li>
+        Ansicht "Satz": Ergebnistabelle wird auf Satz-Ebene gruppiert   (Eine Zeile pro Musikstück)
+        <br />Die Sortierung erfolgt nach Standort Name, Sammmlung Name, Musikstück Name, Satz Name            
+     </li> 
 </ul>
 
 <h2 id="suchemehrfachauswahl2">Mehrfachauswahl: Suchlogik</h2>
