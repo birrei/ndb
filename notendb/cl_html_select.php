@@ -71,14 +71,16 @@ class HtmlSelect {
              }
             $html.= '</select>'. PHP_EOL;;
         }
+        
+        // XXX verworfen 
+        // $html .='<br/><input type="button" id="btnReset_'.$id.'" value="Filter zurücksetzen" onclick="Reset_'.$id.'();" />  
+        //      <script type="text/javascript">  
+        //         function Reset_'.$id.'() {  
+        //         var dropDown = document.getElementById("'.$id.'");  
+        //         dropDown.selectedIndex = -1;  
+        //     }  
+        //     </script>';
 
-        $html .='<br/><input type="button" id="btnReset_'.$id.'" value="Filter zurücksetzen" onclick="Reset_'.$id.'();" />  
-             <script type="text/javascript">  
-                function Reset_'.$id.'() {  
-                var dropDown = document.getElementById("'.$id.'");  
-                dropDown.selectedIndex = -1;  
-            }  
-            </script>';
         if ($print_check_excl) {
             $html.='<input type="checkbox" name="ex_'.$id.'" '.($check_excl?' checked':'').'>
              <label for="ex_'.$id.'">Genaue Suche</label>';

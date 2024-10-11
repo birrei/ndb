@@ -72,10 +72,7 @@ $filterSpieldauer='';
 $filterErprobtJahr='';     
 $filterSuchtext='';  
 
-
 $filter=false; 
-
-// $abfrage_beschreibung=''; // String mit den Title-Texten der ausgewählten Einträge 
 
 $edit_table=''; /* Tabelle, die über Bearbeiten-Links in Ergebnis-Tabelle abrufbar sein soll */
 
@@ -86,19 +83,16 @@ if (isset($_POST['Ansicht'])) {
 } else {
   $Ansicht='Sammlung'; // default 
 }
-
-// echo '<p>Ansicht: '.$Ansicht.'</p>'; // Test 
-
-$Suche->Beschreibung.='* Ansicht: '.$Ansicht.PHP_EOL; 
-
-
 ?> 
 <div class="search-page">
 <div class="search-filter">
 <form id="Suche" action="" method="post">
 
 <!---- Ansicht -----> 
-Ansicht: 
+<?php
+$Suche->Beschreibung.='* Ansicht: '.$Ansicht.PHP_EOL; 
+?>
+<b>Ansicht: </b>
 <select id="Ansicht" name="Ansicht">
           <option value="Sammlung" <?php echo ($Ansicht=='Sammlung'?'selected':'');?>>Sammlung</option>      
           <option value="Musikstueck" <?php echo ($Ansicht=='Musikstueck'?'selected':'');?>>Musikstück</option>
@@ -109,14 +103,10 @@ Ansicht:
 <!---- Entscheidung Suche speichern ja / nein -----> 
 &nbsp; &nbsp; <input type="checkbox" id="sp" name="SucheSpeichern"><label for="sp">Suche speichern</label> 
 
-
-<p>
-  <!---- Suche starten -----> 
-<input class="btnSave" type="submit" value="Suchen" class="btnSave">
-
+<!---- Suche starten -----> 
+<p><input class="btnSave" type="submit" value="Suchen" class="btnSave">
 
 <!-- Button: alle Filter zurücksetzen --> 
-
 <input type="button" id="btnReset_All" value="Alle Filter zurücksetzen" onclick="Reset_All();" /> 
 <script type="text/javascript">  
           function Reset_All() {  
@@ -133,10 +123,8 @@ Ansicht:
           }
       }  
 </script> 
-<p id="test"> </p> 
 
 <?php 
-
 /************** Suchtext  **********/  
 
 if (isset($_POST['suchtext'])) {
@@ -149,12 +137,12 @@ if (isset($_POST['suchtext'])) {
 ?>
 <p>Suchtext: <br> 
   <input type="text" id="suchtext" name="suchtext" size="30px" value="<?php echo $suchtext; ?>" autofocus> 
-  <input type="button" id="btnReset_suchtext" value="Suchtext leeren" onclick="Reset_suchtext();" />  
+  <!-- <input type="button" id="btnReset_suchtext" value="Suchtext leeren" onclick="Reset_suchtext();" />  
       <script type="text/javascript">  
               function Reset_suchtext() {  
                 document.getElementById("suchtext").value='';  
           }  
-      </script> 
+      </script>  -->
 
 <p class="navi-trenner">Sammlung </p> 
 
@@ -416,13 +404,16 @@ echo '<p>';
   <p><b>Erprobt Jahr:</b> 
   von: <input type="text" id="ErprobtJahr_von" name="ErprobtJahr_von" size="5"  value="<?php echo $ErprobtJahr_von; ?>"> 
   bis: <input type="text" id="ErprobtJahr_bis" name="ErprobtJahr_bis" size="5" value="<?php echo $ErprobtJahr_bis; ?>">
+  <!-- 
+  XXX verworfen (AG: OK?)
   <input type="button" id="btnReset_ErprobtJahr" value="Filter zurücksetzen" onclick="Reset_ErprobtJahr();" />  
   <script type="text/javascript">  
         function Reset_ErprobtJahr() {  
           document.getElementById("ErprobtJahr_von").value='';  
           document.getElementById("ErprobtJahr_bis").value='';  
         }
-    </script> 
+    </script>  
+    -->
   </p>
  
   <?php  
@@ -452,7 +443,8 @@ echo '<p>';
   <br /> bis
     min: <input type="text" id="SpieldauerBis_min" name="SpieldauerBis_min" size="5" value="" oninput="set_SpieldauerBis();">
     sec: <input type="text" id="SpieldauerBis" name="SpieldauerBis" size="5" value="<?php echo $spieldauer_bis; ?>">
-
+<!-- 
+  XXX verworfen, OK? 
   <input type="button" id="btnReset_Spieldauer" value="Filter zurücksetzen" onclick="Reset_Spieldauer();" />  
   <script type="text/javascript">  
         function Reset_Spieldauer() {  
@@ -470,6 +462,7 @@ echo '<p>';
           document.getElementById("SpieldauerBis").value=sekunden;         
         }   
     </script> 
+     -->
   </p>
  
   <?php 
