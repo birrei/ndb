@@ -10,7 +10,9 @@ class HtmlSelect {
     public $option_titles_selected=[]; // alle ausgewählten titles  
     public $titles_list; // String, der die Liste der Titels enthält 
     public $titles_selected_list; // String, der die Liste der ausgewählten Titels enthält
-    public $autofocus=false; // true, wenn Auswahlbox beim Öffnen eines Formulars den Focus erhalten soll  
+    public $autofocus=false; // true, wenn Auswahlbox beim Öffnen eines Formulars den Focus erhalten soll
+    
+    public $caption=''; // 
 
     // config. multi-select 
     protected $visible_rows_default=5; // Zeilen Standard
@@ -29,32 +31,40 @@ class HtmlSelect {
     }
     
     function print_select($keyname, $value_selected='', $add_null_option=true) {
-        $html = '';
+        $html = '<span class="auswahl">';
+        if ($this->caption!='') {
+            $html.='<span class="field-caption">'.$this->caption.'</span>'. PHP_EOL;
+        }        
         if ($this->count_rows > 0) {
-            $html = '<select name="'.$keyname.'" oninput="changeBackgroundColor(this);"'.($this->autofocus?' autofocus="autofocus"':'').'>' . PHP_EOL;    
+            $html.= '<select name="'.$keyname.'" oninput="changeBackgroundColor(this);"'.($this->autofocus?' autofocus="autofocus"':'').'>' . PHP_EOL;    
             if($add_null_option) {
                 $html .= '<option value="" '.($value_selected=='' ? 'selected' : ''). '></option>'. PHP_EOL;
             }
             foreach($this->result as $key => $title) {
                 $html .= ' <option value="' . $key . '"'.($value_selected==$key ? ' selected' : ''). '>' . $title . '</option>'. PHP_EOL;
                 }
-            $html .= '</select>';
+            $html .= '</select>
+                      </span>';
         }
         echo $html;
     }    
 
-    function print_select_multi($id
+    function print_select_multi(
+        $id
         , $keyname
         , $options_selected=[]
         , $caption=''
         , $print_check_excl=false // Anzeige Checkbox Genaue Suche
         , $check_excl=false // Genaue Suche aktiviert 
-        ) {
-        // $add_check_excl: Checkbox für Ausschluss-Suche anzeigen 
-        $html = '<p>';
+    ) {
+        $html = '<p class="auswahl">';
         if ($caption!='') {
-            $html.='<b>'.$caption.'</b><br/>'. PHP_EOL;
+            $html.='<span class="field-caption">'.$caption.'</span>'. PHP_EOL;
         }
+        if ($print_check_excl) {
+            $html.='<input type="checkbox" name="ex_'.$id.'" '.($check_excl?' checked':'').'>
+             <label for="ex_'.$id.'">Genaue Suche</label>';
+        }   
         if ($this->count_rows > 0) {
             $html.= '<select id="'.$id.'" name="'.$keyname.'" multiple size="'.$this->visible_rows.'" style="width:100%;font-size:9pt">' . PHP_EOL;  
             foreach($this->result as $key => $title) {
@@ -68,11 +78,11 @@ class HtmlSelect {
                     $this->option_values[]=$key;  
                     $this->option_titles[]=$title;                                      
                 }
-             }
+            }
             $html.= '</select>'. PHP_EOL;;
         }
-        
-        // XXX verworfen 
+    
+        // XXX verworfen, da unnötig / nicht genutzt 
         // $html .='<br/><input type="button" id="btnReset_'.$id.'" value="Filter zurücksetzen" onclick="Reset_'.$id.'();" />  
         //      <script type="text/javascript">  
         //         function Reset_'.$id.'() {  
@@ -81,10 +91,6 @@ class HtmlSelect {
         //     }  
         //     </script>';
 
-        if ($print_check_excl) {
-            $html.='<input type="checkbox" name="ex_'.$id.'" '.($check_excl?' checked':'').'>
-             <label for="ex_'.$id.'">Genaue Suche</label>';
-        }   
 
         $html.='</p>'. PHP_EOL;;
         echo $html;

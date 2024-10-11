@@ -284,7 +284,7 @@ class Musikstueck {
 
   }
 
-  function print_select($value_selected=''){
+  function print_select($value_selected='', $caption=''){
     /***** select box (fake) *****/ 
     include_once("dbconn/cl_db.php");  
     include_once("cl_html_select.php");
@@ -303,6 +303,7 @@ class Musikstueck {
     try {
       $stmt->execute(); 
       $html = new HtmlSelect($stmt); 
+      $html->caption = $caption;       
       $html->print_select("MusikstueckID", $value_selected, false); 
     }
     catch (PDOException $e) {

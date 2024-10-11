@@ -40,8 +40,6 @@ $Uebungen=[]; // im Suchfilter ausgewählte Übung-Einträge  (IDs)
 
 $lookup_all_values_selected=[]; // im Suchfilter ausgewählte Besonderheiten-IDs (gesammelt aus allen lookup-types) ?
 
-$spieldauer_von=''; 
-$spieldauer_bis=''; 
 
 $ErprobtJahr_von=''; 
 $ErprobtJahr_bis=''; 
@@ -135,9 +133,9 @@ if (isset($_POST['suchtext'])) {
   }
 }  
 ?>
-<p>Suchtext: <br> 
-  <input type="text" id="suchtext" name="suchtext" size="30px" value="<?php echo $suchtext; ?>" autofocus> 
-  <!-- <input type="button" id="btnReset_suchtext" value="Suchtext leeren" onclick="Reset_suchtext();" />  
+<p>Suchtext: <input type="text" id="suchtext" name="suchtext" size="30px" value="<?php echo $suchtext; ?>" autofocus> 
+  <!-- XXX verworfen
+      <input type="button" id="btnReset_suchtext" value="Suchtext leeren" onclick="Reset_suchtext();" />  
       <script type="text/javascript">  
               function Reset_suchtext() {  
                 document.getElementById("suchtext").value='';  
@@ -146,10 +144,9 @@ if (isset($_POST['suchtext'])) {
 
 <p class="navi-trenner">Sammlung </p> 
 
-<?php 
-
+<?php
 /************* Verlag  ***********/
- // select 
+ 
   $verlag = new Verlag();
   $VerlagID=''; 
   if (isset($_POST['VerlagID']) ) {
@@ -162,9 +159,9 @@ if (isset($_POST['suchtext'])) {
       $filter=true;    
     }   
   }
-  echo $verlag->Title .' : &nbsp;&nbsp;&nbsp;'; 
-  $verlag->print_select($VerlagID);
-
+  echo '<p>';
+  $verlag->print_select($VerlagID, $verlag->Title.': &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;');
+  echo '</p>';
  // multi-select (verworfen)
   // if (isset($_POST['Verlage'])) {
   //   $Verlage = $_POST['Verlage']; 
@@ -178,7 +175,6 @@ if (isset($_POST['suchtext'])) {
 
 
 /************* Standort  ***********/
-echo '<p>'; 
 
   $standort = new Standort();
   $StandortID=''; 
@@ -192,11 +188,9 @@ echo '<p>';
       $filter=true;       
    }
   }
-  echo $standort->Title .': &nbsp;'; 
-  $standort->print_select($StandortID);
-
-  echo '</p>'; 
-
+  echo '<p>';
+  $standort->print_select($StandortID, $standort->Title.': &nbsp;');
+  echo '</p>';
   // if (isset($_POST['Standorte'])) {
   //   $Standorte = $_POST['Standorte'];   // Array gewählte Standorte 
   //   $filterStandorte = 'IN ('.implode(',', $Standorte).')'; 
@@ -256,8 +250,7 @@ echo '<p>';
       $filter=true;       
     }
   }
-  echo $komponist->Title .' : &nbsp;&nbsp;&nbsp;'; 
-  $komponist->print_select($KomponistID);
+  $komponist->print_select($KomponistID,$komponist->Title .' : &nbsp;&nbsp;&nbsp;');
 
 
   // if (isset($_POST['Komponisten'])) {
@@ -291,7 +284,7 @@ echo '<p>';
   $Suche->Beschreibung.=(count($Verwendungszwecke)>0?$verwendungszweck->titles_selected_list:'');  
 
 /************* Gattung  ***********/
-echo '<p>'; 
+
   $gattung = new Gattung();
   $GattungID=''; 
   if (isset($_POST['GattungID'])) {
@@ -304,8 +297,8 @@ echo '<p>';
       $filter=true;       
     }
   }
-  echo $gattung->Title .' : &nbsp;&nbsp;&nbsp;'; 
-  $gattung->print_select($GattungID);
+  echo '<p>'; 
+  $gattung->print_select($GattungID, $gattung->Title .' : &nbsp;&nbsp;&nbsp;');
   echo '</p>'; 
 
   // if (isset($_POST['Gattungen'])) {
@@ -319,8 +312,6 @@ echo '<p>';
 
 
 /************* Epochen  ***********/
-echo '<p>'; 
-
   $epoche = new Epoche();
   $EpocheID=''; 
   if (isset($_POST['EpocheID'])) {
@@ -333,10 +324,10 @@ echo '<p>';
       $filter=true;     
     }  
   }
-  echo $epoche->Title .' : &nbsp;&nbsp;&nbsp;'; 
-  $epoche->print_select($EpocheID);
-
+  echo '<p>'; 
+  $epoche->print_select($EpocheID, $epoche->Title .' : &nbsp;&nbsp;&nbsp;');
   echo '</p>'; 
+
   // if (isset($_POST['Epochen'])) {
   //   $Epochen = $_POST['Epochen'];   
   //   $filterEpochen = 'IN ('.implode(',', $Epochen).')'; 
@@ -346,7 +337,6 @@ echo '<p>';
   // $epochen->print_select_multi($Epochen); 
   // $Suche->Beschreibung.=(count($Epochen)>0?$epochen->titles_selected_list:'');  
   
-
   ?>
   <p class="navi-trenner">Satz</p> 
   <?php   
@@ -401,7 +391,7 @@ echo '<p>';
   }
 
   ?>    
-  <p><b>Erprobt Jahr:</b> 
+  <p><span class="field-caption">Erprobt Jahr:</span> 
   von: <input type="text" id="ErprobtJahr_von" name="ErprobtJahr_von" size="5"  value="<?php echo $ErprobtJahr_von; ?>"> 
   bis: <input type="text" id="ErprobtJahr_bis" name="ErprobtJahr_bis" size="5" value="<?php echo $ErprobtJahr_bis; ?>">
   <!-- 
@@ -419,8 +409,14 @@ echo '<p>';
   <?php  
   
 /*******  Spieldauer  ****************/  
+  $spieldauer_von_min=''; // Nutzer-Eingabe 
+  $spieldauer_bis_min='';  //  Nutzer-Eingabe 
+  $spieldauer_von=''; // Umrechnung, Sekunden 
+  $spieldauer_bis=''; // Umrechnung, Sekunden 
 
   if (isset($_REQUEST['SpieldauerVon']) and isset($_REQUEST['SpieldauerBis']) ) {
+    $spieldauer_von_min= $_REQUEST['SpieldauerVon_min']; 
+    $spieldauer_bis_min= $_REQUEST['SpieldauerBis_min'];      
     if ($_REQUEST['SpieldauerVon']!='') {
       $spieldauer_von=(is_numeric($_REQUEST['SpieldauerVon'])?$_REQUEST['SpieldauerVon']:'');
     }
@@ -431,26 +427,26 @@ echo '<p>';
       // $spieldauer_von = $spieldauer_von * 60;         
       // $spieldauer_bis = $spieldauer_bis * 60;            
       $filterSpieldauer=' BETWEEN '.$spieldauer_von.' AND '.$spieldauer_bis; 
-      $Suche->Beschreibung.='* Spieldauer von '.$spieldauer_von.' bis '.$spieldauer_bis.' Sekunden'.PHP_EOL;
+      // $Suche->Beschreibung.='* Spieldauer: zwischen '.$spieldauer_von.' und '.$spieldauer_bis.' Sekunden'.PHP_EOL;
+      $Suche->Beschreibung.='* Spieldauer: zwischen '.$spieldauer_von_min.' Minuten und '.$spieldauer_bis_min.' Minuten'.PHP_EOL;
       $filter=true; 
     }
   }
    ?>    
-  <p><b>Spieldauer:</b>
-  <br /> von 
-  min: <input type="text" id="SpieldauerVon_min" name="SpieldauerVon_min" size="5" value="" oninput="set_SpieldauerVon();"> 
-  sec: <input type="text" id="SpieldauerVon" name="SpieldauerVon" size="5" value="<?php echo $spieldauer_von; ?>">
-  <br /> bis
-    min: <input type="text" id="SpieldauerBis_min" name="SpieldauerBis_min" size="5" value="" oninput="set_SpieldauerBis();">
-    sec: <input type="text" id="SpieldauerBis" name="SpieldauerBis" size="5" value="<?php echo $spieldauer_bis; ?>">
-<!-- 
-  XXX verworfen, OK? 
-  <input type="button" id="btnReset_Spieldauer" value="Filter zurücksetzen" onclick="Reset_Spieldauer();" />  
+  <p><span class="field-caption">Spieldauer (min):</span> 
+  von: <input type="text" id="SpieldauerVon_min" name="SpieldauerVon_min" size="5" value="<?php echo $spieldauer_von_min; ?>" oninput="set_SpieldauerVon();"> 
+  bis: <input type="text" id="SpieldauerBis_min" name="SpieldauerBis_min" size="5" value="<?php echo $spieldauer_bis_min; ?>" oninput="set_SpieldauerBis();">
+  <!-- input-felder für Sekunden, hier verborgen: --> 
+  <input style="display:none" type="text" id="SpieldauerBis" name="SpieldauerBis" size="5" value="<?php echo $spieldauer_bis; ?>">
+  <input style="display:none" type="text" id="SpieldauerVon" name="SpieldauerVon" size="5" value="<?php echo $spieldauer_von; ?>">
+  
+  <!-- XXX verworfen <input type="button" id="btnReset_Spieldauer" value="Filter zurücksetzen" onclick="Reset_Spieldauer();" />   -->
   <script type="text/javascript">  
-        function Reset_Spieldauer() {  
-          document.getElementById("SpieldauerVon").value='';  
-          document.getElementById("SpieldauerBis").value='';  
-        }
+        // XXX verworfen
+        // function Reset_Spieldauer() {  
+        //   document.getElementById("SpieldauerVon").value='';  
+        //   document.getElementById("SpieldauerBis").value='';  
+        // }
         function set_SpieldauerVon() {
           var txt_min = document.getElementById("SpieldauerVon_min").value;
           var sekunden = getSeconds(txt_min);
@@ -462,7 +458,7 @@ echo '<p>';
           document.getElementById("SpieldauerBis").value=sekunden;         
         }   
     </script> 
-     -->
+    
   </p>
  
   <?php 
@@ -767,6 +763,7 @@ echo '<p>';
             $html->edit_link_table=$edit_table; 
             $html->edit_link_title=$Ansicht; 
             $html->edit_link_open_newpage=true; 
+            $html->show_row_count=true; 
             $html->print_table2(); 
           }
           catch (PDOException $e) {

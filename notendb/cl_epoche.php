@@ -37,7 +37,7 @@ class Epoche {
     }
   }  
  
-  function print_select($value_selected=''){
+  function print_select($value_selected='', $caption=''){
       
     include_once("dbconn/cl_db.php");  
     include_once("cl_html_select.php");
@@ -54,6 +54,7 @@ class Epoche {
     try {
       $stmt->execute(); 
       $html = new HtmlSelect($stmt); 
+      $html->caption = $caption;       
       $html->print_select("EpocheID", $value_selected, true); 
       
     }

@@ -116,7 +116,7 @@ class Komponist {
       }
   }
 
-  function print_select($value_selected=''){
+  function print_select($value_selected='', $caption=''){
     /* Auswahl-Element Komponisten */   
     include_once("dbconn/cl_db.php");  
     include_once("cl_html_select.php");
@@ -136,6 +136,7 @@ class Komponist {
     try {
       $select->execute(); 
       $html = new HtmlSelect($select); 
+      $html->caption = $caption;       
       $html->print_select("KomponistID", $value_selected, true); 
       
     }

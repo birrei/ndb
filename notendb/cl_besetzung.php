@@ -38,7 +38,7 @@ class Besetzung {
     }
   }  
  
-  function print_select($value_selected='',$referenced_MusikstueckID='') {
+  function print_select($value_selected='',$referenced_MusikstueckID='', $caption='') {
       
     include_once("dbconn/cl_db.php");  
     include_once("cl_html_select.php");
@@ -67,6 +67,7 @@ class Besetzung {
       $stmt->execute(); 
       $html = new HtmlSelect($stmt); 
       $html->autofocus=true; 
+      $html->caption = $caption; 
       $html->print_select("BesetzungID", $value_selected, true); 
       
     }

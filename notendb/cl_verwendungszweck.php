@@ -37,7 +37,7 @@ class Verwendungszweck {
     }
   }  
  
-  function print_select($value_selected='',$referenced_MusikstueckID=''){
+  function print_select($value_selected='',$referenced_MusikstueckID='', $caption=''){
       
     include_once("dbconn/cl_db.php");  
     include_once("cl_html_select.php");
@@ -67,6 +67,7 @@ class Verwendungszweck {
       $stmt->execute(); 
       $html = new HtmlSelect($stmt); 
       $html->autofocus=true; 
+      $html->caption = $caption;       
       $html->print_select("VerwendungszweckID", $value_selected, true); 
       
     }

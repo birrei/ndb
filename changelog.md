@@ -1,7 +1,9 @@
 ﻿
 # Change Log  
 
-09.10.2024 - Suche: Auswahl "Ebene" ersetzt durch Auswahl "Ansicht", Auswahl-Box anstelle Radio-Buttons
+11.10.2024 - Suche: Einzelfunktionen "Filter zurücksetzen" auskommentiert (da nicht verwendet, Screen zu überladen). Formatierung Auswahlfelder prägnanter gestaltet. 
+
+09.10.2024 - Suche: Auswahl "Ebene" ersetzt durch Auswahl "Ansicht", Auswahl-Box anstelle Radio-Elemente
 
 02.10.2024 - Übersichtstabelle Sammlung > Filter "Standort" 
 

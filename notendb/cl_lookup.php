@@ -46,7 +46,7 @@ class Lookup {
     }
   }  
  
-  function print_select($value_selected='',$RelationID=''){
+  function print_select($value_selected='',$RelationID='', $caption=''){
       
     include_once("dbconn/cl_db.php");  
     include_once("cl_html_select.php");
@@ -107,6 +107,7 @@ class Lookup {
       $stmt->execute(); 
       $html = new HtmlSelect($stmt); 
       $html->autofocus=true; 
+      $html->caption = $caption;       
       $html->print_select("LookupID", $value_selected, true); 
       
     }
@@ -164,6 +165,7 @@ class Lookup {
     try {
       $stmt->execute(); 
       $html = new HtmlSelect($stmt); 
+      $html->caption = $caption;       
       $html->print_select("LookupID", $value_selected, true); 
       
     }

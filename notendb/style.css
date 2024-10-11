@@ -10,21 +10,21 @@ td, th {
 
 
 /***** Start  ****************/
-div.start {
-    /* background-color: aquamarine; */
-    display: grid;
-	grid-template-columns: 40% 40%;
+    div.start {
+        /* background-color: aquamarine; */
+        display: grid;
+        grid-template-columns: 40% 40%;
 
-    /* grid-auto-rows: max-content;  */
-    /* grid-template-rows: 30% 30% 30%; */
-    grid-gap: 5px;    
-}
-/* table.start {
-    background-color: aqua;   
-} */
-td.start {
-    padding: 3px;
-}
+        /* grid-auto-rows: max-content;  */
+        /* grid-template-rows: 30% 30% 30%; */
+        grid-gap: 5px;    
+    }
+    /* table.start {
+        background-color: aqua;   
+    } */
+    td.start {
+        padding: 3px;
+    }
 
 /***** Formulare  ****************/
 
@@ -107,24 +107,35 @@ td.start {
 
 
 /***** Suche  ****************/
-.search-page {
-    display: grid;
-	grid-template-columns: 350pt 100%;
-    grid-gap: 5px;    
-}
+    .search-page {
+        display: grid;
+        grid-template-columns: 350pt 100%;
+        grid-gap: 5px;    
+    }
 
-p.navi-trenner {
-    color:red; 
-    background-color:aquamarine;
+    p.navi-trenner {
+        color:black; 
+        font-weight: bold;
+        background-color:aquamarine;
+        padding:3px;         
+    }
+    .field-caption{
+        background-color:lightskyblue;     
+        font-size: 10pt;
+        font-weight: bold; 
+        padding: 3px; 
+    }
 
-}
-
+    .auswahl {
+        padding-bottom: 3px; 
+        font-size: 12px; 
+    }
 
 /***** Hilfe  ****************/
-div.hilfeseite {
-    width: 60%; 
-}
+    div.hilfeseite {
+        width: 60%; 
+    }
 
-p.inhalt1 {text-indent:10px;}
-p.inhalt2 {text-indent:20px;}
-p.inhalt3 {text-indent:30px;}
+    p.inhalt1 {text-indent:10px;}
+    p.inhalt2 {text-indent:20px;}
+    p.inhalt3 {text-indent:30px;}

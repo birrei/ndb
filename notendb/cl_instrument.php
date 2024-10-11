@@ -35,7 +35,7 @@
     }
   }  
  
-  function print_select($value_selected='', $ref_SatzID=''){
+  function print_select($value_selected='', $ref_SatzID='', $caption=''){
       
     include_once("dbconn/cl_db.php");  
     include_once("cl_html_select.php");
@@ -61,7 +61,8 @@
     try {
       $stmt->execute(); 
       $html = new HtmlSelect($stmt); 
-      $html->autofocus=true;       
+      $html->autofocus=true;     
+      $html->caption = $caption;         
       $html->print_select("InstrumentID", $value_selected, true); 
       
     }
