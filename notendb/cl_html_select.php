@@ -15,7 +15,7 @@ class HtmlSelect {
     public $caption=''; // 
 
     // config. multi-select 
-    protected $visible_rows_default=5; // Zeilen Standard
+    protected $visible_rows_default=3; // Anzahl Sichtbare Zeilen, Standard
     public $visible_rows; 
 
     function __construct($stmt) {
