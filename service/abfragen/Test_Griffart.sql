@@ -1,28 +1,83 @@
 
 /* 
-Für "Abfragen", Typ "Nachbearbeitung" 
 
-Test: Fehlende "*Griffart*"-Angabe fehlt. 
-Bedingung: Sätze, bei denen Besonderheiten-Einträge grundsätzlich gepflegt sind (das ist nicht immer der Fall). 
-= Sätze, bei denen mind. 1 BEsonderheit-Eintrag (vom fraglichen Typ) vorhanden ist (fraglicher Typ ist in diesem Fall "Übung Sonst")
+Auftrag 10.10.2024
 
+Satz, Besonderheiten: Fehlender Griffart-Eintrag   
+
+Bedingung: Nur Sätze, bei denen Besonderheiten-Einträge grundsätzlich gepflegt sind, 
+das ist nicht immer der Fall! (DEf. "Besonderheiten-Einträge sind grundsätzlich gepflegt: 
+es ist mind. 1 (beiliebiger/weiterer) Besonderheit-Eintrag vorhanden) 
+
+Kategorie: Fachlicher Test -> in "Abfragen" bereitstellen 
 
 */ 
 
-
-select s.Name as Sammlung
-
-        , m.Name as Musikstueck
-        , sa.Nr SatzNr
-       , GROUP_CONCAT(DISTINCT besetzung.Name order by besetzung.Name SEPARATOR ', ') Besetzungen     
-       , GROUP_CONCAT(DISTINCT instrument.Name order by instrument.Name SEPARATOR ', ') as SG_Instrumente 
-       , sa.ID                   
-    from musikstueck m 
-    inner join musikstueck_besetzung on musikstueck_besetzung.MusikstueckID = m.ID 
+select distinct 
+    s.Name as Sammlung
+    , sa.Nr as SatzNr 
+    , sa.ID
+    , s.ID as SammlungID 
+    , m.ID as MusikstueckID 
+from musikstueck m 
     inner join  sammlung s on s.ID = m.SammlungID 
     inner join satz sa on sa.MusikstueckID = m.ID 
-    left join satz_lookup on satz_lookup.SatzID = sa.ID 
-    left join lookup on lookup.ID = satz_lookup.LookupID 
--- ANd satz_schwierigkeitsgrad.ID is NULL
-group by m.ID, sa.ID 
-order by m.ID DESC
+    inner join satz_lookup on satz_lookup.SatzID = sa.ID 
+    inner join lookup on lookup.ID = satz_lookup.LookupID 
+where 1=1 
+    -- and s.ID = 22 and m.ID = 103 -- Tester 
+    and sa.ID NOT IN (
+        Select satz_lookup.SatzID from satz_lookup inner join lookup on lookup.ID = satz_lookup.LookupID 
+        where lookup.Name LIKE '%Griffart%'
+    )
+order by s.StandortID, s.ID, m.ID, sa.ID
+
+/*
+Tester sammlung.ID 22 
+Beschreibung: 
+
+Musikstück ID= 103
+
+3 Sätze: 
+110: 2 Besonderheiten, 1 x Griffart -> also OK 
+111: 1 Besonderheiten, keine Griffart -> Fehler! 
+112: keine Besonderheiten  -> OK, nicht relevant 
+111 und 112 haben keine Griffart 
+
+Der Test soll Satz ID 111 ausgeben. SatzID 112 soll nicht ausgegeben werden, 
+da dieser gar keine Besonderheit hat - hier geht man davon aus, dass Besonderheiten gar keine Rolle spielen 
+(nur als  TEst - in der Praxis ist unwahrscheinlich, dass unter mehreren Sätzen mit Besonderheiten 
+innerhalb eines Musikstück es einen Satz gibt, der keine BEsonderheiten hat/haben soll)    
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+select distinct s.Name as Sammlung
+         , sa.ID
+         -- , lookup.Name 
+         , lookup_test.Name      as NameTest              
+    from musikstueck m 
+    inner join  sammlung s on s.ID = m.SammlungID 
+    inner join satz sa on sa.MusikstueckID = m.ID 
+    inner join satz_lookup on satz_lookup.SatzID = sa.ID 
+    inner join lookup on lookup.ID = satz_lookup.LookupID 
+
+    left join satz_lookup as satz_lookup_test on satz_lookup_test.SatzID = sa.ID 
+    left join lookup as lookup_test on lookup_test.ID = satz_lookup_test.LookupID 
+     and lookup_test.Name LIKE '%Griffart%'
+    -- and satz_lookup.LookupID <> satz_lookup_test.LookupID 
+where 1=1 
+and s.ID = 22 and m.ID = 103 -- Tester 
+and satz_lookup.ID IS NOT NULL -- Sätze mit irgenteiner Besonderheit
+and lookup_test.ID IS NULL
+*/
