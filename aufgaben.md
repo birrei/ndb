@@ -3,20 +3,19 @@
 - [ ] delete.php: Löschbarkeit VOR Nutzerbestätigung prüfen
 - [ ] iframe-aufruf-Buttons: farbig, wenn aktiv 
 - [X] Startseiten-Links aus Tabreihenfolge nehmen 
-- [ ] Suche, Ergebnisanzeige: Anzahl Zeilen angezeigen 
+- [ ] Suche, Ergebnisanzeige: Anzahl Zeilen angezeigen
+- [ ] Seite für "info-Views" (entspr. Tests- Seite) 
 
 ### Offene Aufgaben 
-- [ ] Sammlung "Erfassungstatus" (vom Anwender gesetzt. .. "Vollständig" Sammlung wird in Tests erfasst, unvollständig nicht", da Unvollständigkeit bekannt ) 
+- [ ] Sammlung "Erfassungstatus" (vom Anwender gesetzt. .. "Vollständig" Sammlung wird in Tests erfasst, unvollständig nicht", da Unvollständigkeit bekannt/akzeptiert) 
 - [ ] Sammlung "Druckansicht/Datenblatt" 
 - [ ] Tabellen Spalten-Sortierung (per JavaScript, s. https://www.w3schools.com/howto/howto_js_sort_table.asp) 
- 
 - [ ] Eigenes Git-Repository für das Projekt 
 - [ ] Logging (Datum, Name)
 - [ ] Konfiguration Fehlerausgabe
 - [ ] Gattung -> Gattung / Form 
 
-
-### Verbesserungen, Korrekturen 
+### Offene Verbesserungen und Korrekturen 
 - [ ] delete-Routinen: Folge-Links prüfen  
 - [ ] Suche: Beschreibung ergänzen, wenn Genaue Suche ausgewählt 
 - [ ] iframe-Formulare: Speicherverhalten vereinheitlichen 
@@ -34,7 +33,8 @@
 - [ ] Formulare Bezeichnungen alle Fett drucken 
 - [ ] "open new page" vereinheitlichen 
 - [ ] musikstueck: Spalte "JahrAuffuehrung" löschen
-- [ ] Formulare: Spaltenbezeichung fett drucken 
+- [ ] Formulare: Spaltenbezeichung fett drucken
+- [ ] Klassen-Dateien umbenennen: cl_* -> class.*  
 
 ### Offene Aufgaben Prio 2
 - [ ] iframe-Formulare: Autofocus auf erstes Feld möglich? 

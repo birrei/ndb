@@ -1,6 +1,8 @@
 ﻿
 # Change Log  
 
+14.10.2024 - Umstellung Repository - Struktur (dev (nicht Teil er Anwendung), notendb (ANwendungsdateien, für Installation benötigt), service (Zusatz-Aufträge, nicht Teil der Anwendung)) 
+
 11.10.2024 - Suche: Einzelfunktionen "Filter zurücksetzen" auskommentiert (da nicht verwendet, Screen zu überladen). Formatierung Auswahlfelder prägnanter gestaltet. 
 
 09.10.2024 - Suche: Auswahl "Ebene" ersetzt durch Auswahl "Ansicht", Auswahl-Box anstelle Radio-Elemente
