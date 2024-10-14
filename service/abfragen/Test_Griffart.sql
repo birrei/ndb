@@ -49,35 +49,4 @@ da dieser gar keine Besonderheit hat - hier geht man davon aus, dass Besonderhei
 (nur als  TEst - in der Praxis ist unwahrscheinlich, dass unter mehreren Sätzen mit Besonderheiten 
 innerhalb eines Musikstück es einen Satz gibt, der keine BEsonderheiten hat/haben soll)    
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-select distinct s.Name as Sammlung
-         , sa.ID
-         -- , lookup.Name 
-         , lookup_test.Name      as NameTest              
-    from musikstueck m 
-    inner join  sammlung s on s.ID = m.SammlungID 
-    inner join satz sa on sa.MusikstueckID = m.ID 
-    inner join satz_lookup on satz_lookup.SatzID = sa.ID 
-    inner join lookup on lookup.ID = satz_lookup.LookupID 
-
-    left join satz_lookup as satz_lookup_test on satz_lookup_test.SatzID = sa.ID 
-    left join lookup as lookup_test on lookup_test.ID = satz_lookup_test.LookupID 
-     and lookup_test.Name LIKE '%Griffart%'
-    -- and satz_lookup.LookupID <> satz_lookup_test.LookupID 
-where 1=1 
-and s.ID = 22 and m.ID = 103 -- Tester 
-and satz_lookup.ID IS NOT NULL -- Sätze mit irgenteiner Besonderheit
-and lookup_test.ID IS NULL
 */
