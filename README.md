@@ -157,3 +157,28 @@ Restore prod- Daten auf Demo
     └── test2.php
     └── tests.php
 ```
+
+
+## Ordner "service" 
+
+### Dataclearing 
+
+### Abfragen 
+
+* Tests  
+XXX Abfragen für die Seite "Tests", die zusätzlich zu den vorinstallieren Tests angelegt werden können. Abfragen, die auf Anfrage des AG vom Entwickler erstellt werden (SQL-Kenntnisse erforderlich).  
+
+XXX Seite "Tests" enthält im wesentlich Abfragen, welche strukturelle Erfassungs-Lücken (Unvollständigkeiten) aufzeigen sollen. 
+
+Strukturelle Erfassungslücken z.B.: "Sammlungen ohne Musikstück" (das ist per se als unvollständig definier)
+
+
+
+* Abfragen 
+Abfragen Abfragen, die auf Anfrage des AG vom Entwickler erstellt werden (SQL-Kenntnisse erforderlich).  
+
+Fachliche 
+
+XXX 
+ggf. Temp. 
+
