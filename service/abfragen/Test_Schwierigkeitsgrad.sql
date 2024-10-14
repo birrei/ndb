@@ -1,8 +1,9 @@
 
 /* 
-Test: 
+Abfragen, Typ Nachbearbeitung: 
+
 Besetzung: "Violine und Klavier" 
-Bei Schwierigkeitsgrad "Instrument" gibt es kein Klavier  
+Aber: Bei Schwierigkeitsgrad "Instrument" gibt es kein Klavier  
 
 
  */ 
