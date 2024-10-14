@@ -46,22 +46,18 @@ ist nur sinnvoll, wenn diese zu Lehrzwecken gefunden werden sollen (z.B. nur bis
 
 
 <script>
-
     const tableOfContents = document.getElementById("table-of-contents");
     const chapterTitles = document.getElementsByClassName("chapter-title");
-
     for (const chapterTitle of chapterTitles) {
-    const listEntry = document.createElement("li");
-    const anchor = document.createElement("a");
-    anchor.innerHTML = chapterTitle.innerHTML;  
-    level= chapterTitle.tagName.substring(2,1); 
-    anchor.href = "#" + chapterTitle.id;
-    listEntry.appendChild(anchor);
-    // listEntry.style="padding-left: 10px"; 
-    tableOfContents.appendChild(listEntry);
+        const listEntry = document.createElement("li");
+        const anchor = document.createElement("a");
+        anchor.innerHTML = chapterTitle.innerHTML;  
+        // level= chapterTitle.tagName.substring(2,1); 
+        anchor.href = "#" + chapterTitle.id;
+        listEntry.appendChild(anchor);
+        // listEntry.style="padding-left: 10px"; 
+        tableOfContents.appendChild(listEntry);
     }
-
-
 </script>
 
 <?php 

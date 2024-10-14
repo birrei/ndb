@@ -56,19 +56,19 @@ include('head.php');
 
 <ul> 
     <li>
-        Ansicht "Sammlung": Ergebnistabelle wird auf Sammlung-Ebene gruppiert (Eine Zeile pro Sammlung)
+        <b> Ansicht "Sammlung":</b> Ergebnistabelle wird auf Sammlung-Ebene gruppiert (Eine Zeile pro Sammlung)
         <br />Die Sortierung erfolgt nach Standort Name, Sammlung Name
      </li> 
      <li>
-        Ansicht "Sammlung mit Links": Ergebnistabelle wird auf Sammlung-/Link Ebene gruppiert (Eine Zeile pro Sammlung und Link) 
+     <b> Ansicht "Sammlung mit Links":</b> Ergebnistabelle wird auf Sammlung-/Link Ebene gruppiert (Eine Zeile pro Sammlung und Link) 
         <br />Die Sortierung erfolgt nach Standort Name, Sammlung Name
      </li>      
      <li>
-        Ansicht "Musikstück": Ergebnistabelle wird auf Musikstück-Ebene gruppiert gruppiert (Eine Zeile pro Musikstück)  
+     <b> Ansicht "Musikstück":</b> Ergebnistabelle wird auf Musikstück-Ebene gruppiert gruppiert (Eine Zeile pro Musikstück)  
         <br />Die Sortierung erfolgt nach Standort Name, Sammlung Name, Musikstück Name         
      </li> 
      <li>
-        Ansicht "Satz": Ergebnistabelle wird auf Satz-Ebene gruppiert   (Eine Zeile pro Musikstück)
+        <b> Ansicht "Satz":  wird auf Satz-Ebene gruppiert   (Eine Zeile pro Musikstück)
         <br />Die Sortierung erfolgt nach Standort Name, Sammlung Name, Musikstück Name, Satz Name            
      </li> 
 </ul>
@@ -80,22 +80,18 @@ include('head.php');
 <p> Folgende Felder werden nicht durchsucht. XXX </p>     
 
 <script>
-
     const tableOfContents = document.getElementById("table-of-contents");
     const chapterTitles = document.getElementsByClassName("chapter-title");
-
     for (const chapterTitle of chapterTitles) {
-    const listEntry = document.createElement("li");
-    const anchor = document.createElement("a");
-    anchor.innerHTML = chapterTitle.innerHTML;  
-    level= chapterTitle.tagName.substring(2,1); 
-    anchor.href = "#" + chapterTitle.id;
-    listEntry.appendChild(anchor);
-    // listEntry.style="padding-left: 10px"; 
+        const listEntry = document.createElement("li");
+        const anchor = document.createElement("a");
+        anchor.innerHTML = chapterTitle.innerHTML;  
+        // level= chapterTitle.tagName.substring(2,1); 
+        anchor.href = "#" + chapterTitle.id;
+        listEntry.appendChild(anchor);
+        // listEntry.style="padding-left: 10px"; 
     tableOfContents.appendChild(listEntry);
     }
-
-
 </script>
 
 <?php 
