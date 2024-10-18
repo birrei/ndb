@@ -31,7 +31,8 @@ $info = new HtmlInfo();
       <?php 
           include_once("cl_schwierigkeitsgrad.php");         
           $schwierigkeitsgrad = new Schwierigkeitsgrad(); 
-          $schwierigkeitsgrad->print_select('',  $_GET["SatzID"]); 
+          // $schwierigkeitsgrad->print_select( '',  $_GET["SatzID"]); 
+          $schwierigkeitsgrad->print_select( ''); 
       ?>
   </td>  
   <td class="eingabe2 eingabe2_3">

@@ -36,7 +36,7 @@ class Schwierigkeitsgrad {
     }
   }  
  
-  function print_select($value_selected='', $caption=''){
+  function print_select($value_selected=''){
       
     include_once("dbconn/cl_db.php");  
     include_once("cl_html_select.php");
@@ -54,7 +54,7 @@ class Schwierigkeitsgrad {
     try {
       $stmt->execute(); 
       $html = new HtmlSelect($stmt); 
-      $html->caption = $caption;       
+      // $html->caption = $this->Title;       
       $html->print_select("SchwierigkeitsgradID", $value_selected, true); 
       
     }
