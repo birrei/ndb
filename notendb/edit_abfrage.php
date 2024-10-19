@@ -38,11 +38,11 @@ if (isset($_REQUEST["option"])) {
 }
 
 $info->print_screen_header($abfrage->Title.' bearbeiten'); 
-$info->print_link_table('v_abfrage', 'sortcol=Name&add_link_show&show_filter', $abfrage->Titles,false);
 
 if ($show_data) {
   echo '<a href="show_abfrage.php?ID='.$abfrage->ID.'&title=Abfrage&Name='.$abfrage->Name.'" class="form-link">Ergebnis anzeigen</a>'; 
   $info->print_link_edit2($abfrage->table_name, $abfrage->ID,'Abfrage-Text',false);  
+  $info->print_link_table('v_abfrage', 'sortcol=Name&add_link_show&show_filter', $abfrage->Titles,false);
   echo '</p>
   <form action="edit_abfrage.php" method="post">
   <table class="eingabe" width="100%"> 

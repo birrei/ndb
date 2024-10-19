@@ -1,10 +1,18 @@
-﻿###  Aufgaben in Arbeit
+﻿
+Ritardanto bereinigen 
+Suche in Suchbox mit UND 
+Intervalle mit Gruppierungs-Begriff
+Ansicht "Satz mit Besonderheiten" 
+
+
+###  Aufgaben in Arbeit
 - [ ] auto_update: Editierungs-Formular, Doku 
 - [ ] delete.php: Löschbarkeit VOR Nutzerbestätigung prüfen
 - [ ] iframe-aufruf-Buttons: farbig, wenn aktiv 
-- [X] Startseiten-Links aus Tabreihenfolge nehmen 
 - [ ] Suche, Ergebnisanzeige: Anzahl Zeilen angezeigen
 - [ ] Seite für "info-Views" (entspr. Tests- Seite) 
+
+
 
 ### Offene Aufgaben 
 - [ ] Sammlung "Erfassungstatus" (vom Anwender gesetzt. .. "Vollständig" Sammlung wird in Tests erfasst, unvollständig nicht", da Unvollständigkeit bekannt/akzeptiert) 
@@ -14,6 +22,8 @@
 - [ ] Logging (Datum, Name)
 - [ ] Konfiguration Fehlerausgabe
 - [ ] Gattung -> Gattung / Form 
+- [ ] MouseOver Infos in der Ergebnis-Tabelle 
+- [ ] PDF-Export für eine Sammlung 
 
 ### Offene Verbesserungen und Korrekturen 
 - [ ] delete-Routinen: Folge-Links prüfen  
@@ -64,3 +74,6 @@
 - [X] Suche: Filter nach Erprobt Jahr
 - [X] Tabellen-Anzeige show_table2.php
 - [X] Seite "Tests": Inhaltsverzeichnis erzeugen
+- [X] Startseiten-Links aus Tabreihenfolge nehmen 
+- [X] Korrektur: Fehler Erfassungsformular "Schwierigkeitsgrad"  
+Korrektur: Suche, Gespeicherte Suche: Beschreibungtext bei Speicherung ausblenden

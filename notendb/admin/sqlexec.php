@@ -39,19 +39,16 @@ if (isset($_POST['aktion']) and $_POST['aktion']=='ausfuehren') {
           $sql= trim($cmd); 
           if (!empty($sql)) {
             $stmt = $db->prepare($sql); 
-            // echo '<pre>'.$sql.'</pre>'; 
+            echo '<pre>'.$sql.'</pre>'; 
             try {    
                 $stmt->execute(); 
-
-                if ($stmt->columnCount() > 0 ) {
-                    $html = new HtmlTable($stmt); 
-                    // $html->edit_link_table= $this->table_name;
-                    $html->add_link_edit=false; 
-                    $html->print_table2(); 
-                }           
+                $html = new HtmlTable($stmt); 
+                // $html->edit_link_table= $this->table_name;
+                $html->add_link_edit=false; 
+                $html->show_row_count=true; 
+                $html->print_table2();           
             }
             catch (PDOException $e) {
-
                 $info = new HtmlInfo();      
                 $info->print_user_error(); 
                 $info->print_error($stmt, $e); 

@@ -33,6 +33,8 @@ class HtmlTable {
         $this->result = $stmt->fetchAll(PDO::FETCH_ASSOC);
         $this->count_cols=$stmt->columnCount(); 
         $this->count_rows=$stmt->rowCount(); 
+        // echo '<pre> Anzahl Zeilen: '.$this->count_rows.'</pre>'; // Test 
+        // echo '<pre> Anzahl Spalten: '.$this->count_cols.'</pre>'; // Test 
     }
     
     
@@ -132,7 +134,8 @@ class HtmlTable {
 
         }
         else {
-               $html .= ($this->show_missing_data_message?'<pre>Keine Daten vorhanden.</pre>':''); 
+               // $html .= ($this->show_missing_data_message?'<pre>Keine Daten vorhanden.</pre>':''); 
+               $html .= ($this->show_row_count?'<pre>'.$this->count_rows.' Zeilen betroffen</pre>':'');                
         }
         echo $html;
     }
