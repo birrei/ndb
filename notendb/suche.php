@@ -58,9 +58,6 @@ $filterVerwendungszweck='';
 $filterKomponisten='';   
 $filterGattungen='';  
 $filterEpochen='';    
-// $filterStricharten=''; 
-// $filterNotenwerte='';  
-// $filterUebungen='';  
 $filterErprobt=''; 
 $filterSchwierigkeitsgrad=''; 
 $filterInstrumente=''; 
@@ -134,14 +131,6 @@ if (isset($_POST['suchtext'])) {
 }  
 ?>
 <p>Suchtext: <input type="text" id="suchtext" name="suchtext" size="30px" value="<?php echo $suchtext; ?>" autofocus> 
-  <!-- XXX verworfen
-      <input type="button" id="btnReset_suchtext" value="Suchtext leeren" onclick="Reset_suchtext();" />  
-      <script type="text/javascript">  
-              function Reset_suchtext() {  
-                document.getElementById("suchtext").value='';  
-          }  
-      </script>  -->
-
 <p class="navi-trenner">Sammlung </p> 
 
 <?php
@@ -162,17 +151,6 @@ if (isset($_POST['suchtext'])) {
   echo '<p>';
   $verlag->print_select($VerlagID, $verlag->Title.': &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;');
   echo '</p>';
- // multi-select (verworfen)
-  // if (isset($_POST['Verlage'])) {
-  //   $Verlage = $_POST['Verlage']; 
-  //   $filterVerlage = 'IN ('.implode(',', $Verlage).')'; 
-  //   $filter=true;       
-  // }
-  // $verlag = new Verlag();
-  // $verlag->print_select_multi($Verlage);
-  // $verlag->print_select_multi($Verlage);
-  // $Suche->Beschreibung.=(count($Verlage)>0?$verlag->titles_selected_list:'');    
-
 
 /************* Standort  ***********/
 
@@ -191,14 +169,6 @@ if (isset($_POST['suchtext'])) {
   echo '<p>';
   $standort->print_select($StandortID, $standort->Title.': &nbsp;');
   echo '</p>';
-  // if (isset($_POST['Standorte'])) {
-  //   $Standorte = $_POST['Standorte'];   // Array gewählte Standorte 
-  //   $filterStandorte = 'IN ('.implode(',', $Standorte).')'; 
-  //   $filter=true;     
-  // }
-  // $standort = new Standort();
-  // $standort->print_select_multi($Standorte);      
-  // $Suche->Beschreibung.=(count($Standorte)>0?$standort->titles_selected_list:'');    
 
 /*********  Sammlung Besonderheiten **********/  
   // XXX noch analog zu Satz Besonderheiten umsetzen (Genaue Suche)
@@ -252,17 +222,6 @@ if (isset($_POST['suchtext'])) {
   }
   $komponist->print_select($KomponistID,$komponist->Title .' : &nbsp;&nbsp;&nbsp;');
 
-
-  // if (isset($_POST['Komponisten'])) {
-  //   $Komponisten = $_POST['Komponisten'];   
-  //   $filterKomponisten = 'IN ('.implode(',', $Komponisten).')'; 
-  //   $filter=true;        
-  // }   
-  // $komponist = new Komponist();
-  // $komponist->print_select_multi($Komponisten);     
-  // $Suche->Beschreibung.=(count($Komponisten)>0?$komponist->titles_selected_list:''); 
- 
-
 /************* Besetzungen  ***********/
   if (isset($_POST['Besetzungen'])) {
     $Besetzungen = $_POST['Besetzungen'];    
@@ -301,16 +260,6 @@ if (isset($_POST['suchtext'])) {
   $gattung->print_select($GattungID, $gattung->Title .' : &nbsp;&nbsp;&nbsp;');
   echo '</p>'; 
 
-  // if (isset($_POST['Gattungen'])) {
-  //   $Gattungen = $_POST['Gattungen'];  
-  //   $filterGattungen = 'IN ('.implode(',', $Gattungen).')'; 
-  //   $filter=true;     
-  // }      
-  // $gattung = new Gattung();
-  // $gattung->print_select_multi($Gattungen);  
-  // $Suche->Beschreibung.=(count($Gattungen)>0?$gattung->titles_selected_list:'');
-
-
 /************* Epochen  ***********/
   $epoche = new Epoche();
   $EpocheID=''; 
@@ -327,16 +276,7 @@ if (isset($_POST['suchtext'])) {
   echo '<p>'; 
   $epoche->print_select($EpocheID, $epoche->Title .' : &nbsp;&nbsp;&nbsp;');
   echo '</p>'; 
-
-  // if (isset($_POST['Epochen'])) {
-  //   $Epochen = $_POST['Epochen'];   
-  //   $filterEpochen = 'IN ('.implode(',', $Epochen).')'; 
-  //   $filter=true; 
-  // }    
-  // $epochen = new Epoche();
-  // $epochen->print_select_multi($Epochen); 
-  // $Suche->Beschreibung.=(count($Epochen)>0?$epochen->titles_selected_list:'');  
-  
+ 
   ?>
   <p class="navi-trenner">Satz</p> 
   <?php   
@@ -394,16 +334,6 @@ if (isset($_POST['suchtext'])) {
   <p><span class="field-caption">Erprobt Jahr:</span> 
   von: <input type="text" id="ErprobtJahr_von" name="ErprobtJahr_von" size="5"  value="<?php echo $ErprobtJahr_von; ?>"> 
   bis: <input type="text" id="ErprobtJahr_bis" name="ErprobtJahr_bis" size="5" value="<?php echo $ErprobtJahr_bis; ?>">
-  <!-- 
-  XXX verworfen (AG: OK?)
-  <input type="button" id="btnReset_ErprobtJahr" value="Filter zurücksetzen" onclick="Reset_ErprobtJahr();" />  
-  <script type="text/javascript">  
-        function Reset_ErprobtJahr() {  
-          document.getElementById("ErprobtJahr_von").value='';  
-          document.getElementById("ErprobtJahr_bis").value='';  
-        }
-    </script>  
-    -->
   </p>
  
   <?php  
@@ -424,10 +354,7 @@ if (isset($_POST['suchtext'])) {
       $spieldauer_bis=(is_numeric($_REQUEST['SpieldauerBis'])?$_REQUEST['SpieldauerBis']:''); 
     }
     if($spieldauer_von !='' and $spieldauer_bis !=''){
-      // $spieldauer_von = $spieldauer_von * 60;         
-      // $spieldauer_bis = $spieldauer_bis * 60;            
       $filterSpieldauer=' BETWEEN '.$spieldauer_von.' AND '.$spieldauer_bis; 
-      // $Suche->Beschreibung.='* Spieldauer: zwischen '.$spieldauer_von.' und '.$spieldauer_bis.' Sekunden'.PHP_EOL;
       $Suche->Beschreibung.='* Spieldauer: zwischen '.$spieldauer_von_min.' Minuten und '.$spieldauer_bis_min.' Minuten'.PHP_EOL;
       $filter=true; 
     }
@@ -440,13 +367,7 @@ if (isset($_POST['suchtext'])) {
   <input style="display:none" type="text" id="SpieldauerBis" name="SpieldauerBis" size="5" value="<?php echo $spieldauer_bis; ?>">
   <input style="display:none" type="text" id="SpieldauerVon" name="SpieldauerVon" size="5" value="<?php echo $spieldauer_von; ?>">
   
-  <!-- XXX verworfen <input type="button" id="btnReset_Spieldauer" value="Filter zurücksetzen" onclick="Reset_Spieldauer();" />   -->
   <script type="text/javascript">  
-        // XXX verworfen
-        // function Reset_Spieldauer() {  
-        //   document.getElementById("SpieldauerVon").value='';  
-        //   document.getElementById("SpieldauerBis").value='';  
-        // }
         function set_SpieldauerVon() {
           var txt_min = document.getElementById("SpieldauerVon_min").value;
           var sekunden = getSeconds(txt_min);
@@ -727,9 +648,7 @@ if (isset($_POST['suchtext'])) {
           break;      
       }
 
-    // echo '<pre>'.$query.'</pre>'; // Test  
-      // echo '<pre>'.$filterLookups_satz.'</pre>'; // Test    
-    
+      // echo '<pre>'.$query.'</pre>'; // Test  
 
       if (isset($_POST["SucheSpeichern"])) {
         $timestamp = time();
