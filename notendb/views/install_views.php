@@ -1,7 +1,7 @@
 <?php 
 include('../head.php');
-include("../../dbconn/cl_db.php"); 
-include("../../cl_html_info.php"); 
+include("../dbconn/cl_db.php"); 
+include("../cl_html_info.php"); 
 
 /* 
 Script führt die SQL-Commands aus allen *.sql-Dateien (die im gleichen Ordner liegen) aus. 
