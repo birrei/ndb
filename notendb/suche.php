@@ -730,9 +730,6 @@ if (isset($_POST['suchtext'])) {
     // echo '<pre>'.$query.'</pre>'; // Test  
       // echo '<pre>'.$filterLookups_satz.'</pre>'; // Test    
     
-      if ($Suche->Beschreibung!='') {
-        echo '<p>Auswahl:</p><pre>'.$Suche->Beschreibung.'</pre>';
-      }
 
       if (isset($_POST["SucheSpeichern"])) {
         $timestamp = time();
@@ -741,14 +738,18 @@ if (isset($_POST['suchtext'])) {
         $Suche->Tabelle = $edit_table;
         $Suche->Abfragetyp='Suche';  
         $Suche->insert_row2(); 
-        echo '<p>Die Suchabfrage wurde gespeichert: <br />'; 
-        echo '<a href="show_abfrage.php?ID='.$Suche->ID.'&title=Abfrage" target="_blank">Abfrage-Ergebnis anzeigen</a>
+        echo '<p>Die Suchabfrage wurde gespeichert <br />'; 
+        echo '<a href="show_abfrage.php?ID='.$Suche->ID.'&title=Abfrage" target="_blank">Ergebnis anzeigen</a>
             | <a href="edit_abfrage.php?ID='.$Suche->ID.'&title=Abfrage&option=edit" target="_blank">Abfrage bearbeiten</a>
             | <a href="show_table2.php?table=v_abfrage&sortcol=ID&sortorder=DESC&title=Abfragen&add_link_show&show_filter" target="_blank">Übersicht Abfragen</a>         
             ';
             
         } else {
-          // Abfrage nicht speichern, Ergebnis ausgeben           
+          // Abfrage nicht speichern, Ergebnis ausgeben   
+          if ($Suche->Beschreibung!='') {
+            echo '<p>Auswahl:</p><pre>'.$Suche->Beschreibung.'</pre>';
+          }
+    
           include_once("dbconn/cl_db.php");
           $conn = new DbConn(); 
           $db=$conn->db; 
