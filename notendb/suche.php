@@ -89,10 +89,11 @@ $Suche->Beschreibung.='* Ansicht: '.$Ansicht.PHP_EOL;
 ?>
 <b>Ansicht: </b>
 <select id="Ansicht" name="Ansicht">
-          <option value="Sammlung" <?php echo ($Ansicht=='Sammlung'?'selected':'');?>>Sammlung</option>      
+          <option value="Sammlung" <?php echo ($Ansicht=='Sammlung'?'selected':'');?>>Sammlung</option>   
+          <option value="Sammlung Links" <?php echo ($Ansicht=='Sammlung Links'?'selected':'')?>>Sammlung Links</option>   
           <option value="Musikstueck" <?php echo ($Ansicht=='Musikstueck'?'selected':'');?>>Musikstück</option>
           <option value="Satz" <?php echo ($Ansicht=='Satz'?'selected':'')?>>Satz</option>
-          <option value="Sammlung Links" <?php echo ($Ansicht=='Sammlung Links'?'selected':'')?>>Sammlung Links</option>          
+          <option value="Satz Besonderheiten" <?php echo ($Ansicht=='Satz Besonderheiten'?'selected':'')?>>Satz Besonderheiten</option>                     
 </select>
 
 <!---- Entscheidung Suche speichern ja / nein -----> 
@@ -393,7 +394,8 @@ if (isset($_POST['suchtext'])) {
 
   for ($i = 0; $i < count($lookuptypes->ArrData); $i++) {
     // print_r($lookuptypes->ArrData[$i]);  // Test     
-    $lookup_check_excl=false; 
+    $lookup_check_exact=false; // Genaue Suche ja/nein 
+    $lookup_check_exclude=false;    // Ausschluss-Suche ja/nein
     $lookup_type_name=$lookuptypes->ArrData[$i]["Name"]; 
     $lookup_type_key= $lookuptypes->ArrData[$i]["type_key"]; 
     $lookup=New Lookup(); 
@@ -407,23 +409,26 @@ if (isset($_POST['suchtext'])) {
       $filter=true;       
       $lookup_values_selected= $_POST[$lookup_type_key]; 
       // print_r($lookup_values_selected); // test 
-      if (isset($_POST['ex_'.$lookup_type_key])) {
+      if (isset($_POST['exact_'.$lookup_type_key])) {
         // Checkbox "Genaue Suche" wurde aktiviert 
-        $lookup_check_excl=true; 
+        $lookup_check_exact=true; 
         // ausgewählte Eintraege filtern           
         for ($i = 0; $i < count($lookup_values_selected); $i++) {
           $filterLookups_satz.=' AND satz.ID IN (SELECT SatzID from satz_lookup WHERE LookupID='.$lookup_values_selected[$i].') '. PHP_EOL; 
         }
-        $lookup_values_not_selected = array_diff($lookup_values, $lookup_values_selected); // nicht ausgewählte Werte    
-        // nicht ausgewählte Eintraege wegfiltern 
-        $filterLookups_satz.=' AND satz.ID NOT IN (SELECT DISTINCT SatzID from satz_lookup WHERE LookupID IN ('.implode(',', $lookup_values_not_selected).')) '. PHP_EOL; 
+        if (isset($_POST['exclude_'.$lookup_type_key])) {
+          // Ausschluss-Suche aktiviert -> nicht ausgewählte Eintraege wegfiltern 
+          $lookup_check_exclude=true; 
+          $lookup_values_not_selected = array_diff($lookup_values, $lookup_values_selected); // nicht ausgewählte Werte    
+          $filterLookups_satz.=' AND satz.ID NOT IN (SELECT DISTINCT SatzID from satz_lookup WHERE LookupID IN ('.implode(',', $lookup_values_not_selected).')) '. PHP_EOL; 
+        }
       } 
       else {
         $filterLookups_satz.=' AND satz_lookup.LookupID IN ('.implode(',', $lookup_values_selected).') '. PHP_EOL;         
       }
       // echo '<pre>'.$filterLookups_satz.'</pre>'; 
     } 
-    $lookup->print_select_multi($lookup_type_key,$lookup_values_selected, $lookup_type_name.':', true, $lookup_check_excl);
+    $lookup->print_select_multi($lookup_type_key,$lookup_values_selected, $lookup_type_name.':', true, $lookup_check_exact, true,$lookup_check_exclude );
     $Suche->Beschreibung.=(count($lookup_values_selected)>0?$lookup->titles_selected_list:'');   
   }
  
@@ -508,9 +513,20 @@ if (isset($_POST['suchtext'])) {
             , satz.Orchesterbesetzung 
             , satz.Bemerkung                         
             ";        
-      $edit_table='satz';                 
+          $edit_table='satz';                 
         break;      
-
+        
+        case 'Satz Besonderheiten': 
+          $query.="SELECT satz.ID
+              , v_satz_lookuptypes.LookupList2 as Besonderheiten              
+              ,sammlung.Name as Sammlung
+              , musikstueck.Nummer as MNr
+              , musikstueck.Name as Musikstueck
+              , satz.Nr as SatzNr
+              , satz.Name as Satz                                      
+              ";        
+              $edit_table='satz';                 
+          break;   
     }
 
     $query.="
@@ -630,6 +646,7 @@ if (isset($_POST['suchtext'])) {
           // $query.=" group by satz.MusikstueckID". PHP_EOL;     
           break; 
         case 'Satz': 
+        case 'Satz Besonderheiten':           
           $query.=" group by satz.ID". PHP_EOL;             
           break;      
       }

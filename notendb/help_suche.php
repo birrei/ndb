@@ -25,17 +25,27 @@ include('head.php');
     <br />Verwendungszweck: "Hochzeit" ODER "Fest"
 </p> 
 
-<p><b>Zusatzoption: Genaue Suche</b></p>
-<p> Bei einigen Auswahl-Boxen steht die Option "Genaue Suche" (Checkbox unter Auswahlkasten) zur Verfügung </p> 
-<p> Beispiele zur Unterschiedung der Logik ohne / mit genauer Suche: 
-<p> (Im aktullen Beispiel: Auswahlbox "Übung Notenwerte") </p> 
-<p>Beispiel 1: Suche nach Notenwert "Achtel": </p>
+<p><b>Zusatzoptionen: "Genaue Suche und "Ausschluss-Suche"</b></p>
+<p> Bei einigen Auswahl-Boxen stehen die Optionen  "Genaue Suche" und "Ausschluss-Suche" (Checkboxen) zur Verfügung. 
+    Die "Ausschluss-Suche" kann ergänzend zur "Genauen Suche" aktiviert werden, allein ausgewählt ist sie wirkungslos.</p> 
+    
+<p> Nachfolgend werden zwei Beispiele (Praxisfall: "Übung Notenwerte") zur Wirkung der Suchlogik aufgeführt. </p>
+
+<p>Beispiel 1: Suche nach einem Notenwert, z.B. "Achtel": </p>
 <ul> 
     <li> 
-    Die Standard-Suche findet alle Sätze, bei denen u.a. Notenwert "Achtel" - ggf. zusammen mit anderen Notenwerten - vorkommt 
+    Die Standard-Suche (ohne aktivierte Zusatz-Optionen) findet alle Sätze, 
+    bei denen Notenwert "Achtel" vorkommt (unabhängig davon, ob noch weitere Notenwerte vorkommen)
      </li> 
+
+     <li>
+     Die "Genaue Suche" ohne "Ausschluss-Suche": Bei nur einem Wert (wie wie hier "Achtel") hat das die die gleiche Wirkung 
+    wie die Standardsuche. 
+    </li> 
+
     <li>
-    Die Genaue Suche findet alle Sätze, bei denen nur ein Notenwert, und zwar "Achtel" vorkommt. 
+    Die "Genaue Suche" mit Option "Ausschluss-Suche" findet alle Sätze, 
+    bei denen nur ein Notenwert, und zwar "Achtel" vorkommt. 
     Sätze, bei denen weitere Notenwerte vorkommen, werden ausgeschlossen.    
     </li> 
 </ul>
@@ -43,12 +53,21 @@ include('head.php');
 <p>Beispiel 2: "Suche nach Notenwerten "Achtel" und "Sechzentel"</p>
 <ul>
     <li>
-        Die Standard-Suche findet alle Sätze, bei denen u.a. "Achtel" oder "Viertel" vorkommen. 
+        Die Standard-Suche (ohne aktivierte Zusatz-Optionen) findet alle Sätze, 
+        bei denen "Achtel" ODER "Viertel" vorkommen (unabhängig davon, ob noch weitere Notenwerte vorkommen)
     </li>
+
     <li>
-        Die Genaue Suche findet Sätze, bei denen nur "Achtel" und "Sechzehntel" vorkommen. 
-        Sätze, bei denen nur einer der beiden beiden Notenwerte oder weitere Notenwerte vorkommen, werden ausgeschossen. 
-    </li>
+    Die "Genaue Suche" ohne Option "Ausschluss-Suche" findet Sätze, bei denen "Achtel" UND "Sechzehntel" vorkommen 
+    (unabhängig davon, ob noch weitere Notenwerte vorkommen)
+    </li> 
+
+    <li>
+    Die "Genaue Suche" mit Option "Ausschluss-Suche" findet Sätze, bei denen "Achtel" UND "Sechzehntel", 
+    sowie keine weiteren Notenwerte vorkommen. 
+
+    </li> 
+
 </ul>
 
 

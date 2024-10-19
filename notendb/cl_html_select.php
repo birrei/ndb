@@ -54,17 +54,23 @@ class HtmlSelect {
         , $keyname
         , $options_selected=[]
         , $caption=''
-        , $print_check_excl=false // Anzeige Checkbox Genaue Suche
-        , $check_excl=false // Genaue Suche aktiviert 
+        , $print_check_exact=false // Anzeige Checkbox Genaue Suche
+        , $check_exact=false // Genaue Suche aktiviert 
+        , $print_check_exclude=false // Anzeige Checkbox Auschluss-Suche
+        , $check_exclude=false // Auschluss-Suche aktiviert         
     ) {
         $html = '<p class="auswahl">';
         if ($caption!='') {
             $html.='<span class="field-caption">'.$caption.'</span>'. PHP_EOL;
         }
-        if ($print_check_excl) {
-            $html.='<input type="checkbox" name="ex_'.$id.'" '.($check_excl?' checked':'').'>
-             <label for="ex_'.$id.'">Genaue Suche</label>';
-        }   
+        if ($print_check_exact) {
+            $html.='<input type="checkbox" name="exact_'.$id.'" '.($check_exact?' checked':'').'>
+             <label for="exact_'.$id.'">Genaue Suche</label>';
+        }
+        if ($print_check_exclude) {
+            $html.=' <input type="checkbox" name="exclude_'.$id.'" '.($check_exclude?' checked':'').'>
+             <label for="exclude_'.$id.'">Ausschluss-Suche</label>';
+        }             
         if ($this->count_rows > 0) {
             $html.= '<select id="'.$id.'" name="'.$keyname.'" multiple size="'.$this->visible_rows.'" style="width:100%;font-size:9pt">' . PHP_EOL;  
             foreach($this->result as $key => $title) {

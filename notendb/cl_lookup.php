@@ -269,9 +269,13 @@ class Lookup {
 
   }  
 
-  function print_select_multi($type_key, $options_selected=[], $caption=''
-          , $print_check_excl=false // Anzeige Box Aussschluss-Suche
-          , $check_excl=false // Ausschluss-Suche aktiviert 
+  function print_select_multi($type_key
+    	  , $options_selected=[]
+        , $caption=''
+        , $print_check_exact=false // Anzeige Box Aussschluss-Suche
+        , $check_exact=false // Ausschluss-Suche aktiviert 
+        , $print_check_exclude=false // Anzeige Box Aussschluss-Suche
+        , $check_exclude=false // Ausschluss-Suche aktiviert 
   ){
     include_once("dbconn/cl_db.php");  
     include_once("cl_html_select.php");
@@ -299,9 +303,9 @@ class Lookup {
     try {
       $select->execute(); 
       $html = new HtmlSelect($select); 
-      // $html->visible_rows=15; //         XXX Wert konfigurierbar machen (Tabellen-Feld)
       $html->visible_rows=$lookuptype->selsize; 
-      $html->print_select_multi($type_key, $type_key.'[]', $options_selected,$caption,  $print_check_excl, $check_excl); // mit Ausschluss-Suche
+      $html->print_select_multi($type_key, $type_key.'[]', $options_selected,$caption, $print_check_exact, $check_exact
+                              , $print_check_exclude, $check_exclude); 
       $this->titles_selected_list = $html->titles_selected_list;
       // echo  'cl_lookup: '.$this->titles_selected_list;
     }
