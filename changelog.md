@@ -1,6 +1,10 @@
 ﻿
 # Change Log  
 
+19.10.2024 - Suche: 
+ * Ergänzende Suchoption "Aussschluss-Suche". 
+ * Neue Ansicht "Satz Besonderheiten" 
+ 
 14.10.2024 - Umstellung Repository - Struktur (dev (nicht Teil er Anwendung), notendb (ANwendungsdateien, für Installation benötigt), service (Zusatz-Aufträge, nicht Teil der Anwendung)) 
 
 11.10.2024 - Suche: Einzelfunktionen "Filter zurücksetzen" auskommentiert (da nicht verwendet, Screen zu überladen). Formatierung Auswahlfelder prägnanter gestaltet. 
