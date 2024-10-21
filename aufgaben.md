@@ -1,23 +1,13 @@
 ﻿
-Ritardanto bereinigen 
-Suche in Suchbox mit UND 
-Intervalle mit Gruppierungs-Begriff
-Ansicht "Satz mit Besonderheiten" 
-
-
 ###  Aufgaben in Arbeit
-- [ ] auto_update: Editierungs-Formular, Doku 
 - [ ] delete.php: Löschbarkeit VOR Nutzerbestätigung prüfen
 - [ ] iframe-aufruf-Buttons: farbig, wenn aktiv 
-- [ ] Suche, Ergebnisanzeige: Anzahl Zeilen angezeigen
 - [ ] Seite für "info-Views" (entspr. Tests- Seite) 
-
-
 
 ### Offene Aufgaben 
 - [ ] Sammlung "Erfassungstatus" (vom Anwender gesetzt. .. "Vollständig" Sammlung wird in Tests erfasst, unvollständig nicht", da Unvollständigkeit bekannt/akzeptiert) 
 - [ ] Sammlung "Druckansicht/Datenblatt" 
-- [ ] Tabellen Spalten-Sortierung (per JavaScript, s. https://www.w3schools.com/howto/howto_js_sort_table.asp) 
+- [ ] Tabellen Spalten-Sortierung (per JavaScript, s. https://www.w3schools.com/howto/howto_js_sort_table.as
 - [ ] Eigenes Git-Repository für das Projekt 
 - [ ] Logging (Datum, Name)
 - [ ] Konfiguration Fehlerausgabe
@@ -65,8 +55,6 @@ Ansicht "Satz mit Besonderheiten"
 - [ ] Notensymbole Schrift
 - [ ] select - Elemente: die rosafärbung ein/ausschaltbar machen
 
-
-
 ### erledigte Aufgaben 
 - [X] Delete-Funktionen ergänzen (satz->erprobt, sammmlung->besonderheiten) 
 - [X] delete.php: Anzeige Tabellenlink ja/nein konfigurierbar machen 
@@ -77,3 +65,10 @@ Ansicht "Satz mit Besonderheiten"
 - [X] Startseiten-Links aus Tabreihenfolge nehmen 
 - [X] Korrektur: Fehler Erfassungsformular "Schwierigkeitsgrad"  
 Korrektur: Suche, Gespeicherte Suche: Beschreibungtext bei Speicherung ausblenden
+- [X] Bereinigung Ritardando 
+- [X] Intervalle mit Gruppierungs-Begriff
+- [X] Ansicht "Satz mit Besonderheiten" 
+- [X] Suche, Ergebnisanzeige: Anzahl Zeilen angezeigen
+
+### vorerst verworfen 
+- [ ] ~~ auto_update: Editierungs-Formular~~ Thema für "Service" > "Dataclearing" 
