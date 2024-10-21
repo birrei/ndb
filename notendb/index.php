@@ -132,12 +132,6 @@ h3 {
             </td>
         </tr>
 
-        <tr>
-            <td class="start"><b>Auto Updates</b></td>
-            <td class="start"><a href="show_table2.php?table=auto_update&sortcol=ID&title=Auto-Update Einstellungen">Daten anzeigen</a></td>
-            <td class="start">geplant XXX </td>
-        </tr>
-
 
 </table
 
