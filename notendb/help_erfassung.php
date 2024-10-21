@@ -2,8 +2,11 @@
 include('head.php');
 ?>
 
+<div class="body-doc"> 
+
 <h1 id="erfassung">Erfassung</h1>
 
+<p class="doc"><b>Kapitel:</b></p>
 
 <ul id="table-of-contents"></ul>
 
@@ -44,6 +47,7 @@ ist nur sinnvoll, wenn diese zu Lehrzwecken gefunden werden sollen (z.B. nur bis
 
 </p> 
 
+</div> 
 
 <script>
     const tableOfContents = document.getElementById("table-of-contents");

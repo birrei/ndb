@@ -2,9 +2,40 @@
 include('head.php');
 ?>
 
+<div class="body-doc"> 
+
 <h1>Suche</h1> 
 
-<ul id="table-of-contents"></ul>
+<p><b>Kapitel:</b></p>
+
+<ul class="doc" id="table-of-contents"></ul>
+
+<h2 class="chapter-title chapter-title-h2" id="suche-ansicht">Auswahl Ansicht</h2>
+
+<ul> 
+    <li>
+        <b> Ansicht "Sammlung":</b> Die Ergebnistabelle wird auf Sammlung-Ebene gruppiert (Eine Zeile pro Sammlung).
+        Die Sortierung erfolgt nach Standort Name, Sammlung Name
+     </li> 
+     <li>
+     <b> Ansicht "Sammlung mit Links":</b> Die  Ergebnistabelle wird auf Sammlung-/Link Ebene gruppiert (Eine Zeile pro Sammlung und Link).
+        Die Sortierung erfolgt nach Standort Name, Sammlung Name
+     </li>      
+     <li>
+     <b> Ansicht "Musikstück":</b> Die  Ergebnistabelle wird auf Musikstück-Ebene gruppiert gruppiert (Eine Zeile pro Musikstück).
+        Die Sortierung erfolgt nach Standort Name, Sammlung Name, Musikstück Name         
+     </li> 
+     <li>
+        <b> Ansicht "Satz":</b> Die Ergebnistabelle  wird auf Satz-Ebene gruppiert (Eine Zeile pro Satz). 
+        Die Sortierung erfolgt nach Standort Name, Sammlung Name, Musikstück Name, Satz Name            
+     </li> 
+     <li>
+        <b> Ansicht "Satz Besonderheiten":</b> Die Ergebnistabelle wird auf Satz-Ebene gruppiert (Eine Zeile pro Satz)
+        Es werden nur ausgewählte Spalten angezeigt, der Fokus bei dieser Ansicht ist die Spalte "Besonderheiten" - Diese wird als erste Spalte angezeigt
+        Die Ausgabe des Inhaltes in "Besonderheiten" erfolgt gruppiert mit Zeilenumbrüchen. 
+        Die Sortierung erfolgt nach Standort Name, Sammlung Name, Musikstück Name, Satz Name            
+     </li>     
+</ul>
 
 <h2 class="chapter-title chapter-title-h2" id="suchemehrfachauswahl1">Mehrfachauswahl: Einträge markieren</h2>
 
@@ -25,7 +56,7 @@ include('head.php');
     <br />Verwendungszweck: "Hochzeit" ODER "Fest"
 </p> 
 
-<p><b>Zusatzoptionen: "Genaue Suche und "Ausschluss-Suche"</b></p>
+<p><b>Zusatzoptionen: "Genaue Suche" und "Ausschluss-Suche"</b></p>
 <p> Bei einigen Auswahl-Boxen stehen die Optionen  "Genaue Suche" und "Ausschluss-Suche" (Checkboxen) zur Verfügung. 
     Die "Ausschluss-Suche" kann ergänzend zur "Genauen Suche" aktiviert werden, allein ausgewählt ist sie wirkungslos.</p> 
     
@@ -71,32 +102,14 @@ include('head.php');
 </ul>
 
 
-<h2 class="chapter-title chapter-title-h2" id="suche-ansicht">Ergebnistabelle: Ansicht, Gruppierung, Sortierung</h2>
-
-<ul> 
-    <li>
-        <b> Ansicht "Sammlung":</b> Ergebnistabelle wird auf Sammlung-Ebene gruppiert (Eine Zeile pro Sammlung)
-        <br />Die Sortierung erfolgt nach Standort Name, Sammlung Name
-     </li> 
-     <li>
-     <b> Ansicht "Sammlung mit Links":</b> Ergebnistabelle wird auf Sammlung-/Link Ebene gruppiert (Eine Zeile pro Sammlung und Link) 
-        <br />Die Sortierung erfolgt nach Standort Name, Sammlung Name
-     </li>      
-     <li>
-     <b> Ansicht "Musikstück":</b> Ergebnistabelle wird auf Musikstück-Ebene gruppiert gruppiert (Eine Zeile pro Musikstück)  
-        <br />Die Sortierung erfolgt nach Standort Name, Sammlung Name, Musikstück Name         
-     </li> 
-     <li>
-        <b> Ansicht "Satz":  wird auf Satz-Ebene gruppiert   (Eine Zeile pro Musikstück)
-        <br />Die Sortierung erfolgt nach Standort Name, Sammlung Name, Musikstück Name, Satz Name            
-     </li> 
-</ul>
 
 <h2 class="chapter-title chapter-title-h2" id="suchetext">Textsuche</h2>
 <p> Hinweis: Die Verwendung der Textsuche kann zu einer verzögerten Ergebnisanzeige führen! </p>
 <p> Sucht einen Textteil innerhalb aller Text-Felder. </p>
 <p> Folgende Felder werden durchsucht: XXX </p>
 <p> Folgende Felder werden nicht durchsucht. XXX </p>     
+
+</div>
 
 <script>
     const tableOfContents = document.getElementById("table-of-contents");
