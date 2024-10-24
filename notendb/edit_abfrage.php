@@ -45,19 +45,19 @@ if ($show_data) {
   $info->print_link_table('v_abfrage', 'sortcol=Name&add_link_show&show_filter', $abfrage->Titles,false);
   echo '</p>
   <form action="edit_abfrage.php" method="post">
-  <table class="eingabe" width="100%"> 
+  <table class="form-edit" width="100%"> 
     <tr>    
     <label>
-    <td class="eingabe">ID:</td>  
-    <td class="eingabe">'.$abfrage->ID.'</td>
+    <td class="form-edit form-edit-col1">ID:</td>  
+    <td class="form-edit form-edit-col2">'.$abfrage->ID.'</td>
     </label>
       </tr> 
 
 
     <tr>    
     <label>
-    <td class="eingabe"><b>Abfragetyp:</b></td>  
-    <td class="eingabe">     
+    <td class="form-edit form-edit-col1">Abfragetyp:</td>  
+    <td class="form-edit form-edit-col2">     
           '; 
           $abfragtypen = new Abfragetyp();
           $abfragtypen->print_select($abfrage->AbfragetypID); 
@@ -74,22 +74,22 @@ if ($show_data) {
 
     <tr>    
       <label>
-      <td class="eingabe">Name:</td>  
-      <td class="eingabe"><input type="text" name="Name" value="'.htmlentities($abfrage->Name).'" size="100%" required="required" autofocus="autofocus" oninput="changeBackgroundColor(this)"></td>
+      <td class="form-edit form-edit-col1">Name:</td>  
+      <td class="form-edit form-edit-col2"><input type="text" name="Name" value="'.htmlentities($abfrage->Name).'" size="100%" required="required" autofocus="autofocus" oninput="changeBackgroundColor(this)"></td>
       </label>
     </tr>     
     <tr>    
       <label>
-      <td class="eingabe">Beschreibung:</td>  
-      <td class="eingabe">
+      <td class="form-edit form-edit-col1">Beschreibung:</td>  
+      <td class="form-edit form-edit-col2">
       <textarea name="Beschreibung" rows=5 cols=120 oninput="changeBackgroundColor(this)">'.htmlentities($abfrage->Beschreibung).'</textarea> (max. 250 Zeichen)  
       </td>
       </label>
     </tr> 
    
     <tr> 
-      <td class="eingabe"></td> 
-      <td class="eingabe"><input class="btnSave" type="submit" name="senden" value="Speichern">  
+      <td class="form-edit form-edit-col1"></td> 
+      <td class="form-edit form-edit-col2"><input class="btnSave" type="submit" name="senden" value="Speichern">  
       </td>
     </tr> 
 

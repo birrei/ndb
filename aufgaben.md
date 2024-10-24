@@ -1,7 +1,10 @@
 ﻿
 ###  Aufgaben in Arbeit
+
+- [ ] Formulare: CSS- Klassen besser zuordnen
+
 - [ ] delete.php: Löschbarkeit VOR Nutzerbestätigung prüfen
-- [ ] iframe-aufruf-Buttons: farbig, wenn aktiv 
+- [ ] iframe-aufruf-Buttons: farbig, wenn aktiv (Wechsel funktioniert noch nicht, Farbe bleit kleben)
 - [ ] Seite für "info-Views" (entspr. Tests- Seite) 
 
 ### Offene Aufgaben 
@@ -26,11 +29,9 @@
 - [ ] Datum Spalten "erstellt" und "geändert" bei allen Tabellen
 - [ ] Auswahlformulare: Verhalten, wenn Werte "verbraucht" sind (cl_html_select.php, print_select - test dev Schwierigkeitsgrad) 
 - [ ] Validierung Eingabewerte
-- [ ] Sortierung über Spaltentitel (Javascript)
 - [ ] für alle edit-Formulare (auch stammdaten-Tabellen) htmlspecialchars() einsetzen
 - [ ] foreign keys benannt neu anlegen 
 - [ ] col unsigned - defs entfernen 
-- [ ] Formulare Bezeichnungen alle Fett drucken 
 - [ ] "open new page" vereinheitlichen 
 - [ ] musikstueck: Spalte "JahrAuffuehrung" löschen
 - [ ] Formulare: Spaltenbezeichung fett drucken

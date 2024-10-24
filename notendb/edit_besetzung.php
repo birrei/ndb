@@ -36,25 +36,25 @@ $info->print_link_table($besetzung->table_name, 'sortcol=Name', $besetzung->Titl
 if ($show_data) {
   echo '
   <form action="edit_besetzung.php" method="post">
-  <table class="eingabe"> 
+  <table class="form-edit"> 
     <tr>    
     <label>
-    <td class="eingabe">ID:</td>  
-    <td class="eingabe">'.$besetzung->ID.'</td>
+    <td class="form-edit form-edit-col1">ID:</td>  
+    <td class="form-edit form-edit-col2">'.$besetzung->ID.'</td>
     </label>
       </tr> 
 
     <tr>    
       <label>
-      <td class="eingabe">Name:</td>  
-      <td class="eingabe"><input type="text" name="Name" value="'.$besetzung->Name.'" size="120" required="required" oninput="changeBackgroundColor(this)"></td>
+      <td class="form-edit form-edit-col1">Name:</td>  
+      <td class="form-edit form-edit-col2"><input type="text" name="Name" value="'.$besetzung->Name.'" size="120" required="required" oninput="changeBackgroundColor(this)"></td>
       </label>
     </tr> 
 
 
     <tr> 
-      <td class="eingabe"></td> 
-      <td class="eingabe"><input class="btnSave" type="submit" name="senden" value="Speichern">
+      <td class="form-edit form-edit-col1"></td> 
+      <td class="form-edit form-edit-col2"><input class="btnSave" type="submit" name="senden" value="Speichern">
 
       </td>
     </tr> 

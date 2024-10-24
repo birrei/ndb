@@ -42,26 +42,26 @@ if ($show_data) {
     
   echo '
   <form action="edit_lookup_type.php" method="post">
-  <table class="eingabe"> 
+  <table class="form-edit"> 
     <tr>    
     <label>
-    <td class="eingabe">ID:</td>  
-    <td class="eingabe">'.$lookuptype->ID.'</td>
+    <td class="form-edit form-edit-col1">ID:</td>  
+    <td class="form-edit form-edit-col2">'.$lookuptype->ID.'</td>
     </label>
       </tr> 
 
     <tr>    
       <label>
-      <td class="eingabe">Name:</td>  
-      <td class="eingabe"><input type="text" name="Name" value="'.$lookuptype->Name.'" size="80" autofocus="autofocus" required></td>
+      <td class="form-edit form-edit-col1">Name:</td>  
+      <td class="form-edit form-edit-col2"><input type="text" name="Name" value="'.$lookuptype->Name.'" size="80" autofocus="autofocus" required></td>
       </label>
     </tr> 
     <tr> 
-      <td class="eingabe">Besonderheiten:
+      <td class="form-edit form-edit-col1">Besonderheiten:
         <p> <a href="edit_lookup_type_add_lookup.php?LookupTypeID='.$lookuptype->ID.'" target="Lookups" class="form-link">Besonderheit hinzufügen</a></p>
         <p> <a href="edit_lookup_type_list_lookups.php?LookupTypeID='.$lookuptype->ID.'" target="Lookups" class="form-link">Aktualisieren</a></p>
       </td> 
-      <td class="eingabe">
+      <td class="form-edit form-edit-col2">
       
         <iframe src="edit_lookup_type_list_lookups.php?LookupTypeID='.$lookuptype->ID.'&source=iframe" height="400" name="Lookups" class="form-iframe-var2"></iframe>
 
@@ -70,8 +70,8 @@ if ($show_data) {
 
     <tr>    
       <label>
-      <td class="eingabe">Relation:</td>  
-      <td class="eingabe">
+      <td class="form-edit form-edit-col1">Relation:</td>  
+      <td class="form-edit form-edit-col2">
       
       <select name="Relation"  required="required" oninput="changeBackgroundColor(this)">
           <option value=""></option>      
@@ -86,23 +86,23 @@ if ($show_data) {
 
     <tr>    
       <label>
-      <td class="eingabe">Type Key:</td>  
-      <td class="eingabe"><input type="text" name="type_key" value="'.$lookuptype->type_key.'" size="45" maxlength="80" required="required" oninput="changeBackgroundColor(this)"> 
+      <td class="form-edit form-edit-col1">Type Key:</td>  
+      <td class="form-edit form-edit-col2"><input type="text" name="type_key" value="'.$lookuptype->type_key.'" size="45" maxlength="80" required="required" oninput="changeBackgroundColor(this)"> 
       </td>
       </label>
     </tr> 
 
     <tr>    
       <label>
-      <td class="eingabe">Auswahlbox Anzahl Zeilen:</td>  
-      <td class="eingabe"><input type="text" name="selsize" value="'.$lookuptype->selsize.'" size="10" maxlength="80" required="required" oninput="changeBackgroundColor(this)"> 
+      <td class="form-edit form-edit-col1">Auswahlbox Anzahl Zeilen:</td>  
+      <td class="form-edit form-edit-col2"><input type="text" name="selsize" value="'.$lookuptype->selsize.'" size="10" maxlength="80" required="required" oninput="changeBackgroundColor(this)"> 
       </td>
       </label>
     </tr> 
 
     <tr> 
-      <td class="eingabe"></td> 
-      <td class="eingabe"><input class="btnSave" type="submit" name="senden" value="Speichern">
+      <td class="form-edit form-edit-col1"></td> 
+      <td class="form-edit form-edit-col2"><input class="btnSave" type="submit" name="senden" value="Speichern">
       </td>
     </tr> 
     </table> 

@@ -50,28 +50,28 @@ if ($show_data) {
 
    echo '  </p> 
    <form action="edit_abfrage2.php" method="post">
-  <table class="eingabe" width="100%"> 
+  <table class="form-edit" width="100%"> 
 
     <tr>    
     <label>
-    <td class="eingabe">ID:</td>  
-    <td class="eingabe">'.$abfrage->ID.'</td>
+    <td class="form-edit form-edit-col1">ID:</td>  
+    <td class="form-edit form-edit-col2">'.$abfrage->ID.'</td>
     </label>
       </tr> 
 
 
       <tr>    
       <label>
-      <td class="eingabe">Name:</td>  
-      <td class="eingabe">'.$abfrage->Name.'</td>
+      <td class="form-edit form-edit-col1">Name:</td>  
+      <td class="form-edit form-edit-col2">'.$abfrage->Name.'</td>
       </label>
         </tr> 
   
 
     <tr>    
         <label>
-        <td class="eingabe">Abfrage (SQL):</td>  
-        <td class="eingabe">
+        <td class="form-edit form-edit-col1">SQL:</td>  
+        <td class="form-edit form-edit-col2">
         <textarea name="Abfrage" rows=15 cols=120 oninput="changeBackgroundColor(this)">'.htmlentities($abfrage->Abfrage).'</textarea> (max. 10000 Zeichen)
         </td>
         </label>
@@ -79,14 +79,14 @@ if ($show_data) {
 
     <tr>    
       <label>
-      <td class="eingabe">Tabelle für Bearbeitung:</td>  
-      <td class="eingabe"><input type="text" name="Tabelle" value="'.$abfrage->Tabelle.'" size="45" maxlength="80" autofocus="autofocus" oninput="changeBackgroundColor(this)"></td>
+      <td class="form-edit form-edit-col1">Tabelle für Bearbeitung:</td>  
+      <td class="form-edit form-edit-col2"><input type="text" name="Tabelle" value="'.$abfrage->Tabelle.'" size="45" maxlength="80" autofocus="autofocus" oninput="changeBackgroundColor(this)"></td>
       </label>
     </tr> 
 
     <tr> 
-      <td class="eingabe"></td> 
-      <td class="eingabe"><input class="btnSave" type="submit" name="senden" value="Speichern">  
+      <td class="form-edit form-edit-col1"></td> 
+      <td class="form-edit form-edit-col2"><input class="btnSave" type="submit" name="senden" value="Speichern">  
       </td>
     </tr> 
 

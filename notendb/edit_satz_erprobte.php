@@ -25,7 +25,7 @@ if (isset($_GET["option"])){
         else {
             echo '
             <form action="" method="post">
-            <p>ID '.$erprobt->ID.' wird gelöscht </b>
+            <p>ID '.$erprobt->ID.' wird gelöscht 
             <input class="btnDelete" type="submit" name="confirm" value="Löschung bestätigen">
             <input type="hidden" name="ID" value="' . $erprobt->ID . '">  
             <input type="hidden" name="option" value="delete">        

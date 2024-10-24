@@ -19,7 +19,7 @@ if (isset($_REQUEST["option"])){
         else {
             echo '
             <form action="" method="post">
-            <p>ID '.$link->ID.' wird gelöscht </b>
+            <p>ID '.$link->ID.' wird gelöscht 
             <input class="btnDelete" type="submit" name="confirm" value="Löschung bestätigen">
             <input type="hidden" name="ID" value="' . $link->ID . '">  
             <input type="hidden" name="option" value="delete">        

@@ -56,16 +56,16 @@ if ($show_data) {
   echo 
   '<form action="edit_satz.php" method="post">
 
-  <table class="eingabe"> 
+  <table class="form-edit"> 
   <tr>    
-    <td class="eingabe">ID:</td>  
-    <td class="eingabe">'.$satz->ID.'</td>
+    <td class="form-edit form-edit-col1">ID:</td>  
+    <td class="form-edit form-edit-col2">'.$satz->ID.'</td>
   </tr> 
 
   <tr>    
     <label>
-    <td class="eingabe"><b>Musikstück:</b></td>  
-    <td class="eingabe">
+    <td class="form-edit form-edit-col1">Musikstück:</td>  
+    <td class="form-edit form-edit-col2">
     '; 
     $musikstueck=new Musikstueck(); 
     $musikstueck->ID=$satz->MusikstueckID; 
@@ -79,31 +79,31 @@ if ($show_data) {
 
   <tr>    
     <label>
-    <td class="eingabe"><b>Nr:</b></td>  
-    <td class="eingabe"><input type="text" name="Nr" value="'.$satz->Nr.'" size="45" maxlength="80"  autofocus="autofocus" required oninput="changeBackgroundColor(this)"></td>
+    <td class="form-edit form-edit-col1">Nr:</td>  
+    <td class="form-edit form-edit-col2"><input type="text" name="Nr" value="'.$satz->Nr.'" size="45" maxlength="80"  autofocus="autofocus" required oninput="changeBackgroundColor(this)"></td>
     </label>
   </tr> 
 
     <tr>    
       <label>
-      <td class="eingabe"><b>Name:</b></td>  
-      <td class="eingabe"><input type="text" name="Name" value="'.htmlentities($satz->Name).'" size="100" maxlength="100" oninput="changeBackgroundColor(this)"> (max. 100 Zeichen)</td>
+      <td class="form-edit form-edit-col1">Name:</td>  
+      <td class="form-edit form-edit-col2"><input type="text" name="Name" value="'.htmlentities($satz->Name).'" size="100" maxlength="100" oninput="changeBackgroundColor(this)"> (max. 100 Zeichen)</td>
       </label>
     </tr> 
 
 
     <tr>    
       <label>
-      <td class="eingabe"><b>Tempobezeichnung:</b></td>  
-      <td class="eingabe"><input type="text" name="Tempobezeichnung" value="'.$satz->Tempobezeichnung.'" size="45" maxlength="80" oninput="changeBackgroundColor(this)"></td>
+      <td class="form-edit form-edit-col1">Tempobezeichnung:</td>  
+      <td class="form-edit form-edit-col2"><input type="text" name="Tempobezeichnung" value="'.$satz->Tempobezeichnung.'" size="45" maxlength="80" oninput="changeBackgroundColor(this)"></td>
       </label>
     </tr> 
 
 
     <tr>    
       <label>
-      <td class="eingabe"><b>Tonart:</b></td>  
-      <td class="eingabe">
+      <td class="form-edit form-edit-col1">Tonart:</td>  
+      <td class="form-edit form-edit-col2">
       <input type="text" name="Tonart" value="'.$satz->Tonart.'" size="45" oninput="changeBackgroundColor(this)">
       </label>
      <label>
@@ -116,8 +116,8 @@ if ($show_data) {
 
     <tr>    
       <label>
-      <td class="eingabe"><b>Spieldauer:</b></td>  
-      <td class="eingabe">
+      <td class="form-edit form-edit-col1">Spieldauer:</td>  
+      <td class="form-edit form-edit-col2">
       
       Minuten: <input type="text" id="input_minutes" size="10" oninput="set_seconds();changeBackgroundColor(this)">
       Sekunden: <input type="text" id="input_seconds" name="Spieldauer" value="'.$satz->Spieldauer.'" size="10" maxlength="80" onchange="changeBackgroundColor(this)"> 
@@ -135,23 +135,23 @@ if ($show_data) {
 
     <tr>    
       <label>
-      <td class="eingabe"><b>Orchesterbesetzung:</b></td>  
-      <td class="eingabe"><input type="text" name="Orchesterbesetzung" value="'.$satz->Orchesterbesetzung.'" size="120" oninput="changeBackgroundColor(this)"></td>
+      <td class="form-edit form-edit-col1">Orchesterbesetzung:</td>  
+      <td class="form-edit form-edit-col2"><input type="text" name="Orchesterbesetzung" value="'.$satz->Orchesterbesetzung.'" size="120" oninput="changeBackgroundColor(this)"></td>
       </label>
     </tr> 
 
     <tr>    
     <label>
-    <td class="eingabe"><b>Bemerkung:</b></td>  
-    <td class="eingabe">
+    <td class="form-edit form-edit-col1">Bemerkung:</td>  
+    <td class="form-edit form-edit-col2">
     <textarea name="Bemerkung" rows=1 cols=100 maxlength="500" oninput="changeBackgroundColor(this)">'.htmlentities($satz->Bemerkung).'</textarea> (max. 500 Zeichen)
     </td>
     </label>
   </tr>
 
     <tr> 
-    <td class="eingabe"></td> 
-    <td class="eingabe"><input class="btnSave" type="submit" name="update" value="Speichern">
+    <td class="form-edit form-edit-col1"></td> 
+    <td class="form-edit form-edit-col2"><input class="btnSave" type="submit" name="update" value="Speichern">
 
     </td>
     </tr> 
@@ -164,14 +164,14 @@ if ($show_data) {
 
 
   <tr> 
-    <td class="eingabe">
+    <td class="form-edit form-edit-col1">
       <p><a href="edit_satz_schwierigkeitsgrade.php?SatzID='.$satz->ID.'" target="Info" class="form-link" onfocus="linkStyleFocus(this)">Schwierigkeitsgrade</a></p>
       <p><a href="edit_satz_lookups.php?SatzID='.$satz->ID.'" target="Info" class="form-link" onfocus="linkStyleFocus(this)">Besonderheiten       </a>   </p>
       <p><a href="edit_satz_erprobte.php?SatzID='.$satz->ID.'" target="Info" class="form-link" onfocus="linkStyleFocus(this)">Erprobt                     </a></p>
 
     
       </td> 
-    <td class="eingabe">
+    <td class="form-edit form-edit-col2">
       <iframe src="edit_satz_schwierigkeitsgrade.php?SatzID='.$satz->ID.'&source=iframe" height="300" name="Info" class="form-iframe-var2"></iframe>
     '; 
 

@@ -4,18 +4,18 @@ include('head_raw.php');
 ?>
 
 <form action="edit_lookup_type_list_lookups.php" method="get">
-<table class="eingabe"> 
+<table class="form-edit"> 
     
   <tr>    
     <label>
-    <td class="eingabe">Name:</td>  
-    <td class="eingabe"><input type="text" name="Name" size="45" maxlength="80" required="required" autofocus="autofocus" oninput="changeBackgroundColor(this)"></td>
+    <td class="form-edit form-edit-col1">Name:</td>  
+    <td class="form-edit form-edit-col2"><input type="text" name="Name" size="45" maxlength="80" required="required" autofocus="autofocus" oninput="changeBackgroundColor(this)"></td>
     </label>
   </tr> 
 
   <tr> 
-    <td class="eingabe"></td> 
-    <td class="eingabe"><input class="btnSave" type="submit" name="senden" value="Speichern">
+    <td class="form-edit form-edit-col1"></td> 
+    <td class="form-edit form-edit-col2"><input class="btnSave" type="submit" name="senden" value="Speichern">
 
     </td>
   </tr> 

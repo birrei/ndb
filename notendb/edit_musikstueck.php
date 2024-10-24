@@ -55,17 +55,17 @@ if ($show_data) {
   echo '<p> 
   <form action="edit_musikstueck.php?title=Musikstueck" method="post">
 
-  <table class="eingabe"> 
+  <table class="form-edit"> 
   <tr>    
   <label>
-  <td class="eingabe"><b>ID:</b></td>  
-  <td class="eingabe">'.$musikstueck->ID.'</td>
+  <td class="form-edit form-edit-col2">ID:</td>  
+  <td class="form-edit form-edit-col2">'.$musikstueck->ID.'</td>
   </label>
   </tr> 
   <tr>    
   <label>
-  <td class="eingabe"><b>Sammlung:</b></td>  
-  <td class="eingabe">
+  <td class="form-edit form-edit-col2">Sammlung:</td>  
+  <td class="form-edit form-edit-col2">
   '; 
 
   $sammlung = new Sammlung();
@@ -76,22 +76,22 @@ if ($show_data) {
   echo '</tr></label>
   <tr>    
   <label>
-  <td class="eingabe"><b>Nummer:</b></td>  
-  <td class="eingabe"><input type="text" name="Nummer" value="'.$musikstueck->Nummer.'" size="30" autofocus="autofocus" oninput="changeBackgroundColor(this)"></td>
+  <td class="form-edit form-edit-col2">Nummer:</td>  
+  <td class="form-edit form-edit-col2"><input type="text" name="Nummer" value="'.$musikstueck->Nummer.'" size="30" autofocus="autofocus" oninput="changeBackgroundColor(this)"></td>
   </label>
   </tr> 
 
   <tr>    
     <label>
-    <td class="eingabe"><b>Name:</b></td>  
-    <td class="eingabe"><input type="text" name="Name" value="'.htmlentities($musikstueck->Name).'" size="100" oninput="changeBackgroundColor(this)"> (max. 500 Zeichen)</td>
+    <td class="form-edit form-edit-col2">Name:</td>  
+    <td class="form-edit form-edit-col2"><input type="text" name="Name" value="'.htmlentities($musikstueck->Name).'" size="100" oninput="changeBackgroundColor(this)"> (max. 500 Zeichen)</td>
     </label>
   </tr> 
 
   <tr>    
   <label>
-  <td class="eingabe"><b>Komponist:</b></td>  
-  <td class="eingabe">    
+  <td class="form-edit form-edit-col2">Komponist:</td>  
+  <td class="form-edit form-edit-col2">    
   '; 
     $komponisten = new Komponist();
     $komponisten->print_select($musikstueck->KomponistID); 
@@ -110,8 +110,8 @@ if ($show_data) {
 
   <tr>    
     <label>
-    <td class="eingabe"><b>Bearbeiter:</td>  
-    <td class="eingabe">
+    <td class="form-edit form-edit-col1">Bearbeiter:</td>  
+    <td class="form-edit form-edit-col2">
     <input type="text" name="Bearbeiter" value="'.$musikstueck->Bearbeiter.'" size="45" maxlength="80" oninput="changeBackgroundColor(this)">
     Opus: <input type="text" name="Opus" value="'.$musikstueck->Opus.'" size="45" maxlength="80" oninput="changeBackgroundColor(this)">
     </td>
@@ -120,10 +120,10 @@ if ($show_data) {
 
   <tr>    
   <label>
-    <td class="eingabe"><b>Epoche:</b>
+    <td class="form-edit form-edit-col1">Epoche:
     
     </td>  
-    <td class="eingabe">    
+    <td class="form-edit form-edit-col2">    
     '; 
       $epochen = new Epoche();
       $epochen->print_select($musikstueck->EpocheID); 
@@ -140,8 +140,8 @@ if ($show_data) {
 
    <tr>    
    <label>
-    <td class="eingabe"><b>Gattung:</b></td>  
-    <td class="eingabe">    
+    <td class="form-edit form-edit-col1">Gattung:</td>  
+    <td class="form-edit form-edit-col2">    
     '; 
       $gattungen = new Gattung();
       $gattungen->print_select($musikstueck->GattungID); 
@@ -157,8 +157,8 @@ if ($show_data) {
   </tr> 
 
   <tr> 
-    <td class="eingabe"></td> 
-    <td class="eingabe"><input class="btnSave" type="submit" name="senden" value="Speichern">
+    <td class="form-edit form-edit-col1"></td> 
+    <td class="form-edit form-edit-col2"><input class="btnSave" type="submit" name="senden" value="Speichern">
   </td>
   </tr> 
 
@@ -173,13 +173,13 @@ if ($show_data) {
 
     
     <tr> 
-      <td class="eingabe">
+      <td class="form-edit form-edit-col1">
 
       <p><a href="edit_musikstueck_verwendungszwecke.php?MusikstueckID='.$musikstueck->ID.'" target="Info" class="form-link" onfocus="linkStyleFocus(this)">Verwendungszwecke</a></p>
       <p><a href="edit_musikstueck_besetzungen.php?MusikstueckID='.$musikstueck->ID.'" target="Info" class="form-link" onfocus="linkStyleFocus(this)">Besetzungen</a>  </p> 
          
       </td> 
-      <td class="eingabe">
+      <td class="form-edit form-edit-col2">
         <iframe src="edit_musikstueck_verwendungszwecke.php?MusikstueckID='.$musikstueck->ID.'" height="150" name="Info" class="form-iframe-var2"></iframe>';
          
         echo '
@@ -192,12 +192,12 @@ if ($show_data) {
 
 
     <tr> 
-      <td class="eingabe"><b>Sätze:</b><br/><br />
+      <td class="form-edit form-edit-col1">Sätze:<br/><br />
       <a href="edit_satz.php?MusikstueckID='.$musikstueck->ID.'&option=insert&title=Satz" target="_blank" class="form-link" onfocus="linkStyleFocus(this)">Satz hinzufügen</a>
       <br><br> <a href="edit_musikstueck_saetze.php?MusikstueckID='.$musikstueck->ID.'" target="Saetze" class="form-link">Aktualisieren - &gt; </a>
       
       </td> 
-      <td class="eingabe"><iframe src="edit_musikstueck_saetze.php?MusikstueckID='.$musikstueck->ID.'" height="200" name="Saetze" class="form-iframe-var2"></iframe>
+      <td class="form-edit form-edit-col2"><iframe src="edit_musikstueck_saetze.php?MusikstueckID='.$musikstueck->ID.'" height="200" name="Saetze" class="form-iframe-var2"></iframe>
     </td>
     </tr> 
                 

@@ -48,27 +48,27 @@ $info->print_link_insert($sammlung->table_name, $sammlung->Title, false);
 if ($show_data) {
   echo '
   <form action="edit_sammlung.php" method="post">
-  <table class="eingabe"> 
+  <table class="form-edit"> 
   <tr>    
   <label>
-  <td class="eingabe"><b>ID:</b></td>  
-  <td class="eingabe">'.$sammlung->ID.'</td>
+  <td class="form-edit form-edit-col1">ID:</td>  
+  <td class="form-edit form-edit-col2">'.$sammlung->ID.'</td>
   </label>
     </tr> 
    '; 
   echo '
     <tr>    
       <label>
-      <td class="eingabe"><b>Name:</b></td>  
-      <td class="eingabe"><input type="text" name="Name" value="'.htmlentities($sammlung->Name).'" size="100" maxlength="100" required="required" autofocus="autofocus" oninput="changeBackgroundColor(this)"> (max. 100 Zeichen)</td>
+      <td class="form-edit form-edit-col1">Name:</td>  
+      <td class="form-edit form-edit-col2"><input type="text" name="Name" value="'.htmlentities($sammlung->Name).'" size="100" maxlength="100" required="required" autofocus="autofocus" oninput="changeBackgroundColor(this)"> (max. 100 Zeichen)</td>
       </label>
     </tr> 
     '; 
   echo '   
     <tr>    
     <label>
-    <td class="eingabe"><b>Verlag:</b></td>  
-    <td class="eingabe">
+    <td class="form-edit form-edit-col1">Verlag:</td>  
+    <td class="form-edit form-edit-col2">
    
     <!-- Auswahlliste Verlag  -->         
           '; 
@@ -87,8 +87,8 @@ if ($show_data) {
 
     <tr>    
     <label>
-    <td class="eingabe"><b>Standort:</b></td>  
-    <td class="eingabe">   
+    <td class="form-edit form-edit-col1">Standort:</td>  
+    <td class="form-edit form-edit-col2">   
           '; 
           $standorte = new Standort();
           $standorte->print_select($sammlung->StandortID); 
@@ -104,8 +104,8 @@ if ($show_data) {
 
     <tr>    
       <label>
-      <td class="eingabe"><b>Bemerkung:</b></td>
-      <td class="eingabe">
+      <td class="form-edit form-edit-col1">Bemerkung:</td>
+      <td class="form-edit form-edit-col2">
       <textarea name="Bemerkung" rows=1 cols=120 oninput="changeBackgroundColor(this)">'.htmlentities($sammlung->Bemerkung).'</textarea> 
       
       </td>
@@ -113,8 +113,8 @@ if ($show_data) {
     </tr> 
 
     <tr> 
-      <td class="eingabe"></td> 
-      <td class="eingabe"><input class="btnSave" type="submit" name="senden" value="Speichern">     
+      <td class="form-edit form-edit-col1"></td> 
+      <td class="form-edit form-edit-col2"><input class="btnSave" type="submit" name="senden" value="Speichern">     
       
     </td>
 
@@ -125,27 +125,25 @@ if ($show_data) {
     </form>
 
         <tr> 
-        <td class="eingabe"><b>Musikstücke:</b>
+        <td class="form-edit form-edit-col1">Musikstücke:
         <p> <a href="edit_musikstueck.php?SammlungID='.$sammlung->ID.'&option=insert&title=Musikstück" target="_blank" class="form-link form-link-switch" onfocus="linkStyleFocus(this)">Musikstück hinzufügen</a></p>
         <p> <a href="edit_sammlung_musikstuecke.php?SammlungID='.$sammlung->ID.'" target="musikstuecke" class="form-link form-link-switch">Aktualisieren - &gt;</a></p>
 
 
 
         </td> 
-        <td class="eingabe">
-          <iframe src="edit_sammlung_musikstuecke.php?SammlungID='.$sammlung->ID.'"  height="150" name="musikstuecke" class="form-iframe-var2"></iframe>
+        <td class="form-edit form-edit-col2">
+            <iframe src="edit_sammlung_musikstuecke.php?SammlungID='.$sammlung->ID.'"  height="150" name="musikstuecke" class="form-iframe-var2"></iframe>
       </td>
       </tr> 
 
       <tr> 
-      <td class="eingabe">
+      <td class="form-edit form-edit-col1">
             <p><a href="edit_sammlung_lookups.php?SammlungID='.$sammlung->ID.'" target="Info" class="form-link form-link-switch" onfocus="linkStyleFocus(this)">Besonderheiten</a></p>    
               <p><a href="edit_sammlung_links.php?SammlungID='.$sammlung->ID.'" target="Info" class="form-link form-link-switch" onfocus="linkStyleFocus(this)">Links                 </a></p> 
       </td>
    
-      <td class="eingabe">
-
-      
+      <td class="form-edit form-edit-col2">
            <iframe src="edit_sammlung_lookups.php?SammlungID='.$sammlung->ID.'" height="200" name="Info" class="form-iframe-var2"></iframe>
       </td>
       </tr> 
