@@ -3,7 +3,7 @@
 include('head_raw.php');
 ?>
 
-<form action="edit_lookup_type_list_lookups.php" method="get">
+<form action="edit_lookup_type_lookups.php" method="get">
 <table class="form-edit"> 
     
   <tr>    

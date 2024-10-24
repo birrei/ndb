@@ -58,12 +58,12 @@ if ($show_data) {
     </tr> 
     <tr> 
       <td class="form-edit form-edit-col1">Besonderheiten:
-        <p> <a href="edit_lookup_type_add_lookup.php?LookupTypeID='.$lookuptype->ID.'" target="Lookups" class="form-link">Besonderheit hinzufügen</a></p>
-        <p> <a href="edit_lookup_type_list_lookups.php?LookupTypeID='.$lookuptype->ID.'" target="Lookups" class="form-link">Aktualisieren</a></p>
+        <p> <a href="edit_lookup_type_lookup.php?LookupTypeID='.$lookuptype->ID.'" target="Lookups" class="form-link">Besonderheit hinzufügen</a></p>
+        <p> <a href="edit_lookup_type_lookups.php?LookupTypeID='.$lookuptype->ID.'" target="Lookups" class="form-link">Aktualisieren</a></p>
       </td> 
       <td class="form-edit form-edit-col2">
       
-        <iframe src="edit_lookup_type_list_lookups.php?LookupTypeID='.$lookuptype->ID.'&source=iframe" height="400" name="Lookups" class="form-iframe-var2"></iframe>
+        <iframe src="edit_lookup_type_lookups.php?LookupTypeID='.$lookuptype->ID.'&source=iframe" height="400" name="Lookups" class="form-iframe-var2"></iframe>
 
       </td>
     </tr> 
