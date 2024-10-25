@@ -1,5 +1,7 @@
 ﻿
-# Change Log  
+# Changelog  
+
+26.10.2024: Unterformular-Aufruf über radiobox Elemente (macht aktuell aktives Unterformular besser sichtbar)
 
 19.10.2024 - Suche: 
  * Ergänzende Suchoption "Aussschluss-Suche". 

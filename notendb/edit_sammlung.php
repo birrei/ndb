@@ -137,17 +137,30 @@ if ($show_data) {
       </td>
       </tr> 
 
-      <tr> 
-      <td class="form-edit form-edit-col1">
-            <p><a href="edit_sammlung_lookups.php?SammlungID='.$sammlung->ID.'" target="Info" class="form-link form-link-switch" onfocus="linkStyleFocus(this)">Besonderheiten</a></p>    
-              <p><a href="edit_sammlung_links.php?SammlungID='.$sammlung->ID.'" target="Info" class="form-link form-link-switch" onfocus="linkStyleFocus(this)">Links                 </a></p> 
-      </td>
+
+    ';
+
+    ?>
    
-      <td class="form-edit form-edit-col2">
-           <iframe src="edit_sammlung_lookups.php?SammlungID='.$sammlung->ID.'" height="200" name="Info" class="form-iframe-var2"></iframe>
+   <tr> 
+      <td class="form-edit form-edit-col1">Daten anzeigen: <br /> <br />
+        <input type="radio" id="Besonderheiten" name="target_form" value="Besonderheiten" onclick="changeIframeSrc('subform1', 'edit_sammlung_lookups.php?SammlungID=<?php echo $sammlung->ID; ?>');" checked>
+        <label for="Besonderheiten">Besonderheiten</label><br>
+        <input type="radio" id="Links" name="target_form" value="Links" onclick="changeIframeSrc('subform1', 'edit_sammlung_links.php?SammlungID=<?php echo $sammlung->ID; ?>');">
+        <label for="Links">Links</label>
+     </td>
+     <td class="form-edit form-edit-col2">
+           <iframe src="edit_sammlung_lookups.php?SammlungID=<?php echo $sammlung->ID; ?>" height="200" name="subform1" id="subform1" class="form-iframe-var2"></iframe>
       </td>
       </tr> 
   
+      
+    <?php 
+    echo 
+    '      
+
+
+
 
 
     </table>

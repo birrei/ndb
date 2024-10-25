@@ -163,25 +163,30 @@ if ($show_data) {
     </form>
 
 
-  <tr> 
-    <td class="form-edit form-edit-col1">
-      <p><a href="edit_satz_schwierigkeitsgrade.php?SatzID='.$satz->ID.'" target="Info" class="form-link" onfocus="linkStyleFocus(this)">Schwierigkeitsgrade</a></p>
-      <p><a href="edit_satz_lookups.php?SatzID='.$satz->ID.'" target="Info" class="form-link" onfocus="linkStyleFocus(this)">Besonderheiten       </a>   </p>
-      <p><a href="edit_satz_erprobte.php?SatzID='.$satz->ID.'" target="Info" class="form-link" onfocus="linkStyleFocus(this)">Erprobt                     </a></p>
+    ';
+    ?> 
 
-    
-      </td> 
+    <tr> 
+    <td class="form-edit form-edit-col1">Daten anzeigen: <br /> <br />
+    <input type="radio" id="opt_Schwierigkeitsgrad" name="target_form" value="Schwierigkeitsgrad" onclick="changeIframeSrc('subform1', 'edit_satz_schwierigkeitsgrade.php?SatzID=<?php echo $satz->ID; ?>');" checked>
+    <label for="opt_Schwierigkeitsgrad">Schwierigkeitsgrad</label><br>
+    <input type="radio" id="opt_Besonderheiten" name="target_form" value="Besonderheiten" onclick="changeIframeSrc('subform1', 'edit_satz_lookups.php?SatzID=<?php echo $satz->ID; ?>');">
+    <label for="opt_Besonderheiten">Besonderheiten</label><br>
+    <input type="radio" id="opt_Erprobt" name="target_form" value="Erprobt" onclick="changeIframeSrc('subform1', 'edit_satz_erprobte.php?SatzID=<?php echo $satz->ID; ?>');">
+    <label for="opt_Erprobt">Erprobt</label>
+
+    </td> 
     <td class="form-edit form-edit-col2">
-      <iframe src="edit_satz_schwierigkeitsgrade.php?SatzID='.$satz->ID.'&source=iframe" height="300" name="Info" class="form-iframe-var2"></iframe>
-    '; 
-
-    echo '
+      <iframe src="edit_satz_schwierigkeitsgrade.php?SatzID=<?php echo $satz->ID; ?>&source=iframe" height="300" id="subform1" name="Info" class="form-iframe-var2"></iframe>
     </td>
-  </tr> 
+    </tr> 
 
-  </table> 
-  '; 
-  $info->print_link_delete_row2($satz->table_name, $satz->ID, $satz->Title, false); 
+
+    </table> 
+
+    <?php 
+
+    $info->print_link_delete_row2($satz->table_name, $satz->ID, $satz->Title, false); 
 
 } 
 else {

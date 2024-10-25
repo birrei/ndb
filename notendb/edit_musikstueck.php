@@ -58,13 +58,13 @@ if ($show_data) {
   <table class="form-edit"> 
   <tr>    
   <label>
-  <td class="form-edit form-edit-col2">ID:</td>  
+  <td class="form-edit form-edit-col1">ID:</td>  
   <td class="form-edit form-edit-col2">'.$musikstueck->ID.'</td>
   </label>
   </tr> 
   <tr>    
   <label>
-  <td class="form-edit form-edit-col2">Sammlung:</td>  
+  <td class="form-edit form-edit-col1">Sammlung:</td>  
   <td class="form-edit form-edit-col2">
   '; 
 
@@ -76,21 +76,21 @@ if ($show_data) {
   echo '</tr></label>
   <tr>    
   <label>
-  <td class="form-edit form-edit-col2">Nummer:</td>  
+  <td class="form-edit form-edit-col1">Nummer:</td>  
   <td class="form-edit form-edit-col2"><input type="text" name="Nummer" value="'.$musikstueck->Nummer.'" size="30" autofocus="autofocus" oninput="changeBackgroundColor(this)"></td>
   </label>
   </tr> 
 
   <tr>    
     <label>
-    <td class="form-edit form-edit-col2">Name:</td>  
+    <td class="form-edit form-edit-col1">Name:</td>  
     <td class="form-edit form-edit-col2"><input type="text" name="Name" value="'.htmlentities($musikstueck->Name).'" size="100" oninput="changeBackgroundColor(this)"> (max. 500 Zeichen)</td>
     </label>
   </tr> 
 
   <tr>    
   <label>
-  <td class="form-edit form-edit-col2">Komponist:</td>  
+  <td class="form-edit form-edit-col1">Komponist:</td>  
   <td class="form-edit form-edit-col2">    
   '; 
     $komponisten = new Komponist();
@@ -166,31 +166,31 @@ if ($show_data) {
       <input type="hidden" name="option" value="update">      
       <input type="hidden" name="title" value="Musikstueck">  
     </form>
+    
 
-
-
-    <!--- *********************************** --> 
 
     
-    <tr> 
-      <td class="form-edit form-edit-col1">
 
-      <p><a href="edit_musikstueck_verwendungszwecke.php?MusikstueckID='.$musikstueck->ID.'" target="Info" class="form-link" onfocus="linkStyleFocus(this)">Verwendungszwecke</a></p>
-      <p><a href="edit_musikstueck_besetzungen.php?MusikstueckID='.$musikstueck->ID.'" target="Info" class="form-link" onfocus="linkStyleFocus(this)">Besetzungen</a>  </p> 
-         
-      </td> 
-      <td class="form-edit form-edit-col2">
-        <iframe src="edit_musikstueck_verwendungszwecke.php?MusikstueckID='.$musikstueck->ID.'" height="150" name="Info" class="form-iframe-var2"></iframe>';
-         
-        echo '
+    ';
+
+    ?>
+   
+   <tr> 
+      <td class="form-edit form-edit-col1">Daten anzeigen: <br /> <br />
+        <input type="radio" id="Verwendungszwecke" name="target_form" value="Verwendungszwecke" onclick="changeIframeSrc('subform1', 'edit_musikstueck_verwendungszwecke.php?MusikstueckID=<?php echo $musikstueck->ID; ?>');" checked>
+        <label for="Verwendungszwecke">Verwendungszwecke</label><br>
+        <input type="radio" id="Besetzungen" name="target_form" value="Besetzungen" onclick="changeIframeSrc('subform1', 'edit_musikstueck_besetzungen.php?MusikstueckID=<?php echo $musikstueck->ID; ?>');">
+        <label for="Besetzungen">Besetzungen</label>
+     </td>
+     <td class="form-edit form-edit-col2">
+           <iframe src="edit_musikstueck_verwendungszwecke.php?MusikstueckID=<?php echo $musikstueck->ID; ?>" height="200" name="subform1" id="subform1" class="form-iframe-var2"></iframe>
       </td>
     </tr> 
-
-
-    <!--- *********************************** --> 
-
-
-
+  
+      
+    <?php 
+    
+    echo '
     <tr> 
       <td class="form-edit form-edit-col1">Sätze:<br/><br />
       <a href="edit_satz.php?MusikstueckID='.$musikstueck->ID.'&option=insert&title=Satz" target="_blank" class="form-link" onfocus="linkStyleFocus(this)">Satz hinzufügen</a>

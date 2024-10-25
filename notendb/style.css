@@ -31,13 +31,25 @@ td, th {
     table.form-edit {
         margin-top: 5px;
         /* background-color: lightgray; */
+        border-collapse: collapse;         
         width: 100%;     
+    }
+    td.form-edit  {
+        border: 1px solid white;
+        font-size: 10pt;
     }
     td.form-edit  {
         border: 1px solid white;
         border-collapse: collapse; 
         font-size: 10pt;
+    }    
+    td.form-edit-col1 {
+        font-weight: bold;
+        /* background-color: lightgreen;         */
     }
+    /* td.form-edit-col2 {
+        background-color: orange;        
+    } */
     input.btnSave {
         font-weight: bold;
         width:200px; 
@@ -48,6 +60,7 @@ td, th {
     }
     .form-link {
         /* Links im Formular als Button erscheinen lassen */ 
+        font-weight: lighter;
         font-size: 10pt;
         text-decoration: none;
         background-color: #EEEEEE;

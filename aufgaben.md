@@ -1,22 +1,18 @@
 ﻿
 ###  Aufgaben in Arbeit
+- [ ] delete.php: Löschbarkeit vor (und nicht nach) Nutzerbestätigung prüfen
 
-- [ ] Formulare: CSS- Klassen besser zuordnen
-
-- [ ] delete.php: Löschbarkeit VOR Nutzerbestätigung prüfen
-- [ ] iframe-aufruf-Buttons: farbig, wenn aktiv (Wechsel funktioniert noch nicht, Farbe bleit kleben)
-- [ ] Seite für "info-Views" (entspr. Tests- Seite) 
-
-### Offene Aufgaben 
+### Offene Aufgabe, neue Features 
 - [ ] Sammlung "Erfassungstatus" (vom Anwender gesetzt. .. "Vollständig" Sammlung wird in Tests erfasst, unvollständig nicht", da Unvollständigkeit bekannt/akzeptiert) 
-- [ ] Sammlung "Druckansicht/Datenblatt" 
 - [ ] Tabellen Spalten-Sortierung (per JavaScript, s. https://www.w3schools.com/howto/howto_js_sort_table.as
-- [ ] Eigenes Git-Repository für das Projekt 
+- [ ] Alle Tabellen mit "erstellt" und "geändert"-Spalten 
 - [ ] Logging (Datum, Name)
-- [ ] Konfiguration Fehlerausgabe
-- [ ] Gattung -> Gattung / Form 
 - [ ] MouseOver Infos in der Ergebnis-Tabelle 
 - [ ] PDF-Export für eine Sammlung 
+- [ ] Seite für "info-Views" (entspr. Tests- Seite) 
+- [ ] Eigenes Git-Repository für das Projekt 
+- [ ] Ausgabe Fehlermeldungen für Anwender verbessern (aktuell nur "ein Fehler ist aufgetreten", Grund bleibt für Anwender unklar)
+
 
 ### Offene Verbesserungen und Korrekturen 
 - [ ] delete-Routinen: Folge-Links prüfen  
@@ -65,11 +61,13 @@
 - [X] Seite "Tests": Inhaltsverzeichnis erzeugen
 - [X] Startseiten-Links aus Tabreihenfolge nehmen 
 - [X] Korrektur: Fehler Erfassungsformular "Schwierigkeitsgrad"  
-Korrektur: Suche, Gespeicherte Suche: Beschreibungtext bei Speicherung ausblenden
+- [X] Korrektur: Suche, Gespeicherte Suche: Beschreibungtext bei Speicherung ausblenden
 - [X] Bereinigung Ritardando 
 - [X] Intervalle mit Gruppierungs-Begriff
 - [X] Ansicht "Satz mit Besonderheiten" 
 - [X] Suche, Ergebnisanzeige: Anzahl Zeilen angezeigen
+- [X] Formulare: CSS- Klassen besser zuordnen
+- [x] iframe-(Unterformular)- Aufruf über radiobox Elemenete 
 
 ### vorerst verworfen 
-- [ ] ~~ auto_update: Editierungs-Formular~~ Thema für "Service" > "Dataclearing" 
+- [ ] ~~ auto_update: Editierungs-Formular~~ aktuell nur Thema für "Service" > "Dataclearing" 

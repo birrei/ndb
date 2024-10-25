@@ -34,3 +34,9 @@ function linkStyleFocus(element) {
 function linkStyleNotFocus(element) {
   element.style.backgroundColor="white"; 
 }
+
+
+function changeIframeSrc(iframeID, URL) {
+  document.getElementById(iframeID).src = URL; 
+}
+
