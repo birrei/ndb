@@ -15,6 +15,7 @@
 
 
 ### Offene Verbesserungen und Korrekturen 
+- [ ] Unterformulare, Übersichten: jeweilige Tabellen-Links ergänzen   
 - [ ] delete-Routinen: Folge-Links prüfen  
 - [ ] Suche: Beschreibung ergänzen, wenn Genaue Suche ausgewählt 
 - [ ] iframe-Formulare: Speicherverhalten vereinheitlichen 
