@@ -165,7 +165,7 @@ class Lookup {
     try {
       $stmt->execute(); 
       $html = new HtmlSelect($stmt); 
-      $html->caption = $caption;       
+      // $html->caption = $caption;       
       $html->print_select("LookupID", $value_selected, true); 
       
     }
