@@ -1,20 +1,21 @@
 ﻿
 ###  Aufgaben in Arbeit
-- [ ] delete.php: Löschbarkeit vor (und nicht nach) Nutzerbestätigung prüfen
+- [ ] Bookmarks- Import, Übernahme als Sammlungen 
+- [ ] Sammlung Feld "Erfasst" ja/nein, Datenprüfungen nur auf Erfasst=Nein anwenden 
 
 ### Offene Aufgabe, neue Features 
 - [ ] Sammlung "Erfassungstatus" (vom Anwender gesetzt. .. "Vollständig" Sammlung wird in Tests erfasst, unvollständig nicht", da Unvollständigkeit bekannt/akzeptiert) 
-- [ ] Tabellen Spalten-Sortierung (per JavaScript, s. https://www.w3schools.com/howto/howto_js_sort_table.as
+- [ ] Tabellen Spalten-Sortierung (per JavaScript, s. https://www.w3schools.com/howto/howto_js_sort_table.asp) 
 - [ ] Alle Tabellen mit "erstellt" und "geändert"-Spalten 
-- [ ] Logging (Datum, Name)
+- [ ] Spalten "erstellt" und "geändert" (+ Username) bei allen Tabellen (Logging)
 - [ ] MouseOver Infos in der Ergebnis-Tabelle 
 - [ ] PDF-Export für eine Sammlung 
 - [ ] Seite für "info-Views" (entspr. Tests- Seite) 
 - [ ] Eigenes Git-Repository für das Projekt 
-- [ ] Ausgabe Fehlermeldungen für Anwender verbessern (aktuell nur "ein Fehler ist aufgetreten", Grund bleibt für Anwender unklar)
-
 
 ### Offene Verbesserungen und Korrekturen 
+- [ ] Fehler (Nur Edge): Besonderheiten-Typ Screen, Ansteuern des iframes per Button-LInk "Aktualisieren" funktioniert nicht korrekt. 
+- [ ] delete.php: Löschbarkeit vor (und nicht nach) Nutzerbestätigung prüfen
 - [ ] Unterformulare, Übersichten: jeweilige Tabellen-Links ergänzen   
 - [ ] delete-Routinen: Folge-Links prüfen  
 - [ ] Suche: Beschreibung ergänzen, wenn Genaue Suche ausgewählt 
@@ -23,7 +24,6 @@
 - [ ] Erfassung: Umgang mit fehlerhaften Eingabewerten (zu lang, ect.)
 - [ ] Übersichtstabellen -> Anzahl Zeilen begrenzen
 - [ ] "Plural-Problem" 
-- [ ] Datum Spalten "erstellt" und "geändert" bei allen Tabellen
 - [ ] Auswahlformulare: Verhalten, wenn Werte "verbraucht" sind (cl_html_select.php, print_select - test dev Schwierigkeitsgrad) 
 - [ ] Validierung Eingabewerte
 - [ ] für alle edit-Formulare (auch stammdaten-Tabellen) htmlspecialchars() einsetzen
@@ -33,16 +33,11 @@
 - [ ] musikstueck: Spalte "JahrAuffuehrung" löschen
 - [ ] Formulare: Spaltenbezeichung fett drucken
 - [ ] Klassen-Dateien umbenennen: cl_* -> class.*  
+- [ ] Fehlerbehandlung: Bearbeiten-Formular wird bei nicht exisiterender ID geöffnet (siehe Vorlage edit_abfrage.php, cl_abfrage.php) 
 
 ### Offene Aufgaben Prio 2
 - [ ] iframe-Formulare: Autofocus auf erstes Feld möglich? 
 - [ ] Benutzer-Verwaltung  
-- [ ] Hilfe: Erfassung Schwierigkeitsgrad / Instrumente 
-- [ ] Tabelle Schüler, Termin 
-- [ ] Anzeige Anzahl Ergebniszeilen
-- [ ] Spracheingabe 
-- [ ] Fehlerbehandlung: Bearbeiten-Formular wird bei nicht exisiterender ID geöffnet (siehe Vorlage edit_abfrage.php, cl_abfrage.php) 
-- [ ] Kalender-Tabelle 
 - [ ] Feld "Bestellnummer" entfernen ?
 - [ ] Eingabefelder maxlength prüfen -> soll db Feldlänge entsprechen 
 - [ ] Eingabefelder autofocus prüfen 
@@ -52,6 +47,15 @@
 - [ ] Feld "Opus" -> ändern in "Werkverzeichnis" (zumindest im Formular)
 - [ ] Notensymbole Schrift
 - [ ] select - Elemente: die rosafärbung ein/ausschaltbar machen
+- [ ] Spracheingabe 
+- [ ] Tabelle Schüler, Termin 
+- [ ] Löschtabellen (Speicherung gelöschter ZEilen) 
+- [ ] Ausgabe Fehlermeldungen für Anwender verbessern (aktuell nur "ein Fehler ist aufgetreten", Grund bleibt für Anwender unklar)
+- [ ] Kalender-Tabelle 
+
+
+### vorerst verworfen 
+- [ ] ~~auto_update: Editierungs-Formular~~ aktuell nur Thema für "Service" > "Dataclearing" 
 
 ### erledigte Aufgaben 
 - [X] Delete-Funktionen ergänzen (satz->erprobt, sammmlung->besonderheiten) 
@@ -69,6 +73,6 @@
 - [X] Suche, Ergebnisanzeige: Anzahl Zeilen angezeigen
 - [X] Formulare: CSS- Klassen besser zuordnen
 - [x] iframe-(Unterformular)- Aufruf über radiobox Elemenete 
+- [X] Anzeige Anzahl Ergebniszeilen
 
-### vorerst verworfen 
-- [ ] ~~auto_update: Editierungs-Formular~~ aktuell nur Thema für "Service" > "Dataclearing" 
+
