@@ -129,6 +129,80 @@ class Link {
     }  
   }  
 
+
+
+  function insert_link_tmp ($URL, $Title) {
+    include_once("dbconn/cl_db.php");
+    $conn = new DbConn(); 
+    $db=$conn->db; 
+
+    $insert = $db->prepare("INSERT INTO `link_tmp` 
+              SET URL = :URL, Title=:Title "       
+           );
+
+    $insert->bindParam(':URL', $URL);
+    $insert->bindParam(':Title', $Title);    
+
+    try {
+      $insert->execute(); 
+    }
+      catch (PDOException $e) {
+      include_once("cl_html_info.php"); 
+      $info = new HtmlInfo();      
+      $info->print_user_error(); 
+      $info->print_error($insert, $e);  ; 
+    }
+  }  
+
+  function truncate_link_tmp () {
+    include_once("dbconn/cl_db.php");
+    $conn = new DbConn(); 
+    $db=$conn->db; 
+
+    $stmt = $db->prepare("TRUNCATE TABLE link_tmp");
+
+    try {
+      $stmt->execute(); 
+    }
+      catch (PDOException $e) {
+      include_once("cl_html_info.php"); 
+      $info = new HtmlInfo();      
+      $info->print_user_error(); 
+      $info->print_error($stmt, $e);  ; 
+    }
+  }
+  
+  function print_link_tmp () {
+    $query="SELECT * FROM link_tmp"; 
+
+    include_once("dbconn/cl_db.php");
+    $conn = new DbConn(); 
+    $db=$conn->db; 
+    $stmt = $db->prepare($query); 
+
+
+    try {
+      $stmt->execute(); 
+      include_once("cl_html_table.php");      
+      $html = new HtmlTable($stmt); 
+      $html->add_link_edit=false;
+      $html->add_link_delete=false;
+      // $html->del_link_filename=$target_file; 
+      $html->show_missing_data_message=false; 
+      $html->print_table2();           
+    }
+    catch (PDOException $e) {
+      include_once("cl_html_info.php"); 
+      $info = new HtmlInfo();      
+      $info->print_user_error(); 
+      $info->print_error($stmt, $e); 
+    }
+
+  }
+
+
+
+
 }
 
  
