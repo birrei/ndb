@@ -1,10 +1,7 @@
 <?php 
  
 class Sammlung {
-
   public $table_name; 
-
-  
   public $ID;
   public $Name;
   public $VerlagID;
@@ -12,6 +9,7 @@ class Sammlung {
   // public $Standort; 
   public $StandortID; 
   public $Bemerkung;
+  public int $Erfasst=0; // true/false, tinyint 1/0 for mysql 
 
   public $Title='Sammlung';
   public $Titles='Sammlungen';  
@@ -81,6 +79,7 @@ class Sammlung {
           , $StandortID
          //  , $Bestellnummer
           , $Bemerkung
+          , $Erfasst
          ) 
     {
 
@@ -93,7 +92,8 @@ class Sammlung {
             `Name`     = :Name,
             `VerlagID`     = :VerlagID,   
             `StandortID`     = :StandortID,                              
-            `Bemerkung`     = :Bemerkung                               
+            `Bemerkung`     = :Bemerkung,
+             Erfasst=:Erfasst                               
             WHERE `ID` = :ID");           
 
       $update->bindParam(':ID', $this->ID);
@@ -102,7 +102,7 @@ class Sammlung {
       $update->bindParam(':StandortID', $StandortID,($StandortID=='' ? PDO::PARAM_NULL : PDO::PARAM_INT));      
       // $update->bindParam(':Bestellnummer', $Bestellnummer);
       $update->bindParam(':Bemerkung', $Bemerkung);
-
+      $update->bindParam(':Erfasst', $Erfasst);
 
 
       try {
@@ -159,7 +159,8 @@ class Sammlung {
                           VerlagID, 
                           Bestellnummer , 
                           StandortID, 
-                          COALESCE(Bemerkung, '') as Bemerkung
+                          COALESCE(Bemerkung, '') as Bemerkung, 
+                          Erfasst 
                         FROM `sammlung`
                         WHERE `ID` = :ID");
 
@@ -172,7 +173,8 @@ class Sammlung {
       $this->VerlagID=$row_data["VerlagID"];
       $this->Bestellnummer=$row_data["Bestellnummer"];
       $this->StandortID=$row_data["StandortID"];
-      $this->Bemerkung=$row_data["Bemerkung"];    
+      $this->Bemerkung=$row_data["Bemerkung"]; 
+      $this->Erfasst=$row_data["Erfasst"];
       return true; 
     } 
     else {

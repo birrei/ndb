@@ -13,5 +13,6 @@ from musikstueck m
     inner join standort on standort.ID= s.StandortID     
     inner join satz sa on sa.MusikstueckID = m.ID 
     left join satz_erprobt on satz_erprobt.SatzID = sa.ID 
-where satz_erprobt.ID is NULL
+where s.Erfasst=1
+and satz_erprobt.ID is NULL
 order by standort.Name, s.Name, m.Nummer, sa.Nr

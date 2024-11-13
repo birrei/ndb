@@ -75,10 +75,15 @@ if($show_filter) {
     case 'v_sammlung': 
       include_once("cl_standort.php");
       $StandortID=(isset($_POST["StandortID"])?$_POST["StandortID"]:'');
+      $Erfasst=(isset($_POST["Erfasst"])?1:0); 
       $standort = new Standort(); 
       echo 'Standort: '.PHP_EOL; 
       $standort->print_preselect($StandortID); 
+      echo '<label><input type="checkbox" name="Erfasst" onchange="this.form.submit()" '.($Erfasst==1?'checked':'').'>Vollständig erfasst</label>'; 
       $query.=($StandortID!=''?'AND StandortID='.$StandortID.' '.PHP_EOL:''); 
+      $query.='AND Erfasst='.$Erfasst; 
+      
+      
     break;     
 
   }

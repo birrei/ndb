@@ -1,6 +1,10 @@
 ﻿
 # Changelog  
 
+13.11.2024: Neues Feld "Sammlung" > "Erfasst" (+ Filter auf der Sammlungen- Übersichtsseite, Kapitel auf Hilfe-Seite) 
+
+10.11.2024: Chrome-Bookmarks importieren, Teil 1 (Hintergrund: Vorhandene Bookmarksammlung  mit Links zu Noten-Kaufportalen soll importiert und in Sammlungen integriert werden).   
+
 26.10.2024: Unterformular-Aufruf über radiobox Elemente (macht aktuell aktives Unterformular besser sichtbar)
 
 19.10.2024 - Suche: 

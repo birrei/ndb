@@ -25,6 +25,7 @@ if (isset($_REQUEST["option"])) {
       break; 
     
     case 'update': 
+      $Erfasst=(isset($_POST["Erfasst"])?1:0); 
       $sammlung->ID = $_POST["ID"];    
       $sammlung->update_row(
         $_POST["Name"]
@@ -32,6 +33,7 @@ if (isset($_REQUEST["option"])) {
         , $_POST["StandortID"]
         // , $_POST["Bestellnummer"]
         , $_POST["Bemerkung"]
+        , $Erfasst
       ); 
       $show_data=true;           
       break; 
@@ -52,7 +54,9 @@ if ($show_data) {
   <tr>    
   <label>
   <td class="form-edit form-edit-col1">ID:</td>  
-  <td class="form-edit form-edit-col2">'.$sammlung->ID.'</td>
+  <td class="form-edit form-edit-col2">'.$sammlung->ID.' 
+      &nbsp; <label><input type="checkbox" name="Erfasst" '.($sammlung->Erfasst==1?'checked':'').'> Vollständig erfasst </label> 
+  </td>
   </label>
     </tr> 
    '; 

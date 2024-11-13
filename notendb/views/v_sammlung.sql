@@ -5,13 +5,12 @@ select sammlung.ID
     , standort.Name as Standort
     , sammlung.Bemerkung
     , v_sammlung_lookuptypes.LookupList as Besonderheiten       
-   -- , sammlung.Bestellnummer   
+   -- , sammlung.Bestellnummer 
+   , Erfasst  
    , sammlung.StandortID  
 from sammlung 
     left join verlag  on sammlung.VerlagID = verlag.ID 
     left join standort on sammlung.StandortID = standort.ID
     LEFT JOIN sammlung_lookup on sammlung_lookup.SammlungID = sammlung.ID       
     LEFT JOIN v_sammlung_lookuptypes on v_sammlung_lookuptypes.SammlungID = sammlung.ID         
-
-
 group by sammlung.ID 

@@ -12,5 +12,6 @@ from musikstueck m
     inner join  sammlung s on s.ID = m.SammlungID 
     inner join standort on standort.ID= s.StandortID        
     inner join satz sa on sa.MusikstueckID = m.ID 
-where sa.Spieldauer is NULL
+where s.Erfasst=1 
+and sa.Spieldauer is NULL
 order by standort.Name, s.Name, m.Nummer, sa.Nr

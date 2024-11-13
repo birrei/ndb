@@ -12,5 +12,6 @@ inner join standort on standort.ID= s.StandortID
 inner join musikstueck m on s.ID = m.SammlungID 
 left join musikstueck_besetzung mb 
 on m.ID = mb.MusikstueckID 
-where mb.ID is null 
+where s.Erfasst=1 
+and mb.ID is null 
 order by standort.Name, s.Name, m.Nummer 

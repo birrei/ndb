@@ -10,6 +10,10 @@ include('head.php');
 
 <ul id="table-of-contents"></ul>
 
+<h3 class="chapter-title chapter-title-h3" id="erfassungsammlungerfasst">Sammlung: Erfasst</h3>
+
+<p>Das Feld wird aktiviert, fallas die Erfassung der Sammlung (inklusive Musistücke/Sätze) komplett abgeschlossen ist. Hinweis: 
+    Die Datenprüfungen unter <a href="tests.php?title=Tests">Tests</a> enthalten nur Abfragen auf vollständig erfasste Sammlungen. 
 
 <h3 class="chapter-title chapter-title-h3" id="erfassungsatzspieldauer">Satz: Spieldauer</h3>
 

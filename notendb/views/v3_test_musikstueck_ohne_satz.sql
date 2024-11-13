@@ -9,6 +9,7 @@ from musikstueck m
 inner join  sammlung s on s.ID = m.SammlungID 
 inner join standort on standort.ID= s.StandortID 
 left join satz sa on sa.MusikstueckID = m.ID 
-where sa.ID is null 
+where s.Erfasst=1
+and sa.ID is null 
 and m.ID is not nULL 
 order by standort.Name, s.Name, m.Nummer 
