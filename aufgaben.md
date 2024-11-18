@@ -2,11 +2,12 @@
 ###  Aufgaben in Arbeit
 - [ ] Bookmarks-Import, Übernahme als Sammlungen 
 
-### Offene Aufgabe, neue Features 
+- [ ] Spalten "erstellt" und "geändert" (+ Username) bei allen Tabellen
 
+
+### Offene Aufgabe, neue Features 
 - [ ] Tabellen Spalten-Sortierung (per JavaScript, s. https://www.w3schools.com/howto/howto_js_sort_table.asp) 
 - [ ] Alle Tabellen mit "erstellt" und "geändert"-Spalten 
-- [ ] Spalten "erstellt" und "geändert" (+ Username) bei allen Tabellen (Logging)
 - [ ] MouseOver Infos in der Ergebnis-Tabelle 
 - [ ] PDF-Export für eine Sammlung 
 - [ ] Seite für "info-Views" (entspr. Tests- Seite) 
@@ -74,5 +75,5 @@
 - [x] iframe-(Unterformular)- Aufruf über radiobox Elemenete 
 - [X] Anzeige Anzahl Ergebniszeilen
 - [X] Sammlung Feld "Erfasst" ja/nein, Datenprüfungen nur auf Erfasst=Nein anwenden 
-
+- [X] Überarbeitung Dataclearing-Formular (Auswahl Tasks)
 
