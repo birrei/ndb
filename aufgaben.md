@@ -12,6 +12,7 @@
 - [ ] Eigenes Git-Repository für das Projekt 
 
 ### Offene Verbesserungen und Korrekturen 
+- [ ] Prüfen: Spieldauer, wenn mehr als 60 Minuten  
 - [ ] Fehler (Nur Edge): Besonderheiten-Typ Screen, Ansteuern des iframes per Button-LInk "Aktualisieren" funktioniert nicht korrekt. 
 - [ ] delete.php: Löschbarkeit vor (und nicht nach) Nutzerbestätigung prüfen
 - [ ] Unterformulare, Übersichten: jeweilige Tabellen-Links ergänzen   
