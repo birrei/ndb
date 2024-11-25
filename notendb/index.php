@@ -132,6 +132,36 @@ h3 {
             </td>
         </tr>
 
+        <tr> <td colspan="3" class="start"> <h3>Info-Sichten</h3> </td> </tr>        
+
+
+        <tr>
+            <td class="start"><b>Verwendete Tempobezeichnungen</b></td>
+            <td class="start"><a href="show_table2.php?table=v2_info_Tempobezeichnungen&sortcol=Tempobezeichnung&title=Tempobezeichnungen">Daten anzeigen</a></td>
+            <td class="start"></td>
+        </tr>        
+
+        <tr>
+            <td class="start"><b>Verwendete Tonarten</b></td>
+            <td class="start"><a href="show_table2.php?table=v2_info_Tonarten&sortcol=Tonart&title=Tonarten">Daten anzeigen</a></td>
+            <td class="start"></td>
+        </tr>
+
+        <tr>
+            <td class="start"><b>Verwendete Taktarten</b></td>
+            <td class="start"><a href="show_table2.php?table=v2_info_Taktarten&sortcol=Taktart&title=Taktarten">Daten anzeigen</a></td>
+            <td class="start"></td>
+        </tr>
+
+        <tr>
+            <td class="start"><b>Verwendete Spieldauern</b></td>
+            <td class="start"><a href="show_table2.php?table=v2_info_Spieldauern&sortcol=Spieldauer&title=Spieldauern">Daten anzeigen</a></td>
+            <td class="start"></td>
+        </tr>        
+
+        
+        
+
 
 </table
 

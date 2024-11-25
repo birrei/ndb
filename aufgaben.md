@@ -1,7 +1,6 @@
 ﻿
 ###  Aufgaben in Arbeit
-- [ ] Bookmarks-Import, Übernahme als Sammlungen 
-
+- [ ] Bookmarks-Import, Übernahme als Sammlungen (Teil 1 (Import) fertig, Übernahme Sammlung fehlt noch)
 - [ ] Spalten "erstellt" und "geändert" (+ Username) bei allen Tabellen
 
 
@@ -10,7 +9,6 @@
 - [ ] Alle Tabellen mit "erstellt" und "geändert"-Spalten 
 - [ ] MouseOver Infos in der Ergebnis-Tabelle 
 - [ ] PDF-Export für eine Sammlung 
-- [ ] Seite für "info-Views" (entspr. Tests- Seite) 
 - [ ] Eigenes Git-Repository für das Projekt 
 
 ### Offene Verbesserungen und Korrekturen 
@@ -76,4 +74,4 @@
 - [X] Anzeige Anzahl Ergebniszeilen
 - [X] Sammlung Feld "Erfasst" ja/nein, Datenprüfungen nur auf Erfasst=Nein anwenden 
 - [X] Überarbeitung Dataclearing-Formular (Auswahl Tasks)
-
+- [X] Aufruf "Info-Sichten" auf Startseite einbinden 

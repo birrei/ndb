@@ -2,14 +2,6 @@
 <?php 
 include('head.php');
 
-// $abfragen[] = array('name' => 'Besonderheiten doppelt belegt'
-//               , 'testview'   => "v3_test_besonderheiten_doppelt"
-//               , 'table'   => "lookup"              
-//               );
-
- 
-
-
 
 $abfragen[] = array('name' => 'Sammlungen ohne Musikstück'
               , 'testview'   => "v3_test_sammlung_ohne_musikstueck"
@@ -26,10 +18,6 @@ $abfragen[] = array('name' => 'Musikstücke ohne Besetzung'
            , 'table'   => "musikstueck"              
           );
 
-// $abfragen[] = array('name' => 'Musikstücke ohne Verwendungszweck'
-//           , 'testview'   => "v3_test_musikstueck_ohne_verwendungszweck"
-//           , 'table'   => "musikstueck"              
-//          );          
 
 $abfragen[] = array('name' => 'Satz ohne Spieldauer'
           , 'testview'   => "v3_test_satz_ohne_spieldauer"
@@ -45,6 +33,17 @@ $abfragen[] = array('name' => 'Satz ohne Schwierigkeitsgrad'
               , 'testview'   => "v3_test_satz_ohne_schwierigkeitsgrad"
               , 'table'   => "satz"              
               );
+
+
+// $abfragen[] = array('name' => 'Besonderheiten doppelt belegt'
+//               , 'testview'   => "v3_test_besonderheiten_doppelt"
+//               , 'table'   => "lookup"              
+//               );
+
+// $abfragen[] = array('name' => 'Musikstücke ohne Verwendungszweck'
+//           , 'testview'   => "v3_test_musikstueck_ohne_verwendungszweck"
+//           , 'table'   => "musikstueck"              
+//          );          
 
 
 

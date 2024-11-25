@@ -1,6 +1,8 @@
 ﻿
 # Changelog  
 
+25.11.2024: Aufruf "Info-Sichten" auf Startseite (unten) verfügbar  
+
 18.11.2024: Überarbeitung Dataclearing-Formular 
 
 13.11.2024: Neues Feld "Sammlung" > "Erfasst" (+ Filter auf der Sammlungen- Übersichtsseite, Kapitel auf Hilfe-Seite) 
