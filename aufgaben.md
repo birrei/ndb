@@ -1,7 +1,6 @@
 ﻿
 ###  Aufgaben in Arbeit
 - [ ] Bookmarks-Import, Übernahme als Sammlungen (Teil 1 (Import) fertig, Übernahme Sammlung fehlt noch)
-- [ ] Spalten "erstellt" und "geändert" (+ Username) bei allen Tabellen
 
 
 ### Offene Aufgabe, neue Features 
@@ -35,9 +34,11 @@
 - [ ] Fehlerbehandlung: Bearbeiten-Formular wird bei nicht exisiterender ID geöffnet (siehe Vorlage edit_abfrage.php, cl_abfrage.php) 
 
 ### Offene Aufgaben Prio 2
+- [ ] Spalten Spalten "ts_insert" und "ts_update"  in edit-Formularen anzeigen 
+- [ ] Spalte User (Aktualisierung bei insert, update)
 - [ ] iframe-Formulare: Autofocus auf erstes Feld möglich? 
 - [ ] Benutzer-Verwaltung  
-- [ ] Feld "Bestellnummer" entfernen ?
+- [ ] Feld "Bestellnummer" entfernen 
 - [ ] Eingabefelder maxlength prüfen -> soll db Feldlänge entsprechen 
 - [ ] Eingabefelder autofocus prüfen 
 - [ ] Erklärung: Warum "Besetzungen" als Einheiten, und nicht aufgefächert in einzelne Instrumente? 
@@ -76,3 +77,4 @@
 - [X] Sammlung Feld "Erfasst" ja/nein, Datenprüfungen nur auf Erfasst=Nein anwenden 
 - [X] Überarbeitung Dataclearing-Formular (Auswahl Tasks)
 - [X] Aufruf "Info-Sichten" auf Startseite einbinden 
+- [X] Spalten "ts_insert" und "ts_update" bei allen Tabellen
