@@ -1,6 +1,8 @@
 ﻿
 # Changelog  
 
+30.11.2024: Snowflakes auf der Startseite (Animation CSS) 
+
 26.11.2024: Spalten "ts_insert" und "ts_update" bei allen Tabellen
 
 25.11.2024: Aufruf "Info-Sichten" auf Startseite (unten) verfügbar  
