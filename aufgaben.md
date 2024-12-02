@@ -1,6 +1,7 @@
 ﻿
 ###  Aufgaben in Arbeit
-- [ ] Bookmarks-Import, Übernahme als Sammlungen (Teil 1 (Import) fertig, Übernahme Sammlung fehlt noch)
+- [ ] Instrumentkombis Vorlage für Besetzungen 
+- [ ] Mehrfach-Kombination "Instrument" / "Schwierigkeitsgrad" ermöglichen 
 
 
 ### Offene Aufgabe, neue Features 
@@ -11,6 +12,11 @@
 - [ ] Eigenes Git-Repository für das Projekt 
 
 ### Offene Verbesserungen und Korrekturen 
+
+- Demo: Beim Öffnen von edit_sammlung.php ist der Screen leer. Problem ist include cl_sammlung - Ursache? 
+- Besonderheiten Erfassung Schnellsuche
+
+- [ ] Checkbox "Ausschlusssuche": Bei Auswahl auch "Genaue Suche" aktivieren 
 - [ ] Prüfen: Spieldauer, wenn mehr als 60 Minuten  
 - [ ] Fehler (Nur Edge): Besonderheiten-Typ Screen, Ansteuern des iframes per Button-LInk "Aktualisieren" funktioniert nicht korrekt. 
 - [ ] delete.php: Löschbarkeit vor (und nicht nach) Nutzerbestätigung prüfen
@@ -34,6 +40,7 @@
 - [ ] Fehlerbehandlung: Bearbeiten-Formular wird bei nicht exisiterender ID geöffnet (siehe Vorlage edit_abfrage.php, cl_abfrage.php) 
 
 ### Offene Aufgaben Prio 2
+- [ ] Bookmarks-Import, Übernahme als Sammlungen (Teil 1 (Import) fertig, Übernahme Sammlung fehlt noch)
 - [ ] Spalten Spalten "ts_insert" und "ts_update"  in edit-Formularen anzeigen 
 - [ ] Spalte User (Aktualisierung bei insert, update)
 - [ ] iframe-Formulare: Autofocus auf erstes Feld möglich? 
