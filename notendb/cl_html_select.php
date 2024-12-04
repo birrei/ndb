@@ -65,7 +65,7 @@ class HtmlSelect {
         }
         if ($print_check_exact) {
             $html.='<input type="checkbox" name="exact_'.$id.'" '.($check_exact?' checked':'').'>
-             <label for="exact_'.$id.'">Genaue Suche</label>';
+             <label for="exact_'.$id.'">Auswahl-Suche</label>';
         }
         if ($print_check_exclude) {
             $html.=' <input type="checkbox" name="exclude_'.$id.'" '.($check_exclude?' checked':'').'>

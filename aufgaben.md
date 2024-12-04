@@ -1,68 +1,73 @@
 ﻿
 ###  Aufgaben in Arbeit
-- [ ] Instrumentkombis Vorlage für Besetzungen 
-- [ ] Mehrfach-Kombination "Instrument" / "Schwierigkeitsgrad" ermöglichen 
+- Instrumentkombis Vorlage für Besetzungen 
+- Mehrfach-Kombination "Instrument" / "Schwierigkeitsgrad" ermöglichen 
+- Verbesserung Suchlogik: Auswahl in einer Kategorie, Mehrfachauswahl
 
+
+Anpassungen: 
+- Umbenennung: "Genaue Suche" -> "Auswahl-Suche" 
+- "Ausschluss-Suche" unabhängig von "Auswahl-Suche" 
 
 ### Offene Aufgabe, neue Features 
-- [ ] Tabellen Spalten-Sortierung (per JavaScript, s. https://www.w3schools.com/howto/howto_js_sort_table.asp) 
-- [ ] Alle Tabellen mit "erstellt" und "geändert"-Spalten 
-- [ ] MouseOver Infos in der Ergebnis-Tabelle 
-- [ ] PDF-Export für eine Sammlung 
-- [ ] Eigenes Git-Repository für das Projekt 
+- Tabellen Spalten-Sortierung (per JavaScript, s. https://www.w3schools.com/howto/howto_js_sort_table.asp) 
+- Alle Tabellen mit "erstellt" und "geändert"-Spalten 
+- MouseOver Infos in der Ergebnis-Tabelle 
+- PDF-Export für eine Sammlung 
+- Eigenes Git-Repository für das Projekt 
 
 ### Offene Verbesserungen und Korrekturen 
 
 - Demo: Beim Öffnen von edit_sammlung.php ist der Screen leer. Problem ist include cl_sammlung - Ursache? 
 - Besonderheiten Erfassung Schnellsuche
 
-- [ ] Checkbox "Ausschlusssuche": Bei Auswahl auch "Genaue Suche" aktivieren 
-- [ ] Prüfen: Spieldauer, wenn mehr als 60 Minuten  
-- [ ] Fehler (Nur Edge): Besonderheiten-Typ Screen, Ansteuern des iframes per Button-LInk "Aktualisieren" funktioniert nicht korrekt. 
-- [ ] delete.php: Löschbarkeit vor (und nicht nach) Nutzerbestätigung prüfen
-- [ ] Unterformulare, Übersichten: jeweilige Tabellen-Links ergänzen   
-- [ ] delete-Routinen: Folge-Links prüfen  
-- [ ] Suche: Beschreibung ergänzen, wenn Genaue Suche ausgewählt 
-- [ ] iframe-Formulare: Speicherverhalten vereinheitlichen 
-- [ ] Übersichtstabellen: Bearbeiten-Links müssen auf neuen Tab verweisen
-- [ ] Erfassung: Umgang mit fehlerhaften Eingabewerten (zu lang, ect.)
-- [ ] Übersichtstabellen -> Anzahl Zeilen begrenzen
-- [ ] "Plural-Problem" 
-- [ ] Auswahlformulare: Verhalten, wenn Werte "verbraucht" sind (cl_html_select.php, print_select - test dev Schwierigkeitsgrad) 
-- [ ] Validierung Eingabewerte
-- [ ] für alle edit-Formulare (auch stammdaten-Tabellen) htmlspecialchars() einsetzen
-- [ ] foreign keys benannt neu anlegen 
-- [ ] col unsigned - defs entfernen 
-- [ ] "open new page" vereinheitlichen 
-- [ ] musikstueck: Spalte "JahrAuffuehrung" löschen
-- [ ] Formulare: Spaltenbezeichung fett drucken
-- [ ] Klassen-Dateien umbenennen: cl_* -> class.*  
-- [ ] Fehlerbehandlung: Bearbeiten-Formular wird bei nicht exisiterender ID geöffnet (siehe Vorlage edit_abfrage.php, cl_abfrage.php) 
+- Checkbox "Ausschlusssuche": Bei Auswahl auch "Genaue Suche" aktivieren 
+- Prüfen: Spieldauer, wenn mehr als 60 Minuten  
+- Fehler (Nur Edge): Besonderheiten-Typ Screen, Ansteuern des iframes per Button-LInk "Aktualisieren" funktioniert nicht korrekt. 
+- delete.php: Löschbarkeit vor (und nicht nach) Nutzerbestätigung prüfen
+- Unterformulare, Übersichten: jeweilige Tabellen-Links ergänzen   
+- delete-Routinen: Folge-Links prüfen  
+- Suche: Beschreibung ergänzen, wenn Genaue Suche ausgewählt 
+- iframe-Formulare: Speicherverhalten vereinheitlichen 
+- Übersichtstabellen: Bearbeiten-Links müssen auf neuen Tab verweisen
+- Erfassung: Umgang mit fehlerhaften Eingabewerten (zu lang, ect.)
+- Übersichtstabellen -> Anzahl Zeilen begrenzen
+- "Plural-Problem" 
+- Auswahlformulare: Verhalten, wenn Werte "verbraucht" sind (cl_html_select.php, print_select - test dev Schwierigkeitsgrad) 
+- Validierung Eingabewerte
+- für alle edit-Formulare (auch stammdaten-Tabellen) htmlspecialchars() einsetzen
+- foreign keys benannt neu anlegen 
+- col unsigned - defs entfernen 
+- "open new page" vereinheitlichen 
+- musikstueck: Spalte "JahrAuffuehrung" löschen
+- Formulare: Spaltenbezeichung fett drucken
+- Klassen-Dateien umbenennen: cl_* -> class.*  
+- Fehlerbehandlung: Bearbeiten-Formular wird bei nicht exisiterender ID geöffnet (siehe Vorlage edit_abfrage.php, cl_abfrage.php) 
 
 ### Offene Aufgaben Prio 2
-- [ ] Bookmarks-Import, Übernahme als Sammlungen (Teil 1 (Import) fertig, Übernahme Sammlung fehlt noch)
-- [ ] Spalten Spalten "ts_insert" und "ts_update"  in edit-Formularen anzeigen 
-- [ ] Spalte User (Aktualisierung bei insert, update)
-- [ ] iframe-Formulare: Autofocus auf erstes Feld möglich? 
-- [ ] Benutzer-Verwaltung  
-- [ ] Feld "Bestellnummer" entfernen 
-- [ ] Eingabefelder maxlength prüfen -> soll db Feldlänge entsprechen 
-- [ ] Eingabefelder autofocus prüfen 
-- [ ] Erklärung: Warum "Besetzungen" als Einheiten, und nicht aufgefächert in einzelne Instrumente? 
-- [ ] Handytaugliches Layout 
-- [ ] Projektbeschreibung erarbeiten 
-- [ ] Feld "Opus" -> ändern in "Werkverzeichnis" (zumindest im Formular)
-- [ ] Notensymbole Schrift
-- [ ] select - Elemente: die rosafärbung ein/ausschaltbar machen
-- [ ] Spracheingabe 
-- [ ] Tabelle Schüler, Termin 
-- [ ] Löschtabellen (Speicherung gelöschter ZEilen) 
-- [ ] Ausgabe Fehlermeldungen für Anwender verbessern (aktuell nur "ein Fehler ist aufgetreten", Grund bleibt für Anwender unklar)
-- [ ] Kalender-Tabelle 
+- Bookmarks-Import, Übernahme als Sammlungen (Teil 1 (Import) fertig, Übernahme Sammlung fehlt noch)
+- Spalten Spalten "ts_insert" und "ts_update"  in edit-Formularen anzeigen 
+- Spalte User (Aktualisierung bei insert, update)
+- iframe-Formulare: Autofocus auf erstes Feld möglich? 
+- Benutzer-Verwaltung  
+- Feld "Bestellnummer" entfernen 
+- Eingabefelder maxlength prüfen -> soll db Feldlänge entsprechen 
+- Eingabefelder autofocus prüfen 
+- Erklärung: Warum "Besetzungen" als Einheiten, und nicht aufgefächert in einzelne Instrumente? 
+- Handytaugliches Layout 
+- Projektbeschreibung erarbeiten 
+- Feld "Opus" -> ändern in "Werkverzeichnis" (zumindest im Formular)
+- Notensymbole Schrift
+- select - Elemente: die rosafärbung ein/ausschaltbar machen
+- Spracheingabe 
+- Tabelle Schüler, Termin 
+- Löschtabellen (Speicherung gelöschter ZEilen) 
+- Ausgabe Fehlermeldungen für Anwender verbessern (aktuell nur "ein Fehler ist aufgetreten", Grund bleibt für Anwender unklar)
+- Kalender-Tabelle 
 
 
 ### vorerst verworfen 
-- [ ] ~~auto_update: Editierungs-Formular~~ aktuell nur Thema für "Service" > "Dataclearing" 
+- ~~auto_update: Editierungs-Formular~~ aktuell nur Thema für "Service" > "Dataclearing" 
 
 ### erledigte Aufgaben 
 - [X] Delete-Funktionen ergänzen (satz->erprobt, sammmlung->besonderheiten) 

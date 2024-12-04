@@ -416,16 +416,16 @@ if (isset($_POST['suchtext'])) {
         for ($i = 0; $i < count($lookup_values_selected); $i++) {
           $filterLookups_satz.=' AND satz.ID IN (SELECT SatzID from satz_lookup WHERE LookupID='.$lookup_values_selected[$i].') '. PHP_EOL; 
         }
+        if (isset($_POST['exclude_'.$lookup_type_key])) {
+          // Ausschluss-Suche aktiviert -> nicht ausgewählte Eintraege wegfiltern 
+          $lookup_check_exclude=true; 
+          $lookup_values_not_selected = array_diff($lookup_values, $lookup_values_selected); // nicht ausgewählte Werte    
+          $filterLookups_satz.=' AND satz.ID NOT IN (SELECT DISTINCT SatzID from satz_lookup WHERE LookupID IN ('.implode(',', $lookup_values_not_selected).')) '. PHP_EOL; 
+        }
       } 
       else {
         $filterLookups_satz.=' AND satz_lookup.LookupID IN ('.implode(',', $lookup_values_selected).') '. PHP_EOL;         
       }
-      if (isset($_POST['exclude_'.$lookup_type_key])) {
-        // Ausschluss-Suche aktiviert -> nicht ausgewählte Eintraege wegfiltern 
-        $lookup_check_exclude=true; 
-        $lookup_values_not_selected = array_diff($lookup_values, $lookup_values_selected); // nicht ausgewählte Werte    
-        $filterLookups_satz.=' AND satz.ID NOT IN (SELECT DISTINCT SatzID from satz_lookup WHERE LookupID IN ('.implode(',', $lookup_values_not_selected).')) '. PHP_EOL; 
-      }      
       // echo '<pre>'.$filterLookups_satz.'</pre>'; 
     } 
     $lookup->print_select_multi($lookup_type_key,$lookup_values_selected, $lookup_type_name.':', true, $lookup_check_exact, true,$lookup_check_exclude );

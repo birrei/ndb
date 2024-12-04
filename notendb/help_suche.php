@@ -37,73 +37,107 @@ include('head.php');
      </li>     
 </ul>
 
-<h2 class="chapter-title chapter-title-h2" id="suchemehrfachauswahl1">Mehrfachauswahl: Einträge markieren</h2>
+<hr>
 
-<p>Markierung Optionen:</p>
-<ul>
-    <li>Markierung eines Eintrags</li>
-    <li>Markierung mehrere Einträge bei gedrückter STRG-Taste oder (falls die gewünschten Einträge untereinander liegen) bei gedrückter SHIFT - Taste 
-    </li>
+
+<h2 class="chapter-title chapter-title-h2" id="suchlogik0">Suchlogik: Kategorie-Arten</h2>
+<ul> 
+    <li> Einfach-Auswahl (z.B. Verlag, Komponist). Es kann nur ein Eintrag ausgewählt werden</li> 
+    <li> Mehrfach-Auswahl (z.B. Besetzung, Verwendungszweck). Es können ein oder mehrere Einträge ausgewählt werden. 
+    </li> 
 </ul>
 
-<h2 class="chapter-title chapter-title-h2" id="suchemehrfachauswahl2">Mehrfachauswahl: Suchlogik</h2>
-<p><b>Standard-Suche</b></p>
-<p> Filtereinträge innerhalb einer Kategorie (innerhalb einer Auswahlbox) werden per ODER verknüpft. 
-        Die Kombination von Kategorien (Auswahlboxen) erfolgt über UND-Verknüpfung. </p> 
-    <p> Beispiel: 
-    <br />Besetzung: "Violine" ODER "Violine und Klavier" 
+<p> Die Suche orientiert sich an den Erfassungs-Optionen, Beispiel: Das Suchfeld Komponist bietet nur eine Einfach-Auswahl an, da einer Sammlung nur ein Komponist zugeorndet werden kann. </p>
+
+<h2 class="chapter-title chapter-title-h2" id="suchlogik1">Suchlogik: Auswahl mehrerer Kategorien</h2>
+
+<p>Die Kombination mehrere Kategorien (mehrere Auswahl-Felder) erfolgt über UND-Verknüpfung.</p> 
+
+<p> Beispiel: 
+    <br />Komponist: "Mozart" 
+    <br/> UND     
+    <br />Besetzung: "Violine" 
     <br/> UND 
     <br />Verwendungszweck: "Hochzeit" ODER "Fest"
 </p> 
 
-<p><b>Zusatzoptionen: "Genaue Suche" und "Ausschluss-Suche"</b></p>
-<p> Bei einigen Auswahl-Boxen stehen die Optionen  "Genaue Suche" und "Ausschluss-Suche" (Checkboxen) zur Verfügung. 
-    Die "Ausschluss-Suche" kann ergänzend zur "Genauen Suche" aktiviert werden, allein ausgewählt ist sie wirkungslos.</p> 
-    
-<p> Nachfolgend werden zwei Beispiele (Praxisfall: "Übung Notenwerte") zur Wirkung der Suchlogik aufgeführt. </p>
+<hr>
 
-<p>Beispiel 1: Suche nach einem Notenwert, z.B. "Achtel": </p>
+<h2 class="chapter-title chapter-title-h2" id="suchlogik2">Suchlogik: Auswahl in einer Kategorie, Mehrfachauswahl</h2>
+
+<p>
+Mehrfach-Auswahl (z.B. Besetzung, Verwendungszweck). Es können ein oder mehrere Einträge ausgewählt werden.
+Bei ausgewählten Kategorien stehen zusätzlich die Optionen  "Auswahl-Suche" und "Ausschluss-Suche" zur Verfügung. 
+</p> 
+
+
+
+<p> <b>Varianten: </b></p>
+
+<p> <b>Standard (= ohne Zusatzoption)</b>: 
 <ul> 
-    <li> 
-    Die Standard-Suche (ohne aktivierte Zusatz-Optionen) findet alle Sätze, 
-    bei denen Notenwert "Achtel" vorkommt (unabhängig davon, ob noch weitere Notenwerte vorkommen)
-     </li> 
-
-     <li>
-     Die "Genaue Suche" ohne "Ausschluss-Suche": Bei nur einem Wert (wie wie hier "Achtel") hat das die die gleiche Wirkung 
-    wie die Standardsuche. 
-    </li> 
-
-    <li>
-    Die "Genaue Suche" mit Option "Ausschluss-Suche" findet alle Sätze, 
-    bei denen nur ein Notenwert, und zwar "Achtel" vorkommt. 
-    Sätze, bei denen weitere Notenwerte vorkommen, werden ausgeschlossen.    
-    </li> 
+    <li>Bei Auswahl eines Eintrags werden alle Zeilen gesucht, die diese Eigenschaft aufweisen </li> 
+    <li>Bei Auswahl mehrerer Einträge werden alle Zeilen gesucht, die <u>mindestens eine dieser Eigenschaften</u> aufweisen.</li>
 </ul>
-
-<p>Beispiel 2: "Suche nach Notenwerten "Achtel" und "Sechzentel"</p>
-<ul>
-    <li>
-        Die Standard-Suche (ohne aktivierte Zusatz-Optionen) findet alle Sätze, 
-        bei denen "Achtel" ODER "Viertel" vorkommen (unabhängig davon, ob noch weitere Notenwerte vorkommen)
-    </li>
-
-    <li>
-    Die "Genaue Suche" ohne Option "Ausschluss-Suche" findet Sätze, bei denen "Achtel" UND "Sechzehntel" vorkommen 
-    (unabhängig davon, ob noch weitere Notenwerte vorkommen)
-    </li> 
-
-    <li>
-    Die "Genaue Suche" mit Option "Ausschluss-Suche" findet Sätze, bei denen "Achtel" UND "Sechzehntel", 
-    sowie keine weiteren Notenwerte vorkommen. 
-
-    </li> 
-
+</p>
+        
+<p> <b>Standard mit Zusatzoption "Auswahl-Suche"</b> 
+<ul> 
+    <li>Bei Auswahl eines Eintrags werden alle Zeilen gesucht, die diese Eigenschaft aufweisen (Kein Unterschied zu Variante ohne Zusatzoption)</li> 
+    <li>Bei Auswahl mehrerer Einträge werden alle Zeilen gesucht, die <u>alle ausgewählten Eigenschaften</u> aufweisen.</li> 
 </ul>
+</p>
+
+<p><b>Standard mit Zusatzoption "Ausschluss-Suche" </b>
+<ul> 
+    <li>Bei Auswahl eines Eintrags werden alle Zeilen gesucht, die nur diese Eigenschaft aufweisen</li> 
+    <li>Bei Auswahl mehrerer Einträge werden alle Zeilen gesucht, die <u>mind. eine der ausgewählten Eigenschaften, jedoch keine weitere Eigenschaften aus der Kategorie</u> aufweisen </li> 
+</ul>
+</p>
+
+<p><b>Standard mit Zusatzoptionen "Auswahl-Suche" und "Ausschluss-Suche" </b>
+<ul> 
+    <li>Bei Auswahl eines Eintrags werden alle Zeilen gesucht, die nur diese Eigenschaft aufweisen</li> 
+    <li>Bei Auswahl mehrerer Einträge werden alle Zeilen gesucht, die <u>nur die ausgewählten Eigenschaften </u>aufweisen </li> 
+</ul>
+</p>
+
+<p> <b>Beispiele (Praxisfall: "Satz Besonderheiten" > "Übung Notenwerte"): </b></p>
+
+<p> Suche nach einer Eigenschaft (Hier: Notenwert "Achtel"): 
+
+    <ul> 
+        <li>    Finde Sätze, bei denen der Notenwert "Achtel" vorkommt: Standard-Suche, ohne Zusatz-Option bzw. mit Zusatzoption "Auswahl-Suche" (kein Unterschied)
+                    </li> 
+        <li>    Finde Sätze, bei denen NUR Notenwert "Achtel" vorkommt: Standard-Suche mit Option "Ausschluss-Suche"
+        </li> 
+    </ul>
 
 
 
-<h2 class="chapter-title chapter-title-h2" id="suchetext">Textsuche</h2>
+</p>
+
+<p> Suche nach mehreren Eigenschaften (hier: Notenwerte "Achtel" und "Viertel"): 
+
+<ul> 
+        <li>    Finde Sätze, bei denen Notenwerte "Achtel" ODER "Viertel" vorkommmen: Standard-Suche
+        </li> 
+        <li>    Finde Sätze, bei denen Notenwerte "Achtel" UND "Viertel" vorkommmen: Standard-Suche mit Option "Auswahl-Suche"    
+        </li> 
+        <li>    Finde Sätze, bei denen NUR Notenwerte "Achtel" ODER "Viertel" vorkommmen: Standard-Suche mit Option "Ausschluss-Suche"
+        </li> 
+        <li>    Finde Sätze, bei denen NUR Notenwerte "Achtel" UND "Viertel" vorkommmen: Standard-Suche mit Optionen "Auswahl-Suche" und "Ausschluss-Suche"
+        </li>         
+    </ul>
+
+    </p>
+
+    <p>Merker: "Auswahl-Suche" -> "UND", "Ausschluss-Suche" -> "NUR" 
+
+    <hr>
+
+
+    <h2 class="chapter-title chapter-title-h2" id="suchetext">Textsuche</h2>
 <p> Hinweis: Die Verwendung der Textsuche kann zu einer verzögerten Ergebnisanzeige führen! </p>
 <p> Sucht einen Textteil innerhalb aller Text-Felder. </p>
 <p> Folgende Felder werden durchsucht: XXX </p>
@@ -122,7 +156,7 @@ include('head.php');
         anchor.href = "#" + chapterTitle.id;
         listEntry.appendChild(anchor);
         // listEntry.style="padding-left: 10px"; 
-    tableOfContents.appendChild(listEntry);
+        tableOfContents.appendChild(listEntry);
     }
 </script>
 
