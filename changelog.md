@@ -1,7 +1,7 @@
 ﻿
 # Changelog  
 
-03.12.2024: Umbenennung "Einfache Suche" -> "Auswahl Suche". Verbesserungen an Suchlogik und dazugehörigem Hilfe-Text 
+03.12.2024: Begonnen: Verbesserungen an Suchlogik und dazugehörigem Hilfe-Text 
 
 30.11.2024: Snowflakes auf der Startseite (Animation CSS) 
 
