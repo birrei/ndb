@@ -67,7 +67,7 @@ include('head.php');
 
 <p>
 Mehrfach-Auswahl (z.B. Besetzung, Verwendungszweck). Es können ein oder mehrere Einträge ausgewählt werden.
-Bei ausgewählten Kategorien stehen zusätzlich die Optionen  "Auswahl-Suche" und "Ausschluss-Suche" zur Verfügung. 
+Bei ausgewählten Kategorien stehen zusätzlich die Optionen  "Einschluss-Suche" und "Ausschluss-Suche" zur Verfügung. 
 </p> 
 
 
@@ -81,7 +81,7 @@ Bei ausgewählten Kategorien stehen zusätzlich die Optionen  "Auswahl-Suche" un
 </ul>
 </p>
         
-<p> <b>Standard mit Zusatzoption "Auswahl-Suche"</b> 
+<p> <b>Standard mit Zusatzoption "Einschluss-Suche"</b> 
 <ul> 
     <li>Bei Auswahl eines Eintrags werden alle Zeilen gesucht, die diese Eigenschaft aufweisen (Kein Unterschied zu Variante ohne Zusatzoption)</li> 
     <li>Bei Auswahl mehrerer Einträge werden alle Zeilen gesucht, die <u>alle ausgewählten Eigenschaften</u> aufweisen.</li> 
@@ -95,7 +95,7 @@ Bei ausgewählten Kategorien stehen zusätzlich die Optionen  "Auswahl-Suche" un
 </ul>
 </p>
 
-<p><b>Standard mit Zusatzoptionen "Auswahl-Suche" und "Ausschluss-Suche" </b>
+<p><b>Standard mit Zusatzoptionen "Einschluss-Suche" und "Ausschluss-Suche" </b>
 <ul> 
     <li>Bei Auswahl eines Eintrags werden alle Zeilen gesucht, die nur diese Eigenschaft aufweisen</li> 
     <li>Bei Auswahl mehrerer Einträge werden alle Zeilen gesucht, die <u>nur die ausgewählten Eigenschaften </u>aufweisen </li> 
@@ -107,7 +107,7 @@ Bei ausgewählten Kategorien stehen zusätzlich die Optionen  "Auswahl-Suche" un
 <p> Suche nach einer Eigenschaft (Hier: Notenwert "Achtel"): 
 
     <ul> 
-        <li>    Finde Sätze, bei denen der Notenwert "Achtel" vorkommt: Standard-Suche, ohne Zusatz-Option bzw. mit Zusatzoption "Auswahl-Suche" (kein Unterschied)
+        <li>    Finde Sätze, bei denen der Notenwert "Achtel" vorkommt: Standard-Suche, ohne Zusatz-Option bzw. mit Zusatzoption "Einschluss-Suche" (kein Unterschied)
                     </li> 
         <li>    Finde Sätze, bei denen NUR Notenwert "Achtel" vorkommt: Standard-Suche mit Option "Ausschluss-Suche"
         </li> 
@@ -122,17 +122,17 @@ Bei ausgewählten Kategorien stehen zusätzlich die Optionen  "Auswahl-Suche" un
 <ul> 
         <li>    Finde Sätze, bei denen Notenwerte "Achtel" ODER "Viertel" vorkommmen: Standard-Suche
         </li> 
-        <li>    Finde Sätze, bei denen Notenwerte "Achtel" UND "Viertel" vorkommmen: Standard-Suche mit Option "Auswahl-Suche"    
+        <li>    Finde Sätze, bei denen Notenwerte "Achtel" UND "Viertel" vorkommmen: Standard-Suche mit Option "Einschluss-Suche"    
         </li> 
         <li>    Finde Sätze, bei denen NUR Notenwerte "Achtel" ODER "Viertel" vorkommmen: Standard-Suche mit Option "Ausschluss-Suche"
         </li> 
-        <li>    Finde Sätze, bei denen NUR Notenwerte "Achtel" UND "Viertel" vorkommmen: Standard-Suche mit Optionen "Auswahl-Suche" und "Ausschluss-Suche"
+        <li>    Finde Sätze, bei denen NUR Notenwerte "Achtel" UND "Viertel" vorkommmen: Standard-Suche mit Optionen "Einschluss-Suche" und "Ausschluss-Suche"
         </li>         
     </ul>
 
     </p>
 
-    <p>Merker: "Auswahl-Suche" -> "UND", "Ausschluss-Suche" -> "NUR" 
+    <p>Merker: "Einschluss-Suche" -> "UND", "Ausschluss-Suche" -> "NUR" 
 
     <hr>
 

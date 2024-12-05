@@ -1,13 +1,14 @@
 ﻿
 ###  Aufgaben in Arbeit
-- Instrumentkombis Vorlage für Besetzungen 
+
+- Suchlogik "Einschluss-/Ausschluss-Suche" für weitere Kategorien verfügbar machen, aktuell: Besetzungen 
+- Verbesserung Suchlogik: 
+  - Auswahl in einer Kategorie, Mehrfachauswahl
+  - Umbenennung: "Genaue Suche" -> "Einschluss-Suche" 
+  - "Ausschluss-Suche" unabhängig von "Einschluss-Suche" 
+  - Anzeige in Ergebnistabelle nicht filtern! 
+
 - Mehrfach-Kombination "Instrument" / "Schwierigkeitsgrad" ermöglichen 
-- Verbesserung Suchlogik: Auswahl in einer Kategorie, Mehrfachauswahl
-
-
-Anpassungen: 
-- Umbenennung: "Genaue Suche" -> "Auswahl-Suche" 
-- "Ausschluss-Suche" unabhängig von "Auswahl-Suche" 
 
 ### Offene Aufgabe, neue Features 
 - Tabellen Spalten-Sortierung (per JavaScript, s. https://www.w3schools.com/howto/howto_js_sort_table.asp) 
@@ -43,7 +44,7 @@ Anpassungen:
 - Formulare: Spaltenbezeichung fett drucken
 - Klassen-Dateien umbenennen: cl_* -> class.*  
 - Fehlerbehandlung: Bearbeiten-Formular wird bei nicht exisiterender ID geöffnet (siehe Vorlage edit_abfrage.php, cl_abfrage.php) 
-
+- Prüfung XXS,  https://php-de.github.io/jumpto/auswahllisten/
 ### Offene Aufgaben Prio 2
 - Bookmarks-Import, Übernahme als Sammlungen (Teil 1 (Import) fertig, Übernahme Sammlung fehlt noch)
 - Spalten Spalten "ts_insert" und "ts_update"  in edit-Formularen anzeigen 
@@ -70,23 +71,24 @@ Anpassungen:
 - ~~auto_update: Editierungs-Formular~~ aktuell nur Thema für "Service" > "Dataclearing" 
 
 ### erledigte Aufgaben 
-- [X] Delete-Funktionen ergänzen (satz->erprobt, sammmlung->besonderheiten) 
-- [X] delete.php: Anzeige Tabellenlink ja/nein konfigurierbar machen 
-- [X] Erprobt- Attribut erweitern 
-- [X] Suche: Filter nach Erprobt Jahr
-- [X] Tabellen-Anzeige show_table2.php
-- [X] Seite "Tests": Inhaltsverzeichnis erzeugen
-- [X] Startseiten-Links aus Tabreihenfolge nehmen 
-- [X] Korrektur: Fehler Erfassungsformular "Schwierigkeitsgrad"  
-- [X] Korrektur: Suche, Gespeicherte Suche: Beschreibungtext bei Speicherung ausblenden
-- [X] Bereinigung Ritardando 
-- [X] Intervalle mit Gruppierungs-Begriff
-- [X] Ansicht "Satz mit Besonderheiten" 
-- [X] Suche, Ergebnisanzeige: Anzahl Zeilen angezeigen
-- [X] Formulare: CSS- Klassen besser zuordnen
-- [x] iframe-(Unterformular)- Aufruf über radiobox Elemenete 
-- [X] Anzeige Anzahl Ergebniszeilen
-- [X] Sammlung Feld "Erfasst" ja/nein, Datenprüfungen nur auf Erfasst=Nein anwenden 
-- [X] Überarbeitung Dataclearing-Formular (Auswahl Tasks)
-- [X] Aufruf "Info-Sichten" auf Startseite einbinden 
-- [X] Spalten "ts_insert" und "ts_update" bei allen Tabellen
+-  Delete-Funktionen ergänzen (satz->erprobt, sammmlung->besonderheiten) 
+-  delete.php: Anzeige Tabellenlink ja/nein konfigurierbar machen 
+-  Erprobt- Attribut erweitern 
+-  Suche: Filter nach Erprobt Jahr
+-  Tabellen-Anzeige show_table2.php
+-  Seite "Tests": Inhaltsverzeichnis erzeugen
+-  Startseiten-Links aus Tabreihenfolge nehmen 
+-  Korrektur: Fehler Erfassungsformular "Schwierigkeitsgrad"  
+-  Korrektur: Suche, Gespeicherte Suche: Beschreibungtext bei Speicherung ausblenden
+-  Bereinigung Ritardando 
+-  Intervalle mit Gruppierungs-Begriff
+-  Ansicht "Satz mit Besonderheiten" 
+-  Suche, Ergebnisanzeige: Anzahl Zeilen angezeigen
+-  Formulare: CSS- Klassen besser zuordnen
+-  iframe-(Unterformular)- Aufruf über radiobox Elemenete 
+-  Anzeige Anzahl Ergebniszeilen
+-  Sammlung Feld "Erfasst" ja/nein, Datenprüfungen nur auf Erfasst=Nein anwenden 
+-  Überarbeitung Dataclearing-Formular (Auswahl Tasks)
+-  Aufruf "Info-Sichten" auf Startseite einbinden 
+-  Spalten "ts_insert" und "ts_update" bei allen Tabellen
+-  Verworfen: Instrumentkombis Vorlage für Besetzungen (wird anders/besser gelöst, Datei test_instrumentenkombi.php archiviert)

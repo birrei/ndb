@@ -79,7 +79,7 @@ class Besetzung {
     }
   }
 
-  function print_select_multi($options_selected=[]){
+  function print_select_multi($options_selected=[], $check_exact=false,$check_exclude=false){
 
     include_once("dbconn/cl_db.php");  
     include_once("cl_html_select.php");
@@ -97,7 +97,9 @@ class Besetzung {
       $stmt->execute(); 
       $html = new HtmlSelect($stmt); 
       $html->visible_rows=15; //
-      $html->print_select_multi('Besetzung', 'Besetzungen[]', $options_selected, 'Besetzung(en):'); 
+      // $html->print_select_multi('Besetzung', 'Besetzungen[]', $options_selected, 'Besetzung(en):'); 
+      $html->print_select_multi('Besetzung', 'Besetzungen[]', $options_selected, 'Besetzung(en):', true, $check_exact, true, $check_exclude); 
+
       $this->titles_selected_list = $html->titles_selected_list; 
     }
     catch (PDOException $e) {
@@ -214,6 +216,27 @@ class Besetzung {
       return false;  
     }  
   }
+
+  function getArray(){
+    include_once("dbconn/cl_db.php");
+    $arrTmp=[]; 
+
+    $query_lookups = 'SELECT ID
+                      FROM besetzung 
+                      order by ID';
+    $conn = new DbConn(); 
+    $db=$conn->db; 
+    $select = $db->prepare($query_lookups); 
+    $select->execute(); 
+    $result = $select->fetchAll(PDO::FETCH_ASSOC);
+
+    foreach ($result as $row) {
+      $arrTmp[] = $row["ID"];       
+    }
+    // print_r($arrTmp); // test
+    return  $arrTmp; 
+  }
+
 
 }
 

@@ -59,17 +59,17 @@ class HtmlSelect {
         , $print_check_exclude=false // Anzeige Checkbox Auschluss-Suche
         , $check_exclude=false // Auschluss-Suche aktiviert         
     ) {
-        $html = '<p class="auswahl">';
+        $html = '<p class="auswahl">'. PHP_EOL;
         if ($caption!='') {
             $html.='<span class="field-caption">'.$caption.'</span>'. PHP_EOL;
         }
         if ($print_check_exact) {
-            $html.='<input type="checkbox" name="exact_'.$id.'" '.($check_exact?' checked':'').'>
-             <label for="exact_'.$id.'">Auswahl-Suche</label>';
+            $html.='<input type="checkbox" name="exact_'.$id.'"'.($check_exact?' checked':'').'>
+             <label for="exact_'.$id.'">Einschluss-Suche</label>'. PHP_EOL;
         }
         if ($print_check_exclude) {
-            $html.=' <input type="checkbox" name="exclude_'.$id.'" '.($check_exclude?' checked':'').'>
-             <label for="exclude_'.$id.'">Ausschluss-Suche</label>';
+            $html.=' <input type="checkbox" name="exclude_'.$id.'"'.($check_exclude?' checked':'').'>
+             <label for="exclude_'.$id.'">Ausschluss-Suche</label>'. PHP_EOL;
         }             
         if ($this->count_rows > 0) {
             $html.= '<select id="'.$id.'" name="'.$keyname.'" multiple size="'.$this->visible_rows.'" style="width:100%;font-size:9pt">' . PHP_EOL;  

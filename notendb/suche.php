@@ -26,7 +26,7 @@ $Standorte=[];   /* Sammlung */
 $Linktypen=[];   /* Sammlung */
 
 $Komponisten=[];  // im Suchfilter ausgewählte Komponisten (IDs) 
-$Besetzungen=[]; // im Suchfilter ausgewählte Besetzungen (IDs) 
+
 $Verwendungszwecke=[];  // im Suchfilter ausgewählte Verwendungszwecke (IDs) 
 $Gattungen=[];  // im Suchfilter ausgewählte Gattungen (IDs) 
 $Epochen=[];   // im Suchfilter ausgewählte Epochen (IDs) 
@@ -115,7 +115,10 @@ $Suche->Beschreibung.='* Ansicht: '.$Ansicht.PHP_EOL;
             }   
             if(document.forms[0].elements[i].type == 'select-multiple'){
               document.forms[0].elements[i].selectedIndex = -1;
-            }               
+            }     
+            if(document.forms[0].elements[i].type == 'checkbox'){
+              document.forms[0].elements[i].checked = 0;
+            }                         
           }
       }  
 </script> 
@@ -224,14 +227,42 @@ if (isset($_POST['suchtext'])) {
   $komponist->print_select($KomponistID,$komponist->Title .' : &nbsp;&nbsp;&nbsp;');
 
 /************* Besetzungen  ***********/
-  if (isset($_POST['Besetzungen'])) {
-    $Besetzungen = $_POST['Besetzungen'];    
-    $filterBesetzung = 'IN ('.implode(',', $Besetzungen).')'; 
-    $filter=true;        
-  }
+  // XXX Anpassung + Check Options in Arbeit 
+  $Besetzungen_selected=[]; // im Suchfilter ausgewählte Besetzungen (IDs) 
+  $Besetzungen_all= []; 
+  $Besetzungen_not_selected= []; 
+  $besetzung_check_exact=false; // Einschluss-Suche aktiviert 
+  $besetzung_check_exclude=false; // Ausschluss-Suche aktiviert 
+
   $besetzung = new Besetzung();
-  $besetzung->print_select_multi($Besetzungen); 
-  $Suche->Beschreibung.=(count($Besetzungen)>0?$besetzung->titles_selected_list:'');  
+
+  if (isset($_POST['Besetzungen'])) {
+    $filter=true;       
+    $Besetzungen_selected = $_POST['Besetzungen'];    
+    if (isset($_POST["exact_Besetzung"])) { 
+       $besetzung_check_exact=true;
+       for ($i = 0; $i < count($Besetzungen_selected); $i++) {
+          $filterBesetzung.='AND musikstueck.ID IN (SELECT MusikstueckID from musikstueck_besetzung WHERE BesetzungID='.$Besetzungen_selected[$i].') '. PHP_EOL; 
+       }       
+    }   else {
+        $filterBesetzung = 'AND musikstueck_besetzung.BesetzungID IN ('.implode(',', $Besetzungen_selected).') '; 
+    }
+    if (isset($_POST["exclude_Besetzung"]))  {
+      $besetzung_check_exclude=true; 
+      $Besetzungen_all= $besetzung->getArray();         
+      $Besetzungen_not_selected = array_diff($Besetzungen_all, $Besetzungen_selected); // nicht ausgewählte Werte    
+      $filterBesetzung.='AND musikstueck.ID NOT IN (SELECT DISTINCT MusikstueckID from musikstueck_besetzung WHERE BesetzungID IN ('.implode(',', $Besetzungen_not_selected).')) '. PHP_EOL; 
+    }     
+  }
+
+  // print_r($Besetzungen_all); 
+  // print_r($Besetzungen_selected); 
+
+  // $besetzung->print_select_multi($Besetzungen_selected); 
+  $besetzung->print_select_multi($Besetzungen_selected, $besetzung_check_exact, $besetzung_check_exclude); 
+  $Suche->Beschreibung.=(count($Besetzungen_selected)>0?$besetzung->titles_selected_list:'');  
+
+
 
 /************* Verwendungszwecke  ***********/
   if (isset($_POST['Verwendungszwecke'])) {
@@ -403,14 +434,13 @@ if (isset($_POST['suchtext'])) {
     $lookup_values=[]; // alle Lookupwerte eines Typs 
     $lookup_values_selected=[];    // ausgewählte Lookup-Werte 
     $lookup_values_not_selected=[];  // nicht ausgewählte Lookup-Werte 
-    $lookup_values = $lookup->getArrLookups();
     // print_r($lookup_values); // Test 
     if (isset($_POST[$lookup_type_key])) {
       $filter=true;       
       $lookup_values_selected= $_POST[$lookup_type_key]; 
       // print_r($lookup_values_selected); // test 
       if (isset($_POST['exact_'.$lookup_type_key])) {
-        // Checkbox "Genaue Suche" wurde aktiviert 
+        // Checkbox "Einschluss-Suche" aktiviert 
         $lookup_check_exact=true; 
         // ausgewählte Eintraege filtern           
         for ($i = 0; $i < count($lookup_values_selected); $i++) {
@@ -422,6 +452,7 @@ if (isset($_POST['suchtext'])) {
       }
       if (isset($_POST['exclude_'.$lookup_type_key])) {
         // Ausschluss-Suche aktiviert -> nicht ausgewählte Eintraege wegfiltern 
+        $lookup_values = $lookup->getArrLookups();        
         $lookup_check_exclude=true; 
         $lookup_values_not_selected = array_diff($lookup_values, $lookup_values_selected); // nicht ausgewählte Werte    
         $filterLookups_satz.=' AND satz.ID NOT IN (SELECT DISTINCT SatzID from satz_lookup WHERE LookupID IN ('.implode(',', $lookup_values_not_selected).')) '. PHP_EOL; 
@@ -578,9 +609,9 @@ if (isset($_POST['suchtext'])) {
       if($filterKomponisten!=''){
         $query.=' AND musikstueck.KomponistID '.$filterKomponisten. PHP_EOL; 
       }            
-      if($filterBesetzung!=''){
-        $query.=' AND musikstueck_besetzung.BesetzungID '.$filterBesetzung. PHP_EOL; 
-      }
+
+      $query.=($filterBesetzung!=''?$filterBesetzung:''); 
+
       if($filterVerwendungszweck!=''){
         $query.=' AND musikstueck_verwendungszweck.VerwendungszweckID '.$filterVerwendungszweck. PHP_EOL; 
       }
@@ -602,6 +633,7 @@ if (isset($_POST['suchtext'])) {
         $query.=' AND satz_schwierigkeitsgrad.InstrumentID '.$filterInstrumente. PHP_EOL; 
       }
       $query.=($filterLookups_sammlung!=''?$filterLookups_sammlung.PHP_EOL:''); 
+
       $query.=($filterLookups_satz!=''?$filterLookups_satz.PHP_EOL:''); 
                        
       if($filterSpieldauer!=''){
