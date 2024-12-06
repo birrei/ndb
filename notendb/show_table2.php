@@ -131,9 +131,6 @@ $query.= ' ORDER BY '.$sortcol.' '.$sortorder.PHP_EOL;
 
 // echo '<pre>'.$query.'</pre>'; // Test 
 
-
-
-
 /******************************* */
 
 include_once("dbconn/cl_db.php");
