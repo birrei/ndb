@@ -1,14 +1,9 @@
 ﻿
 ###  Aufgaben in Arbeit
-
-- Suchlogik "Einschluss-/Ausschluss-Suche" für weitere Kategorien verfügbar machen, aktuell: Besetzungen 
-- Verbesserung Suchlogik: 
-  - Auswahl in einer Kategorie, Mehrfachauswahl
-  - Umbenennung: "Genaue Suche" -> "Einschluss-Suche" 
-  - "Ausschluss-Suche" unabhängig von "Einschluss-Suche" 
-  - Anzeige in Ergebnistabelle nicht filtern! 
-
+- Verbesserung Suchlogik (Ergänzung Optionen an Suchbox, Ergebnisabfrage nicht filtern): 
+    - Verwendungszweck 
 - Mehrfach-Kombination "Instrument" / "Schwierigkeitsgrad" ermöglichen 
+- Hilfekapitel
 
 ### Offene Aufgabe, neue Features 
 - Tabellen Spalten-Sortierung (per JavaScript, s. https://www.w3schools.com/howto/howto_js_sort_table.asp) 
@@ -18,12 +13,10 @@
 - Eigenes Git-Repository für das Projekt 
 
 ### Offene Verbesserungen und Korrekturen 
-
+- edit forms: Überall autofocus gesetzt?  
 - Demo: Beim Öffnen von edit_sammlung.php ist der Screen leer. Problem ist include cl_sammlung - Ursache? 
 - Besonderheiten Erfassung Schnellsuche
-
-- Checkbox "Ausschlusssuche": Bei Auswahl auch "Genaue Suche" aktivieren 
-- Prüfen: Spieldauer, wenn mehr als 60 Minuten  
+- edit Satz: Prüfen: Spieldauer, wenn mehr als 60 Minuten  ... 
 - Fehler (Nur Edge): Besonderheiten-Typ Screen, Ansteuern des iframes per Button-LInk "Aktualisieren" funktioniert nicht korrekt. 
 - delete.php: Löschbarkeit vor (und nicht nach) Nutzerbestätigung prüfen
 - Unterformulare, Übersichten: jeweilige Tabellen-Links ergänzen   
@@ -92,3 +85,5 @@
 -  Aufruf "Info-Sichten" auf Startseite einbinden 
 -  Spalten "ts_insert" und "ts_update" bei allen Tabellen
 -  Verworfen: Instrumentkombis Vorlage für Besetzungen (wird anders/besser gelöst, Datei test_instrumentenkombi.php archiviert)
+- show_table2.php -> "Nein einfügen" Link ist verloren gegangen??? 
+- Verbesserung Suchlogik: Besetzungen 
