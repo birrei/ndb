@@ -506,7 +506,8 @@ if (isset($_POST['suchtext'])) {
             , musikstueck.Bearbeiter 
             , gattung.Name as Gattung 
             , epoche.Name as Epoche         
-            , GROUP_CONCAT(DISTINCT besetzung.Name order by besetzung.Name SEPARATOR ', ') Besetzungen
+            -- , GROUP_CONCAT(DISTINCT besetzung.Name order by besetzung.Name SEPARATOR ', ') Besetzungen
+            , v_musikstueck_besetzungen.Besetzungen 
             , GROUP_CONCAT(DISTINCT verwendungszweck.Name order by verwendungszweck.Name SEPARATOR ', ') Verwendungszwecke   
             , GROUP_CONCAT(DISTINCT satz.Nr order by satz.Nr SEPARATOR ', ') Saetze                 
             ";         
@@ -572,6 +573,16 @@ if (isset($_POST['suchtext'])) {
         LEFT JOIN epoche on epoche.ID = musikstueck.EpocheID              
         LEFT JOIN musikstueck_besetzung on musikstueck.ID = musikstueck_besetzung.MusikstueckID
         LEFT JOIN besetzung on musikstueck_besetzung.BesetzungID = besetzung.ID
+        
+        LEFT JOIN (
+          select musikstueck_besetzung.MusikstueckID         
+               , GROUP_CONCAT(DISTINCT besetzung.Name  order by besetzung.Name SEPARATOR ', ') Besetzungen       
+          from musikstueck_besetzung 
+              left join besetzung on besetzung.ID = musikstueck_besetzung.BesetzungID 
+          group by musikstueck_besetzung.MusikstueckID 
+                  ) v_musikstueck_besetzungen 
+              on v_musikstueck_besetzungen.MusikstueckID = musikstueck.ID 
+
         LEFT JOIN musikstueck_verwendungszweck on musikstueck.ID = musikstueck_verwendungszweck.MusikstueckID 
         LEFT JOIN verwendungszweck on musikstueck_verwendungszweck.VerwendungszweckID=verwendungszweck.ID    
         LEFT JOIN satz on satz.MusikstueckID = musikstueck.ID 
