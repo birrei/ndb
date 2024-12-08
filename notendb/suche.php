@@ -497,19 +497,21 @@ if (isset($_POST['suchtext'])) {
             $edit_table='sammlung'; 
               break;    
       case 'Musikstueck': 
+        
         $query.="SELECT musikstueck.ID
             ,sammlung.Name as Sammlung
-            , standort.Name as Standort
-            , musikstueck.Nummer as MNr
+           -- , standort.Name as Standort
+            , musikstueck.Nummer as Nr
             , musikstueck.Name as Musikstueck
             , komponist.Name as Komponist
-            , musikstueck.Bearbeiter 
-            , gattung.Name as Gattung 
-            , epoche.Name as Epoche         
             -- , GROUP_CONCAT(DISTINCT besetzung.Name order by besetzung.Name SEPARATOR ', ') Besetzungen
             , v_musikstueck_besetzungen.Besetzungen 
             , GROUP_CONCAT(DISTINCT verwendungszweck.Name order by verwendungszweck.Name SEPARATOR ', ') Verwendungszwecke   
-            , GROUP_CONCAT(DISTINCT satz.Nr order by satz.Nr SEPARATOR ', ') Saetze                 
+            , GROUP_CONCAT(DISTINCT satz.Nr order by satz.Nr SEPARATOR ', ') Saetze         
+            , musikstueck.Bearbeiter 
+            , gattung.Name as Gattung 
+            , epoche.Name as Epoche              
+        
             ";         
 
         $edit_table='musikstueck'; 
@@ -518,9 +520,9 @@ if (isset($_POST['suchtext'])) {
       case 'Satz': 
         $query.="SELECT satz.ID
             ,sammlung.Name as Sammlung
-            , musikstueck.Nummer as MNr
+            -- , musikstueck.Nummer as MNr
             , musikstueck.Name as Musikstueck
-            , satz.Nr as SatzNr
+            , satz.Nr as Nr
             , satz.Name as Satz 
             , satz.Tonart 
             , satz.Taktart
