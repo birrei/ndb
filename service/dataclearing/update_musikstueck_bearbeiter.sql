@@ -9,7 +9,7 @@ inner join
 (
     SELECT SammlungID, Bearbeiter as Bearbeiter_ref
     from musikstueck 
-    WHERE Nummer=1 --- ggf ändern, falls nicht passend 
+    WHERE Nummer=1 -- ggf ändern, falls nicht passend 
     and COALESCE(Bearbeiter, '') <> ''  
     AND SammlungID = 282 -- XX SammlungID 
     group by SammlungID
