@@ -111,7 +111,9 @@ $Suche->Beschreibung.='* Ansicht: '.$Ansicht.PHP_EOL;
               document.forms[0].elements[i].value=""; 
             }
             if(document.forms[0].elements[i].type == 'select-one'){
-              document.forms[0].elements[i].selectedIndex = -1;
+              if(document.forms[0].elements[i].id!='Ansicht') {
+                document.forms[0].elements[i].selectedIndex = -1;
+              }
             }   
             if(document.forms[0].elements[i].type == 'select-multiple'){
               document.forms[0].elements[i].selectedIndex = -1;
@@ -261,8 +263,9 @@ if (isset($_POST['suchtext'])) {
   // $besetzung->print_select_multi($Besetzungen_selected); 
   $besetzung->print_select_multi($Besetzungen_selected, $besetzung_check_exact, $besetzung_check_exclude); 
   $Suche->Beschreibung.=(count($Besetzungen_selected)>0?$besetzung->titles_selected_list:'');  
-
-
+  $Suche->Beschreibung.=($besetzung_check_exact?' / +Einschluss-Suche':'');  
+  $Suche->Beschreibung.=($besetzung_check_exclude?' / +Ausschluss-Suche':'');  
+  
 
 /************* Verwendungszwecke  ***********/
   if (isset($_POST['Verwendungszwecke'])) {
