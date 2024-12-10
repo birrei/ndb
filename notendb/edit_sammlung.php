@@ -110,7 +110,7 @@ if ($show_data) {
       <label>
       <td class="form-edit form-edit-col1">Bemerkung:</td>
       <td class="form-edit form-edit-col2">
-      <textarea name="Bemerkung" rows=1 cols=120 oninput="changeBackgroundColor(this)">'.htmlentities($sammlung->Bemerkung).'</textarea> 
+      <textarea name="Bemerkung" rows=2 cols=120 oninput="changeBackgroundColor(this)">'.htmlentities($sammlung->Bemerkung).'</textarea> 
       
       </td>
       </label>
