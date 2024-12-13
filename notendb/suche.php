@@ -99,11 +99,27 @@ $Suche->Beschreibung.=PHP_EOL.'* Ansicht: '.$Ansicht;
 <!---- Entscheidung Suche speichern ja / nein -----> 
 &nbsp; &nbsp; <input type="checkbox" id="sp" name="SucheSpeichern"><label for="sp">Suche speichern</label> 
 
+
+<?php 
+/************** Suchtext  **********/  
+
+if (isset($_POST['suchtext'])) {
+  $suchtext = $_POST['suchtext'];  
+  if ($suchtext!='') { 
+      $Suche->Beschreibung.='* Suchtext: '.$suchtext.PHP_EOL; 
+      $filter=true; 
+  }
+}  
+?>
 <!---- Suche starten -----> 
-<p><input class="btnSave" type="submit" value="Suchen" class="btnSave">
+<p>Suchtext: <br><input type="text" id="suchtext" name="suchtext" size="30px" value="<?php echo $suchtext; ?>" autofocus> 
+<input class="btnSave" type="submit" value="Suchen" class="btnSave" width="100px">
+
+
+
 
 <!-- Button: alle Filter zurücksetzen --> 
-<input type="button" id="btnReset_All" value="Alle Filter zurücksetzen" onclick="Reset_All();" /> 
+<p> <input type="button" id="btnReset_All" value="Alle Filter zurücksetzen" onclick="Reset_All();" /> </p>
 <script type="text/javascript">  
           function Reset_All() {  
           for(i=0; i<document.forms[0].elements.length; i++){
@@ -125,18 +141,7 @@ $Suche->Beschreibung.=PHP_EOL.'* Ansicht: '.$Ansicht;
       }  
 </script> 
 
-<?php 
-/************** Suchtext  **********/  
 
-if (isset($_POST['suchtext'])) {
-  $suchtext = $_POST['suchtext'];  
-  if ($suchtext!='') { 
-      $Suche->Beschreibung.='* Suchtext: '.$suchtext.PHP_EOL; 
-      $filter=true; 
-  }
-}  
-?>
-<p>Suchtext: <input type="text" id="suchtext" name="suchtext" size="30px" value="<?php echo $suchtext; ?>" autofocus> 
 <p class="navi-trenner">Sammlung </p> 
 
 <?php
@@ -659,25 +664,28 @@ if (isset($_POST['suchtext'])) {
       if($suchtext!=''){
         $query.="AND (sammlung.Name LIKE '%".$suchtext."%' OR  
                             sammlung.Bemerkung LIKE '%".$suchtext."%' OR 
-                            sammlung.Bestellnummer LIKE '%".$suchtext."%' OR
+                            -- v_sammlung_lookuptypes.LookupList LIKE '%".$suchtext."%'   OR 
+  	                        verlag.Name LIKE '%".$suchtext."%' OR
+                            standort.Name LIKE '%".$suchtext."%' OR                              
+                            
                             musikstueck.Name LIKE '%".$suchtext."%' OR                              
                             musikstueck.Opus LIKE '%".$suchtext."%' OR
                             musikstueck.Bearbeiter LIKE '%".$suchtext."%' OR
-                            satz.Name LIKE '%".$suchtext."%' OR
-                            satz.Taktart LIKE '%".$suchtext."%' OR
-                            satz.Tonart LIKE '%".$suchtext."%' OR
-                            satz.Tempobezeichnung LIKE '%".$suchtext."%' OR
-                            satz.Bemerkung LIKE '%".$suchtext."%' OR 
-                            satz.Orchesterbesetzung LIKE '%".$suchtext."%' OR
-  	                        verlag.Name LIKE '%".$suchtext."%' OR
-                            standort.Name LIKE '%".$suchtext."%' OR  
+
                             komponist.Name LIKE '%".$suchtext."%' OR 
                             gattung.Name LIKE '%".$suchtext."%' OR 
                             epoche.Name LIKE '%".$suchtext."%' OR  
                             besetzung.Name LIKE '%".$suchtext."%' OR 
                             verwendungszweck.Name LIKE '%".$suchtext."%' OR 
-                            v_satz_lookuptypes.LookupList LIKE '%".$suchtext."%' OR
-                            v_sammlung_lookuptypes.LookupList LIKE '%".$suchtext."%'                            
+
+                            -- v_satz_lookuptypes.LookupList LIKE '%".$suchtext."%' OR
+
+                            satz.Name LIKE '%".$suchtext."%' OR
+                            satz.Taktart LIKE '%".$suchtext."%' OR
+                            satz.Tonart LIKE '%".$suchtext."%' OR
+                            satz.Tempobezeichnung LIKE '%".$suchtext."%' OR
+                            satz.Bemerkung LIKE '%".$suchtext."%' OR 
+                            satz.Orchesterbesetzung LIKE '%".$suchtext."%'                                                     
                             )". PHP_EOL;         
       }
 
