@@ -73,14 +73,34 @@ $edit_table=''; /* Tabelle, die über Bearbeiten-Links in Ergebnis-Tabelle abruf
 
 $Suche = new Abfrage();
 
+?>
+<p><a onclick="hideFilter()" href="#">Filter ein/ausblenden</a></p>
+<script> 
+      function hideFilter() {
+        if (document.getElementById("filterpanel").hidden==false)
+        {
+          document.getElementById("filterpanel").hidden=true; 
+        } else 
+        {
+          document.getElementById("filterpanel").hidden=false;           
+        }
+
+      }
+</script>
+
+
+<?php 
 if (isset($_POST['Ansicht'])) {
   $Ansicht=$_POST["Ansicht"];
 } else {
   $Ansicht='Sammlung'; // default 
 }
 ?> 
+
+
 <div class="search-page">
-<div class="search-filter">
+<div class="search-filter" id="filterpanel">
+
 <form id="Suche" action="" method="post">
 
 <!---- Ansicht -----> 
