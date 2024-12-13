@@ -41,8 +41,9 @@ include('head.php');
     <hr>
 
 
-<h2 class="chapter-title chapter-title-h2" id="suchlogik0">Suchlogik: Kategorie-Arten</h2>
+<h2 class="chapter-title chapter-title-h2" id="suchlogik0">Suchlogik: Auswahl Kategorien</h2>
     
+    <p> Kategorie-Arten: </p> 
     <ul> 
         <li> Einfach-Auswahl (z.B. Verlag, Komponist). Es kann nur ein Eintrag ausgewählt werden</li> 
         <li> Mehrfach-Auswahl (z.B. Besetzung, Verwendungszweck). Es können ein oder mehrere Einträge ausgewählt werden. 
@@ -51,9 +52,7 @@ include('head.php');
 
     <p> Die Suche orientiert sich an den Erfassungs-Optionen, Beispiel: Das Suchfeld Komponist bietet nur eine Einfach-Auswahl an, da einer Sammlung nur ein Komponist zugeorndet werden kann. </p>
 
-<h2 class="chapter-title chapter-title-h2" id="suchlogik1">Suchlogik: Auswahl mehrerer Kategorien</h2>
-
-    <p>Die Kombination mehrere Kategorien (mehrere Auswahl-Felder) erfolgt über UND-Verknüpfung.</p> 
+    <p>Die Kombination mehrere Kategorien erfolgt über UND-Verknüpfung.</p> 
 
     <p> Beispiel: 
         <br />Komponist: "Mozart" 
@@ -65,18 +64,16 @@ include('head.php');
 
     <hr>
 
-<h2 class="chapter-title chapter-title-h2" id="suchlogik2">Suchlogik: Auswahl in einer Kategorie, Mehrfachauswahl</h2>
+<h2 class="chapter-title chapter-title-h2" id="suchlogik2">Suchlogik: Auswahl in einer Kategorie mit Mehrfachauswahl</h2>
 
     <p>
-    Mehrfach-Auswahl (z.B. Besetzung, Verwendungszweck). Es können ein oder mehrere Einträge ausgewählt werden.
-    Bei ausgewählten Kategorien stehen zusätzlich die Optionen  "Einschluss-Suche" und "Ausschluss-Suche" zur Verfügung. 
+    Innerhalb einer Kategorie mit Mehrfach-Auswahl (z.B. Besetzung, Verwendungszweck) können ein oder mehrere Einträge ausgewählt werden.
+    Bei einigen Kategorien stehen zusätzlich die Optionen  "Einschluss-Suche" und "Ausschluss-Suche" zur Verfügung. 
     </p> 
-
-
 
     <p> <b>Varianten: </b></p>
 
-    <p> <b>Standard (= ohne Zusatzoption)</b>: 
+    <p> <b>Standard ohne Zusatzoption</b>: 
     <ul> 
         <li>Bei Auswahl eines Eintrags werden alle Zeilen gesucht, die diese Eigenschaft aufweisen </li> 
         <li>Bei Auswahl mehrerer Einträge werden alle Zeilen gesucht, die <u>mindestens eine dieser Eigenschaften</u> aufweisen.</li>
@@ -92,15 +89,15 @@ include('head.php');
 
     <p><b>Standard mit Zusatzoption "Ausschluss-Suche" </b>
     <ul> 
-        <li>Bei Auswahl eines Eintrags werden alle Zeilen gesucht, die nur diese Eigenschaft aufweisen</li> 
-        <li>Bei Auswahl mehrerer Einträge werden alle Zeilen gesucht, die <u>mind. eine der ausgewählten Eigenschaften, jedoch keine weitere Eigenschaften aus der Kategorie</u> aufweisen </li> 
+        <li>Bei Auswahl eines Eintrags werden alle Zeilen gesucht, die <u>nur diese Eigenschaft aufweisen</u></li> 
+        <li>Bei Auswahl mehrerer Einträge werden alle Zeilen gesucht, die <u>mind. eine der ausgewählten Eigenschaften, jedoch NUR diese</u> aufweisen </li> 
     </ul>
     </p>
 
     <p><b>Standard mit Zusatzoptionen "Einschluss-Suche" und "Ausschluss-Suche" </b>
     <ul> 
-        <li>Bei Auswahl eines Eintrags werden alle Zeilen gesucht, die nur diese Eigenschaft aufweisen</li> 
-        <li>Bei Auswahl mehrerer Einträge werden alle Zeilen gesucht, die <u>nur die ausgewählten Eigenschaften </u>aufweisen </li> 
+        <li>Bei Auswahl eines Eintrags werden alle Zeilen gesucht, die <u>NUR die auswählte Eigenschaft aufweisen</u></li> 
+        <li>Bei Auswahl mehrerer Einträge werden alle Zeilen gesucht, die <u>ALLE und NUR die ausgewählten Eigenschaften</u> aufweisen </li> 
     </ul>
     </p>
 
@@ -119,7 +116,11 @@ include('head.php');
 
     </p>
 
-    <p> Suche nach mehreren Eigenschaften (hier: Notenwerte "Achtel" und "Viertel"): 
+
+
+    <p> Suche nach mehreren Eigenschaften 
+        
+    <p> Beispiel: (hier: Notenwerte "Achtel" und "Viertel"): </p>
 
     <ul> 
         <li>    Finde Sätze, bei denen Notenwerte "Achtel" ODER "Viertel" vorkommmen: Standard-Suche

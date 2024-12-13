@@ -6,12 +6,12 @@ include('head.php');
 
 <h1 id="erfassung">Erfassung</h1>
 
-<p class="doc"><b>Kapitel:</b></p>
+<p class="doc"><b>Kapitel:</b> </p>
 
 <!-- Inhaltsverzeichnis wird uber Javascript befüllt, s. Script-Teil Seite unten  --> 
 <ul id="table-of-contents"></ul>
 
-<h2 class="chapter-title chapter-title-h3" id="erfassung_sammlung">Sammlung</h2>  
+<h2 class="chapter-title chapter-title-h2" id="erfassung_sammlung">Sammlung</h2>  
 <h3 class="chapter-title chapter-title-h3" id="erfassung_sammlung_nummer">Sammlung: Nummer</h3>
     <p>Enthält ein ganzzahligen Wert, der die Reihenfolge der Musikstück innerhalb der Sammlung abbildet. Der Wert wird bei neu anlegen eines Musikstücks automatisch hochgezählt. Er kann bei der Bearbeitung manuell angepasst werden. 
 
@@ -19,7 +19,6 @@ include('head.php');
     <p> Name XXX </p>
 <h3 class="chapter-title chapter-title-h3" id="erfassung_sammlung_standort">Sammlung: Standort</h3>    
 <h3 class="chapter-title chapter-title-h3" id="erfassung_sammlung_verlag">Sammlung: Verlag</h3>    
-<h3 class="chapter-title chapter-title-h3" id="erfassung_sammlung_verwendungszweck">Sammlung: Verwendungszwecke</h3>    
 <h3 class="chapter-title chapter-title-h3" id="erfassung_sammlung_besonderheiten">Sammlung: Besonderheiten</h3>    
 <h3 class="chapter-title chapter-title-h3" id="erfassung_sammlung_links">Sammlung: Links</h3>    
 <h3 class="chapter-title chapter-title-h3" id="erfassung_sammlung_bemerkung">Sammlung: Bemerkung</h3>    
@@ -28,14 +27,29 @@ include('head.php');
     <p>Das Feld kann aktiviert werden, wenn die Erfassung der Sammlung (inklusive Musistücke/Sätze) komplett abgeschlossen ist. 
         
     <p> Hinweis: Die Datenprüfungen unter <a href="tests.php?title=Tests">Tests</a> enthalten nur Abfragen auf vollständig erfasste Sammlungen. </p>
+    .... 
 
+<h2 class="chapter-title chapter-title-h2" id="erfassung_musikstueck">Musikstück</h2>
 <h3 class="chapter-title chapter-title-h3" id="erfassung_musikstueck_besetzung">Musikstück: Besetzung</h3>
 
-    <p> Eine Besetzung mit mehreren Instrumenten kann sowohl als Ensemble-Eintrag als über mehrere einzelnem Instrument-Einträgen zugeordnet werden. </p>
+    <p>Die Einträge für die Zuordnung stammen aus der Stammdaten-Tabelle <a href="#erfassung_stammdaten_besetzung">"Besetzung"</a> 
+    
+    </p>
+    
+    <p>Für feste Besetzungen (z.B. Violine, Viola und Klavier = "Klaviertrio"), bei der keines der Instrument weggelassen werden kann, 
+        sollte als ein Ensemble-Eintrag vorgenommen werden. Die Erfassung von Einzelinstrumenten ist nur 
+        dann sinnvoll, wenn die Instrumente bei einem Musikstück variieren können  
+        - z.B. wenn ein Sammelhelft mit gleichen 
+        Musikstücken für verschiedene Instrumenten besetzt werden kann (kommt z.B. bei Lehr-Werken vor)
+    </p>
 
-    <p>Empfehlung: Ordne für eine feste Besetzung (bei der keines der Instrument weggelassen werden kann) einen Ensemble-Eintrag zu, da dieser später bei der Suche (XXX Verweis auf Suche-Kapitel... ) einfacher ausgewählt werden kann. Die Zuordnung mehrerer einzelner Instrumenten ist z.B. bei Sammelheften mit gleichen Stücken bei variabler Instrumenten-Beteiligung sinnvoll. 
+    <p>
+         Die Art der Zuordnung wirkt auf das Vorgehen bei der Suche aus (XXX Verweis hier später einfügen) 
+    </p>
+
+
    
-
+<h3 class="chapter-title chapter-title-h3" id="erfassung_musikstueck_verwendungszweck">Musikstück: Verwendungszwecke</h3>    
 <h3 class="chapter-title chapter-title-h3" id="erfassung_satz_spieldauer">Satz: Spieldauer</h3>
 
     <p>Der Spieldauer-Wert wird als Sekunden-Wert gespeichert und kann im Sekunden-Feld direkt eingegeben werden.</p>
@@ -51,13 +65,15 @@ include('head.php');
     </ul>
     <p> Hinweis: Eingaben > 60 min sind (noch) nicht möglich XXX </p>
 <h3 class="chapter-title chapter-title-h3" id="erfassung_satz_besonderheiten">Satz: Besonderheiten</h3>
-
     <p> Besonderheiten können für Sammlungen oder Sätze erfasst werden. Jede Besonderheit wird einem Besonderheit-Typ untergeordnet. Der Typ ist für die Erfassung einer Besonderheit am Satz / an der Sammlung nicht zwinged erforderlich -  jede Besonderheit hat (über Typen hinweg) eine eigene eindeutige ID. 
     </p>
 
-<h3 class="chapter-title chapter-title-h3" id="erfassung_besetzung">Stammdaten: Besetzung</h3>
 
-    <p> Als Besetzung können sowohl Ensembles als auch Einzelinstrumente hinterlegt werden. 
+
+<h2 class="chapter-title chapter-title-h2" id="erfassung_stammdaten">Stammdaten</h2>
+<h3 class="chapter-title chapter-title-h3" id="erfassung_stammdaten_besetzung">Stammdaten: Besetzung</h3>
+
+    <p> Unter Besetzungen können sowohl Ensembles als auch Einzelinstrumente hinterlegt werden. 
 
     <p> Beispiele für Besetzungen:  </p>
     <ul>    
@@ -69,15 +85,16 @@ include('head.php');
         <li>Violoncello</li>
     </ul>
 
-    <p>Die Zuordnung einer Besetzung wird <a href="#erfassung_musikstueck_besetzung">auf Musikstück-Ebene vorgenommen</a></p>
+
+    <p>Die Zuordnung einer Besetzung wird <a href="#erfassung_musikstueck_besetzung">auf Musikstück-Ebene vorgenommen</a> (weitere Hinweise zur Verwendung siehe dort)</p>
 
 
 <hr>
 
 
-XXX 
-
 </div> 
+
+
 
 <script>
     const tableOfContents = document.getElementById("table-of-contents");

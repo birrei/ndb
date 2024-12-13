@@ -85,7 +85,7 @@ if (isset($_POST['Ansicht'])) {
 
 <!---- Ansicht -----> 
 <?php
-$Suche->Beschreibung.='* Ansicht: '.$Ansicht.PHP_EOL; 
+$Suche->Beschreibung.=PHP_EOL.'* Ansicht: '.$Ansicht; 
 ?>
 <b>Ansicht: </b>
 <select id="Ansicht" name="Ansicht">
@@ -150,7 +150,7 @@ if (isset($_POST['suchtext'])) {
       $verlag->ID=  $VerlagID; 
       $verlag->load_row(); 
       $filterVerlage='='.$VerlagID.' '; 
-      $Suche->Beschreibung.=($VerlagID!=''?'* Verlag: '.$verlag->Name.PHP_EOL:'');     
+      $Suche->Beschreibung.=($VerlagID!=''?PHP_EOL.'* Verlag: '.$verlag->Name:'');     
       $filter=true;    
     }   
   }

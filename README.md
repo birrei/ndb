@@ -13,7 +13,7 @@ In Arbeit, Fertigstellung der Grundfunktionen aktuell geplant für Ende 2025
 
 
 # Hinweis: 
-Hinweis: Nicht gedacht für Bibliothekare, Musikwissenschaftler
+Hinweis: Nicht gedacht für Bibliothekare, Musikwissenschaftler, Noten-Shops
 
 
 # Technik    

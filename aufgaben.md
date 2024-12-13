@@ -1,9 +1,17 @@
 ﻿
 ###  Aufgaben in Arbeit
+
+- Suche: Button "Suchen" neben Suchtextfenster 
+- Suche-> Beschreibung: Zeilenumbrueche auf <br> umstellen 
 - Verbesserung Suchlogik (Ergänzung Optionen an Suchbox, Ergebnisabfrage nicht filtern): 
     - Verwendungszweck 
+
+- Hilfekapitel 
+
 - Mehrfach-Kombination "Instrument" / "Schwierigkeitsgrad" ermöglichen 
-- Hilfekapitel
+
+
+
 
 ### Offene Aufgabe, neue Features 
 - Tabellen Spalten-Sortierung (per JavaScript, s. https://www.w3schools.com/howto/howto_js_sort_table.asp) 
@@ -13,6 +21,8 @@
 - Eigenes Git-Repository für das Projekt 
 
 ### Offene Verbesserungen und Korrekturen 
+
+- Suche: weitere Ansichten z.B: Musikstück Fokus 
 - edit forms: Überall autofocus gesetzt?  
 - Demo: Beim Öffnen von edit_sammlung.php ist der Screen leer. Problem ist include cl_sammlung - Ursache? 
 - Besonderheiten Erfassung Schnellsuche
@@ -38,6 +48,7 @@
 - Klassen-Dateien umbenennen: cl_* -> class.*  
 - Fehlerbehandlung: Bearbeiten-Formular wird bei nicht exisiterender ID geöffnet (siehe Vorlage edit_abfrage.php, cl_abfrage.php) 
 - Prüfung XXS,  https://php-de.github.io/jumpto/auswahllisten/
+
 ### Offene Aufgaben Prio 2
 - Bookmarks-Import, Übernahme als Sammlungen (Teil 1 (Import) fertig, Übernahme Sammlung fehlt noch)
 - Spalten Spalten "ts_insert" und "ts_update"  in edit-Formularen anzeigen 
@@ -87,3 +98,4 @@
 -  Verworfen: Instrumentkombis Vorlage für Besetzungen (wird anders/besser gelöst, Datei test_instrumentenkombi.php archiviert)
 - show_table2.php -> "Nein einfügen" Link ist verloren gegangen??? 
 - Verbesserung Suchlogik: Besetzungen 
+- autoupdate verwerfen 
