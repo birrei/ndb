@@ -1,12 +1,10 @@
 ﻿
 ###  Aufgaben in Arbeit
 
-- Suche: Suche-> Beschreibung: Zeilenumbrueche auf <br> umstellen 
 - Verbesserung Suchlogik (Ergänzung Optionen an Suchbox, Ergebnisabfrage nicht filtern): 
     - Verwendungszweck 
 - Suche: Feldinterne Auflistungen nicht filtern! (für Besetzungen, Besonderheiten umgesetzt, andere folgen )
 - Suche: Hilfekapitel 
-
 - Suche: Mehrfach-Kombination "Instrument" / "Schwierigkeitsgrad" ermöglichen 
 - URL-Angaben mit Beschreibung zusammenfügen 
 
@@ -98,3 +96,4 @@
 - Verbesserung Suchlogik: Besetzungen 
 - autoupdate verwerfen 
 - Suche: Button "Suchen" neben Suchtextfenster 
+- Suche: Filterleiste ausblenden 
