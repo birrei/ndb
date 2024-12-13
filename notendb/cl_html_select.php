@@ -100,7 +100,7 @@ class HtmlSelect {
 
         $html.='</p>'. PHP_EOL;;
         echo $html;
-        $this->titles_selected_list= '* '.$caption.' '.implode('; ', $this->option_titles_selected).PHP_EOL; 
+        $this->titles_selected_list= PHP_EOL.'* '.$caption.' '.implode('; ', $this->option_titles_selected); 
     }    
 
     function print_preselect($keyname, $value_selected='', $add_null_option=true) {
