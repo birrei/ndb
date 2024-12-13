@@ -1,6 +1,8 @@
 ﻿
 # Changelog  
 
+13.12.2024: Umstellung Button Suche neben Suchfeld 
+
 03.12.2024: Begonnen: Verbesserungen an Suchlogik und dazugehörigem Hilfe-Text 
 
 30.11.2024: Snowflakes auf der Startseite (Animation CSS) 
@@ -32,8 +34,6 @@
 01.10.2024 - Filter "Erprobt > Jahr" 
 
 20.09.2024 - Integration Abfragetyp 
-
-11.09.2024 - auto-Update: autom. Ergänzung definierter Zuordnungen für eine definierte Einheit (z.B. für bestimmte Standort immer bestimmte Besetzungen)
 
 01.09.2024 - Umstellung Erprobt auf Mehrfach-Zuordnung, Integration Jahr
 
