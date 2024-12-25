@@ -1,15 +1,19 @@
 ﻿
 ###  Aufgaben in Arbeit
 
+- Suche: Ergebnis-Abfrage, separate Queries: Verwendungszwecke (erledigt: Besetzungen)
 - Verbesserung Suchlogik (Ergänzung Optionen an Suchbox, Ergebnisabfrage nicht filtern): 
-    - Verwendungszweck 
+    Erledigt: Besetzung. Weiter: Verwendungszweck     
 - Suche: Feldinterne Auflistungen nicht filtern! (für Besetzungen, Besonderheiten umgesetzt, andere folgen )
 - Suche: Hilfekapitel 
 - Suche: Mehrfach-Kombination "Instrument" / "Schwierigkeitsgrad" ermöglichen 
+- Suche, gespeicherte Suche: Zeilenangänge korrigieren 
 - URL-Angaben mit Beschreibung zusammenfügen 
 
-
 ### Offene Aufgabe, neue Features 
+- Tabelle: material (Name, Beschreibung)
+- Neue Tabelle: Schüler, Asoc: Schüler, Stück.  
+- Suchefrage: NICHT 
 - Tabellen Spalten-Sortierung (per JavaScript, s. https://www.w3schools.com/howto/howto_js_sort_table.asp) 
 - Alle Tabellen mit "erstellt" und "geändert"-Spalten 
 - MouseOver Infos in der Ergebnis-Tabelle 
