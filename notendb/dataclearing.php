@@ -25,7 +25,28 @@ if (isset($_POST["form-sended"])){
 
     // print_r($_POST); 
     switch($_POST["form-sended"]) {
-        case 'sammlung-besetzung': 
+      case 'sammlung-schwierigkeitsgrad': 
+        if (!empty($_POST["SammlungID"]) 
+          & !empty($_POST["InstrumentID"])
+          & !empty($_POST["SchwierigkeitsgradID"]) ) 
+            {
+            include_once('cl_sammlung.php');                     
+            $SammlungID=$_POST["SammlungID"]; 
+            $InstrumentID=$_POST["InstrumentID"];  
+            $SchwierigkeitsgradID=$_POST["SchwierigkeitsgradID"];                               
+            $sammlung = new Sammlung(); 
+            $sammlung->ID=$SammlungID; 
+            $sammlung->add_schwierigkeitsgrad($InstrumentID,$SchwierigkeitsgradID); 
+            
+            // if (isset($_POST["sammlung_delete_besetzung"])) {
+            //     $sammlung->delete_besetzung($BesetzungID);
+            // }
+            // else {                                
+            //     $sammlung->add_besetzung($BesetzungID);
+            // }
+        }
+        break;       
+      case 'sammlung-besetzung': 
             if (!empty($_POST["SammlungID"]) & !empty($_POST["BesetzungID"])) {
                 include_once('cl_sammlung.php');                     
                 $SammlungID=$_POST["SammlungID"]; 
@@ -93,6 +114,8 @@ echo '</pre>';
   <option value="sammlung-kopieren" <?php echo ($form_selected=='sammlung-kopieren'?'selected':''); ?>>Sammlung kopieren</option>
   <option value="sammlung-verwendungszweck" <?php echo ($form_selected=='sammlung-verwendungszweck'?'selected':''); ?>>Sammlung: Verwendungszweck hinzufügen</option>                
   <option value="sammlung-besetzung" <?php echo ($form_selected=='sammlung-besetzung'?'selected':''); ?>>Sammlung: Besetzung hinzufügen</option>   
+  <option value="sammlung-schwierigkeitsgrad" <?php echo ($form_selected=='sammlung-schwierigkeitsgrad'?'selected':''); ?>>Sammlung: Schwierigkeitsgrad hinzufügen</option>   
+
 </select>
 
 </p>
@@ -128,7 +151,6 @@ if ($form_selected!='') {
       ?>
 
         <h2> Sammlung: Besetzung ergänzen / entfernen </h2>
-        Bei Musikstücken einer Sammlung wird eine definierte Besetzung zugeordnet / entfernt 
 
         <form action="" method="post" name="sammlung-besetzung">
 
@@ -146,7 +168,6 @@ if ($form_selected!='') {
     case 'sammlung-verwendungszweck': 
       ?>
       <h2>Sammlung: Verwendungszweck ergänzen / entfernen </h2>
-        Bei allen Musikstücken einer Sammlung wird ein definierter Verwendungszweck zugeordnet / entfernt 
 
         <!-- sammlung-insert-verwendungszweck -->   
         <form action="" method="post" name="sammlung-verwendungszweck">
@@ -162,7 +183,26 @@ if ($form_selected!='') {
 
 
       <?php       
-    break;     
+    break;   
+    
+    case 'sammlung-schwierigkeitsgrad': 
+      ?>
+      <h2>Sammlung: Schwierigkeitsgrad ergänzen  </h2>
+        <!-- sammlung-insert-verwendungszweck -->   
+        <form action="" method="post" name="sammlung-schwierigkeitsgrad">
+        <label> SammlungID: <input type="text" name="SammlungID" value="<?php echo $SammlungID; ?>" size="5" ></label>
+        <label> InstrumentID: <input type="text" name="InstrumentID" size="5" ></label>
+        <label> SchwierigkeitsgradID: <input type="text" name="SchwierigkeitsgradID" size="5" ></label>
+
+        <input class="btnSave" type="submit" name="submit" value="ausführen">    
+        <input type="hidden" name="form-sended" value="sammlung-schwierigkeitsgrad">    
+        <input type="hidden" name="form-selected" value="<?php echo $form_selected; ?>">                    
+
+      </form>
+
+
+      <?php       
+    break;         
   }
   
 
