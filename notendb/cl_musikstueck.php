@@ -697,61 +697,7 @@ class Musikstueck {
       $info->print_user_error(); 
       $info->print_error($update, $e);  
     }  
-
   }
-
-
-  // function autoupdate_insert_besetzungen() {
-  //   include_once("dbconn/cl_db.php");   
-  //   $conn = new DbConn(); 
-  //   $db=$conn->db; 
-    
-  //   // automatische Zuordnung pro Standort 
-  //   $sql="
-  //     update into musikstueck_besetzung (MusikstueckID, BesetzungID) 
-  //     select musikstueck.ID, auto_update.upd_ID as BesetzungID 
-  //     from auto_update 
-  //         inner join sammlung on sammlung.StandortID = auto_update.ref_ID
-  //         inner join musikstueck on musikstueck.SammlungID = sammlung.ID 
-  //         left join musikstueck_besetzung on musikstueck_besetzung.MusikstueckID = musikstueck.ID 
-  //             and musikstueck_besetzung.BesetzungID = auto_update.upd_ID
-  //     where auto_update.ref_colname='StandortID'
-  //     and auto_update.upd_colname='BesetzungID'
-  //     and musikstueck_besetzung.ID IS NULL
-  //     and musikstueck.ID = :ID 
-  //       ";
-
-  //   $update = $db->prepare($sql); 
-  //   $update->bindValue(':ID', $this->ID);  
-  //   $update->execute(); 
-
-  // }
-
-  // function autoupdate_insert_verwendungszwecke() {
-  //   include_once("dbconn/cl_db.php");   
-  //   $conn = new DbConn(); 
-  //   $db=$conn->db; 
-    
-  //   // automatische Zuordnung pro Standort 
-  //   $sql="
-  //     update into musikstueck_verwendungszweck (MusikstueckID, VerwendungszweckID) 
-  //     select musikstueck.ID, auto_update.upd_ID as VerwendungszweckID 
-  //     from auto_update 
-  //         inner join sammlung on sammlung.StandortID = auto_update.ref_ID
-  //         inner join musikstueck on musikstueck.SammlungID = sammlung.ID 
-  //         left join musikstueck_verwendungszweck on musikstueck_verwendungszweck.MusikstueckID = musikstueck.ID 
-  //             and musikstueck_verwendungszweck.VerwendungszweckID = auto_update.upd_ID
-  //     where auto_update.ref_colname='StandortID'
-  //     and auto_update.upd_colname='VerwendungszweckID'
-  //     and musikstueck_verwendungszweck.ID IS NULL
-  //     and musikstueck.ID = :ID 
-  //       ";
-
-  //   $update = $db->prepare($sql); 
-  //   $update->bindValue(':ID', $this->ID);  
-  //   $update->execute(); 
-
-  // }
 
   
 }
