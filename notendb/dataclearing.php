@@ -102,7 +102,17 @@ if (isset($_POST["form-sended"])){
                         , $include_satz_lookup    
                   );
             }
-            break;                 
+          break;   
+        case 'sammlung-komponist': 
+              if (!empty($_POST["SammlungID"]) & !empty($_POST["KomponistID"])) {
+                  include_once('cl_sammlung.php');                     
+                  $SammlungID=$_POST["SammlungID"]; 
+                  $KomponistID=$_POST["KomponistID"];                 
+                  $sammlung = new Sammlung(); 
+                  $sammlung->ID=$SammlungID; 
+                  $sammlung->add_komponist($KomponistID);                     
+              }
+              break;                           
     }
 }
 echo '</pre>';  
@@ -115,6 +125,7 @@ echo '</pre>';
   <option value="sammlung-verwendungszweck" <?php echo ($form_selected=='sammlung-verwendungszweck'?'selected':''); ?>>Sammlung: Verwendungszweck hinzufügen</option>                
   <option value="sammlung-besetzung" <?php echo ($form_selected=='sammlung-besetzung'?'selected':''); ?>>Sammlung: Besetzung hinzufügen</option>   
   <option value="sammlung-schwierigkeitsgrad" <?php echo ($form_selected=='sammlung-schwierigkeitsgrad'?'selected':''); ?>>Sammlung: Schwierigkeitsgrad hinzufügen</option>   
+  <option value="sammlung-komponist" <?php echo ($form_selected=='sammlung-komponist'?'selected':''); ?>>Sammlung: Komponist hinzufügen</option>   
 
 </select>
 
@@ -125,6 +136,28 @@ echo '</pre>';
 
 if ($form_selected!='') {
   switch ($form_selected) {
+
+    case 'sammlung-komponist': 
+
+      ?>
+      <h2> Sammlung: Komponist ergänzen </h2>
+
+      <form action="" method="post" name="sammlung-komponist">
+
+      <label> SammlungID: <input type="text" name="SammlungID" value="<?php echo $SammlungID; ?>" size="5" ></label>
+      <label> KomponistID: <input type="text" name="KomponistID" size="5" ></label>
+     <input class="btnSave" type="submit" name="submit" value="ausführen">    
+      <input type="hidden" name="form-sended" value="sammlung-komponist">  
+      <input type="hidden" name="form-selected" value="<?php echo $form_selected; ?>">           
+
+
+      </form>
+
+
+      <?php
+
+      break; 
+
     case 'sammlung-kopieren': 
       ?>
       <h2> Sammlung kopieren </h2>

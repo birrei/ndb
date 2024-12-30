@@ -31,18 +31,18 @@ class Musikstueck {
     $conn = new DbConn(); 
     $db=$conn->db; 
   
-    $insert = $db->prepare("INSERT INTO `musikstueck` SET
+    $update = $db->prepare("INSERT INTO `musikstueck` SET
                           `Name`     = :Name,
                           `SammlungID`     = :SammlungID,  
                           `Nummer`     = :Nummer")
                           ;
   
-    $insert->bindValue(':SammlungID', $this->SammlungID);
-    $insert->bindValue(':Nummer', $Nummer);
-    $insert->bindValue(':Name', $Name);
+    $update->bindValue(':SammlungID', $this->SammlungID);
+    $update->bindValue(':Nummer', $Nummer);
+    $update->bindValue(':Name', $Name);
   
     try {
-      $insert->execute(); 
+      $update->execute(); 
       $this->ID = $db->lastInsertId();
       $this->load_row();  
     }
@@ -242,21 +242,21 @@ class Musikstueck {
       $conn = new DbConn(); 
       $db=$conn->db; 
 
-      $insert = $db->prepare("INSERT IGNORE INTO `musikstueck_besetzung` SET
+      $update = $db->prepare("INSERT IGNORE INTO `musikstueck_besetzung` SET
                             `MusikstueckID`     = :MusikstueckID,
                             `BesetzungID`     = :BesetzungID");
 
-      $insert->bindValue(':MusikstueckID', $this->ID);
-      $insert->bindValue(':BesetzungID', $BesetzungID);
+      $update->bindValue(':MusikstueckID', $this->ID);
+      $update->bindValue(':BesetzungID', $BesetzungID);
 
       try {
-        $insert->execute(); 
+        $update->execute(); 
       }
       catch (PDOException $e) {
         include_once("cl_html_info.php"); 
         $info = new HtmlInfo();      
         $info->print_user_error(); 
-        $info->print_error($insert, $e);  
+        $info->print_error($update, $e);  
       }  
 
   }
@@ -266,21 +266,21 @@ class Musikstueck {
     $conn = new DbConn(); 
     $db=$conn->db; 
 
-    $insert = $db->prepare("INSERT IGNORE INTO `musikstueck_verwendungszweck` SET
+    $update = $db->prepare("INSERT IGNORE INTO `musikstueck_verwendungszweck` SET
                           `MusikstueckID`     = :MusikstueckID,
                           `VerwendungszweckID`     = :VerwendungszweckID");
 
-    $insert->bindValue(':MusikstueckID', $this->ID);
-    $insert->bindValue(':VerwendungszweckID', $VerwendungszweckID);
+    $update->bindValue(':MusikstueckID', $this->ID);
+    $update->bindValue(':VerwendungszweckID', $VerwendungszweckID);
 
     try {
-      $insert->execute(); 
+      $update->execute(); 
     }
     catch (PDOException $e) {
       include_once("cl_html_info.php"); 
       $info = new HtmlInfo();      
       $info->print_user_error(); 
-      $info->print_error($insert, $e);  
+      $info->print_error($update, $e);  
     }  
 
   }
@@ -552,7 +552,7 @@ class Musikstueck {
     $conn = new DbConn(); 
     $db=$conn->db; 
 
-    $sql="insert into musikstueck (
+    $sql="update into musikstueck (
             Name
             , Opus
             , SammlungID
@@ -572,44 +572,44 @@ class Musikstueck {
         , EpocheID
         from musikstueck 
         where ID=:ID";
-    $insert = $db->prepare($sql); 
-    $insert->bindValue(':ID', $this->ID);  
-    $insert->bindValue(':SammlungID', $this->SammlungID);  // entspr. Kontext: alte oder neue SammmlungID 
+    $update = $db->prepare($sql); 
+    $update->bindValue(':ID', $this->ID);  
+    $update->bindValue(':SammlungID', $this->SammlungID);  // entspr. Kontext: alte oder neue SammmlungID 
   
     try {
-      $insert->execute(); 
+      $update->execute(); 
       $ID_New = $db->lastInsertId();    
 
 
       if ($include_verwendungszweck) {
         // verwendungszwecke kopieren 
-        $sql="insert into musikstueck_verwendungszweck
+        $sql="update into musikstueck_verwendungszweck
                   (MusikstueckID, VerwendungszweckID) 
             select :MusikstueckID_New as MusikstueckID
                   , VerwendungszweckID 
             from musikstueck_verwendungszweck 
             where MusikstueckID=:ID";
 
-        $insert = $db->prepare($sql); 
-        $insert->bindValue(':ID', $this->ID);  
-        $insert->bindValue(':MusikstueckID_New', $ID_New);  
-        $insert->execute(); 
+        $update = $db->prepare($sql); 
+        $update->bindValue(':ID', $this->ID);  
+        $update->bindValue(':MusikstueckID_New', $ID_New);  
+        $update->execute(); 
         echo '<p>Verwendungszwecke wurden kopiert.</p>';         
       }
 
       // besetzungen kopieren 
       if ($include_besetzung) {
-        $sql="insert into musikstueck_besetzung
+        $sql="update into musikstueck_besetzung
                   (MusikstueckID, BesetzungID) 
             select :MusikstueckID_New as MusikstueckID
                   , BesetzungID 
             from musikstueck_besetzung 
             where MusikstueckID=:ID";
 
-        $insert = $db->prepare($sql); 
-        $insert->bindValue(':ID', $this->ID);  
-        $insert->bindValue(':MusikstueckID_New', $ID_New); 
-        $insert->execute(); 
+        $update = $db->prepare($sql); 
+        $update->bindValue(':ID', $this->ID);  
+        $update->bindValue(':MusikstueckID_New', $ID_New); 
+        $update->execute(); 
         echo '<p>Besetzungen wurden kopiert.</p>';          
       }
 
@@ -644,7 +644,7 @@ class Musikstueck {
       include_once("cl_html_info.php"); 
       $info = new HtmlInfo();      
       $info->print_user_error(); 
-      $info->print_error($insert, $e);  
+      $info->print_error($update, $e);  
     }  
   }  
 
@@ -675,6 +675,32 @@ class Musikstueck {
     }
   }
   
+
+  function update_komponist ($KomponistID){
+    include_once("dbconn/cl_db.php");
+    $conn = new DbConn(); 
+    $db=$conn->db; 
+
+    $update = $db->prepare("UPDATE musikstueck 
+                            SET KomponistID = :KomponistID
+                            WHERE ID = :ID");
+
+    $update->bindValue(':ID', $this->ID);
+    $update->bindValue(':KomponistID', $KomponistID);
+
+    try {
+      $update->execute(); 
+    }
+    catch (PDOException $e) {
+      include_once("cl_html_info.php"); 
+      $info = new HtmlInfo();      
+      $info->print_user_error(); 
+      $info->print_error($update, $e);  
+    }  
+
+  }
+
+
   // function autoupdate_insert_besetzungen() {
   //   include_once("dbconn/cl_db.php");   
   //   $conn = new DbConn(); 
@@ -682,7 +708,7 @@ class Musikstueck {
     
   //   // automatische Zuordnung pro Standort 
   //   $sql="
-  //     insert into musikstueck_besetzung (MusikstueckID, BesetzungID) 
+  //     update into musikstueck_besetzung (MusikstueckID, BesetzungID) 
   //     select musikstueck.ID, auto_update.upd_ID as BesetzungID 
   //     from auto_update 
   //         inner join sammlung on sammlung.StandortID = auto_update.ref_ID
@@ -695,9 +721,9 @@ class Musikstueck {
   //     and musikstueck.ID = :ID 
   //       ";
 
-  //   $insert = $db->prepare($sql); 
-  //   $insert->bindValue(':ID', $this->ID);  
-  //   $insert->execute(); 
+  //   $update = $db->prepare($sql); 
+  //   $update->bindValue(':ID', $this->ID);  
+  //   $update->execute(); 
 
   // }
 
@@ -708,7 +734,7 @@ class Musikstueck {
     
   //   // automatische Zuordnung pro Standort 
   //   $sql="
-  //     insert into musikstueck_verwendungszweck (MusikstueckID, VerwendungszweckID) 
+  //     update into musikstueck_verwendungszweck (MusikstueckID, VerwendungszweckID) 
   //     select musikstueck.ID, auto_update.upd_ID as VerwendungszweckID 
   //     from auto_update 
   //         inner join sammlung on sammlung.StandortID = auto_update.ref_ID
@@ -721,9 +747,9 @@ class Musikstueck {
   //     and musikstueck.ID = :ID 
   //       ";
 
-  //   $insert = $db->prepare($sql); 
-  //   $insert->bindValue(':ID', $this->ID);  
-  //   $insert->execute(); 
+  //   $update = $db->prepare($sql); 
+  //   $update->bindValue(':ID', $this->ID);  
+  //   $update->execute(); 
 
   // }
 
