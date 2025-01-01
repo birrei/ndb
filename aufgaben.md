@@ -10,7 +10,9 @@
 - Suche, gespeicherte Suche: Zeilenangänge korrigieren 
 - URL-Angaben mit Beschreibung zusammenfügen 
 
+
 ### Offene Aufgabe, neue Features 
+
 - Tabelle: material (Name, Beschreibung)
 - Neue Tabelle: Schüler, Asoc: Schüler, Stück.  
 - Suchefrage: NICHT 
@@ -20,8 +22,9 @@
 - PDF-Export für eine Sammlung 
 - Eigenes Git-Repository für das Projekt 
 
-### Offene Verbesserungen und Korrekturen 
-
+### Offene Verbesserungen und Korrekturen
+- Suche: Layout ändern (responsive) 
+- Sammlung Name - FEld im Formular zu kurz 
 - Suche: weitere Ansichten z.B: Musikstück Fokus 
 - edit forms: Überall autofocus gesetzt?  
 - Demo: Beim Öffnen von edit_sammlung.php ist der Screen leer. Problem ist include cl_sammlung - Ursache? 
