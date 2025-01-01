@@ -112,7 +112,19 @@ if (isset($_POST["form-sended"])){
                   $sammlung->ID=$SammlungID; 
                   $sammlung->add_komponist($KomponistID);                     
               }
-              break;                           
+              break;
+              
+              case 'sammlung-bearbeiter': 
+                if (!empty($_POST["SammlungID"]) & !empty($_POST["Bearbeiter"])) {
+                    include_once('cl_sammlung.php');                     
+                    $SammlungID=$_POST["SammlungID"]; 
+                    $Bearbeiter=$_POST["Bearbeiter"];                 
+                    $sammlung = new Sammlung(); 
+                    $sammlung->ID=$SammlungID; 
+                    $sammlung->add_bearbeiter($Bearbeiter);                     
+                }
+                break;        
+
     }
 }
 echo '</pre>';  
@@ -126,6 +138,7 @@ echo '</pre>';
   <option value="sammlung-besetzung" <?php echo ($form_selected=='sammlung-besetzung'?'selected':''); ?>>Sammlung: Besetzung hinzufügen</option>   
   <option value="sammlung-schwierigkeitsgrad" <?php echo ($form_selected=='sammlung-schwierigkeitsgrad'?'selected':''); ?>>Sammlung: Schwierigkeitsgrad hinzufügen</option>   
   <option value="sammlung-komponist" <?php echo ($form_selected=='sammlung-komponist'?'selected':''); ?>>Sammlung: Komponist hinzufügen</option>   
+  <option value="sammlung-bearbeiter" <?php echo ($form_selected=='sammlung-bearbeiter'?'selected':''); ?>>Sammlung: Bearbeiter hinzufügen</option>   
 
 </select>
 
@@ -137,6 +150,25 @@ echo '</pre>';
 if ($form_selected!='') {
   switch ($form_selected) {
 
+    case 'sammlung-bearbeiter': 
+
+      ?>
+      <h2> Sammlung: Bearbeiter ergänzen </h2>
+
+      <form action="" method="post" name="sammlung-bearbeiter">
+
+      <label> SammlungID: <input type="text" name="SammlungID" value="<?php echo $SammlungID; ?>" size="5" ></label>
+      <label> Bearbeiter: <input type="text" name="Bearbeiter" size="25" ></label>
+      <input class="btnSave" type="submit" name="submit" value="ausführen">    
+      <input type="hidden" name="form-sended" value="sammlung-bearbeiter">  
+      <input type="hidden" name="form-selected" value="<?php echo $form_selected; ?>">           
+
+      </form>
+
+      <?php
+
+      break; 
+
     case 'sammlung-komponist': 
 
       ?>
@@ -146,7 +178,7 @@ if ($form_selected!='') {
 
       <label> SammlungID: <input type="text" name="SammlungID" value="<?php echo $SammlungID; ?>" size="5" ></label>
       <label> KomponistID: <input type="text" name="KomponistID" size="5" ></label>
-     <input class="btnSave" type="submit" name="submit" value="ausführen">    
+      <input class="btnSave" type="submit" name="submit" value="ausführen">    
       <input type="hidden" name="form-sended" value="sammlung-komponist">  
       <input type="hidden" name="form-selected" value="<?php echo $form_selected; ?>">           
 

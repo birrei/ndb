@@ -700,6 +700,32 @@ class Musikstueck {
   }
 
   
+  function update_bearbeiter ($Bearbeiter){
+    include_once("dbconn/cl_db.php");
+    $conn = new DbConn(); 
+    $db=$conn->db; 
+
+    $update = $db->prepare("UPDATE musikstueck 
+                            SET Bearbeiter = :Bearbeiter
+                            WHERE ID = :ID");
+
+    $update->bindValue(':ID', $this->ID);
+    $update->bindValue(':Bearbeiter', $Bearbeiter);
+
+    try {
+      $update->execute(); 
+    }
+    catch (PDOException $e) {
+      include_once("cl_html_info.php"); 
+      $info = new HtmlInfo();      
+      $info->print_user_error(); 
+      $info->print_error($update, $e);  
+    }  
+  }
+
+  
+
+  
 }
 
 
