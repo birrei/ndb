@@ -723,6 +723,33 @@ class Musikstueck {
     }  
   }
 
+
+  function add_erprobt($ErprobtID){
+    
+    include_once("dbconn/cl_db.php");
+    include_once('cl_satz.php'); 
+
+    $conn = new DbConn(); 
+    $db=$conn->db; 
+
+    $select = $db->prepare("SELECT ID  
+                           FROM `satz` 
+                           WHERE MusikstueckID=:ID"); 
+    $select->bindValue(':ID', $this->ID);  
+
+    $select->execute(); 
+
+    $res = $select->fetchAll(PDO::FETCH_ASSOC);
+
+    // echo '<p>Anzahl Sätze: '.count($res); 
+
+    foreach ($res as $row=>$value) {
+      // echo '<p>Ergänze Erprobt bei Satz ID: '.$value["ID"];
+      $satz = new Satz(); 
+      $satz->ID = $value["ID"]; 
+      $satz->add_erprobt2($ErprobtID);
+    }
+  }
   
 
   

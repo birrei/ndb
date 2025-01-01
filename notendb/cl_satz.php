@@ -600,29 +600,30 @@ class Satz {
     }
   }    
 
-  function add_erprobt($Bemerkung){
+  // XXX ??? 
+  // function add_erprobt($Bemerkung){
 
-    include_once("dbconn/cl_db.php");
-    $conn = new DbConn(); 
-    $db=$conn->db; 
+  //   include_once("dbconn/cl_db.php");
+  //   $conn = new DbConn(); 
+  //   $db=$conn->db; 
 
-    $insert = $db->prepare("INSERT INTO `satz_erprobt` SET
-        `Bemerkung`     = :Bemerkung"
-      );
+  //   $insert = $db->prepare("INSERT INTO `satz_erprobt` SET
+  //       `Bemerkung`     = :Bemerkung"
+  //     );
 
-    $insert->bindValue(':SatzID', $this->ID);  
-    $insert->bindValue(':LookupID', $ErprobtID);  
+  //   $insert->bindValue(':SatzID', $this->ID);  
+  //   $insert->bindValue(':LookupID', $ErprobtID);  // fehler XXX 
 
-    try {
-      $insert->execute(); 
-    }
-    catch (PDOException $e) {
-      include_once("cl_html_info.php"); 
-      $info = new HtmlInfo();      
-      $info->print_user_error(); 
-      $info->print_error($insert, $e);  
-    }  
-  }
+  //   try {
+  //     $insert->execute(); 
+  //   }
+  //   catch (PDOException $e) {
+  //     include_once("cl_html_info.php"); 
+  //     $info = new HtmlInfo();      
+  //     $info->print_user_error(); 
+  //     $info->print_error($insert, $e);  
+  //   }  
+  // }
 
   function delete_erprobte(){
     include_once("dbconn/cl_db.php");
@@ -642,6 +643,31 @@ class Satz {
       $info->print_error($delete, $e);  
     }  
   }
+
+
+  function add_erprobt2($ErprobtID){
+    include_once("dbconn/cl_db.php");
+    $conn = new DbConn(); 
+    $db=$conn->db; 
+
+    $insert = $db->prepare("INSERT INTO `satz_erprobt` SET
+        `SatzID`     = :SatzID , 
+        `ErprobtID`     = :ErprobtID "
+      );
+
+    $insert->bindValue(':SatzID', $this->ID);  
+    $insert->bindValue(':ErprobtID', $ErprobtID);  
+
+    try {
+      $insert->execute(); 
+    }
+    catch (PDOException $e) {
+      include_once("cl_html_info.php"); 
+      $info = new HtmlInfo();      
+      $info->print_user_error(); 
+      $info->print_error($insert, $e);  
+    }  
+  }  
 
   // function autoupdate_insert_erprobt() {
   //   include_once("dbconn/cl_db.php");   

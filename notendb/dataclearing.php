@@ -25,6 +25,20 @@ if (isset($_POST["form-sended"])){
 
     // print_r($_POST); 
     switch($_POST["form-sended"]) {
+
+      case 'sammlung-erprobt': 
+        if (!empty($_POST["SammlungID"]) & !empty($_POST["ErprobtID"])) 
+            {
+            include_once('cl_sammlung.php');                     
+            $SammlungID=$_POST["SammlungID"]; 
+            $ErprobtID=$_POST["ErprobtID"];                              
+            $sammlung = new Sammlung(); 
+            $sammlung->ID=$SammlungID; 
+            $sammlung->add_erprobt($ErprobtID); 
+
+        }
+        break;  
+
       case 'sammlung-schwierigkeitsgrad': 
         if (!empty($_POST["SammlungID"]) 
           & !empty($_POST["InstrumentID"])
@@ -114,16 +128,16 @@ if (isset($_POST["form-sended"])){
               }
               break;
               
-              case 'sammlung-bearbeiter': 
-                if (!empty($_POST["SammlungID"]) & !empty($_POST["Bearbeiter"])) {
-                    include_once('cl_sammlung.php');                     
-                    $SammlungID=$_POST["SammlungID"]; 
-                    $Bearbeiter=$_POST["Bearbeiter"];                 
-                    $sammlung = new Sammlung(); 
-                    $sammlung->ID=$SammlungID; 
-                    $sammlung->add_bearbeiter($Bearbeiter);                     
-                }
-                break;        
+        case 'sammlung-bearbeiter': 
+          if (!empty($_POST["SammlungID"]) & !empty($_POST["Bearbeiter"])) {
+              include_once('cl_sammlung.php');                     
+              $SammlungID=$_POST["SammlungID"]; 
+              $Bearbeiter=$_POST["Bearbeiter"];                 
+              $sammlung = new Sammlung(); 
+              $sammlung->ID=$SammlungID; 
+              $sammlung->add_bearbeiter($Bearbeiter);                     
+          }
+          break;        
 
     }
 }
@@ -139,6 +153,7 @@ echo '</pre>';
   <option value="sammlung-schwierigkeitsgrad" <?php echo ($form_selected=='sammlung-schwierigkeitsgrad'?'selected':''); ?>>Sammlung: Schwierigkeitsgrad hinzufügen</option>   
   <option value="sammlung-komponist" <?php echo ($form_selected=='sammlung-komponist'?'selected':''); ?>>Sammlung: Komponist hinzufügen</option>   
   <option value="sammlung-bearbeiter" <?php echo ($form_selected=='sammlung-bearbeiter'?'selected':''); ?>>Sammlung: Bearbeiter hinzufügen</option>   
+  <option value="sammlung-erprobt" <?php echo ($form_selected=='sammlung-erprobt'?'selected':''); ?>>Sammlung: Erprobt-Eintrag hinzufügen</option>   
 
 </select>
 
@@ -265,9 +280,26 @@ if ($form_selected!='') {
 
       </form>
 
-
       <?php       
     break;         
+  
+    case 'sammlung-erprobt': 
+      ?>
+      <h2>Sammlung: Erprobt-Eintrag ergänzen  </h2>
+        <form action="" method="post" name="sammlung-erprobt">
+        <label> SammlungID: <input type="text" name="SammlungID" value="<?php echo $SammlungID; ?>" size="5" ></label>
+        <label> ErprobtID: <input type="text" name="ErprobtID" size="5" ></label>
+
+        <input class="btnSave" type="submit" name="submit" value="ausführen">    
+        <input type="hidden" name="form-sended" value="sammlung-erprobt">    
+        <input type="hidden" name="form-selected" value="<?php echo $form_selected; ?>">                    
+
+      </form>
+
+
+      <?php       
+    break;   
+
   }
   
 
