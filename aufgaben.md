@@ -1,12 +1,14 @@
 ﻿
-###  Aufgaben in Arbeit
+###  Aufgabe in Arbeit
+- Suche: Mehrfach-Kombination "Instrument" / "Schwierigkeitsgrad" ermöglichen 
+  - Vorbereitung: Lookup-Tabelle Instrument/Schwierigkeitsgrad 
 
+###  Aufgaben in Arbeit 2. Reihe 
 - Suche: Ergebnis-Abfrage, separate Queries: Verwendungszwecke (erledigt: Besetzungen)
 - Verbesserung Suchlogik (Ergänzung Optionen an Suchbox, Ergebnisabfrage nicht filtern): 
     Erledigt: Besetzung. Weiter: Verwendungszweck     
 - Suche: Feldinterne Auflistungen nicht filtern! (für Besetzungen, Besonderheiten umgesetzt, andere folgen )
 - Suche: Hilfekapitel 
-- Suche: Mehrfach-Kombination "Instrument" / "Schwierigkeitsgrad" ermöglichen 
 - Suche, gespeicherte Suche: Zeilenangänge korrigieren 
 - URL-Angaben mit Beschreibung zusammenfügen 
 

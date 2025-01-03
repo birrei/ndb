@@ -417,6 +417,9 @@ class Satz {
 
     try {
       $insert->execute(); 
+      include_once("cl_instrument_schwierigkeitsgrad.php");
+      $instrument_schwierigkeitsgrad=new InstrumentSchwierigkeitsgrad(); 
+      $instrument_schwierigkeitsgrad->insert_row($InstrumentID, $SchwierigkeitsgradID); 
     }
     catch (PDOException $e) {
       include_once("cl_html_info.php"); 
