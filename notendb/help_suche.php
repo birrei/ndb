@@ -46,8 +46,7 @@ include('head.php');
     <p> Kategorie-Arten: </p> 
     <ul> 
         <li> Einfach-Auswahl (z.B. Verlag, Komponist). Es kann nur ein Eintrag ausgewählt werden</li> 
-        <li> Mehrfach-Auswahl (z.B. Besetzung, Verwendungszweck). Es können ein oder mehrere Einträge ausgewählt werden. 
-        </li> 
+        <li> Mehrfach-Auswahl (z.B. Besetzung, Verwendungszweck). Es können ein oder mehrere Einträge ausgewählt werden. </li>         
     </ul>
 
     <p> Die Suche orientiert sich an den Erfassungs-Optionen, Beispiel: Das Suchfeld Komponist bietet nur eine Einfach-Auswahl an, da einer Sammlung nur ein Komponist zugeorndet werden kann. </p>
@@ -145,6 +144,14 @@ include('head.php');
     <p> Sucht einen Textteil innerhalb aller Text-Felder. </p>
     <p> Folgende Felder werden durchsucht: XXX </p>
     <p> Folgende Felder werden nicht durchsucht. XXX </p>     
+<h2 class="chapter-title chapter-title-h2" id="suchetext">Suche Satz > Schwierigkeitsgrad</h2>
+<p>Die Auswahlbox enthält die in Verwendung befindlichen Kombinationen aus "Instrument" und "Schwierigkeitsgrad"</p>
+<p>Für die Suchlogik werden die Instrumente separat behandelt - die Suchlogik verhält sich so, 
+    als ob für jedes Instrument eine eigene Auswahlbox zur Verfügung stehen würde. 
+    Beispielsuche - Stück mit Besetzung "Violine und Klavier"
+    XXX 
+    
+
 
 </div>
 

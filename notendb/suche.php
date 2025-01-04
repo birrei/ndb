@@ -13,8 +13,10 @@ include("cl_verlag.php");
 include("cl_gattung.php"); 
 include("cl_epoche.php"); 
 include("cl_erprobt.php");  
-include("cl_schwierigkeitsgrad.php");  
-include("cl_instrument.php");  
+
+// include("cl_schwierigkeitsgrad.php");  
+// include("cl_instrument.php");  
+include("cl_instrument_schwierigkeitsgrad.php");  
 
 include("cl_lookup.php");   
 include("cl_lookuptype.php");
@@ -32,7 +34,7 @@ $Gattungen=[];  // im Suchfilter ausgewählte Gattungen (IDs)
 $Epochen=[];   // im Suchfilter ausgewählte Epochen (IDs) 
 
 $Erprobt=[];  // im Suchfilter ausgewählte Erprobt-Einträge  (IDs) 
-$Schierigkeitsgrad=[]; // im Suchfilter ausgewählte Schwierigkeitsgrade  (IDs) 
+$Schwierigkeitsgrade=[]; // im Suchfilter ausgewählte Schwierigkeitsgrade  (IDs). Instrument/Schwierigkeitsgrad!  
 $Instrumente=[]; // im Suchfilter ausgewählte Instrumente  (IDs) 
 $Stricharten=[];  // im Suchfilter ausgewählte Stricharten  (IDs) 
 $Notenwerte=[]; // im Suchfilter ausgewählte Notenwerte  (IDs) 
@@ -339,26 +341,18 @@ if (isset($_POST['suchtext'])) {
  
   ?>
   <p class="navi-trenner">Satz</p> 
-  <?php   
-/************* Schwierigkeitsgrad  ***********/
-  if (isset($_POST['Schwierigkeitsgrad'])) {
-    $Schierigkeitsgrad = $_POST['Schwierigkeitsgrad']; 
-    $filterSchwierigkeitsgrad= 'IN ('.implode(',', $Schierigkeitsgrad).')'; 
-    $filter=true;       
-  }
-  $schierigkeitsgrad = new Schwierigkeitsgrad();
-  $schierigkeitsgrad->print_select_multi($Schierigkeitsgrad);  
-  $Suche->Beschreibung.=(count($Schierigkeitsgrad)>0?$schierigkeitsgrad->titles_selected_list:'');
- 
-/************* Schwierigkeitsgrad / Instrumente  ***********/
-  if (isset($_POST['Instrumente'])) {
-    $Instrumente = $_POST['Instrumente'];  
-    $filterInstrumente= 'IN ('.implode(',', $Instrumente).')'; 
-    $filter=true;      
-  } 
-  $instrument = new Instrument();
-  $instrument->print_select_multi($Instrumente);        
-  $Suche->Beschreibung.=(count($Instrumente)>0?$instrument->titles_selected_list:'');
+
+  <?php
+
+  /************* Instrument/Schwierigkeitsgrad  ***********/
+    $schwierigkeitsgrad = new InstrumentSchwierigkeitsgrad();
+    if (isset($_POST['Schwierigkeitsgrad'])) {
+      $Schwierigkeitsgrade = $_POST['Schwierigkeitsgrad']; 
+      $filterSchwierigkeitsgrad = $schwierigkeitsgrad->getSucheFilterSQL($Schwierigkeitsgrade);       
+      $filter=true;       
+    }
+    $schwierigkeitsgrad->print_select_multi($Schwierigkeitsgrade);  
+    $Suche->Beschreibung.=(count($Schwierigkeitsgrade)>0?$schwierigkeitsgrad->titles_selected_list:'');
   
 /************* Erprobt  ***********/
   if (isset($_POST['Erprobt'])) {
@@ -562,7 +556,8 @@ if (isset($_POST['suchtext'])) {
                 satz.Spieldauer MOD 60
                 , ''''''
               ) as Spieldauer              
-            , GROUP_CONCAT(DISTINCT concat(instrument.Name, ': ', schwierigkeitsgrad.Name)  order by schwierigkeitsgrad.Name SEPARATOR ', ') `Schwierigkeitsgrade`                   
+            -- , GROUP_CONCAT(DISTINCT concat(instrument.Name, ': ', schwierigkeitsgrad.Name)  order by schwierigkeitsgrad.Name SEPARATOR ', ') `Schwierigkeitsgrade`                   
+            , SatzSchwierigkeitsgrad.Schwierigkeitsgrade 
             , GROUP_CONCAT(DISTINCT  
                 CASE 
 	                when satz_erprobt.Jahr is null 
@@ -618,9 +613,27 @@ if (isset($_POST['suchtext'])) {
         LEFT JOIN satz on satz.MusikstueckID = musikstueck.ID 
         LEFT JOIN satz_erprobt on satz.ID = satz_erprobt.SatzID 
         LEFT JOIN erprobt on erprobt.ID = satz_erprobt.ErprobtID  
-        left JOIN satz_schwierigkeitsgrad on satz_schwierigkeitsgrad.SatzID = satz.ID 
-        LEFT JOIN schwierigkeitsgrad on schwierigkeitsgrad.ID = satz_schwierigkeitsgrad.SchwierigkeitsgradID 
-        LEFT JOIN instrument on instrument.ID = satz_schwierigkeitsgrad.InstrumentID 
+        
+        LEFT JOIN (
+          SELECT satz_schwierigkeitsgrad.SatzID      
+              , GROUP_CONCAT(DISTINCT concat(instrument.Name, ': ', schwierigkeitsgrad.Name)  
+                 ORDER by concat(instrument.Name, ': ', schwierigkeitsgrad.Name) SEPARATOR ', ') `Schwierigkeitsgrade`                    
+          from satz_schwierigkeitsgrad 
+          LEFT JOIN schwierigkeitsgrad on schwierigkeitsgrad.ID = satz_schwierigkeitsgrad.SchwierigkeitsgradID 
+          LEFT JOIN instrument on instrument.ID = satz_schwierigkeitsgrad.InstrumentID 
+          group by satz_schwierigkeitsgrad.SatzID 
+        )  SatzSchwierigkeitsgrad
+          on satz.ID = SatzSchwierigkeitsgrad.SatzID 
+
+        LEFT JOIN satz_schwierigkeitsgrad on satz_schwierigkeitsgrad.SatzID = satz.ID 
+        LEFT JOIN instrument_schwierigkeitsgrad 
+            ON instrument_schwierigkeitsgrad.InstrumentID = satz_schwierigkeitsgrad.InstrumentID
+            AND instrument_schwierigkeitsgrad.SchwierigkeitsgradID = satz_schwierigkeitsgrad.SchwierigkeitsgradID
+
+
+        -- LEFT JOIN schwierigkeitsgrad on schwierigkeitsgrad.ID = satz_schwierigkeitsgrad.SchwierigkeitsgradID 
+        -- LEFT JOIN instrument on instrument.ID = satz_schwierigkeitsgrad.InstrumentID 
+        
         LEFT JOIN satz_lookup on satz_lookup.SatzID = satz.ID 
         LEFT JOIN v_satz_lookuptypes on v_satz_lookuptypes.SatzID = satz.ID
         LEFT JOIN sammlung_lookup on sammlung_lookup.SammlungID = sammlung.ID       
@@ -667,12 +680,8 @@ if (isset($_POST['suchtext'])) {
 
       $query.=($filterErprobtJahr!=''?' AND satz_erprobt.Jahr '.$filterErprobtJahr. PHP_EOL:'');       
 
-      if($filterSchwierigkeitsgrad!=''){
-        $query.=' AND satz_schwierigkeitsgrad.SchwierigkeitsgradID '.$filterSchwierigkeitsgrad. PHP_EOL; 
-      }
-      if($filterInstrumente!=''){
-        $query.=' AND satz_schwierigkeitsgrad.InstrumentID '.$filterInstrumente. PHP_EOL; 
-      }
+      $query.=($filterSchwierigkeitsgrad!=''?$filterSchwierigkeitsgrad. PHP_EOL:'');       
+
       $query.=($filterLookups_sammlung!=''?$filterLookups_sammlung.PHP_EOL:''); 
 
       $query.=($filterLookups_satz!=''?$filterLookups_satz.PHP_EOL:''); 
