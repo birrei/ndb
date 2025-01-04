@@ -1,9 +1,19 @@
 ﻿
 ###  Aufgabe in Arbeit
-- Suche: Mehrfach-Kombination "Instrument" / "Schwierigkeitsgrad" ermöglichen 
-  - Vorbereitung: Lookup-Tabelle Instrument/Schwierigkeitsgrad 
+Suche: Mehrfach-Kombination "Instrument" / "Schwierigkeitsgrad" ermöglichen 
+Vorbereitung: Lookup-Tabelle Instrument/Schwierigkeitsgrad 
+Suche Anpassung Teil 1: Neue Auswahlbox, Suchabfrage umstellen
+Suche Anpassung Teil 2: Zweite Auswahlbox, Suchabfrage anpassen 
 
-###  Aufgaben in Arbeit 2. Reihe 
+Notes: Die Suche- Auswahlbox zeigt alle Kombinationen von Instrument/Schwierigkeitsgrad, die bisher in Verwendung sind. 
+
+Suche, Textsuche: Bitte beachten: In der Ansicht "Satz ..." werden nur Sammlungen / Musikstücke ausgegeben, bei denen ein Satz vorhanden ist. 
+
+
+
+###  Aufgaben in Arbeit - 2. Reihe 
+- Dataclearing: Gattung + Epoche 
+
 - Suche: Ergebnis-Abfrage, separate Queries: Verwendungszwecke (erledigt: Besetzungen)
 - Verbesserung Suchlogik (Ergänzung Optionen an Suchbox, Ergebnisabfrage nicht filtern): 
     Erledigt: Besetzung. Weiter: Verwendungszweck     
@@ -12,17 +22,6 @@
 - Suche, gespeicherte Suche: Zeilenangänge korrigieren 
 - URL-Angaben mit Beschreibung zusammenfügen 
 
-
-### Offene Aufgabe, neue Features 
-
-- Tabelle: material (Name, Beschreibung)
-- Neue Tabelle: Schüler, Asoc: Schüler, Stück.  
-- Suchefrage: NICHT 
-- Tabellen Spalten-Sortierung (per JavaScript, s. https://www.w3schools.com/howto/howto_js_sort_table.asp) 
-- Alle Tabellen mit "erstellt" und "geändert"-Spalten 
-- MouseOver Infos in der Ergebnis-Tabelle 
-- PDF-Export für eine Sammlung 
-- Eigenes Git-Repository für das Projekt 
 
 ### Offene Verbesserungen und Korrekturen
 - Suche: Layout ändern (responsive) 
@@ -75,6 +74,16 @@
 - Ausgabe Fehlermeldungen für Anwender verbessern (aktuell nur "ein Fehler ist aufgetreten", Grund bleibt für Anwender unklar)
 - Kalender-Tabelle 
 
+
+### Geplante neue Features 
+
+- Tabelle: material (Name, Beschreibung)
+- Neue Tabelle: Schüler, Asoc: Schüler, Stück.  
+- Suchefrage: NICHT 
+- Tabellen Spalten-Sortierung (per JavaScript, s. https://www.w3schools.com/howto/howto_js_sort_table.asp) 
+- MouseOver Infos in der Ergebnis-Tabelle 
+- PDF-Export für eine Sammlung 
+- Eigenes Git-Repository für das Projekt 
 
 ### vorerst verworfen 
 - ~~auto_update: Editierungs-Formular~~ aktuell nur Thema für "Service" > "Dataclearing" 
