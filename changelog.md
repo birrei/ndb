@@ -1,6 +1,8 @@
 ﻿
 # Changelog  
 
+06.01.2025: Suche: Mehrfach-Kombination "Instrument" / "Schwierigkeitsgrad" getrennt nach Instrumenten in einer Box 
+
 13.12.2024: Umstellung Button Suche neben Suchfeld 
 
 03.12.2024: Begonnen: Verbesserungen an Suchlogik und dazugehörigem Hilfe-Text 

@@ -1,19 +1,10 @@
 ﻿
 ###  Aufgabe in Arbeit
-Suche: Mehrfach-Kombination "Instrument" / "Schwierigkeitsgrad" ermöglichen 
-Vorbereitung: Lookup-Tabelle Instrument/Schwierigkeitsgrad 
-Suche Anpassung Teil 1: Neue Auswahlbox, Suchabfrage umstellen
-Suche Anpassung Teil 2: Zweite Auswahlbox, Suchabfrage anpassen 
-
-Notes: Die Suche- Auswahlbox zeigt alle Kombinationen von Instrument/Schwierigkeitsgrad, die bisher in Verwendung sind. 
-
-Suche, Textsuche: Bitte beachten: In der Ansicht "Satz ..." werden nur Sammlungen / Musikstücke ausgegeben, bei denen ein Satz vorhanden ist. 
 
 
 
 ###  Aufgaben in Arbeit - 2. Reihe 
-- Dataclearing: Gattung + Epoche 
-
+- Dataclearing: Sammlung > Gattung / Sammlung > Epoche 
 - Suche: Ergebnis-Abfrage, separate Queries: Verwendungszwecke (erledigt: Besetzungen)
 - Verbesserung Suchlogik (Ergänzung Optionen an Suchbox, Ergebnisabfrage nicht filtern): 
     Erledigt: Besetzung. Weiter: Verwendungszweck     
@@ -24,6 +15,7 @@ Suche, Textsuche: Bitte beachten: In der Ansicht "Satz ..." werden nur Sammlunge
 
 
 ### Offene Verbesserungen und Korrekturen
+- Hilfe zur Suche, Textsuche: Bitte beachten: In der Ansicht "Satz ..." werden nur Sammlungen / Musikstücke ausgegeben, bei denen ein Satz vorhanden ist. 
 - Suche: Layout ändern (responsive) 
 - Sammlung Name - FEld im Formular zu kurz 
 - Suche: weitere Ansichten z.B: Musikstück Fokus 
@@ -52,6 +44,7 @@ Suche, Textsuche: Bitte beachten: In der Ansicht "Satz ..." werden nur Sammlunge
 - Klassen-Dateien umbenennen: cl_* -> class.*  
 - Fehlerbehandlung: Bearbeiten-Formular wird bei nicht exisiterender ID geöffnet (siehe Vorlage edit_abfrage.php, cl_abfrage.php) 
 - Prüfung XXS,  https://php-de.github.io/jumpto/auswahllisten/
+- Hilfe-Seiten: automatisierte Überschriften verbessern 
 
 ### Offene Aufgaben Prio 2
 - Bookmarks-Import, Übernahme als Sammlungen (Teil 1 (Import) fertig, Übernahme Sammlung fehlt noch)
@@ -115,3 +108,4 @@ Suche, Textsuche: Bitte beachten: In der Ansicht "Satz ..." werden nur Sammlunge
 - autoupdate verwerfen 
 - Suche: Button "Suchen" neben Suchtextfenster 
 - Suche: Filterleiste ausblenden 
+- Suche: Mehrfach-Kombination "Instrument" / "Schwierigkeitsgrad" getrennt nach Instrument 

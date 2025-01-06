@@ -144,12 +144,80 @@ include('head.php');
     <p> Sucht einen Textteil innerhalb aller Text-Felder. </p>
     <p> Folgende Felder werden durchsucht: XXX </p>
     <p> Folgende Felder werden nicht durchsucht. XXX </p>     
-<h2 class="chapter-title chapter-title-h2" id="suchetext">Suche Satz > Schwierigkeitsgrad</h2>
-<p>Die Auswahlbox enthält die in Verwendung befindlichen Kombinationen aus "Instrument" und "Schwierigkeitsgrad"</p>
-<p>Für die Suchlogik werden die Instrumente separat behandelt - die Suchlogik verhält sich so, 
-    als ob für jedes Instrument eine eigene Auswahlbox zur Verfügung stehen würde. 
-    Beispielsuche - Stück mit Besetzung "Violine und Klavier"
-    XXX 
+<h2 class="chapter-title chapter-title-h2" id="suche-satz-schwierigkeitsgrad">Suche Satz > Schwierigkeitsgrad</h2>
+    <p>Die Auswahlbox enthält die in Verwendung befindlichen Kombinationen aus "Instrument" und "Schwierigkeitsgrad"</p>
+    <p>Für die Suchlogik werden die Instrumente separat behandelt. Das funktioniert so, 
+        als stünde für jedes Instrument eine eigene Auswahlbox zur Verfügung 
+        (Verknüpfung der ausgewählten Instrumente mit UND, 
+        Verknüpfung der Schwierigkeitsgrade innerhalb eines Instruments mit ODER). 
+    </p>
+    <p> Beispielsuche zu Besetzung "Violine und Klavier": 
+        Du möchtest ein Stück finden mit einem etwas anspruchsvolleren Part für die Violine und einem 
+        leichtern Part für das begleitende Klavier. 
+        
+        <br><br><u>Markiere in Auswahlbox</u> 
+        <br>Violine 2
+        <br>Violine 2/3
+        <br>Violine 3
+        <br>Klavier 0/1
+        <br>Klavier 1
+
+        <br><br>Daraus ergibt sich die Suchlogik: 
+        <br>Violine: Schwierigkeitsgrade 2, 2/3 ODER 3 
+        <br>UND
+        <br>Klavier: Schwierigkeitsgrade 0/1 ODER 1 
+
+        </p>
+
+
+
+
+
+        <p>&nbsp;</p>
+        <p>&nbsp;</p>
+        <p>&nbsp;</p>
+        <p>&nbsp;</p>
+        <p>&nbsp;</p>
+        <p>&nbsp;</p>
+        <p>&nbsp;</p>
+        <p>&nbsp;</p>
+        <p>&nbsp;</p>
+        <p>&nbsp;</p>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        <hr>
+
+
+        
+    </p>
+        
+       
+        
     
 
 
