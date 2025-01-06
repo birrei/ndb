@@ -119,17 +119,21 @@ h3 {
         <tr> <td colspan="3" class="start"> <h3>Hintergrund</h3> </td> </tr>        
 
         <tr>
+            <td class="start"><b>Schüler</b></td>
+            <td class="start"><a href="show_table2.php?table=schueler&sortcol=Name&title=Schüler">Daten anzeigen</a></td>
+            <td class="start"><a href="edit_schueler.php?title=Schüler&option=insert">Neu erfassen</a></td>
+        </tr>
+
+        <tr>
             <td class="start"><b>Abfragen</b></td>
             <td class="start"><a href="show_table2.php?table=v_abfrage&sortcol=Name&title=Abfragen&add_link_show&show_filter">Daten anzeigen</a></td>
-            <td class="start"><a href="edit_abfrage.php?title=Abfrage&option=insert">Neu erfassen</a>
-            </td>
+            <td class="start"><a href="edit_abfrage.php?title=Abfrage&option=insert">Neu erfassen</a></td>
         </tr>
 
         <tr>
             <td class="start"><b>Abfragetypen</b></td>
             <td class="start"><a href="show_table2.php?table=abfragetyp&sortcol=Name&title=Abfragetypen">Daten anzeigen</a></td>
-            <td class="start"><a href="edit_abfragetyp.php?title=Abfragetyp&option=insert">Neu erfassen</a>
-            </td>
+            <td class="start"><a href="edit_abfragetyp.php?title=Abfragetyp&option=insert">Neu erfassen</a></td>
         </tr>
 
         <tr> <td colspan="3" class="start"> <h3>Info-Sichten</h3> </td> </tr>        

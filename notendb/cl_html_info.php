@@ -20,6 +20,12 @@ class HtmlInfo {
         echo $this->html; 
     }
 
+    function print_info($info) {
+        $this->html='<p style="font-family: Courier;">'; 
+        $this->html.=$this->info_datetime.': '.$info;         
+        $this->html.='</p>'.PHP_EOL; 
+        echo $this->html;    
+    }    
     function print_error($stmt, PDOException $e) {
         $this->html='<p style="color: red;">'; 
         $this->html.=$e->getMessage(); 
