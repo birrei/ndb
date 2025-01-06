@@ -1,14 +1,18 @@
 ﻿
 ###  Aufgabe in Arbeit
-
-
+Schüler-Tabelle 
+- install/ddl.php 
+- Initial-Befüllung aus Verwendungszweck - dev\features\20250106_schueler.sql
+- index.php Links 
+- cl_schueler.php 
+- edit_schueler.php 
 
 ###  Aufgaben in Arbeit - 2. Reihe 
 - Dataclearing: Sammlung > Gattung / Sammlung > Epoche 
 - Suche: Ergebnis-Abfrage, separate Queries: Verwendungszwecke (erledigt: Besetzungen)
 - Verbesserung Suchlogik (Ergänzung Optionen an Suchbox, Ergebnisabfrage nicht filtern): 
     Erledigt: Besetzung. Weiter: Verwendungszweck     
-- Suche: Feldinterne Auflistungen nicht filtern! (für Besetzungen, Besonderheiten umgesetzt, andere folgen )
+- Suche, Ergebnistabelle: Feldinterne Auflistungen nicht filtern! (für Besetzungen, Besonderheiten umgesetzt, andere folgen )
 - Suche: Hilfekapitel 
 - Suche, gespeicherte Suche: Zeilenangänge korrigieren 
 - URL-Angaben mit Beschreibung zusammenfügen 
