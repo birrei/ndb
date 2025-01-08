@@ -141,6 +141,102 @@ class Schueler {
       return false; 
     }    
   }  
+
+ 
+  function print_table_schwierigkeitsgrade($target_file){
+    $query="SELECT instrument.ID 
+          , instrument.Name as Instrument 
+          , schwierigkeitsgrad.Name as Grad
+          FROM schueler_schwierigkeitsgrad 
+          inner join schwierigkeitsgrad 
+              on  schwierigkeitsgrad.ID = schueler_schwierigkeitsgrad.SchwierigkeitsgradID
+          inner join instrument
+          on instrument.ID = schueler_schwierigkeitsgrad.InstrumentID 
+          WHERE schueler_schwierigkeitsgrad.SchuelerID = :SchuelerID 
+        "; 
+
+    include_once("dbconn/cl_db.php");
+    $conn = new DbConn(); 
+    $db=$conn->db; 
+  
+    $stmt = $db->prepare($query); 
+    $stmt->bindParam(':SchuelerID', $this->ID, PDO::PARAM_INT); 
+
+    try {
+      $stmt->execute(); 
+      include_once("cl_html_table.php");      
+      $html = new HtmlTable($stmt); 
+      $html->add_link_edit=false;
+      $html->add_link_delete=true;
+      $html->del_link_filename=$target_file; 
+      $html->del_link_parent_key='SchuelerID'; 
+      $html->del_link_parent_id= $this->ID; 
+      $html->show_missing_data_message=false; 
+      $html->print_table2();           
+    }
+    catch (PDOException $e) {
+      include_once("cl_html_info.php"); 
+      $info = new HtmlInfo();      
+      $info->print_user_error(); 
+      $info->print_error($stmt, $e); 
+    }
+  }  
+  
+
+
+  function add_schwierigkeitsgrad($SchwierigkeitsgradID, $InstrumentID){
+    include_once("dbconn/cl_db.php");
+    $conn = new DbConn(); 
+    $db=$conn->db; 
+
+    $insert = $db->prepare("INSERT INTO `schueler_schwierigkeitsgrad` SET
+                        `SchuelerID`     = :SchuelerID,  
+                        `SchwierigkeitsgradID`     = :SchwierigkeitsgradID,
+                        `InstrumentID`     = :InstrumentID
+        ");
+
+    $insert->bindValue(':SchuelerID', $this->ID);  
+    $insert->bindValue(':SchwierigkeitsgradID', $SchwierigkeitsgradID);  
+    $insert->bindValue(':InstrumentID', $InstrumentID);      
+
+    try {
+      $insert->execute(); 
+      include_once("cl_instrument_schwierigkeitsgrad.php");
+      $instrument_schwierigkeitsgrad=new InstrumentSchwierigkeitsgrad(); 
+      $instrument_schwierigkeitsgrad->insert_row($InstrumentID, $SchwierigkeitsgradID); 
+    }
+    catch (PDOException $e) {
+      include_once("cl_html_info.php"); 
+      $info = new HtmlInfo();      
+      $info->print_user_error(); 
+      $info->print_error($insert, $e);  
+    }  
+  }
+
+  function delete_schwierigkeitsgrad($InstrumentID){
+    include_once("dbconn/cl_db.php");
+    $conn = new DbConn(); 
+    $db=$conn->db; 
+
+    $delete = $db->prepare("DELETE 
+                          FROM `schueler_schwierigkeitsgrad` 
+                          WHERE SchuelerID=:SchuelerID
+                          AND InstrumentID=:InstrumentID"
+                        ); 
+    $delete->bindValue(':SchuelerID', $this->ID);  
+    $delete->bindValue(':InstrumentID', $InstrumentID);      
+
+    try {
+      $delete->execute(); 
+    }
+    catch (PDOException $e) {
+      include_once("cl_html_info.php"); 
+      $info = new HtmlInfo();      
+      $info->print_user_error(); 
+      $info->print_error($delete, $e);  
+    }  
+  }
+
   
   // function print_select_multi($options_selected=[]){
 
@@ -203,6 +299,8 @@ class Schueler {
   //     return false;  
   //   }  
   // }  
+
+
 
 
 }

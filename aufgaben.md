@@ -1,11 +1,25 @@
 ﻿
-###  Aufgabe in Arbeit
-Schüler-Tabelle 
+###  Aufgabe in Arbeit   
+
+Integration Schüler-Tabelle
+Funktionen: 
+    - Zuordnung Schüler Schwierigkeitsgrad 
+    - Anzeige geeignetes Material (match satz/schueler Schwierigkeitsgrad), ggf. Besonderheiten - mit option "Übernahme" 
+    - Planung (ANzeige übernommene Vorschläge)
+        - Plaung offen 
+        - Planung aktiv ("Material", Datum von, Datum bis )
+
+-------------------
 - install/ddl.php 
 - Initial-Befüllung aus Verwendungszweck - dev\features\20250106_schueler.sql
 - index.php Links 
 - cl_schueler.php 
 - edit_schueler.php 
+- Tabelle: schueler_schwierigkeitsgrad
+- edit_schueler_schwierigkeitsgrade.php 
+- edit_schueler_schwierigkeitsgrad.php 
+
+
 
 ###  Aufgaben in Arbeit - 2. Reihe 
 - Dataclearing: Sammlung > Gattung / Sammlung > Epoche 
