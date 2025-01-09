@@ -46,7 +46,6 @@ $info->print_screen_header($sammlung->Title.' bearbeiten');
 $info->print_link_table('v_sammlung', 'sortcol=ID&sortorder=DESC', $sammlung->Titles,false,'&show_filter'); 
 $info->print_link_insert($sammlung->table_name, $sammlung->Title, false); 
 
-
 if ($show_data) {
   echo '
   <form action="edit_sammlung.php" method="post">
@@ -174,10 +173,12 @@ if ($show_data) {
  
   $info->print_link_delete_row2($sammlung->table_name, $sammlung->ID, $sammlung->Title, false);   
 
+  echo '<p><a href=dataclearing.php?SammlungID='.$sammlung->ID.' target="_blank">Sammel-Updates</a><p>'; 
 } 
 else {
     $info->print_user_error(); 
 }
+
 
 
 include('foot.php');

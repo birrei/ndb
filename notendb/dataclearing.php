@@ -1,13 +1,16 @@
 <?php 
-include('head.php');
-echo '<p><a href="dataclearing.php">Seite neu laden</a>'; 
+$PageTitle='Sammelupdates'; 
 
-$SammlungID=''; 
-$BesetzungID=''; 
-$VerwendungszweckID=''; 
+include('head.php');
+// echo '<p><a href="dataclearing.php">Seite neu laden</a>'; 
 
 $form_selected=''; 
 $form_sended=''; 
+
+$SammlungID=$_REQUEST["SammlungID"]; 
+
+echo '<h3>SammlungID: '.$SammlungID.'</h3>'; 
+
 
 if (isset($_POST["form-selected"])) {
   $form_selected=$_POST["form-selected"]; 
@@ -144,7 +147,7 @@ if (isset($_POST["form-sended"])){
 echo '</pre>';  
 ?>
 <form action="" method="post" name="select-task">   
-<p> Dataclearing-Task auswählen: 
+<p> Aufgabe auswählen: 
 <select id="form-selected" name="form-selected" onchange="this.form.submit()">
   <option value="">Formular auswählen ... </option>
   <option value="sammlung-kopieren" <?php echo ($form_selected=='sammlung-kopieren'?'selected':''); ?>>Sammlung kopieren</option>
@@ -154,7 +157,7 @@ echo '</pre>';
   <option value="sammlung-komponist" <?php echo ($form_selected=='sammlung-komponist'?'selected':''); ?>>Sammlung: Komponist hinzufügen</option>   
   <option value="sammlung-bearbeiter" <?php echo ($form_selected=='sammlung-bearbeiter'?'selected':''); ?>>Sammlung: Bearbeiter hinzufügen</option>   
   <option value="sammlung-erprobt" <?php echo ($form_selected=='sammlung-erprobt'?'selected':''); ?>>Sammlung: Erprobt-Eintrag hinzufügen</option>   
-
+  <input type="hidden" name="SammlungID" value="<?php echo $SammlungID; ?>">  
 </select>
 
 </p>
@@ -192,7 +195,11 @@ if ($form_selected!='') {
       <form action="" method="post" name="sammlung-komponist">
 
       <label> SammlungID: <input type="text" name="SammlungID" value="<?php echo $SammlungID; ?>" size="5" ></label>
-      <label> KomponistID: <input type="text" name="KomponistID" size="5" ></label>
+      <?php
+        include_once('cl_komponist.php'); 
+        $auswahl = new Komponist(); // XXX Beschriftung  
+        $auswahl->print_select(); 
+        ?>
       <input class="btnSave" type="submit" name="submit" value="ausführen">    
       <input type="hidden" name="form-sended" value="sammlung-komponist">  
       <input type="hidden" name="form-selected" value="<?php echo $form_selected; ?>">           
@@ -235,7 +242,11 @@ if ($form_selected!='') {
         <form action="" method="post" name="sammlung-besetzung">
 
         <label> SammlungID: <input type="text" name="SammlungID" value="<?php echo $SammlungID; ?>" size="5" ></label>
-        <label> BesetzungID: <input type="text" name="BesetzungID" size="5" ></label>
+        <?php
+        include_once('cl_besetzung.php'); 
+        $auswahl = new Besetzung(); 
+        $auswahl->print_select();  // XXX Beschriftung  
+        ?>
         <input type="checkbox" name="sammlung_delete_besetzung"><label for="sammlung_delete_besetzung">entfernen</label> 
         <input class="btnSave" type="submit" name="submit" value="ausführen">    
         <input type="hidden" name="form-sended" value="sammlung-besetzung">  
@@ -252,7 +263,11 @@ if ($form_selected!='') {
         <!-- sammlung-insert-verwendungszweck -->   
         <form action="" method="post" name="sammlung-verwendungszweck">
         <label> SammlungID: <input type="text" name="SammlungID" value="<?php echo $SammlungID; ?>" size="5" ></label>
-        <label> VerwendungszweckID: <input type="text" name="VerwendungszweckID" size="5" ></label>
+        <?php
+        include_once('cl_verwendungszweck.php'); 
+        $auswahl = new Verwendungszweck(); 
+        $auswahl->print_select();  // XXX Beschriftung  
+        ?>
         <input type="checkbox" name="sammlung_delete_verwendungszweck"><label for="sammlung_delete_verwendungszweck">entfernen</label> 
 
         <input class="btnSave" type="submit" name="submit" value="ausführen">    
@@ -288,7 +303,11 @@ if ($form_selected!='') {
       <h2>Sammlung: Erprobt-Eintrag ergänzen  </h2>
         <form action="" method="post" name="sammlung-erprobt">
         <label> SammlungID: <input type="text" name="SammlungID" value="<?php echo $SammlungID; ?>" size="5" ></label>
-        <label> ErprobtID: <input type="text" name="ErprobtID" size="5" ></label>
+        <?php
+        include_once('cl_erprobt.php'); 
+        $auswahl = new Erprobt(); 
+        $auswahl->print_select();  // XXX Beschriftung  
+        ?>
 
         <input class="btnSave" type="submit" name="submit" value="ausführen">    
         <input type="hidden" name="form-sended" value="sammlung-erprobt">    
