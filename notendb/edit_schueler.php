@@ -70,20 +70,40 @@ if ($show_data) {
       <td class="form-edit form-edit-col2"><input class="btnSave" type="submit" name="senden" value="Speichern">
       </td>
     </tr> 
-    </table> 
 
     <input type="hidden" name="option" value="update">     
     <input type="hidden" name="title" value="Schüler">    
     <input type="hidden" name="ID" value="' . $schueler->ID. '">
 
   </form>
-  '; 
 
-  // XXX $info->print_link_delete_row2($schueler->table_name, $schueler->ID,$schueler->Title); 
+
+  ';
+  ?> 
+
+  <tr> 
+  <td class="form-edit form-edit-col1">Daten anzeigen: <br /> <br />
+  <input type="radio" id="opt_Schwierigkeitsgrad" name="target_form" value="Schwierigkeitsgrad" onclick="changeIframeSrc('subform1', 'edit_schueler_schwierigkeitsgrade.php?SchuelerID=<?php echo $schueler->ID; ?>');" checked>
+  <label for="opt_Schwierigkeitsgrad">Instrumente / Schwierigkeitsgrade</label><br>
+
+  </td> 
+  <td class="form-edit form-edit-col2">
+    <iframe src="edit_schueler_schwierigkeitsgrade.php?SchuelerID=<?php echo $schueler->ID; ?>&source=iframe" height="300" id="subform1" name="Info" class="form-iframe-var2"></iframe>
+  </td>
+  </tr> 
+
+
+  </table> 
+
+  <?php 
+
+  $info->print_link_delete_row2($schueler->table_name, $schueler->ID, $schueler->Title, false); 
+
 } 
 else {
-    $info->print_user_error(); 
+  $info->print_user_error(); 
 }
+
 
 include('foot.php');
 

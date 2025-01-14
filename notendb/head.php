@@ -1,7 +1,11 @@
 <?php 
- $title_base='Notendatenbank'; 
 
- $title_page=''; 
+$title_base='Notendatenbank'; 
+
+if (isset($PageTitle)) {
+ // Parammter $PageTitle in aufrufender Datei vor den include-Aufruf setzen. Vorlage: dataclearing.php XXX 
+  $title_page=$PageTitle; 
+} 
 
 if ( isset($_REQUEST["title"]) ){
   $title_page=$_REQUEST["title"]; 
@@ -71,7 +75,6 @@ $title_complete=($title_page!=''?$title_page.' - '.$title_base:$title_base);
 
 <hr>
 <?php 
-
 
 ?>
 

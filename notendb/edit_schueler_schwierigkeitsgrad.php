@@ -15,7 +15,8 @@ $info = new HtmlInfo();
       <?php 
           include_once("cl_instrument.php");         
           $instrument = new Instrument(); 
-          $instrument->print_select('',  $_GET["SatzID"]); 
+          // $instrument->print_select('',  $_GET["SatzID"]); 
+          $instrument->print_select(); 
        ?>  
   </td>  
   <td class="eingabe2 eingabe2_3">
@@ -64,14 +65,14 @@ $info = new HtmlInfo();
   <td class="eingabe2 eingabe2_1"> </td>
   <td class="eingabe2 eingabe2_2">
       <?php 
-      $info->print_link_backToList('edit_schueler_schwierigkeitsgrade.php?SatzID='.$_GET["SchuelerID"], 'zurück zu Liste'); 
+      $info->print_link_backToList('edit_schueler_schwierigkeitsgrade.php?SchuelerID='.$_GET["SchuelerID"], 'zurück zu Liste'); 
       ?>
   </td>  
   <td class="eingabe2 eingabe2_3"></td>    
 </tr>
 
 
- <input type="hidden" name="SatzID" value="<?php echo $_GET["SchuelerID"]; ?>"> 
+ <input type="hidden" name="SchuelerID" value="<?php echo $_GET["SchuelerID"]; ?>"> 
  <input type="hidden" name="option" value="insert"> 
 
 

@@ -144,15 +144,18 @@ class Schueler {
 
  
   function print_table_schwierigkeitsgrade($target_file){
-    $query="SELECT instrument.ID 
-          , instrument.Name as Instrument 
-          , schwierigkeitsgrad.Name as Grad
+    $query="SELECT
+          instrument.Name as Instrument 
+          , schwierigkeitsgrad.Name as Schwierigkeitsgrad
+          , instrument.ID 
+          , schueler_schwierigkeitsgrad.SchwierigkeitsgradID as ID2          
           FROM schueler_schwierigkeitsgrad 
           inner join schwierigkeitsgrad 
               on  schwierigkeitsgrad.ID = schueler_schwierigkeitsgrad.SchwierigkeitsgradID
           inner join instrument
           on instrument.ID = schueler_schwierigkeitsgrad.InstrumentID 
           WHERE schueler_schwierigkeitsgrad.SchuelerID = :SchuelerID 
+          ORDER BY instrument.Name, schwierigkeitsgrad.Name 
         "; 
 
     include_once("dbconn/cl_db.php");
@@ -171,6 +174,7 @@ class Schueler {
       $html->del_link_filename=$target_file; 
       $html->del_link_parent_key='SchuelerID'; 
       $html->del_link_parent_id= $this->ID; 
+      $html->del_link_count_params=2; 
       $html->show_missing_data_message=false; 
       $html->print_table2();           
     }
@@ -188,32 +192,50 @@ class Schueler {
     include_once("dbconn/cl_db.php");
     $conn = new DbConn(); 
     $db=$conn->db; 
-
-    $insert = $db->prepare("INSERT INTO `schueler_schwierigkeitsgrad` SET
-                        `SchuelerID`     = :SchuelerID,  
-                        `SchwierigkeitsgradID`     = :SchwierigkeitsgradID,
+    
+    $select = $db->prepare("SELECT * FROM schueler_schwierigkeitsgrad   
+                        WHERE 
+                        `SchuelerID`     = :SchuelerID AND 
+                        `SchwierigkeitsgradID`     = :SchwierigkeitsgradID AND 
                         `InstrumentID`     = :InstrumentID
         ");
 
-    $insert->bindValue(':SchuelerID', $this->ID);  
-    $insert->bindValue(':SchwierigkeitsgradID', $SchwierigkeitsgradID);  
-    $insert->bindValue(':InstrumentID', $InstrumentID);      
+    $select->bindValue(':SchuelerID', $this->ID);  
+    $select->bindValue(':SchwierigkeitsgradID', $SchwierigkeitsgradID);  
+    $select->bindValue(':InstrumentID', $InstrumentID);  
 
-    try {
-      $insert->execute(); 
-      include_once("cl_instrument_schwierigkeitsgrad.php");
-      $instrument_schwierigkeitsgrad=new InstrumentSchwierigkeitsgrad(); 
-      $instrument_schwierigkeitsgrad->insert_row($InstrumentID, $SchwierigkeitsgradID); 
+    $select->execute(); 
+
+    if ($select->rowCount()>0 ) {
+        echo '<p>Die gewählte Kombination exisitiert bereits!</p>'; 
+    } 
+    else {
+      $insert = $db->prepare("INSERT INTO `schueler_schwierigkeitsgrad` SET
+      `SchuelerID`     = :SchuelerID,  
+      `SchwierigkeitsgradID`     = :SchwierigkeitsgradID,
+      `InstrumentID`     = :InstrumentID
+      ");
+
+      $insert->bindValue(':SchuelerID', $this->ID);  
+      $insert->bindValue(':SchwierigkeitsgradID', $SchwierigkeitsgradID);  
+      $insert->bindValue(':InstrumentID', $InstrumentID);      
+
+      try {
+        $insert->execute(); 
+        include_once("cl_instrument_schwierigkeitsgrad.php");
+        $instrument_schwierigkeitsgrad=new InstrumentSchwierigkeitsgrad(); 
+        $instrument_schwierigkeitsgrad->insert_row($InstrumentID, $SchwierigkeitsgradID); 
+      }
+        catch (PDOException $e) {
+        include_once("cl_html_info.php"); 
+        $info = new HtmlInfo();      
+        $info->print_user_error(); 
+        $info->print_error($insert, $e);  
+      }  
     }
-    catch (PDOException $e) {
-      include_once("cl_html_info.php"); 
-      $info = new HtmlInfo();      
-      $info->print_user_error(); 
-      $info->print_error($insert, $e);  
-    }  
   }
 
-  function delete_schwierigkeitsgrad($InstrumentID){
+  function delete_schwierigkeitsgrad($InstrumentID, $SchwierigkeitsgradID){
     include_once("dbconn/cl_db.php");
     $conn = new DbConn(); 
     $db=$conn->db; 
@@ -221,10 +243,12 @@ class Schueler {
     $delete = $db->prepare("DELETE 
                           FROM `schueler_schwierigkeitsgrad` 
                           WHERE SchuelerID=:SchuelerID
-                          AND InstrumentID=:InstrumentID"
+                          AND InstrumentID=:InstrumentID
+                          AND SchwierigkeitsgradID=:SchwierigkeitsgradID"
                         ); 
     $delete->bindValue(':SchuelerID', $this->ID);  
     $delete->bindValue(':InstrumentID', $InstrumentID);      
+    $delete->bindValue(':SchwierigkeitsgradID', $SchwierigkeitsgradID);    
 
     try {
       $delete->execute(); 

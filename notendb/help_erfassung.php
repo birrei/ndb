@@ -88,8 +88,50 @@ include('head.php');
 
     <p>Die Zuordnung einer Besetzung wird <a href="#erfassung_musikstueck_besetzung">auf Musikstück-Ebene vorgenommen</a> (weitere Hinweise zur Verwendung siehe dort)</p>
 
+<h2 class="chapter-title chapter-title-h2" id="erfassung_schueler">Schüler</h2>
+<h2 class="chapter-title chapter-title-h3" id="erfassung_schueler_schwierigkeitsgrade">Schüler: Instrumente und Schwierigkeitsgrade</h2>
+
+    <p>Die Schwierigkeitsgrade sollen darüber informieren, welche Instrumente der Schüler spielt und 
+        innerhalb welcher Schwierigkeitsgrade das Unterichtsmaterial für diesen Schüler liegen sollte.
+    </p>  
+
+    <p> Hinweis: Die auswählbaren Einträge folgen der gleichen Systematik, 
+        wie sie auch für die Satz- Schwierigkeitsgrade hinterlegt sind. 
+        Für einen Schüler wird jedoch eine Bandbreite angegeben, 
+        daher können mehrere Schwierigkeitsgrade pro Instrument eingetragen werden (im Gegensatz zum Satz, bei dem  
+        pro Instrument eine eindeutige Entscheidung getroffen wird).  
+    </p>
+
+
+    <p>Erfassung: Trage ein oder mehrere Instrument/Schwierigkeitsgrad-Kombinationen ein. 
+        Beispiel: Folgendes Einträge zeigen an, dass für den Schüler (Noten-)Material mit Schwierigkeitsgrad zwischen "1" und "2" in Frage kommt: 
+        <br> 
+        <br> Violine 1
+        <br> Violine 1/2
+        <br> Violine 2 
+    </p>
 
 <hr>
+
+
+
+<p>&nbsp;</p>
+        <p>&nbsp;</p>
+        <p>&nbsp;</p>
+        <p>&nbsp;</p>
+        <p>&nbsp;</p>
+        <p>&nbsp;</p>
+        <p>&nbsp;</p>
+        <p>&nbsp;</p>
+        <p>&nbsp;</p>
+        <p>&nbsp;</p>
+
+
+
+
+
+
+
 
 
 </div> 

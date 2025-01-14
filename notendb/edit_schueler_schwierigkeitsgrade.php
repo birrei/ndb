@@ -16,7 +16,7 @@ if (isset($_GET["option"])){
         }
     } 
     if($_GET["option"]=='delete') {
-        $schueler->delete_schwierigkeitsgrad($_GET["ID"]); // ID = schueler_schwierigkeitsgrad.ID 
+        $schueler->delete_schwierigkeitsgrad($_GET["ID"],$_GET["ID2"] ); // 
     } 
 }
 

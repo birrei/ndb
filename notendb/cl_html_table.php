@@ -19,7 +19,8 @@ class HtmlTable {
     public $del_link_open_newpage=false;
     public $del_link_parent_key='';
     public $del_link_parent_id='';
-    public $del_option = 1; // 1: schnelle          
+    public $del_link_count_params=1; // Anzahl Child-IDs, die im Link sichtar sein sollen 
+    // XXX? public $del_option = 1; //
 
     public $add_link_show=false; // falls eine "show_*.php" für ein Tabelle vorgesehen ist (akt. show_abfrage.php)
     public $add_param_name; // für $add_link_show=true: "&Name=(wert im Name-Feld der Datenzeile)" ergänzen 
@@ -115,8 +116,19 @@ class HtmlTable {
                     }
                     if ($this->add_link_delete) {
                         if ($this->del_link_filename!='') {
+                            switch($this->del_link_count_params) {
+                                case 1: // 1 ChildID 
+                                    $html .= '<td class="resultset"><a href="'.$this->del_link_filename.'?'.$this->del_link_parent_key.'='.$this->del_link_parent_id.'&ID='.$row["ID"].'&option=delete" tabindex="-1">Löschen</a></td>'. PHP_EOL;                     
+                                break; 
+              
+                                case 2: // 2 Child-IDs 
+                                    $html .= '<td class="resultset"><a href="'.$this->del_link_filename.'?'.$this->del_link_parent_key.'='.$this->del_link_parent_id.'&ID='.$row["ID"].'&ID2='.$row["ID2"].'&option=delete" 2tabindex="-1">Löschen</a></td>'. PHP_EOL;                     
+                                break; 
+
+                            }
                             // Standard-Verwendung: Verknüpfungs-Tabellen, schnelle Löschung
-                            $html .= '<td class="resultset"><a href="'.$this->del_link_filename.'?'.$this->del_link_parent_key.'='.$this->del_link_parent_id.'&ID='.$row["ID"].'&option=delete" tabindex="-1">Löschen</a></td>'. PHP_EOL;                     
+                            // im Link sind ParentID (z.B: SatzID) sowie Child-ID (zB. InstrumentID) definiert  
+
                         }
                         if ($this->del_link_table!='') {
                             // Standard-Verwendung: Löschung mit Bestätigungs-Dialog in delete.php

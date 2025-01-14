@@ -9,6 +9,7 @@
   public $titles_selected_list; 
   public $Title='Instrument';
   public $Titles='Instrumente';  
+  public $Parent='Satz'; // Satz, Schueler 
 
   public function __construct(){
     $this->table_name='instrument'; 
@@ -35,7 +36,7 @@
     }
   }  
  
-  function print_select($value_selected='', $ref_SatzID='', $caption=''){
+  function print_select($value_selected='', $refID='', $caption=''){
       
     include_once("dbconn/cl_db.php");  
     include_once("cl_html_select.php");
@@ -43,19 +44,35 @@
     $query="SELECT ID, Name 
             FROM `instrument` "; 
 
-    if ($ref_SatzID!=''){
-      $query.='WHERE ID NOT IN 
-              (SELECT InstrumentID FROM satz_schwierigkeitsgrad   
-              WHERE SatzID=:SatzID) ';
+    switch($this->Parent) {
+      case 'Satz': 
+        if ($refID!=''){
+          $query.='WHERE ID NOT IN 
+                  (SELECT InstrumentID FROM satz_schwierigkeitsgrad   
+                  WHERE SatzID=:refID) ';
+        }
+     
+        break; 
+
+        case 'Schueler': 
+          // nicht verwendet, da beim Schüler (im Gegensatz zum Satz) 
+          // pro Instrument auch mehrere Schwierigkeitsgrade zugeordnet werden können 
+          // (beim Schüler wird durch mehrere Einträge eine Bandbreite an Schwierigkeitsgraden vorgegeben )
+          if ($refID!=''){
+            $query.='WHERE ID NOT IN 
+                    (SELECT InstrumentID FROM schueler_schwierigkeitsgrad   
+                    WHERE SchuelerID=:refID) ';
+          }       
+          break; 
     }
-    $query.='ORDER BY `Name`'; 
+    $query.='ORDER BY `Name`';    
 
     $conn = new DbConn(); 
     $db=$conn->db; 
 
     $stmt = $db->prepare($query); 
-    if ($ref_SatzID!=''){
-      $stmt->bindParam(':SatzID', $ref_SatzID);
+    if ($refID!=''){
+      $stmt->bindParam(':refID', $refID);
     }        
 
     try {

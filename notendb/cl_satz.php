@@ -371,6 +371,7 @@ class Satz {
           inner join instrument
           on instrument.ID = satz_schwierigkeitsgrad.InstrumentID 
           WHERE satz_schwierigkeitsgrad.SatzID = :SatzID 
+          ORDER BY instrument.Name, schwierigkeitsgrad.Name 
         "; 
 
     include_once("dbconn/cl_db.php");
