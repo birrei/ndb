@@ -20,9 +20,7 @@ $overwrite=true; // true: Tabelle wird gelöscht und neu angelegt
 if (isset($_GET["option"])) {
 
     // install_schueler($overwrite); 
-
     // install_schueler_schwierigkeitsgrad($overwrite);
-    
     install_schueler_satz($overwrite);
     
     // echo '<p> Aktuell ist keine Installationsaufgabe aktiviert (Ablauf noch in Entwicklung) </p>'; 
@@ -37,16 +35,17 @@ if (isset($_GET["option"])) {
 
 function install_schueler_satz($overwrite=false) {
     $sql="
-        CREATE TABLE `schueler_satz` (
-        `ID` INT NOT NULL AUTO_INCREMENT,
-        `SchuelerID` INT NOT NULL,
-        `SatzID` INT UNSIGNED NOT NULL, -- XXX 
-        PRIMARY KEY (`ID`),
-        UNIQUE KEY `uc_schueler_satz` (`SchuelerID`,`SatzID`),
-        KEY `SatzID` (`SatzID`),
-        KEY `SchuelerID` (`SchuelerID`),
-        CONSTRAINT `fkey_schueler_satz_SchuelerID` FOREIGN KEY (`SchuelerID`) REFERENCES `schueler` (`ID`),
-        CONSTRAINT `fkey_schueler_satz_SatzID` FOREIGN KEY (`SatzID`) REFERENCES `satz` (`ID`)
+        CREATE TABLE schueler_satz (
+        ID INT NOT NULL AUTO_INCREMENT,
+        SchuelerID INT NOT NULL,
+        SatzID INT UNSIGNED NOT NULL, -- XXX 
+        Bemerkung VARCHAR(255) NULL, 
+        PRIMARY KEY (ID),
+        UNIQUE KEY uc_schueler_satz (SchuelerID,SatzID),
+        KEY SatzID (SatzID),
+        KEY SchuelerID (SchuelerID),
+        CONSTRAINT fkey_schueler_satz_SchuelerID FOREIGN KEY (SchuelerID) REFERENCES schueler (ID),
+        CONSTRAINT fkey_schueler_satz_SatzID FOREIGN KEY (SatzID) REFERENCES satz (ID)
         )     
     "; 
     install_table('schueler_satz', $sql, $overwrite); 
@@ -54,19 +53,19 @@ function install_schueler_satz($overwrite=false) {
 
 function install_schueler_schwierigkeitsgrad($overwrite=false) {
     $sql="
-        CREATE TABLE `schueler_schwierigkeitsgrad` (
-        `ID` INT NOT NULL AUTO_INCREMENT,
-        `SchuelerID` INT NOT NULL,
-        `SchwierigkeitsgradID` INT UNSIGNED NOT NULL, -- XXX 
-        `InstrumentID` INT NOT NULL,
-        PRIMARY KEY (`ID`),
-        UNIQUE KEY `uc_schueler_schwierigkeitsgrad` (`SchuelerID`,`SchwierigkeitsgradID`,`InstrumentID`),
-        KEY `SchwierigkeitsgradID` (`SchwierigkeitsgradID`),
-        KEY `InstrumentID` (`InstrumentID`),
+        CREATE TABLE schueler_schwierigkeitsgrad (
+        ID INT NOT NULL AUTO_INCREMENT,
+        SchuelerID INT NOT NULL,
+        SchwierigkeitsgradID INT UNSIGNED NOT NULL, -- XXX 
+        InstrumentID INT NOT NULL,
+        PRIMARY KEY (ID),
+        UNIQUE KEY uc_schueler_schwierigkeitsgrad (SchuelerID,SchwierigkeitsgradID,InstrumentID),
+        KEY SchwierigkeitsgradID (SchwierigkeitsgradID),
+        KEY InstrumentID (InstrumentID),
         -- XXX umbenennen, vergl. 'schueler_satz'': 
-        CONSTRAINT `fkey_SchuelerID` FOREIGN KEY (`SchuelerID`) REFERENCES `schueler` (`ID`),
-        CONSTRAINT `fkey_SchwierigkeitsgradID` FOREIGN KEY (`SchwierigkeitsgradID`) REFERENCES `schwierigkeitsgrad` (`ID`),
-        CONSTRAINT `fkey_InstrumentID` FOREIGN KEY (`InstrumentID`) REFERENCES `instrument` (`ID`)
+        CONSTRAINT fkey_SchuelerID FOREIGN KEY (SchuelerID) REFERENCES schueler (ID),
+        CONSTRAINT fkey_SchwierigkeitsgradID FOREIGN KEY (SchwierigkeitsgradID) REFERENCES schwierigkeitsgrad (ID),
+        CONSTRAINT fkey_InstrumentID FOREIGN KEY (InstrumentID) REFERENCES instrument (ID)
         )     
     "; 
     install_table('schueler_schwierigkeitsgrad', $sql, $overwrite); 
