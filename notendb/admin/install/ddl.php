@@ -37,8 +37,8 @@ function install_schueler_satz($overwrite=false) {
     $sql="
         CREATE TABLE schueler_satz (
         ID INT NOT NULL AUTO_INCREMENT,
-        SchuelerID INT NOT NULL,
-        SatzID INT UNSIGNED NOT NULL, -- XXX 
+        SchuelerID INT DEFAULT NULL,
+        SatzID INT UNSIGNED NULL, -- XXX 
         Bemerkung VARCHAR(255) NULL, 
         PRIMARY KEY (ID),
         UNIQUE KEY uc_schueler_satz (SchuelerID,SatzID),

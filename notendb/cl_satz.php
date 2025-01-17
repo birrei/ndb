@@ -51,13 +51,6 @@ class Satz {
       $info->print_user_error(); 
       $info->print_error($stmt, $e);  
     } 
-
-    // akt verworfen 
-    // if ($this->autoupdate) {
-    //   $this->autoupdate_insert_erprobt(); 
-
-    // }    
-    
   }
 
   function update_row(
@@ -155,6 +148,53 @@ class Satz {
       return false; 
     }
   }
+
+  
+
+  function load_row2() {
+    // Daten aus Musikstück, Sammlung 
+    include_once("dbconn/cl_db.php");   
+    $conn = new DbConn(); 
+    $db=$conn->db; 
+
+    $select = $db->prepare("SELECT 
+                      `ID`
+                      ,COALESCE(Name,'') as Name 
+                      ,`Nummer`
+                      ,`MusikstueckID`
+                      ,`Tonart`
+                      ,`Taktart`
+                      ,`Tempobezeichnung`
+                      ,`Spieldauer`
+                      ,`ErprobtID`
+                      , COALESCE(Bemerkung,'') as Bemerkung 
+                      , COALESCE(Orchesterbesetzung,'') as Orchesterbesetzung                       
+    FROM `musikstueck`
+    WHERE `ID` = :MusikstueckID");
+
+    $select->bindParam(':MusikstueckID', $this->MusikstueckID, PDO::PARAM_INT);
+
+
+    $select->execute(); 
+    if ($select->rowCount()==1) {
+      $row_data=$select->fetch();      
+      $this->Name=$row_data["Name"];
+      $this->Nr=$row_data["Nr"];
+      $this->MusikstueckID=$row_data["MusikstueckID"];
+      $this->Tonart=$row_data["Tonart"];
+      $this->Taktart=$row_data["Taktart"];
+      $this->Tempobezeichnung=$row_data["Tempobezeichnung"];
+      $this->Spieldauer=$row_data["Spieldauer"];
+      $this->ErprobtID=$row_data["ErprobtID"];
+      $this->Bemerkung=$row_data["Bemerkung"];
+      $this->Orchesterbesetzung=$row_data["Orchesterbesetzung"];    
+      return true; 
+    } 
+    else {
+      return false; 
+    }
+  }
+
 
   function print_select($value_selected='', $caption=''){
 
@@ -360,6 +400,7 @@ class Satz {
       return false; 
     }  
   }  
+
 
   function print_table_schwierigkeitsgrade($target_file){
     $query="SELECT instrument.ID 
@@ -604,30 +645,30 @@ class Satz {
     }
   }    
 
-  // XXX ??? 
-  // function add_erprobt($Bemerkung){
+ 
+  function add_erprobt($Bemerkung){
+ // XXX ??? 
+    include_once("dbconn/cl_db.php");
+    $conn = new DbConn(); 
+    $db=$conn->db; 
 
-  //   include_once("dbconn/cl_db.php");
-  //   $conn = new DbConn(); 
-  //   $db=$conn->db; 
+    $insert = $db->prepare("INSERT INTO `satz_erprobt` SET
+        `Bemerkung`     = :Bemerkung"
+      );
 
-  //   $insert = $db->prepare("INSERT INTO `satz_erprobt` SET
-  //       `Bemerkung`     = :Bemerkung"
-  //     );
+    $insert->bindValue(':SatzID', $this->ID);  
+    $insert->bindValue(':Bemerkung', $Bemerkung);  // fehler XXX 
 
-  //   $insert->bindValue(':SatzID', $this->ID);  
-  //   $insert->bindValue(':LookupID', $ErprobtID);  // fehler XXX 
-
-  //   try {
-  //     $insert->execute(); 
-  //   }
-  //   catch (PDOException $e) {
-  //     include_once("cl_html_info.php"); 
-  //     $info = new HtmlInfo();      
-  //     $info->print_user_error(); 
-  //     $info->print_error($insert, $e);  
-  //   }  
-  // }
+    try {
+      $insert->execute(); 
+    }
+    catch (PDOException $e) {
+      include_once("cl_html_info.php"); 
+      $info = new HtmlInfo();      
+      $info->print_user_error(); 
+      $info->print_error($insert, $e);  
+    }  
+  }
 
   function delete_erprobte(){
     include_once("dbconn/cl_db.php");
@@ -673,32 +714,49 @@ class Satz {
     }  
   }  
 
-  // function autoupdate_insert_erprobt() {
-  //   include_once("dbconn/cl_db.php");   
-  //   $conn = new DbConn(); 
-  //   $db=$conn->db; 
-    
-  //   // automatische Zuordnung pro Sammlung 
-  //   $sql="
-  //     insert into satz_erprobt (SatzID, ErprobtID) 
-  //     select satz.ID as SatzID, auto_update.upd_ID as ErprobtID 
-  //     from auto_update 
-  //         inner join musikstueck on musikstueck.SammlungID = auto_update.ref_ID     
-  //         inner join satz on satz.MusikstueckID = musikstueck.ID
-  //         left join satz_erprobt on satz_erprobt.SatzID = satz.ID 
-  //                               and satz_erprobt.ErprobtID = auto_update.upd_ID 
-  //     where auto_update.ref_colname='SammlungID'
-  //     and auto_update.upd_colname='ErprobtID'
-  //     and satz.ID = :ID 
-  //     and satz_erprobt.ID IS NULL 
-  //       ";
 
-  //   $insert = $db->prepare($sql); 
-  //   $insert->bindValue(':ID', $this->ID);  
-  //   $insert->execute(); 
-  //   // echo '<p> Anzahl Einfuegungen Erprobt: '.$insert->rowCount().'</p>';     
-  // }
 
+  function print_table_schueler(){
+    $query="SELECT schueler_satz.ID 
+          , schueler.Name as Schueler
+          , schueler_satz.Bemerkung  
+          FROM schueler_satz
+          left join schueler 
+          on  schueler.ID = schueler_satz.SchuelerID  
+          WHERE schueler_satz.SatzID = :SatzID 
+          order by schueler.Name  
+        "; 
+
+    include_once("dbconn/cl_db.php");
+    $conn = new DbConn(); 
+    $db=$conn->db; 
+  
+    $stmt = $db->prepare($query); 
+    $stmt->bindParam(':SatzID', $this->ID, PDO::PARAM_INT); 
+
+    try {
+      $stmt->execute(); 
+      include_once("cl_html_table.php");      
+      $html = new HtmlTable($stmt); 
+      $html->edit_link_table='satz_schueler'; 
+      $html->edit_link_title='Schueler'; 
+      $html->edit_link_open_newpage=false; 
+      $html->show_missing_data_message=false;      
+      $html->add_link_delete=true; // XXX 
+      $html->del_link_filename='edit_satz_schuelers.php'; 
+      // $html->del_link_table='satz_erprobt'; // nicht sinnvoll
+      $html->del_link_parent_key='SatzID'; 
+      $html->del_link_parent_id= $this->ID;              
+      $html->print_table2(); 
+
+    }
+    catch (PDOException $e) {
+      include_once("cl_html_info.php"); 
+      $info = new HtmlInfo();      
+      $info->print_user_error(); 
+      $info->print_error($stmt, $e); 
+    }
+  }    
     
 }
 

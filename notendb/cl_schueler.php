@@ -39,60 +39,48 @@ class Schueler {
     }
   }  
  
-  // function print_select($value_selected='', $caption=''){
+  function print_select($value_selected='', $ref_SatzID='', $caption=''){
       
-  //   include_once("dbconn/cl_db.php");  
-  //   include_once("cl_html_select.php");
+    include_once("dbconn/cl_db.php");  
+    include_once("cl_html_select.php");
 
-  //   $query="SELECT ID, Name 
-  //           FROM `gattung` 
-  //           order by `Name`"; 
+    $query='SELECT ID, Name 
+    FROM `schueler` ';
 
-  //   $conn = new DbConn(); 
-  //   $db=$conn->db; 
+    if ($ref_SatzID!=''){
+    $query.='WHERE ID NOT IN 
+          (SELECT SchuelerID FROM schueler_satz 
+          WHERE SatzID=:SatzID) ';
+    }
 
-  //   $stmt = $db->prepare($query); 
+    $query.='ORDER BY `Name`'; 
 
-  //   try {
-  //     $stmt->execute(); 
-  //     $html = new HtmlSelect($stmt); 
-  //     $html->caption = $caption;       
-  //     $html->print_select("GattungID", $value_selected, true); 
+    $conn = new DbConn(); 
+    $db=$conn->db; 
+
+    $stmt = $db->prepare($query); 
+
+    if ($ref_SatzID!=''){
+      $stmt->bindParam(':SatzID', $ref_SatzID);
+    }
+
+
+    try {
+      $stmt->execute(); 
+      $html = new HtmlSelect($stmt); 
+      $html->caption = $caption;       
+      $html->print_select("SchuelerID", $value_selected, true); 
       
-  //   }
-  //   catch (PDOException $e) {
-  //     include_once("cl_html_info.php"); 
-  //     $info = new HtmlInfo();      
-  //     $info->print_user_error(); 
-  //     $info->print_error($stmt, $e); 
-  //   }
-  // }
+    }
+    catch (PDOException $e) {
+      include_once("cl_html_info.php"); 
+      $info = new HtmlInfo();      
+      $info->print_user_error(); 
+      $info->print_error($stmt, $e); 
+    }
+  }
 
-  // function print_table(){
 
-  //   $query="SELECT * from gattung ORDER by Name"; 
-
-  //   include_once("dbconn/cl_db.php");
-  //   $conn = new DbConn(); 
-  //   $db=$conn->db; 
-
-  //   $select = $db->prepare($query); 
-
-  //   try {
-  //     $select->execute(); 
-  //     include_once("cl_html_table.php");      
-  //     $html = new HtmlTable($select); 
-  //     $html->edit_link_table= $this->table_name;
-  //     $html->print_table2();  
-
-  //   }
-  //   catch (PDOException $e) {
-  //     include_once("cl_html_info.php"); 
-  //     $info = new HtmlInfo();      
-  //     $info->print_user_error(); 
-  //     $info->print_error($select, $e); 
-  //   }
-  // }
 
   function update_row($Name, $Bemerkung) {
     include_once("dbconn/cl_db.php");   
@@ -262,6 +250,54 @@ class Schueler {
   }
 
   
+  function print_table_saetze(){
+    $query="SELECT schueler_satz.ID
+            , sammlung.Name as `Sammlung`
+            , musikstueck.Nummer as `Nr`    
+            , musikstueck.Name as `Musikstück`
+            , satz.Nr as `Satz Nr`    
+            , satz.Name as `Satz Name`
+            , schueler_satz.Bemerkung  
+           -- , schueler_satz.SatzID           
+          FROM schueler_satz
+          LEFT JOIN satz ON satz.ID = schueler_satz.SatzID  
+          LEFT JOIN musikstueck ON musikstueck.ID = satz.MusikstueckID
+          LEFT JOIN sammlung ON sammlung.ID = musikstueck.SammlungID                               
+          WHERE schueler_satz.SchuelerID = :ID
+          order by satz.Name  
+        "; 
+
+    include_once("dbconn/cl_db.php");
+    $conn = new DbConn(); 
+    $db=$conn->db; 
+  
+    $stmt = $db->prepare($query); 
+    $stmt->bindParam(':ID', $this->ID, PDO::PARAM_INT); 
+
+    try {
+      $stmt->execute(); 
+      include_once("cl_html_table.php");      
+      $html = new HtmlTable($stmt); 
+      $html->edit_link_table='schueler_satz'; 
+      $html->edit_link_title='Schueler'; 
+      $html->edit_link_open_newpage=false; 
+      $html->show_missing_data_message=false;      
+      $html->add_link_delete=true; // XXX 
+      $html->del_link_filename='edit_schueler_saetze.php'; 
+      $html->del_link_parent_key='SchuelerID'; 
+      $html->del_link_parent_id= $this->ID;              
+      $html->print_table2(); 
+
+    }
+    catch (PDOException $e) {
+      include_once("cl_html_info.php"); 
+      $info = new HtmlInfo();      
+      $info->print_user_error(); 
+      $info->print_error($stmt, $e); 
+    }
+  }    
+    
+
   // function print_select_multi($options_selected=[]){
 
   //   include_once("dbconn/cl_db.php");  
@@ -324,7 +360,31 @@ class Schueler {
   //   }  
   // }  
 
+  // function print_table(){
 
+  //   $query="SELECT * from gattung ORDER by Name"; 
+
+  //   include_once("dbconn/cl_db.php");
+  //   $conn = new DbConn(); 
+  //   $db=$conn->db; 
+
+  //   $select = $db->prepare($query); 
+
+  //   try {
+  //     $select->execute(); 
+  //     include_once("cl_html_table.php");      
+  //     $html = new HtmlTable($select); 
+  //     $html->edit_link_table= $this->table_name;
+  //     $html->print_table2();  
+
+  //   }
+  //   catch (PDOException $e) {
+  //     include_once("cl_html_info.php"); 
+  //     $info = new HtmlInfo();      
+  //     $info->print_user_error(); 
+  //     $info->print_error($select, $e); 
+  //   }
+  // }
 
 
 }

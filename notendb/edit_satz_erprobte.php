@@ -9,11 +9,12 @@ $satz=new Satz();
 $satz->ID=$_GET["SatzID"]; 
 
 if (isset($_GET["option"])){
-    if($_GET["option"]=='insert') {
-        if ($_GET["SchwierigkeitsgradID"]!='' & $_GET["InstrumentID"]!='') {
-            $satz->add_erprobt(''); 
-        }
-    } 
+    // XXX 
+    // if($_GET["option"]=='insert') {
+    //     if ($_GET["SchwierigkeitsgradID"]!='' & $_GET["InstrumentID"]!='') {
+    //         $satz->add_erprobt(''); 
+    //     }
+    // } 
 
     if($_REQUEST["option"]=='delete') {
         $erprobt=new SatzErprobt(); 

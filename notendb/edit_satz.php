@@ -174,6 +174,9 @@ if ($show_data) {
     <label for="opt_Besonderheiten">Besonderheiten</label><br>
     <input type="radio" id="opt_Erprobt" name="target_form" value="Erprobt" onclick="changeIframeSrc('subform1', 'edit_satz_erprobte.php?SatzID=<?php echo $satz->ID; ?>');">
     <label for="opt_Erprobt">Erprobt</label>
+    <br/>
+    <input type="radio" id="opt_Schueler" name="target_form" value="Schueler" onclick="changeIframeSrc('subform1', 'edit_satz_schuelers.php?SatzID=<?php echo $satz->ID; ?>');">
+    <label for="opt_Schueler">Schüler</label>
 
     </td> 
     <td class="form-edit form-edit-col2">
