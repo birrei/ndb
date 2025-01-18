@@ -19,8 +19,8 @@ $overwrite=true; // true: Tabelle wird gelöscht und neu angelegt
 
 if (isset($_GET["option"])) {
 
-    // install_schueler($overwrite); 
-    // install_schueler_schwierigkeitsgrad($overwrite);
+    install_schueler($overwrite); 
+    install_schueler_schwierigkeitsgrad($overwrite);
     install_schueler_satz($overwrite);
     
     // echo '<p> Aktuell ist keine Installationsaufgabe aktiviert (Ablauf noch in Entwicklung) </p>'; 
@@ -62,10 +62,9 @@ function install_schueler_schwierigkeitsgrad($overwrite=false) {
         UNIQUE KEY uc_schueler_schwierigkeitsgrad (SchuelerID,SchwierigkeitsgradID,InstrumentID),
         KEY SchwierigkeitsgradID (SchwierigkeitsgradID),
         KEY InstrumentID (InstrumentID),
-        -- XXX umbenennen, vergl. 'schueler_satz'': 
-        CONSTRAINT fkey_SchuelerID FOREIGN KEY (SchuelerID) REFERENCES schueler (ID),
-        CONSTRAINT fkey_SchwierigkeitsgradID FOREIGN KEY (SchwierigkeitsgradID) REFERENCES schwierigkeitsgrad (ID),
-        CONSTRAINT fkey_InstrumentID FOREIGN KEY (InstrumentID) REFERENCES instrument (ID)
+        CONSTRAINT schueler_schwierigkeitsgrad_fkey_SchuelerID FOREIGN KEY (SchuelerID) REFERENCES schueler (ID),
+        CONSTRAINT schueler_schwierigkeitsgrad_fkey_SchwierigkeitsgradID FOREIGN KEY (SchwierigkeitsgradID) REFERENCES schwierigkeitsgrad (ID),
+        CONSTRAINT schueler_schwierigkeitsgrad_fkey_InstrumentID FOREIGN KEY (InstrumentID) REFERENCES instrument (ID)
         )     
     "; 
     install_table('schueler_schwierigkeitsgrad', $sql, $overwrite); 
@@ -89,13 +88,12 @@ function install_table($table_name, $sql, $overwrite) {
     $conn = new DbConn(); 
     $db=$conn->db; 
 
-    echo '<pre>'.$sql.'</p>'; 
-
     if ($overwrite) {
         $drop = $db->prepare("DROP TABLE IF EXISTS ".$table_name.""); 
         try {
+            $info ->print_info("Tabelle löschen: ".$table_name."");
             $drop->execute(); 
-            $info ->print_info("dropped: table ".$table_name."");
+  
         }
         catch (PDOException $e) {
             $info->print_user_error(); 
@@ -104,8 +102,9 @@ function install_table($table_name, $sql, $overwrite) {
     }
     $create = $db->prepare($sql); 
     try {
+        $info ->print_info("Tabelle anlegen: ".$table_name."");    
+        $info ->print_info("SQL: <br><pre>".$sql."</pre>");           
         $create->execute(); 
-        $info ->print_info("created: table ".$table_name."");        
     }
     catch (PDOException $e) {
         $info = new HtmlInfo();      

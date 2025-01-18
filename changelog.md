@@ -1,6 +1,8 @@
 ﻿
 # Changelog  
 
+17.01.2025: Verwaltung Schüler (+ Schwierigkeitsgrade, Veknüpfung mit Sätzen) 
+
 06.01.2025: Suche: Mehrfach-Kombination "Instrument" / "Schwierigkeitsgrad" getrennt nach Instrumenten in einer Auswahl-Box 
 
 13.12.2024: Umstellung Button Suche neben Suchfeld 

@@ -11,6 +11,11 @@ include('head.php');
 <!-- Inhaltsverzeichnis wird uber Javascript befüllt, s. Script-Teil Seite unten  --> 
 <ul class="doc" id="table-of-contents"></ul>
 
+<p> Wichtig: In "Musikstück"-Ansichten werden nur solche Sammlungen angezeigt, denen Musikstücke zugeordnet sind. 
+    In "Satz"-Ansichten werden nur Sammlungen / Musikstücke angezeigt, denen Sätze zugeordnet sind. 
+</p> 
+
+
 <h2 class="chapter-title chapter-title-h2" id="suche-ansicht">Auswahl Ansicht</h2>
 
     <ul> 

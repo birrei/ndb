@@ -22,6 +22,7 @@ include("cl_lookup.php");
 include("cl_lookuptype.php");
 include("cl_linktype.php");
 include("cl_abfrage.php");
+include("cl_schueler.php");
 
 $Standorte=[];   /* Sammlung */
 // $Verlage=[];   /* Sammlung */
@@ -39,6 +40,9 @@ $Instrumente=[]; // im Suchfilter ausgewählte Instrumente  (IDs)
 $Stricharten=[];  // im Suchfilter ausgewählte Stricharten  (IDs) 
 $Notenwerte=[]; // im Suchfilter ausgewählte Notenwerte  (IDs) 
 $Uebungen=[]; // im Suchfilter ausgewählte Übung-Einträge  (IDs) 
+
+$Schueler=[]; 
+
 
 $lookup_all_values_selected=[]; // im Suchfilter ausgewählte Besonderheiten-IDs (gesammelt aus allen lookup-types) ?
 
@@ -66,7 +70,9 @@ $filterInstrumente='';
 
 $filterLookups=''; 
 $filterSpieldauer='';
-$filterErprobtJahr='';     
+$filterErprobtJahr='';    
+$filterSchueler=''; 
+
 $filterSuchtext='';  
 
 $filter=false; 
@@ -76,7 +82,7 @@ $edit_table=''; /* Tabelle, die über Bearbeiten-Links in Ergebnis-Tabelle abruf
 $Suche = new Abfrage();
 
 ?>
-<p><a onclick="hideFilter()" href="#">Filter ein/ausblenden</a></p>
+<p><a onclick="hideFilter()" href="#">Filter ein/ausblenden</a>
 <script> 
       function hideFilter() {
         if (document.getElementById("filterpanel").hidden==false)
@@ -90,6 +96,29 @@ $Suche = new Abfrage();
       }
 </script>
 
+<!-- Button: alle Filter zurücksetzen --> 
+<input type="button" id="btnReset_All" value="Alle Filter zurücksetzen" onclick="Reset_All();" /> 
+<script type="text/javascript">  
+          function Reset_All() {  
+          for(i=0; i<document.forms[0].elements.length; i++){
+            if(document.forms[0].elements[i].type == 'text'){
+              document.forms[0].elements[i].value=""; 
+            }
+            if(document.forms[0].elements[i].type == 'select-one'){
+              if(document.forms[0].elements[i].id!='Ansicht') {
+                document.forms[0].elements[i].selectedIndex = -1;
+              }
+            }   
+            if(document.forms[0].elements[i].type == 'select-multiple'){
+              document.forms[0].elements[i].selectedIndex = -1;
+            }     
+            if(document.forms[0].elements[i].type == 'checkbox'){
+              document.forms[0].elements[i].checked = 0;
+            }                         
+          }
+      }  
+</script> 
+</p>
 
 <?php 
 if (isset($_POST['Ansicht'])) {
@@ -100,6 +129,8 @@ if (isset($_POST['Ansicht'])) {
 ?> 
 
 
+
+
 <div class="search-page">
 <div class="search-filter" id="filterpanel">
 
@@ -107,7 +138,7 @@ if (isset($_POST['Ansicht'])) {
 
 <!---- Ansicht -----> 
 <?php
-$Suche->Beschreibung.=PHP_EOL.'* Ansicht: '.$Ansicht; 
+$Suche->Beschreibung.='* Ansicht: '.$Ansicht.PHP_EOL; 
 ?>
 <b>Ansicht: </b>
 <select id="Ansicht" name="Ansicht">
@@ -136,33 +167,28 @@ if (isset($_POST['suchtext'])) {
 <!---- Suche starten -----> 
 <p>Suchtext: <br><input type="text" id="suchtext" name="suchtext" size="30px" value="<?php echo $suchtext; ?>" autofocus> 
 <input class="btnSave" type="submit" value="Suchen" class="btnSave" width="100px">
+</P> 
 
 
+<?php
 
 
-<!-- Button: alle Filter zurücksetzen --> 
-<p> <input type="button" id="btnReset_All" value="Alle Filter zurücksetzen" onclick="Reset_All();" /> </p>
-<script type="text/javascript">  
-          function Reset_All() {  
-          for(i=0; i<document.forms[0].elements.length; i++){
-            if(document.forms[0].elements[i].type == 'text'){
-              document.forms[0].elements[i].value=""; 
-            }
-            if(document.forms[0].elements[i].type == 'select-one'){
-              if(document.forms[0].elements[i].id!='Ansicht') {
-                document.forms[0].elements[i].selectedIndex = -1;
-              }
-            }   
-            if(document.forms[0].elements[i].type == 'select-multiple'){
-              document.forms[0].elements[i].selectedIndex = -1;
-            }     
-            if(document.forms[0].elements[i].type == 'checkbox'){
-              document.forms[0].elements[i].checked = 0;
-            }                         
-          }
-      }  
-</script> 
+  /************* Schüler  ***********/
+  $schueler = new Schueler();
+  $SchuelerID=''; 
+  if (isset($_POST['SchuelerID'])) {
+    if ($_POST['SchuelerID']!='') {
+      $SchuelerID = $_POST['SchuelerID']; 
+      $schueler->ID=  $SchuelerID; 
+      $schueler->load_row(); 
+      $filterSchueler='='.$SchuelerID.' '; 
+      $Suche->Beschreibung.=($SchuelerID!=''?'* Schüler: '.$schueler->Name.PHP_EOL:'');     
+      $filter=true;       
+    }
+  }
+  $schueler->print_select($SchuelerID,'',$schueler->Title .' : &nbsp;&nbsp;&nbsp;');
 
+?>
 
 <p class="navi-trenner">Sammlung </p> 
 
@@ -177,7 +203,7 @@ if (isset($_POST['suchtext'])) {
       $verlag->ID=  $VerlagID; 
       $verlag->load_row(); 
       $filterVerlage='='.$VerlagID.' '; 
-      $Suche->Beschreibung.=($VerlagID!=''?PHP_EOL.'* Verlag: '.$verlag->Name:'');     
+      $Suche->Beschreibung.=($VerlagID!=''?'* Verlag: '.$verlag->Name.PHP_EOL:'');     
       $filter=true;    
     }   
   }
@@ -302,7 +328,7 @@ if (isset($_POST['suchtext'])) {
   }  
   $verwendungszweck = new Verwendungszweck();
   $verwendungszweck->print_select_multi($Verwendungszwecke);    
-  $Suche->Beschreibung.=(count($Verwendungszwecke)>0?$verwendungszweck->titles_selected_list:'');  
+  $Suche->Beschreibung.=(count($Verwendungszwecke)>0?$verwendungszweck->titles_selected_list.PHP_EOL:'');  
 
 /************* Gattung  ***********/
 
@@ -443,6 +469,8 @@ if (isset($_POST['suchtext'])) {
   $lookuptypes=new Lookuptype(); 
   $lookuptypes->Relation='satz'; 
   $lookuptypes->setArrData(); 
+  // print_r($lookuptypes->ArrData); // test 
+  $strTest='';
   $filterLookups_satz=''; 
 
   for ($i = 0; $i < count($lookuptypes->ArrData); $i++) {
@@ -451,6 +479,8 @@ if (isset($_POST['suchtext'])) {
     $lookup_check_exclude=false;    // Ausschluss-Suche ja/nein
     $lookup_type_name=$lookuptypes->ArrData[$i]["Name"]; 
     $lookup_type_key= $lookuptypes->ArrData[$i]["type_key"]; 
+    $strTest.='<br>lookup_type_name: '.$lookup_type_name; 
+    // echo $strTest; // test 
     $lookup=New Lookup(); 
     $lookup->LookupTypeID=$lookuptypes->ArrData[$i]["ID"];
     $lookup_values=[]; // alle Lookupwerte eines Typs 
@@ -470,7 +500,8 @@ if (isset($_POST['suchtext'])) {
         }
       } 
       else {
-        $filterLookups_satz.=' AND satz_lookup.LookupID IN ('.implode(',', $lookup_values_selected).') '. PHP_EOL;         
+        // $filterLookups_satz.=' AND satz_lookup.LookupID IN ('.implode(',', $lookup_values_selected).') '. PHP_EOL;  // fehler! 
+        $filterLookups_satz.=' AND satz.ID IN (SELECT SatzID from satz_lookup WHERE LookupID IN ('.implode(',', $lookup_values_selected).'))'. PHP_EOL;         
       }
       if (isset($_POST['exclude_'.$lookup_type_key])) {
         // Ausschluss-Suche aktiviert -> nicht ausgewählte Eintraege wegfiltern 
@@ -485,6 +516,7 @@ if (isset($_POST['suchtext'])) {
     $Suche->Beschreibung.=(count($lookup_values_selected)>0?$lookup->titles_selected_list:'');   
   }
  
+
   ?>
 </form>
 </div> <!-- ende class search-filter --> 
@@ -690,6 +722,11 @@ if (isset($_POST['suchtext'])) {
         $query.=' AND satz.Spieldauer '.$filterSpieldauer. PHP_EOL; 
       }
  
+      if($filterSchueler!=''){
+        $query.=' AND satz.ID IN (SELECT SatzID from schueler_satz where SchuelerID='.$SchuelerID.')' . PHP_EOL; 
+      }            
+
+
       if($suchtext!=''){
         $query.="AND (sammlung.Name LIKE '%".$suchtext."%' OR  
                             sammlung.Bemerkung LIKE '%".$suchtext."%' OR 
@@ -750,7 +787,7 @@ if (isset($_POST['suchtext'])) {
           break;      
       }
 
-      // echo '<pre>'.$query.'</pre>'; // Test  
+      echo '<pre>'.$query.'</pre>'; // Test  
 
       if (isset($_POST["SucheSpeichern"])) {
         $timestamp = time();

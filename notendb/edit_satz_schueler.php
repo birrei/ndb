@@ -84,7 +84,7 @@ if (isset($_REQUEST["option"])) {
 <tr>
   <td class="eingabe2 eingabe2_1">Bemerkung:</td>
   <td class="eingabe2 eingabe2_2">
-    <input type="text" name="Bemerkung" value="<?php echo htmlentities($schuelersatz->Bemerkung); ?>" size="70" oninput="changeBackgroundColor(this)">
+    <input type="text" name="Bemerkung" value="<?php echo htmlentities($schuelersatz->Bemerkung); ?>" size="100" oninput="changeBackgroundColor(this)">
   </td>  
   <td class="eingabe2 eingabe2_3"></td>    
 </tr>
