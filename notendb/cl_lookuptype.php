@@ -7,7 +7,6 @@ class Lookuptype {
   public $Relation;
   public $type_key;
   public int $selsize; // Anzahl Zeilen Multi-Select Box (Suche)     
-  public $ArrData=[]; 
   public $titles_selected_list; 
   public $Title='Besonderheit-Typ';
   public $Titles='Besonderheit-Typen';
@@ -210,10 +209,10 @@ class Lookuptype {
     }   
   }  
 
-  function setArrData(){
+  function getArrData(){
     // alle Typen einer Relation 
     include_once("dbconn/cl_db.php");
-
+    $arrTmp=[]; 
     $query_lookups = 'SELECT ID, Name, type_key, selsize 
                       FROM lookup_type 
                       WHERE Relation=:Relation 
@@ -227,14 +226,15 @@ class Lookuptype {
     $result = $select->fetchAll(PDO::FETCH_ASSOC);
 
     foreach ($result as $row) {
-        $this->ArrData[] = array(
+        $arrTmp[] = array(
               'ID'=>$row["ID"], 
               'Name'=>$row["Name"],
               'type_key'=>$row["type_key"],
               'selsize'=>$row["selsize"]              
              ); 
-        }
+    }
         // print_r($this->ArrData); // test
+    return $arrTmp; 
   }
 
   function delete(){
