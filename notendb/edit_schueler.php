@@ -54,16 +54,12 @@ if ($show_data) {
       </label>
     </tr> 
 
-
     <tr>    
       <label>
       <td class="form-edit form-edit-col1">Bemerkung:</td>  
       <td class="form-edit form-edit-col2"><input type="text" name="Bemerkung" value="'.$schueler->Bemerkung.'" size="120" oninput="changeBackgroundColor(this)"></td>
       </label>
     </tr> 
-
-
-
 
     <tr> 
       <td class="form-edit form-edit-col1"></td> 
@@ -77,21 +73,21 @@ if ($show_data) {
 
   </form>
 
-
   ';
   ?> 
 
   <tr> 
   <td class="form-edit form-edit-col1">Daten anzeigen: <br /> <br />
-  <input type="radio" id="opt_Schwierigkeitsgrad" name="target_form" value="Schwierigkeitsgrad" onclick="changeIframeSrc('subform1', 'edit_schueler_schwierigkeitsgrade.php?SchuelerID=<?php echo $schueler->ID; ?>');" checked>
-  <label for="opt_Schwierigkeitsgrad">Instrumente / Schwierigkeitsgrade</label><br>
 
-  <input type="radio" id="opt_Saetze" name="target_form" value="Saetze" onclick="changeIframeSrc('subform1', 'edit_schueler_saetze.php?SchuelerID=<?php echo $schueler->ID; ?>');">
+  <input type="radio" id="opt_Saetze" name="target_form" value="Saetze" onclick="changeIframeSrc('subform1', 'edit_schueler_saetze.php?SchuelerID=<?php echo $schueler->ID; ?>');" checked>
   <label for="opt_Saetze">Verknüpfte Noten</label><br>
+
+  <input type="radio" id="opt_Schwierigkeitsgrad" name="target_form" value="Schwierigkeitsgrad" onclick="changeIframeSrc('subform1', 'edit_schueler_schwierigkeitsgrade.php?SchuelerID=<?php echo $schueler->ID; ?>');">
+  <label for="opt_Schwierigkeitsgrad">Instrumente / Schwierigkeitsgrade</label><br>
 
   </td> 
   <td class="form-edit form-edit-col2">
-    <iframe src="edit_schueler_schwierigkeitsgrade.php?SchuelerID=<?php echo $schueler->ID; ?>&source=iframe" height="300" id="subform1" name="Info" class="form-iframe-var2"></iframe>
+    <iframe src="edit_schueler_saetze.php?SchuelerID=<?php echo $schueler->ID; ?>&source=iframe" height="300" id="subform1" name="Info" class="form-iframe-var2"></iframe>
   </td>
   </tr> 
 
