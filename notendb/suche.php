@@ -82,19 +82,7 @@ $edit_table=''; /* Tabelle, die über Bearbeiten-Links in Ergebnis-Tabelle abruf
 $Suche = new Abfrage();
 
 ?>
-<p><a onclick="hideFilter()" href="#">Filter ein/ausblenden</a>
-<script> 
-      function hideFilter() {
-        if (document.getElementById("filterpanel").hidden==false)
-        {
-          document.getElementById("filterpanel").hidden=true; 
-        } else 
-        {
-          document.getElementById("filterpanel").hidden=false;           
-        }
 
-      }
-</script>
 
 <!-- Button: alle Filter zurücksetzen --> 
 <input type="button" id="btnReset_All" value="Alle Filter zurücksetzen" onclick="Reset_All();" /> 
@@ -118,7 +106,24 @@ $Suche = new Abfrage();
           }
       }  
 </script> 
-</p>
+
+&nbsp;
+&nbsp;
+
+<a onclick="hideFilter()" href="#">Filter ein/ausblenden</a>
+<script> 
+      function hideFilter() {
+        if (document.getElementById("filterpanel").hidden==false)
+        {
+          document.getElementById("filterpanel").hidden=true; 
+        } else 
+        {
+          document.getElementById("filterpanel").hidden=false;           
+        }
+
+      }
+</script>
+
 
 <?php 
 if (isset($_POST['Ansicht'])) {
@@ -140,7 +145,7 @@ if (isset($_POST['Ansicht'])) {
 <?php
 $Suche->Beschreibung.='* Ansicht: '.$Ansicht.PHP_EOL; 
 ?>
-<b>Ansicht: </b>
+<br><b>Ansicht: </b>
 <select id="Ansicht" name="Ansicht">
           <option value="Sammlung" <?php echo ($Ansicht=='Sammlung'?'selected':'');?>>Sammlung</option>   
           <option value="Sammlung Links" <?php echo ($Ansicht=='Sammlung Links'?'selected':'')?>>Sammlung Links</option>   
@@ -286,7 +291,7 @@ if (isset($_POST['suchtext'])) {
   $Besetzungen_selected=[]; // im Suchfilter ausgewählte Besetzungen (IDs) 
   $Besetzungen_all= []; 
   $Besetzungen_not_selected= []; 
-  $besetzung_check_exact=false; // Einschluss-Suche aktiviert 
+  $besetzung_check_include=false; // Einschluss-Suche aktiviert 
   $besetzung_check_exclude=false; // Ausschluss-Suche aktiviert 
 
   $besetzung = new Besetzung();
@@ -294,8 +299,8 @@ if (isset($_POST['suchtext'])) {
   if (isset($_POST['Besetzungen'])) {
     $filter=true;       
     $Besetzungen_selected = $_POST['Besetzungen'];    
-    if (isset($_POST["exact_Besetzung"])) { 
-       $besetzung_check_exact=true;
+    if (isset($_POST["include_Besetzung"])) { 
+       $besetzung_check_include=true;
        for ($i = 0; $i < count($Besetzungen_selected); $i++) {
           $filterBesetzung.='AND musikstueck.ID IN (SELECT MusikstueckID from musikstueck_besetzung WHERE BesetzungID='.$Besetzungen_selected[$i].') '. PHP_EOL; 
        }       
@@ -313,10 +318,9 @@ if (isset($_POST['suchtext'])) {
   // print_r($Besetzungen_all); 
   // print_r($Besetzungen_selected); 
 
-  // $besetzung->print_select_multi($Besetzungen_selected); 
-  $besetzung->print_select_multi($Besetzungen_selected, $besetzung_check_exact, $besetzung_check_exclude); 
+  $besetzung->print_select_multi($Besetzungen_selected, $besetzung_check_include, $besetzung_check_exclude); 
   $Suche->Beschreibung.=(count($Besetzungen_selected)>0?$besetzung->titles_selected_list:'');  
-  $Suche->Beschreibung.=($besetzung_check_exact?' / +Einschluss-Suche':'');  
+  $Suche->Beschreibung.=($besetzung_check_include?' / +Einschluss-Suche':'');  
   $Suche->Beschreibung.=($besetzung_check_exclude?' / +Ausschluss-Suche':'');  
   
 
@@ -417,7 +421,6 @@ if (isset($_POST['suchtext'])) {
   </p>
  
   <?php  
-  
 /*******  Spieldauer  ****************/  
   $spieldauer_von_min=''; // Nutzer-Eingabe 
   $spieldauer_bis_min='';  //  Nutzer-Eingabe 
@@ -471,7 +474,6 @@ if (isset($_POST['suchtext'])) {
   $arrLookupTypes=$lookuptypes->getArrData(); 
   $filterLookups_satz=''; 
   for ($i = 0; $i < count($arrLookupTypes); $i++) {
-    echo '<p>$i Start Schleife: '.$i; // test 
     // print_r($arrLookupTypes[$i]);  // Test     
     $lookup_check_include=false; // Einschluss-Suche ja/nein 
     $lookup_check_exclude=false;    // Ausschluss-Suche ja/nein
@@ -488,7 +490,7 @@ if (isset($_POST['suchtext'])) {
       $filter=true;       
       $lookup_values_selected= $_POST[$lookup_type_key]; 
       // print_r($lookup_values_selected); // test 
-      if (isset($_POST['exact_'.$lookup_type_key])) { //  "Einschluss-Suche" aktiviert 
+      if (isset($_POST['include_'.$lookup_type_key])) { //  "Einschluss-Suche" aktiviert 
         $lookup_check_include=true;         
         for ($k = 0; $k < count($lookup_values_selected); $k++) {
           $filterLookups_satz.=' AND satz.ID IN (SELECT SatzID from satz_lookup WHERE LookupID='.$lookup_values_selected[$k].') '. PHP_EOL; 
