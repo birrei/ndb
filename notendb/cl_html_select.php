@@ -54,8 +54,8 @@ class HtmlSelect {
         , $keyname
         , $options_selected=[]
         , $caption=''
-        , $print_check_exact=false // Anzeige Checkbox Genaue Suche
-        , $check_exact=false // Genaue Suche aktiviert 
+        , $print_check_include=false // Anzeige Checkbox Genaue Suche
+        , $check_include=false // Genaue Suche aktiviert 
         , $print_check_exclude=false // Anzeige Checkbox Auschluss-Suche
         , $check_exclude=false // Auschluss-Suche aktiviert         
     ) {
@@ -63,9 +63,9 @@ class HtmlSelect {
         if ($caption!='') {
             $html.='<span class="field-caption">'.$caption.'</span>'. PHP_EOL;
         }
-        if ($print_check_exact) {
-            $html.='<input type="checkbox" name="exact_'.$id.'"'.($check_exact?' checked':'').'>
-             <label for="exact_'.$id.'">Einschluss-Suche</label>'. PHP_EOL;
+        if ($print_check_include) {
+            $html.='<input type="checkbox" name="include_'.$id.'"'.($check_include?' checked':'').'>
+             <label for="include_'.$id.'">Einschluss-Suche</label>'. PHP_EOL;
         }
         if ($print_check_exclude) {
             $html.=' <input type="checkbox" name="exclude_'.$id.'"'.($check_exclude?' checked':'').'>
@@ -87,16 +87,6 @@ class HtmlSelect {
             }
             $html.= '</select>'. PHP_EOL;;
         }
-    
-        // XXX verworfen, da unnötig / nicht genutzt 
-        // $html .='<br/><input type="button" id="btnReset_'.$id.'" value="Filter zurücksetzen" onclick="Reset_'.$id.'();" />  
-        //      <script type="text/javascript">  
-        //         function Reset_'.$id.'() {  
-        //         var dropDown = document.getElementById("'.$id.'");  
-        //         dropDown.selectedIndex = -1;  
-        //     }  
-        //     </script>';
-
 
         $html.='</p>'. PHP_EOL;;
         echo $html;
