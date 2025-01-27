@@ -1,7 +1,11 @@
 ﻿
 # Changelog  
 
-17.01.2025: Verwaltung Schüler (+ Schwierigkeitsgrade, Veknüpfung mit Sätzen) 
+in Arbeit: Verknüpfung Schüler x Material 
+
+27.01.2025: Material-Verwaltung (nicht Noten-) Unterrichtsmaterial, z.B. Arbeitsblätter 
+
+17.01.2025: Verwaltung Schüler (+ Schwierigkeitsgrade, Verknüpfung mit Sätzen) 
 
 06.01.2025: Suche: Mehrfach-Kombination "Instrument" / "Schwierigkeitsgrad" getrennt nach Instrumenten in einer Auswahl-Box 
 

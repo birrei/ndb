@@ -1,39 +1,80 @@
 <?php 
 
+$PageTitle='DDL'; 
 include('../head.php');
 include("../../dbconn/cl_db.php"); 
 include("../../cl_html_info.php");
 
-echo '<p><a href="ddl.php?option=install_all">Installation starten</a></p>';
-
 ?>
-<p> 
-
-</p> 
-
+<p><a href="ddl.php?option=install_all">Installation starten</a></p>
 <?php
-
-$overwrite=true; // true: Tabelle wird gelöscht und neu angelegt 
 
 /************************************************** */
 
 if (isset($_GET["option"])) {
 
-    install_schueler($overwrite); 
-    install_schueler_schwierigkeitsgrad($overwrite);
-    install_schueler_satz($overwrite);
-    
-    // echo '<p> Aktuell ist keine Installationsaufgabe aktiviert (Ablauf noch in Entwicklung) </p>'; 
-    
-    
+    /****** Material ******** */
 
+    drop_table('material'); 
+    drop_table('materialtyp'); 
+    
+    install_table_materialtyp(); 
+    install_table_material(); 
+    install_view_v_material(); 
+
+    /************** */
+    // install_table_schueler(); 
+    // install_table_schueler_schwierigkeitsgrad();
+    // install_table_schueler_satz();
 
 }
 
 
 /************************************************** */
 
-function install_schueler_satz($overwrite=false) {
+
+function install_view_v_material() {
+    $sql="
+        create or replace view v_material as
+        select material.ID
+            , material.Name
+            , material.Bemerkung 
+            , materialtyp.Name as Materialtyp
+            , materialtyp.ID as MaterialtypID
+            , material.ts_insert 
+            , material.ts_update
+        from material  
+            LEFT JOIN 
+            materialtyp on materialtyp.ID = material.MaterialtypID 
+    "; 
+    execute_sql($sql, 'install view v_material'); 
+}
+
+function install_table_materialtyp() {
+    $sql="CREATE TABLE IF NOT EXISTS materialtyp (
+            ID TINYINT NOT NULL AUTO_INCREMENT 
+            , Name VARCHAR(100) NOT NULL 
+            , ts_insert datetime DEFAULT CURRENT_TIMESTAMP
+            , ts_update datetime ON UPDATE CURRENT_TIMESTAMP        
+            , PRIMARY KEY (ID)
+
+        )"; 
+    execute_sql($sql, 'install table materialtyp'); 
+}
+function install_table_material() {
+    $sql="CREATE TABLE IF NOT EXISTS material (
+            ID INT NOT NULL AUTO_INCREMENT 
+            , Name VARCHAR(100) NOT NULL 
+            , Bemerkung VARCHAR(255) NULL 
+            , MaterialtypID TINYINT NULL  
+            , ts_insert datetime DEFAULT CURRENT_TIMESTAMP 
+            , ts_update datetime ON UPDATE CURRENT_TIMESTAMP         
+            , PRIMARY KEY (ID)
+            , FOREIGN KEY (MaterialtypID) REFERENCES materialtyp(ID)            
+        )"; 
+    execute_sql($sql, 'install table material'); 
+}
+function install_table_schueler_satz() {
     $sql="
         CREATE TABLE schueler_satz (
         ID INT NOT NULL AUTO_INCREMENT,
@@ -48,10 +89,9 @@ function install_schueler_satz($overwrite=false) {
         CONSTRAINT fkey_schueler_satz_SatzID FOREIGN KEY (SatzID) REFERENCES satz (ID)
         )     
     "; 
-    install_table('schueler_satz', $sql, $overwrite); 
+    execute_sql($sql); 
 }
-
-function install_schueler_schwierigkeitsgrad($overwrite=false) {
+function install_table_schueler_schwierigkeitsgrad() {
     $sql="
         CREATE TABLE schueler_schwierigkeitsgrad (
         ID INT NOT NULL AUTO_INCREMENT,
@@ -67,10 +107,9 @@ function install_schueler_schwierigkeitsgrad($overwrite=false) {
         CONSTRAINT schueler_schwierigkeitsgrad_fkey_InstrumentID FOREIGN KEY (InstrumentID) REFERENCES instrument (ID)
         )     
     "; 
-    install_table('schueler_schwierigkeitsgrad', $sql, $overwrite); 
+    execute_sql($sql); 
 }
-
-function install_schueler($overwrite=false) {
+function install_table_schueler() {
     $sql="CREATE TABLE IF NOT EXISTS schueler (
             ID INT NOT NULL AUTO_INCREMENT 
             , Name VARCHAR(100) NOT NULL 
@@ -79,40 +118,42 @@ function install_schueler($overwrite=false) {
             , ts_update datetime ON UPDATE CURRENT_TIMESTAMP        
             , PRIMARY KEY (ID)
         )"; 
-        install_table('schueler', $sql, $overwrite); 
+    execute_sql($sql); 
 }
 
-function install_table($table_name, $sql, $overwrite) {
-    // $overwrite: Tabelle wird gelöscht und neu angelegt 
-    $info = new HtmlInfo();        
+/**************************************** */
+
+function execute_sql($sql, $info='') {
+    // : Tabelle wird gelöscht und neu angelegt       
     $conn = new DbConn(); 
     $db=$conn->db; 
-
-    if ($overwrite) {
-        $drop = $db->prepare("DROP TABLE IF EXISTS ".$table_name.""); 
-        try {
-            $info ->print_info("Tabelle löschen: ".$table_name."");
-            $drop->execute(); 
-  
-        }
-        catch (PDOException $e) {
-            $info->print_user_error(); 
-            $info->print_error($drop, $e); 
-        }        
-    }
+    echo '<pre>----------------'.$info.'---------------------</pre>'.PHP_EOL; 
+    echo '<pre>'.$sql.PHP_EOL.'</pre>'.PHP_EOL; 
     $create = $db->prepare($sql); 
     try {
-        $info ->print_info("Tabelle anlegen: ".$table_name."");    
-        $info ->print_info("SQL: <br><pre>".$sql."</pre>");           
         $create->execute(); 
+        print_info('OK'); 
     }
     catch (PDOException $e) {
-        $info = new HtmlInfo();      
-        $info->print_user_error(); 
-        $info->print_error($create, $e); 
+        print_error($e->getMessage()); 
     }
-
 }
+function drop_table($table_name) {
+    $sql='DROP TABLE IF EXISTS '.$table_name;
+    execute_sql($sql, $sql) ; 
+}
+function print_info($strText) {
+    echo '<pre style="color: green;">'; 
+    echo $strText.PHP_EOL; 
+    echo '</pre>'.PHP_EOL;     
+}
+function print_error($strText) {
+    echo '<pre style="color: red;">'; 
+    echo $strText.PHP_EOL; 
+    echo '</pre>';     
+}
+
+
 
 
 
