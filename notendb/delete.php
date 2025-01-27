@@ -2,19 +2,17 @@
 <?php 
 
 $table=$_REQUEST["table"];
+$source=(isset($_REQUEST["source"])?$_REQUEST["source"]:'table'); // z.B: "iframe", "table" 
 
-$tablelink_table=$table; 
-$tablelink_sortcol='Name'; 
+// echo '$source: '.$source.'<br>'; 
 
+/** Einstellungen für den "Tabelle"-Link (Aufruf show_table2.php) */
+$tablelink_table=$table; // Tabellen-Name oder View-Name (letzterer muss mit Suffix "v_" angegeben werden)     
+$tablelink_sortcol='Name'; // 
 
-
-$show_link_table=true; // sinnvoll, wenn delete.php als Einzelformular angezeigt wird. 
-
-$in_iframe=false; // delete.php wird in iframe aufgerufen 
-
-/* back to list-Link in iframes */
-$iframe_parent_key=''; // Name der zur ID des Parent-Screens (z.B. SammlungiD)
-$iframe_parent_ID=''; // Wert der ID des Parent-Screens 
+/** Einstellungen für Ausführung in iFrame */
+$iframe_parent_key=''; // ID Parent-Screens - Name 
+$iframe_parent_ID=''; // ID Parent-Screen - Wert  
 
 
 // echo $table; 
@@ -85,7 +83,7 @@ switch($table) {
     include_once('cl_lookup.php');
     $objekt = new Lookup(); 
     $tablelink_table='v_lookup'; // view-Name
-    $in_iframe=true;           
+    // $in_iframe=true;           
     $show_link_table=false;       
     break; 
 
@@ -114,14 +112,14 @@ switch($table) {
     include_once('cl_link.php');
     $objekt = new Link();
     $show_link_table=true;      
-    $in_iframe=true;     
+    // $in_iframe=true;     
     break;  
 
   case 'satz_erprobt': 
     include_once('cl_satz_erprobt.php');
     $objekt = new SatzErprobt();
     $show_link_table=true;      
-    $in_iframe=true;     
+    // $in_iframe=true;     
     break;  
 
   case 'abfrage': 
@@ -135,13 +133,34 @@ switch($table) {
     $objekt = new Abfragetyp();     
     $tablelink_table='abfragetyp'; 
     break; 
+
+  case 'schueler': // XXX 
+    // include_once('cl_abfragetyp.php');
+    // $objekt = new Abfragetyp();     
+    // $tablelink_table='abfragetyp'; 
+    echo '<p>noch nicht implementiert</p>'; 
+    break; 
+
+  case 'materialtyp': 
+    include_once('cl_materialtyp.php');
+    $objekt = new Materialtyp();     
+    $tablelink_table='materialtyp'; 
+    break; 
+
+  case 'material': 
+    include_once('cl_material.php');
+    $objekt = new Material();     
+    $tablelink_table='v_material'; 
+    break;     
       
 }
 
-if (!$in_iframe) {
-  include('head.php');
-} else {
+// echo 'source: '.$source; // test 
+
+if ($source=='iframe') {
   include('head_raw.php');
+} else {
+  include('head.php');
 }
 
 include("cl_html_info.php");
@@ -152,20 +171,19 @@ include("cl_html_info.php");
 if (isset($objekt)) { 
     $objekt->ID = $_REQUEST["ID"];
     $objekt->load_row(); 
-    if (!$in_iframe) {
-      echo '<h2>'.$objekt->Title.' löschen</h2>'; 
-    }
+    echo '<p><b>'.$objekt->Title.' löschen</b></p>'; 
     $info=new HtmlInfo(); 
     if (isset($_POST["confirm"])) {
       if($objekt->delete()) { 
-        echo '<p>Die Zeile mit der ID '.$objekt->ID.' wurde aus '.$objekt->Title.' gelöscht.';    
-        if($show_link_table) {
+        echo '<p>Die Zeile mit der ID '.$objekt->ID.' wurde aus '.$objekt->Title.' gelöscht.</p>';    
+        if($source!='iframe') {
           $info->print_link_table($tablelink_table, 'sortcol='.$tablelink_sortcol, $objekt->Titles,false);  
         }
       } else {
-        echo '<p>Keine Löschung durchgeführt.</p>'; 
+        echo '<p>Die Löschung wurde nicht durchgeführt.</p>'; 
+        $info->source=$source; 
+        $info->print_link_edit($objekt->table_name, $objekt->ID,$objekt->Title,'',false);
       }
-      $info->print_link_edit($objekt->table_name, $objekt->ID,$objekt->Title,'',false);
     }
     else {
       echo '
@@ -173,18 +191,20 @@ if (isset($objekt)) {
       <p>ID '.$objekt->ID.' wird gelöscht </b>
       <input class="btnDelete" type="submit" name="confirm" value="Löschung bestätigen">
       <input type="hidden" name="ID" value="' . $objekt->ID . '">  
-      <input type="hidden" name="table" value="' . $objekt->table_name . '">        
+      <input type="hidden" name="table" value="' . $objekt->table_name . '">
+      <input type="hidden" name="source" value="'.$source.'">                   
       </form>
       </p>  '; 
+      $info->source=$source; 
       $info->print_link_edit($objekt->table_name,$objekt->ID,$objekt->Title,false);   
     }
 
 }
 
-if (!$in_iframe) {
-  include('foot.php');
-} else {
+if ($source=='iframe') {
   include('foot_raw.php');
+} else {
+  include('foot.php');
 }
 
 

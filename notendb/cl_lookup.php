@@ -21,17 +21,20 @@ class Lookup {
     $this->table_name='lookup'; 
   }
 
-  function insert_row ($Name) {
+  function insert_row ($LookupTypeID='') {
     include_once("dbconn/cl_db.php");
     $conn = new DbConn(); 
     $db=$conn->db; 
 
     $insert = $db->prepare("INSERT INTO `lookup` 
-              SET `Name`     = :Name, LookupTypeID=:LookupTypeID"          
+              SET `LookupTypeID` =:LookupTypeID"          
            );
 
-    $insert->bindParam(':Name', $Name);
-    $insert->bindParam(':LookupTypeID', $this->LookupTypeID);
+    // $insert->bindParam(':Name', $Name);
+    // $insert->bindParam(':LookupTypeID', $LookupTypeID);
+
+    $insert->bindParam(':LookupTypeID', $LookupTypeID, ($LookupTypeID=='' ? PDO::PARAM_NULL : PDO::PARAM_INT));
+
 
     try {
       $insert->execute(); 
@@ -223,7 +226,9 @@ class Lookup {
 
     $update->bindParam(':ID', $this->ID, PDO::PARAM_INT);
     $update->bindParam(':Name', $Name);
-    $update->bindParam(':LookupTypeID', $LookupTypeID);    
+    $update->bindParam(':LookupTypeID', $LookupTypeID, ($LookupTypeID=='' ? PDO::PARAM_NULL : PDO::PARAM_INT));
+
+
 
     try {
       $update->execute(); 
@@ -233,7 +238,7 @@ class Lookup {
       include_once("cl_html_info.php"); 
       $info = new HtmlInfo();      
       $info->print_user_error(); 
-      $info->print_error($stmt, $e); 
+      $info->print_error($update, $e); 
     }
   }
 

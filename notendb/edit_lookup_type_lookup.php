@@ -1,5 +1,6 @@
 
 <?php 
+/// XXX ausrangieren, es wird stattdessen edit_lookup.php verwendet 
 include('head_raw.php');
 ?>
 

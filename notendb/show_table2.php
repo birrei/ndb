@@ -2,8 +2,26 @@
 include('head.php');
 
 $object=$_GET['table']; // obligatorisch, Name Tabelle oder View (falls View, Benennung: "v_[tabelle]")
-$edit_table=$object; // default 
+ // default 
+  
+/* Ermitteln der Original-Tabelle (für Bearbeiten-Link)= */
+if (substr($object,0,2)=='v_') {
+  $edit_table=substr($object,2, strlen($object)-2);     // bei Views (suffix v_): "v_" vorne abschneiden
+} else {
+  $edit_table=$object;
+}
 
+/* Ausgabe der Tabellen-Überschrift */
+$object_aliases = array(
+       "v_lookup" => "Besonderheiten"
+      , "lookup_type" => "Besonderheit-Typen"
+); 
+if (array_key_exists($object, $object_aliases)) {
+  $header = $object_aliases[$object]; 
+} 
+else {
+  $header= ucfirst($edit_table); 
+}
 
 /******************************* */
 /** Festlegungen für Bearbeiten-Link */
@@ -11,24 +29,17 @@ $edit_table=$object; // default
 $add_link_edit=true; // Bearbeiten-Link anzeigen, falls ja: 
 $edit_table_title=''; // Titel der Seite, die über den Bearbeiten-Link aufgerufen wird 
 $edit_link_show_newpage=false; // true: Das öffnen des Bearbeiten-Links soll in einem neuen Fenster erfolge
-$add_link_show=false;  // true, falls eine zusätzliche Spalte "Anzeigen" ergänzt werden soll
 
-/* Ausnahme Tabellen-Views */
-if (substr($object,0,2)=='v_') {
-  $edit_table=substr($object,2, strlen($object)-2);     // bei Views (suffix v_): "v_" vorne abschneiden
-}
 
-/*  Ausnahme Info-Views  */
+/*  Info-Views  */
 if (substr($object,0,3)=='v2_') {
   $add_link_edit=false; 
 }
 
-/* Ausnahme Test-Views  */
+/* Test-Views  */
 if (substr($object,0,3)=='v3_') {
   $add_link_edit=false; 
 }
-
-
 if (isset($_GET['title'])) {
   $edit_table_title=$_GET['title']; 
 }
@@ -37,14 +48,13 @@ if (isset($_GET['edit_link_show_newpage'])) {
   $edit_link_show_newpage=true; 
 }
 
-/******************************* */
-/** Festlegungen für Anzeige "Neu einfügen" - Link (Seitenkopf) */
 
+/******* Einstellungen für "Neu einfügen" - Link ********/
 $show_insert_link=true; // default 
 
-if (in_array($edit_table, array('musikstueck','satz', 'lookup'))) {
-  $show_insert_link=false;
-}
+// if (in_array($edit_table, array('musikstueck','satz', 'lookup'))) {
+//   $show_insert_link=false;
+// }
 
 /*  Info-Views  */
 if (substr($object,0,3)=='v2_') {
@@ -56,17 +66,15 @@ if (substr($object,0,3)=='v3_') {
   $show_insert_link=false;  
 }
 
-/********************************/
-/** Anzeige Link "Anzeigen" in zusäztlicher Spalte der Ergebnistabelle */
+/********* Zusätzliche "Anzeigen" Spalte in Ergebnistabelle */
 $add_link_show=false; 
+
 if (isset($_GET['add_link_show'])) {
   $add_link_show=true; 
 }
 
-/******************************* */
-/** Soll Filter-Möglichkeit angezeigt werden?  */
-
-$show_filter=false; // falls ein Filter-Box angezeigt werden soll
+/********* Soll Filter angezeigt werden?  */
+$show_filter=false; // default 
 
 if (isset($_GET['show_filter'])) {
   $show_filter=true; 
@@ -76,11 +84,11 @@ if (isset($_GET['show_filter'])) {
 
 $query = 'SELECT * FROM '.$object.' WHERE 1=1 ';
 
-// echo '<h3>'.$edit_table_title.'</h3>'.PHP_EOL; 
+echo '<h3>'.$header.'</h3>'.PHP_EOL; 
 
 
 
-/*********** Filter-Anzeige, Query Filter  ********************/
+/*********** Anzeigen, für die Filter vorgesehen ist  ********************/
 
 if($show_filter) {
 
@@ -147,7 +155,7 @@ try {
   
   // Link für Neu-Erfassung anzeigen? 
   if ($show_insert_link) {
-    echo '<p><a href="edit_'.$edit_table.'.php?title='.$edit_table_title.'&option=insert" target="_blank">Neu erfassen</a></p>';
+    echo '<p><a href="edit_'.$edit_table.'.php?title='.$edit_table_title.'&option=insert">Neu erfassen</a></p>';
   }
 
   $html->add_link_edit= $add_link_edit; 
@@ -162,18 +170,6 @@ catch (PDOException $e) {
   $info->print_user_error(); 
   $info->print_error($select, $e); 
 }
-
-
-
-// if (isset($_GET['edit_table'])) {
-//   $edit_table=$_GET['edit_table']; // XXX gibt es diese Konstellation überhaupt? 
-// } else {
-//   $edit_table=$object; 
-//   if (substr($object,0,2)=='v_') {
-//     $edit_table=substr($object,2, strlen($object)-2);     // bei Views (suffix v_): "v_" vorne abschneiden
-//   }
-// }
-
 
 
 include('foot.php');

@@ -285,6 +285,7 @@ class Lookuptype {
       include_once("cl_html_table.php");      
       $html = new HtmlTable($stmt); 
       $html->edit_link_table = 'lookup'; 
+      $html->edit_link_target_iframe=true;       
       $html->print_table2(); 
     }
     catch (PDOException $e) {

@@ -6,7 +6,7 @@
 
 <head>
   <meta charset="UTF-8">
-  <title>Notendatenbank Admin</title>
+  <title>Admin</title>
 </head>
 <body>
 

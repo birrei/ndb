@@ -53,13 +53,12 @@ if ($show_data) {
     <tr>    
       <label>
       <td class="form-edit form-edit-col1">Name:</td>  
-      <td class="form-edit form-edit-col2"><input type="text" name="Name" value="'.$lookuptype->Name.'" size="80" autofocus="autofocus" required></td>
+      <td class="form-edit form-edit-col2"><input type="text" name="Name" value="'.$lookuptype->Name.'" size="80" autofocus="autofocus"  oninput="changeBackgroundColor(this)" required></td>
       </label>
     </tr> 
     <tr> 
       <td class="form-edit form-edit-col1">Besonderheiten:
-        <p> <a href="edit_lookup_type_lookup.php?LookupTypeID='.$lookuptype->ID.'" target="Lookups" class="form-link">Besonderheit hinzufügen</a></p>
-        <p> <a href="edit_lookup_type_lookups.php?LookupTypeID='.$lookuptype->ID.'" target="Lookups" class="form-link">Aktualisieren</a></p>
+       <p> <a href="edit_lookup_type_lookups.php?LookupTypeID='.$lookuptype->ID.'" target="Lookups" class="form-link">Aktualisieren</a></p>
       </td> 
       <td class="form-edit form-edit-col2">
       

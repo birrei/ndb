@@ -5,11 +5,12 @@ class HtmlTable {
     public $count_cols; 
     public $count_rows; 
 
-    public $add_link_edit=true; // "Bearbeiten"-Spalte anzeigen  
+    public $add_link_edit=true; // Spalte mit "Bearbeiten"-Link anzeigen  
     public $edit_link_table=''; // Tabelle, die bearbeitet werden soll 
     public $edit_link_title=''; // Anzeige-Titel für die über den Link geöffnete Seite 
     public $edit_link_filename=''; // alternative für Standard- "edit_*.php". $edit_link_table dann leer lassen! 
     public $edit_link_open_newpage=false; 
+    public $edit_link_target_iframe=false; // Bearbeiten-Screen in iframe 
 
 
     public $add_link_delete=false; // Löschen- Spalte anzeigen 
@@ -105,10 +106,24 @@ class HtmlTable {
                     }
                     if ($this->add_link_edit) {
                         if ($this->edit_link_filename!='') {
-                            $html .= '<td class="resultset"><a href="'.$this->edit_link_filename.'?ID='.$row["ID"].'&option=edit"'. ($this->edit_link_open_newpage?' target="_blank"':''). ' tabindex="-1">Bearbeiten</a></td>'. PHP_EOL;                     
+                            $html .= '<td class="resultset"><a href="'.$this->edit_link_filename.'?ID='.$row["ID"].'&option=edit';
+                            $html .= ($this->edit_link_target_iframe?'&source=iframe':''); 
+                            $html .= '"';                             
+                            $html .= ($this->edit_link_open_newpage?' target="_blank"':'');                            
+                            $html .= ' tabindex="-1">Bearbeiten</a></td>'. PHP_EOL;                     
+                           // $html .= '<td class="resultset"><a href="'.$this->edit_link_filename.'?ID='.$row["ID"].'&option=edit"'. ($this->edit_link_open_newpage?' target="_blank"':''). ' tabindex="-1">Bearbeiten</a></td>'. PHP_EOL;                     
+
                         }
                         if ($this->edit_link_table!='') {
-                            $html .= '<td class="resultset"><a href="edit_'.$this->edit_link_table.'.php?ID='.$row["ID"].'&option=edit'.($this->edit_link_title!=''?'&title='.$this->edit_link_title:'').'"'. ($this->edit_link_open_newpage?' target="_blank"':''). ' tabindex="-1">Bearbeiten</a></td>'. PHP_EOL;
+                            $html .= '<td class="resultset"><a href="edit_'.$this->edit_link_table.'.php?ID='.$row["ID"].'&option=edit'; 
+                            $html .= ($this->edit_link_target_iframe?'&source=iframe':''); 
+                            $html .= ($this->edit_link_title!=''?'&title='.$this->edit_link_title:'');  
+                            $html .= '"';     
+                            $html .= ($this->edit_link_open_newpage?' target="_blank"':'');
+                            $html .= ' tabindex="-1">Bearbeiten</a></td>'. PHP_EOL;                                                                                 
+                            
+                            // $html .= '<td class="resultset"><a href="edit_'.$this->edit_link_table.'.php?ID='.$row["ID"].'&option=edit'.($this->edit_link_title!=''?'&title='.$this->edit_link_title:'').'"'. ($this->edit_link_open_newpage?' target="_blank"':''). ' tabindex="-1">Bearbeiten</a></td>'. PHP_EOL;
+
                         }                                        
                     }
                     if ($this->add_link_show)  {

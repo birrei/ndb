@@ -1,12 +1,19 @@
 
 <?php
 
-include('head_raw.php');
+$source=(isset($_REQUEST["source"])?$_REQUEST["source"]:'table'); 
+
+if ($source=='iframe')  {
+  include('head_raw.php');
+} else {
+  include('head.php');
+}
+
 include("cl_lookuptype.php");
 include("cl_lookup.php");
 include("cl_html_info.php");
 
-// echo '<h2>Besonderheit bearbeiten</h2>'; // Unterformular im iframe  
+$LookupTypeID=(isset($_REQUEST["LookupTypeID"])?$_REQUEST["LookupTypeID"]:''); 
 
 $lookup = new Lookup();
 $info= new HtmlInfo(); 
@@ -23,8 +30,7 @@ if (isset($_REQUEST["option"])) {
       break; 
 
     case 'insert': 
-      $lookup->LookupTypeID= $_GET["LookupTypeID"]; 
-      $lookup->insert_row($_GET["Name"]);  
+      $lookup->insert_row($LookupTypeID);  
       $show_data=true; 
       break; 
     
@@ -37,8 +43,18 @@ if (isset($_REQUEST["option"])) {
 }
 
 /** kein Screen-Header, da als Unterformular eingesetzt  */
+
+if ($source=='table') {
+  $info->print_screen_header($lookup->Title.' bearbeiten'); 
+}
+
+
 if ($show_data) {
-    
+  if ($source=='table') {
+    $info->print_link_table('v_lookup', 'sortcol=Name', $lookup->Titles,false);
+  }
+
+  
   echo '
   <form action="edit_lookup.php" method="post">
   <table class="form-edit"> 
@@ -49,6 +65,14 @@ if ($show_data) {
     <td class="form-edit form-edit-col2">'.$lookup->ID.'</td>
     </label>
       </tr> 
+
+      
+    <tr>    
+      <label>
+      <td class="form-edit form-edit-col1">Name:</td>  
+      <td class="form-edit form-edit-col2"><input type="text" name="Name" value="'.$lookup->Name.'" size="45" maxlength="80" required="required" autofocus="autofocus" oninput="changeBackgroundColor(this)"></td>
+      </label>
+    </tr>       
       <tr>    
         <label>
         <td class="form-edit form-edit-col1">Typ/Kategorie:
@@ -58,19 +82,24 @@ if ($show_data) {
               $lookup_type = new Lookuptype();
               $lookup_type->print_select($lookup->LookupTypeID); 
               
-              echo ' <a href="edit_lookup_type.php?ID='.$lookup->LookupTypeID.'&title=Typ&option=edit" tabindex="-1" class="form-link">Gehe zu Typ</a>'; 
+              // XXX löschen: echo ' <a href="edit_lookup_type.php?ID='.$lookup->LookupTypeID.'&title=Typ&option=edit" tabindex="-1" class="form-link">Gehe zu Typ</a>'; 
 
         echo '
-        </label>
+        </label>  &nbsp;';
+
+
+        if ($source=='table') {
+          $info->print_link_edit($lookup_type->table_name, $lookup->LookupTypeID,$lookup_type->Title, true); 
+          $info->print_link_table($lookup_type->table_name,'sortcol=Name',$lookup_type->Titles,true,'');    
+          $info->print_link_insert($lookup_type->table_name,$lookup_type->Title,true); 
+        }
+
+
+        echo  '
+
       </td>
       </tr>
-      
-    <tr>    
-      <label>
-      <td class="form-edit form-edit-col1">Name:</td>  
-      <td class="form-edit form-edit-col2"><input type="text" name="Name" value="'.$lookup->Name.'" size="45" maxlength="80" required="required" autofocus="autofocus" oninput="changeBackgroundColor(this)"></td>
-      </label>
-    </tr> 
+
 
     <tr> 
       <td class="form-edit form-edit-col1"></td> 
@@ -83,9 +112,10 @@ if ($show_data) {
   <input type="hidden" name="option" value="update">  
   <input type="hidden" name="title" value="Besonderheit">       
   <input type="hidden" name="ID" value="' . $lookup->ID. '">
-
+  <input type="hidden" name="source" value="'.$source.'">
   </form>
   '; 
+  $info->source=$source; 
   $info->print_link_delete_row2($lookup->table_name, $lookup->ID, $lookup->Title, false); 
 } 
 else {
