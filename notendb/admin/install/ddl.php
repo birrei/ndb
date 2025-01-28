@@ -14,25 +14,44 @@ include("../../cl_html_info.php");
 if (isset($_GET["option"])) {
 
     /****** Material ******** */
-
-    drop_table('material'); 
-    drop_table('materialtyp'); 
+    // drop_table('material'); 
+    // drop_table('materialtyp'); 
     
-    install_table_materialtyp(); 
-    install_table_material(); 
-    install_view_v_material(); 
+    // install_table_materialtyp(); 
+    // install_table_material(); 
+    // install_view_v_material(); 
 
-    /************** */
+    /******** Schüler ****** */
     // install_table_schueler(); 
     // install_table_schueler_schwierigkeitsgrad();
     // install_table_schueler_satz();
+
+    drop_table('schueler_material'); 
+    install_table_schueler_material(); 
+
 
 }
 
 
 /************************************************** */
 
-
+function install_table_schueler_material() {
+    $sql="
+        CREATE TABLE schueler_material (
+        ID INT NOT NULL AUTO_INCREMENT,
+        SchuelerID INT DEFAULT NULL,
+        MaterialID INT DEFAULT NULL, 
+        Bemerkung VARCHAR(255) NULL, 
+        PRIMARY KEY (ID),
+        UNIQUE KEY uc_schueler_material (SchuelerID,MaterialID),
+        -- KEY SatzID (SatzID),
+        -- KEY SchuelerID (SchuelerID),
+        CONSTRAINT fkey_schueler_material_SchuelerID FOREIGN KEY (SchuelerID) REFERENCES schueler (ID),
+        CONSTRAINT fkey_schueler_material_MaterialID FOREIGN KEY (MaterialID) REFERENCES material (ID)
+        )     
+    "; 
+    execute_sql($sql, 'schueler_material'); 
+}
 function install_view_v_material() {
     $sql="
         create or replace view v_material as

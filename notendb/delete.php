@@ -4,7 +4,6 @@
 $table=$_REQUEST["table"];
 $source=(isset($_REQUEST["source"])?$_REQUEST["source"]:'table'); // z.B: "iframe", "table" 
 
-// echo '$source: '.$source.'<br>'; 
 
 /** Einstellungen für den "Tabelle"-Link (Aufruf show_table2.php) */
 $tablelink_table=$table; // Tabellen-Name oder View-Name (letzterer muss mit Suffix "v_" angegeben werden)     
@@ -155,7 +154,7 @@ switch($table) {
       
 }
 
-// echo 'source: '.$source; // test 
+
 
 if ($source=='iframe') {
   include('head_raw.php');
@@ -165,6 +164,8 @@ if ($source=='iframe') {
 
 include("cl_html_info.php");
 
+// echo '$source: '.$source.'<br>'; // test 
+// echo '$table: '.$table.'<br>';  // test 
 
 
 /*************************** */

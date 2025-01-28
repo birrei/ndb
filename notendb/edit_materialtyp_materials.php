@@ -16,9 +16,6 @@ echo '</div>';
 
 echo '&nbsp;<a href="edit_material.php?MaterialtypID='.$materialtyp->ID.'&option=insert&source=iframe" class="form-link">Hinzufügen</a>'; 
 
-
-
-
 include('foot_raw.php');
 
 

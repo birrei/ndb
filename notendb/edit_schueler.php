@@ -79,15 +79,21 @@ if ($show_data) {
   <tr> 
   <td class="form-edit form-edit-col1">Daten anzeigen: <br /> <br />
 
-  <input type="radio" id="opt_Saetze" name="target_form" value="Saetze" onclick="changeIframeSrc('subform1', 'edit_schueler_saetze.php?SchuelerID=<?php echo $schueler->ID; ?>');" checked>
+  <input type="radio" id="opt_Schwierigkeitsgrad" name="target_form" value="Schwierigkeitsgrad" onclick="changeIframeSrc('subform1', 'edit_schueler_schwierigkeitsgrade.php?SchuelerID=<?php echo $schueler->ID; ?>');" checked>
+  <label for="opt_Schwierigkeitsgrad">Instrumente / Schwierigkeitsgrade</label><br>
+
+  <input type="radio" id="opt_Saetze" name="target_form" value="Saetze" onclick="changeIframeSrc('subform1', 'edit_schueler_saetze.php?SchuelerID=<?php echo $schueler->ID; ?>');">
   <label for="opt_Saetze">Verknüpfte Noten</label><br>
 
-  <input type="radio" id="opt_Schwierigkeitsgrad" name="target_form" value="Schwierigkeitsgrad" onclick="changeIframeSrc('subform1', 'edit_schueler_schwierigkeitsgrade.php?SchuelerID=<?php echo $schueler->ID; ?>');">
-  <label for="opt_Schwierigkeitsgrad">Instrumente / Schwierigkeitsgrade</label><br>
+  
+  <input type="radio" id="opt_Material" name="target_form" value="Material" onclick="changeIframeSrc('subform1', 'edit_schueler_materials.php?SchuelerID=<?php echo $schueler->ID; ?>');">
+  <label for="opt_Material">Verknüpfte Materialien</label><br>
+
+
 
   </td> 
   <td class="form-edit form-edit-col2">
-    <iframe src="edit_schueler_saetze.php?SchuelerID=<?php echo $schueler->ID; ?>&source=iframe" height="300" id="subform1" name="Info" class="form-iframe-var2"></iframe>
+    <iframe src="edit_schueler_schwierigkeitsgrade.php?SchuelerID=<?php echo $schueler->ID; ?>&source=iframe" height="300" id="subform1" name="Info" class="form-iframe-var2"></iframe>
   </td>
   </tr> 
 

@@ -1,14 +1,7 @@
 
 <?php 
 
-$source=(isset($_REQUEST["source"])?$_REQUEST["source"]:'table'); 
-
-if ($source=='iframe')  {
-  include('head_raw.php');
-} else {
-  include('head.php');
-}
-
+include('head.php');
 include("cl_material.php");
 include("cl_materialtyp.php");
 include("cl_html_info.php");
@@ -46,17 +39,10 @@ if (isset($_REQUEST["option"])) {
   }
 }
 
-if ($source=='table') {
-  $info->print_screen_header($material->Title.' bearbeiten'); 
-}
+$info->print_screen_header($material->Title.' bearbeiten'); 
 
 
-if ($show_data) {
-  
-  if ($source=='table') {
-    $info->print_link_table('v_material', 'sortcol=Name', $material->Titles,false);
-  }
-
+  $info->print_link_table('v_material', 'sortcol=Name&show_filter', $material->Titles,false);
 
   echo '</p>
   <form action="edit_material.php" method="post">
@@ -70,9 +56,9 @@ if ($show_data) {
 
 
     <tr>    
-    <label>
+ <label>  
     <td class="form-edit form-edit-col1">Materialtyp:</td>  
-    <td class="form-edit form-edit-col2">     
+    <td class="form-edit form-edit-col2">  
           '; 
           $materialtypen = new Materialtyp();
           $materialtypen->print_select($material->MaterialtypID); 
@@ -80,11 +66,10 @@ if ($show_data) {
     echo ' </label>  &nbsp;
        '; 
 
-       if ($source=='table') {
-          $info->print_link_edit($materialtypen->table_name, $material->MaterialtypID,$materialtypen->Title, true); 
-          $info->print_link_table($materialtypen->table_name,'sortcol=Name',$materialtypen->Titles,true,'');    
-          $info->print_link_insert($materialtypen->table_name,$materialtypen->Title,true); 
-        }
+       $info->print_link_edit($materialtypen->table_name, $material->MaterialtypID,$materialtypen->Title, true); 
+       $info->print_link_table($materialtypen->table_name,'sortcol=Name',$materialtypen->Titles,true,'');    
+       $info->print_link_insert($materialtypen->table_name,$materialtypen->Title,true); 
+ 
 
   echo '</td>
     </tr> 
@@ -111,32 +96,33 @@ if ($show_data) {
       <td class="form-edit form-edit-col2"><input class="btnSave" type="submit" name="senden" value="Speichern">  
       </td>
     </tr> 
-    
-  </table> 
-  <input type="hidden" name="option" value="update"> 
-  <input type="hidden" name="title" value="Material">          
-  <input type="hidden" name="ID" value="' . $material->ID. '">
-  <input type="hidden" name="source" value="'.$source.'">
-  </form>
-  <br>
+'; 
 
-  '; 
+    ?>
 
-  $info->source=$source; 
-  $info->print_link_delete_row2($material->table_name, $material->ID,'Material'); 
+    <tr> 
+
+      <td class="form-edit form-edit-col1">Schüler:</td> 
+    </td> 
+    <td class="form-edit form-edit-col2">
+      <iframe src="edit_material_schuelers.php?MaterialID=<?php echo $material->ID; ?>&source=iframe" height="300" id="subform1" name="Material" class="form-iframe-var2"></iframe>
+    </td>
+    </tr> 
+
+    </table> 
+    <input type="hidden" name="option" value="update"> 
+    <input type="hidden" name="title" value="Material">          
+    <input type="hidden" name="ID" value="<?php echo $material->ID; ?>">
+    </form>
+    <br>
+
+<?php 
+   
+$info->print_link_delete_row2($material->table_name, $material->ID,'Material'); 
 
 
-} 
-else {
-    $info->print_user_error(); 
-}
 
+include('foot.php');
 
-
-if ($source=='iframe')  {
-  include('foot_raw.php');
-} else {
-  include('foot.php');
-}
 
 ?>

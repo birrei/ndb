@@ -64,16 +64,7 @@ if ($show_data) {
 
       </td>
     </tr> 
-    <tr> 
-      <td class="form-edit form-edit-col1">Material:
-        <p> <a href="edit_materialtyp_materials.php?MaterialtypID='.$materialtyp->ID.'" target="Materialien" class="form-link">Aktualisieren</a></p>
-      </td> 
-      <td class="form-edit form-edit-col2">
-      
-        <iframe src="edit_materialtyp_materials.php?MaterialtypID='.$materialtyp->ID.'&source=iframe" height="400" name="Materialien" class="form-iframe-var2"></iframe>
 
-      </td>
-    </tr> 
 
   </table> 
   <input type="hidden" name="option" value="update">        

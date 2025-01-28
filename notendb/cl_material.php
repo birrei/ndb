@@ -195,6 +195,47 @@ class Material {
   }
 
 
+  function print_table_schueler(){
+    $query="SELECT schueler_material.ID 
+          , schueler.Name as Schueler
+          , schueler_material.Bemerkung  
+          FROM schueler_material
+          left join schueler 
+          on  schueler.ID = schueler_material.SchuelerID  
+          WHERE schueler_material.MaterialID = :MaterialID 
+          order by schueler.Name  
+        "; 
+
+    include_once("dbconn/cl_db.php");
+    $conn = new DbConn(); 
+    $db=$conn->db; 
+  
+    $stmt = $db->prepare($query); 
+    $stmt->bindParam(':MaterialID', $this->ID, PDO::PARAM_INT); 
+
+    try {
+      $stmt->execute(); 
+      include_once("cl_html_table.php");      
+      $html = new HtmlTable($stmt); 
+      $html->edit_link_table='material_schueler'; 
+      $html->edit_link_title='Schueler'; 
+      $html->edit_link_open_newpage=false; 
+      $html->show_missing_data_message=false;      
+      $html->add_link_delete=true; // XXX 
+      $html->del_link_filename='edit_material_schuelers.php'; 
+      // $html->del_link_table='material_erprobt'; // nicht sinnvoll
+      $html->del_link_parent_key='MaterialID'; 
+      $html->del_link_parent_id= $this->ID;              
+      $html->print_table2(); 
+
+    }
+    catch (PDOException $e) {
+      include_once("cl_html_info.php"); 
+      $info = new HtmlInfo();      
+      $info->print_user_error(); 
+      $info->print_error($stmt, $e); 
+    }
+  }    
 
 
 }

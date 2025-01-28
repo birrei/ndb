@@ -94,6 +94,16 @@ if($show_filter) {
 
   echo '<form action="" method="post">'.PHP_EOL; 
   switch ($object) {
+
+    case 'v_material': 
+      include_once("cl_materialtyp.php");
+      $MaterialtypID=(isset($_POST["MaterialtypID"])?$_POST["MaterialtypID"]:'');
+      $materialtyp = new Materialtyp(); 
+      echo 'Besonderheit Typ: '.PHP_EOL; 
+      $materialtyp->print_preselect($MaterialtypID); 
+      $query.=($MaterialtypID!=''?'AND MaterialtypID='.$MaterialtypID.' '.PHP_EOL:''); 
+    break; 
+
     case 'v_abfrage': 
       include_once("cl_abfragetyp.php");
       $AbfragetypID=(isset($_POST["AbfragetypID"])?$_POST["AbfragetypID"]:'');

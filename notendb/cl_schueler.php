@@ -9,6 +9,7 @@ class Schueler {
   public $titles_selected_list; 
   public $Title='Schüler';
   public $Titles='Schüler';  
+  public $Ref = ''; // "Satz" oder "Material" 
 
   public function __construct(){
     $this->table_name='schueler'; 
@@ -39,18 +40,28 @@ class Schueler {
     }
   }  
  
-  function print_select($value_selected='', $ref_SatzID='', $caption=''){
+  function print_select($value_selected='', $ParentID='', $caption=''){
       
     include_once("dbconn/cl_db.php");  
     include_once("cl_html_select.php");
 
-    $query='SELECT ID, Name 
-    FROM `schueler` ';
+    $query='SELECT ID, Name FROM `schueler` ';
 
-    if ($ref_SatzID!=''){
-    $query.='WHERE ID NOT IN 
-          (SELECT SchuelerID FROM schueler_satz 
-          WHERE SatzID=:SatzID) ';
+    switch ($this->Ref) {
+      case 'Satz': 
+          $query.=($ParentID!=''?'WHERE ID NOT IN 
+                              (SELECT SchuelerID FROM schueler_material 
+                              WHERE SatzID=:ParentID) ':''); 
+
+                              
+        break; 
+      case 'Material': 
+            $query.=($ParentID!=''?'WHERE ID NOT IN 
+                                (SELECT SchuelerID FROM schueler_material 
+                                WHERE MaterialID=:ParentID) ':''); 
+
+                              
+        break;       
     }
 
     $query.='ORDER BY `Name`'; 
@@ -60,8 +71,8 @@ class Schueler {
 
     $stmt = $db->prepare($query); 
 
-    if ($ref_SatzID!=''){
-      $stmt->bindParam(':SatzID', $ref_SatzID);
+    if ($ParentID!=''){
+      $stmt->bindParam(':ParentID', $ParentID);
     }
 
 
@@ -251,26 +262,25 @@ class Schueler {
 
   
   function print_table_saetze(){
-    $query="SELECT schueler_satz.ID
-            , sammlung.Name as `Sammlung`
-            , musikstueck.Nummer as `Nr`    
-            , musikstueck.Name as `Musikstück`
-            , satz.Nr as `Satz Nr`    
-            , satz.Name as `Satz Name`
-            , schueler_satz.Bemerkung  
-           -- , schueler_satz.SatzID           
-          FROM schueler_satz
-          LEFT JOIN satz ON satz.ID = schueler_satz.SatzID  
-          LEFT JOIN musikstueck ON musikstueck.ID = satz.MusikstueckID
-          LEFT JOIN sammlung ON sammlung.ID = musikstueck.SammlungID                               
-          WHERE schueler_satz.SchuelerID = :ID
-          order by satz.Name  
-        "; 
+      $query="SELECT schueler_satz.ID
+      , sammlung.Name as `Sammlung`
+      , musikstueck.Nummer as `Nr`    
+      , musikstueck.Name as `Musikstück`
+      , satz.Nr as `Satz Nr`    
+      , satz.Name as `Satz Name`
+      , schueler_satz.Bemerkung  
+    -- , schueler_satz.SatzID           
+    FROM schueler_satz
+    LEFT JOIN satz ON satz.ID = schueler_satz.SatzID  
+    LEFT JOIN musikstueck ON musikstueck.ID = satz.MusikstueckID
+    LEFT JOIN sammlung ON sammlung.ID = musikstueck.SammlungID                               
+    WHERE schueler_satz.SchuelerID = :ID
+    order by satz.Name "; 
 
     include_once("dbconn/cl_db.php");
     $conn = new DbConn(); 
     $db=$conn->db; 
-  
+
     $stmt = $db->prepare($query); 
     $stmt->bindParam(':ID', $this->ID, PDO::PARAM_INT); 
 
@@ -296,7 +306,50 @@ class Schueler {
       $info->print_error($stmt, $e); 
     }
   }    
-    
+
+  
+  function print_table_materials(){
+    $query="SELECT schueler_material.ID
+            , material.Name as `Material Name`
+            , schueler_material.Bemerkung  as `Material Bemerkung`
+            , materialtyp.Name  as `Materialtyp`            
+           -- , schueler_material.SatzID           
+          FROM schueler_material
+          LEFT JOIN material ON material.ID = schueler_material.MaterialID  
+          LEFT JOIN materialtyp ON materialtyp.ID = material.MaterialtypID                             
+          WHERE schueler_material.SchuelerID = :ID
+          order by material.Name  
+        "; 
+
+    include_once("dbconn/cl_db.php");
+    $conn = new DbConn(); 
+    $db=$conn->db; 
+  
+    $stmt = $db->prepare($query); 
+    $stmt->bindParam(':ID', $this->ID, PDO::PARAM_INT); 
+
+    try {
+      $stmt->execute(); 
+      include_once("cl_html_table.php");      
+      $html = new HtmlTable($stmt); 
+      $html->edit_link_table='schueler_material'; 
+      $html->edit_link_title='Schueler'; 
+      $html->edit_link_open_newpage=false; 
+      $html->show_missing_data_message=false;      
+      $html->add_link_delete=true; // XXX 
+      $html->del_link_filename='edit_schueler_saetze.php'; 
+      $html->del_link_parent_key='SchuelerID'; 
+      $html->del_link_parent_id= $this->ID;              
+      $html->print_table2(); 
+
+    }
+    catch (PDOException $e) {
+      include_once("cl_html_info.php"); 
+      $info = new HtmlInfo();      
+      $info->print_user_error(); 
+      $info->print_error($stmt, $e); 
+    }
+  }    
 
   // function print_select_multi($options_selected=[]){
 
