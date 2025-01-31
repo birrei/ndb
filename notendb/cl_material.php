@@ -246,27 +246,29 @@ class Material {
     include_once("cl_html_select.php");
 
     $query="SELECT material.ID
-            , CONCAT(material.Name, ' / ', materialtyp.Name) as Material  
+			, case when LENGTH(material.Name) > 50
+            	THEN CONCAT(LEFT(material.Name, 50), ' (...) (', materialtyp.Name, ')') 
+            	ELSE CONCAT(material.Name, ' (',  materialtyp.Name, ')')
+            END 
+            	as Material
             FROM material 
             INNER JOIN materialtyp 
             ON materialtyp.ID=material.MaterialtypID 
             WHERE 1=1 " ;
 
     if ($selected_MaterialID!='') {
-      // schon gespeicherte Schüler-Verknüpfungen nicht mehr angezeigen
-      // ausser derjenigen SchuelerID, die im ausgewählten Datensatz angezeig wird   
-      $query.=($ParentID!=''?'AND material.ID NOT IN 
-            (SELECT MaterialID FROM schueler_material 
-            WHERE SchuelerID=:ParentID
-            AND MaterialID!=:selected_MaterialID) ':''); 
+        $query.=($ParentID!=''?'AND material.ID NOT IN 
+              (SELECT MaterialID FROM schueler_material 
+              WHERE SchuelerID=:ParentID
+              AND MaterialID!=:selected_MaterialID) ':''); 
     } else {
-      $query.=($ParentID!=''?'AND material.ID NOT IN 
-          (SELECT MaterialID FROM schueler_material 
-          WHERE SchuelerID=:ParentID) ':''); 
+        $query.=($ParentID!=''?'AND material.ID NOT IN 
+            (SELECT MaterialID FROM schueler_material 
+            WHERE SchuelerID=:ParentID) ':''); 
     }
     
     if ($MaterialtypID!=''){
-      $query.="AND MaterialtypID=:MaterialtypID "; 
+        $query.="AND MaterialtypID=:MaterialtypID "; 
     }
 
     
