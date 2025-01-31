@@ -71,12 +71,17 @@ if (isset($_REQUEST["option"])) {
         $schueler ->print_select('',$_GET["SatzID"]); // (noch) ohne Datensatz 
       }
       ?>
-  </td>  
-  <td class="eingabe2 eingabe2_3">
-    <?php 
+
+  <?php 
       $info->option_linktext=1; 
-      $info->print_link_table('schueler','sortcol=Name','Schüler',true,'');  
+      $info->print_link_edit($schueler->table_name, $schuelersatz->SchuelerID,$schueler->Title, true); 
+      $info->print_link_table($schueler->table_name,'sortcol=Name',$schueler->Titles,true,'');    
+      $info->print_link_insert($schueler->table_name,$schueler->Title,true);
+
     ?>
+  </td>
+  <td class="eingabe2 eingabe2_3">
+
   </td>    
 </tr>
 

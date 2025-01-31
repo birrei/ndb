@@ -40,27 +40,42 @@ class Schueler {
     }
   }  
  
-  function print_select($value_selected='', $ParentID='', $caption=''){
-      
+  function print_select($selected_SchuelerID='', $ParentID='', $caption=''){
+    // $ParentID: MaterialID oder SatzID 
+
     include_once("dbconn/cl_db.php");  
     include_once("cl_html_select.php");
 
-    $query='SELECT ID, Name FROM `schueler` ';
+    $query='SELECT ID, Name FROM `schueler` WHERE 1=1 ';
 
     switch ($this->Ref) {
       case 'Satz': 
-          $query.=($ParentID!=''?'WHERE ID NOT IN 
-                              (SELECT SchuelerID FROM schueler_material 
-                              WHERE SatzID=:ParentID) ':''); 
-
-                              
+          if ($selected_SchuelerID!='') {
+            // schon gespeicherte Schüler-Verknüpfungen nicht mehr angezeigen
+            // ausser derjenigen SchuelerID, die im ausgewählten Datensatz angezeig wird   
+            $query.=($ParentID!=''?'AND ID NOT IN 
+                  (SELECT SchuelerID FROM schueler_satz 
+                  WHERE SatzID=:ParentID
+                  AND SchuelerID!=:selected_SchuelerID) ':''); 
+          } else {
+            $query.=($ParentID!=''?'AND ID NOT IN 
+                (SELECT SchuelerID FROM schueler_satz 
+                WHERE SatzID=:ParentID) ':''); 
+          }
+                                        
         break; 
       case 'Material': 
-            $query.=($ParentID!=''?'WHERE ID NOT IN 
-                                (SELECT SchuelerID FROM schueler_material 
-                                WHERE MaterialID=:ParentID) ':''); 
-
-                              
+          if ($selected_SchuelerID!='') {
+            $query.=($ParentID!=''?'AND ID NOT IN 
+                  (SELECT SchuelerID FROM schueler_material 
+                  WHERE MaterialID=:ParentID
+                  AND SchuelerID!=:selected_SchuelerID) ':''); 
+          } else {
+            $query.=($ParentID!=''?'AND ID NOT IN 
+              (SELECT SchuelerID FROM schueler_material 
+              WHERE MaterialID=:ParentID) ':''); 
+          }
+                                
         break;       
     }
 
@@ -72,15 +87,19 @@ class Schueler {
     $stmt = $db->prepare($query); 
 
     if ($ParentID!=''){
-      $stmt->bindParam(':ParentID', $ParentID);
+      $stmt->bindParam(':ParentID', $ParentID, PDO::PARAM_INT);
     }
+    if ($selected_SchuelerID!=''){
+      $stmt->bindParam(':selected_SchuelerID', $selected_SchuelerID, PDO::PARAM_INT);
 
+    }
 
     try {
       $stmt->execute(); 
+      // $stmt->debugDumpParams(); // Test 
       $html = new HtmlSelect($stmt); 
       $html->caption = $caption;       
-      $html->print_select("SchuelerID", $value_selected, true); 
+      $html->print_select("SchuelerID", $selected_SchuelerID, true); 
       
     }
     catch (PDOException $e) {
@@ -337,7 +356,7 @@ class Schueler {
       $html->edit_link_open_newpage=false; 
       $html->show_missing_data_message=false;      
       $html->add_link_delete=true; // XXX 
-      $html->del_link_filename='edit_schueler_saetze.php'; 
+      $html->del_link_filename='edit_schueler_materials.php'; 
       $html->del_link_parent_key='SchuelerID'; 
       $html->del_link_parent_id= $this->ID;              
       $html->print_table2(); 
@@ -350,94 +369,6 @@ class Schueler {
       $info->print_error($stmt, $e); 
     }
   }    
-
-  // function print_select_multi($options_selected=[]){
-
-  //   include_once("dbconn/cl_db.php");  
-  //   include_once("cl_html_select.php");
-
-  //   $query="SELECT ID, Name 
-  //           FROM `gattung` 
-  //           order by `Name`"; 
-
-  //   $conn = new DbConn(); 
-  //   $db=$conn->db; 
-
-  //   $stmt = $db->prepare($query); 
-
-  //   try {
-  //     $stmt->execute(); 
-  //     $html = new HtmlSelect($stmt); 
-  //     $html->print_select_multi('Gattung', 'Gattungen[]', $options_selected, 'Gattung:'); 
-  //     $this->titles_selected_list = $html->titles_selected_list;
-  //   }
-  //   catch (PDOException $e) {
-  //     include_once("cl_html_info.php"); 
-  //     $info = new HtmlInfo();      
-  //     $info->print_user_error(); 
-  //     $info->print_error($stmt, $e); 
-  //   }
-  // } 
-  
-  
-  // function delete(){
-  //   include_once("dbconn/cl_db.php");
-  //   $conn = new DbConn(); 
-  //   $db=$conn->db; 
-
-  //   $select = $db->prepare("SELECT * from musikstueck WHERE GattungID=:GattungID");
-  //   $select->bindValue(':GattungID', $this->ID); 
-  //   $select->execute();  
-  //   if ($select->rowCount() > 0 ){
-  //     $this->load_row(); 
-  //     echo '<p>Die Gattung ID '.$this->ID.' "'.$this->Name.'" 
-  //       kann nicht gelöscht werden, da noch eine Zuordnung auf '.$select->rowCount().' 
-  //       Musikstücke existiert. </p>';   
-  //     return false;            
-  //   }
- 
-  //   $delete = $db->prepare("DELETE FROM `gattung` WHERE ID=:ID"); 
-  //   $delete->bindValue(':ID', $this->ID);  
-
-  //   try {
-  //     $delete->execute(); 
-  //     echo '<p>Die Zeile wurde gelöscht.</p>'; 
-  //     return true;         
-  //   }
-  //   catch (PDOException $e) {
-  //     include_once("cl_html_info.php"); 
-  //     $info = new HtmlInfo();      
-  //     $info->print_user_error(); 
-  //     $info->print_error($delete, $e);  
-  //     return false;  
-  //   }  
-  // }  
-
-  // function print_table(){
-
-  //   $query="SELECT * from gattung ORDER by Name"; 
-
-  //   include_once("dbconn/cl_db.php");
-  //   $conn = new DbConn(); 
-  //   $db=$conn->db; 
-
-  //   $select = $db->prepare($query); 
-
-  //   try {
-  //     $select->execute(); 
-  //     include_once("cl_html_table.php");      
-  //     $html = new HtmlTable($select); 
-  //     $html->edit_link_table= $this->table_name;
-  //     $html->print_table2();  
-
-  //   }
-  //   catch (PDOException $e) {
-  //     include_once("cl_html_info.php"); 
-  //     $info = new HtmlInfo();      
-  //     $info->print_user_error(); 
-  //     $info->print_error($select, $e); 
-  //   }
-  // }
 
 
 }

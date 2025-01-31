@@ -35,7 +35,6 @@ if (isset($_GET["option"])){
 
 echo '<div style="float:left">'; 
 
-// $satz->print_table_schuelere(basename(__FILE__)); 
 $satz->print_table_schueler(); 
 
 echo '</div>'; 

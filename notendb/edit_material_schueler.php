@@ -7,6 +7,7 @@ include("cl_material.php");
 include("cl_html_info.php"); 
 
 $schuelermaterial = new SchuelerMaterial();
+$schuelermaterial->Parent = 'Material'; 
 
 $info= new HtmlInfo(); 
 
@@ -16,57 +17,46 @@ if (isset($_REQUEST["option"])) {
   switch($_REQUEST["option"]) {
     case 'edit': // über "Bearbeiten"-Link
       $schuelermaterial->ID=$_GET["ID"];
-      if ($schuelermaterial->load_row()) {
-        $show_data=true;       
-      }
+      $schuelermaterial->load_row(); 
+      $show_data=true;
       break; 
 
     case 'insert':       
-      $schuelermaterial->MaterialID = $_GET["MaterialID"];         
+      $schuelermaterial->MaterialID = $_GET["MaterialID"];
       break; 
     
     case 'update': 
       $show_data=true;  
-      if ($_POST["ID"]=='') {
-          // einfügen/updaten 
-          $schuelermaterial->MaterialID = $_REQUEST["MaterialID"];         
-          $schuelermaterial->insert_row();   
-          $schuelermaterial->update_row(
-            $_POST["MaterialID"],        
-            $_POST["SchuelerID"],
-            $_POST["Bemerkung"]
-          );          
-        }
-        else {
-          // updaten 
-          $schuelermaterial->ID = $_REQUEST["ID"];  
-          $schuelermaterial->update_row(
-            $_POST["MaterialID"],        
-            $_POST["SchuelerID"],
-            $_POST["Bemerkung"]
-          );         
-
-        }
+      if ($_POST["ID"]=='') {    
+        $schuelermaterial->insert_row($_REQUEST["MaterialID"]);      
+      } else {
+        $schuelermaterial->ID = $_REQUEST["ID"];  
+      }
+      $schuelermaterial->update_row(
+        $_POST["SchuelerID"]
+        , $_POST["MaterialID"]
+        , $_POST["Bemerkung"]   
+        );
       break; 
   }
 }
-
 ?> 
 
 <form action="" method="post">
 
 <table class="eingabe2">
-
 <tr>
   <td class="eingabe2 eingabe2_1">Schüler:  </td>
   <td class="eingabe2 eingabe2_2">
     <?php 
       $schueler = new Schueler(); 
       $schueler->Ref='Material'; 
-      if ( $show_data) {
-        $schueler ->print_select($schuelermaterial->SchuelerID); // datenmaterial geöffnet 
+      $schueler->ID = $schuelermaterial->SchuelerID; 
+
+      if ( $_REQUEST["option"] =='insert') {
+        $schueler ->print_select('',$_REQUEST["MaterialID"]); // 
       } else {
-        $schueler ->print_select('',$_GET["MaterialID"]); // (noch) ohne Datenmaterial 
+        $schueler ->print_select($schuelermaterial->SchuelerID, $schuelermaterial->MaterialID); //         
       }
       ?>
     <?php 

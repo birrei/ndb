@@ -238,6 +238,76 @@ class Material {
   }    
 
 
+  function print_select( $selected_MaterialID='', $ParentID='', $MaterialtypID=''){
+
+    // XXX Material für einen ausgewählten Typ   
+
+    include_once("dbconn/cl_db.php");  
+    include_once("cl_html_select.php");
+
+    $query="SELECT material.ID
+            , CONCAT(material.Name, ' / ', materialtyp.Name) as Material  
+            FROM material 
+            INNER JOIN materialtyp 
+            ON materialtyp.ID=material.MaterialtypID 
+            WHERE 1=1 " ;
+
+    if ($selected_MaterialID!='') {
+      // schon gespeicherte Schüler-Verknüpfungen nicht mehr angezeigen
+      // ausser derjenigen SchuelerID, die im ausgewählten Datensatz angezeig wird   
+      $query.=($ParentID!=''?'AND material.ID NOT IN 
+            (SELECT MaterialID FROM schueler_material 
+            WHERE SchuelerID=:ParentID
+            AND MaterialID!=:selected_MaterialID) ':''); 
+    } else {
+      $query.=($ParentID!=''?'AND material.ID NOT IN 
+          (SELECT MaterialID FROM schueler_material 
+          WHERE SchuelerID=:ParentID) ':''); 
+    }
+    
+    if ($MaterialtypID!=''){
+      $query.="AND MaterialtypID=:MaterialtypID "; 
+    }
+
+    
+
+    $query.='ORDER BY material.Name'; 
+
+    // echo $query; // Test 
+
+    $conn = new DbConn(); 
+    $db=$conn->db; 
+
+    $stmt = $db->prepare($query); 
+
+    if ($MaterialtypID!=''){
+      $stmt->bindParam(':MaterialtypID', $MaterialtypID, PDO::PARAM_INT);   
+    }
+    if ($ParentID!=''){
+      $stmt->bindParam(':ParentID', $ParentID, PDO::PARAM_INT); 
+    }
+    if ($selected_MaterialID!=''){
+      $stmt->bindParam(':selected_MaterialID', $selected_MaterialID, PDO::PARAM_INT); 
+    }
+
+
+    try {
+      $stmt->execute(); 
+      $html = new HtmlSelect($stmt); 
+      // $stmt->debugDumpParams(); // Test 
+      // $html->caption = $caption;       
+      $html->print_select("MaterialID", $selected_MaterialID, true); 
+      
+    }
+    catch (PDOException $e) {
+      include_once("cl_html_info.php"); 
+      $info = new HtmlInfo();      
+      $info->print_user_error(); 
+      $info->print_error($stmt, $e); 
+    }
+  }
+
+
 }
 
  

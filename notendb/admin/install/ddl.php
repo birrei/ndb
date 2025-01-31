@@ -26,7 +26,7 @@ if (isset($_GET["option"])) {
     // install_table_schueler_schwierigkeitsgrad();
     // install_table_schueler_satz();
 
-    drop_table('schueler_material'); 
+    // drop_table('schueler_material'); 
     install_table_schueler_material(); 
 
 

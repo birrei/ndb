@@ -24,7 +24,6 @@ if (isset($_GET["option"])){
             <p>Satz-Verknüpfung ID '.$schuelersatz->ID.' wird gelöscht 
             <input class="btnDelete" type="submit" name="confirm" value="Löschung bestätigen">
             <input type="hidden" name="ID" value="' . $schuelersatz->ID . '">  
-            <input type="hidden" name="ID" value="' . $schuelersatz->ID . '">              
             <input type="hidden" name="option" value="delete">        
             </form>
             </p>  '; 

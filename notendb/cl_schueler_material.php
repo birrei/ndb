@@ -13,24 +13,36 @@ class SchuelerMaterial {
 
   public $titles_selected_list; 
   public $Title='Material Schüler';
-  public $Titles='Material Schüler';  
+  public $Titles='Material Schüler'; 
+  public $Parent='Material'; // "Material" (dem Material wird ein Schüler hinzugefügt) 
+                             // oder "Schueler" (dem Schueler wird Material hinzugefügt) 
 
   public function __construct(){
     $this->table_name='schueler_material'; 
   }
 
-  function insert_row () {
+  function insert_row ($ParentID) {
+    // ParentID ist SchuelerID oder MaterialID 
     include_once("dbconn/cl_db.php");
     $conn = new DbConn(); 
     $db=$conn->db; 
        
     // echo 'Insert: MaterialID: '.$this->MaterialID; // test 
 
-    $insert = $db->prepare("INSERT INTO `schueler_material` 
-              SET MaterialID = :MaterialID"       
-           );
+    switch($this->Parent) {
+      case 'Material':
+        $insert = $db->prepare("INSERT INTO `schueler_material` 
+                            SET MaterialID = :ParentID"       
+       );
+      break; 
+      case 'Schueler':
+        $insert = $db->prepare("INSERT INTO `schueler_material` 
+                            SET SchuelerID = :ParentID"       
+       );
+      break; 
+    }
 
-    $insert->bindParam(':MaterialID', $this->MaterialID);
+    $insert->bindParam(':ParentID', $ParentID);
 
     try {
       $insert->execute(); 
@@ -45,7 +57,7 @@ class SchuelerMaterial {
     }
   }  
    
-  function update_row ($MaterialID,$SchuelerID, $Bemerkung) {
+  function update_row ($SchuelerID, $MaterialID, $Bemerkung) {
     include_once("dbconn/cl_db.php");
     $conn = new DbConn(); 
     $db=$conn->db;  
@@ -74,7 +86,7 @@ class SchuelerMaterial {
       include_once("cl_html_info.php"); 
       $info = new HtmlInfo();      
       $info->print_user_error(); 
-      $info->print_error($insert, $e);  ; 
+      $info->print_error($update, $e);  ; 
     }
   }  
  

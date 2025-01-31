@@ -84,7 +84,6 @@ if ($show_data) {
 
   <input type="radio" id="opt_Saetze" name="target_form" value="Saetze" onclick="changeIframeSrc('subform1', 'edit_schueler_saetze.php?SchuelerID=<?php echo $schueler->ID; ?>');">
   <label for="opt_Saetze">Verknüpfte Noten</label><br>
-
   
   <input type="radio" id="opt_Material" name="target_form" value="Material" onclick="changeIframeSrc('subform1', 'edit_schueler_materials.php?SchuelerID=<?php echo $schueler->ID; ?>');">
   <label for="opt_Material">Verknüpfte Materialien</label><br>

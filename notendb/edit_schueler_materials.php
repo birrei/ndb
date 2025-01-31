@@ -23,8 +23,7 @@ if (isset($_GET["option"])){
             <form action="" method="post">
             <p>Material-Verknüpfung ID '.$schuelermaterial->ID.' wird gelöscht 
             <input class="btnDelete" type="submit" name="confirm" value="Löschung bestätigen">
-            <input type="hidden" name="ID" value="' . $schuelermaterial->ID . '">  
-            <input type="hidden" name="ID" value="' . $schuelermaterial->ID . '">              
+            <input type="hidden" name="ID" value="' . $schuelermaterial->ID . '">           
             <input type="hidden" name="option" value="delete">        
             </form>
             </p>  '; 
@@ -41,7 +40,7 @@ $schueler->print_table_materials();
 
 echo '</div>'; 
 
-// echo '&nbsp;<a href="edit_schueler_schueler.php?MaterialID='.$schueler->ID.'&option=insert" class="form-link">Hinzufügen</a>'; 
+echo '&nbsp;<a href="edit_schueler_material.php?SchuelerID='.$schueler->ID.'&option=insert" class="form-link">Hinzufügen</a>'; 
 
     
 include('foot_raw.php');
