@@ -1,7 +1,9 @@
 ﻿
 # Changelog  
 
-in Arbeit: Verknüpfung Schüler x Material 
+Next: Abstimmung zu neuen Features mit AG
+
+31.01.2025: Verknüpfung Schüler x Material 
 
 27.01.2025: Material-Verwaltung (nicht Noten-) Unterrichtsmaterial, z.B. Arbeitsblätter 
 
