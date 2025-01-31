@@ -4,7 +4,7 @@ include('head.php');
 $object=$_GET['table']; // obligatorisch, Name Tabelle oder View (falls View, Benennung: "v_[tabelle]")
  // default 
   
-/* Ermitteln der Original-Tabelle (für Bearbeiten-Link)= */
+/* Tabelle-Namen aus View-Namen extrahieren */
 if (substr($object,0,2)=='v_') {
   $edit_table=substr($object,2, strlen($object)-2);     // bei Views (suffix v_): "v_" vorne abschneiden
 } else {
@@ -88,41 +88,44 @@ echo '<h3>'.$header.'</h3>'.PHP_EOL;
 
 
 
-/*********** Anzeigen, für die Filter vorgesehen ist  ********************/
-
-if($show_filter) {
-
-  echo '<form action="" method="post">'.PHP_EOL; 
+/*********** Filter  ********************/
   switch ($object) {
 
     case 'v_material': 
+      echo '<form action="" method="post">'.PHP_EOL;       
       include_once("cl_materialtyp.php");
       $MaterialtypID=(isset($_POST["MaterialtypID"])?$_POST["MaterialtypID"]:'');
       $materialtyp = new Materialtyp(); 
-      echo 'Besonderheit Typ: '.PHP_EOL; 
+      echo 'Materialtyp: '.PHP_EOL; 
       $materialtyp->print_preselect($MaterialtypID); 
       $query.=($MaterialtypID!=''?'AND MaterialtypID='.$MaterialtypID.' '.PHP_EOL:''); 
+      echo '</form>'.PHP_EOL; 
     break; 
 
     case 'v_abfrage': 
+      echo '<form action="" method="post">'.PHP_EOL; 
       include_once("cl_abfragetyp.php");
       $AbfragetypID=(isset($_POST["AbfragetypID"])?$_POST["AbfragetypID"]:'');
       $abfragetyp = new Abfragetyp(); 
       echo 'Abfragetyp: '.PHP_EOL; 
       $abfragetyp->print_preselect($AbfragetypID); 
       $query.=($AbfragetypID!=''?'AND AbfragetypID='.$AbfragetypID.' '.PHP_EOL:''); 
+      echo '</form>'.PHP_EOL; 
     break; 
 
     case 'v_lookup': 
+      echo '<form action="" method="post">'.PHP_EOL; 
       include_once("cl_lookuptype.php");
       $LookupTypeID=(isset($_POST["LookupTypeID"])?$_POST["LookupTypeID"]:'');
       $lookuptype = new Lookuptype(); 
       echo 'Besonderheit Typ: '.PHP_EOL; 
       $lookuptype->print_preselect($LookupTypeID); 
       $query.=($LookupTypeID!=''?'AND LookupTypeID='.$LookupTypeID.' '.PHP_EOL:''); 
+      echo '</form>'.PHP_EOL; 
     break; 
 
     case 'v_sammlung': 
+      echo '<form action="" method="post">'.PHP_EOL; 
       include_once("cl_standort.php");
       $StandortID=(isset($_POST["StandortID"])?$_POST["StandortID"]:'');
       $Erfasst=(isset($_POST["Erfasst"])?1:0); 
@@ -132,14 +135,13 @@ if($show_filter) {
       echo '<label><input type="checkbox" name="Erfasst" onchange="this.form.submit()" '.($Erfasst==1?'checked':'').'>Vollständig erfasst</label>'; 
       $query.=($StandortID!=''?'AND StandortID='.$StandortID.' '.PHP_EOL:''); 
       $query.='AND Erfasst='.$Erfasst; 
-      
+      echo '</form>'.PHP_EOL;       
       
     break;     
 
   }
-  echo '</form>'.PHP_EOL; 
-  echo '<p></p>'; 
-}
+
+echo '<p></p>'; 
 
 /******** Query Sortierung ***********************/
 $sortcol=(isset($_GET['sortcol'])?$_GET['sortcol']:'ID'); 
@@ -147,6 +149,8 @@ $sortorder=(isset($_GET['sortorder'])?$_GET['sortorder']:'ASC');
 
 $query.= ' ORDER BY '.$sortcol.' '.$sortorder.PHP_EOL; 
 
+/************* TEST ****************** */
+// echo '<pre>Objekt: '.$object.'</pre>'; // Test 
 // echo '<pre>'.$query.'</pre>'; // Test 
 
 /******************************* */
