@@ -84,11 +84,7 @@ $info->print_screen_header($material->Title.' bearbeiten');
       <label>
       <td class="form-edit form-edit-col1">Bemerkung:</td>  
       <td class="form-edit form-edit-col2">
-
        <textarea name="Bemerkung" rows=2 cols=120 oninput="changeBackgroundColor(this)">'.htmlentities($material->Bemerkung).'</textarea> 
-      
-
-     
       </td>
       </label>
     </tr> 

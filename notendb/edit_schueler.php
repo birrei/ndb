@@ -57,7 +57,13 @@ if ($show_data) {
     <tr>    
       <label>
       <td class="form-edit form-edit-col1">Bemerkung:</td>  
-      <td class="form-edit form-edit-col2"><input type="text" name="Bemerkung" value="'.$schueler->Bemerkung.'" size="120" oninput="changeBackgroundColor(this)"></td>
+      <td class="form-edit form-edit-col2">
+
+      <textarea name="Bemerkung" rows=2 cols=120 oninput="changeBackgroundColor(this)">'.htmlentities($schueler->Bemerkung).'</textarea> 
+
+
+      </td>
+      
       </label>
     </tr> 
 
