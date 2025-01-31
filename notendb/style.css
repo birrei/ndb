@@ -12,6 +12,10 @@ a:link, a:visited {
     text-decoration: none; /* Links ohne Unterstrich */
 }
 
+p.draft {
+    font-style: italic ;
+    color: darkgrey;
+}
 
 /***** Start  ****************/
     div.start {
