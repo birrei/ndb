@@ -8,6 +8,10 @@ td, th {
     vertical-align: top; 
 }
 
+a:link, a:visited {
+    text-decoration: none; /* Links ohne Unterstrich */
+}
+
 
 /***** Start  ****************/
     div.start {
@@ -149,5 +153,6 @@ td, th {
     .body-doc {
         width: 60%; 
         margin-left:30px;  
+
     }
 
