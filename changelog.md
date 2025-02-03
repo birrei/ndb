@@ -1,7 +1,7 @@
 ﻿
 # Changelog  
 
-Next: Integration Material in Suche-Seite 
+Next: Integration Material in Suche-Seite; Material > Besonderheiten  
 
 03.02.2025: Verknüpfung Material x Sammlung 
 
