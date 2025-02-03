@@ -143,7 +143,7 @@ class Schueler {
     $conn = new DbConn(); 
     $db=$conn->db; 
 
-    $select = $db->prepare("SELECT `ID`, `Name`, Bemerkung
+    $select = $db->prepare("SELECT `ID`, `Name`, COALESCE(Bemerkung, '') as Bemerkung 
                           FROM `schueler`
                           WHERE `ID` = :ID");
 

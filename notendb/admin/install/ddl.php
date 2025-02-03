@@ -13,27 +13,59 @@ include("../../cl_html_info.php");
 
 if (isset($_GET["option"])) {
 
-    /****** Material ******** */
+/****** Material ******** */
+
     // drop_table('material'); 
     // drop_table('materialtyp'); 
     
     // install_table_materialtyp(); 
     // install_table_material(); 
-    // install_view_v_material(); 
+    
+    install_view_v_material(); 
 
-    /******** Schüler ****** */
+/******** Schüler ****** */
     // install_table_schueler(); 
     // install_table_schueler_schwierigkeitsgrad();
     // install_table_schueler_satz();
 
     // drop_table('schueler_material'); 
-    install_table_schueler_material(); 
+    // install_table_schueler_material(); 
+
+    install_view_v_schueler(); 
 
 
 }
 
 
 /************************************************** */
+
+function install_view_v_schueler() {
+    $sql="
+        create or replace view v_schueler as 
+        select 
+            schueler.ID 
+            , schueler.Name
+            , schueler.Bemerkung 
+            -- , GROUP_CONCAT(DISTINCT material.Name  order by material.Name SEPARATOR '; ') as Materialien  
+            , count(distinct material.ID) as Anzahl_Materialien          
+            , count(distinct satz.ID) as Anzahl_Saetze      
+        from schueler 
+            left join 
+            schueler_material on schueler_material.SchuelerID = schueler.ID
+            left join 
+            material on material.ID = schueler_material.MaterialID 
+            left join 
+            schueler_satz 
+            on schueler_satz.SchuelerID  = schueler.ID 
+            left join 
+            satz 
+            on satz.ID = schueler_satz.SatzID 
+        group by schueler.ID 
+            
+	 
+    "; 
+    execute_sql($sql, 'install view v_schueler'); 
+}
 
 function install_table_schueler_material() {
     $sql="
@@ -59,12 +91,22 @@ function install_view_v_material() {
             , material.Name
             , material.Bemerkung 
             , materialtyp.Name as Materialtyp
-            , materialtyp.ID as MaterialtypID
-            , material.ts_insert 
-            , material.ts_update
+            , sammlung.Name as Sammlung 
+          , GROUP_CONCAT(DISTINCT schueler.Name order by schueler.Name SEPARATOR '; ') as Schueler  
+            , material.MaterialtypID 
+            , material.SammlungID 
+           -- , material.ts_insert 
+           -- , material.ts_update            
         from material  
             LEFT JOIN 
             materialtyp on materialtyp.ID = material.MaterialtypID 
+            left join 
+            sammlung on sammlung.ID = material.SammlungID 
+            left join 
+            schueler_material on schueler_material.MaterialID  = material.ID 
+            left join 
+            schueler on schueler.ID=schueler_material.SchuelerID 
+ group by material.ID 
     "; 
     execute_sql($sql, 'install view v_material'); 
 }
@@ -80,16 +122,21 @@ function install_table_materialtyp() {
         )"; 
     execute_sql($sql, 'install table materialtyp'); 
 }
+
 function install_table_material() {
     $sql="CREATE TABLE IF NOT EXISTS material (
-            ID INT NOT NULL AUTO_INCREMENT 
-            , Name VARCHAR(100) NOT NULL 
-            , Bemerkung VARCHAR(255) NULL 
-            , MaterialtypID TINYINT NULL  
-            , ts_insert datetime DEFAULT CURRENT_TIMESTAMP 
-            , ts_update datetime ON UPDATE CURRENT_TIMESTAMP         
-            , PRIMARY KEY (ID)
-            , FOREIGN KEY (MaterialtypID) REFERENCES materialtyp(ID)            
+            `ID` int(11) NOT NULL AUTO_INCREMENT,
+            `Name` varchar(100) NOT NULL,
+            `Bemerkung` varchar(255) DEFAULT NULL,
+            `MaterialtypID` int(11) DEFAULT NULL,
+            `SammlungID` int(10) unsigned DEFAULT NULL,            
+            `ts_insert` datetime DEFAULT current_timestamp(),
+            `ts_update` datetime DEFAULT NULL ON UPDATE current_timestamp(),
+            PRIMARY KEY (`ID`),
+            KEY `MaterialtypID` (`MaterialtypID`),
+            KEY `SammlungID` (`SammlungID`),
+            CONSTRAINT `material_ibfk_1` FOREIGN KEY (`MaterialtypID`) REFERENCES `materialtyp` (`ID`),
+            CONSTRAINT `material_ibfk_2` FOREIGN KEY (`SammlungID`) REFERENCES `sammlung` (`ID`)                   
         )"; 
     execute_sql($sql, 'install table material'); 
 }

@@ -3,10 +3,11 @@
 class Material {
 
   public $table_name; 
-  public $ID='';
+  public $ID;
   public $Name='';
   public $Bemerkung=''; 
   public $MaterialtypID; 
+  public $SammlungID;   
   public $titles_selected_list; 
   public $Title='Material';
   public $Titles='Materialien';  
@@ -15,15 +16,19 @@ class Material {
     $this->table_name='material'; 
   }
 
-  function insert_row ($MaterialtypID='') {
+  function insert_row ($MaterialtypID='', $SammlungID='') {
+    // echo '<p>SammlungID: '.$SammlungID.', MaterialtypID: '.$MaterialtypID.'</p>'; // test 
     include_once("dbconn/cl_db.php");
     $conn = new DbConn(); 
     $db=$conn->db; 
 
     $insert = $db->prepare("INSERT INTO `material` 
-          SET MaterialtypID = :MaterialtypID");
+          SET MaterialtypID = :MaterialtypID, 
+               SammlungID = :SammlungID
+          ");
           
     $insert->bindParam(':MaterialtypID', $MaterialtypID, ($MaterialtypID=='' ? PDO::PARAM_NULL : PDO::PARAM_INT));
+    $insert->bindParam(':SammlungID', $SammlungID, ($SammlungID=='' ? PDO::PARAM_NULL : PDO::PARAM_INT));
 
     try {
       $insert->execute(); 
@@ -37,8 +42,9 @@ class Material {
       $info->print_error($insert, $e);  ; 
     }
   }  
-   
-  function update_row ($MaterialtypID, $Name, $Bemerkung) {
+
+
+  function update_row ($MaterialtypID, $Name, $Bemerkung, $SammlungID='') {
     include_once("dbconn/cl_db.php");
     $conn = new DbConn(); 
     $db=$conn->db; 
@@ -50,14 +56,13 @@ class Material {
               SET MaterialtypID= :MaterialtypID
                 , `Name`=:Name
                 , Bemerkung=:Bemerkung
+                , SammlungID=:SammlungID
               WHERE ID=:ID"           
            );
 
     $update->bindParam(':ID', $this->ID);
-    // $update->bindParam(':MaterialtypID', $MaterialtypID);
     $update->bindParam(':MaterialtypID', $MaterialtypID, ($MaterialtypID=='' ? PDO::PARAM_NULL : PDO::PARAM_INT));
-    
-
+    $update->bindParam(':SammlungID', $SammlungID, ($SammlungID=='' ? PDO::PARAM_NULL : PDO::PARAM_INT));
     $update->bindParam(':Name', $Name);
     $update->bindParam(':Bemerkung', $Bemerkung);
 
@@ -73,7 +78,6 @@ class Material {
     }
   }  
  
-
   function load_row() {
     include_once("dbconn/cl_db.php");   
     $conn = new DbConn(); 
@@ -83,6 +87,7 @@ class Material {
                             , `Name`
                             , COALESCE(Bemerkung, '') as Bemerkung
                             , MaterialtypID
+                            , SammlungID 
                           FROM `material`
                           WHERE `ID` = :ID");
 
@@ -93,6 +98,7 @@ class Material {
       $row_data=$select->fetch();
       $this->Name=$row_data["Name"];       
       $this->MaterialtypID=$row_data["MaterialtypID"];  
+      $this->SammlungID=$row_data["SammlungID"];        
       $this->Bemerkung=$row_data["Bemerkung"]; 
       return true; 
     } 
@@ -107,6 +113,17 @@ class Material {
     $db=$conn->db; 
     // echo '<p>Lösche Material ID: '.$this->ID.':</p>';
  
+    $select = $db->prepare("SELECT * from schueler_material WHERE MaterialID=:ID");
+    $select->bindValue(':ID', $this->ID); 
+    $select->execute();  
+    if ($select->rowCount() > 0 ){
+      $this->load_row(); 
+      echo '<p>Der Material-Eintrag ID '.$this->ID.' "'.$this->Name.'" 
+        kann nicht gelöscht werden, da noch eine Zuordnung auf '.$select->rowCount().' 
+        Schüler existiert. </p>';   
+      return false;            
+    }
+     
     $delete = $db->prepare("DELETE FROM `material` WHERE ID=:ID"); 
     $delete->bindValue(':ID', $this->ID);  
 
@@ -123,8 +140,6 @@ class Material {
       return false ; 
     }  
   }  
-
-
 
   function insert_material_tmp ($URL, $Title) {
     include_once("dbconn/cl_db.php");
@@ -270,8 +285,6 @@ class Material {
     if ($MaterialtypID!=''){
         $query.="AND MaterialtypID=:MaterialtypID "; 
     }
-
-    
 
     $query.='ORDER BY material.Name'; 
 

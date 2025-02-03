@@ -356,7 +356,6 @@ class Sammlung {
     }  
   }  
 
-
   function print_table_lookups($target_file, $LookupTypeID=0){
 
     $query="SELECT lookup.ID
@@ -449,7 +448,6 @@ class Sammlung {
       $info->print_error($delete, $e);  
     }  
   }
-
 
   function copy(
         $include_musikstuecke=false
@@ -575,7 +573,6 @@ class Sammlung {
       $musikstueck->delete_besetzung($BesetzungID);
     }    
   } 
-
   
   function add_verwendungszweck($VerwendungszweckID){
       // dataclearing: Verwendungszweck bei allen Musikstücken ergänzen  
@@ -630,7 +627,6 @@ class Sammlung {
       $musikstueck->delete_verwendungszweck($VerwendungszweckID);
     }    
   } 
-
 
   function add_schwierigkeitsgrad($InstrumentID, $SchwierigkeitsgradID){
     // dataclearing: Schwierigkeitsgrad bei allen ungeordneten Sätzen ergänzen  
@@ -704,9 +700,9 @@ class Sammlung {
       $musikstueck->update_komponist($KomponistID);
      }    
      
-   } 
+  } 
 
-   function add_bearbeiter($Bearbeiter){
+  function add_bearbeiter($Bearbeiter){
     // dataclearing: Verwendungszweck bei allen Musikstücken ergänzen  
     include_once("dbconn/cl_db.php");
     include_once("cl_musikstueck.php");    
@@ -730,9 +726,9 @@ class Sammlung {
       $musikstueck->ID = $value["ID"]; 
       $musikstueck->update_bearbeiter($Bearbeiter);
      }    
-   } 
+  } 
 
-   function add_erprobt($ErprobtID){
+  function add_erprobt($ErprobtID){
     // dataclearing: Verwendungszweck bei allen Musikstücken ergänzen  
     include_once("dbconn/cl_db.php");
     include_once("cl_musikstueck.php");    
@@ -757,7 +753,45 @@ class Sammlung {
       $musikstueck->add_erprobt($ErprobtID);
      }    
      
-   } 
+  } 
+
+
+  function print_table_material(){
+
+    $query="select m.ID 
+          , m.Name  as Material 
+          , mt.Name  as Materialtyp 
+          , m.Bemerkung as Bemerkung 
+        from material m left join 
+          materialtyp mt on mt.ID  = m.MaterialtypID 
+        WHERE m.SammlungID=:SammlungID 
+        ORDER BY m.Name 
+	      "; 
+
+    include_once("dbconn/cl_db.php");
+    $conn = new DbConn(); 
+    $db=$conn->db; 
+  
+    $stmt = $db->prepare($query); 
+    $stmt->bindParam(':SammlungID', $this->ID, PDO::PARAM_INT); 
+      
+    try {
+      $stmt->execute(); 
+      include_once("cl_html_table.php");      
+      $html = new HtmlTable($stmt); 
+      $html->edit_link_table='material'; 
+      $html->edit_link_title='Material'; 
+      $html->edit_link_open_newpage=true; 
+      $html->print_table2(); 
+
+    }
+    catch (PDOException $e) {
+      include_once("cl_html_info.php"); 
+      $info = new HtmlInfo();      
+      $info->print_user_error(); 
+      $info->print_error($stmt, $e); 
+    }
+  }  
 
 
 }

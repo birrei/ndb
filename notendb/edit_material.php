@@ -4,9 +4,12 @@
 include('head.php');
 include("cl_material.php");
 include("cl_materialtyp.php");
+include("cl_sammlung.php");
 include("cl_html_info.php");
 
 $MaterialtypID=(isset($_REQUEST["MaterialtypID"])?$_REQUEST["MaterialtypID"]:''); 
+
+$SammlungID=(isset($_REQUEST["SammlungID"])?$_REQUEST["SammlungID"]:''); 
 
 $material = new Material();
 $info= new HtmlInfo(); 
@@ -18,12 +21,14 @@ if (isset($_REQUEST["option"])) {
     case 'edit': // über "Bearbeiten"-Link
       $material->ID=$_GET["ID"];
       if ($material->load_row()) {
-        $show_data=true;       
+        $show_data=true;  
+        $SammlungID=$material->SammlungID;      
       }
       break; 
 
     case 'insert': 
-      $material->insert_row($MaterialtypID);
+
+      $material->insert_row($MaterialtypID, $SammlungID);
       $show_data=true; 
       break; 
     
@@ -32,7 +37,10 @@ if (isset($_REQUEST["option"])) {
       $material->update_row(
           $_POST["MaterialtypID"]   
           , $_POST["Name"]        
-          , $_POST["Bemerkung"]  )
+          , $_POST["Bemerkung"]  
+          // , $_POST["SammlungID"]    
+          , $SammlungID        
+          )
           ;
       $show_data=true;           
       break; 
@@ -41,8 +49,7 @@ if (isset($_REQUEST["option"])) {
 
 $info->print_screen_header($material->Title.' bearbeiten'); 
 
-
-  $info->print_link_table('v_material', 'sortcol=Name&show_filter', $material->Titles,false);
+$info->print_link_table('v_material', 'sortcol=Name&show_filter', $material->Titles,false);
 
   echo '</p>
   <form action="edit_material.php" method="post">
@@ -88,7 +95,25 @@ $info->print_screen_header($material->Title.' bearbeiten');
       </td>
       </label>
     </tr> 
-   
+
+          '; 
+          if ($SammlungID!='') {
+            echo '   
+                <tr>    
+              <label>  
+                <td class="form-edit form-edit-col1">Sammlung:</td>  
+                <td class="form-edit form-edit-col2">  '; 
+            $sammlung = new Sammlung();
+            $sammlung->print_select($SammlungID); 
+
+
+            echo ' </label>  &nbsp;
+                </td>
+                </tr> 
+             '; 
+              // XXX gehe zu Sammlung
+          }
+  echo '
     <tr> 
       <td class="form-edit form-edit-col1"></td> 
       <td class="form-edit form-edit-col2"><input class="btnSave" type="submit" name="senden" value="Speichern">  

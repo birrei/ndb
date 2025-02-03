@@ -1,7 +1,9 @@
 ﻿
 # Changelog  
 
-Next: Abstimmung zu neuen Features mit AG
+Next: Integration Material in Suche-Seite 
+
+03.02.2025: Verknüpfung Material x Sammlung 
 
 31.01.2025: Verknüpfung Schüler x Material 
 

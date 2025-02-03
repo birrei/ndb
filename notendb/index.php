@@ -64,7 +64,7 @@ h3 {
         <tr> <td class="start"> <h3>Sonst</h3> </td> </tr>       
         <tr>
             <td class="start">
-            <a href="show_table2.php?table=schueler&sortcol=Name&title=Schüler">Schüler</a> |               
+            <a href="show_table2.php?table=v_schueler&sortcol=Name&title=Schüler">Schüler</a> |               
             <a href="show_table2.php?table=v_material&sortcol=Name&title=Material&show_filter">Material</a> |    
             <a href="show_table2.php?table=materialtyp&sortcol=Name&title=Materialtyp">Materialtypen</a>
             </td>

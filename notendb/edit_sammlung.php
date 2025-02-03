@@ -127,20 +127,28 @@ if ($show_data) {
         <input type="hidden" name="title" value="Sammlung"> 
     </form>
 
-        <tr> 
+      <tr> 
         <td class="form-edit form-edit-col1">Musikstücke:
         <p> <a href="edit_musikstueck.php?SammlungID='.$sammlung->ID.'&option=insert&title=Musikstück" target="_blank" class="form-link form-link-switch" onfocus="linkStyleFocus(this)">Musikstück hinzufügen</a></p>
         <p> <a href="edit_sammlung_musikstuecke.php?SammlungID='.$sammlung->ID.'" target="musikstuecke" class="form-link form-link-switch">Aktualisieren - &gt;</a></p>
-
-
-
         </td> 
         <td class="form-edit form-edit-col2">
             <iframe src="edit_sammlung_musikstuecke.php?SammlungID='.$sammlung->ID.'"  height="150" name="musikstuecke" class="form-iframe-var2"></iframe>
       </td>
       </tr> 
 
+      <tr> 
+        <td class="form-edit form-edit-col1">Materialien:
+        <p> <a href="edit_material.php?SammlungID='.$sammlung->ID.'&option=insert&title=Material" target="_blank" class="form-link form-link-switch" onfocus="linkStyleFocus(this)">Material hinzufügen</a></p>
+        <p> <a href="edit_sammlung_materials.php?SammlungID='.$sammlung->ID.'" target="material" class="form-link form-link-switch">Aktualisieren - &gt;</a></p>
+        </td> 
+        <td class="form-edit form-edit-col2">
+            <iframe src="edit_sammlung_materials.php?SammlungID='.$sammlung->ID.'"  height="150" name="material" class="form-iframe-var2"></iframe>
+      </td>
+      </tr> 
 
+
+      
     ';
 
     ?>

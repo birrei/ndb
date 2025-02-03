@@ -99,6 +99,11 @@ include('head.php');
 
            
 <h2 class="chapter-title chapter-title-h2" id="erfassung_material">Material</h2>
+    <p> Materialien können zu einer Sammlung, aber auch unabhängig von einer Sammlung angelegt werden. </p>
+    <p> * Von Sammlung aus: Im Formular Sammlung, Unterformlar "Material" - "Material hinzufügen". 
+    <p> * Ohne Sammlung: Startseite "Sammlungen", "Neu einfügen". 
+        Im Formular "Material" wird das Feld "Sammlung" in diesem Fall nicht angezeigt </p>
+
     <h3 class="chapter-title chapter-title-h3" id="erfassung_material_schueler">Material: Zuordnung Schüler</h3>
         <p>Im Unterformular werden die vorhandenen Verknüpfungen zwischen Material und Schülern angezeigt. 
             Die Bearbeitung sowie das Löschen der Verknüpfungs-Information ist möglich.  
