@@ -11,39 +11,49 @@ include('head.php');
 <!-- Inhaltsverzeichnis wird uber Javascript befüllt, s. Script-Teil Seite unten  --> 
 <ul class="doc" id="table-of-contents"></ul>
 
-<p> Wichtig: In "Musikstück"-Ansichten werden nur solche Sammlungen angezeigt, denen Musikstücke zugeordnet sind. 
-    In "Satz"-Ansichten werden nur Sammlungen / Musikstücke angezeigt, denen Sätze zugeordnet sind. 
-</p> 
-
 
 <h2 class="chapter-title chapter-title-h2" id="suche-ansicht">Auswahl Ansicht</h2>
+    <h3 class="chapter-title chapter-title-h3" id="suche-ansicht-sammlung">Auswahl Ansicht: Sammlung</h3>
+        <p>  Die Ergebnistabelle wird auf Sammlung-Ebene gruppiert (Eine Zeile pro Sammlung).
+        Die Sortierung erfolgt nach Standort Name, Sammlung Name</p>
 
-    <ul> 
-        <li>
-            <b> Ansicht "Sammlung":</b> Die Ergebnistabelle wird auf Sammlung-Ebene gruppiert (Eine Zeile pro Sammlung).
-            Die Sortierung erfolgt nach Standort Name, Sammlung Name
-        </li> 
-        <li>
-        <b> Ansicht "Sammlung mit Links":</b> Die  Ergebnistabelle wird auf Sammlung-/Link Ebene gruppiert (Eine Zeile pro Sammlung und Link).
-            Die Sortierung erfolgt nach Standort Name, Sammlung Name
-        </li>      
-        <li>
-        <b> Ansicht "Musikstück":</b> Die  Ergebnistabelle wird auf Musikstück-Ebene gruppiert gruppiert (Eine Zeile pro Musikstück).
-            Die Sortierung erfolgt nach Standort Name, Sammlung Name, Musikstück Name         
-        </li> 
-        <li>
-            <b> Ansicht "Satz":</b> Die Ergebnistabelle  wird auf Satz-Ebene gruppiert (Eine Zeile pro Satz). 
-            Die Sortierung erfolgt nach Standort Name, Sammlung Name, Musikstück Name, Satz Name            
-        </li> 
-        <li>
-            <b> Ansicht "Satz Besonderheiten":</b> Die Ergebnistabelle wird auf Satz-Ebene gruppiert (Eine Zeile pro Satz)
-            Es werden nur ausgewählte Spalten angezeigt, der Fokus bei dieser Ansicht ist die Spalte "Besonderheiten" - Diese wird als erste Spalte angezeigt
+    <h3 class="chapter-title chapter-title-h3" id="suche-ansicht-sammlung-links">Auswahl Ansicht: Sammlung mit Links</h3>
+        <p> Die  Ergebnistabelle wird auf Sammlung-/Link Ebene gruppiert (Eine Zeile pro Sammlung und Link).
+             Die Sortierung erfolgt nach Standort Name, Sammlung Name</p>
+        
+    <h3 class="chapter-title chapter-title-h3" id="suche-ansicht-musickstueck">Auswahl Ansicht: Musikstück</h3>
+        <p> Die  Ergebnistabelle wird auf Musikstück-Ebene gruppiert gruppiert (Eine Zeile pro Musikstück).
+        Die Sortierung erfolgt nach Standort Name, Sammlung Name, Musikstück Name </p>
+            
+        <p>  Hinweis: In "Musikstück"-Ansichten werden nur solche Sammlungen angezeigt, denen Musikstücke zugeordnet sind. </p>
+   
+
+    <h3 class="chapter-title chapter-title-h3" id="suche-ansicht-satz">Auswahl Ansicht: Satz</h3>
+        <p> Die Ergebnistabelle  wird auf Satz-Ebene gruppiert (Eine Zeile pro Satz). 
+        Die Sortierung erfolgt nach Standort Name, Sammlung Name, Musikstück Name, Satz Name        </p>
+
+        <p> In "Satz"-Ansichten werden nur Sammlungen / Musikstücke angezeigt, denen Sätze zugeordnet sind. </p> 
+
+    <h3 class="chapter-title chapter-title-h3" id="suche-ansicht-satz-besonderheiten">Auswahl Ansicht: Satz Besonderheiten</h3>
+         <p>  Die Ergebnistabelle wird auf Satz-Ebene gruppiert (Eine Zeile pro Satz)
+            Es werden nur ausgewählte Spalten angezeigt, der Fokus bei dieser Ansicht ist die Spalte "Besonderheiten" - 
+            Diese wird als erste Spalte angezeigt. 
             Die Ausgabe des Inhaltes in "Besonderheiten" erfolgt gruppiert mit Zeilenumbrüchen. 
-            Die Sortierung erfolgt nach Standort Name, Sammlung Name, Musikstück Name, Satz Name            
-        </li>     
-    </ul>
+            Die Sortierung erfolgt nach Standort Name, Sammlung Name, Musikstück Name, Satz Name    </p>         
+                
+    <h3 class="chapter-title chapter-title-h3" id="suche-ansicht-material">Auswahl Ansicht: Material</h3>
+         <p>Die Ergebnistabelle zeigt Materialien sowie ggf. zugeordnete Schüler an.  
+            Es werden sowohl frei erfasste als auch mit einer Sammlung verknüpfte Materalien angezeigt, in letzterem Fall wird 
+            der Sammlung-Name mit angezeigt. Folgende Filter können verwendet werden: 
+            <br> Such-Kategorien: Schüler, Standort 
+            <br> Such-Text: Durchsucht Material-Name, Material-Bemerkung, Sammlung-Name, Sammlung-Bemerkung 
 
-    <hr>
+         </p>
+        
+
+
+
+
 
 
 <h2 class="chapter-title chapter-title-h2" id="suchlogik0">Suchlogik: Auswahl Kategorien</h2>

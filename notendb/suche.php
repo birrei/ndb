@@ -152,6 +152,10 @@ $Suche->Beschreibung.='* Ansicht: '.$Ansicht.PHP_EOL;
           <option value="Musikstueck" <?php echo ($Ansicht=='Musikstueck'?'selected':'');?>>Musikstück</option>
           <option value="Satz" <?php echo ($Ansicht=='Satz'?'selected':'')?>>Satz</option>
           <option value="Satz Besonderheiten" <?php echo ($Ansicht=='Satz Besonderheiten'?'selected':'')?>>Satz Besonderheiten</option>                     
+          <option value="Material" <?php echo ($Ansicht=='Material'?'selected':'')?>>Material</option>                     
+
+
+
 </select>
 
 <!---- Entscheidung Suche speichern ja / nein -----> 
@@ -607,62 +611,104 @@ if (isset($_POST['suchtext'])) {
               ";        
               $edit_table='satz';                 
           break;   
+
+
+        case 'Material': 
+          $query.="
+            select material.ID
+            , material.Name
+            , material.Bemerkung 
+            , materialtyp.Name as Materialtyp
+            , sammlung.Name as Sammlung 
+            -- , material.MaterialtypID 
+            -- , material.SammlungID 
+            , GROUP_CONCAT(DISTINCT schueler.Name order by schueler.Name SEPARATOR '; ') as Schueler                                     
+              ".PHP_EOL;        
+              $edit_table='material';  
+
+          break;             
+
+
+
+
     }
 
-    $query.="
-      FROM sammlung 
-        LEFT JOIN standort  on sammlung.StandortID = standort.ID    
-        LEFT JOIN verlag  on sammlung.VerlagID = verlag.ID
-        LEFT JOIN link  on sammlung.ID = link.SammlungID
-        LEFT JOIN linktype  on linktype.ID = link.LinktypeID
-        LEFT JOIN musikstueck on sammlung.ID = musikstueck.SammlungID 
-        LEFT JOIN v_komponist komponist on komponist.ID = musikstueck.KomponistID
-        LEFT JOIN gattung on gattung.ID = musikstueck.GattungID  
-        LEFT JOIN epoche on epoche.ID = musikstueck.EpocheID              
-        LEFT JOIN musikstueck_besetzung on musikstueck.ID = musikstueck_besetzung.MusikstueckID
-        LEFT JOIN besetzung on musikstueck_besetzung.BesetzungID = besetzung.ID
-        
-        LEFT JOIN (
-          select musikstueck_besetzung.MusikstueckID         
-               , GROUP_CONCAT(DISTINCT besetzung.Name  order by besetzung.Name SEPARATOR ', ') Besetzungen       
-          from musikstueck_besetzung 
-              left join besetzung on besetzung.ID = musikstueck_besetzung.BesetzungID 
-          group by musikstueck_besetzung.MusikstueckID 
-                  ) v_musikstueck_besetzungen 
-              on v_musikstueck_besetzungen.MusikstueckID = musikstueck.ID 
 
-        LEFT JOIN musikstueck_verwendungszweck on musikstueck.ID = musikstueck_verwendungszweck.MusikstueckID 
-        LEFT JOIN verwendungszweck on musikstueck_verwendungszweck.VerwendungszweckID=verwendungszweck.ID    
-        LEFT JOIN satz on satz.MusikstueckID = musikstueck.ID 
-        LEFT JOIN satz_erprobt on satz.ID = satz_erprobt.SatzID 
-        LEFT JOIN erprobt on erprobt.ID = satz_erprobt.ErprobtID  
-        
-        LEFT JOIN (
-          SELECT satz_schwierigkeitsgrad.SatzID      
-              , GROUP_CONCAT(DISTINCT concat(instrument.Name, ': ', schwierigkeitsgrad.Name)  
-                 ORDER by concat(instrument.Name, ': ', schwierigkeitsgrad.Name) SEPARATOR ', ') `Schwierigkeitsgrade`                    
-          from satz_schwierigkeitsgrad 
-          LEFT JOIN schwierigkeitsgrad on schwierigkeitsgrad.ID = satz_schwierigkeitsgrad.SchwierigkeitsgradID 
-          LEFT JOIN instrument on instrument.ID = satz_schwierigkeitsgrad.InstrumentID 
-          group by satz_schwierigkeitsgrad.SatzID 
-        )  SatzSchwierigkeitsgrad
-          on satz.ID = SatzSchwierigkeitsgrad.SatzID 
+    switch ($Ansicht){
+      case 'Sammlung': 
+      case 'Musikstueck': 
+      case 'Satz':
+      case 'Satz Besonderheiten':   
+          $query.="
+              FROM sammlung 
+                LEFT JOIN standort  on sammlung.StandortID = standort.ID    
+                LEFT JOIN verlag  on sammlung.VerlagID = verlag.ID
+                LEFT JOIN link  on sammlung.ID = link.SammlungID
+                LEFT JOIN linktype  on linktype.ID = link.LinktypeID
+                LEFT JOIN musikstueck on sammlung.ID = musikstueck.SammlungID 
+                LEFT JOIN v_komponist komponist on komponist.ID = musikstueck.KomponistID
+                LEFT JOIN gattung on gattung.ID = musikstueck.GattungID  
+                LEFT JOIN epoche on epoche.ID = musikstueck.EpocheID              
+                LEFT JOIN musikstueck_besetzung on musikstueck.ID = musikstueck_besetzung.MusikstueckID
+                LEFT JOIN besetzung on musikstueck_besetzung.BesetzungID = besetzung.ID
+                
+                LEFT JOIN (
+                  select musikstueck_besetzung.MusikstueckID         
+                      , GROUP_CONCAT(DISTINCT besetzung.Name  order by besetzung.Name SEPARATOR ', ') Besetzungen       
+                  from musikstueck_besetzung 
+                      left join besetzung on besetzung.ID = musikstueck_besetzung.BesetzungID 
+                  group by musikstueck_besetzung.MusikstueckID 
+                          ) v_musikstueck_besetzungen 
+                      on v_musikstueck_besetzungen.MusikstueckID = musikstueck.ID 
 
-        LEFT JOIN satz_schwierigkeitsgrad on satz_schwierigkeitsgrad.SatzID = satz.ID 
-        LEFT JOIN instrument_schwierigkeitsgrad 
-            ON instrument_schwierigkeitsgrad.InstrumentID = satz_schwierigkeitsgrad.InstrumentID
-            AND instrument_schwierigkeitsgrad.SchwierigkeitsgradID = satz_schwierigkeitsgrad.SchwierigkeitsgradID
+                LEFT JOIN musikstueck_verwendungszweck on musikstueck.ID = musikstueck_verwendungszweck.MusikstueckID 
+                LEFT JOIN verwendungszweck on musikstueck_verwendungszweck.VerwendungszweckID=verwendungszweck.ID    
+                LEFT JOIN satz on satz.MusikstueckID = musikstueck.ID 
+                LEFT JOIN satz_erprobt on satz.ID = satz_erprobt.SatzID 
+                LEFT JOIN erprobt on erprobt.ID = satz_erprobt.ErprobtID  
+                
+                LEFT JOIN (
+                  SELECT satz_schwierigkeitsgrad.SatzID      
+                      , GROUP_CONCAT(DISTINCT concat(instrument.Name, ': ', schwierigkeitsgrad.Name)  
+                        ORDER by concat(instrument.Name, ': ', schwierigkeitsgrad.Name) SEPARATOR ', ') `Schwierigkeitsgrade`                    
+                  from satz_schwierigkeitsgrad 
+                  LEFT JOIN schwierigkeitsgrad on schwierigkeitsgrad.ID = satz_schwierigkeitsgrad.SchwierigkeitsgradID 
+                  LEFT JOIN instrument on instrument.ID = satz_schwierigkeitsgrad.InstrumentID 
+                  group by satz_schwierigkeitsgrad.SatzID 
+                )  SatzSchwierigkeitsgrad
+                  on satz.ID = SatzSchwierigkeitsgrad.SatzID 
 
+                LEFT JOIN satz_schwierigkeitsgrad on satz_schwierigkeitsgrad.SatzID = satz.ID 
+                LEFT JOIN instrument_schwierigkeitsgrad 
+                    ON instrument_schwierigkeitsgrad.InstrumentID = satz_schwierigkeitsgrad.InstrumentID
+                    AND instrument_schwierigkeitsgrad.SchwierigkeitsgradID = satz_schwierigkeitsgrad.SchwierigkeitsgradID
+                  -- LEFT JOIN schwierigkeitsgrad on schwierigkeitsgrad.ID = satz_schwierigkeitsgrad.SchwierigkeitsgradID 
+                  -- LEFT JOIN instrument on instrument.ID = satz_schwierigkeitsgrad.InstrumentID 
+                
+                LEFT JOIN satz_lookup on satz_lookup.SatzID = satz.ID 
+                LEFT JOIN v_satz_lookuptypes on v_satz_lookuptypes.SatzID = satz.ID
+                LEFT JOIN sammlung_lookup on sammlung_lookup.SammlungID = sammlung.ID       
+                LEFT JOIN v_sammlung_lookuptypes on v_sammlung_lookuptypes.SammlungID = sammlung.ID 
 
-        -- LEFT JOIN schwierigkeitsgrad on schwierigkeitsgrad.ID = satz_schwierigkeitsgrad.SchwierigkeitsgradID 
-        -- LEFT JOIN instrument on instrument.ID = satz_schwierigkeitsgrad.InstrumentID 
-        
-        LEFT JOIN satz_lookup on satz_lookup.SatzID = satz.ID 
-        LEFT JOIN v_satz_lookuptypes on v_satz_lookuptypes.SatzID = satz.ID
-        LEFT JOIN sammlung_lookup on sammlung_lookup.SammlungID = sammlung.ID       
-        LEFT JOIN v_sammlung_lookuptypes on v_sammlung_lookuptypes.SammlungID = sammlung.ID 
+              WHERE 1=1 ". PHP_EOL; 
+            break; 
+            case 'Material': 
+              $query.="
+               FROM material  
+                  LEFT JOIN 
+                  materialtyp on materialtyp.ID = material.MaterialtypID 
+                  left join 
+                  sammlung on sammlung.ID = material.SammlungID 
+                  left join 
+                  schueler_material on schueler_material.MaterialID  = material.ID 
+                  left join 
+                  schueler on schueler.ID=schueler_material.SchuelerID                 
+              WHERE 1=1 ". PHP_EOL; 
 
-      WHERE 1=1 ". PHP_EOL; 
+            break; 
+        }
+
+     /* WHERE Basis */   
 
       switch ($Ansicht){    
         case 'Musikstueck': 
@@ -673,78 +719,93 @@ if (isset($_POST['suchtext'])) {
           break;      
       }
 
-     /* Filter ergänzen */   
-      if($filterStandorte!=''){ 
-        $query.=' AND sammlung.StandortID '.$filterStandorte. PHP_EOL; 
-      } 
-      if($filterVerlage!=''){
-        $query.=' AND sammlung.VerlagID '.$filterVerlage. PHP_EOL; 
-      }
-      if($filterLinktypen!=''){
-        $query.=' AND link.LinktypeID '.$filterLinktypen. PHP_EOL; 
-      }             
-      if($filterKomponisten!=''){
-        $query.=' AND musikstueck.KomponistID '.$filterKomponisten. PHP_EOL; 
-      }            
 
-      $query.=($filterBesetzung!=''?$filterBesetzung:''); 
+     /* WHERE Filter */   
 
-      if($filterVerwendungszweck!=''){
-        $query.=' AND musikstueck_verwendungszweck.VerwendungszweckID '.$filterVerwendungszweck. PHP_EOL; 
-      }
-      if($filterGattungen!=''){
-        $query.=' AND musikstueck.GattungID '.$filterGattungen. PHP_EOL; 
-      }    
-      if($filterEpochen!=''){
-        $query.=' AND musikstueck.EpocheID '.$filterEpochen. PHP_EOL; 
-      }           
+      switch ($Ansicht){
+        case 'Sammlung': 
+        case 'Musikstueck': 
+        case 'Satz':
+        case 'Satz Besonderheiten':   
 
-      $query.=($filterErprobt!=''?' AND satz_erprobt.ErprobtID '.$filterErprobt. PHP_EOL:''); 
+          $query.=($filterStandorte!=''?' AND sammlung.StandortID '.$filterStandorte. PHP_EOL:''); 
 
-      $query.=($filterErprobtJahr!=''?' AND satz_erprobt.Jahr '.$filterErprobtJahr. PHP_EOL:'');       
+          $query.=($filterVerlage!=''?' AND sammlung.VerlagID '.$filterVerlage. PHP_EOL:''); 
 
-      $query.=($filterSchwierigkeitsgrad!=''?$filterSchwierigkeitsgrad. PHP_EOL:'');       
+          $query.=($filterLinktypen!=''?' AND link.LinktypeID '.$filterLinktypen. PHP_EOL:''); 
 
-      $query.=($filterLookups_sammlung!=''?$filterLookups_sammlung.PHP_EOL:''); 
+          $query.=($filterKomponisten!=''?' AND musikstueck.KomponistID '.$filterKomponisten. PHP_EOL:''); 
+          
+          $query.=($filterBesetzung!=''?$filterBesetzung:''); 
+      
+          $query.=($filterVerwendungszweck!=''?' AND musikstueck_verwendungszweck.VerwendungszweckID '.$filterVerwendungszweck. PHP_EOL:''); 
+                
+          $query.=($filterGattungen!=''?' AND musikstueck.GattungID '.$filterGattungen. PHP_EOL:''); 
 
-      $query.=($filterLookups_satz!=''?$filterLookups_satz.PHP_EOL:''); 
-                       
-      if($filterSpieldauer!=''){
-        $query.=' AND satz.Spieldauer '.$filterSpieldauer. PHP_EOL; 
-      }
- 
-      if($filterSchueler!=''){
-        $query.=' AND satz.ID IN (SELECT SatzID from schueler_satz where SchuelerID='.$SchuelerID.')' . PHP_EOL; 
-      }            
+          $query.=($filterEpochen!=''?' AND musikstueck.EpocheID '.$filterEpochen. PHP_EOL:''); 
+    
+          $query.=($filterErprobt!=''?' AND satz_erprobt.ErprobtID '.$filterErprobt. PHP_EOL:''); 
+
+          $query.=($filterErprobtJahr!=''?' AND satz_erprobt.Jahr '.$filterErprobtJahr. PHP_EOL:'');       
+
+          $query.=($filterSchwierigkeitsgrad!=''?$filterSchwierigkeitsgrad. PHP_EOL:'');       
+
+          $query.=($filterLookups_sammlung!=''?$filterLookups_sammlung.PHP_EOL:''); 
+
+          $query.=($filterLookups_satz!=''?$filterLookups_satz.PHP_EOL:''); 
+
+          $query.=($filterSpieldauer!=''?' AND satz.Spieldauer '.$filterSpieldauer. PHP_EOL:''); 
+                
+          $query.=($filterSchueler!=''?' AND satz.ID IN (SELECT SatzID from schueler_satz where SchuelerID='.$SchuelerID.')' . PHP_EOL:''); 
 
 
-      if($suchtext!=''){
-        $query.="AND (sammlung.Name LIKE '%".$suchtext."%' OR  
-                            sammlung.Bemerkung LIKE '%".$suchtext."%' OR 
-                            -- v_sammlung_lookuptypes.LookupList LIKE '%".$suchtext."%'   OR 
-  	                        verlag.Name LIKE '%".$suchtext."%' OR
-                            standort.Name LIKE '%".$suchtext."%' OR                              
-                            
-                            musikstueck.Name LIKE '%".$suchtext."%' OR                              
-                            musikstueck.Opus LIKE '%".$suchtext."%' OR
-                            musikstueck.Bearbeiter LIKE '%".$suchtext."%' OR
+          if($suchtext!=''){
+            $query.="AND (sammlung.Name LIKE '%".$suchtext."%' OR  
+                                sammlung.Bemerkung LIKE '%".$suchtext."%' OR 
+                                -- v_sammlung_lookuptypes.LookupList LIKE '%".$suchtext."%'   OR 
+                                verlag.Name LIKE '%".$suchtext."%' OR
+                                standort.Name LIKE '%".$suchtext."%' OR                              
+                                
+                                musikstueck.Name LIKE '%".$suchtext."%' OR                              
+                                musikstueck.Opus LIKE '%".$suchtext."%' OR
+                                musikstueck.Bearbeiter LIKE '%".$suchtext."%' OR
 
-                            komponist.Name LIKE '%".$suchtext."%' OR 
-                            gattung.Name LIKE '%".$suchtext."%' OR 
-                            epoche.Name LIKE '%".$suchtext."%' OR  
-                            besetzung.Name LIKE '%".$suchtext."%' OR 
-                            verwendungszweck.Name LIKE '%".$suchtext."%' OR 
+                                komponist.Name LIKE '%".$suchtext."%' OR 
+                                gattung.Name LIKE '%".$suchtext."%' OR 
+                                epoche.Name LIKE '%".$suchtext."%' OR  
+                                besetzung.Name LIKE '%".$suchtext."%' OR 
+                                verwendungszweck.Name LIKE '%".$suchtext."%' OR 
 
-                            -- v_satz_lookuptypes.LookupList LIKE '%".$suchtext."%' OR
+                                -- v_satz_lookuptypes.LookupList LIKE '%".$suchtext."%' OR
 
-                            satz.Name LIKE '%".$suchtext."%' OR
-                            satz.Taktart LIKE '%".$suchtext."%' OR
-                            satz.Tonart LIKE '%".$suchtext."%' OR
-                            satz.Tempobezeichnung LIKE '%".$suchtext."%' OR
-                            satz.Bemerkung LIKE '%".$suchtext."%' OR 
-                            satz.Orchesterbesetzung LIKE '%".$suchtext."%'                                                     
-                            )". PHP_EOL;         
-      }
+                                satz.Name LIKE '%".$suchtext."%' OR
+                                satz.Taktart LIKE '%".$suchtext."%' OR
+                                satz.Tonart LIKE '%".$suchtext."%' OR
+                                satz.Tempobezeichnung LIKE '%".$suchtext."%' OR
+                                satz.Bemerkung LIKE '%".$suchtext."%' OR 
+                                satz.Orchesterbesetzung LIKE '%".$suchtext."%'                                                     
+                                )". PHP_EOL;         
+         }
+        break; 
+      case 'Material':   
+       
+
+        $query.=($filterSchueler!=''?' AND material.ID IN (SELECT MaterialID from schueler_material where SchuelerID='.$SchuelerID.')' . PHP_EOL:''); 
+
+        $query.=($filterStandorte!=''?' AND sammlung.StandortID '.$filterStandorte. PHP_EOL:''); 
+
+        if($suchtext!=''){
+          $query.="AND (
+                              material.Name LIKE '%".$suchtext."%' OR  
+                              material.Bemerkung LIKE '%".$suchtext."%' OR   
+                              sammlung.Name LIKE '%".$suchtext."%' OR  
+                              sammlung.Bemerkung LIKE '%".$suchtext."%' 
+                              )". PHP_EOL;         
+        }
+
+        break; 
+
+    }
 
       /* Gruppierung abhängig von Ansicht   */
       switch ($Ansicht){    
@@ -762,6 +823,9 @@ if (isset($_POST['suchtext'])) {
         case 'Satz Besonderheiten':           
           $query.=" group by satz.ID". PHP_EOL;             
           break;      
+        case 'Material':         
+            $query.="group by material.ID". PHP_EOL;     
+            break;    
       }
 
       /* Sortierung abhängig von Ansicht  */
@@ -776,6 +840,9 @@ if (isset($_POST['suchtext'])) {
         case 'Satz': 
           $query.=" ORDER BY standort.Name, sammlung.Name, musikstueck.Nummer, satz.Nr". PHP_EOL;           
           break;      
+        case 'Satz': 
+          $query.=" ORDER BY sammlung.Name, material.Name ". PHP_EOL;           
+          break;             
       }
 
       // echo '<pre>'.$query.'</pre>'; // Test  

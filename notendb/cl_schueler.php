@@ -80,7 +80,7 @@ class Schueler {
       $stmt->bindParam(':ParentID', $ParentID, PDO::PARAM_INT);
 
       if ($selected_SchuelerID!=''){
-        echo 'selected_SchuelerID';       
+        // echo 'selected_SchuelerID';       
         $stmt->bindParam(':selected_SchuelerID', $selected_SchuelerID, PDO::PARAM_INT);
       }  
     }

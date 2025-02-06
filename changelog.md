@@ -1,7 +1,9 @@
 ﻿
 # Changelog  
 
-Next: Integration Material in Suche-Seite; Material > Besonderheiten  
+Next: Integration Schüler in Suche-Seite; Material > Besonderheiten  
+
+06.02.2025: Integration Material in Suche-Seite
 
 03.02.2025: Verknüpfung Material x Sammlung 
 
