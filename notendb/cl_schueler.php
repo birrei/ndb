@@ -42,7 +42,7 @@ class Schueler {
  
   function print_select($selected_SchuelerID='', $ParentID='', $caption=''){
     // $ParentID: MaterialID oder SatzID 
-
+    // echo '<p>selected_SchuelerID: '.$selected_SchuelerID.', ParentID: '.$ParentID.'<p>'; // test 
     include_once("dbconn/cl_db.php");  
     include_once("cl_html_select.php");
 
@@ -50,48 +50,39 @@ class Schueler {
 
     switch ($this->Ref) {
       case 'Satz': 
-          if ($selected_SchuelerID!='') {
-            // schon gespeicherte Schüler-Verknüpfungen nicht mehr angezeigen
-            // ausser derjenigen SchuelerID, die im ausgewählten Datensatz angezeig wird   
-            $query.=($ParentID!=''?'AND ID NOT IN 
-                  (SELECT SchuelerID FROM schueler_satz 
-                  WHERE SatzID=:ParentID
-                  AND SchuelerID!=:selected_SchuelerID) ':''); 
-          } else {
-            $query.=($ParentID!=''?'AND ID NOT IN 
+        if ($ParentID!='') {
+          $query.="AND ID NOT IN 
                 (SELECT SchuelerID FROM schueler_satz 
-                WHERE SatzID=:ParentID) ':''); 
-          }
-                                        
+                WHERE SatzID=:ParentID ".($selected_SchuelerID!=''?"AND SchuelerID!=:selected_SchuelerID":'').") "; 
+        }  
         break; 
       case 'Material': 
-          if ($selected_SchuelerID!='') {
-            $query.=($ParentID!=''?'AND ID NOT IN 
-                  (SELECT SchuelerID FROM schueler_material 
-                  WHERE MaterialID=:ParentID
-                  AND SchuelerID!=:selected_SchuelerID) ':''); 
-          } else {
-            $query.=($ParentID!=''?'AND ID NOT IN 
-              (SELECT SchuelerID FROM schueler_material 
-              WHERE MaterialID=:ParentID) ':''); 
-          }
-                                
+        if ($ParentID!='') {
+          $query.="AND ID NOT IN 
+                (SELECT SchuelerID FROM schueler_material  
+                WHERE MaterialID=:ParentID ".($selected_SchuelerID!=''?"AND SchuelerID!=:selected_SchuelerID":'').") "; 
+        } 
+                               
         break;       
     }
 
     $query.='ORDER BY `Name`'; 
 
+    // echo $query; // test 
+
     $conn = new DbConn(); 
     $db=$conn->db; 
-
+    
     $stmt = $db->prepare($query); 
 
     if ($ParentID!=''){
+      // echo 'ParentID'; 
       $stmt->bindParam(':ParentID', $ParentID, PDO::PARAM_INT);
-    }
-    if ($selected_SchuelerID!=''){
-      $stmt->bindParam(':selected_SchuelerID', $selected_SchuelerID, PDO::PARAM_INT);
 
+      if ($selected_SchuelerID!=''){
+        echo 'selected_SchuelerID';       
+        $stmt->bindParam(':selected_SchuelerID', $selected_SchuelerID, PDO::PARAM_INT);
+      }  
     }
 
     try {
