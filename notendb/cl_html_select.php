@@ -33,7 +33,7 @@ class HtmlSelect {
     function print_select($keyname, $value_selected='', $add_null_option=true) {
         $html = '<span class="auswahl">';
         if ($this->caption!='') {
-            $html.='<span class="field-caption">'.$this->caption.'</span>'. PHP_EOL;
+            $html.='<span class="field-caption">'.$this->caption.':</span>'. PHP_EOL;
         }        
         if ($this->count_rows > 0) {
             $html.= '<select name="'.$keyname.'" oninput="changeBackgroundColor(this);"'.($this->autofocus?' autofocus="autofocus"':'').'>' . PHP_EOL;    
