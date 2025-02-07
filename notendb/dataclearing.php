@@ -7,10 +7,15 @@ include('head.php');
 $form_selected=''; 
 $form_sended=''; 
 
-$SammlungID=$_REQUEST["SammlungID"]; 
+if (isset($_REQUEST["SammlungID"])) {
+  $SammlungID=$_REQUEST["SammlungID"]; 
+} else 
+{
+  echo '<p>Die Funktion muss über ein Sammlung-Formular geöffnet werden. </p>'; 
+  goto end; 
+}
 
 echo '<h3>SammlungID: '.$SammlungID.'</h3>'; 
-
 
 if (isset($_POST["form-selected"])) {
   $form_selected=$_POST["form-selected"]; 
@@ -22,13 +27,10 @@ if (isset($_POST["form-sended"])) {
 // echo '<p>Ausgewähltes Formular: '.$form_selected; // Test 
 // echo '<p>Gesendetes Formular: '.$form_sended; // Test 
 
-/* Aktionen abhängig vom sendenden Formular: */
 echo '<pre>';  
 if (isset($_POST["form-sended"])){
-
     // print_r($_POST); 
     switch($_POST["form-sended"]) {
-
       case 'sammlung-erprobt': 
         if (!empty($_POST["SammlungID"]) & !empty($_POST["ErprobtID"])) 
             {
@@ -79,7 +81,7 @@ if (isset($_POST["form-sended"])){
                 }
             }
             break; 
-        case 'sammlung-verwendungszweck': 
+      case 'sammlung-verwendungszweck': 
                 if (!empty($_POST["SammlungID"]) & !empty($_POST["VerwendungszweckID"])) {
                     include_once('cl_sammlung.php');                     
                     $SammlungID=$_POST["SammlungID"]; 
@@ -96,7 +98,7 @@ if (isset($_POST["form-sended"])){
                            
                 }
                 break; 
-        case 'sammlung-kopieren': 
+      case 'sammlung-kopieren': 
             if (!empty($_POST["SammlungID"])) {
                 include_once('cl_sammlung.php');                     
                 $SammlungID=$_POST["SammlungID"];             
@@ -120,7 +122,7 @@ if (isset($_POST["form-sended"])){
                   );
             }
           break;   
-        case 'sammlung-komponist': 
+      case 'sammlung-komponist': 
               if (!empty($_POST["SammlungID"]) & !empty($_POST["KomponistID"])) {
                   include_once('cl_sammlung.php');                     
                   $SammlungID=$_POST["SammlungID"]; 
@@ -131,7 +133,7 @@ if (isset($_POST["form-sended"])){
               }
               break;
               
-        case 'sammlung-bearbeiter': 
+      case 'sammlung-bearbeiter': 
           if (!empty($_POST["SammlungID"]) & !empty($_POST["Bearbeiter"])) {
               include_once('cl_sammlung.php');                     
               $SammlungID=$_POST["SammlungID"]; 
@@ -167,7 +169,6 @@ echo '</pre>';
 
 if ($form_selected!='') {
   switch ($form_selected) {
-
     case 'sammlung-bearbeiter': 
 
       ?>
@@ -197,8 +198,8 @@ if ($form_selected!='') {
       <label> SammlungID: <input type="text" name="SammlungID" value="<?php echo $SammlungID; ?>" size="5" ></label>
       <?php
         include_once('cl_komponist.php'); 
-        $auswahl = new Komponist(); // XXX Beschriftung  
-        $auswahl->print_select(); 
+        $auswahl = new Komponist(); 
+        $auswahl->print_select('', $auswahl->Title); 
         ?>
       <input class="btnSave" type="submit" name="submit" value="ausführen">    
       <input type="hidden" name="form-sended" value="sammlung-komponist">  
@@ -233,7 +234,8 @@ if ($form_selected!='') {
       </form>
 
       <?php 
-    break; 
+     
+      break; 
     case 'sammlung-besetzung': 
       ?>
 
@@ -245,7 +247,7 @@ if ($form_selected!='') {
         <?php
         include_once('cl_besetzung.php'); 
         $auswahl = new Besetzung(); 
-        $auswahl->print_select();  // XXX Beschriftung  
+        $auswahl->print_select('', '',$auswahl->Title);  // XXX Beschriftung  
         ?>
         <input type="checkbox" name="sammlung_delete_besetzung"><label for="sammlung_delete_besetzung">entfernen</label> 
         <input class="btnSave" type="submit" name="submit" value="ausführen">    
@@ -255,7 +257,7 @@ if ($form_selected!='') {
 
         </form>
       <?php 
-    break; 
+      break; 
     case 'sammlung-verwendungszweck': 
       ?>
       <h2>Sammlung: Verwendungszweck ergänzen / entfernen </h2>
@@ -278,12 +280,12 @@ if ($form_selected!='') {
 
 
       <?php       
-    break;   
+      break;   
     
     case 'sammlung-schwierigkeitsgrad': 
       ?>
       <h2>Sammlung: Schwierigkeitsgrad ergänzen  </h2>
-        <!-- sammlung-insert-verwendungszweck -->   
+        <!-- sammlung-insert-verwendungszweck XXX Auswahlbox ergänzen ! -->   
         <form action="" method="post" name="sammlung-schwierigkeitsgrad">
         <label> SammlungID: <input type="text" name="SammlungID" value="<?php echo $SammlungID; ?>" size="5" ></label>
         <label> InstrumentID: <input type="text" name="InstrumentID" size="5" ></label>
@@ -296,7 +298,7 @@ if ($form_selected!='') {
       </form>
 
       <?php       
-    break;         
+      break;         
   
     case 'sammlung-erprobt': 
       ?>
@@ -306,7 +308,7 @@ if ($form_selected!='') {
         <?php
         include_once('cl_erprobt.php'); 
         $auswahl = new Erprobt(); 
-        $auswahl->print_select();  // XXX Beschriftung  
+        $auswahl->print_select('', $auswahl->Title);  
         ?>
 
         <input class="btnSave" type="submit" name="submit" value="ausführen">    
@@ -317,7 +319,7 @@ if ($form_selected!='') {
 
 
       <?php       
-    break;   
+      break;   
 
   }
   
@@ -326,21 +328,15 @@ if ($form_selected!='') {
 
 ?>
 
-
-
-
 <!--- ****************************************************************************** --> 
 
-
-
-    <hr >
-
-<!--- ****************************************************************************** --> 
-
-
+<hr >
 
 
 <?php 
+
+end: 
+
 include('foot.php');
 ?>
 
