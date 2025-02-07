@@ -3,6 +3,8 @@
 
 Next: Integration Schüler in Suche-Seite; Material > Besonderheiten  
 
+08.02.2025: Korrektur Layout Suche (Bei Ausblenden der Filterspalte soll sich die Ergebenistabelle automatisch verbreitern )
+
 06.02.2025: Integration Material in Suche-Seite
 
 03.02.2025: Verknüpfung Material x Sammlung 
