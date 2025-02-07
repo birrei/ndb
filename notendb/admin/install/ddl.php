@@ -40,30 +40,56 @@ if (isset($_GET["option"])) {
 /************************************************** */
 
 function install_view_v_schueler() {
-    $sql="
-        create or replace view v_schueler as 
-        select 
-            schueler.ID 
-            , schueler.Name
-            , schueler.Bemerkung 
-            -- , GROUP_CONCAT(DISTINCT material.Name  order by material.Name SEPARATOR '; ') as Materialien  
-            , count(distinct material.ID) as Anzahl_Materialien          
-            , count(distinct satz.ID) as Anzahl_Saetze      
+
+      $sql=" create or replace view v_schueler as 
+             select 
+                schueler.ID 
+                , schueler.Name
+                , GROUP_CONCAT(DISTINCT material.Name  order by material.Name SEPARATOR '; ') as Materialien
+                , GROUP_CONCAT(DISTINCT concat(sammlung.Name, ' / ', musikstueck.Name, ' / ', satz.Name)  
+                                        order by sammlung.Name, musikstueck.Nummer 
+                        SEPARATOR '<br />') as Noten 
+
+                , schueler.Bemerkung 
         from schueler 
             left join 
             schueler_material on schueler_material.SchuelerID = schueler.ID
             left join 
             material on material.ID = schueler_material.MaterialID 
             left join 
-            schueler_satz 
-            on schueler_satz.SchuelerID  = schueler.ID 
+            schueler_satz on schueler_satz.SchuelerID  = schueler.ID 
             left join 
-            satz 
-            on satz.ID = schueler_satz.SatzID 
+            satz on satz.ID = schueler_satz.SatzID 
+            left join 
+            musikstueck on musikstueck.ID = satz.MusikstueckID
+            left join 
+            sammlung on sammlung.ID = musikstueck.SammlungID
         group by schueler.ID 
-            
-	 
+        order by schueler.Name 
     "; 
+    // $sql="
+    //     create or replace view v_schueler as 
+    //     select 
+    //         schueler.ID 
+    //         , schueler.Name
+    //         , schueler.Bemerkung 
+    //         -- , GROUP_CONCAT(DISTINCT material.Name  order by material.Name SEPARATOR '; ') as Materialien  
+    //         , count(distinct material.ID) as Anzahl_Materialien          
+    //         , count(distinct satz.ID) as Anzahl_Saetze      
+    //     from schueler 
+    //         left join 
+    //         schueler_material on schueler_material.SchuelerID = schueler.ID
+    //         left join 
+    //         material on material.ID = schueler_material.MaterialID 
+    //         left join 
+    //         schueler_satz 
+    //         on schueler_satz.SchuelerID  = schueler.ID 
+    //         left join 
+    //         satz 
+    //         on satz.ID = schueler_satz.SatzID 
+    //     group by schueler.ID        
+	 
+    // "; 
     execute_sql($sql, 'install view v_schueler'); 
 }
 

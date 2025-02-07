@@ -32,7 +32,7 @@ if (isset($_REQUEST["option"])) {
 }
 
 $info->print_screen_header($schueler->Title.' bearbeiten'); 
-$info->print_link_table($schueler->table_name, 'sortcol=Name', $schueler->Titles); 
+$info->print_link_table('v_schueler', 'sortcol=Name', $schueler->Titles); 
 
 
 if ($show_data) {
