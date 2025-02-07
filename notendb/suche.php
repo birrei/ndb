@@ -113,12 +113,15 @@ $Suche = new Abfrage();
 <a onclick="hideFilter()" href="#">Filter ein/ausblenden</a>
 <script> 
       function hideFilter() {
-        if (document.getElementById("filterpanel").hidden==false)
+        // Sichtbarkeit linke Filter-Spalte ein / aus  
+        if (document.getElementById("search-filter").hidden==false)
         {
-          document.getElementById("filterpanel").hidden=true; 
+          document.getElementById("search-filter").hidden=true; 
+          document.getElementById("search-page").style.gridTemplateColumns = "auto";
         } else 
         {
-          document.getElementById("filterpanel").hidden=false;           
+          document.getElementById("search-filter").hidden=false;      
+          document.getElementById("search-page").style.gridTemplateColumns = "350pt auto"; 
         }
 
       }
@@ -136,8 +139,8 @@ if (isset($_POST['Ansicht'])) {
 
 
 
-<div class="search-page">
-<div class="search-filter" id="filterpanel">
+<div class="search-page" id="search-page">
+<div class="search-filter" id="search-filter">
 
 <form id="Suche" action="" method="post">
 
@@ -195,7 +198,7 @@ if (isset($_POST['suchtext'])) {
       $filter=true;       
     }
   }
-  $schueler->print_select($SchuelerID,'',$schueler->Title .' : &nbsp;&nbsp;&nbsp;');
+  $schueler->print_select($SchuelerID,'',$schueler->Title);
 
 ?>
 
@@ -217,7 +220,7 @@ if (isset($_POST['suchtext'])) {
     }   
   }
   echo '<p>';
-  $verlag->print_select($VerlagID, $verlag->Title.': &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;');
+  $verlag->print_select($VerlagID, $verlag->Title);
   echo '</p>';
 
 /************* Standort  ***********/
@@ -235,7 +238,7 @@ if (isset($_POST['suchtext'])) {
    }
   }
   echo '<p>';
-  $standort->print_select($StandortID, $standort->Title.': &nbsp;');
+  $standort->print_select($StandortID, $standort->Title);
   echo '</p>';
 
 /*********  Sammlung Besonderheiten **********/  
@@ -288,7 +291,7 @@ if (isset($_POST['suchtext'])) {
       $filter=true;       
     }
   }
-  $komponist->print_select($KomponistID,$komponist->Title .' : &nbsp;&nbsp;&nbsp;');
+  $komponist->print_select($KomponistID,$komponist->Title);
 
 /************* Besetzungen  ***********/
   // XXX Anpassung + Check Options in Arbeit 
@@ -353,7 +356,7 @@ if (isset($_POST['suchtext'])) {
     }
   }
   echo '<p>'; 
-  $gattung->print_select($GattungID, $gattung->Title .' : &nbsp;&nbsp;&nbsp;');
+  $gattung->print_select($GattungID, $gattung->Title);
   echo '</p>'; 
 
 /************* Epochen  ***********/
@@ -370,7 +373,7 @@ if (isset($_POST['suchtext'])) {
     }  
   }
   echo '<p>'; 
-  $epoche->print_select($EpocheID, $epoche->Title .' : &nbsp;&nbsp;&nbsp;');
+  $epoche->print_select($EpocheID, $epoche->Title);
   echo '</p>'; 
  
   ?>
@@ -516,7 +519,7 @@ if (isset($_POST['suchtext'])) {
   ?>
 </form>
 </div> <!-- ende class search-filter --> 
-<div class="search-table">
+<div class="search-result" id="search-result">
 <?php
 
   if ($filter ) {
@@ -896,7 +899,7 @@ if (isset($_POST['suchtext'])) {
       echo '<p>Es wurde kein Filter gesetzt. </p>'; 
     }
  ?>
-</div> <!-- end class search-table -->
+</div> <!-- end class search-result -->
 </div> <!-- end class search-page -->
 
 <?php 

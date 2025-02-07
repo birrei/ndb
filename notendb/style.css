@@ -131,9 +131,21 @@ p.draft {
 /***** Suche  ****************/
     .search-page {
         display: grid;
-        grid-template-columns: 350pt 100%;
+        /* grid-template-columns: 350pt 100%; */
+        grid-template-columns: 350pt auto; 
         grid-gap: 5px;    
     }
+
+
+    /* .search-filter {
+        width: 30%; 
+    }
+    .search-result {
+        width: 50%; 
+        float:left; 
+    } */
+
+
 
     p.navi-trenner {
         color:black; 
@@ -142,15 +154,15 @@ p.draft {
         padding:3px;         
     }
     .field-caption{
-        background-color:lightskyblue;     
-        font-size: 10pt;
-        font-weight: bold; 
+        /* background-color:lightskyblue;     
+        font-size: 10pt; */
+        /* font-weight: bold;  */
         padding: 3px; 
     }
 
     .auswahl {
         padding-bottom: 3px; 
-        font-size: 12px; 
+        /* font-size: 12px;  */
     }
 
 /***** Hilfe  ****************/
