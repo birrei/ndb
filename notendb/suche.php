@@ -639,6 +639,7 @@ if (isset($_POST['suchtext'])) {
 
     switch ($Ansicht){
       case 'Sammlung': 
+      case 'Sammlung Links':         
       case 'Musikstueck': 
       case 'Satz':
       case 'Satz Besonderheiten':   
@@ -727,6 +728,7 @@ if (isset($_POST['suchtext'])) {
 
       switch ($Ansicht){
         case 'Sammlung': 
+        case 'Sammlung Links':           
         case 'Musikstueck': 
         case 'Satz':
         case 'Satz Besonderheiten':   
