@@ -80,9 +80,15 @@ if (isset($_GET['show_filter'])) {
   $show_filter=true; 
 }
 
+/* Sortierung */
+$sortcol=(isset($_GET['sortcol'])?$_GET['sortcol']:'ID'); 
+$sortorder=(isset($_GET['sortorder'])?$_GET['sortorder']:'ASC'); 
+
 /********************************/
 
 $query = 'SELECT * FROM '.$object.' WHERE 1=1 ';
+
+
 
 echo '<h3>'.$header.'</h3>'.PHP_EOL; 
 
@@ -100,6 +106,10 @@ echo '<h3>'.$header.'</h3>'.PHP_EOL;
       $materialtyp->print_preselect($MaterialtypID); 
       $query.=($MaterialtypID!=''?'AND MaterialtypID='.$MaterialtypID.' '.PHP_EOL:''); 
       echo '</form>'.PHP_EOL; 
+
+      echo '<a href="show_table2.php?table='.$object.'&sortcol='.$sortcol.'&sortorder='.$sortorder.'&title='.$title_base.'&MaterialtypID='.$MaterialtypID.'">aktualisieren</a>'; 
+
+
     break; 
 
     case 'v_abfrage': 
@@ -111,31 +121,41 @@ echo '<h3>'.$header.'</h3>'.PHP_EOL;
       $abfragetyp->print_preselect($AbfragetypID); 
       $query.=($AbfragetypID!=''?'AND AbfragetypID='.$AbfragetypID.' '.PHP_EOL:''); 
       echo '</form>'.PHP_EOL; 
+
+      echo '<a href="show_table2.php?table='.$object.'&sortcol='.$sortcol.'&sortorder='.$sortorder.'&title='.$title_base.'&AbfragetypID='.$AbfragetypID.'">aktualisieren</a>'; 
+
     break; 
 
     case 'v_lookup': 
+
       echo '<form action="" method="post">'.PHP_EOL; 
       include_once("cl_lookuptype.php");
-      $LookupTypeID=(isset($_POST["LookupTypeID"])?$_POST["LookupTypeID"]:'');
+      $LookupTypeID=(isset($_REQUEST["LookupTypeID"])?$_REQUEST["LookupTypeID"]:'');
       $lookuptype = new Lookuptype(); 
       echo 'Besonderheit Typ: '.PHP_EOL; 
       $lookuptype->print_preselect($LookupTypeID); 
       $query.=($LookupTypeID!=''?'AND LookupTypeID='.$LookupTypeID.' '.PHP_EOL:''); 
       echo '</form>'.PHP_EOL; 
+
+      echo '<a href="show_table2.php?table='.$object.'&sortcol='.$sortcol.'&sortorder='.$sortorder.'&title='.$title_base.'&LookupTypeID='.$LookupTypeID.'">aktualisieren</a>'; 
+
+
     break; 
 
     case 'v_sammlung': 
       echo '<form action="" method="post">'.PHP_EOL; 
       include_once("cl_standort.php");
-      $StandortID=(isset($_POST["StandortID"])?$_POST["StandortID"]:'');
+      $StandortID=(isset($_REQUEST["StandortID"])?$_REQUEST["StandortID"]:'');
       $Erfasst=(isset($_POST["Erfasst"])?1:0); 
       $standort = new Standort(); 
       echo 'Standort: '.PHP_EOL; 
       $standort->print_preselect($StandortID); 
-      echo '<label><input type="checkbox" name="Erfasst" onchange="this.form.submit()" '.($Erfasst==1?'checked':'').'>Vollständig erfasst</label>'; 
+      // echo '<label><input type="checkbox" name="Erfasst" onchange="this.form.submit()" '.($Erfasst==1?'checked':'').'>Vollständig erfasst</label>'; 
       $query.=($StandortID!=''?'AND StandortID='.$StandortID.' '.PHP_EOL:''); 
-      $query.='AND Erfasst='.$Erfasst; 
+      // $query.='AND Erfasst='.$Erfasst; 
       echo '</form>'.PHP_EOL;       
+
+      echo '<a href="show_table2.php?table='.$object.'&sortcol='.$sortcol.'&sortorder='.$sortorder.'&title='.$title_base.'&StandortID='.$StandortID.'">aktualisieren</a>'; 
       
     break;     
 
@@ -144,8 +164,6 @@ echo '<h3>'.$header.'</h3>'.PHP_EOL;
 echo '<p></p>'; 
 
 /******** Query Sortierung ***********************/
-$sortcol=(isset($_GET['sortcol'])?$_GET['sortcol']:'ID'); 
-$sortorder=(isset($_GET['sortorder'])?$_GET['sortorder']:'ASC'); 
 
 $query.= ' ORDER BY '.$sortcol.' '.$sortorder.PHP_EOL; 
 
