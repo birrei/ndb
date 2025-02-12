@@ -14,7 +14,7 @@ h3 {
 <tr> <td class="start"> <h1> Notendatenbank   </h1> </td> </tr>    
         <tr>
             <td class="start">
-              <a href="show_table2.php?table=v_sammlung&sortcol=ID&sortorder=DESC&title=Sammlungen&show_filter">Sammlungen</a> | 
+              <a href="show_table2.php?table=v_sammlung&sortcol=ID&sortorder=DESC&show_filter">Sammlungen</a> | 
               <a href="edit_sammlung.php?title=Sammlung&option=insert">Neu erfassen</a> 
             </td>
          
@@ -23,9 +23,9 @@ h3 {
       <tr> <td colspan="3" class="start"> <h3>Sammlung Stammdaten </h3> </td> </tr>
         <tr>
             <td class="start">
-                <a href="show_table2.php?table=verlag&sortcol=Name&title=Verlage">Verlage</a> |  
-                <a href="show_table2.php?table=standort&sortcol=Name&title=Standorte">Standorte</a> | 
-                <a href="show_table2.php?table=linktype&sortcol=Name&title=Link-Typen">Link-Typen</a> 
+                <a href="show_table2.php?table=verlag&sortcol=Name">Verlage</a> |  
+                <a href="show_table2.php?table=standort&sortcol=Name">Standorte</a> | 
+                <a href="show_table2.php?table=linktype&sortcol=Name">Link-Typen</a> 
 
               </td>
    
@@ -36,11 +36,11 @@ h3 {
 
         <tr>
             <td class="start">
-              <a href="show_table2.php?table=v_komponist&sortcol=Name&title=Komponisten">Komponisten</a> | 
-              <a href="show_table2.php?table=besetzung&sortcol=Name&title=Besetzungen">Besetzungen</a> | 
-              <a href="show_table2.php?table=verwendungszweck&sortcol=Name&title=Verwendungszwecke">Verwendungszwecke</a> | 
-              <a href="show_table2.php?table=gattung&sortcol=Name&title=Gattungen">Gattungen</a> | 
-              <a href="show_table2.php?table=epoche&sortcol=Name&title=Epochen">Epochen</a> 
+              <a href="show_table2.php?table=v_komponist&sortcol=Name">Komponisten</a> | 
+              <a href="show_table2.php?table=besetzung&sortcol=Name">Besetzungen</a> | 
+              <a href="show_table2.php?table=verwendungszweck&sortcol=Name">Verwendungszwecke</a> | 
+              <a href="show_table2.php?table=gattung&sortcol=Name">Gattungen</a> | 
+              <a href="show_table2.php?table=epoche&sortcol=Name">Epochen</a> 
 
             </td>
         </tr>
@@ -50,11 +50,11 @@ h3 {
         <tr> <td class="start"> <h3>Satz Stammdaten</h3> </td> </tr>
         <tr>
             <td class="start">
-            <a href="show_table2.php?table=erprobt&sortcol=Name&title=Erprobt">Erprobt-Eigenschaften</a> | 
-            <a href="show_table2.php?table=schwierigkeitsgrad&sortcol=Name&title=Schwierigkeitsgrade">Schwierigkeitsgrade</a> | 
-            <a href="show_table2.php?table=instrument&sortcol=Name&title=Instrumente">Instrumente</a> | 
-            <a href="show_table2.php?table=v_lookup&sortcol=LookupTypeName,Name&title=Besonderheiten">Besonderheiten</a> | 
-            <a href="show_table2.php?table=lookup_type&sortcol=Name&title=Besonderheit Typen">Besonderheit Typen</a> 
+            <a href="show_table2.php?table=erprobt&sortcol=Name">Erprobt-Eigenschaften</a> | 
+            <a href="show_table2.php?table=schwierigkeitsgrad&sortcol=Name">Schwierigkeitsgrade</a> | 
+            <a href="show_table2.php?table=instrument&sortcol=Name">Instrumente</a> | 
+            <a href="show_table2.php?table=v_lookup&sortcol=LookupTypeName,Name">Besonderheiten</a> | 
+            <a href="show_table2.php?table=lookup_type&sortcol=Name">Besonderheit Typen</a> 
 
 
             </td>
@@ -64,9 +64,9 @@ h3 {
         <tr> <td class="start"> <h3>Sonst</h3> </td> </tr>       
         <tr>
             <td class="start">
-            <a href="show_table2.php?table=v_schueler&sortcol=Name&title=Schüler">Schüler</a> |               
-            <a href="show_table2.php?table=v_material&sortcol=Name&title=Material&show_filter">Material</a> |    
-            <a href="show_table2.php?table=materialtyp&sortcol=Name&title=Materialtyp">Materialtypen</a>
+            <a href="show_table2.php?table=v_schueler&sortcol=Name">Schüler</a> |               
+            <a href="show_table2.php?table=v_material&sortcol=Name">Material</a> |    
+            <a href="show_table2.php?table=materialtyp&sortcol=Name">Materialtypen</a>
             </td>
         </tr>
 
@@ -75,8 +75,8 @@ h3 {
 
         <tr>
             <td class="start">    
-            <a href="show_table2.php?table=v_abfrage&sortcol=Name&title=Abfragen&add_link_show&show_filter">Abfragen</a> | 
-            <a href="show_table2.php?table=abfragetyp&sortcol=Name&title=Abfragetypen">Abfrage-Typen</a> 
+            <a href="show_table2.php?table=v_abfrage&sortcol=Name&add_link_show">Abfragen</a> | 
+            <a href="show_table2.php?table=abfragetyp&sortcol=Name">Abfrage-Typen</a> 
             </td>
         </tr>
 
@@ -85,10 +85,10 @@ h3 {
         <tr> <td class="start"> <h3>Info-Sichten</h3> </td> </tr>        
         <tr>
             <td class="start">
-            <a href="show_table2.php?table=v2_info_Tempobezeichnungen&sortcol=Tempobezeichnung&title=Tempobezeichnungen">Verwendete Tempobezeichnungen</a> | 
-            <a href="show_table2.php?table=v2_info_Tonarten&sortcol=Tonart&title=Tonarten">Verwendete Tonarten</a> | 
-            <a href="show_table2.php?table=v2_info_Taktarten&sortcol=Taktart&title=Taktarten">Verwendete Taktarten</a> | 
-            <a href="show_table2.php?table=v2_info_Spieldauern&sortcol=Spieldauer&title=Spieldauern">Verwendete Spieldauern</a> 
+            <a href="show_table2.php?table=v2_info_Tempobezeichnungen&sortcol=Tempobezeichnung">Verwendete Tempobezeichnungen</a> | 
+            <a href="show_table2.php?table=v2_info_Tonarten&sortcol=Tonart">Verwendete Tonarten</a> | 
+            <a href="show_table2.php?table=v2_info_Taktarten&sortcol=Taktart">Verwendete Taktarten</a> | 
+            <a href="show_table2.php?table=v2_info_Spieldauern&sortcol=Spieldauer">Verwendete Spieldauern</a> 
 
 
             </td>
