@@ -1,4 +1,5 @@
 
+
 /* prüfen */
 
     select * from lookup_type where ID=4; 
@@ -18,11 +19,6 @@
 
 
 
-
-
-
-
-
 /* ein Lookup Type löschen */ 
 
     delete from satz_lookup
@@ -33,5 +29,10 @@
     delete from lookup where LookupTypeID=4; 
 
     delete from lookup_type where ID=4; 
+
+
+/* nicht verwendeten lookuptype löschen  */
+
+    delete from lookup_type WHERE ID NOT IN (SELECT DISTINCT LookupTypeID from lookup); 
 
 

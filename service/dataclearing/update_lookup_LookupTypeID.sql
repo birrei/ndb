@@ -1,8 +1,13 @@
---- Besonderheiten zusammenfassen 
 
-update lookup set LookupTypeID = 1 WHERE LookupTypeID BETWEEN 2 AND 10 ;
+/* 
+   alle "Besonderheiten" mit Namen *Griffart* unter "Übung sonst" 
+   sollen den neuen "Besonderheiten-Typ" "Übung Griffart erhalten "
+*/ 
 
-delete from lookup_type WHERE ID NOT IN (SELECT DISTINCT LookupTypeID from lookup); 
+    update lookup  set LookupTypeID = 17  where Name like '%Griffart%' and LookupTypeID = 1;
 
-select * from v_lookup order by LookupTypeID; 
+    select * from lookup where Name like '%Griffart%';
+
+    select * from v_lookup order by LookupTypeID; 
+
 
