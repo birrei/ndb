@@ -3,7 +3,7 @@
 
 $table=$_REQUEST["table"];
 $source=(isset($_REQUEST["source"])?$_REQUEST["source"]:'table'); // z.B: "iframe", "table" 
-
+$source=($source!=''?$source:'table'); 
 
 /** Einstellungen für den "Tabelle"-Link (Aufruf show_table2.php) */
 $tablelink_table=$table; // Tabellen-Name oder View-Name (letzterer muss mit Suffix "v_" angegeben werden)     
@@ -134,10 +134,9 @@ switch($table) {
     break; 
 
   case 'schueler': // XXX 
-    // include_once('cl_abfragetyp.php');
-    // $objekt = new Abfragetyp();     
-    // $tablelink_table='abfragetyp'; 
-    echo '<p>noch nicht implementiert</p>'; 
+    include_once('cl_schueler.php');
+    $objekt = new Schueler();     
+    $tablelink_table='v_schueler'; 
     break; 
 
   case 'materialtyp': 

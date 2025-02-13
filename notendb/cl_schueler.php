@@ -15,7 +15,6 @@ class Schueler {
     $this->table_name='schueler'; 
   }
 
-
   function insert_row ($Name) {
     include_once("dbconn/cl_db.php");
     $conn = new DbConn(); 
@@ -101,8 +100,6 @@ class Schueler {
     }
   }
 
-
-
   function update_row($Name, $Bemerkung) {
     include_once("dbconn/cl_db.php");   
     $conn = new DbConn(); 
@@ -150,7 +147,6 @@ class Schueler {
       return false; 
     }    
   }  
-
  
   function print_table_schwierigkeitsgrade($target_file){
     $query="SELECT
@@ -195,8 +191,6 @@ class Schueler {
     }
   }  
   
-
-
   function add_schwierigkeitsgrad($SchwierigkeitsgradID, $InstrumentID){
     include_once("dbconn/cl_db.php");
     $conn = new DbConn(); 
@@ -269,7 +263,6 @@ class Schueler {
       $info->print_error($delete, $e);  
     }  
   }
-
   
   function print_table_saetze(){
       $query="SELECT schueler_satz.ID
@@ -316,7 +309,6 @@ class Schueler {
       $info->print_error($stmt, $e); 
     }
   }    
-
   
   function print_table_materials(){
     $query="SELECT schueler_material.ID
@@ -361,6 +353,88 @@ class Schueler {
     }
   }    
 
+  function delete_satze(){
+    include_once("dbconn/cl_db.php");
+    $conn = new DbConn(); 
+    $db=$conn->db; 
+
+    $delete = $db->prepare("DELETE FROM `schueler_satz` WHERE SchuelerID=:ID"); 
+    $delete->bindValue(':ID', $this->ID);  
+
+    try {
+      $delete->execute(); 
+    }
+    catch (PDOException $e) {
+      include_once("cl_html_info.php"); 
+      $info = new HtmlInfo();      
+      $info->print_user_error(); 
+      $info->print_error($delete, $e);  
+    }  
+  }
+
+  function delete_materials(){
+    include_once("dbconn/cl_db.php");
+    $conn = new DbConn(); 
+    $db=$conn->db; 
+
+    $delete = $db->prepare("DELETE FROM `schueler_material` WHERE SchuelerID=:ID"); 
+    $delete->bindValue(':ID', $this->ID);  
+
+    try {
+      $delete->execute(); 
+    }
+    catch (PDOException $e) {
+      include_once("cl_html_info.php"); 
+      $info = new HtmlInfo();      
+      $info->print_user_error(); 
+      $info->print_error($delete, $e);  
+    }  
+  }     
+
+  function delete_schwierigkeitsgrade(){
+    include_once("dbconn/cl_db.php");
+    $conn = new DbConn(); 
+    $db=$conn->db; 
+
+    $delete = $db->prepare("DELETE FROM `schueler_schwierigkeitsgrad` WHERE SchuelerID=:ID"); 
+    $delete->bindValue(':ID', $this->ID);  
+
+    try {
+      $delete->execute(); 
+    }
+    catch (PDOException $e) {
+      include_once("cl_html_info.php"); 
+      $info = new HtmlInfo();      
+      $info->print_user_error(); 
+      $info->print_error($delete, $e);  
+    }  
+  }       
+
+  function delete(){
+    include_once("dbconn/cl_db.php");
+    $conn = new DbConn(); 
+    $db=$conn->db; 
+  
+    $this->delete_materials(); 
+    $this->delete_satze(); 
+    $this->delete_schwierigkeitsgrade(); 
+      
+    $delete = $db->prepare("DELETE FROM `schueler` WHERE ID=:ID"); 
+    $delete->bindValue(':ID', $this->ID);  
+
+    try {
+      $delete->execute(); 
+      // echo '<p>Der Schüler wurde gelöscht. </p>';  
+      return true;                
+    }
+    catch (PDOException $e) {
+      include_once("cl_html_info.php"); 
+      $info = new HtmlInfo();      
+      $info->print_user_error(); 
+      $info->print_error($delete, $e);  
+      return false; 
+    }  
+  }  
 
 }
 
