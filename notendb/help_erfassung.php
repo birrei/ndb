@@ -100,19 +100,22 @@ include('head.php');
            
 <h2 class="chapter-title chapter-title-h2" id="erfassung_material">Material</h2>
     <p> Materialien können zu einer Sammlung, aber auch unabhängig von einer Sammlung angelegt werden. </p>
-    <p> * Von Sammlung aus: Im Formular Sammlung, Unterformlar "Material" - "Material hinzufügen". 
-    <p> * Ohne Sammlung: Startseite "Sammlungen", "Neu einfügen". 
-        Im Formular "Material" wird das Feld "Sammlung" in diesem Fall nicht angezeigt </p>
-
-    <h3 class="chapter-title chapter-title-h3" id="erfassung_material_schueler">Material: Zuordnung Schüler</h3>
-        <p>Im Unterformular werden die vorhandenen Verknüpfungen zwischen Material und Schülern angezeigt. 
+    <p> Felder: 
+        <ul> 
+            <li>Name: XXX </li>
+            <li>Materialtyp: XXX </li>
+            <li>Bemerkung: XXX </li>
+            <li>Sammlung: Das Feld wird  angezeigt, wenn das Material von einer Sammlung aus angelegt wurde. 
+                Eine Änderung des Feld-Wertes ist im Material-Formular nicht möglich. 
+            </li>
+            <li>Schüler: Im Unterformular werden die vorhandenen Verknüpfungen zwischen Material und Schülern angezeigt. 
             Die Bearbeitung sowie das Löschen der Verknüpfungs-Information ist möglich.  
-        </p>
-        <p> Eine Verknüpfung zwischen Schüler und Material kann auch im Formular "Schüler" vorgenommen werden, 
-            siehe <a href="#erfassung_schueler_material">Schüler: Zuordnung Materialien</a>. 
-        </p>
+            Eine Verknüpfung zwischen Schüler und Material kann auch im Formular "Schüler" vorgenommen werden, 
+            siehe <a href="#erfassung_schueler_material">Schüler: Zuordnung Materialien</a>
+            </li>
+        </ul>
 
-<h2 class="chapter-title chapter-title-h2" id="erfassung_schueler">Schüler</h2>
+ <h2 class="chapter-title chapter-title-h2" id="erfassung_schueler">Schüler</h2>
     <h3 class="chapter-title chapter-title-h3" id="erfassung_schueler_schwierigkeitsgrade">Schüler: Instrumente und Schwierigkeitsgrade</h3>
 
         <p>Die Schwierigkeitsgrade sollen darüber informieren, welche Instrumente der Schüler spielt und 
@@ -197,36 +200,32 @@ include('head.php');
 
         </p>
 
-    <p> 
 
-
-
-
-<p>&nbsp;</p>
-<p>&nbsp;</p>
-<p>&nbsp;</p>
-<p>&nbsp;</p>
-<p>&nbsp;</p>
-<p>&nbsp;</p>
-<p>&nbsp;</p>
-<p>&nbsp;</p>
-<p>&nbsp;</p>
-<p>&nbsp;</p>
+    <p>&nbsp;</p>
+    <p>&nbsp;</p>
+    <p>&nbsp;</p>
+    <p>&nbsp;</p>
+    <p>&nbsp;</p>
+    <p>&nbsp;</p>
+    <p>&nbsp;</p>
+    <p>&nbsp;</p>
+    <p>&nbsp;</p>
+    <p>&nbsp;</p>
 
 <hr>
 
 
 
 
-<p>&nbsp;</p>
-<p>&nbsp;</p>
-<p>&nbsp;</p>
-<p>&nbsp;</p>
-<p>&nbsp;</p>
-<p>&nbsp;</p>
-<p>&nbsp;</p>
-<p>&nbsp;</p>
-<p>&nbsp;</p>
+    <p>&nbsp;</p>
+    <p>&nbsp;</p>
+    <p>&nbsp;</p>
+    <p>&nbsp;</p>
+    <p>&nbsp;</p>
+    <p>&nbsp;</p>
+    <p>&nbsp;</p>
+    <p>&nbsp;</p>
+    <p>&nbsp;</p>
 
 
 
