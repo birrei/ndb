@@ -165,6 +165,42 @@ include('head.php');
             <li>Violoncello</li>
         </ul>
 
+    <h3 class="chapter-title chapter-title-h3" id="erfassung_besonderheiten">Stammdaten: Besonderheiten</h2>
+
+        <p> Besonderheit-Typen können für Sammlungen und Sätze erfasst werden. 
+        Eine Besonderheit kann einem übergeordneten Besonderheit-Typ zugeordnet werden
+        </p> 
+        
+               
+        <p> Besonderheiten - Felder: 
+        <ul> 
+            <li>Name </li>
+            <li>Typ: Auswahl Besonderheit-Typ </li>
+
+        </ul>
+        <p> Besonderheit-Typen - Felder: 
+        <ul> 
+            <li>Name </li>
+            <li>Relation: Daten-Art, welcher die Besonderheiten des Typs zugeordnet werden können. Möglich sind Satz (Voreinstellung) oder Sammlung </li>
+            <li>Besonderheiten: Über "hinzufügen" können Besonderheiten für den Typ angelegt werden.  </li>            
+            <li>Konfiguration Suche, Type Key: Das Feld wird automatisch befüllt.  
+            Der Wert muss eindeutig innerhalb der Tabelle sein.  
+            Der Wert kann auch manuell angepasst werden (z.b. weil zwecks Prüfung im HTML-Quelltext einen sprechender Begriff gewünscht wird) 
+        </li>
+        <li>Konfiguration Suche, Type Key: Anzahl Zeilen: Legt fest, wieviele Zeilen die Suchbox im Suchformular angezeigt werden sollen.  
+        </li>
+   
+        </ul>
+         
+         
+
+
+        </p>
+
+    <p> 
+
+
+
 
 <p>&nbsp;</p>
 <p>&nbsp;</p>
