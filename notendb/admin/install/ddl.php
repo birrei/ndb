@@ -13,6 +13,12 @@ include("../../cl_html_info.php");
 
 if (isset($_GET["option"])) {
 
+
+/****** Lookup ******** */
+
+    install_view_v_lookup(); 
+
+
 /****** Material ******** */
 
     // drop_table('material'); 
@@ -38,6 +44,25 @@ if (isset($_GET["option"])) {
 
 
 /************************************************** */
+
+function install_view_v_lookup() {
+
+    $sql=" 
+    CREATE OR REPLACE VIEW v_lookup as 
+    SELECT lookup.ID
+        , lookup.Name 
+        , lookup_type.Name as LookupTypeName
+        -- , lookup_type.type_key as LookupTypeKey         
+        , lookup.LookupTypeID 
+       -- , lookup_type.Relation  
+    FROM lookup 
+    LEFT JOIN lookup_type
+      on lookup_type.ID = lookup.LookupTypeID
+    ORDER by Name     
+    "; 
+
+    execute_sql($sql, 'install view v_lookup'); 
+}
 
 function install_view_v_schueler() {
 
@@ -166,6 +191,7 @@ function install_table_material() {
         )"; 
     execute_sql($sql, 'install table material'); 
 }
+
 function install_table_schueler_satz() {
     $sql="
         CREATE TABLE schueler_satz (
@@ -183,6 +209,7 @@ function install_table_schueler_satz() {
     "; 
     execute_sql($sql); 
 }
+
 function install_table_schueler_schwierigkeitsgrad() {
     $sql="
         CREATE TABLE schueler_schwierigkeitsgrad (
@@ -201,6 +228,7 @@ function install_table_schueler_schwierigkeitsgrad() {
     "; 
     execute_sql($sql); 
 }
+
 function install_table_schueler() {
     $sql="CREATE TABLE IF NOT EXISTS schueler (
             ID INT NOT NULL AUTO_INCREMENT 
@@ -216,7 +244,7 @@ function install_table_schueler() {
 /**************************************** */
 
 function execute_sql($sql, $info='') {
-    // : Tabelle wird gelöscht und neu angelegt       
+
     $conn = new DbConn(); 
     $db=$conn->db; 
     echo '<pre>----------------'.$info.'---------------------</pre>'.PHP_EOL; 
