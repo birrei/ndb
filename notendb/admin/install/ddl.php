@@ -13,10 +13,9 @@ include("../../cl_html_info.php");
 
 if (isset($_GET["option"])) {
 
-
-/****** Lookup ******** */
-
     install_view_v_lookup(); 
+    install_view_v_material(); 
+    install_view_v_schueler(); 
 
 
 /****** Material ******** */
@@ -27,7 +26,7 @@ if (isset($_GET["option"])) {
     // install_table_materialtyp(); 
     // install_table_material(); 
     
-    install_view_v_material(); 
+
 
 /******** Schüler ****** */
     // install_table_schueler(); 
@@ -37,7 +36,7 @@ if (isset($_GET["option"])) {
     // drop_table('schueler_material'); 
     // install_table_schueler_material(); 
 
-    install_view_v_schueler(); 
+ 
 
 
 }
@@ -66,21 +65,30 @@ function install_view_v_lookup() {
 
 function install_view_v_schueler() {
 
-      $sql=" create or replace view v_schueler as 
-             select 
-                schueler.ID 
-                , schueler.Name
-                , GROUP_CONCAT(DISTINCT material.Name  order by material.Name SEPARATOR '; ') as Materialien
-                , GROUP_CONCAT(DISTINCT concat(sammlung.Name, ' / ', musikstueck.Name, ' / ', satz.Name)  
-                                        order by sammlung.Name, musikstueck.Nummer 
-                        SEPARATOR '<br />') as Noten 
-
-                , schueler.Bemerkung 
+      $sql=" 
+      create or replace view v_schueler as 
+        select 
+            schueler.ID 
+        , schueler.Name
+        , GROUP_CONCAT(DISTINCT 
+                            IF(sm.ID is not NULL, CONCAT('* ', sm.Name, ': ', material.Name), concat('* ', material.Name)) 
+                        order by 
+                            IF(sm.ID is not NULL, CONCAT(sm.Name, ': ', material.Name), material.Name)
+                        SEPARATOR '<br />') as Materialien
+        , GROUP_CONCAT(
+                DISTINCT concat('* ', sammlung.Name, ' / ', musikstueck.Name, 
+                            IF(satz.Name <> '', CONCAT(' / ', satz.Name), '') 
+                )  
+                order by sammlung.Name, musikstueck.Nummer 
+                SEPARATOR '<br />') as Noten 
+        , schueler.Bemerkung 
         from schueler 
             left join 
             schueler_material on schueler_material.SchuelerID = schueler.ID
             left join 
             material on material.ID = schueler_material.MaterialID 
+            left join 
+            sammlung sm on sm.ID=material.SammlungID 
             left join 
             schueler_satz on schueler_satz.SchuelerID  = schueler.ID 
             left join 
@@ -89,6 +97,7 @@ function install_view_v_schueler() {
             musikstueck on musikstueck.ID = satz.MusikstueckID
             left join 
             sammlung on sammlung.ID = musikstueck.SammlungID
+        -- where schueler.ID=64
         group by schueler.ID 
         order by schueler.Name 
     "; 
@@ -129,6 +138,7 @@ function install_table_schueler_material() {
         UNIQUE KEY uc_schueler_material (SchuelerID,MaterialID),
         -- KEY SatzID (SatzID),
         -- KEY SchuelerID (SchuelerID),
+        ts_insert datetime DEFAULT CURRENT_TIMESTAMP,         
         CONSTRAINT fkey_schueler_material_SchuelerID FOREIGN KEY (SchuelerID) REFERENCES schueler (ID),
         CONSTRAINT fkey_schueler_material_MaterialID FOREIGN KEY (MaterialID) REFERENCES material (ID)
         )     
@@ -140,9 +150,9 @@ function install_view_v_material() {
         create or replace view v_material as
         select material.ID
             , material.Name
+            , sammlung.Name as Sammlung             
             , material.Bemerkung 
             , materialtyp.Name as Materialtyp
-            , sammlung.Name as Sammlung 
           , GROUP_CONCAT(DISTINCT schueler.Name order by schueler.Name SEPARATOR '; ') as Schueler  
             , material.MaterialtypID 
             , material.SammlungID 
@@ -203,6 +213,7 @@ function install_table_schueler_satz() {
         UNIQUE KEY uc_schueler_satz (SchuelerID,SatzID),
         KEY SatzID (SatzID),
         KEY SchuelerID (SchuelerID),
+        ts_insert datetime DEFAULT CURRENT_TIMESTAMP, 
         CONSTRAINT fkey_schueler_satz_SchuelerID FOREIGN KEY (SchuelerID) REFERENCES schueler (ID),
         CONSTRAINT fkey_schueler_satz_SatzID FOREIGN KEY (SatzID) REFERENCES satz (ID)
         )     
@@ -272,12 +283,6 @@ function print_error($strText) {
     echo $strText.PHP_EOL; 
     echo '</pre>';     
 }
-
-
-
-
-
-
 
 include('../foot.php');
 
