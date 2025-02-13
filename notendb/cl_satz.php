@@ -107,7 +107,6 @@ class Satz {
     }
   }
 
-
   function load_row() {
     include_once("dbconn/cl_db.php");   
     $conn = new DbConn(); 
@@ -148,8 +147,6 @@ class Satz {
       return false; 
     }
   }
-
-  
 
   function load_row2() {
     // Daten aus Musikstück, Sammlung 
@@ -194,7 +191,6 @@ class Satz {
       return false; 
     }
   }
-
 
   function print_select($value_selected='', $caption=''){
 
@@ -372,9 +368,7 @@ class Satz {
       $info->print_error($delete, $e);  
     }  
   }
-  
-
-
+ 
   function delete(){
     include_once("dbconn/cl_db.php");
     $conn = new DbConn(); 
@@ -383,7 +377,8 @@ class Satz {
     $this->delete_lookups(); 
     $this->delete_schwierigkeitsgrade(); 
     $this->delete_erprobte(); 
- 
+    $this->delete_schuelers(); 
+     
     $delete = $db->prepare("DELETE FROM `satz` WHERE ID=:ID"); 
     $delete->bindValue(':ID', $this->ID);  
 
@@ -400,7 +395,6 @@ class Satz {
       return false; 
     }  
   }  
-
 
   function print_table_schwierigkeitsgrade($target_file){
     $query="SELECT instrument.ID 
@@ -514,7 +508,7 @@ class Satz {
     }  
   }
 
- function copy( $include_schwierigkeitsgrade=false, $include_lookups=false){
+  function copy( $include_schwierigkeitsgrade=false, $include_lookups=false){
     include_once("dbconn/cl_db.php");
 
     echo '<p>Starte Kopie Satz ID '.$this->ID.'</p>';      
@@ -601,7 +595,6 @@ class Satz {
     }  
   }  
 
-
   function print_table_erprobte(){
     $query="SELECT satz_erprobt.ID 
           , erprobt.Name as Erprobt
@@ -644,10 +637,9 @@ class Satz {
       $info->print_error($stmt, $e); 
     }
   }    
-
  
   function add_erprobt($Bemerkung){
- // XXX ??? 
+    // XXX ??? 
     include_once("dbconn/cl_db.php");
     $conn = new DbConn(); 
     $db=$conn->db; 
@@ -689,7 +681,6 @@ class Satz {
     }  
   }
 
-
   function add_erprobt2($ErprobtID){
     include_once("dbconn/cl_db.php");
     $conn = new DbConn(); 
@@ -713,8 +704,6 @@ class Satz {
       $info->print_error($insert, $e);  
     }  
   }  
-
-
 
   function print_table_schueler(){
     $query="SELECT schueler_satz.ID 
@@ -758,6 +747,25 @@ class Satz {
     }
   }    
     
+  function delete_schuelers(){
+    include_once("dbconn/cl_db.php");
+    $conn = new DbConn(); 
+    $db=$conn->db; 
+
+    $delete = $db->prepare("DELETE FROM `schueler_satz` WHERE SatzID=:ID"); 
+    $delete->bindValue(':ID', $this->ID);  
+
+    try {
+      $delete->execute(); 
+    }
+    catch (PDOException $e) {
+      include_once("cl_html_info.php"); 
+      $info = new HtmlInfo();      
+      $info->print_user_error(); 
+      $info->print_error($delete, $e);  
+    }  
+  }
+   
 }
 
  
