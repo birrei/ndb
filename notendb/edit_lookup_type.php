@@ -53,9 +53,29 @@ if ($show_data) {
     <tr>    
       <label>
       <td class="form-edit form-edit-col1">Name:</td>  
-      <td class="form-edit form-edit-col2"><input type="text" name="Name" value="'.$lookuptype->Name.'" size="80" autofocus="autofocus"  oninput="changeBackgroundColor(this)" required></td>
+      <td class="form-edit form-edit-col2"><input type="text" name="Name" value="'.$lookuptype->Name.'" size="80" autofocus="autofocus"  oninput="changeBackgroundColor(this)" required>
+      
+
+      
+      </td>
       </label>
     </tr> 
+    
+    <tr>    
+      <label>
+      <td class="form-edit form-edit-col1">Relation: </td>  
+      <td class="form-edit form-edit-col2">
+
+      <select name="Relation"  required="required" oninput="changeBackgroundColor(this)">
+          <option value="satz"'.($lookuptype->Relation=='satz'?' selected':'').'>Satz</option>              
+          <option value="sammlung"'.($lookuptype->Relation=='sammlung'?' selected':'').'>Sammlung</option>
+          <!-- ohne Musikstück --> 
+      </select>
+
+      </td>
+      </label>
+    </tr> 
+
     <tr> 
       <td class="form-edit form-edit-col1">Besonderheiten:
        <p> <a href="edit_lookup_type_lookups.php?LookupTypeID='.$lookuptype->ID.'" target="Lookups" class="form-link">Aktualisieren</a></p>
@@ -68,36 +88,15 @@ if ($show_data) {
     </tr> 
 
     <tr>    
-      <label>
-      <td class="form-edit form-edit-col1">Relation:</td>  
+      <td class="form-edit form-edit-col1">Konfig. Suche:</td>  
       <td class="form-edit form-edit-col2">
-      
-      <select name="Relation"  required="required" oninput="changeBackgroundColor(this)">
-          <option value=""></option>      
-          <option value="sammlung"'.($lookuptype->Relation=='sammlung'?' selected':'').'>Sammlung</option>
-          <!-- ohne Musikstück --> 
-          <option value="satz"'.($lookuptype->Relation=='satz'?' selected':'').'>Satz</option>
-      </select>
-
+        
+        Type Key: <input type="text" name="type_key" value="'.$lookuptype->type_key.'" size="12" maxlength="80" required="required" oninput="changeBackgroundColor(this)"> 
+        Zeilen: <input type="text" name="selsize" value="'.$lookuptype->selsize.'" size="10" maxlength="80" required="required" oninput="changeBackgroundColor(this)"> 
+        
       </td>
-      </label>
     </tr> 
 
-    <tr>    
-      <label>
-      <td class="form-edit form-edit-col1">Type Key:</td>  
-      <td class="form-edit form-edit-col2"><input type="text" name="type_key" value="'.$lookuptype->type_key.'" size="45" maxlength="80" required="required" oninput="changeBackgroundColor(this)"> 
-      </td>
-      </label>
-    </tr> 
-
-    <tr>    
-      <label>
-      <td class="form-edit form-edit-col1">Auswahlbox Anzahl Zeilen:</td>  
-      <td class="form-edit form-edit-col2"><input type="text" name="selsize" value="'.$lookuptype->selsize.'" size="10" maxlength="80" required="required" oninput="changeBackgroundColor(this)"> 
-      </td>
-      </label>
-    </tr> 
 
     <tr> 
       <td class="form-edit form-edit-col1"></td> 
