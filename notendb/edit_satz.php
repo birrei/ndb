@@ -9,7 +9,7 @@ include('cl_html_info.php');
 
 echo '<h2>Satz bearbeiten</h2>'; 
 
-$satz=new Satz(); 
+
 $info= new HtmlInfo(); 
 
 $show_data=false; 
@@ -17,6 +17,7 @@ $show_data=false;
 if (isset($_REQUEST["option"])) {
   switch($_REQUEST["option"]) {
     case 'edit': // über "Bearbeiten"-Link
+      $satz=new Satz(); 
       $satz->ID=$_GET["ID"];
       if ($satz->load_row()) {
         $show_data=true;       
@@ -24,12 +25,14 @@ if (isset($_REQUEST["option"])) {
       break; 
 
     case 'insert': 
+      $satz=new Satz(); 
       $satz->MusikstueckID=$_GET["MusikstueckID"]; 
       $satz->insert_row('',''); 
       $show_data=true; 
       break; 
     
     case 'update': 
+      $satz=new Satz(); 
       $satz->ID = $_POST["ID"];    
       $satz->update_row(
         $_POST["Name"]
@@ -46,6 +49,18 @@ if (isset($_REQUEST["option"])) {
           ;
       $show_data=true;           
       break; 
+
+      case 'copy': 
+        $satz_ref=new Satz(); 
+        $satz_ref->ID=$_GET["ID"]; 
+        $satz_ref->copy2(); 
+        $satz=new Satz(); 
+        $satz->ID = $satz_ref->ID;
+        $satz->load_row(); 
+        echo 'Neue Satz ID: '.$satz->ID; 
+        $show_data=true; 
+      break; 
+            
   }
 }
 
@@ -187,9 +202,16 @@ if ($show_data) {
 
     </table> 
 
+    <p> <a href="edit_satz.php?ID=<?php echo $satz->ID; ?>&option=copy&title=Satz" target="_blank">Satz kopieren</a></p>
+
+
+
+
     <?php 
 
     $info->print_link_delete_row2($satz->table_name, $satz->ID, $satz->Title, false); 
+
+
 
 } 
 else {

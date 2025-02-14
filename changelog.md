@@ -3,6 +3,8 @@
 
 Next: Integration Schüler in Suche-Seite; Material > Besonderheiten  
 
+14.02.2025: Funktion "Satz kopieren" 
+
 08.02.2025: Korrektur Layout Suche (Bei Ausblenden der Filterspalte soll sich die Ergebenistabelle automatisch verbreitern )
 
 06.02.2025: Integration Material in Suche-Seite

@@ -509,6 +509,7 @@ class Satz {
   }
 
   function copy( $include_schwierigkeitsgrade=false, $include_lookups=false){
+    /* Satz eines musikstücks zu einem anderen Musistück kopieren (abweichende MusikstueckID) */
     include_once("dbconn/cl_db.php");
 
     echo '<p>Starte Kopie Satz ID '.$this->ID.'</p>';      
@@ -594,6 +595,149 @@ class Satz {
       $info->print_error($insert, $e);  
     }  
   }  
+
+  function copy2(){
+    /* Satz am Musikstück kopieren (gleiche MusikstueckID) */
+    include_once("dbconn/cl_db.php");
+
+    echo '<p>Starte Kopie Satz ID '.$this->ID.'</p>';      
+
+    $conn = new DbConn(); 
+    $db=$conn->db; 
+
+    $sql="
+        insert into satz (
+          MusikstueckID
+          , Name
+          , Tonart
+          , Taktart
+          , Tempobezeichnung
+          , Spieldauer
+          , Bemerkung
+          , Nr
+          , ErprobtID
+      )
+      select 
+          MusikstueckID 
+          , CONCAT(Name, ' (Kopie)') as Name 
+          , Tonart
+          , Taktart
+          , Tempobezeichnung
+          , Spieldauer
+          , Bemerkung
+          , Nr
+          , ErprobtID
+      from satz 
+      where ID=:ID ";
+
+    $insert = $db->prepare($sql); 
+    $insert->bindValue(':ID', $this->ID);  
+
+    try {
+      $insert->execute(); 
+
+      $ID_New = $db->lastInsertId();   
+      
+      $this->copy_schwierigkeitsgrade($ID_New ); 
+
+      $this->copy_lookups($ID_New ); 
+
+      $this->copy_schueler($ID_New );       
+
+      $this->copy_erprobte($ID_New );          
+
+      $this->ID = $ID_New; 
+
+      // echo '<p>Satz ID '.$this->ID.' wurde kopiert. Neue ID: '.$ID_New.'</p>';      
+      
+    }
+    catch (PDOException $e) {
+      include_once("cl_html_info.php"); 
+      $info = new HtmlInfo();      
+      $info->print_user_error(); 
+      $info->print_error($insert, $e);  
+    }  
+  }
+  
+  function copy_schwierigkeitsgrade($ID_new) {
+    include_once("dbconn/cl_db.php");
+    $conn = new DbConn(); 
+    $db=$conn->db; 
+
+    // schwierigkeitsgrade 
+    $sql="insert into satz_schwierigkeitsgrad
+          (SatzID, SchwierigkeitsgradID, InstrumentID) 
+    select :SatzID_new as SatzID
+          , SchwierigkeitsgradID
+          , InstrumentID
+    from satz_schwierigkeitsgrad 
+    where SatzID=:ID";
+
+    $insert = $db->prepare($sql); 
+    $insert->bindValue(':ID', $this->ID);  
+    $insert->bindValue(':SatzID_new', $ID_new);  
+    $insert->execute();  
+
+  }
+
+  function copy_erprobte($ID_new) {
+    include_once("dbconn/cl_db.php");
+    $conn = new DbConn(); 
+    $db=$conn->db; 
+
+    $sql="insert into satz_erprobt
+          (SatzID, ErprobtID, Jahr, Bemerkung) 
+    select :SatzID_new as SatzID
+          , ErprobtID
+          , Jahr
+          , Bemerkung
+    from satz_erprobt 
+    where SatzID=:ID";
+
+    $insert = $db->prepare($sql); 
+    $insert->bindValue(':ID', $this->ID);  
+    $insert->bindValue(':SatzID_new', $ID_new);  
+    $insert->execute();  
+
+  }
+
+  function copy_lookups($ID_new) {
+    include_once("dbconn/cl_db.php");
+    $conn = new DbConn(); 
+    $db=$conn->db; 
+
+    $sql="insert into satz_lookup
+          (SatzID, LookupID) 
+    select :SatzID_new as SatzID
+          , LookupID
+    from satz_lookup 
+    where SatzID=:ID";
+
+    $insert = $db->prepare($sql); 
+    $insert->bindValue(':ID', $this->ID);  
+    $insert->bindValue(':SatzID_new', $ID_new);  
+    $insert->execute();  
+
+  }
+
+  function copy_schueler($ID_new) {
+    include_once("dbconn/cl_db.php");
+    $conn = new DbConn(); 
+    $db=$conn->db; 
+
+    $sql="insert into schueler_satz
+          (SatzID, SchuelerID) 
+    select :SatzID_new as SatzID
+          , SchuelerID
+    from schueler_satz 
+    where SatzID=:ID";
+
+    $insert = $db->prepare($sql); 
+    $insert->bindValue(':ID', $this->ID);  
+    $insert->bindValue(':SatzID_new', $ID_new);  
+    $insert->execute();  
+
+  }
 
   function print_table_erprobte(){
     $query="SELECT satz_erprobt.ID 
