@@ -98,30 +98,7 @@ if (isset($_POST["form-sended"])){
                            
                 }
                 break; 
-      case 'sammlung-kopieren': 
-            if (!empty($_POST["SammlungID"])) {
-                include_once('cl_sammlung.php');                     
-                $SammlungID=$_POST["SammlungID"];             
-                $sammlung = new Sammlung(); 
-                $sammlung->ID=$SammlungID; 
-
-                $include_musikstuecke=(isset($_POST["include_musikstuecke"])?true:false);
-                $include_verwendungszwecke=(isset($_POST["include_verwendungszwecke"])?true:false);
-                $include_besetzung=(isset($_POST["include_besetzungen"])?true:false);
-                $include_saetze=(isset($_POST["include_saetze"])?true:false);
-                $include_satz_schwierigkeitgrad=(isset($_POST["include_schwierigkeitsgrade"])?true:false);      
-                $include_satz_lookup=(isset($_POST["include_satz_lookups"])?true:false);
-
-                $sammlung->copy(        
-                        $include_musikstuecke
-                        , $include_verwendungszwecke
-                        , $include_besetzung
-                        , $include_saetze  
-                        , $include_satz_schwierigkeitgrad        
-                        , $include_satz_lookup    
-                  );
-            }
-          break;   
+ 
       case 'sammlung-komponist': 
               if (!empty($_POST["SammlungID"]) & !empty($_POST["KomponistID"])) {
                   include_once('cl_sammlung.php');                     
@@ -152,7 +129,6 @@ echo '</pre>';
 <p> Aufgabe auswählen: 
 <select id="form-selected" name="form-selected" onchange="this.form.submit()">
   <option value="">Formular auswählen ... </option>
-  <option value="sammlung-kopieren" <?php echo ($form_selected=='sammlung-kopieren'?'selected':''); ?>>Sammlung kopieren</option>
   <option value="sammlung-verwendungszweck" <?php echo ($form_selected=='sammlung-verwendungszweck'?'selected':''); ?>>Sammlung: Verwendungszweck hinzufügen</option>                
   <option value="sammlung-besetzung" <?php echo ($form_selected=='sammlung-besetzung'?'selected':''); ?>>Sammlung: Besetzung hinzufügen</option>   
   <option value="sammlung-schwierigkeitsgrad" <?php echo ($form_selected=='sammlung-schwierigkeitsgrad'?'selected':''); ?>>Sammlung: Schwierigkeitsgrad hinzufügen</option>   
@@ -213,29 +189,6 @@ if ($form_selected!='') {
 
       break; 
 
-    case 'sammlung-kopieren': 
-      ?>
-      <h2> Sammlung kopieren </h2>
-      <form action="" method="post" name="sammlung-kopieren">    
-
-      <label> SammlungID: <input type="text" name="SammlungID" value="<?php echo $SammlungID; ?>" size="5" ></label><br />
-      <!-- noch XXX: besser: Checkbox-Gruppen  --> 
-      <input type="checkbox" name="include_musikstuecke" value="true" checked><label for="include_musikstuecke">Musikstücke einschließen</label><br>
-      <input type="checkbox" name="include_verwendungszwecke" checked><label for="include_verwendungszwecke">Verwendungszwecke einschließen</label><br>
-      <input type="checkbox" name="include_besetzungen" checked><label for="include_besetzungen">Besetzungen einschließen</label><br>
-      <input type="checkbox" name="include_saetze" checked><label for="include_saetze">Sätze einschließen</label><br>
-      <input type="checkbox" name="include_schwierigkeitsgrade" checked><label for="include_schwierigkeitsgrade">Schwierigkeitsgrade einschließen</label><br>
-      <input type="checkbox" name="include_satz_lookups" checked><label for="include_satz_lookups">Satz Besonderheiten einschließen</label><br>
-
-      <input class="btnSave" type="submit" name="submit" value="ausführen">    
-      <input type="hidden" name="form-sended" value="sammlung-kopieren">             
-      <input type="hidden" name="form-selected" value="<?php echo $form_selected; ?>">   
-
-      </form>
-
-      <?php 
-     
-      break; 
     case 'sammlung-besetzung': 
       ?>
 
