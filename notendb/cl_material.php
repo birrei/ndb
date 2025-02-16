@@ -43,7 +43,6 @@ class Material {
     }
   }  
 
-
   function update_row ($MaterialtypID, $Name, $Bemerkung, $SammlungID='') {
     include_once("dbconn/cl_db.php");
     $conn = new DbConn(); 
@@ -322,6 +321,76 @@ class Material {
     }
   }
 
+  function copy($SammlungID_New=0){
+    // SammlungID_New > 0 : Material Kopie zu Sammlung Kopie 
+    // SammlungID_New= 0: Material Kopie an gleicher Sammlung
+    // SammlungID_New=-1: Material-KOpie unabhängig von Sammlungs-Verknüpfnung  
+    include_once("dbconn/cl_db.php");
+    include_once("cl_satz.php");    
+
+    $conn = new DbConn(); 
+    $db=$conn->db; 
+
+
+    if ($SammlungID_New>0) {
+      $sql="INSERT INTO material (SammlungID, MaterialtypID, `Name`, Bemerkung) 
+            SELECT :SammlungID as SammlungID, MaterialtypID, `Name`, Bemerkung 
+            FROM material 
+            WHERE ID=:ID";
+    } elseif($SammlungID_New==0) {
+      $sql="INSERT INTO material (SammlungID, MaterialtypID, `Name`, Bemerkung) 
+            SELECT SammlungID, MaterialtypID, `Name`, Bemerkung 
+            FROM material 
+            WHERE ID=:ID";
+    } elseif($SammlungID_New<0) {
+      $sql="INSERT INTO material (MaterialtypID, `Name`, Bemerkung) 
+            SELECT MaterialtypID, `Name`, Bemerkung 
+            FROM material 
+            WHERE ID=:ID";
+    }
+
+    // echo '<pre>'.$sql.'</pre>'; // test 
+    
+    $insert = $db->prepare($sql); 
+    
+    $insert->bindValue(':ID', $this->ID);  
+    
+    if ($SammlungID_New>0) {
+      $insert->bindValue(':SammlungID', $SammlungID_New);  
+    }
+
+    try {
+      $insert->execute(); 
+      $ID_New = $db->lastInsertId();    
+        
+      $this->copy_schueler($ID_New); 
+    }
+    catch (PDOException $e) {
+      include_once("cl_html_info.php"); 
+      $info = new HtmlInfo();      
+      $info->print_user_error(); 
+      $info->print_error($insert, $e);  
+    }  
+  }
+
+  function copy_schueler($ID_new) {
+    include_once("dbconn/cl_db.php");
+    $conn = new DbConn(); 
+    $db=$conn->db; 
+
+    $sql="insert into schueler_material 
+          (MaterialID, SchuelerID) 
+    select :MaterialID as MaterialID
+          , SchuelerID
+    from schueler_material 
+    where MaterialID=:ID";
+
+    $insert = $db->prepare($sql); 
+    $insert->bindValue(':ID', $this->ID);  
+    $insert->bindValue(':MaterialID', $ID_new);  
+    $insert->execute();  
+
+  }
 
 }
 

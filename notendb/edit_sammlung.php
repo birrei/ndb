@@ -8,6 +8,8 @@ include("cl_html_info.php");
 
 $sammlung = new Sammlung();
 
+$info= new HtmlInfo(); 
+
 $show_data=false; 
 
 if (isset($_REQUEST["option"])) {
@@ -37,10 +39,20 @@ if (isset($_REQUEST["option"])) {
       ); 
       $show_data=true;           
       break; 
+
+      case 'copy': 
+        $ID_ref=$_REQUEST["ID"]; 
+        $sammlung->ID=$ID_ref; 
+        $sammlung->copy();   
+        $sammlung->load_row();       
+        $info->print_info_copy($sammlung->Title, $ID_ref, $sammlung->ID, 'edit_sammlung'); 
+        $show_data=true; 
+      break; 
+
   }
 }
 
-$info= new HtmlInfo(); 
+
 
 $info->print_screen_header($sammlung->Title.' bearbeiten'); 
 $info->print_link_table('v_sammlung', 'sortcol=ID&sortorder=DESC', $sammlung->Titles,false,'&show_filter'); 
@@ -117,7 +129,8 @@ if ($show_data) {
 
     <tr> 
       <td class="form-edit form-edit-col1"></td> 
-      <td class="form-edit form-edit-col2"><input class="btnSave" type="submit" name="senden" value="Speichern">     
+      <td class="form-edit form-edit-col2">
+        <input class="btnSave" type="submit" name="senden" value="Speichern">     
       
     </td>
 
@@ -146,9 +159,6 @@ if ($show_data) {
             <iframe src="edit_sammlung_materials.php?SammlungID='.$sammlung->ID.'"  height="150" name="material" class="form-iframe-var2"></iframe>
       </td>
       </tr> 
-
-
-      
     ';
 
     ?>
@@ -169,19 +179,26 @@ if ($show_data) {
     <?php 
     echo 
     '      
-
-
-
-
-
     </table>
+
 
 
   '; 
  
   $info->print_link_delete_row2($sammlung->table_name, $sammlung->ID, $sammlung->Title, false);   
 
+
+  echo '<p> <form action="edit_sammlung.php" method="post">
+        <input type="hidden" name="ID" value="' . $sammlung->ID. '">
+        <input type="hidden" name="option" value="copy">      
+        <input type="hidden" name="title" value="Sammlung"> 
+        <input type="submit" name="senden" value="Sammlung kopieren">             
+    </form></p>
+  '; 
+
   echo '<p><a href=dataclearing.php?SammlungID='.$sammlung->ID.' target="_blank">Sammel-Updates</a><p>'; 
+
+
 } 
 else {
     $info->print_user_error(); 

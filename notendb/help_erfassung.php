@@ -27,6 +27,16 @@ include('head.php');
             
         <p> Hinweis: Die Datenprüfungen unter <a href="tests.php?title=Tests">Tests</a> enthalten nur Abfragen auf vollständig erfasste Sammlungen. </p>
         .... 
+    <h3 class="chapter-title chapter-title-h3" id="erfassung_sammlung_kopieren">Sammlung: kopieren</h3>
+
+        <p>Button "Sammlung kopieren": Die Sammlung inklusive  aller Eigenschaften und Untereinheiten 
+            wird kopiert. Die Kopie wird im aktuellen Formular geöffnet. Am Zusatz  
+            " (Kopie)" im Feld "Name" ist die Kopie erkennbar. 
+            Im Seitenkopf erscheint ein Hinweis auf den Kopiervorgang (Neue ID, alte ID mit Link).
+            Über den Link kann bei Bedarf die Quelle in neuem Fenster geöffnet werden.  
+            
+            
+        </p>
 
 <h2 class="chapter-title chapter-title-h2" id="erfassung_musikstueck">Musikstück</h2>
     <h3 class="chapter-title chapter-title-h3" id="erfassung_musikstueck_nummer">Musikstück: Nummer</h3>
@@ -53,6 +63,16 @@ include('head.php');
         <p>XXX </p>
 
 
+    <h3 class="chapter-title chapter-title-h3" id="erfassung_musikstueck_kopieren">Musikstueck: kopieren</h3>
+
+        <p>Button "Musikstück kopieren": Die Sammlung inklusive  aller Eigenschaften und Untereinheiten 
+            wird kopiert. Die Kopie wird im aktuellen Formular geöffnet. Am Zusatz  
+            " (Kopie)" im Feld "Name" ist die Kopie erkennbar. 
+            Im Seitenkopf erscheint ein Hinweis auf den Kopiervorgang (Neue ID, alte ID mit Link).
+            Über den Link kann bei Bedarf die Quelle in neuem Fenster geöffnet werden.  
+            
+            
+        </p>
 
    
     <!-- <h3 class="chapter-title chapter-title-h3" id="erfassung_musikstueck_verwendungszweck">Musikstück: Verwendungszwecke</h3>    -->
@@ -97,7 +117,16 @@ include('head.php');
         </p>
         <p>Die erfassten Zuordnungen sind auch über das Formular "Schüler"  (<a href="#erfassung_schueler_noten">Schüler: Verknüpfte Noten</a>) sichtbar. </p>
 
-           
+    <h3 class="chapter-title chapter-title-h3" id="erfassung_satz_kopieren">Satz: kopieren</h3>
+
+        <p>Button "Satz kopieren": Die Sammlung inklusive  aller Eigenschaften und Untereinheiten 
+            wird kopiert. Die Kopie wird im aktuellen Formular geöffnet. Am Zusatz  
+            " (Kopie)" im Feld "Name" ist die Kopie erkennbar. 
+            Im Seitenkopf erscheint ein Hinweis auf den Kopiervorgang (Neue ID, alte ID mit Link).
+            Über den Link kann bei Bedarf die Quelle in neuem Fenster geöffnet werden.  
+            
+            
+        </p>           
 <h2 class="chapter-title chapter-title-h2" id="erfassung_material">Material</h2>
     <p> Materialien können zu einer Sammlung, aber auch unabhängig von einer Sammlung angelegt werden. </p>
     <p> Felder: 

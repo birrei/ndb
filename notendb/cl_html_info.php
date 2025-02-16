@@ -22,7 +22,7 @@ class HtmlInfo {
     }
 
     function print_info($info) {
-        $this->html='<p style="font-family: Courier;">'; 
+        $this->html='<p class="info">'; 
         $this->html.=$this->info_datetime.': '.$info;         
         $this->html.='</p>'.PHP_EOL; 
         echo $this->html;    
@@ -120,6 +120,14 @@ class HtmlInfo {
     function print_screen_header($header_text, $suffix='') {
         echo '<span style="font-size:15pt;font-weight:bold;padding-top: 10px;margin-right: 20px;">'.$header_text.($suffix!=''?$suffix:'').'</span>';
 
+    }
+
+    function print_info_copy ($item_name, $ID_ref, $ID_new, $target_filename) {
+        /* INfo/Link, der nach einem Kopiervorgang angezeigt wird  */
+        $html='<p class="info"> &#9432; Neue '.$item_name.' ID: '.$ID_new
+        .' (kopiert von <a href="'.$target_filename.'.php?ID='
+        .$ID_ref.'&option=edit&title='.$item_name.'" target="_blank">'.$item_name.' ID '.$ID_ref.'</a>)</p>'; 
+        echo $html; 
     }
 
     // function print_action_info($ID, $action_name){

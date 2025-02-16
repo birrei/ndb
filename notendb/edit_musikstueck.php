@@ -12,6 +12,7 @@ $show_data=false;
 
 $musikstueck = new Musikstueck();
 
+$info= new HtmlInfo(); 
 
 if (isset($_REQUEST["option"])) {
   switch($_REQUEST["option"]) {
@@ -41,14 +42,19 @@ if (isset($_REQUEST["option"])) {
             );
       $show_data=true;           
       break; 
+
+    case 'copy': 
+      $ID_ref=$_REQUEST["ID"]; 
+      $musikstueck->ID=$ID_ref; 
+      $musikstueck->copy();   
+      $musikstueck->load_row();       
+      $info->print_info_copy($musikstueck->Title, $ID_ref, $musikstueck->ID, 'edit_satz'); 
+      $show_data=true; 
+      break;       
   }
 }
 
-$info= new HtmlInfo(); 
-
-
 $info->print_screen_header($musikstueck->Title.' bearbeiten'); 
-
 
 if ($show_data) {
     
@@ -161,20 +167,12 @@ if ($show_data) {
     <td class="form-edit form-edit-col2"><input class="btnSave" type="submit" name="senden" value="Speichern">
   </td>
   </tr> 
-
       <input type="hidden" name="ID" value="' . $musikstueck->ID. '">
       <input type="hidden" name="option" value="update">      
       <input type="hidden" name="title" value="Musikstueck">  
     </form>
-    
-
-
-    
-
     ';
-
     ?>
-   
    <tr> 
       <td class="form-edit form-edit-col1">Daten anzeigen: <br /> <br />
         <input type="radio" id="Verwendungszwecke" name="target_form" value="Verwendungszwecke" onclick="changeIframeSrc('subform1', 'edit_musikstueck_verwendungszwecke.php?MusikstueckID=<?php echo $musikstueck->ID; ?>');" checked>
@@ -200,12 +198,18 @@ if ($show_data) {
       <td class="form-edit form-edit-col2"><iframe src="edit_musikstueck_saetze.php?MusikstueckID='.$musikstueck->ID.'" height="200" name="Saetze" class="form-iframe-var2"></iframe>
     </td>
     </tr> 
-                
-
-
   </table> 
 
-  '; 
+  ';
+  
+  echo '<p> 
+  <form action="edit_musikstueck.php" method="post">
+      <input type="hidden" name="ID" value="' . $musikstueck->ID. '">
+      <input type="hidden" name="option" value="copy">      
+      <input type="hidden" name="title" value="Musikstueck"> 
+      <input type="submit" name="senden" value="Musikstück kopieren">             
+  </form></p> '; 
+
   $info->print_link_delete_row2($musikstueck->table_name, $musikstueck->ID, $musikstueck->Title, false);   
 } 
 else {

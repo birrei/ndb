@@ -20,6 +20,7 @@ class Sammlung {
     $this->table_name='sammlung'; 
   }
 
+
   function insert_row($Name) {         
     include_once("dbconn/cl_db.php");
 
@@ -27,7 +28,7 @@ class Sammlung {
     $db=$conn->db; 
 
     $insert = $db->prepare("INSERT INTO `sammlung` SET
-                          `Name`     = :Name");
+                             `Name`     = :Name");
 
     $insert->bindValue(':Name', $Name);
 
@@ -449,76 +450,88 @@ class Sammlung {
     }  
   }
 
-  function copy(
-        $include_musikstuecke=false
-        , $include_verwendungszwecke=false
-        , $include_besetzung=false
-        , $include_saetze=false  
-        , $include_satz_schwierigkeitgrad=false        
-        , $include_satz_lookup=false                        
-        , 
-      ){
+  function copy(){
 
     include_once("dbconn/cl_db.php");
     include_once('cl_musikstueck.php'); 
-
-    
-    echo '<p>Starte Kopie Sammlung ID '.$this->ID.'</p>';      
+    include_once('cl_material.php');     
+    include_once("cl_html_info.php"); 
 
     $conn = new DbConn(); 
     $db=$conn->db; 
 
-    $sql="
-      INSERT INTO sammlung (Name, VerlagID, StandortID, Bemerkung)
-      SELECT CONCAT(Name, ' (Kopie)') as Name , VerlagID, StandortID, Bemerkung
-      from sammlung 
-      where ID=:ID 
-    ";
+    $sql="INSERT INTO sammlung (Name, VerlagID, StandortID, Bemerkung)
+          SELECT CONCAT(Name, ' (Kopie)') as Name , VerlagID, StandortID, Bemerkung
+          FROM sammlung 
+          WHERE ID=:ID ";
+
     $insert = $db->prepare($sql); 
     $insert->bindValue(':ID', $this->ID);  
 
     try {
       $insert->execute(); 
       $ID_New = $db->lastInsertId();    
-  
-      echo '<p>Sammlung Kopie ID: '.$ID_New.'</p>';        
       
-      if ($include_musikstuecke) {
-        // musikstücke kopieren 
-        $select = $db->prepare("SELECT ID  
-        FROM `musikstueck` 
-        WHERE SammlungID=:ID"); 
+      /** Musikstücke kopieren  */
+      $select = $db->prepare("SELECT ID  FROM `musikstueck` WHERE SammlungID=:ID"); 
 
-        $select->bindValue(':ID', $this->ID);  
+      $select->bindValue(':ID', $this->ID);  
 
-        $select->execute(); 
+      $select->execute(); 
 
-        $res = $select->fetchAll(PDO::FETCH_ASSOC);
+      $res = $select->fetchAll(PDO::FETCH_ASSOC);
 
-        // echo '<p>Anzahl Musikstücke: '.count($res); 
-
-        foreach ($res as $row=>$value) {
-          $musikstueck = new Musikstueck(); 
-          $musikstueck->ID = $value["ID"]; 
-          $musikstueck->SammlungID = $ID_New; 
-          $musikstueck->copy(
-             $include_verwendungszwecke
-            , $include_besetzung
-            , $include_saetze  
-            , $include_satz_schwierigkeitgrad        
-            , $include_satz_lookup  
-          );  
-        }
-        echo '<p>Musikstücke wurden kopiert.</p>';              
+      foreach ($res as $row=>$value) {
+        $musikstueck = new Musikstueck(); 
+        $musikstueck->ID = $value["ID"]; 
+        $musikstueck->copy($ID_New );  
       }
+
+      /*** Materialien kopieren ***/
+      $select = $db->prepare("SELECT ID  FROM `material` WHERE SammlungID=:ID"); 
+
+      $select->bindValue(':ID', $this->ID);  
+
+      $select->execute(); 
+
+      $res = $select->fetchAll(PDO::FETCH_ASSOC);
+
+      foreach ($res as $row=>$value) {
+        $material = new Material(); 
+        $material->ID = $value["ID"]; 
+        $material->copy($ID_New );  
+      }
+
+      /*** Besonderheiten kopieren ***/
+      $this->copy_lookups($ID_New); 
+
+      $this->ID =  $ID_New; // Stabübergabe (Objekt-Instanz übernimmt neue ID-Kopie )
     }
     catch (PDOException $e) {
-      include_once("cl_html_info.php"); 
       $info = new HtmlInfo();      
       $info->print_user_error(); 
       $info->print_error($insert, $e);  
     }  
   }  
+
+  function copy_lookups($ID_new) {
+    include_once("dbconn/cl_db.php");
+    $conn = new DbConn(); 
+    $db=$conn->db; 
+
+    $sql="insert into sammlung_lookup
+          (SammlungID, LookupID) 
+    select :SammlungID as SammlungID
+          , LookupID
+    from sammlung_lookup 
+    where SammlungID=:ID";
+
+    $insert = $db->prepare($sql); 
+    $insert->bindValue(':ID', $this->ID);  
+    $insert->bindValue(':SammlungID', $ID_new);  
+    $insert->execute();  
+
+  }
 
   function add_besetzung($BesetzungID){
     // dataclearing: Besetzung bei allen Musikstücken ergänzen  

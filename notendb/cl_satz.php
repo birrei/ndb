@@ -508,11 +508,11 @@ class Satz {
     }  
   }
 
-  function copy( $include_schwierigkeitsgrade=false, $include_lookups=false){
+  function copy_alt( $include_schwierigkeitsgrade=false, $include_lookups=false){
     /* Satz eines musikstücks zu einem anderen Musistück kopieren (abweichende MusikstueckID) */
     include_once("dbconn/cl_db.php");
 
-    echo '<p>Starte Kopie Satz ID '.$this->ID.'</p>';      
+    // echo '<p>Starte Kopie Satz ID '.$this->ID.'</p>';      
 
     $conn = new DbConn(); 
     $db=$conn->db; 
@@ -528,6 +528,7 @@ class Satz {
           , Bemerkung
           , Nr
           , ErprobtID
+          , Orchesterbesetzung            
       )
       select 
           :MusikstueckID as MusikstueckID
@@ -539,6 +540,7 @@ class Satz {
           , Bemerkung
           , Nr
           , ErprobtID
+          , Orchesterbesetzung            
       from satz 
       where ID=:ID 
     ";
@@ -581,7 +583,7 @@ class Satz {
         $insert->bindValue(':ID', $this->ID);  
         $insert->bindValue(':SatzID_new', $ID_New);  
         $insert->execute();  
-        echo '<p>Besonderheiten wurden kopiert.</p>';             
+        // echo '<p>Besonderheiten wurden kopiert.</p>';             
       
       }
 
@@ -596,19 +598,19 @@ class Satz {
     }  
   }  
 
-  function copy2(){
-    /* Satz am Musikstück kopieren (gleiche MusikstueckID) */
+  function copy($MusikstueckID_New=0){
+    /* MusikstueckID_New= 0: Kopie von Satz an vorhandenem Musikstück 
+       MusikstueckID_New> 0: Kopie von Satz an Kopie von Musikstück 
+     */
     include_once("dbconn/cl_db.php");
-
-    echo '<p>Starte Kopie Satz ID '.$this->ID.'</p>';      
 
     $conn = new DbConn(); 
     $db=$conn->db; 
 
     $sql="
-        insert into satz (
-          MusikstueckID
-          , Name
+        INSERT INTO satz (
+          Name
+          , MusikstueckID
           , Tonart
           , Taktart
           , Tempobezeichnung
@@ -616,10 +618,11 @@ class Satz {
           , Bemerkung
           , Nr
           , ErprobtID
+          , Orchesterbesetzung  
       )
-      select 
-          MusikstueckID 
-          , CONCAT(Name, ' (Kopie)') as Name 
+      SELECT 
+         ".($MusikstueckID_New>0?"Name":"CONCAT(Name, ' (Kopie)') as Name")." 
+         , ".($MusikstueckID_New>0?':MusikstueckID':'MusikstueckID')." as MusikstueckID    
           , Tonart
           , Taktart
           , Tempobezeichnung
@@ -627,11 +630,15 @@ class Satz {
           , Bemerkung
           , Nr
           , ErprobtID
-      from satz 
-      where ID=:ID ";
+          , Orchesterbesetzung            
+      FROM satz 
+      WHERE ID=:ID ";
 
     $insert = $db->prepare($sql); 
     $insert->bindValue(':ID', $this->ID);  
+    if ($MusikstueckID_New>0) {
+      $insert->bindValue(':MusikstueckID', $MusikstueckID_New);  
+    }
 
     try {
       $insert->execute(); 
@@ -642,14 +649,12 @@ class Satz {
 
       $this->copy_lookups($ID_New ); 
 
-      $this->copy_schueler($ID_New );       
-
-      $this->copy_erprobte($ID_New );          
+      $this->copy_erprobte($ID_New );       
+      
+      $this->copy_schueler($ID_New );      
 
       $this->ID = $ID_New; 
 
-      // echo '<p>Satz ID '.$this->ID.' wurde kopiert. Neue ID: '.$ID_New.'</p>';      
-      
     }
     catch (PDOException $e) {
       include_once("cl_html_info.php"); 
