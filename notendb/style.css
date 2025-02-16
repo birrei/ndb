@@ -17,6 +17,10 @@ p.draft {
     color: darkgrey;
 }
 
+p.info {
+    color: darkgreen; 
+}
+
 /***** Start  ****************/
     div.start {
         /* background-color: aquamarine; */
