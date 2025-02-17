@@ -842,10 +842,11 @@ if (isset($_POST['suchtext'])) {
         case 'Musikstueck': 
           $query.=" ORDER BY standort.Name, sammlung.Name, musikstueck.Nummer". PHP_EOL;         
           break; 
+        case 'Satz Besonderheiten':           
         case 'Satz': 
           $query.=" ORDER BY standort.Name, sammlung.Name, musikstueck.Nummer, satz.Nr". PHP_EOL;           
           break;      
-        case 'Satz': 
+        case 'Material': 
           $query.=" ORDER BY sammlung.Name, material.Name ". PHP_EOL;           
           break;             
       }
