@@ -8,7 +8,8 @@ class Abfragetyp {
   public $titles_selected_list; 
   public $Title='Abfragetyp';
   public $Titles='Abfragetypen';  
-
+  public string $infotext=''; 
+  
   public function __construct(){
     $this->table_name='abfragetyp'; 
   }

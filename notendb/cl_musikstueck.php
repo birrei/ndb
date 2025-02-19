@@ -485,8 +485,7 @@ class Musikstueck {
   }
 
   function delete_saetze(){
-    // echo '<p> delete_saetze von Musikstueck ID: '.$this->ID; 
-    
+
     include_once("dbconn/cl_db.php");
     include_once('cl_satz.php'); 
 
@@ -502,10 +501,7 @@ class Musikstueck {
 
     $res = $select->fetchAll(PDO::FETCH_ASSOC);
 
-    echo '<p>Anzahl Sätze: '.count($res); 
-
     foreach ($res as $row=>$value) {
-      echo '<p>Lösche Satz ID: '.$value["ID"];
       $satz = new Satz(); 
       $satz->ID = $value["ID"]; 
       $satz->delete();  
@@ -516,7 +512,6 @@ class Musikstueck {
     include_once("dbconn/cl_db.php");
     $conn = new DbConn(); 
     $db=$conn->db; 
-    // echo '<p>lösche Musikstück ID:'.$this->ID.':</p>';
     $this->delete_verwendungszwecke();   
     $this->delete_besetzungen();
     $this->delete_saetze();      
@@ -526,7 +521,6 @@ class Musikstueck {
 
     try {
       $delete->execute(); 
-      echo '<p>Das Musikstück wurde gelöscht.</p>';    
       return true;          
     }
     catch (PDOException $e) {

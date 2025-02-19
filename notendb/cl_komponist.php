@@ -14,7 +14,8 @@ class Komponist {
   public $titles_selected_list; 
   public $Title='Komponist';
   public $Titles='Komponisten';  
-
+  public string $infotext=''; 
+  
   public function __construct(){
     $this->table_name='komponist'; 
   }

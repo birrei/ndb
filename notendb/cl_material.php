@@ -12,6 +12,10 @@ class Material {
   public $Title='Material';
   public $Titles='Materialien';  
 
+  public int $anzahl_schueler=0; 
+
+  public string $infotext=''; 
+
   public function __construct(){
     $this->table_name='material'; 
   }
@@ -106,23 +110,56 @@ class Material {
     }  
   }  
 
-  function delete(){
+  function delete_schuelers(){
     include_once("dbconn/cl_db.php");
     $conn = new DbConn(); 
     $db=$conn->db; 
-    // echo '<p>Lösche Material ID: '.$this->ID.':</p>';
- 
-    $select = $db->prepare("SELECT * from schueler_material WHERE MaterialID=:ID");
+
+    $delete = $db->prepare("DELETE FROM `schueler_material` WHERE MaterialID=:ID"); 
+    $delete->bindValue(':ID', $this->ID);  
+
+    try {
+      $delete->execute(); 
+    }
+    catch (PDOException $e) {
+      include_once("cl_html_info.php"); 
+      $info = new HtmlInfo();      
+      $info->print_user_error(); 
+      $info->print_error($delete, $e);  
+    }  
+  }
+
+  function count_schueler() {
+    include_once("dbconn/cl_db.php");
+    $conn = new DbConn(); 
+    $db=$conn->db;  
+
+    $select = $db->prepare("SELECT ID from schueler_material WHERE MaterialID=:ID");
     $select->bindValue(':ID', $this->ID); 
     $select->execute();  
-    if ($select->rowCount() > 0 ){
-      $this->load_row(); 
-      echo '<p>Der Material-Eintrag ID '.$this->ID.' "'.$this->Name.'" 
-        kann nicht gelöscht werden, da noch eine Zuordnung auf '.$select->rowCount().' 
-        Schüler existiert. </p>';   
-      return false;            
+
+    $this->anzahl_schueler= $select->rowCount();  
+
+  }
+
+  function is_deletable() {
+    $this->infotext=''; 
+    $this->count_schueler(); 
+    if ( $this->anzahl_schueler > 0 ) {
+      $this->infotext.='Das Material ist nicht löschbar, da '.$this->anzahl_schueler.' Schüler verknüpft sind.'; 
+      return false; 
     }
-     
+    return true; 
+  }
+
+  function delete(){
+
+    include_once("dbconn/cl_db.php");
+    $conn = new DbConn(); 
+    $db=$conn->db;       
+
+    $this->delete_schuelers(); 
+
     $delete = $db->prepare("DELETE FROM `material` WHERE ID=:ID"); 
     $delete->bindValue(':ID', $this->ID);  
 
@@ -138,7 +175,7 @@ class Material {
       $info->print_error($delete, $e);  
       return false ; 
     }  
-  }  
+  }   
 
   function insert_material_tmp ($URL, $Title) {
     include_once("dbconn/cl_db.php");

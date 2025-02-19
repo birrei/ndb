@@ -8,7 +8,8 @@ class Besetzung {
 
   public $titles_selected_list; 
   public $Title='Besetzung';
-  public $Titles='Besetzungen';  
+  public $Titles='Besetzungen'; 
+  public string $infotext='';  
 
   public function __construct(){
     $this->table_name='besetzung'; 

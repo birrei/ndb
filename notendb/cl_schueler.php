@@ -10,7 +10,8 @@ class Schueler {
   public $Title='Schüler';
   public $Titles='Schüler';  
   public $Ref = ''; // "Satz" oder "Material" 
-
+  public string $infotext=''; 
+  
   public function __construct(){
     $this->table_name='schueler'; 
   }

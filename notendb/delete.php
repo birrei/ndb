@@ -19,22 +19,22 @@ $iframe_parent_ID=''; // ID Parent-Screen - Wert
 /*************************** */
 
 switch($table) {
-  case 'sammlung': 
-    include_once('cl_sammlung.php');
-    $objekt = new Sammlung(); 
-    break;   
+  // case 'sammlung': 
+  //   include_once('cl_sammlung.php');
+  //   $objekt = new Sammlung(); 
+  //   break;   
      
-  case 'musikstueck': 
-    include_once('cl_musikstueck.php');
-    $objekt = new Musikstueck(); 
-    $show_link_table=false;     
-    break; 
+  // case 'musikstueck': 
+  //   include_once('cl_musikstueck.php');
+  //   $objekt = new Musikstueck(); 
+  //   $show_link_table=false;     
+  //   break; 
 
-  case 'satz': 
-    include_once('cl_satz.php');
-    $objekt = new Satz(); 
-    $show_link_table=false;         
-    break;      
+  // case 'satz': 
+  //   include_once('cl_satz.php');
+  //   $objekt = new Satz(); 
+  //   $show_link_table=false;         
+  //   break;      
   // ------------------------
 
   case 'standort': 
@@ -145,11 +145,11 @@ switch($table) {
     $tablelink_table='materialtyp'; 
     break; 
 
-  case 'material': 
-    include_once('cl_material.php');
-    $objekt = new Material();     
-    $tablelink_table='v_material'; 
-    break;     
+  // case 'material': 
+  //   include_once('cl_material.php');
+  //   $objekt = new Material();     
+  //   $tablelink_table='v_material'; 
+  //   break;     
       
 }
 

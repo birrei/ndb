@@ -384,7 +384,7 @@ class Satz {
 
     try {
       $delete->execute(); 
-      echo '<p>Der Satz wurde gelöscht. </p>';  
+      // echo '<p>Der Satz wurde gelöscht. </p>';  
       return true;                
     }
     catch (PDOException $e) {
@@ -508,95 +508,96 @@ class Satz {
     }  
   }
 
-  function copy_alt( $include_schwierigkeitsgrade=false, $include_lookups=false){
-    /* Satz eines musikstücks zu einem anderen Musistück kopieren (abweichende MusikstueckID) */
-    include_once("dbconn/cl_db.php");
+  // XXX Löschen: 
+  // function copy_alt( $include_schwierigkeitsgrade=false, $include_lookups=false){
+  //   /* Satz eines musikstücks zu einem anderen Musistück kopieren (abweichende MusikstueckID) */
+  //   include_once("dbconn/cl_db.php");
 
-    // echo '<p>Starte Kopie Satz ID '.$this->ID.'</p>';      
+  //   // echo '<p>Starte Kopie Satz ID '.$this->ID.'</p>';      
 
-    $conn = new DbConn(); 
-    $db=$conn->db; 
+  //   $conn = new DbConn(); 
+  //   $db=$conn->db; 
 
-    $sql="
-        insert into satz (
-          MusikstueckID
-          , Name
-          , Tonart
-          , Taktart
-          , Tempobezeichnung
-          , Spieldauer
-          , Bemerkung
-          , Nr
-          , ErprobtID
-          , Orchesterbesetzung            
-      )
-      select 
-          :MusikstueckID as MusikstueckID
-          , Name
-          , Tonart
-          , Taktart
-          , Tempobezeichnung
-          , Spieldauer
-          , Bemerkung
-          , Nr
-          , ErprobtID
-          , Orchesterbesetzung            
-      from satz 
-      where ID=:ID 
-    ";
-    $insert = $db->prepare($sql); 
-    $insert->bindValue(':ID', $this->ID);  
-    $insert->bindValue(':MusikstueckID', $this->MusikstueckID);  
+  //   $sql="
+  //       insert into satz (
+  //         MusikstueckID
+  //         , Name
+  //         , Tonart
+  //         , Taktart
+  //         , Tempobezeichnung
+  //         , Spieldauer
+  //         , Bemerkung
+  //         , Nr
+  //         , ErprobtID
+  //         , Orchesterbesetzung            
+  //     )
+  //     select 
+  //         :MusikstueckID as MusikstueckID
+  //         , Name
+  //         , Tonart
+  //         , Taktart
+  //         , Tempobezeichnung
+  //         , Spieldauer
+  //         , Bemerkung
+  //         , Nr
+  //         , ErprobtID
+  //         , Orchesterbesetzung            
+  //     from satz 
+  //     where ID=:ID 
+  //   ";
+  //   $insert = $db->prepare($sql); 
+  //   $insert->bindValue(':ID', $this->ID);  
+  //   $insert->bindValue(':MusikstueckID', $this->MusikstueckID);  
     
 
-    try {
-      $insert->execute(); 
-      $ID_New = $db->lastInsertId();    
+  //   try {
+  //     $insert->execute(); 
+  //     $ID_New = $db->lastInsertId();    
 
-      if ($include_schwierigkeitsgrade) {
-        // schwierigkeitsgrade 
-        $sql="insert into satz_schwierigkeitsgrad
-                  (SatzID, SchwierigkeitsgradID, InstrumentID) 
-            select :SatzID_new as SatzID
-                  , SchwierigkeitsgradID
-                  , InstrumentID
-            from satz_schwierigkeitsgrad 
-            where SatzID=:ID";
+  //     if ($include_schwierigkeitsgrade) {
+  //       // schwierigkeitsgrade 
+  //       $sql="insert into satz_schwierigkeitsgrad
+  //                 (SatzID, SchwierigkeitsgradID, InstrumentID) 
+  //           select :SatzID_new as SatzID
+  //                 , SchwierigkeitsgradID
+  //                 , InstrumentID
+  //           from satz_schwierigkeitsgrad 
+  //           where SatzID=:ID";
 
-        $insert = $db->prepare($sql); 
-        $insert->bindValue(':ID', $this->ID);  
-        $insert->bindValue(':SatzID_new', $ID_New);  
-        $insert->execute();  
-        echo '<p>Schwierigkeitsgrade wurden kopiert.</p>';              
-      }
+  //       $insert = $db->prepare($sql); 
+  //       $insert->bindValue(':ID', $this->ID);  
+  //       $insert->bindValue(':SatzID_new', $ID_New);  
+  //       $insert->execute();  
+  //       echo '<p>Schwierigkeitsgrade wurden kopiert.</p>';              
+  //     }
 
-      if ($include_lookups) {
-        // lookups (Besonderheiten)
-        $sql="insert into satz_lookup
-                  (SatzID, LookupID) 
-            select :SatzID_new as SatzID
-                  , LookupID
-            from satz_lookup 
-            where SatzID=:ID";
+  //     if ($include_lookups) {
+  //       // lookups (Besonderheiten)
+  //       $sql="insert into satz_lookup
+  //                 (SatzID, LookupID) 
+  //           select :SatzID_new as SatzID
+  //                 , LookupID
+  //           from satz_lookup 
+  //           where SatzID=:ID";
 
-        $insert = $db->prepare($sql); 
-        $insert->bindValue(':ID', $this->ID);  
-        $insert->bindValue(':SatzID_new', $ID_New);  
-        $insert->execute();  
-        // echo '<p>Besonderheiten wurden kopiert.</p>';             
+  //       $insert = $db->prepare($sql); 
+  //       $insert->bindValue(':ID', $this->ID);  
+  //       $insert->bindValue(':SatzID_new', $ID_New);  
+  //       $insert->execute();  
+  //       // echo '<p>Besonderheiten wurden kopiert.</p>';             
       
-      }
+  //     }
 
-      echo '<p>Satz ID '.$this->ID.' wurde kopiert. Neue ID: '.$ID_New.'</p>';      
+  //     echo '<p>Satz ID '.$this->ID.' wurde kopiert. Neue ID: '.$ID_New.'</p>';      
       
-    }
-    catch (PDOException $e) {
-      include_once("cl_html_info.php"); 
-      $info = new HtmlInfo();      
-      $info->print_user_error(); 
-      $info->print_error($insert, $e);  
-    }  
-  }  
+  //   }
+  //   catch (PDOException $e) {
+  //     include_once("cl_html_info.php"); 
+  //     $info = new HtmlInfo();      
+  //     $info->print_user_error(); 
+  //     $info->print_error($insert, $e);  
+  //   }  
+  // }  
 
   function copy($MusikstueckID_New=0){
     /* MusikstueckID_New= 0: Kopie von Satz an vorhandenem Musikstück 

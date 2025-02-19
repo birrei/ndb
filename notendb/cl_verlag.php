@@ -10,7 +10,8 @@
   public $titles_selected_list; 
   public $Title='Verlag';
   public $Titles='Verlage';  
-
+  public string $infotext=''; 
+  
   public function __construct(){
     $this->table_name='verlag'; 
   }

@@ -14,12 +14,13 @@ class Sammlung {
   public $Title='Sammlung';
   public $Titles='Sammlungen';  
 
-  public $mode=1; // bezug dml:  1: nur Sammlung, 2: inkl. Musikstücke +  Sätze
+  public int $anzahl_musikstuecke=0; 
+  public int $anzahl_materials=0; 
+  public int $anzahl_anzahl_links=0; 
 
   public function __construct(){
     $this->table_name='sammlung'; 
   }
-
 
   function insert_row($Name) {         
     include_once("dbconn/cl_db.php");
@@ -279,84 +280,6 @@ class Sammlung {
     }
   }
   
-  function delete_musikstuecke(){
-    include_once("dbconn/cl_db.php");
-    include_once('cl_musikstueck.php'); 
-
-    $conn = new DbConn(); 
-    $db=$conn->db; 
-
-    $select = $db->prepare("SELECT ID  
-                           FROM `musikstueck` 
-                           WHERE SammlungID=:ID"); 
-    $select->bindValue(':ID', $this->ID);  
-
-    $select->execute(); 
-
-    $res = $select->fetchAll(PDO::FETCH_ASSOC);
-
-    echo '<p>Anzahl Musikstücke: '.count($res); 
-
-    foreach ($res as $row=>$value) {
-      echo '<p>Lösche  Musikstück ID: '.$value["ID"];
-      $musikstueck = new Musikstueck(); 
-      $musikstueck->ID = $value["ID"]; 
-      $musikstueck->delete();  
-    }
-  }
-
-  function delete_links(){
-    include_once("dbconn/cl_db.php");
-    include_once('cl_link.php'); 
-
-    $conn = new DbConn(); 
-    $db=$conn->db; 
-
-    $select = $db->prepare("SELECT ID  
-                           FROM `link` 
-                           WHERE SammlungID=:ID"); 
-    $select->bindValue(':ID', $this->ID);  
-
-    $select->execute(); 
-
-    $res = $select->fetchAll(PDO::FETCH_ASSOC);
-
-    echo '<p>Anzahl Links: '.count($res); 
-
-    foreach ($res as $row=>$value) {
-      $link = new Link(); 
-      $link->ID = $value["ID"]; 
-      $link->delete();  
-    }
-  }
-
-  function delete(){
-    include_once("dbconn/cl_db.php");
-    $conn = new DbConn(); 
-    $db=$conn->db; 
-    echo '<p>Lösche Sammlung ID:'.$this->ID.':</p>';
-
-    $this->delete_links();
-    $this->delete_musikstuecke();  
-    $this->delete_lookups();          
- 
-    $delete = $db->prepare("DELETE FROM `sammlung` WHERE ID=:ID"); 
-    $delete->bindValue(':ID', $this->ID);  
-
-    try {
-      $delete->execute(); 
-      echo '<p>Die Sammlung wurde gelöscht. </p>'; 
-      return true;          
-    }
-    catch (PDOException $e) {
-      include_once("cl_html_info.php"); 
-      $info = new HtmlInfo();      
-      $info->print_user_error(); 
-      $info->print_error($delete, $e);  
-      return false; 
-    }  
-  }  
-
   function print_table_lookups($target_file, $LookupTypeID=0){
 
     $query="SELECT lookup.ID
@@ -668,25 +591,6 @@ class Sammlung {
 
   } 
 
-  function delete_lookups(){
-    include_once("dbconn/cl_db.php");
-    $conn = new DbConn(); 
-    $db=$conn->db; 
-
-    $delete = $db->prepare("DELETE FROM `sammlung_lookup` 
-                            WHERE SammlungID=:SammlungID "); 
-    $delete->bindValue(':SammlungID', $this->ID);  
-
-    try {
-      $delete->execute(); 
-    }
-    catch (PDOException $e) {
-      include_once("cl_html_info.php"); 
-      $info = new HtmlInfo();      
-      $info->print_user_error(); 
-      $info->print_error($delete, $e);  
-    }  
-  }
 
   function add_komponist($KomponistID){
     // dataclearing: Verwendungszweck bei allen Musikstücken ergänzen  
@@ -805,6 +709,153 @@ class Sammlung {
       $info->print_error($stmt, $e); 
     }
   }  
+
+  function count_musikstuecke() {
+    include_once("dbconn/cl_db.php");
+    $conn = new DbConn(); 
+    $db=$conn->db;  
+
+    $select = $db->prepare("SELECT ID from musikstueck WHERE Sammlung=:ID");
+    $select->bindValue(':ID', $this->ID); 
+    $select->execute();  
+
+    $this->anzahl_musikstuecke= $select->rowCount();  
+
+  }
+  
+  function count_materials() {
+    include_once("dbconn/cl_db.php");
+    $conn = new DbConn(); 
+    $db=$conn->db;  
+
+    $select = $db->prepare("SELECT ID from material WHERE Sammlung=:ID");
+    $select->bindValue(':ID', $this->ID); 
+    $select->execute();  
+
+    $this->anzahl_materials= $select->rowCount();  
+
+  }
+
+  function delete(){
+    include_once("dbconn/cl_db.php");
+    $conn = new DbConn(); 
+    $db=$conn->db; 
+
+    $this->delete_links();
+    $this->delete_musikstuecke();  
+    $this->delete_materials(); 
+    $this->delete_lookups();          
+ 
+    $delete = $db->prepare("DELETE FROM `sammlung` WHERE ID=:ID"); 
+    $delete->bindValue(':ID', $this->ID);  
+
+    try {
+      $delete->execute(); 
+      return true;          
+    }
+    catch (PDOException $e) {
+      include_once("cl_html_info.php"); 
+      $info = new HtmlInfo();      
+      $info->print_user_error(); 
+      $info->print_error($delete, $e);  
+      return false; 
+    }  
+  }  
+
+  function delete_lookups(){
+    include_once("dbconn/cl_db.php");
+    $conn = new DbConn(); 
+    $db=$conn->db; 
+
+    $delete = $db->prepare("DELETE FROM `sammlung_lookup` 
+                            WHERE SammlungID=:SammlungID "); 
+    $delete->bindValue(':SammlungID', $this->ID);  
+
+    try {
+      $delete->execute(); 
+    }
+    catch (PDOException $e) {
+      include_once("cl_html_info.php"); 
+      $info = new HtmlInfo();      
+      $info->print_user_error(); 
+      $info->print_error($delete, $e);  
+    }  
+  }
+
+  function delete_materials(){
+    include_once("dbconn/cl_db.php");
+    include_once('cl_material.php'); 
+
+    $conn = new DbConn(); 
+    $db=$conn->db; 
+
+    $select = $db->prepare("SELECT ID  FROM `material` WHERE SammlungID=:ID"); 
+
+    $select->bindValue(':ID', $this->ID);  
+
+    $select->execute(); 
+
+    $res = $select->fetchAll(PDO::FETCH_ASSOC);
+
+    foreach ($res as $row=>$value) {
+      // echo '<p>Lösche Material ID: '.$value["ID"];
+      $material = new Material(); 
+      $material->ID = $value["ID"]; 
+      $material->delete();  
+    }
+  }
+
+  function delete_links(){
+    include_once("dbconn/cl_db.php");
+    include_once('cl_link.php'); 
+
+    $conn = new DbConn(); 
+    $db=$conn->db; 
+
+    $select = $db->prepare("SELECT ID  
+                           FROM `link` 
+                           WHERE SammlungID=:ID"); 
+    $select->bindValue(':ID', $this->ID);  
+
+    $select->execute(); 
+
+    $res = $select->fetchAll(PDO::FETCH_ASSOC);
+
+    foreach ($res as $row=>$value) {
+      $link = new Link(); 
+      $link->ID = $value["ID"]; 
+      $link->delete();  
+    }
+  }
+
+  function delete_musikstuecke(){
+    include_once("dbconn/cl_db.php");
+    include_once('cl_musikstueck.php'); 
+
+    $conn = new DbConn(); 
+    $db=$conn->db; 
+
+    $select = $db->prepare("SELECT ID  
+                           FROM `musikstueck` 
+                           WHERE SammlungID=:ID"); 
+    $select->bindValue(':ID', $this->ID);  
+
+    $select->execute(); 
+
+    $res = $select->fetchAll(PDO::FETCH_ASSOC);
+
+    // echo '<p>Anzahl Musikstücke: '.count($res); 
+
+    foreach ($res as $row=>$value) {
+      // echo '<p>Lösche  Musikstück ID: '.$value["ID"];
+      $musikstueck = new Musikstueck(); 
+      $musikstueck->ID = $value["ID"]; 
+      $musikstueck->delete();  
+    }
+  }
+
+
+
 
 
 }

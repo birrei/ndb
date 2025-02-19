@@ -10,7 +10,8 @@
   public $Title='Instrument';
   public $Titles='Instrumente';  
   public $Parent='Satz'; // Satz, Schueler 
-
+  public string $infotext=''; 
+  
   public function __construct(){
     $this->table_name='instrument'; 
   }

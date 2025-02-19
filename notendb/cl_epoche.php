@@ -8,7 +8,8 @@ class Epoche {
   public $titles_selected_list; 
   public $Title='Epoche';
   public $Titles='Epochen';  
-
+  public string $infotext=''; 
+  
   public function __construct(){
     $this->table_name='epoche'; 
   }

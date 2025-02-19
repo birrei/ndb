@@ -7,7 +7,8 @@ class Erprobt {
   public $titles_selected_list; 
   public $Title='Erprobt-Attribut';
   public $Titles='Erprobt-Attribute';  
-
+  public string $infotext=''; 
+  
   public function __construct(){
     $this->table_name='erprobt'; 
   }

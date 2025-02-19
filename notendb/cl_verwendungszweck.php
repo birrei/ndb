@@ -8,7 +8,8 @@ class Verwendungszweck {
   public $titles_selected_list; 
   public $Title='Verwendungszweck';
   public $Titles='Verwendungszwecke';  
-
+  public string $infotext=''; 
+  
   public function __construct(){
     $this->table_name='verwendungszweck'; 
   }

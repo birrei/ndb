@@ -8,7 +8,8 @@ class Standort {
   public $titles_selected_list; 
   public $Title='Standort';
   public $Titles='Standorte';  
-
+  public string $infotext=''; 
+  
   public function __construct(){
     $this->table_name='standort'; 
   }

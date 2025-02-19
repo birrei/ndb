@@ -7,7 +7,8 @@ class Linktype {
   public $titles_selected_list; 
   public $Title='Link-Typ';
   public $Titles='Link-Typen';  
-
+  public string $infotext=''; 
+  
   public function __construct(){
     $this->table_name='linktype'; 
   }

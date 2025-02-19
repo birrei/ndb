@@ -12,7 +12,8 @@ class Link {
   public $titles_selected_list; 
   public $Title='Link';
   public $Titles='Links';  
-
+  public string $infotext=''; 
+  
   public function __construct(){
     $this->table_name='link'; 
   }

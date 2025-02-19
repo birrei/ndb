@@ -8,7 +8,8 @@ class Materialtyp {
   public $titles_selected_list; 
   public $Title='Materialtyp';
   public $Titles='Materialtypen';  
-
+  public string $infotext=''; 
+  #
   public function __construct(){
     $this->table_name='materialtyp'; 
   }

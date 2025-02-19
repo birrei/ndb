@@ -8,7 +8,8 @@ class Gattung {
   public $titles_selected_list; 
   public $Title='Gattung';
   public $Titles='Gattungen';  
-
+  public string $infotext=''; 
+  
   public function __construct(){
     $this->table_name='gattung'; 
   }

@@ -15,7 +15,7 @@ class Lookup {
   public $titles_selected_list; 
   public $Title='Besonderheit';
   public $Titles='Besonderheiten';  
-  
+  public string $infotext=''; 
 
   public function __construct(){
     $this->table_name='lookup'; 

@@ -21,12 +21,14 @@ class HtmlInfo {
         echo $this->html; 
     }
 
-    function print_info($info) {
-        $this->html='<p class="info">'; 
-        $this->html.=$this->info_datetime.': '.$info;         
-        $this->html.='</p>'.PHP_EOL; 
-        echo $this->html;    
-    }    
+    function print_info($text) {
+        echo '<p class="info">'.$text.'</p>'.PHP_EOL;   
+    }
+    
+    function print_warning($text) {
+        echo '<p class="warning">'.$text.'</p>'.PHP_EOL;   
+    }
+    
     function print_error($stmt, PDOException $e) {
         $this->html='<p style="color: red;">'; 
         $this->html.=$e->getMessage(); 

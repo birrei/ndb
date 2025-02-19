@@ -12,7 +12,8 @@ class Lookuptype {
   public $Titles='Besonderheit-Typen';
   public $textInfo=''; 
   public $textWarning=''; 
-
+  public string $infotext=''; 
+  
   public function __construct(){
     $this->table_name='lookup_type'; 
   }

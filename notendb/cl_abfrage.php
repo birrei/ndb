@@ -14,7 +14,8 @@ class Abfrage {
   // public $success=false; 
   public $Title='Abfrage';
   public $Titles='Abfragen';    
-
+  public string $infotext=''; 
+  
   public function __construct(){
     $this->table_name='abfrage'; 
   }
