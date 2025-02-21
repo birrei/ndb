@@ -9,10 +9,10 @@ $schueler->ID=$_GET["SchuelerID"];
 
 if (isset($_GET["option"])){
     if($_GET["option"]=='insert') {
-        if ($_GET["SchwierigkeitsgradID"]!='' & $_GET["InstrumentID"]!='') {
+        if ($_GET["InstrumentID"]!='') {
             $schueler->add_schwierigkeitsgrad($_GET["SchwierigkeitsgradID"], $_GET["InstrumentID"]); 
         } else {
-            echo '<p>Bitte Instrument und Schwierigkeitsgrad auswählen!</p>'; 
+            echo '<p>Bitte Instrument auswählen!</p>'; 
         }
     } 
     if($_GET["option"]=='delete') {

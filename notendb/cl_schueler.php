@@ -89,7 +89,8 @@ class Schueler {
       $stmt->execute(); 
       // $stmt->debugDumpParams(); // Test 
       $html = new HtmlSelect($stmt); 
-      $html->caption = $caption;       
+      $html->caption = $caption;  
+      $html->autofocus=false;      
       $html->print_select("SchuelerID", $selected_SchuelerID, true); 
       
     }
@@ -156,9 +157,9 @@ class Schueler {
           , instrument.ID 
           , schueler_schwierigkeitsgrad.SchwierigkeitsgradID as ID2          
           FROM schueler_schwierigkeitsgrad 
-          inner join schwierigkeitsgrad 
+          left join schwierigkeitsgrad 
               on  schwierigkeitsgrad.ID = schueler_schwierigkeitsgrad.SchwierigkeitsgradID
-          inner join instrument
+          left join instrument
           on instrument.ID = schueler_schwierigkeitsgrad.InstrumentID 
           WHERE schueler_schwierigkeitsgrad.SchuelerID = :SchuelerID 
           ORDER BY instrument.Name, schwierigkeitsgrad.Name 
@@ -206,7 +207,8 @@ class Schueler {
 
     $select->bindValue(':SchuelerID', $this->ID);  
     $select->bindValue(':SchwierigkeitsgradID', $SchwierigkeitsgradID);  
-    $select->bindValue(':InstrumentID', $InstrumentID);  
+     $select->bindValue(':InstrumentID', $InstrumentID);  
+
 
     $select->execute(); 
 
@@ -221,7 +223,7 @@ class Schueler {
       ");
 
       $insert->bindValue(':SchuelerID', $this->ID);  
-      $insert->bindValue(':SchwierigkeitsgradID', $SchwierigkeitsgradID);  
+      $insert->bindParam(':SchwierigkeitsgradID', $SchwierigkeitsgradID, ($SchwierigkeitsgradID=='' ? PDO::PARAM_NULL : PDO::PARAM_INT));
       $insert->bindValue(':InstrumentID', $InstrumentID);      
 
       try {
