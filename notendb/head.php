@@ -4,7 +4,7 @@ $title_base='Notendatenbank';
 $title_page=''; 
 
 if (isset($PageTitle)) {
- // Parammter $PageTitle in aufrufender Datei vor den include-Aufruf setzen. Vorlage: dataclearing.php XXX 
+ // Paramter $PageTitle in aufrufender Datei vor den include-Aufruf setzen. Vorlage: dataclearing.php XXX 
   $title_page=$PageTitle; 
 } 
 
@@ -14,6 +14,9 @@ if ( isset($_REQUEST["title"]) ){
 if ( isset($_GET["Name"]) ){
   $title_page=$_GET["Name"]; 
 }
+
+// echo '$title_page: '.$title_page; 
+// echo basename($_SERVER['SCRIPT_FILENAME']); 
 
 if ($title_page=='') 
 {
@@ -30,6 +33,9 @@ if ($title_page=='')
     case 'suche.php':
       $title_page='Suche'; 
       break; 
+    case 'suche_schueler.php':
+        $title_page='Suche Schüler'; 
+        break;       
     case 'abfragen.php':
       $title_page='Abfragen'; 
       break; 
@@ -42,13 +48,17 @@ if ($title_page=='')
     case 'test.php':
       $title_page='Test'; 
       break;                                                                                       
-      case 'dataclearing.php':
+    case 'dataclearing.php':
         $title_page='Sammel-Updates'; 
         break;                   
     } 
 }
 
+// echo '$title_page: '.$title_page; 
+
 $title_complete=($title_page!=''?$title_page.' - '.$title_base:$title_base); 
+
+// echo '$title_complete: '.$title_complete; 
 
 
 ?> 
@@ -71,6 +81,7 @@ $title_complete=($title_page!=''?$title_page.' - '.$title_base:$title_base);
     
 <a href="index.php?title=Start" tabindex="-1">Startseite</a> | 
 <a href="suche.php?title=Suche" tabindex="-1">Suche</a> | 
+<a href="suche_schueler.php?title=Suche Schüler" tabindex="-1">Suche Schüler</a> | 
 <a href="help.php?title=Hilfe" tabindex="-1">Hilfe</a>  |
 <a href="tests.php?title=Tests" tabindex="-1">Tests</a>
 

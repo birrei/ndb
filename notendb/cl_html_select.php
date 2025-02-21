@@ -58,7 +58,7 @@ class HtmlSelect {
         , $check_include=false // Genaue Suche aktiviert 
         , $print_check_exclude=false // Anzeige Checkbox Auschluss-Suche
         , $check_exclude=false // Auschluss-Suche aktiviert         
-    ) {
+        ) {
         $html = '<p class="auswahl">'. PHP_EOL;
         if ($caption!='') {
             $html.='<span class="field-caption">'.$caption.'</span>'. PHP_EOL;

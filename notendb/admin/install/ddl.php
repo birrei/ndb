@@ -15,6 +15,7 @@ if (isset($_GET["option"])) {
 
     install_view_v_lookup(); 
     install_view_v_material(); 
+    install_view_v_schueler_instrumente(); 
     install_view_v_schueler(); 
 
 
@@ -44,6 +45,35 @@ if (isset($_GET["option"])) {
 
 /************************************************** */
 
+function install_view_v_schueler_instrumente() {
+
+    $sql="  CREATE OR REPLACE VIEW v_schueler_instrumente as 
+        select SchuelerID
+            , group_concat(
+                IF(Schwierigkeitsgrade!='', 
+                concat(Instrument, ': ', Schwierigkeitsgrade), 
+                Instrument
+                ) 
+                order by Instrument, Schwierigkeitsgrade separator '; ') Instrumente  
+        from (
+            select schueler_schwierigkeitsgrad.SchuelerID
+                , schueler_schwierigkeitsgrad.InstrumentID
+                , instrument.Name as Instrument 
+                , if(coalesce(schwierigkeitsgrad.Name, '')!=''
+                    , group_concat(concat(schwierigkeitsgrad.Name) order by schwierigkeitsgrad.Name separator ', ')
+                    , '') as Schwierigkeitsgrade  
+            from schueler_schwierigkeitsgrad
+                LEFT JOIN schwierigkeitsgrad on schwierigkeitsgrad.ID = schueler_schwierigkeitsgrad.SchwierigkeitsgradID 
+                LEFT JOIN instrument on instrument.ID = schueler_schwierigkeitsgrad.InstrumentID   
+            group by schueler_schwierigkeitsgrad.SchuelerID
+                , schueler_schwierigkeitsgrad.InstrumentID  
+        ) schueler_instrument
+        group by SchuelerID 
+    "; 
+
+    execute_sql($sql, 'install view v_schueler_instrumente'); 
+}
+
 function install_view_v_lookup() {
 
     $sql=" 
@@ -67,40 +97,41 @@ function install_view_v_schueler() {
 
       $sql=" 
       create or replace view v_schueler as 
-        select 
-            schueler.ID 
-        , schueler.Name
-        , GROUP_CONCAT(DISTINCT 
-                            IF(sm.ID is not NULL, CONCAT('* ', sm.Name, ': ', material.Name), concat('* ', material.Name)) 
-                        order by 
-                            IF(sm.ID is not NULL, CONCAT(sm.Name, ': ', material.Name), material.Name)
-                        SEPARATOR '<br />') as Materialien
-        , GROUP_CONCAT(
-                DISTINCT concat('* ', sammlung.Name, ' / ', musikstueck.Name, 
-                            IF(satz.Name <> '', CONCAT(' / ', satz.Name), '') 
-                )  
-                order by sammlung.Name, musikstueck.Nummer 
-                SEPARATOR '<br />') as Noten 
-        , schueler.Bemerkung 
-        from schueler 
-            left join 
-            schueler_material on schueler_material.SchuelerID = schueler.ID
-            left join 
-            material on material.ID = schueler_material.MaterialID 
-            left join 
-            sammlung sm on sm.ID=material.SammlungID 
-            left join 
-            schueler_satz on schueler_satz.SchuelerID  = schueler.ID 
-            left join 
-            satz on satz.ID = schueler_satz.SatzID 
-            left join 
-            musikstueck on musikstueck.ID = satz.MusikstueckID
-            left join 
-            sammlung on sammlung.ID = musikstueck.SammlungID
-        -- where schueler.ID=64
-        group by schueler.ID 
-        order by schueler.Name 
+   
+      select 
+      schueler.ID 
+    , schueler.Name
+    , schueler.Bemerkung       
+	, v_schueler_instrumente.Instrumente  
+   , GROUP_CONCAT(DISTINCT 
+            IF(sm.ID is not null
+                   , CONCAT('* ', sm.Name, ': ', material.Name)
+                   , CONCAT('* ', material.Name)
+                  ) 
+            order by 
+                IF(sm.ID is not NULL, CONCAT(sm.Name, ': ', material.Name), material.Name)
+            SEPARATOR '<br />') as Materialien
+     , GROUP_CONCAT(
+            DISTINCT concat('* ', sammlung.Name, ' / ', musikstueck.Name, 
+                        IF(satz.Name <> '', CONCAT(' / ', satz.Name), ''), 
+                        IF(schueler_satz.Bemerkung <> '', CONCAT(' / ', schueler_satz.Bemerkung), '')
+            )  
+            order by sammlung.Name, musikstueck.Nummer 
+            SEPARATOR '<br />') as Noten 
+    from schueler 
+        left join schueler_material on schueler_material.SchuelerID = schueler.ID
+        left join material on material.ID = schueler_material.MaterialID 
+        left join sammlung sm on sm.ID=material.SammlungID 
+        left join schueler_satz on schueler_satz.SchuelerID  = schueler.ID 
+        left join satz on satz.ID = schueler_satz.SatzID 
+        left join musikstueck on musikstueck.ID = satz.MusikstueckID
+        left join sammlung on sammlung.ID = musikstueck.SammlungID    
+		left join v_schueler_instrumente on v_schueler_instrumente.SchuelerID = schueler.ID 
+    -- where schueler.ID=64
+    group by schueler.ID 
+    order by schueler.Name 
     "; 
+
     // $sql="
     //     create or replace view v_schueler as 
     //     select 

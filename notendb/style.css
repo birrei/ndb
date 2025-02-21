@@ -20,6 +20,9 @@ p.draft {
 p.info {
     color: darkgreen; 
 }
+p.warning {
+    color: darkred; 
+}
 
 /***** Start  ****************/
     div.start {
@@ -160,7 +163,7 @@ p.info {
     .field-caption{
         /* background-color:lightskyblue;     
         font-size: 10pt; */
-        /* font-weight: bold;  */
+        font-weight: bold; 
         padding: 3px; 
     }
 

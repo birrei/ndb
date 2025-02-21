@@ -12,6 +12,12 @@ include('head.php');
 <ul class="doc" id="table-of-contents"></ul>
 
 
+<hr>
+
+
+
+<h1 class="chapter-title chapter-title-h1" id="suche-noten">NOTENSUCHE</h1>
+
 <h2 class="chapter-title chapter-title-h2" id="suche-ansicht">Auswahl Ansicht</h2>
     <h3 class="chapter-title chapter-title-h3" id="suche-ansicht-sammlung">Auswahl Ansicht: Sammlung</h3>
         <p>  Die Ergebnistabelle wird auf Sammlung-Ebene gruppiert (Eine Zeile pro Sammlung).
@@ -186,9 +192,49 @@ include('head.php');
 
 
 
+<h1 class="chapter-title chapter-title-h1" id="suche-schueler">SUCHE SCHÜLER</h1>
+<h2 class="chapter-title chapter-title-h2" id="suche-schueler-hinweise">Text-Suche</h2>
+
+    <p>
+        Suche Textteil in folgenden Feldern: 
+        <ul>
+            <li>Schüler Name</li>
+            <li>Schüler Bemerkung</li>
+            <li>Sammlung Name</li>
+            <li>Sammlung Bemerkung</li>
+            <li>Musikstueck Name</li>
+            <li>Satz Name</li>
+            <li>Satz Bemerkung</li>
+            <li>Material Name</li>
+            <li>Material Bemerkung</li>
+
+        </ul>
+
+    </p>
+
+<h2 class="chapter-title chapter-title-h2" id="suche-schueler-schueler">Schüler</h2>    
+
+    <p> Auswahl 1 Schüler </p> 
+
+<h2 class="chapter-title chapter-title-h2" id="suche-schueler-schueler">Instrument</h2>    
+
+    <p>Instrument: Liste der Instrumente, die für den Schüler eingetragen wurden</p> 
+
+    <p>Schwierigkeitsgrade aus der Liste, die für den Schüler eingetragen wurden</p> 
 
 
-        <p>&nbsp;</p>
+
+
+
+
+        <!-- 
+            - Instrument 
+            - "Schwierigkeitsgrad" 
+            
+        --> 
+
+
+<p>&nbsp;</p>
         <p>&nbsp;</p>
         <p>&nbsp;</p>
         <p>&nbsp;</p>

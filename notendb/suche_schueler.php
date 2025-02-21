@@ -5,11 +5,11 @@ include("dbconn/cl_db.php");
 include("cl_html_table.php");    
 include("cl_html_info.php");  
 
-include("cl_instrument_schwierigkeitsgrad.php");  
+include("cl_instrument.php");  
+include("cl_schwierigkeitsgrad.php");  
 
 include("cl_lookup.php");   
 include("cl_lookuptype.php");
-include("cl_linktype.php");
 include("cl_abfrage.php");
 include("cl_schueler.php");
 
@@ -35,23 +35,8 @@ $suchtext='';
 /***************************/
 
 
-
-$filterStandorte='';   
-$filterVerlage='';
-$filterLinktypen='';      
-$filterBesetzung=''; 
-$filterVerwendungszweck='';
-$filterKomponisten='';   
-$filterGattungen='';  
-$filterEpochen='';    
-$filterErprobt=''; 
 $filterSchwierigkeitsgrad=''; 
-$filterInstrumente=''; 
 
-$filterLookups=''; 
-$filterSpieldauer='';
-$filterErprobtJahr='';    
-$filterSchueler=''; 
 
 $filterSuchtext='';  
 
@@ -62,7 +47,6 @@ $edit_table=''; /* Tabelle, die über Bearbeiten-Links in Ergebnis-Tabelle abruf
 $Suche = new Abfrage();
 
 ?>
-
 
 <!-- Button: alle Filter zurücksetzen --> 
 <input type="button" id="btnReset_All" value="Alle Filter zurücksetzen" onclick="Reset_All();" /> 
@@ -107,7 +91,6 @@ $Suche = new Abfrage();
       }
 </script>
 
-
 <?php 
 if (isset($_POST['Ansicht'])) {
   $Ansicht=$_POST["Ansicht"];
@@ -116,14 +99,11 @@ if (isset($_POST['Ansicht'])) {
 }
 ?> 
 
-
 <div class="search-page" id="search-page">
 <div class="search-filter" id="search-filter">
 
 <form id="Suche" action="" method="post">
 
-<!---- Entscheidung Suche speichern ja / nein -----> 
-<input type="checkbox" id="sp" name="SucheSpeichern"><label for="sp">Suche speichern</label> 
 
 <?php 
 /************** Suchtext  **********/  
@@ -141,26 +121,66 @@ if (isset($_POST['suchtext'])) {
 <input class="btnSave" type="submit" value="Suchen" class="btnSave" width="100px">
 </P> 
 
-
 <?php
-
 
   /************* Schüler  ***********/
   $schueler = new Schueler();
   $SchuelerID=''; 
+  $filterSchueler=''; 
   if (isset($_POST['SchuelerID'])) {
     if ($_POST['SchuelerID']!='') {
       $SchuelerID = $_POST['SchuelerID']; 
       $schueler->ID=  $SchuelerID; 
       $schueler->load_row(); 
-      $filterSchueler='='.$SchuelerID.' '; 
-      $Suche->Beschreibung.=($SchuelerID!=''?'* Schüler: '.$schueler->Name.PHP_EOL:'');     
+      $filterSchueler='AND schueler.ID='.$SchuelerID.' '; 
+      $Suche->Beschreibung.=($SchuelerID!=''?'* Schüler: '.$schueler->Name:'');     
       $filter=true;       
     }
   }
   $schueler->print_select($SchuelerID,'',$schueler->Title);
 
+  echo '<p></p>'; 
+
+  /************* Instrument  ***********/
+  $instrument = new Instrument();
+  $InstrumentID=''; 
+  $filterInstrument=''; 
+  if (isset($_POST['InstrumentID'])) {
+    if ($_POST['InstrumentID']!='') {
+      $InstrumentID = $_POST['InstrumentID']; 
+      $instrument->ID=  $InstrumentID; 
+      $instrument->load_row(); 
+      $filterInstrument='AND schueler.ID IN (SELECT SchuelerID FROM schueler_schwierigkeitsgrad WHERE InstrumentID='.$InstrumentID.') '; 
+      $Suche->Beschreibung.=($InstrumentID!=''?'* Instrument: '.$instrument->Name:'');     
+      $filter=true;       
+    }
+  }
+  $instrument->print_select($InstrumentID,'',$instrument->Title);
+
+
+  /************* Schwierigkeitsgrad  ***********/
+  $schwierigkeitsgrad = new Schwierigkeitsgrad();
+  if (isset($_POST['Schwierigkeitsgrad'])) {
+    $Schwierigkeitsgrade = $_POST['Schwierigkeitsgrad']; 
+    // echo count($Schwierigkeitsgrade); 
+    $filterSchwierigkeitsgrad='AND schueler.ID IN (SELECT SchuelerID FROM schueler_schwierigkeitsgrad WHERE SchwierigkeitsgradID IN ('.implode(',', $Schwierigkeitsgrade).')) '; 
+    $filter=true;       
+  }
+  $schwierigkeitsgrad->print_select_multi($Schwierigkeitsgrade);  
+  $Suche->Beschreibung.=(count($Schwierigkeitsgrade)>0?$schwierigkeitsgrad->titles_selected_list:'');  
+
   ?>
+
+<p></p>
+
+<hr>
+<p>
+  <input type="checkbox" id="sp" name="SucheSpeichern"><label for="sp">Suche speichern</label>   <!---- Entscheidung Suche speichern ja / nein -----> 
+  <a href="help_suche.php?title=Hilfe%20zur%20Suche#suche-schueler" target="_blank">Hilfe</a> 
+</p>
+
+
+
 </form>
 </div> <!-- ende class search-filter --> 
 <div class="search-result" id="search-result">
@@ -174,23 +194,26 @@ if (isset($_POST['suchtext'])) {
         /** XXX noch integtrieren: schueler_satz.Bemerkung, schueler_material.Bemerkung */
 
         $query.="
-         select 
-          schueler.ID 
-        , schueler.Name
-        , schueler.Bemerkung   
-        , GROUP_CONCAT(DISTINCT 
-                            IF(sm.ID is not NULL, CONCAT('* ', sm.Name, ': ', material.Name), concat('* ', material.Name)) 
-                        order by 
-                            IF(sm.ID is not NULL, CONCAT(sm.Name, ': ', material.Name), material.Name)
-                        SEPARATOR '<br />') as Materialien
-        , GROUP_CONCAT(
-                DISTINCT concat('* ', sammlung.Name, ' / ', musikstueck.Name, 
-                            IF(satz.Name <> '', CONCAT(' / ', satz.Name), '') 
-                )  
-                order by sammlung.Name, musikstueck.Nummer 
-                SEPARATOR '<br />') as Noten 
-
-
+      select 
+      schueler.ID 
+    , schueler.Name
+    , schueler.Bemerkung       
+	, v_schueler_instrumente.Instrumente  
+   , GROUP_CONCAT(DISTINCT 
+            IF(sm.ID is not null
+                   , CONCAT('* ', sm.Name, ': ', material.Name)
+                   , CONCAT('* ', material.Name)
+                  ) 
+            order by 
+                IF(sm.ID is not NULL, CONCAT(sm.Name, ': ', material.Name), material.Name)
+            SEPARATOR '<br />') as Materialien
+     , GROUP_CONCAT(
+            DISTINCT concat('* ', sammlung.Name, ' / ', musikstueck.Name, 
+                        IF(satz.Name <> '', CONCAT(' / ', satz.Name), ''), 
+                        IF(schueler_satz.Bemerkung <> '', CONCAT(' / ', schueler_satz.Bemerkung), '')
+            )  
+            order by sammlung.Name, musikstueck.Nummer 
+            SEPARATOR '<br />') as Noten 
             ";
         $edit_table='schueler'; 
 
@@ -201,21 +224,15 @@ if (isset($_POST['suchtext'])) {
       case 'Schueler': 
  
           $query.="
-            from schueler 
-                  left join 
-                  schueler_material on schueler_material.SchuelerID = schueler.ID
-                  left join 
-                  material on material.ID = schueler_material.MaterialID 
-                  left join 
-                  sammlung sm on sm.ID=material.SammlungID 
-                  left join 
-                  schueler_satz on schueler_satz.SchuelerID  = schueler.ID 
-                  left join 
-                  satz on satz.ID = schueler_satz.SatzID 
-                  left join 
-                  musikstueck on musikstueck.ID = satz.MusikstueckID
-                  left join 
-                  sammlung on sammlung.ID = musikstueck.SammlungID
+    from schueler 
+        left join schueler_material on schueler_material.SchuelerID = schueler.ID
+        left join material on material.ID = schueler_material.MaterialID 
+        left join sammlung sm on sm.ID=material.SammlungID 
+        left join schueler_satz on schueler_satz.SchuelerID  = schueler.ID 
+        left join satz on satz.ID = schueler_satz.SatzID 
+        left join musikstueck on musikstueck.ID = satz.MusikstueckID
+        left join sammlung on sammlung.ID = musikstueck.SammlungID    
+		left join v_schueler_instrumente on v_schueler_instrumente.SchuelerID = schueler.ID 
             WHERE 1=1 ". PHP_EOL; 
                   break; 
  
@@ -228,7 +245,11 @@ if (isset($_POST['suchtext'])) {
       switch ($Ansicht){
         case 'Schueler': 
                 
-          $query.=($filterSchueler!=''?' AND schueler.ID='.$SchuelerID.' ' . PHP_EOL:''); 
+          $query.=($filterSchueler!=''?$filterSchueler.PHP_EOL:''); 
+
+          $query.=($filterInstrument!=''?$filterInstrument.PHP_EOL:''); 
+
+          $query.=($filterSchwierigkeitsgrad!=''?$filterSchwierigkeitsgrad.PHP_EOL:''); 
 
           if($suchtext!=''){
             $query.="AND (schueler.Name LIKE '%".$suchtext."%'   
@@ -237,9 +258,7 @@ if (isset($_POST['suchtext'])) {
                     OR sammlung.Bemerkung LIKE '%".$suchtext."%' 
                     OR musikstueck.Name LIKE '%".$suchtext."%'  
                     OR material.Name LIKE '%".$suchtext."%' 
-                    OR material.Bemerkung LIKE '%".$suchtext."%'                     
-                    OR schueler_satz.Bemerkung  LIKE '%".$suchtext."%'  
-                    OR schueler_material.Bemerkung  LIKE '%".$suchtext."%'                                                                      
+                    OR material.Bemerkung LIKE '%".$suchtext."%'                                                                                   
                     ) ". PHP_EOL;         
           }
           break; 
@@ -308,7 +327,6 @@ if (isset($_POST['suchtext'])) {
             $info->print_error($select, $e); 
           }    
       }
-
     } // Ende if($filter)
     else {
       echo '<p>Es wurde kein Filter gesetzt. </p>'; 

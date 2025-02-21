@@ -79,7 +79,7 @@
     try {
       $stmt->execute(); 
       $html = new HtmlSelect($stmt); 
-      $html->autofocus=true;     
+      $html->autofocus=false;     
       $html->caption = $caption;         
       $html->print_select("InstrumentID", $value_selected, true); 
       
