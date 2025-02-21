@@ -144,24 +144,13 @@ include('head.php');
             </li>
         </ul>
 
- <h2 class="chapter-title chapter-title-h2" id="erfassung_schueler">Schüler</h2>
+<h2 class="chapter-title chapter-title-h2" id="erfassung_schueler">Schüler</h2>
     <h3 class="chapter-title chapter-title-h3" id="erfassung_schueler_schwierigkeitsgrade">Schüler: Instrumente und Schwierigkeitsgrade</h3>
-
-        <p>Die Schwierigkeitsgrade sollen darüber informieren, welche Instrumente der Schüler spielt und 
-            innerhalb welcher Schwierigkeitsgrade das Unterichtsmaterial für diesen Schüler liegen sollte.
-        </p>  
-
-        <p> Hinweis: Die auswählbaren Einträge folgen der gleichen Systematik, 
-            die auch für die Satz- Schwierigkeitsgrade hinterlegt sind. 
-            Für einen Schüler können (und sollten auch) mehrere Schwierigkeitsgrade pro Instrument eingetragen werden 
-            (im Gegensatz zum Satz, bei dem  pro Instrument eine eindeutige Entscheidung getroffen wird).
-            Durch den Eintrag mehrerer Schwierigkeitsgrade wird ein Schwierigkeitsgrad- "Bandbreite" angegeben.  
-            So kann z.B. für einen Klavierschüler durch folgende drei Einträge eine Schwierigkeitsgrad-Bandbreite von 1 bis 2 angegeben werden. 
-            <br> Klavier 1
-            <br> Klavier 1/2
-            <br> Klavier 2 
-        </p>
-
+        <p>Optionen: </p>
+        <ul>
+            <li>Nur Instrument(e): Das Feld Schwierigkeitsgrad kann leer bleiben</li>
+            <li>Instrument(e) und Schwierigkeitsgrad(e). Es können mehrere Schwierigkeitsgrade pro Instrument eingetragen werden</li>
+        </ul>
 
     <h3 class="chapter-title chapter-title-h3" id="erfassung_schueler_noten">Schüler: Verknüpfte Noten</h3>
         <p> Es werden Noten (Sammlungen/Musikstücke/Sätze) angezeigt, 
