@@ -668,7 +668,7 @@ class Musikstueck {
   }
 
   function add_schwierigkeitsgrad($InstrumentID, $SchwierigkeitsgradID){
-    
+    // dataclearing 
     include_once("dbconn/cl_db.php");
     include_once('cl_satz.php'); 
 
@@ -694,6 +694,29 @@ class Musikstueck {
     }
   }
   
+  function add_satz_lookup($LookupID){
+        // dataclearing 
+    include_once("dbconn/cl_db.php");
+    include_once('cl_satz.php'); 
+
+    $conn = new DbConn(); 
+    $db=$conn->db; 
+
+    $select = $db->prepare("SELECT ID  FROM `satz` WHERE MusikstueckID=:ID"); 
+    
+    $select->bindValue(':ID', $this->ID);  
+
+    $select->execute(); 
+
+    $res = $select->fetchAll(PDO::FETCH_ASSOC);
+
+    foreach ($res as $row=>$value) {
+      $satz = new Satz(); 
+      $satz->ID = $value["ID"]; 
+      $satz->add_lookup($LookupID);
+    }
+  }
+    
 
   function update_komponist ($KomponistID){
     include_once("dbconn/cl_db.php");

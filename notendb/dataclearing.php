@@ -56,13 +56,7 @@ if (isset($_POST["form-sended"])){
             $sammlung = new Sammlung(); 
             $sammlung->ID=$SammlungID; 
             $sammlung->add_schwierigkeitsgrad($InstrumentID,$SchwierigkeitsgradID); 
-            
-            // if (isset($_POST["sammlung_delete_besetzung"])) {
-            //     $sammlung->delete_besetzung($BesetzungID);
-            // }
-            // else {                                
-            //     $sammlung->add_besetzung($BesetzungID);
-            // }
+     
         }
         break;       
       case 'sammlung-besetzung': 
@@ -82,22 +76,22 @@ if (isset($_POST["form-sended"])){
             }
             break; 
       case 'sammlung-verwendungszweck': 
-                if (!empty($_POST["SammlungID"]) & !empty($_POST["VerwendungszweckID"])) {
-                    include_once('cl_sammlung.php');                     
-                    $SammlungID=$_POST["SammlungID"]; 
-                    $VerwendungszweckID=$_POST["VerwendungszweckID"];                 
-                    $sammlung = new Sammlung(); 
-                    $sammlung->ID=$SammlungID; 
-                    // $sammlung->add_verwendungszweck($VerwendungszweckID);
-                    if (isset($_POST["sammlung_delete_verwendungszweck"])) {          
-                        $sammlung->delete_verwendungszweck($VerwendungszweckID);
-                    }
-                    else {                                
-                        $sammlung->add_verwendungszweck($VerwendungszweckID);
-                    }
-                           
+            if (!empty($_POST["SammlungID"]) & !empty($_POST["VerwendungszweckID"])) {
+                include_once('cl_sammlung.php');                     
+                $SammlungID=$_POST["SammlungID"]; 
+                $VerwendungszweckID=$_POST["VerwendungszweckID"];                 
+                $sammlung = new Sammlung(); 
+                $sammlung->ID=$SammlungID; 
+                // $sammlung->add_verwendungszweck($VerwendungszweckID);
+                if (isset($_POST["sammlung_delete_verwendungszweck"])) {          
+                    $sammlung->delete_verwendungszweck($VerwendungszweckID);
                 }
-                break; 
+                else {                                
+                    $sammlung->add_verwendungszweck($VerwendungszweckID);
+                }
+                        
+            }
+            break; 
  
       case 'sammlung-komponist': 
               if (!empty($_POST["SammlungID"]) & !empty($_POST["KomponistID"])) {
@@ -119,8 +113,20 @@ if (isset($_POST["form-sended"])){
               $sammlung->ID=$SammlungID; 
               $sammlung->add_bearbeiter($Bearbeiter);                     
           }
-          break;        
-
+          break; 
+          
+      case 'sammlung-satz-besonderheit': 
+        
+          if (!empty($_POST["SammlungID"]) & !empty($_POST["LookupID"])) {     
+              include_once('cl_sammlung.php');                     
+              $SammlungID=$_POST["SammlungID"]; 
+              $LookupID=$_POST["LookupID"];                 
+              $sammlung = new Sammlung(); 
+              $sammlung->ID=$SammlungID; 
+              $sammlung->add_satz_lookup($LookupID);  
+              echo '<p>Updates wurden abgeschlossen.</p>';                    
+          }
+          break; 
     }
 }
 echo '</pre>';  
@@ -135,6 +141,8 @@ echo '</pre>';
   <option value="sammlung-komponist" <?php echo ($form_selected=='sammlung-komponist'?'selected':''); ?>>Sammlung: Komponist hinzufügen</option>   
   <option value="sammlung-bearbeiter" <?php echo ($form_selected=='sammlung-bearbeiter'?'selected':''); ?>>Sammlung: Bearbeiter hinzufügen</option>   
   <option value="sammlung-erprobt" <?php echo ($form_selected=='sammlung-erprobt'?'selected':''); ?>>Sammlung: Erprobt-Eintrag hinzufügen</option>   
+  <option value="sammlung-satz-besonderheit" <?php echo ($form_selected=='sammlung-satz-besonderheit'?'selected':''); ?>>Sammlung: Besonderheit (zu Satz) hinzufügen</option>   
+    
   <input type="hidden" name="SammlungID" value="<?php echo $SammlungID; ?>">  
 </select>
 
@@ -145,6 +153,27 @@ echo '</pre>';
 
 if ($form_selected!='') {
   switch ($form_selected) {
+
+    case 'sammlung-satz-besonderheit': 
+
+      ?>
+      <h3> Sammlung: Besonderheit ergänzen </h3>
+      <form action="" method="post" name="sammlung-satz-besonderheit">
+      <input type="hidden" name="SammlungID" value="<?php echo $SammlungID; ?>">
+      <?php
+        include_once('cl_lookup.php'); 
+        $auswahl = new Lookup(); 
+        $auswahl->LookupTypeRelation='Satz'; 
+        $auswahl->print_select('', $auswahl->Title,'Besonderheit Satz'); 
+        ?>
+      <input class="btnSave" type="submit" name="submit" value="ausführen">    
+      <input type="hidden" name="form-sended" value="sammlung-satz-besonderheit">  
+      <input type="hidden" name="form-selected" value="<?php echo $form_selected; ?>">           
+      </form>
+      <?php
+
+      break; 
+
     case 'sammlung-bearbeiter': 
 
       ?>
