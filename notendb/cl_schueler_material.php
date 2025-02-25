@@ -21,28 +21,23 @@ class SchuelerMaterial {
     $this->table_name='schueler_material'; 
   }
 
-  function insert_row ($ParentID) {
-    // ParentID ist SchuelerID oder MaterialID 
+  
+  function insert_row ($SchuelerID, $MaterialID) {
+
     include_once("dbconn/cl_db.php");
     $conn = new DbConn(); 
     $db=$conn->db; 
-       
-    // echo 'Insert: MaterialID: '.$this->MaterialID; // test 
 
-    switch($this->Parent) {
-      case 'Material':
-        $insert = $db->prepare("INSERT INTO `schueler_material` 
-                            SET MaterialID = :ParentID"       
-       );
-      break; 
-      case 'Schueler':
-        $insert = $db->prepare("INSERT INTO `schueler_material` 
-                            SET SchuelerID = :ParentID"       
-       );
-      break; 
+    if ($SchuelerID=='' || $MaterialID=='') {
+      return false; 
     }
+       
+    $insert = $db->prepare("INSERT INTO `schueler_material` 
+                            SET SchuelerID=:SchuelerID, 
+                                MaterialID = :MaterialID");
 
-    $insert->bindParam(':ParentID', $ParentID);
+    $insert->bindParam(':SchuelerID', $SchuelerID);
+    $insert->bindParam(':MaterialID', $MaterialID);
 
     try {
       $insert->execute(); 
@@ -54,39 +49,6 @@ class SchuelerMaterial {
       $info = new HtmlInfo();      
       $info->print_user_error(); 
       $info->print_error($insert, $e);  ; 
-    }
-  }  
-   
-  function update_row ($SchuelerID, $MaterialID, $Bemerkung) {
-    include_once("dbconn/cl_db.php");
-    $conn = new DbConn(); 
-    $db=$conn->db;  
-    
-    // echo 'Update: MaterialID: '.$MaterialID.', SchuelerID: '.$SchuelerID.', Bemerkung: '.$Bemerkung; // test 
-
-    $update = $db->prepare("UPDATE `schueler_material` 
-              SET 
-                MaterialID= :MaterialID
-              , SchuelerID=:SchuelerID         
-              , Bemerkung = :Bemerkung
-              WHERE ID=:ID
-              "           
-           );
-
-    $update->bindParam(':ID', $this->ID);
-    $update->bindParam(':MaterialID', $MaterialID);
-    $update->bindParam(':SchuelerID', $SchuelerID);
-    $update->bindParam(':Bemerkung', $Bemerkung);
-
-    try {
-      $update->execute(); 
-      $this->load_row();   
-    }
-      catch (PDOException $e) {
-      include_once("cl_html_info.php"); 
-      $info = new HtmlInfo();      
-      $info->print_user_error(); 
-      $info->print_error($update, $e);  ; 
     }
   }  
  

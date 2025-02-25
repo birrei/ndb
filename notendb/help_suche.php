@@ -10,13 +10,9 @@ include('head.php');
 
 <!-- Inhaltsverzeichnis wird uber Javascript befüllt, s. Script-Teil Seite unten  --> 
 <ul class="doc" id="table-of-contents"></ul>
-
-
 <hr>
 
-
-
-<h1 class="chapter-title chapter-title-h1" id="suche-noten">NOTENSUCHE</h1>
+<h1 class="chapter-title chapter-title-h1" id="suche-noten">NOTEN-SUCHE</h1>
 
 <h2 class="chapter-title chapter-title-h2" id="suche-ansicht">Auswahl Ansicht</h2>
     <h3 class="chapter-title chapter-title-h3" id="suche-ansicht-sammlung">Auswahl Ansicht: Sammlung</h3>
@@ -192,14 +188,31 @@ include('head.php');
 
 
 
-<h1 class="chapter-title chapter-title-h1" id="suche-schueler">SUCHE SCHÜLER</h1>
+<h1 class="chapter-title chapter-title-h1" id="suche-schueler">SCHÜLER-SUCHE</h1>
+    <p>Ergebnis-Tabelle: </p>
+    <ul>
+        <li>ID</li>
+        <li>Name (Name des Schülers)</li>
+        <li>Instrumente: Auflistung der zum Schüler erfassten Instrumente sowie (falls eingetragen) 
+            die dazugehörige Schwierigkeitsgrade</li>
+        <li>Bemerkung</li>
+        <li>Materialien: Auflistung der mit dem Schüler verknüpften Materialien. 
+            Falls es sich um mit einer Sammlung verknüpfts Material handelt, 
+            ist der Sammlungsname dem Material-Namen vorangestellt.   
+        </li>
+        <li>Noten: Auflistung der mit dem Schüler verknüpften Noten-Sammlungen (Zusammensetzung Sammmlung-Name, Musikstück-Name, Satz-Name - jeweils falls befüllt) </li>
+    </ul>
 <h2 class="chapter-title chapter-title-h2" id="suche-schueler-hinweise">Text-Suche</h2>
 
     <p>
-        Suche Textteil in folgenden Feldern: 
+        Suche Textteil Schüler-Tabelle: 
         <ul>
             <li>Schüler Name</li>
             <li>Schüler Bemerkung</li>
+        </ul>
+        </p>
+        <p>Suche Textteil in verknüpften Daten:  
+        <ul>
             <li>Sammlung Name</li>
             <li>Sammlung Bemerkung</li>
             <li>Musikstueck Name</li>
@@ -208,7 +221,7 @@ include('head.php');
             <li>Material Name</li>
             <li>Material Bemerkung</li>
 
-        </ul>
+        </ul>        
 
     </p>
 
@@ -217,21 +230,10 @@ include('head.php');
     <p> Auswahl 1 Schüler </p> 
 
 <h2 class="chapter-title chapter-title-h2" id="suche-schueler-schueler">Instrument</h2>    
+    <p>Instrument (Einfach-Auswahl) </p> 
 
-    <p>Instrument: Liste der Instrumente, die für den Schüler eingetragen wurden</p> 
-
-    <p>Schwierigkeitsgrade aus der Liste, die für den Schüler eingetragen wurden</p> 
-
-
-
-
-
-
-        <!-- 
-            - Instrument 
-            - "Schwierigkeitsgrad" 
-            
-        --> 
+<h2 class="chapter-title chapter-title-h2" id="suche-schueler-schueler">Schwierigkeitsgrad</h2> 
+    <p>Schwierigkeitsgrad (Mehrfachauswahl) </p> 
 
 
 <p>&nbsp;</p>

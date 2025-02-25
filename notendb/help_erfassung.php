@@ -145,6 +145,10 @@ include('head.php');
         </ul>
 
 <h2 class="chapter-title chapter-title-h2" id="erfassung_schueler">Schüler</h2>
+      <p>Hinweis: Das Name-Feld sollte - aus Datenschutzgründen - nur den Vornamen enthalten. Die Tabelle 
+        ist nicht zum Aufbau einer umfassenden Schüler-Verwaltung gedacht. 
+      </p> 
+
     <h3 class="chapter-title chapter-title-h3" id="erfassung_schueler_schwierigkeitsgrade">Schüler: Instrumente und Schwierigkeitsgrade</h3>
         <p>Optionen: </p>
         <ul>

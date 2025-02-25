@@ -12,6 +12,10 @@ class HtmlTable {
     public $edit_link_open_newpage=false; 
     public $edit_link_target_iframe=false; // Bearbeiten-Screen in iframe 
 
+    public $add_link_edit2=false; // 
+    public $edit2_link_filename=''; // 
+    public $edit2_link_colname=''; 
+    public $edit2_link_title=''; 
 
     public $add_link_delete=false; // Löschen- Spalte anzeigen 
     public $del_link_table=''; // Tabelle, aus der gelöscht werden soll  
@@ -88,6 +92,10 @@ class HtmlTable {
             if ($this->add_link_show) {
                 $html .= '<th class="resultset">Aktion</th>'. PHP_EOL;                     
             }
+            if ($this->add_link_edit2) {
+                $html .= '<th class="resultset">Aktion</th>'. PHP_EOL;                     
+            }
+                          
               
             $html .=  '</tr>'. PHP_EOL;
             $html .= '</thead>';
@@ -125,6 +133,9 @@ class HtmlTable {
                             // $html .= '<td class="resultset"><a href="edit_'.$this->edit_link_table.'.php?ID='.$row["ID"].'&option=edit'.($this->edit_link_title!=''?'&title='.$this->edit_link_title:'').'"'. ($this->edit_link_open_newpage?' target="_blank"':''). ' tabindex="-1">Bearbeiten</a></td>'. PHP_EOL;
 
                         }                                        
+                    }
+                    if ($this->add_link_edit2) {
+                        $html .= '<td class="resultset"><a href="'.$this->edit2_link_filename.'?ID='.$row[$this->edit2_link_colname].'&option=edit&title='.$this->edit2_link_title.'" target="_blank">'.$this->edit2_link_title.' öffnen</a></td>'. PHP_EOL;                                          
                     }
                     if ($this->add_link_show)  {
                         $html .= '<td class="resultset"><a href="show_'.$this->edit_link_table.'.php?ID='.$row["ID"].($this->edit_link_title!=''?'&title='.$this->edit_link_title:'').'&Name='.$row["Name"].'"'. ($this->edit_link_open_newpage?' target="_blank"':''). '>Anzeigen</a></td>'. PHP_EOL;                                     

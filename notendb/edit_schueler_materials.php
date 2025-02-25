@@ -8,28 +8,21 @@ include_once("cl_schueler_material.php");
 $schueler=new Schueler();
 $schueler->ID=$_REQUEST["SchuelerID"]; 
 
+$schuelermaterial=new SchuelerMaterial(); 
 
-if (isset($_GET["option"])){
+if (isset($_REQUEST["option"])) {
+    switch($_REQUEST["option"]) {
 
-    if($_REQUEST["option"]=='delete') {
-        $schuelermaterial=new SchuelerMaterial(); 
-        $schuelermaterial->ID=$_REQUEST["ID"]; 
-
-        if (isset($_POST["confirm"])) {
+        case "delete": 
+            $schuelermaterial->ID=$_REQUEST["ID"]; 
             $schuelermaterial->delete(); 
-        }
-        else {
-            echo '
-            <form action="" method="post">
-            <p>Material-Verknüpfung ID '.$schuelermaterial->ID.' wird gelöscht 
-            <input class="btnDelete" type="submit" name="confirm" value="Löschung bestätigen">
-            <input type="hidden" name="ID" value="' . $schuelermaterial->ID . '">           
-            <input type="hidden" name="option" value="delete">        
-            </form>
-            </p>  '; 
-        }
+        break; 
 
-    }     
+        case "insert": 
+             $schuelermaterial->insert_row( $_REQUEST["SchuelerID"], $_GET["MaterialID"]);   
+        break; 
+
+    }
 }
 
 

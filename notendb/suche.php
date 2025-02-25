@@ -80,6 +80,7 @@ $filter=false;
 $edit_table=''; /* Tabelle, die über Bearbeiten-Links in Ergebnis-Tabelle abrufbar sein soll */
 
 $Suche = new Abfrage();
+$Suche->Beschreibung = "<b>Noten-Suche</b>".PHP_EOL; 
 
 ?>
 
@@ -869,7 +870,7 @@ if (isset($_POST['suchtext'])) {
         } else {
           // Abfrage nicht speichern, Ergebnis ausgeben   
           if ($Suche->Beschreibung!='') {
-            echo '<p>Auswahl:</p><pre>'.$Suche->Beschreibung.'</pre>';
+            echo '<pre>'.$Suche->Beschreibung.'</pre>';
           }
     
           include_once("dbconn/cl_db.php");

@@ -154,6 +154,7 @@ class Schwierigkeitsgrad {
     try {
       $stmt->execute(); 
       $html = new HtmlSelect($stmt); 
+      $html->visible_rows=5; 
       $html->print_select_multi('Schwierigkeitsgrad', 'Schwierigkeitsgrad[]', $options_selected, 'Schwierigkeitsgrad:'); 
       $this->titles_selected_list = $html->titles_selected_list; 
     }

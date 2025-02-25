@@ -152,10 +152,11 @@ class Schueler {
  
   function print_table_schwierigkeitsgrade($target_file){
     $query="SELECT
-          instrument.Name as Instrument 
+    schueler_schwierigkeitsgrad.ID 
+          , instrument.Name as Instrument 
           , schwierigkeitsgrad.Name as Schwierigkeitsgrad
-          , instrument.ID 
-          , schueler_schwierigkeitsgrad.SchwierigkeitsgradID as ID2          
+          -- , instrument.ID 
+          -- , schueler_schwierigkeitsgrad.SchwierigkeitsgradID as ID2          
           FROM schueler_schwierigkeitsgrad 
           left join schwierigkeitsgrad 
               on  schwierigkeitsgrad.ID = schueler_schwierigkeitsgrad.SchwierigkeitsgradID
@@ -181,7 +182,7 @@ class Schueler {
       $html->del_link_filename=$target_file; 
       $html->del_link_parent_key='SchuelerID'; 
       $html->del_link_parent_id= $this->ID; 
-      $html->del_link_count_params=2; 
+      // $html->del_link_count_params=2; 
       $html->show_missing_data_message=false; 
       $html->print_table2();           
     }
@@ -241,20 +242,17 @@ class Schueler {
     }
   }
 
-  function delete_schwierigkeitsgrad($InstrumentID, $SchwierigkeitsgradID){
+  function delete_schwierigkeitsgrad($ID){
     include_once("dbconn/cl_db.php");
     $conn = new DbConn(); 
     $db=$conn->db; 
 
     $delete = $db->prepare("DELETE 
-                          FROM `schueler_schwierigkeitsgrad` 
-                          WHERE SchuelerID=:SchuelerID
-                          AND InstrumentID=:InstrumentID
-                          AND SchwierigkeitsgradID=:SchwierigkeitsgradID"
-                        ); 
-    $delete->bindValue(':SchuelerID', $this->ID);  
-    $delete->bindValue(':InstrumentID', $InstrumentID);      
-    $delete->bindValue(':SchwierigkeitsgradID', $SchwierigkeitsgradID);    
+                      FROM `schueler_schwierigkeitsgrad` 
+                      WHERE ID=:ID"
+                    ); 
+
+    $delete->bindValue(':ID', $ID);      
 
     try {
       $delete->execute(); 
@@ -274,8 +272,8 @@ class Schueler {
       , musikstueck.Name as `Musikstück`
       , satz.Nr as `Satz Nr`    
       , satz.Name as `Satz Name`
-      , schueler_satz.Bemerkung  
-    -- , schueler_satz.SatzID           
+     -- , schueler_satz.Bemerkung  
+      , schueler_satz.SatzID           
     FROM schueler_satz
     LEFT JOIN satz ON satz.ID = schueler_satz.SatzID  
     LEFT JOIN musikstueck ON musikstueck.ID = satz.MusikstueckID
@@ -294,14 +292,23 @@ class Schueler {
       $stmt->execute(); 
       include_once("cl_html_table.php");      
       $html = new HtmlTable($stmt); 
-      $html->edit_link_table='schueler_satz'; 
-      $html->edit_link_title='Schueler'; 
-      $html->edit_link_open_newpage=false; 
+      $html->add_link_edit=false;   
+      // $html->edit_link_table='schueler_satz'; 
+      // $html->edit_link_title='Schueler'; 
+      // $html->edit_link_open_newpage=false; 
       $html->show_missing_data_message=false;      
       $html->add_link_delete=true; // XXX 
       $html->del_link_filename='edit_schueler_saetze.php'; 
       $html->del_link_parent_key='SchuelerID'; 
-      $html->del_link_parent_id= $this->ID;              
+      $html->del_link_parent_id= $this->ID;             
+      
+      // Link zu Satz-Formular 
+      $html->add_link_edit2=true; 
+      $html->edit2_link_colname='SatzID'; 
+      $html->edit2_link_filename='edit_satz.php'; 
+      $html->edit2_link_title='Satz';       
+
+      
       $html->print_table2(); 
 
     }
@@ -315,13 +322,16 @@ class Schueler {
   
   function print_table_materials(){
     $query="SELECT schueler_material.ID
-            , material.Name as `Material Name`
-            , schueler_material.Bemerkung  as `Material Bemerkung`
+            , material.Name 
+            , sammlung.Name as Sammlung  
+            -- , schueler_material.Bemerkung  as `Material Bemerkung`
             , materialtyp.Name  as `Materialtyp`            
-           -- , schueler_material.SatzID           
+           -- , schueler_material.SatzID
+           , schueler_material.MaterialID            
           FROM schueler_material
           LEFT JOIN material ON material.ID = schueler_material.MaterialID  
-          LEFT JOIN materialtyp ON materialtyp.ID = material.MaterialtypID                             
+          LEFT JOIN materialtyp ON materialtyp.ID = material.MaterialtypID  
+          LEFT JOIN sammlung on sammlung.ID = material.SammlungID                            
           WHERE schueler_material.SchuelerID = :ID
           order by material.Name  
         "; 
@@ -337,14 +347,22 @@ class Schueler {
       $stmt->execute(); 
       include_once("cl_html_table.php");      
       $html = new HtmlTable($stmt); 
-      $html->edit_link_table='schueler_material'; 
-      $html->edit_link_title='Schueler'; 
-      $html->edit_link_open_newpage=false; 
+      $html->add_link_edit=false;      
+      // $html->edit_link_table='schueler_material'; 
+      // $html->edit_link_title='Schueler'; 
+      // $html->edit_link_open_newpage=false; 
       $html->show_missing_data_message=false;      
       $html->add_link_delete=true; // XXX 
       $html->del_link_filename='edit_schueler_materials.php'; 
       $html->del_link_parent_key='SchuelerID'; 
-      $html->del_link_parent_id= $this->ID;              
+      $html->del_link_parent_id= $this->ID;  
+      
+      // Link zu Material-Formular 
+      $html->add_link_edit2=true; 
+      $html->edit2_link_colname='MaterialID'; 
+      $html->edit2_link_filename='edit_material.php'; 
+      $html->edit2_link_title='Material';       
+
       $html->print_table2(); 
 
     }

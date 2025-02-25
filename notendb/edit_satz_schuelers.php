@@ -8,27 +8,22 @@ include_once("cl_schueler_satz.php");
 $satz=new Satz();
 $satz->ID=$_GET["SatzID"]; 
 
-if (isset($_GET["option"])){
+$schuelersatz=new SchuelerSatz(); 
 
-    if($_REQUEST["option"]=='delete') {
-        $satzschueler=new SchuelerSatz(); 
-        $satzschueler->ID=$_REQUEST["ID"]; 
+if (isset($_REQUEST["option"])) {
+    switch($_REQUEST["option"]) {
 
-        if (isset($_POST["confirm"])) {
-            $satzschueler->delete(); 
-        }
-        else {
-            echo '
-            <form action="" method="post">
-            <p>Schüler-Verknüpfung ID '.$satzschueler->ID.' wird gelöscht 
-            <input class="btnDelete" type="submit" name="confirm" value="Löschung bestätigen">
-            <input type="hidden" name="ID" value="' . $satzschueler->ID . '">  
-            <input type="hidden" name="option" value="delete">        
-            </form>
-            </p>  '; 
-        }
+        case "delete": 
+            $schuelersatz->ID=$_REQUEST["ID"]; 
+            $schuelersatz->delete(); 
+        break; 
 
-    }     
+        case "insert": 
+        
+          $schuelersatz->insert_row( $_REQUEST["SchuelerID"], $_GET["SatzID"]);   
+        break; 
+
+    }
 }
 
 

@@ -33,18 +33,15 @@ $ErprobtJahr_bis='';
 $suchtext=''; 
 
 /***************************/
-
+$filter=false; 
 
 $filterSchwierigkeitsgrad=''; 
-
-
 $filterSuchtext='';  
-
-$filter=false; 
 
 $edit_table=''; /* Tabelle, die über Bearbeiten-Links in Ergebnis-Tabelle abrufbar sein soll */
 
 $Suche = new Abfrage();
+$Suche->Beschreibung = "<b>Schüler-Suche</b>".PHP_EOL; 
 
 ?>
 
@@ -176,7 +173,7 @@ if (isset($_POST['suchtext'])) {
 <hr>
 <p>
   <input type="checkbox" id="sp" name="SucheSpeichern"><label for="sp">Suche speichern</label>   <!---- Entscheidung Suche speichern ja / nein -----> 
-  <a href="help_suche.php?title=Hilfe%20zur%20Suche#suche-schueler" target="_blank">Hilfe</a> 
+  <p> <a href="help_suche.php?title=Hilfe%20zur%20Suche#suche-schueler" target="_blank">Hilfe</a> </p> 
 </p>
 
 
@@ -300,7 +297,7 @@ if (isset($_POST['suchtext'])) {
         } else {
           // Abfrage nicht speichern, Ergebnis ausgeben   
           if ($Suche->Beschreibung!='') {
-            echo '<p>Auswahl:</p><pre>'.$Suche->Beschreibung.'</pre>';
+            echo '<pre>'.$Suche->Beschreibung.'</pre>';
           }
     
           include_once("dbconn/cl_db.php");

@@ -249,7 +249,8 @@ class Material {
   function print_table_schueler(){
     $query="SELECT schueler_material.ID 
           , schueler.Name as Schueler
-          , schueler_material.Bemerkung  
+          , schueler_material.SchuelerID 
+          -- , schueler_material.Bemerkung  
           FROM schueler_material
           left join schueler 
           on  schueler.ID = schueler_material.SchuelerID  
@@ -268,15 +269,22 @@ class Material {
       $stmt->execute(); 
       include_once("cl_html_table.php");      
       $html = new HtmlTable($stmt); 
-      $html->edit_link_table='material_schueler'; 
-      $html->edit_link_title='Schueler'; 
-      $html->edit_link_open_newpage=false; 
+      $html->add_link_edit=false;       
+      // $html->edit_link_table='material_schueler'; 
+      // $html->edit_link_title='Schueler'; 
+      // $html->edit_link_open_newpage=false; 
       $html->show_missing_data_message=false;      
       $html->add_link_delete=true; // XXX 
       $html->del_link_filename='edit_material_schuelers.php'; 
-      // $html->del_link_table='material_erprobt'; // nicht sinnvoll
       $html->del_link_parent_key='MaterialID'; 
-      $html->del_link_parent_id= $this->ID;              
+      $html->del_link_parent_id= $this->ID;    
+      
+      // Link zu Schüler-Formular 
+      $html->add_link_edit2=true; 
+      $html->edit2_link_colname='SchuelerID'; 
+      $html->edit2_link_filename='edit_schueler.php'; 
+      $html->edit2_link_title='Schüler';       
+
       $html->print_table2(); 
 
     }
