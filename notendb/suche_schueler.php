@@ -114,10 +114,12 @@ if (isset($_POST['suchtext'])) {
 }  
 ?>
 <!---- Suche starten -----> 
+
 <p>Suchtext: <br><input type="text" id="suchtext" name="suchtext" size="30px" value="<?php echo $suchtext; ?>" autofocus> 
 <input class="btnSave" type="submit" value="Suchen" class="btnSave" width="100px">
 </P> 
 
+<p class="navi-trenner">Schüler Attribute</p> 
 <?php
 
   /************* Schüler  ***********/
@@ -165,6 +167,61 @@ if (isset($_POST['suchtext'])) {
   }
   $schwierigkeitsgrad->print_select_multi($Schwierigkeitsgrade);  
   $Suche->Beschreibung.=(count($Schwierigkeitsgrade)>0?$schwierigkeitsgrad->titles_selected_list:'');  
+
+?>
+  <p class="navi-trenner">Noten Satz</p> 
+<?php 
+
+/************** Besonderheiten Satz **********/
+
+$lookuptypes=new Lookuptype(); 
+$lookuptypes->Relation='satz'; 
+$arrLookupTypes=$lookuptypes->getArrData(); 
+$filterLookups_satz=''; 
+for ($i = 0; $i < count($arrLookupTypes); $i++) {
+  // print_r($arrLookupTypes[$i]);  // Test     
+  $lookup_check_include=false; // Einschluss-Suche ja/nein 
+  $lookup_check_exclude=false;    // Ausschluss-Suche ja/nein
+  $lookup_type_name=$arrLookupTypes[$i]["Name"]; 
+  $lookup_type_key= $arrLookupTypes[$i]["type_key"]; 
+
+  $lookup=New Lookup(); 
+  $lookup->LookupTypeID=$arrLookupTypes[$i]["ID"];
+  $lookup_values=[]; // alle Lookupwerte eines Typs 
+  $lookup_values_selected=[];    // ausgewählte Lookup-Werte 
+  $lookup_values_not_selected=[];  // nicht ausgewählte Lookup-Werte 
+  // print_r($lookup_values); // Test 
+  if (isset($_POST[$lookup_type_key])) {
+    $filter=true;       
+    $lookup_values_selected= $_POST[$lookup_type_key]; 
+    // print_r($lookup_values_selected); // test 
+    if (isset($_POST['include_'.$lookup_type_key])) { //  "Einschluss-Suche" aktiviert 
+      $lookup_check_include=true;         
+      for ($k = 0; $k < count($lookup_values_selected); $k++) {
+        $filterLookups_satz.=' AND satz.ID IN (SELECT SatzID from satz_lookup WHERE LookupID='.$lookup_values_selected[$k].') '. PHP_EOL; 
+      }
+    } 
+    else {
+      $filterLookups_satz.=' AND satz.ID IN (SELECT SatzID from satz_lookup WHERE LookupID IN ('.implode(',', $lookup_values_selected).'))'. PHP_EOL;         
+    }
+    if (isset($_POST['exclude_'.$lookup_type_key])) {    // Ausschluss-Suche aktiviert 
+      $lookup_values = $lookup->getArrLookups();        
+      $lookup_check_exclude=true; 
+      $lookup_values_not_selected = array_diff($lookup_values, $lookup_values_selected); // nicht ausgewählte Werte    
+      $filterLookups_satz.=' AND satz.ID NOT IN (SELECT DISTINCT SatzID from satz_lookup WHERE LookupID IN ('.implode(',', $lookup_values_not_selected).')) '. PHP_EOL; 
+    }      
+  }    
+  $lookup->print_select_multi($lookup_type_key,$lookup_values_selected, $lookup_type_name.':', true, $lookup_check_include, true,$lookup_check_exclude );
+  $Suche->Beschreibung.=(count($lookup_values_selected)>0?$lookup->titles_selected_list:'');   
+}
+
+
+
+
+
+
+
+
 
   ?>
 
@@ -247,6 +304,8 @@ if (isset($_POST['suchtext'])) {
           $query.=($filterInstrument!=''?$filterInstrument.PHP_EOL:''); 
 
           $query.=($filterSchwierigkeitsgrad!=''?$filterSchwierigkeitsgrad.PHP_EOL:''); 
+
+          $query.=($filterLookups_satz!=''?$filterLookups_satz.PHP_EOL:'');           
 
           if($suchtext!=''){
             $query.="AND (schueler.Name LIKE '%".$suchtext."%'   

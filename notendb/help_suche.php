@@ -233,19 +233,28 @@ include('head.php');
     <p>Instrument (Einfach-Auswahl) </p> 
 
 <h2 class="chapter-title chapter-title-h2" id="suche-schueler-schueler">Schwierigkeitsgrad</h2> 
-    <p>Schwierigkeitsgrad (Mehrfachauswahl) </p> 
+    <p>Schwierigkeitsgrad (Mehrfachauswahl): Suche Schwierigkeitsgrad(e), unabhängig von Instrument</p> 
+
+<h2 class="chapter-title chapter-title-h2" id="suche-schueler-schueler">Satz Besonderheiten</h2> 
+    <p>(geplant: Suche nach Satz-Besonderheiten aus mit dem Schüler verknüpften Noten) </p> 
 
 
+
+
+
+
+
+    
 <p>&nbsp;</p>
-        <p>&nbsp;</p>
-        <p>&nbsp;</p>
-        <p>&nbsp;</p>
-        <p>&nbsp;</p>
-        <p>&nbsp;</p>
-        <p>&nbsp;</p>
-        <p>&nbsp;</p>
-        <p>&nbsp;</p>
-        <p>&nbsp;</p>
+            <p>&nbsp;</p>
+            <p>&nbsp;</p>
+            <p>&nbsp;</p>
+            <p>&nbsp;</p>
+            <p>&nbsp;</p>
+            <p>&nbsp;</p>
+            <p>&nbsp;</p>
+            <p>&nbsp;</p>
+            <p>&nbsp;</p>
 
 
 

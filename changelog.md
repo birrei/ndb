@@ -1,7 +1,7 @@
 ﻿
 # Changelog  
 
-Next: Integration Schüler in Suche-Seite; Material > Besonderheiten  
+25.02.2025: Schüler Suche-Seite 
 
 14.02.2025: Funktion "Satz kopieren" 
 
