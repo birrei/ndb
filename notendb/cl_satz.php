@@ -310,7 +310,7 @@ class Satz {
     $conn = new DbConn(); 
     $db=$conn->db; 
 
-    $insert = $db->prepare("INSERT INTO `satz_lookup` SET
+    $insert = $db->prepare("INSERT IGNORE INTO `satz_lookup` SET
         `SatzID`     = :SatzID,  
         `LookupID`     = :LookupID");
 
