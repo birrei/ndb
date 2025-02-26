@@ -457,6 +457,98 @@ class Schueler {
     }  
   }  
 
+  function copy(){
+
+    include_once("dbconn/cl_db.php");
+    include_once("cl_html_info.php"); 
+
+    $conn = new DbConn(); 
+    $db=$conn->db; 
+
+    $sql="INSERT INTO schueler (Name, Bemerkung)
+          SELECT CONCAT(Name, ' (Kopie)') as Name , Bemerkung
+          FROM schueler 
+          WHERE ID=:ID ";
+
+    $insert = $db->prepare($sql); 
+    $insert->bindValue(':ID', $this->ID);  
+
+    try {
+      $insert->execute(); 
+      $ID_New = $db->lastInsertId();    
+
+      $this->copy_schwierigkeitsgrade($ID_New); 
+      $this->copy_saetze($ID_New); 
+      $this->copy_materials($ID_New); 
+
+      $this->ID =  $ID_New; // Stabübergabe (Objekt-Instanz übernimmt neue ID-Kopie )
+    }
+    catch (PDOException $e) {
+      $info = new HtmlInfo();      
+      $info->print_user_error(); 
+      $info->print_error($insert, $e);  
+    }  
+  } 
+
+  function copy_schwierigkeitsgrade($ID_new) {
+    include_once("dbconn/cl_db.php");
+    $conn = new DbConn(); 
+    $db=$conn->db; 
+
+    $sql="INSERT INTO schueler_schwierigkeitsgrad
+          (SchuelerID, SchwierigkeitsgradID, InstrumentID) 
+        SELECT :SchuelerID_new as SchuelerID
+              , SchwierigkeitsgradID
+              , InstrumentID
+        FROM schueler_schwierigkeitsgrad 
+        WHERE SchuelerID=:ID";
+
+    $insert = $db->prepare($sql); 
+    $insert->bindValue(':ID', $this->ID);  
+    $insert->bindValue(':SchuelerID_new', $ID_new);  
+    $insert->execute();  
+
+  }   
+
+  
+  function copy_saetze($ID_new) {
+    include_once("dbconn/cl_db.php");
+    $conn = new DbConn(); 
+    $db=$conn->db; 
+
+    $sql="INSERT INTO schueler_satz (SchuelerID, SatzID) 
+        SELECT :SchuelerID_new as SchuelerID
+              , SatzID
+        FROM schueler_satz 
+        WHERE SchuelerID=:ID";
+
+    $insert = $db->prepare($sql); 
+    $insert->bindValue(':ID', $this->ID);  
+    $insert->bindValue(':SchuelerID_new', $ID_new);  
+    $insert->execute();  
+
+  }   
+
+  function copy_materials($ID_new) {
+    include_once("dbconn/cl_db.php");
+    $conn = new DbConn(); 
+    $db=$conn->db; 
+
+    $sql="INSERT INTO schueler_material(SchuelerID, MaterialID) 
+        SELECT :SchuelerID_new as SchuelerID
+              , MaterialID
+        FROM schueler_material 
+        WHERE SchuelerID=:ID";
+
+    $insert = $db->prepare($sql); 
+    $insert->bindValue(':ID', $this->ID);  
+    $insert->bindValue(':SchuelerID_new', $ID_new);  
+    $insert->execute();  
+
+  }   
+
+
+
 }
 
  
