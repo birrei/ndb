@@ -171,6 +171,10 @@ include('head.php');
         <p> Eine Verknüpfung zwischen Schüler und Material kann auch im Formular "Material" vorgenommen werden, 
             siehe <a href="#erfassung_material_schueler">Material: Zuordnung Schüler</a>. 
         </p>
+    <h3 class="chapter-title chapter-title-h3" id="erfassung_schueler_kopieren">Schüler kopieren</h3>
+        <p>Schüler wird inklusive Instrumente/Schwierigkeitsgrade sowie aller Material- und Satzverknüpfungen kopiert 
+            (Einsatzzweck z.B. Neuen Schüler mit ähnlichem Unterrichtsprofil entsprechend eines älteren Schülers anlegen)
+        </p>
 
 <h2 class="chapter-title chapter-title-h2" id="erfassung_stammdaten">Stammdaten</h2>
     <h3 class="chapter-title chapter-title-h3" id="erfassung_stammdaten_besetzung">Stammdaten: Besetzung</h3>
