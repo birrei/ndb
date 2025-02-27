@@ -57,3 +57,18 @@ order by Name;
 select * from  schueler_schwierigkeitsgrad ; 
 
 
+
+/* Schüler-Listen aus Verwendungszweck löschen */
+
+delete 
+from musikstueck_verwendungszweck 
+WHERE VerwendungszweckID IN (
+select ID as VerwendungszweckID  from verwendungszweck 
+where Name like '%Planung Unterricht:%'
+and Name not like '%besonders geeignet%'
+-- order by Name
+)
+
+delete from verwendungszweck 
+where Name like '%Planung Unterricht:%'
+and Name not like '%besonders geeignet%'
