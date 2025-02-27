@@ -18,6 +18,7 @@ $show_data=false;
 
 if (isset($_REQUEST["option"])) {
   switch($_REQUEST["option"]) {
+
     case 'edit': // über "Bearbeiten"-Link
       $material->ID=$_GET["ID"];
       if ($material->load_row()) {
@@ -72,6 +73,16 @@ if (isset($_REQUEST["option"])) {
       $info->print_info('Der Datensatz wurde gelöscht.'); 
       $show_data=false; 
       break; 
+
+    case 'copy': 
+      $ID_ref=$_REQUEST["ID"]; 
+      $material->ID=$ID_ref; 
+      $material->copy();   
+      $material->load_row();
+      $SammlungID = $material->SammlungID;        
+      $info->print_info_copy($material->Title, $ID_ref, $material->ID, 'edit_material'); 
+      $show_data=true; 
+      break;       
 
   }
 }
@@ -144,20 +155,17 @@ echo '</td>
               </td>
               </tr> 
             '; 
-            // XXX gehe zu Sammlung
         }
-echo '
-  <tr> 
-    <td class="form-edit form-edit-col1"></td> 
-    <td class="form-edit form-edit-col2"><input class="btnSave" type="submit" name="senden" value="Speichern">  
-    </td>
-  </tr> 
-'; 
+    echo '
+      <tr> 
+        <td class="form-edit form-edit-col1"></td> 
+        <td class="form-edit form-edit-col2"><input class="btnSave" type="submit" name="senden" value="Speichern">  
+        </td>
+      </tr> '; 
 
   ?>
 
   <tr> 
-
     <td class="form-edit form-edit-col1">Schüler:</td> 
   </td> 
   <td class="form-edit form-edit-col2">
@@ -173,6 +181,16 @@ echo '
   <br>
 
 <?php 
+
+
+echo 
+'<p> <form action="edit_material.php" method="post">
+<input type="hidden" name="ID" value="' . $material->ID. '">
+<input type="hidden" name="option" value="copy">      
+<input type="hidden" name="title" value="Material"> 
+<input type="submit" name="senden" value="Material kopieren">             
+</form></p>
+'; 
 
 
 

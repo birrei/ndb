@@ -368,8 +368,8 @@ class Material {
 
   function copy($SammlungID_New=0){
     // SammlungID_New > 0 : Material Kopie zu Sammlung Kopie 
-    // SammlungID_New= 0: Material Kopie an gleicher Sammlung
-    // SammlungID_New=-1: Material-KOpie unabhängig von Sammlungs-Verknüpfnung  
+    // SammlungID_New= 0: Material Kopie an gleicher Sammlung, Funktion "Kopieren" an Material 
+    // SammlungID_New=-1: Material Kopie Material ohne Sammlungs-Verknüpfung 
     include_once("dbconn/cl_db.php");
     include_once("cl_satz.php");    
 
@@ -384,7 +384,7 @@ class Material {
             WHERE ID=:ID";
     } elseif($SammlungID_New==0) {
       $sql="INSERT INTO material (SammlungID, MaterialtypID, `Name`, Bemerkung) 
-            SELECT SammlungID, MaterialtypID, `Name`, Bemerkung 
+            SELECT SammlungID, MaterialtypID, CONCAT(`Name`, ' (Kopie)') as Name, Bemerkung 
             FROM material 
             WHERE ID=:ID";
     } elseif($SammlungID_New<0) {
@@ -409,6 +409,8 @@ class Material {
       $ID_New = $db->lastInsertId();    
         
       $this->copy_schueler($ID_New); 
+
+      $this->ID= $ID_New; 
     }
     catch (PDOException $e) {
       include_once("cl_html_info.php"); 
