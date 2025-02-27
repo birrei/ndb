@@ -90,7 +90,7 @@
       case 'v_material': 
         echo '<form action="" method="get">'.PHP_EOL;       
         include_once("cl_materialtyp.php");
-        $MaterialtypID=(isset($_POST["MaterialtypID"])?$_POST["MaterialtypID"]:'');
+        $MaterialtypID=(isset($_REQUEST["MaterialtypID"])?$_REQUEST["MaterialtypID"]:'');
         $materialtyp = new Materialtyp(); 
         echo 'Materialtyp: '.PHP_EOL; 
         $materialtyp->print_preselect($MaterialtypID); 
@@ -106,7 +106,7 @@
       case 'v_abfrage': 
         echo '<form action="" method="get">'.PHP_EOL; 
         include_once("cl_abfragetyp.php");
-        $AbfragetypID=(isset($_POST["AbfragetypID"])?$_POST["AbfragetypID"]:'');
+        $AbfragetypID=(isset($_REQUEST["AbfragetypID"])?$_REQUEST["AbfragetypID"]:'');
         $abfragetyp = new Abfragetyp(); 
         echo 'Abfragetyp: '.PHP_EOL; 
         $abfragetyp->print_preselect($AbfragetypID); 
@@ -138,7 +138,7 @@
         echo '<form action="" method="get">'.PHP_EOL; 
         include_once("cl_standort.php");
         $StandortID=(isset($_REQUEST["StandortID"])?$_REQUEST["StandortID"]:'');
-        $Erfasst=(isset($_POST["Erfasst"])?1:0); 
+        $Erfasst=(isset($_REQUEST["Erfasst"])?1:0); 
         $standort = new Standort(); 
         echo 'Standort: '.PHP_EOL; 
         $standort->print_preselect($StandortID); 
@@ -159,7 +159,7 @@
 
   $query.= 'ORDER BY '.$sortcol.' '.$sortorder.PHP_EOL; 
  
-  // echo '<pre>'.$query.'</pre>'; // Test 
+  echo '<pre>'.$query.'</pre>'; // Test 
 
   /******************************* */
 
