@@ -135,7 +135,7 @@ class HtmlTable {
                         }                                        
                     }
                     if ($this->add_link_edit2) {
-                        $html .= '<td class="resultset"><a href="'.$this->edit2_link_filename.'?ID='.$row[$this->edit2_link_colname].'&option=edit&title='.$this->edit2_link_title.'" target="_blank">'.$this->edit2_link_title.' öffnen</a></td>'. PHP_EOL;                                          
+                        $html .= '<td class="resultset"><a href="'.$this->edit2_link_filename.'?ID='.$row[$this->edit2_link_colname].'&option=edit&title='.$this->edit2_link_title.'" target="_blank" tabindex="-1">'.$this->edit2_link_title.' bearbeiten</a></td>'. PHP_EOL;                                          
                     }
                     if ($this->add_link_show)  {
                         $html .= '<td class="resultset"><a href="show_'.$this->edit_link_table.'.php?ID='.$row["ID"].($this->edit_link_title!=''?'&title='.$this->edit_link_title:'').'&Name='.$row["Name"].'"'. ($this->edit_link_open_newpage?' target="_blank"':''). '>Anzeigen</a></td>'. PHP_EOL;                                     
@@ -148,7 +148,7 @@ class HtmlTable {
                                 break; 
               
                                 case 2: // 2 Child-IDs 
-                                    $html .= '<td class="resultset"><a href="'.$this->del_link_filename.'?'.$this->del_link_parent_key.'='.$this->del_link_parent_id.'&ID='.$row["ID"].'&ID2='.$row["ID2"].'&option=delete" 2tabindex="-1">Löschen</a></td>'. PHP_EOL;                     
+                                    $html .= '<td class="resultset"><a href="'.$this->del_link_filename.'?'.$this->del_link_parent_key.'='.$this->del_link_parent_id.'&ID='.$row["ID"].'&ID2='.$row["ID2"].'&option=delete" tabindex="-1">Löschen</a></td>'. PHP_EOL;                     
                                 break; 
 
                             }
