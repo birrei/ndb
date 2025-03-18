@@ -834,6 +834,38 @@ class Satz {
       $info->print_error($delete, $e);  
     }  
   }
+
+  function print_table_schueler_checklist(){
+    $query="select distinct schueler.ID, schueler.Name
+            from schueler 
+            left join schueler_satz on schueler.ID = schueler_satz.SchuelerID 
+                        and schueler_satz.SatzID = :SatzID 
+            where schueler_satz.ID is null 
+            order by schueler.Name 
+        "; 
+
+    include_once("dbconn/cl_db.php");
+    $conn = new DbConn(); 
+    $db=$conn->db; 
+  
+    $stmt = $db->prepare($query); 
+    $stmt->bindParam(':SatzID', $this->ID, PDO::PARAM_INT); 
+
+    try {
+      $stmt->execute(); 
+      include_once("cl_html_table.php");      
+      $html = new HtmlTable($stmt); 
+      $html->print_table_checklist('schueler'); 
+
+
+    }
+    catch (PDOException $e) {
+      include_once("cl_html_info.php"); 
+      $info = new HtmlInfo();      
+      $info->print_user_error(); 
+      $info->print_error($stmt, $e); 
+    }
+  }      
    
 }
 

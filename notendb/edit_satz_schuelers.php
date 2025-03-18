@@ -15,7 +15,9 @@ $satz->print_table_schueler();
 echo '</div>'; 
 
 echo '&nbsp;<a href="edit_satz_schueler.php?SatzID='.$satz->ID.'&option=insert" class="form-link">Hinzufügen</a>'; 
-    
+
+echo '&nbsp;<a href="edit_satz_schuelers2.php?SatzID='.$satz->ID.'&option=edit" class="form-link">Schnell-Zuordnung</a>'; 
+
 include('foot_raw.php');
 
 ?>
