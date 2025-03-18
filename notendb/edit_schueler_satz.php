@@ -7,11 +7,6 @@ include("cl_satz.php");
 
 include("cl_html_info.php"); 
 
-/** Unter-Formular Typ update only 
- *  option immer gesetzt 
- *  schueler_satz.ID immer vorhanden 
- * 
-*/
 
 
 $info= new HtmlInfo(); 
@@ -37,11 +32,11 @@ if (isset($_REQUEST["option"])) {
   switch($_REQUEST["option"]) {
 
     case 'update': 
-      $schuelersatz->update_row(
-        $_POST["SatzID"],        
-        $_POST["SchuelerID"],
-        $_POST["Bemerkung"]
-        );   
+      // $schuelersatz->update_row(
+      //   $_POST["SatzID"],        
+      //   $_POST["SchuelerID"],
+      //   $_POST["Bemerkung"]
+      //   );   
         
       }
     

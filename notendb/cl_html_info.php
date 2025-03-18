@@ -121,7 +121,6 @@ class HtmlInfo {
 
     function print_screen_header($header_text, $suffix='') {
         echo '<span style="font-size:15pt;font-weight:bold;padding-top: 10px;margin-right: 20px;">'.$header_text.($suffix!=''?$suffix:'').'</span>';
-
     }
 
     function print_info_copy ($item_name, $ID_ref, $ID_new, $target_filename) {
@@ -131,6 +130,23 @@ class HtmlInfo {
         .$ID_ref.'&option=edit&title='.$item_name.'" target="_blank">'.$item_name.' ID '.$ID_ref.'</a>)</p>'; 
         echo $html; 
     }
+
+/* Formulare */   
+
+function print_form_confirm($filename,$ID, $option,$aktion) {
+
+    echo 
+    '<p> 
+    <form action="'.$filename.'" method="post">
+    <input type="hidden" name="ID" value="' . $ID. '">
+    <input type="hidden" name="option" value="'.$option.'">      
+    <input type="submit" name="senden" value="'.$aktion.' bestätigen">             
+    </form></p>
+    '; 
+
+
+}
+
 
     // function print_action_info($ID, $action_name){
     //     $this->html.= '<p style="color: blue;">'; 

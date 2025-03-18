@@ -7,7 +7,10 @@ class SchuelerSatz {
   public $ID='';
   public $SatzID='';
   public $SchuelerID=''; 
-    // DatumVon XXX 
+  public $DatumVon='' ; 
+  public $DatumBis='' ; 
+
+
   // DatumBis XXX 
   public $Bemerkung=''; 
 
@@ -42,7 +45,7 @@ class SchuelerSatz {
     try {
       $insert->execute(); 
       $this->ID=$db->lastInsertId();
-      $this->load_row();   
+      // $this->load_row();   
     }
       catch (PDOException $e) {
       include_once("cl_html_info.php"); 
@@ -61,6 +64,8 @@ class SchuelerSatz {
                           , SatzID
                           , SchuelerID
                           , COALESCE(Bemerkung, '') as Bemerkung
+                          , DatumVon
+                          , DatumBis
                           FROM `schueler_satz`
                           WHERE `ID` = :ID");
 
@@ -72,6 +77,8 @@ class SchuelerSatz {
       $this->SatzID=$row_data["SatzID"]; 
       $this->SchuelerID=$row_data["SchuelerID"];     
       $this->Bemerkung=$row_data["Bemerkung"];
+      $this->DatumVon=$row_data["DatumVon"];
+      $this->DatumBis=$row_data["DatumBis"];            
       return true; 
     } 
     else {
@@ -100,6 +107,49 @@ class SchuelerSatz {
       return false; 
     }  
   }  
+
+ 
+  function update($SchuelerID, $SatzID, $DatumVon, $DatumBis) {
+    include_once("dbconn/cl_db.php");   
+    $conn = new DbConn(); 
+    $db=$conn->db; 
+    
+    // echo 'TEST: ID: '.$this->ID; 
+    // echo '<br>SchuelerID: '.$SchuelerID; 
+    // echo '<br>SatzID: '.$SatzID; 
+    // echo '<br>DatumVon: '.$DatumVon; 
+    // echo '<br>DatumBis: '.$DatumBis; 
+
+    if ($this->ID=='') {
+      $this->insert_row($SchuelerID, $SatzID); 
+    }
+
+    $update = $db->prepare("UPDATE `schueler_satz` 
+                            SET `SchuelerID`=:SchuelerID,
+                                 SatzID=:SatzID, 
+                                 DatumVon=:DatumVon, 
+                                 DatumBis=:DatumBis
+                            WHERE `ID` = :ID"); 
+
+    $update->bindParam(':ID', $this->ID, PDO::PARAM_INT);
+    $update->bindParam(':SchuelerID', $SchuelerID);
+    $update->bindParam(':SatzID', $SatzID);
+    $update->bindParam(':DatumVon', $DatumVon);
+    $update->bindParam(':DatumBis', $DatumBis);    
+
+    try {
+      $update->execute(); 
+      $this->load_row();  
+    }
+    catch (PDOException $e) {
+      include_once("cl_html_info.php"); 
+      $info = new HtmlInfo();      
+      $info->print_user_error(); 
+      $info->print_error($update, $e); 
+    }
+  }
+
+
 
 }
 
