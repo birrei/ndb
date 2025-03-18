@@ -179,6 +179,30 @@ class HtmlTable {
     }
 
 
+
+    
+    function print_table_checklist($checkbox_name) {
+        /* $stmt: Tabelle Spalten ID, Name */
+        $html = ''. PHP_EOL;
+
+        if ($this->count_cols > 0 & $this->count_rows > 0){
+            $html.= '<table class="checkboxtable">'. PHP_EOL;
+
+            if  ($this->count_rows > 0) {
+                $html .= '<tbody>';                
+                foreach ($this->result as $row) {
+                    $html .= '<tr>'. PHP_EOL;
+                    $html .= '      <td class="checkboxtable"><label><input type="checkbox" name="'.$checkbox_name.'[]" value="'.$row["ID"].'"> '.$row["Name"].' </label> </td>'. PHP_EOL; 
+                    $html .= '</tr>'. PHP_EOL;
+                } 
+                $html .= '</tbody>'. PHP_EOL;   
+            }
+            $html .= '</table>'. PHP_EOL; 
+    
+        }
+        echo $html;
+    }
+       
     
 //     function print_table_tablelist() {
 //         /* 
