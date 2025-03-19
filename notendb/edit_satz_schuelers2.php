@@ -1,7 +1,4 @@
-
 <?php 
-include('head_raw.php');
-
 include_once("cl_satz.php");
 include_once("cl_schueler_satz.php");
 
@@ -30,7 +27,7 @@ switch($option) {
 
 }
 
-
+include('head_raw.php');
 echo 
 '<div style="float:left">
 <form action="#" method="post">
@@ -49,6 +46,6 @@ echo '
 </div>'; 
 
 
-include('foot_raw.php');
+include_once('foot_raw.php');
 
 ?>

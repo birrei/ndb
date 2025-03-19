@@ -1,11 +1,8 @@
-
 <?php 
-include('head_raw.php');
 include('cl_schueler_satz.php');
 include('cl_schueler.php');
 include("cl_satz.php"); 
 include("cl_html_info.php"); 
-
 
 $option=$_REQUEST["option"]; 
 
@@ -80,7 +77,7 @@ switch($option) {
     $schueler_satz=new SchuelerSatz(); 
     $schueler_satz->update($SchuelerID, $SatzID, $DatumVon, $DatumBis); 
     
-    header('Location: edit_satz_schuelers.php?SatzID='.$SatzID);
+    // header('Location: edit_satz_schuelers.php?SatzID='.$SatzID);
 
     exit;
 
@@ -95,13 +92,17 @@ switch($option) {
     $schueler_satz->ID = $ID; 
     $schueler_satz->update($SchuelerID, $SatzID, $DatumVon, $DatumBis); 
     
-    header('Location: edit_satz_schuelers.php?SatzID='.$SatzID);
+    // header('Location: edit_satz_schuelers.php?SatzID='.$SatzID);
 
     exit;
 
   break;
 
 }
+
+
+include_once('head_raw.php');
+
 
 
 ?> 
