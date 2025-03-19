@@ -1,6 +1,12 @@
 ﻿
 # Changelog  
 
+18.03.2025: Schüler x Satz: Schnellzuordnung (mehrere Schüler in einem Arbeitsgang zuordnen)
+
+18.03.2025: Schüler x Satz: Datum von bis 
+
+----
+
 25.02.2025: Schüler Suche-Seite 
 
 14.02.2025: Funktion "Satz kopieren" 
