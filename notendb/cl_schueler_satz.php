@@ -10,7 +10,6 @@ class SchuelerSatz {
   public $DatumVon='' ; 
   public $DatumBis='' ; 
 
-
   // DatumBis XXX 
   public $Bemerkung=''; 
 
@@ -109,7 +108,7 @@ class SchuelerSatz {
   }  
 
  
-  function update($SchuelerID, $SatzID, $DatumVon, $DatumBis) {
+  function update($SchuelerID, $SatzID, $DatumVon, $DatumBis, $Bemerkung) {
     include_once("dbconn/cl_db.php");   
     $conn = new DbConn(); 
     $db=$conn->db; 
@@ -128,7 +127,8 @@ class SchuelerSatz {
                             SET `SchuelerID`=:SchuelerID,
                                  SatzID=:SatzID, 
                                  DatumVon=:DatumVon, 
-                                 DatumBis=:DatumBis
+                                 DatumBis=:DatumBis, 
+                                 Bemerkung=:Bemerkung 
                             WHERE `ID` = :ID"); 
 
     $update->bindParam(':ID', $this->ID, PDO::PARAM_INT);
@@ -136,7 +136,8 @@ class SchuelerSatz {
     $update->bindParam(':SatzID', $SatzID);
     $update->bindParam(':DatumVon', $DatumVon);
     $update->bindParam(':DatumBis', $DatumBis);    
-
+    $update->bindParam(':Bemerkung', $Bemerkung); 
+    
     try {
       $update->execute(); 
       $this->load_row();  

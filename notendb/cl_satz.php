@@ -768,7 +768,8 @@ class Satz {
     $query="SELECT schueler_satz.ID 
             , schueler.Name as Schueler
             , schueler_satz.DatumVon as `von`
-            , schueler_satz.DatumBis as `bis`    
+            , schueler_satz.DatumBis as `bis` 
+            , schueler_satz.Bemerkung                
             , schueler_satz.SchuelerID                   
           FROM schueler_satz
           left join schueler 

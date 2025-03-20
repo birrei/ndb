@@ -13,6 +13,7 @@ $SatzID=null;
 $SchuelerID=null; 
 $DatumVon=null; 
 $DatumBis=null; 
+$Bemerkung=''; 
 
 switch($option) {
 
@@ -30,7 +31,8 @@ switch($option) {
     $SatzID=$schueler_satz->SatzID; 
     $SchuelerID=$schueler_satz->SchuelerID; 
     $DatumVon=$schueler_satz->DatumVon; 
-    $DatumBis=$schueler_satz->DatumBis;  
+    $DatumBis=$schueler_satz->DatumBis;
+    $Bemerkung=$schueler_satz->Bemerkung;   
     $option='update2'; 
 
   break; 
@@ -45,7 +47,8 @@ switch($option) {
     $SchuelerID=$schueler_satz->SchuelerID; 
     $DatumVon=$schueler_satz->DatumVon; 
     $DatumBis=$schueler_satz->DatumBis;  
-
+    $Bemerkung=$schueler_satz->Bemerkung;   
+    
     $option='delete_2'; 
 
     $html->print_form_confirm('edit_satz_schueler.php', $ID,$option,'Löschung'); 
@@ -73,11 +76,12 @@ switch($option) {
     $SchuelerID= $_POST["SchuelerID"];     
     $DatumVon= $_POST["DatumVon"];     
     $DatumBis= $_POST["DatumBis"];     
+    $Bemerkung= $_POST["Bemerkung"];     
 
     $schueler_satz=new SchuelerSatz(); 
-    $schueler_satz->update($SchuelerID, $SatzID, $DatumVon, $DatumBis); 
+    $schueler_satz->update($SchuelerID, $SatzID, $DatumVon, $DatumBis, $Bemerkung); 
     
-    // header('Location: edit_satz_schuelers.php?SatzID='.$SatzID);
+    header('Location: edit_satz_schuelers.php?SatzID='.$SatzID);
 
     exit;
 
@@ -87,12 +91,13 @@ switch($option) {
     $SchuelerID= $_POST["SchuelerID"];     
     $DatumVon= $_POST["DatumVon"];     
     $DatumBis= $_POST["DatumBis"];     
+    $Bemerkung= $_POST["Bemerkung"];  
 
     $schueler_satz=new SchuelerSatz(); 
     $schueler_satz->ID = $ID; 
-    $schueler_satz->update($SchuelerID, $SatzID, $DatumVon, $DatumBis); 
+    $schueler_satz->update($SchuelerID, $SatzID, $DatumVon, $DatumBis, $Bemerkung); 
     
-    // header('Location: edit_satz_schuelers.php?SatzID='.$SatzID);
+    header('Location: edit_satz_schuelers.php?SatzID='.$SatzID);
 
     exit;
 
@@ -138,6 +143,12 @@ include_once('head_raw.php');
 <tr>    
   <td class="form-edit form-edit-col2">Datum bis: </td>
   <td class="eingabe2 eingabe2_1"> <input type="date" name="DatumBis" value="<?php echo $DatumBis ?>" oninput="changeBackgroundColor(this)"></td>
+  <td class="eingabe2 eingabe2_3"></td>  
+</tr> 
+
+<tr>    
+  <td class="form-edit form-edit-col2">Bemerkung: </td>
+  <td class="eingabe2 eingabe2_1"> <input type="text" name="Bemerkung" size="70" value="<?php echo $Bemerkung ?>" oninput="changeBackgroundColor(this)"></td>
   <td class="eingabe2 eingabe2_3"></td>  
 </tr> 
 
