@@ -1,5 +1,6 @@
 
 <?php 
+$PageTitle='Sammlung'; 
 include('head.php');
 include("cl_sammlung.php");
 include("cl_verlag.php");

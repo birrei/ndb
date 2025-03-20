@@ -107,10 +107,17 @@ include('head.php');
         </p>
 
     <h3 class="chapter-title chapter-title-h3" id="erfassung_satz_schueler">Satz: Zuordnung Schüler</h3>
-        <p>
-            Verfügbare Felder: 
+        
+        <p>Zuordndung / Bearbeitung eines Schülers: Button "Hinzufügen"
+            <br >Zuordnung mehrerer Schüler: 
+        </p>
+
+    
+        <p>Verfügbare Felder: 
         <ul>    
             <li>Schüler</li>
+            <li>Datum von</li>
+            <li>Datum bis</li>
             <li>Bemerkung (hier können Anmerkungen/Notizen zur Verknüpfung abgelegt werden, 
                 z.B. zum Grund der Auswahl dieser Noten für den Schüler</li>
         </ul>

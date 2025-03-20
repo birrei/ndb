@@ -1,0 +1,11 @@
+CREATE TABLE IF NOT EXISTS status   (
+    ID INT NOT NULL AUTO_INCREMENT 
+    , Name VARCHAR(100) NOT NULL 
+    , PRIMARY KEY (ID)
+)
+; 
+
+ALTER TABLE status  ADD ts_insert datetime DEFAULT CURRENT_TIMESTAMP; 
+
+ALTER TABLE status  ADD ts_update datetime ON UPDATE CURRENT_TIMESTAMP; 
+

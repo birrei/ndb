@@ -1,6 +1,8 @@
 ﻿
 # Changelog  
 
+19.03.2025: Metadatentabelle "Status" 
+
 18.03.2025: Schüler x Satz: Schnellzuordnung (mehrere Schüler in einem Arbeitsgang zuordnen)
 
 18.03.2025: Schüler x Satz: Datum von bis 
