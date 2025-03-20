@@ -168,7 +168,6 @@ class Epoche {
       $info->print_error($stmt, $e); 
     }
   }  
-
  
   function delete(){
     include_once("dbconn/cl_db.php");

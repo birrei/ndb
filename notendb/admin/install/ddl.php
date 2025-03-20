@@ -45,6 +45,27 @@ if (isset($_GET["option"])) {
 
 /************************************************** */
 
+function install_table_schueler_satz() {
+    $sql="
+        CREATE TABLE schueler_satz (
+        ID INT NOT NULL AUTO_INCREMENT,
+        SchuelerID INT DEFAULT NULL,
+        SatzID INT UNSIGNED NULL, -- XXX
+        DatumVon date, 
+        DatumBis date,  
+        Bemerkung VARCHAR(255) NULL, 
+        PRIMARY KEY (ID),
+        UNIQUE KEY uc_schueler_satz (SchuelerID,SatzID),
+        KEY SatzID (SatzID),
+        KEY SchuelerID (SchuelerID),
+        ts_insert datetime DEFAULT CURRENT_TIMESTAMP, 
+        CONSTRAINT fkey_schueler_satz_SchuelerID FOREIGN KEY (SchuelerID) REFERENCES schueler (ID),
+        CONSTRAINT fkey_schueler_satz_SatzID FOREIGN KEY (SatzID) REFERENCES satz (ID)
+        )     
+    "; 
+    execute_sql($sql); 
+}
+
 function install_view_v_schueler_instrumente() {
 
     $sql="  CREATE OR REPLACE VIEW v_schueler_instrumente as 
@@ -233,24 +254,7 @@ function install_table_material() {
     execute_sql($sql, 'install table material'); 
 }
 
-function install_table_schueler_satz() {
-    $sql="
-        CREATE TABLE schueler_satz (
-        ID INT NOT NULL AUTO_INCREMENT,
-        SchuelerID INT DEFAULT NULL,
-        SatzID INT UNSIGNED NULL, -- XXX 
-        Bemerkung VARCHAR(255) NULL, 
-        PRIMARY KEY (ID),
-        UNIQUE KEY uc_schueler_satz (SchuelerID,SatzID),
-        KEY SatzID (SatzID),
-        KEY SchuelerID (SchuelerID),
-        ts_insert datetime DEFAULT CURRENT_TIMESTAMP, 
-        CONSTRAINT fkey_schueler_satz_SchuelerID FOREIGN KEY (SchuelerID) REFERENCES schueler (ID),
-        CONSTRAINT fkey_schueler_satz_SatzID FOREIGN KEY (SatzID) REFERENCES satz (ID)
-        )     
-    "; 
-    execute_sql($sql); 
-}
+
 
 function install_table_schueler_schwierigkeitsgrad() {
     $sql="

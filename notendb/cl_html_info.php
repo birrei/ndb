@@ -11,36 +11,9 @@ class HtmlInfo {
         $this->info_datetime = date("d.m.Y H:i:s", time());
     }
    
-    function print_user_error($text='') {
-        if ($text!='') {
-            $this->html='<p style="color: red;">'.$text.'</p>'; 
-        } else {
-            $this->html='<p style="color: red;">Ein Fehler ist aufgetreten.</p>'; 
-        }
 
-        echo $this->html; 
-    }
+    /* Standard-Verlinkungen */
 
-    function print_info($text) {
-        echo '<p class="info">'.$text.'</p>'.PHP_EOL;   
-    }
-    
-    function print_warning($text) {
-        echo '<p class="warning">'.$text.'</p>'.PHP_EOL;   
-    }
-    
-    function print_error($stmt, PDOException $e) {
-        $this->html='<p style="color: red;">'; 
-        $this->html.=$e->getMessage(); 
-        $this->html.='</p>'; 
-        // $stmt->debugDumpParams();  // ausgabe-Methode, kein Text 
-        echo $this->html;     // produktiv auskommentieren! 
-    }
-
-    function print_close_form_info() {
-        $this->html='<p style="color: blue;">Nach Abschluss der Bearbeitung Fenster per STRG + W schließen</p>'; 
-        echo $this->html; 
-    }
 
     function print_link_table($target_table, $sortinfo, $target_title, $show_newtab=false, $additional_params='', $suffix='') {
         /** Link auf Seite show_table2.php */
@@ -55,16 +28,13 @@ class HtmlInfo {
         }
     }
 
-/* Standard-Verlinkungen */
-
-
     function print_link($link_url, $link_text) {
         echo ($this->use_paragraph?'<p>':'').'<a href="'.$link_url.'" tabindex="-1" class="form-link">'.$link_text.'</a>'.($this->use_paragraph?'</p>':''); 
     }
+    
     function print_link_backToList($link_url) {
         echo ($this->use_paragraph?'<p>':'').'<a href="'.$link_url.'" tabindex="-1" class="form-link">Zurück zur Liste</a>'.($this->use_paragraph?'</p>':''); 
     }    
-    
 
     function print_link_edit($target_table, $ID, $target_title, $newpage=true, $suffix='') {
         echo ($this->use_paragraph?'<p>':'')
@@ -83,7 +53,6 @@ class HtmlInfo {
         // echo '<a href="edit_'.$target_table.'2.php?ID='.$ID.'&title='.$target_title.'&option=edit"'.($newpage?' target="_blank"':'').' tabindex="-1" class="form-link">'.$target_title.' bearbeiten</a>'.($suffix!=''?$suffix:'');
         echo ($this->use_paragraph?'<p>':'').'<a href="edit_'.$target_table.'2.php?ID='.$ID.'&title='.$target_title.'&option=edit"'.($newpage?' target="_blank"':'').' tabindex="-1" class="form-link">Abfrage-Text bearbeiten</a>'.($suffix!=''?$suffix:'').($this->use_paragraph?'</p>':'');
     }
-
 
     function print_link_insert($target_table, $target_title, $newpage=true, $suffix='') {
         echo ($this->use_paragraph?'<p>':'').'<a href="edit_'.$target_table.'.php?title='.$target_title.'&option=insert"'.($newpage?' target="_blank"':'').' tabindex="-1" class="form-link">'.$target_title.' neu erfassen</a>'.($suffix!=''?$suffix:'').($this->use_paragraph?'</p>':'');
@@ -123,6 +92,9 @@ class HtmlInfo {
         echo '<span style="font-size:15pt;font-weight:bold;padding-top: 10px;margin-right: 20px;">'.$header_text.($suffix!=''?$suffix:'').'</span>';
     }
 
+
+ /* Info-Texte */   
+
     function print_info_copy ($item_name, $ID_ref, $ID_new, $target_filename) {
         /* INfo/Link, der nach einem Kopiervorgang angezeigt wird  */
         $html='<p class="info"> &#9432; Neue '.$item_name.' ID: '.$ID_new
@@ -131,50 +103,56 @@ class HtmlInfo {
         echo $html; 
     }
 
+    function print_user_error($text='') {
+        if ($text!='') {
+            $this->html='<p style="color: red;">'.$text.'</p>'; 
+        } else {
+            $this->html='<p style="color: red;">Ein Fehler ist aufgetreten.</p>'; 
+        }
+
+        echo $this->html; 
+    }
+
+    function print_info($text) {
+        echo '<p class="info">'.$text.'</p>'.PHP_EOL;   
+    }
+    
+    function print_warning($text) {
+        echo '<p class="warning">'.$text.'</p>'.PHP_EOL;   
+    }
+    
+    function print_error($stmt, PDOException $e) {
+        $this->html='<p style="color: red;">'; 
+        $this->html.=$e->getMessage(); 
+        $this->html.='</p>'; 
+        // $stmt->debugDumpParams();  // ausgabe-Methode, kein Text 
+        echo $this->html;     // produktiv auskommentieren! 
+    }
+
+    function print_close_form_info() {
+        $this->html='<p style="color: blue;">Nach Abschluss der Bearbeitung Fenster per STRG + W schließen</p>'; 
+        echo $this->html; 
+    }
+
+
+
 /* Formulare */   
 
-function print_form_confirm($filename,$ID, $option,$aktion) {
+    function print_form_confirm($filename,$ID, $option,$aktion) {
 
-    echo 
-    '<p> 
-    <form action="'.$filename.'" method="post">
-    <input type="hidden" name="ID" value="' . $ID. '">
-    <input type="hidden" name="option" value="'.$option.'">      
-    <input type="submit" name="senden" value="'.$aktion.' bestätigen">             
-    </form></p>
-    '; 
-
-
-}
+        echo 
+        '<p>
+        <form action="'.$filename.'" method="post">
+        <input type="hidden" name="ID" value="' . $ID. '">
+        <input type="hidden" name="option" value="'.$option.'">      
+        <input type="submit" name="senden" value="'.$aktion.' bestätigen">             
+        </form>
+        </p>
+        '; 
 
 
-    // function print_action_info($ID, $action_name){
-    //     $this->html.= '<p style="color: blue;">'; 
-    //     $this->html.=$this->info_datetime;                
-    //     $this->html.= ' - ID '.$ID.' ';  
+    }
 
-    //     switch ($action_name){
-    //         case 'view': 
-    //             $this->html.= ' wird angezeigt.'; 
-    //             // $html.=  '<a href="edit_'.$table_name.'.php?ID=' . $ID . '"' . ($edit_link_open_newpage!='' ?' target="_blank"':''). '>[Zeile bearbeiten]</a></p>';  
-    //             break;             
-    //         case 'insert': 
-    //             $this->html.= ' wurde erfasst.'; 
-    //             // $html.=  '<a href="edit_'.$table_name.'.php?ID=' . $ID . '"' . ($edit_link_open_newpage!='' ?' target="_blank"':''). '>[Zeile bearbeiten]</a></p>';  
-    //             break; 
-    //         case 'update': 
-    //             $this->html.= ' wurde aktualisiert.';  
-    //             // $html.=  '<a href="edit_'.$table_name.'.php?ID=' . $ID . '">[Zeile bearbeiten]</a></p>';  
-    //             break;      
-    //         case 'delete': 
-    //             $this->html.= ' wurde gelöscht.';  
-    //             break;      
-    //     }
- 
-    //     $this->html.= '</p>';        
-    //     // echo $this->html; // XXX Ausgabe evt. nicht wirklich hilfeich, weiter beboachten 
-    //     echo ''; 
-    // }    
 
 }
 

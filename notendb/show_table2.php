@@ -26,9 +26,6 @@
   include('head.php');
 
 
-
-
-
   /******************************* */
   /** Festlegungen für Bearbeiten-Link */
 
@@ -83,6 +80,11 @@
   $query = 'SELECT * FROM '.$table.' WHERE 1=1 ';
 
   echo '<h3>'.$header.'</h3>'.PHP_EOL; 
+
+  // Link für Neu-Erfassung anzeigen? 
+  if ($show_insert_link) {
+    echo '<a href="edit_'.$table_edit.'.php?option=insert">Neu erfassen</a><br><br>';
+  }
 
   /*********** Filter  ********************/
     switch ($table) {
@@ -175,10 +177,6 @@
     $html = new HtmlTable($select); 
     $html->add_link_show=$add_link_show; 
     
-    // Link für Neu-Erfassung anzeigen? 
-    if ($show_insert_link) {
-      echo '<a href="edit_'.$table_edit.'.php?option=insert">Neu erfassen</a><br><br>';
-    }
 
     $html->add_link_edit= $add_link_edit; 
     $html->edit_link_table=$table_edit; 
