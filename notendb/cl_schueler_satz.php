@@ -6,6 +6,7 @@ class SchuelerSatz {
 
   public $ID='';
   public $SatzID='';
+  public $StatusID='';
   public $SchuelerID=''; 
   public $DatumVon='' ; 
   public $DatumBis='' ; 
@@ -65,6 +66,7 @@ class SchuelerSatz {
                           , COALESCE(Bemerkung, '') as Bemerkung
                           , DatumVon
                           , DatumBis
+                          , StatusID 
                           FROM `schueler_satz`
                           WHERE `ID` = :ID");
 
@@ -77,7 +79,8 @@ class SchuelerSatz {
       $this->SchuelerID=$row_data["SchuelerID"];     
       $this->Bemerkung=$row_data["Bemerkung"];
       $this->DatumVon=$row_data["DatumVon"];
-      $this->DatumBis=$row_data["DatumBis"];            
+      $this->DatumBis=$row_data["DatumBis"];     
+      $this->StatusID=$row_data["StatusID"];                    
       return true; 
     } 
     else {
@@ -108,7 +111,7 @@ class SchuelerSatz {
   }  
 
  
-  function update($SchuelerID, $SatzID, $DatumVon, $DatumBis, $Bemerkung) {
+  function update_row($SchuelerID, $SatzID, $DatumVon, $DatumBis, $Bemerkung, $StatusID) {
     include_once("dbconn/cl_db.php");   
     $conn = new DbConn(); 
     $db=$conn->db; 
@@ -125,10 +128,11 @@ class SchuelerSatz {
 
     $update = $db->prepare("UPDATE `schueler_satz` 
                             SET `SchuelerID`=:SchuelerID,
-                                 SatzID=:SatzID, 
-                                 DatumVon=:DatumVon, 
-                                 DatumBis=:DatumBis, 
-                                 Bemerkung=:Bemerkung 
+                                SatzID=:SatzID, 
+                                DatumVon=:DatumVon, 
+                                DatumBis=:DatumBis, 
+                                StatusID=:StatusID, 
+                                Bemerkung=:Bemerkung 
                             WHERE `ID` = :ID"); 
 
     $update->bindParam(':ID', $this->ID, PDO::PARAM_INT);
@@ -137,7 +141,8 @@ class SchuelerSatz {
     $update->bindParam(':DatumVon', $DatumVon);
     $update->bindParam(':DatumBis', $DatumBis);    
     $update->bindParam(':Bemerkung', $Bemerkung); 
-    
+    $update->bindParam(':StatusID', $StatusID); 
+
     try {
       $update->execute(); 
       $this->load_row();  

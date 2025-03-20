@@ -1,6 +1,7 @@
 <?php 
 include('cl_schueler_satz.php');
 include('cl_schueler.php');
+include('cl_status.php');
 include("cl_satz.php"); 
 include("cl_html_info.php"); 
 
@@ -11,6 +12,7 @@ $html= new HtmlInfo();
 $ID=null; 
 $SatzID=null;
 $SchuelerID=null; 
+$StatusID=''; 
 $DatumVon=null; 
 $DatumBis=null; 
 $Bemerkung=''; 
@@ -30,6 +32,7 @@ switch($option) {
     $schueler_satz->load_row(); 
     $SatzID=$schueler_satz->SatzID; 
     $SchuelerID=$schueler_satz->SchuelerID; 
+    $StatusID=$schueler_satz->StatusID;     
     $DatumVon=$schueler_satz->DatumVon; 
     $DatumBis=$schueler_satz->DatumBis;
     $Bemerkung=$schueler_satz->Bemerkung;   
@@ -45,6 +48,7 @@ switch($option) {
     $schueler_satz->load_row(); 
     $SatzID=$schueler_satz->SatzID; 
     $SchuelerID=$schueler_satz->SchuelerID; 
+    $StatusID=$schueler_satz->StatusID;        
     $DatumVon=$schueler_satz->DatumVon; 
     $DatumBis=$schueler_satz->DatumBis;  
     $Bemerkung=$schueler_satz->Bemerkung;   
@@ -73,13 +77,14 @@ switch($option) {
 
   case 'update1':   // insert new row 
     $SatzID= $_POST["SatzID"]; 
-    $SchuelerID= $_POST["SchuelerID"];     
+    $SchuelerID= $_POST["SchuelerID"];    
+    $StatusID= $_POST["StatusID"];         
     $DatumVon= $_POST["DatumVon"];     
     $DatumBis= $_POST["DatumBis"];     
     $Bemerkung= $_POST["Bemerkung"];     
 
     $schueler_satz=new SchuelerSatz(); 
-    $schueler_satz->update($SchuelerID, $SatzID, $DatumVon, $DatumBis, $Bemerkung); 
+    $schueler_satz->update_row($SchuelerID, $SatzID, $DatumVon, $DatumBis, $Bemerkung, $StatusID); 
     
     header('Location: edit_satz_schuelers.php?SatzID='.$SatzID);
 
@@ -88,14 +93,15 @@ switch($option) {
   case 'update2':   // update existing row 
     $ID = $_POST["ID"];    
     $SatzID= $_POST["SatzID"]; 
-    $SchuelerID= $_POST["SchuelerID"];     
+    $SchuelerID= $_POST["SchuelerID"];    
+    $StatusID= $_POST["StatusID"];        
     $DatumVon= $_POST["DatumVon"];     
     $DatumBis= $_POST["DatumBis"];     
     $Bemerkung= $_POST["Bemerkung"];  
 
     $schueler_satz=new SchuelerSatz(); 
     $schueler_satz->ID = $ID; 
-    $schueler_satz->update($SchuelerID, $SatzID, $DatumVon, $DatumBis, $Bemerkung); 
+    $schueler_satz->update_row($SchuelerID, $SatzID, $DatumVon, $DatumBis, $Bemerkung, $StatusID); 
     
     header('Location: edit_satz_schuelers.php?SatzID='.$SatzID);
 
@@ -133,6 +139,26 @@ include_once('head_raw.php');
 
   </td>    
 </tr>
+
+<tr>
+  <td class="eingabe2 eingabe2_1">Status:  </td>
+  <td class="eingabe2 eingabe2_2">
+    <?php 
+      $status = new Status(); 
+      $status ->print_select($StatusID);       
+      ?>
+  <?php 
+      $html->option_linktext=1; 
+      $html->print_link_table($status->table_name,'sortcol=Name',$status->Titles,true,'');    
+      $html->print_link_insert($status->table_name,$status->Title,true);
+
+    ?>
+  </td>
+  <td class="eingabe2 eingabe2_3">
+
+  </td>    
+</tr>
+
 
 <tr>    
   <td class="form-edit form-edit-col2">Datum von: </td>

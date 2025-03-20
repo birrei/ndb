@@ -57,7 +57,7 @@ class status {
       $stmt->execute(); 
       $html = new HtmlSelect($stmt); 
       $html->caption = $caption;       
-      $html->print_select("statusID", $value_selected, true); 
+      $html->print_select("StatusID", $value_selected, true); 
       
     }
     catch (PDOException $e) {

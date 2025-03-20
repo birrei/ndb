@@ -46,22 +46,28 @@ if (isset($_GET["option"])) {
 /************************************************** */
 
 function install_table_schueler_satz() {
+    //  XXX `SatzID` int(10) unsigned DEFAULT NULL (anpassen, unsigned entfernen!)
+
     $sql="
-        CREATE TABLE schueler_satz (
-        ID INT NOT NULL AUTO_INCREMENT,
-        SchuelerID INT DEFAULT NULL,
-        SatzID INT UNSIGNED NULL, -- XXX
-        DatumVon date, 
-        DatumBis date,  
-        Bemerkung VARCHAR(255) NULL, 
-        PRIMARY KEY (ID),
-        UNIQUE KEY uc_schueler_satz (SchuelerID,SatzID),
-        KEY SatzID (SatzID),
-        KEY SchuelerID (SchuelerID),
-        ts_insert datetime DEFAULT CURRENT_TIMESTAMP, 
-        CONSTRAINT fkey_schueler_satz_SchuelerID FOREIGN KEY (SchuelerID) REFERENCES schueler (ID),
-        CONSTRAINT fkey_schueler_satz_SatzID FOREIGN KEY (SatzID) REFERENCES satz (ID)
-        )     
+CREATE TABLE `schueler_satz` (
+  `ID` int(11) NOT NULL AUTO_INCREMENT,
+  `SchuelerID` int(11) DEFAULT NULL,
+  `SatzID` int(10) unsigned DEFAULT NULL,
+  `Bemerkung` varchar(255) DEFAULT NULL,
+  `DatumVon` date DEFAULT NULL,
+  `DatumBis` date DEFAULT NULL,
+  `StatusID` int(11) DEFAULT NULL,
+  `ts_insert` datetime DEFAULT current_timestamp(),  
+  `ts_update` datetime DEFAULT NULL ON UPDATE current_timestamp(),
+  PRIMARY KEY (`ID`),
+  UNIQUE KEY `uc_schueler_satz` (`SchuelerID`,`SatzID`),
+  KEY `SatzID` (`SatzID`),
+  KEY `SchuelerID` (`SchuelerID`),
+  KEY `fkey_schueler_satz_status` (`StatusID`),
+  CONSTRAINT `fkey_schueler_satz_SatzID` FOREIGN KEY (`SatzID`) REFERENCES `satz` (`ID`),
+  CONSTRAINT `fkey_schueler_satz_SchuelerID` FOREIGN KEY (`SchuelerID`) REFERENCES `schueler` (`ID`),
+  CONSTRAINT `fkey_schueler_satz_status` FOREIGN KEY (`StatusID`) REFERENCES `status` (`ID`)
+) ENGINE=InnoDB AUTO_INCREMENT=416 DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci  
     "; 
     execute_sql($sql); 
 }

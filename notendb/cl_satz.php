@@ -768,12 +768,13 @@ class Satz {
     $query="SELECT schueler_satz.ID 
             , schueler.Name as Schueler
             , schueler_satz.DatumVon as `von`
-            , schueler_satz.DatumBis as `bis` 
+            , schueler_satz.DatumBis as `bis`
+            , `status`.`Name` as `Status`   
             , schueler_satz.Bemerkung                
-            , schueler_satz.SchuelerID                   
+           -- , schueler_satz.SchuelerID                   
           FROM schueler_satz
-          left join schueler 
-          on  schueler.ID = schueler_satz.SchuelerID  
+          left join schueler on  schueler.ID = schueler_satz.SchuelerID 
+          LEFT JOIN status on status.ID =  schueler_satz.StatusID
           WHERE schueler_satz.SatzID = :SatzID 
           order by schueler.Name  
         "; 
@@ -799,11 +800,11 @@ class Satz {
       $html->del_link_parent_key='SatzID'; 
       $html->del_link_parent_id= $this->ID;  
       
-      // Link zu Schüler-Formular 
-      $html->add_link_edit2=true; 
-      $html->edit2_link_colname='SchuelerID'; 
-      $html->edit2_link_filename='edit_schueler.php'; 
-      $html->edit2_link_title='Schüler';       
+      // // Link zu Schüler-Formular 
+      // $html->add_link_edit2=true; 
+      // $html->edit2_link_colname='SchuelerID'; 
+      // $html->edit2_link_filename='edit_schueler.php'; 
+      // $html->edit2_link_title='Schüler';       
        
 
       $html->print_table2(); 
