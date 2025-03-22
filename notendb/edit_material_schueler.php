@@ -28,7 +28,7 @@ $info= new HtmlInfo();
 
       ?>
     <?php 
-      $info->option_linktext=1; 
+      // $info->option_linktext=1; 
       
       // $info->print_link_edit($schueler->table_name, $schuelermaterial->SchuelerID,$schueler->Title, true); 
       $info->print_link_table($schueler->table_name,'sortcol=Name',$schueler->Titles,true,'');    

@@ -1,74 +1,150 @@
-
 <?php 
-include('head_raw.php');
 include('cl_schueler_satz.php');
 include('cl_schueler.php');
 include("cl_satz.php"); 
-
+include("cl_status.php"); 
 include("cl_html_info.php"); 
 
+$option=$_REQUEST["option"]; 
 
 
-$info= new HtmlInfo(); 
+$html= new HtmlInfo(); 
 
-$schuelersatz = new SchuelerSatz();
-$schuelersatz->ID=$_REQUEST["ID"];
-$schuelersatz->load_row(); 
-$show_data=true;       
-$satz=new Satz(); 
-$satz->ID = $schuelersatz->SatzID; 
-$satz->load_row(); 
-include_once("cl_musikstueck.php"); 
-$musikstueck =new Musikstueck(); 
-$musikstueck->ID = $satz->MusikstueckID; 
-$musikstueck->load_row(); 
-include_once("cl_sammlung.php"); 
-$sammlung =new Sammlung(); 
-$sammlung->ID = $musikstueck->SammlungID; 
-$sammlung->load_row();     
+$ID=null; 
+$SatzID=null;
+$SchuelerID=null; 
+$StatusID=''; 
+$DatumVon=null; 
+$DatumBis=null; 
+$Bemerkung=''; 
 
 
-if (isset($_REQUEST["option"])) {
-  switch($_REQUEST["option"]) {
+switch($option) {
 
-    case 'update': 
-      // $schuelersatz->update_row(
-      //   $_POST["SatzID"],        
-      //   $_POST["SchuelerID"],
-      //   $_POST["Bemerkung"]
-      //   );   
-        
-      }
+  case 'edit': // aus "edit_schueler_saetze.php" > "Bearbeiten"
+    $ID = $_REQUEST["ID"]; 
+    $schueler_satz=new SchuelerSatz(); 
+    $schueler_satz->ID=$ID; 
+    $schueler_satz->load_row(); 
+    $SatzID=$schueler_satz->SatzID; 
+    $SchuelerID=$schueler_satz->SchuelerID; 
+    $StatusID=$schueler_satz->StatusID;     
+    $DatumVon=$schueler_satz->DatumVon; 
+    $DatumBis=$schueler_satz->DatumBis;
+    $Bemerkung=$schueler_satz->Bemerkung;   
+    $option='update2'; 
+
+
+
+  break; 
+
+
+  case "delete": 
+    $ID = $_REQUEST["ID"]; 
+    $schueler_satz=new SchuelerSatz(); 
+    $schueler_satz->ID=$ID; 
+    $schueler_satz->load_row(); 
+    $SatzID=$schueler_satz->SatzID; 
+    $SchuelerID=$schueler_satz->SchuelerID; 
+    $StatusID=$schueler_satz->StatusID;        
+    $DatumVon=$schueler_satz->DatumVon; 
+    $DatumBis=$schueler_satz->DatumBis;  
+    $Bemerkung=$schueler_satz->Bemerkung;   
+    $option='delete_2'; 
+
+    $html->print_form_confirm('edit_schueler_satz.php', $ID,$option,'Löschung'); 
+
+
+  break; 
+
+  case 'delete_2': // after confirm 
+    $schueler_satz=new SchuelerSatz(); 
+    $schueler_satz->ID= $_REQUEST["ID"]; 
+    $schueler_satz->load_row(); 
+    $SchuelerID= $schueler_satz->SchuelerID; 
+    $schueler_satz->delete(); 
+          
+    header('Location: edit_schueler_saetze.php?SchuelerID='.$SchuelerID);
+
+    exit;
+
+  break;
+
+  case 'update2':   // update existing row 
+    $ID = $_POST["ID"];    
+    $SatzID= $_POST["SatzID"]; 
+    $SchuelerID= $_POST["SchuelerID"];    
+    $StatusID= $_POST["StatusID"];        
+    $DatumVon= $_POST["DatumVon"];     
+    $DatumBis= $_POST["DatumBis"];     
+    $Bemerkung= $_POST["Bemerkung"];  
+    $schueler_satz=new SchuelerSatz(); 
+    $schueler_satz->ID = $ID; 
+    $schueler_satz->update_row($SchuelerID, $SatzID, $DatumVon, $DatumBis, $Bemerkung, $StatusID); 
     
-  }
+    header('Location: edit_schueler_saetze.php?SchuelerID='.$SchuelerID);
+
+    exit;
+
+  break;
+
+}
+
+include_once('head_raw.php');
 
 ?> 
 
 <form action="" method="post">
-
 <table class="eingabe2">
-
 <tr>
   <td class="eingabe2 eingabe2_1">Satz:  </td>
   <td class="eingabe2 eingabe2_2">
     <?php 
-    echo $sammlung->Name.'<br>'; 
-    echo $musikstueck->Nummer. ' '. $musikstueck->Name. ' ' .$satz->Nr. ' '. $satz->Name;
-  
+
+    $satz=new Satz(); 
+    $satz->ID = $SatzID; 
+    echo $satz->getInfo(); 
+
       ?>
   </td>  
   <td class="eingabe2 eingabe2_3">
     <?php 
-      $info->option_linktext=1; 
-      $info->print_link_edit('satz', $satz->ID, $satz->Title, true); 
+      $html->print_link_edit('satz', $satz->ID, $satz->Title, true); 
     ?>
   </td>    
 </tr>
 
 <tr>
+  <td class="eingabe2 eingabe2_1">Status:</td>
+  <td class="eingabe2 eingabe2_2">
+    <?php 
+      $status = new Status(); 
+      $status ->print_select($StatusID);       
+
+      $html->print_link_edit($status->table_name,$StatusID,true);         
+      $html->print_link_table($status->table_name,'sortcol=Name',$status->Titles,true,'');    
+      $html->print_link_insert($status->table_name,$status->Title,true);
+    ?>
+  </td>
+  <td class="eingabe2 eingabe2_3"></td>    
+</tr>
+
+<tr>    
+  <td class="eingabe2 eingabe2_1">Datum von: </td>  
+  <td class="eingabe2 eingabe2_2"> <input type="date" name="DatumVon" value="<?php echo $DatumVon ?>" oninput="changeBackgroundColor(this)"></td>
+  <td class="eingabe2 eingabe2_3"></td>  
+</tr> 
+
+<tr>    
+  <td class="eingabe2 eingabe2_1">Datum bis: </td>    
+  <td class="eingabe2 eingabe2_2"> <input type="date" name="DatumBis" value="<?php echo $DatumBis ?>" oninput="changeBackgroundColor(this)"></td>
+  <td class="eingabe2 eingabe2_3"></td>  
+</tr> 
+
+<tr>
   <td class="eingabe2 eingabe2_1">Bemerkung:</td>
   <td class="eingabe2 eingabe2_2">
-    <input type="text" name="Bemerkung" value="<?php echo htmlentities($schuelersatz->Bemerkung); ?>" size="70" oninput="changeBackgroundColor(this)">
+    <input type="text" name="Bemerkung" value="<?php echo htmlentities($Bemerkung); ?>" size="70" oninput="changeBackgroundColor(this)">
   </td>  
   <td class="eingabe2 eingabe2_3"></td>    
 </tr>
@@ -82,7 +158,7 @@ if (isset($_REQUEST["option"])) {
   <td class="eingabe2 eingabe2_1"> </td>
   <td class="eingabe2 eingabe2_2">
     <?php
-      $info->print_link_backToList('edit_schueler_saetze.php?SchuelerID='.$schuelersatz->SchuelerID); 
+      $html->print_link_backToList('edit_schueler_saetze.php?SchuelerID='.$SchuelerID); 
     ?>
   </td>  
   <td class="eingabe2 eingabe2_3"></td>    
@@ -91,10 +167,10 @@ if (isset($_REQUEST["option"])) {
 
  </table> 
 
- <input type="hidden" name="ID" value="<?php echo $schuelersatz->ID; ?>">  
- <input type="hidden" name="SatzID" value="<?php echo $schuelersatz->SatzID; ?>"> 
- <input type="hidden" name="SchuelerID" value="<?php echo $schuelersatz->SchuelerID; ?>">  
- <input type="hidden" name="option" value="update">
+<input type="hidden" name="ID" value="<?php echo $ID; ?>">  
+ <input type="hidden" name="SatzID" value="<?php echo $SatzID; ?>"> 
+ <input type="hidden" name="SchuelerID" value="<?php echo $SchuelerID; ?>">  
+ <input type="hidden" name="option" value="<?php echo $option; ?>">
 
 </form>
 

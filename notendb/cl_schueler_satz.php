@@ -92,13 +92,12 @@ class SchuelerSatz {
     include_once("dbconn/cl_db.php");
     $conn = new DbConn(); 
     $db=$conn->db; 
-    // echo '<p>Lösche schueler_satz ID: '.$this->ID.':</p>';
+    echo '<p>Lösche schueler_satz ID: '.$this->ID.':</p>';
     $delete = $db->prepare("DELETE FROM `schueler_satz` WHERE ID=:ID"); 
     $delete->bindValue(':ID', $this->ID);  
 
     try {
       $delete->execute(); 
-      // echo '<p>Zeile wurde gelöscht.</p>';   
       return true;        
     }
     catch (PDOException $e) {
@@ -136,12 +135,13 @@ class SchuelerSatz {
                             WHERE `ID` = :ID"); 
 
     $update->bindParam(':ID', $this->ID, PDO::PARAM_INT);
-    $update->bindParam(':SchuelerID', $SchuelerID);
-    $update->bindParam(':SatzID', $SatzID);
-    $update->bindParam(':DatumVon', $DatumVon);
-    $update->bindParam(':DatumBis', $DatumBis);    
+
+    $update->bindParam(':SchuelerID', $SchuelerID, ($SchuelerID==''? PDO::PARAM_NULL:PDO::PARAM_INT));
+    $update->bindParam(':SatzID', $SatzID, ($SatzID==''? PDO::PARAM_NULL:PDO::PARAM_INT));
+    $update->bindParam(':StatusID', $StatusID, ($StatusID==''? PDO::PARAM_NULL:PDO::PARAM_INT));
+    $update->bindParam(':DatumVon', $DatumVon, ($DatumVon==''? PDO::PARAM_NULL:PDO::PARAM_STR));
+    $update->bindParam(':DatumBis', $DatumBis, ($DatumBis==''? PDO::PARAM_NULL:PDO::PARAM_STR));
     $update->bindParam(':Bemerkung', $Bemerkung); 
-    $update->bindParam(':StatusID', $StatusID); 
 
     try {
       $update->execute(); 

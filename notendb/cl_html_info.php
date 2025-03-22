@@ -17,15 +17,19 @@ class HtmlInfo {
 
     function print_link_table($target_table, $sortinfo, $target_title, $show_newtab=false, $additional_params='', $suffix='') {
         /** Link auf Seite show_table2.php */
-        switch($this->option_linktext) {
-            case 0:
-                echo '<a href="show_table2.php?table='.$target_table.'&'.$sortinfo.'&title='.$target_title.($additional_params!=''?$additional_params:'').'"'.($show_newtab?' target="_blank"':'').' tabindex="-1" class="form-link">Tabelle anzeigen</a>'.($suffix!=''?$suffix:'').($this->use_paragraph?'</p>':'');
-                break; 
+        echo '<a href="show_table2.php?table='.$target_table.'&'.$sortinfo.'&title='.$target_title.($additional_params!=''?$additional_params:'').'"'.($show_newtab?' target="_blank"':'').' tabindex="-1" class="form-link">Daten anzeigen</a>'.($suffix!=''?$suffix:'').($this->use_paragraph?'</p>':'');
+        // break; 
+        // XXX Parameter option_linktext auflösen 
+        // switch($this->option_linktext) {
+ 
+        //     case 0:
+        //         echo '<a href="show_table2.php?table='.$target_table.'&'.$sortinfo.'&title='.$target_title.($additional_params!=''?$additional_params:'').'"'.($show_newtab?' target="_blank"':'').' tabindex="-1" class="form-link">Daten</a>'.($suffix!=''?$suffix:'').($this->use_paragraph?'</p>':'');
+        //         break; 
 
-            case 1: 
-                echo '<a href="show_table2.php?table='.$target_table.'&'.$sortinfo.'&title='.$target_title.($additional_params!=''?$additional_params:'').'"'.($show_newtab?' target="_blank"':'').' tabindex="-1" class="form-link">'.$target_title.' anzeigen</a>'.($suffix!=''?$suffix:'').($this->use_paragraph?'</p>':'');
-                break; 
-        }
+        //     case 1: 
+        //         echo '<a href="show_table2.php?table='.$target_table.'&'.$sortinfo.'&title='.$target_title.($additional_params!=''?$additional_params:'').'"'.($show_newtab?' target="_blank"':'').' tabindex="-1" class="form-link">'.$target_title.' anzeigen</a>'.($suffix!=''?$suffix:'').($this->use_paragraph?'</p>':'');
+        //         break; 
+        // }
     }
 
     function print_link($link_url, $link_text) {
@@ -36,11 +40,12 @@ class HtmlInfo {
         echo ($this->use_paragraph?'<p>':'').'<a href="'.$link_url.'" tabindex="-1" class="form-link">Zurück zur Liste</a>'.($this->use_paragraph?'</p>':''); 
     }    
 
-    function print_link_edit($target_table, $ID, $target_title, $newpage=true, $suffix='') {
+    function print_link_edit($target_table, $ID, $target_title='', $newpage=true, $suffix='') {
+        // echo $target_title; XXX entfernen s
         echo ($this->use_paragraph?'<p>':'')
             .'<a href="edit_'.$target_table.'.php?ID='.$ID
             .'&source='.$this->source
-            .'&title='.$target_title.'&option=edit"'
+            .'&option=edit"'
             .($newpage?' target="_blank"':'').' tabindex="-1" class="form-link">Bearbeiten</a>'
             .($suffix!=''?$suffix:'')
             .($this->use_paragraph?'</p>':'');
@@ -55,7 +60,7 @@ class HtmlInfo {
     }
 
     function print_link_insert($target_table, $target_title, $newpage=true, $suffix='') {
-        echo ($this->use_paragraph?'<p>':'').'<a href="edit_'.$target_table.'.php?title='.$target_title.'&option=insert"'.($newpage?' target="_blank"':'').' tabindex="-1" class="form-link">'.$target_title.' neu erfassen</a>'.($suffix!=''?$suffix:'').($this->use_paragraph?'</p>':'');
+        echo ($this->use_paragraph?'<p>':'').'<a href="edit_'.$target_table.'.php?title='.$target_title.'&option=insert"'.($newpage?' target="_blank"':'').' tabindex="-1" class="form-link">neu erfassen</a>'.($suffix!=''?$suffix:'').($this->use_paragraph?'</p>':'');
         // Nur "neu erfassen", ohne Titel-Bezeichnung 
         // echo '<a href="edit_'.$target_table.'.php?title='.$target_title.'&option=insert"'.($newpage?' target="_blank"':'').' tabindex="-1" class="form-link">Neu erfassen</a>'.($suffix!=''?$suffix:'');
     

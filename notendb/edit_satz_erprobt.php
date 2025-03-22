@@ -68,7 +68,7 @@ if (isset($_REQUEST["option"])) {
   </td>  
   <td class="eingabe2 eingabe2_3">
     <?php 
-      $info->option_linktext=1; 
+      // $info->option_linktext=1; 
       $info->print_link_table('erprobt','sortcol=Name','Erprobt-Attribute',true,'');  
     ?>
   </td>    

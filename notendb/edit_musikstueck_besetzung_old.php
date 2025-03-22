@@ -27,7 +27,7 @@ $info->print_link('edit_musikstueck_besetzungen.php?MusikstueckID='.$_GET["Musik
 
 <p> 
 <?php
-  $info->option_linktext=1; 
+  // $info->option_linktext=1; 
   $info->print_link_table('besetzung','sortcol=Name','Besetzungen',true,'');     
   $info->print_link_insert('besetzung','Besetzungen', true);  
 ?>

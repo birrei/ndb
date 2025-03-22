@@ -1,5 +1,6 @@
 
 <?php 
+$PageTitle='Schueler'; 
 include('head.php');
 include("cl_schueler.php");
 include("cl_html_info.php");

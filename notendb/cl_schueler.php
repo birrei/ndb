@@ -272,12 +272,17 @@ class Schueler {
       , musikstueck.Name as `Musikstück`
       , satz.Nr as `Satz Nr`    
       , satz.Name as `Satz Name`
-     -- , schueler_satz.Bemerkung  
-      , schueler_satz.SatzID           
+      , status.Name as `Status`
+      , schueler_satz.DatumVon as `Datum von` 
+      , schueler_satz.DatumBis as `Datum bis` 
+      , schueler_satz.Bemerkung
+
+     -- , schueler_satz.SatzID           
     FROM schueler_satz
     LEFT JOIN satz ON satz.ID = schueler_satz.SatzID  
     LEFT JOIN musikstueck ON musikstueck.ID = satz.MusikstueckID
-    LEFT JOIN sammlung ON sammlung.ID = musikstueck.SammlungID                               
+    LEFT JOIN sammlung ON sammlung.ID = musikstueck.SammlungID
+    LEFT JOIN status ON status.ID = schueler_satz.StatusID                                
     WHERE schueler_satz.SchuelerID = :ID
     order by satz.Name "; 
 
@@ -292,21 +297,21 @@ class Schueler {
       $stmt->execute(); 
       include_once("cl_html_table.php");      
       $html = new HtmlTable($stmt); 
-      $html->add_link_edit=false;   
-      // $html->edit_link_table='schueler_satz'; 
-      // $html->edit_link_title='Schueler'; 
-      // $html->edit_link_open_newpage=false; 
+      $html->add_link_edit=true;   
+      $html->edit_link_table='schueler_satz'; 
+      $html->edit_link_title='Schueler'; 
+      $html->edit_link_open_newpage=false; 
       $html->show_missing_data_message=false;      
       $html->add_link_delete=true; // XXX 
-      $html->del_link_filename='edit_schueler_saetze.php'; 
+      $html->del_link_filename='edit_schueler_satz.php'; 
       $html->del_link_parent_key='SchuelerID'; 
       $html->del_link_parent_id= $this->ID;             
       
-      // Link zu Satz-Formular 
-      $html->add_link_edit2=true; 
-      $html->edit2_link_colname='SatzID'; 
-      $html->edit2_link_filename='edit_satz.php'; 
-      $html->edit2_link_title='Satz';       
+      // // Link zu Satz-Formular 
+      // $html->add_link_edit2=true; 
+      // $html->edit2_link_colname='SatzID'; 
+      // $html->edit2_link_filename='edit_satz.php'; 
+      // $html->edit2_link_title='Satz';       
 
       
       $html->print_table2(); 

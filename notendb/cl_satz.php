@@ -15,6 +15,12 @@ class Satz {
   public $Bemerkung='';
   public $Orchesterbesetzung=''; 
 
+  public $MusikstueckNr=''; 
+  public $Musikstueck=''; 
+  
+  public $Sammlung=''; 
+  
+
   public $Title='Satz';
   public $Titles='Sätze';  
   // public $autoupdate = false; // verworfen 
@@ -192,6 +198,45 @@ class Satz {
     }
   }
 
+  function load_row3() {
+    // Daten aus Musikstück, Sammlung 
+    include_once("dbconn/cl_db.php");   
+    $conn = new DbConn(); 
+    $db=$conn->db; 
+
+    $select = $db->prepare("SELECT 
+                      satz.ID
+                      , COALESCE(satz.Name,'') as Satz 
+                      , COALESCE(satz.Nr,'') as SatzNr                       
+                      , musikstueck.ID as `MusikstueckID`
+                      , COALESCE(musikstueck.Nummer,'') as MusikstueckNr   
+                      , COALESCE(musikstueck.Name,'') as Musikstueck   
+                      , sammlung.ID as SammlungID 
+                      , sammlung.Name as Sammlung
+    FROM satz 
+          inner join musikstueck on satz.MusikstueckID = musikstueck.ID
+          inner join sammlung on sammlung.ID = musikstueck.SammlungID  
+    WHERE satz.ID = :ID");
+
+    $select->bindParam(':ID', $this->ID, PDO::PARAM_INT);
+
+    $select->execute(); 
+
+
+    if ($select->rowCount()==1) {
+      $row_data=$select->fetch();      
+      $this->Nr=$row_data["SatzNr"];
+      $this->Name=$row_data["Satz"];
+      $this->MusikstueckNr=$row_data["MusikstueckNr"];      
+      $this->Musikstueck=$row_data["Musikstueck"];
+      $this->Sammlung=$row_data["Sammlung"];    
+      return true; 
+    } 
+    else {
+      return false; 
+    }
+  }
+ 
   function print_select($value_selected='', $caption=''){
 
     include_once("dbconn/cl_db.php");  
@@ -767,8 +812,8 @@ class Satz {
   function print_table_schueler(){
     $query="SELECT schueler_satz.ID 
             , schueler.Name as Schueler
-            , schueler_satz.DatumVon as `von`
-            , schueler_satz.DatumBis as `bis`
+            , schueler_satz.DatumVon as `Datum von`
+            , schueler_satz.DatumBis as `Datum bis`
             , `status`.`Name` as `Status`   
             , schueler_satz.Bemerkung                
            -- , schueler_satz.SchuelerID                   
@@ -806,7 +851,7 @@ class Satz {
       // $html->edit2_link_filename='edit_schueler.php'; 
       // $html->edit2_link_title='Schüler';       
        
-
+      $html->table_width='100%'; 
       $html->print_table2(); 
 
     }
@@ -867,7 +912,33 @@ class Satz {
       $info->print_user_error(); 
       $info->print_error($stmt, $e); 
     }
-  }      
+  }
+
+  function getInfo($info_type=1){
+
+    $strtmp=''; 
+
+    switch ($info_type) {
+
+      case 1: 
+        $this->load_row3(); 
+        $strtmp.=($this->Sammlung!=''?'Sammlung: '.$this->Sammlung.'<br>':''); 
+        $strtmp.=($this->MusikstueckNr!=''?'Musikstueck Nr: '.$this->MusikstueckNr.' ':'');         
+        $strtmp.=($this->Musikstueck!=''?''.$this->Musikstueck.'<br>':''); 
+        $strtmp.=($this->Nr!=''?'Satz Nr: '.$this->Nr.'':' ');         
+        $strtmp.=($this->Name!=''?' '.$this->Name.'<br>':''); 
+        
+
+
+      break; 
+    }
+
+    return $strtmp; 
+
+
+  }
+  
+
    
 }
 

@@ -13,9 +13,9 @@ include("../../cl_html_info.php");
 
 if (isset($_GET["option"])) {
 
-    install_view_v_lookup(); 
-    install_view_v_material(); 
-    install_view_v_schueler_instrumente(); 
+    // install_view_v_lookup(); 
+    // install_view_v_material(); 
+    // install_view_v_schueler_instrumente(); 
     install_view_v_schueler(); 
 
 
@@ -37,9 +37,6 @@ if (isset($_GET["option"])) {
     // drop_table('schueler_material'); 
     // install_table_schueler_material(); 
 
- 
-
-
 }
 
 
@@ -49,25 +46,25 @@ function install_table_schueler_satz() {
     //  XXX `SatzID` int(10) unsigned DEFAULT NULL (anpassen, unsigned entfernen!)
 
     $sql="
-CREATE TABLE `schueler_satz` (
-  `ID` int(11) NOT NULL AUTO_INCREMENT,
-  `SchuelerID` int(11) DEFAULT NULL,
-  `SatzID` int(10) unsigned DEFAULT NULL,
-  `Bemerkung` varchar(255) DEFAULT NULL,
-  `DatumVon` date DEFAULT NULL,
-  `DatumBis` date DEFAULT NULL,
-  `StatusID` int(11) DEFAULT NULL,
-  `ts_insert` datetime DEFAULT current_timestamp(),  
-  `ts_update` datetime DEFAULT NULL ON UPDATE current_timestamp(),
-  PRIMARY KEY (`ID`),
-  UNIQUE KEY `uc_schueler_satz` (`SchuelerID`,`SatzID`),
-  KEY `SatzID` (`SatzID`),
-  KEY `SchuelerID` (`SchuelerID`),
-  KEY `fkey_schueler_satz_status` (`StatusID`),
-  CONSTRAINT `fkey_schueler_satz_SatzID` FOREIGN KEY (`SatzID`) REFERENCES `satz` (`ID`),
-  CONSTRAINT `fkey_schueler_satz_SchuelerID` FOREIGN KEY (`SchuelerID`) REFERENCES `schueler` (`ID`),
-  CONSTRAINT `fkey_schueler_satz_status` FOREIGN KEY (`StatusID`) REFERENCES `status` (`ID`)
-) ENGINE=InnoDB AUTO_INCREMENT=416 DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci  
+            CREATE TABLE `schueler_satz` (
+            `ID` int(11) NOT NULL AUTO_INCREMENT,
+            `SchuelerID` int(11) DEFAULT NULL,
+            `SatzID` int(10) unsigned DEFAULT NULL,
+            `Bemerkung` varchar(255) DEFAULT NULL,
+            `DatumVon` date DEFAULT NULL,
+            `DatumBis` date DEFAULT NULL,
+            `StatusID` int(11) DEFAULT NULL,
+            `ts_insert` datetime DEFAULT current_timestamp(),  
+            `ts_update` datetime DEFAULT NULL ON UPDATE current_timestamp(),
+            PRIMARY KEY (`ID`),
+            UNIQUE KEY `uc_schueler_satz` (`SchuelerID`,`SatzID`),
+            KEY `SatzID` (`SatzID`),
+            KEY `SchuelerID` (`SchuelerID`),
+            KEY `fkey_schueler_satz_status` (`StatusID`),
+            CONSTRAINT `fkey_schueler_satz_SatzID` FOREIGN KEY (`SatzID`) REFERENCES `satz` (`ID`),
+            CONSTRAINT `fkey_schueler_satz_SchuelerID` FOREIGN KEY (`SchuelerID`) REFERENCES `schueler` (`ID`),
+            CONSTRAINT `fkey_schueler_satz_status` FOREIGN KEY (`StatusID`) REFERENCES `status` (`ID`)
+            ) ENGINE=InnoDB AUTO_INCREMENT=416 DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci  
     "; 
     execute_sql($sql); 
 }
@@ -141,6 +138,7 @@ function install_view_v_schueler() {
      , GROUP_CONCAT(
             DISTINCT concat('* ', sammlung.Name, ' / ', musikstueck.Name, 
                         IF(satz.Name <> '', CONCAT(' / ', satz.Name), ''), 
+                        IF(schueler_satz.StatusID is not null, CONCAT(' / Status: ', status.Name), ''),
                         IF(schueler_satz.Bemerkung <> '', CONCAT(' / ', schueler_satz.Bemerkung), '')
             )  
             order by sammlung.Name, musikstueck.Nummer 
@@ -150,6 +148,7 @@ function install_view_v_schueler() {
         left join material on material.ID = schueler_material.MaterialID 
         left join sammlung sm on sm.ID=material.SammlungID 
         left join schueler_satz on schueler_satz.SchuelerID  = schueler.ID 
+        left join status on status.ID = schueler_satz.StatusID         
         left join satz on satz.ID = schueler_satz.SatzID 
         left join musikstueck on musikstueck.ID = satz.MusikstueckID
         left join sammlung on sammlung.ID = musikstueck.SammlungID    
@@ -259,8 +258,6 @@ function install_table_material() {
         )"; 
     execute_sql($sql, 'install table material'); 
 }
-
-
 
 function install_table_schueler_schwierigkeitsgrad() {
     $sql="

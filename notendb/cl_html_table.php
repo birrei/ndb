@@ -34,6 +34,8 @@ class HtmlTable {
     public $show_row_count=false; 
     public $in_iframe=false; 
 
+    public $table_width='100%'; // 
+
     function __construct($stmt) {
         $this->stmt = $stmt; 
         $this->result = $stmt->fetchAll(PDO::FETCH_ASSOC);
@@ -62,7 +64,8 @@ class HtmlTable {
                 border-collapse: collapse; 
                 font-size: 10pt;  
                 margin: 0px; 
-                padding: 0px;        
+                padding: 0px;
+                width: '.$this->table_width.';         
             }
             th.resultset {
                 border: 1px solid black;
@@ -73,9 +76,8 @@ class HtmlTable {
                 border: 1px solid black;    
                 padding: 2px;   
             }
-            
-            
-                        } </style>';             
+            } 
+            </style>'. PHP_EOL;             
             $html.= '<table class="resultset">'. PHP_EOL;
             $html.= '<thead>'. PHP_EOL;
             $html.= '<tr>'. PHP_EOL;
@@ -105,9 +107,11 @@ class HtmlTable {
                 foreach ($this->result as $row) {
                     $html .= '<tr>'. PHP_EOL;
                     foreach ($row as $key=>$cell){
-                        // echo $key; 
                         if ($key=="URL") {
                             $html .= '<td class="resultset"><a href="'.$cell.'" target="_blank">'.$cell.'</a></td>'. PHP_EOL; 
+                        }
+                        elseif( substr($key, 0,5)=='Datum'){
+                            $html .= '<td class="resultset">'.$this->getFormattedDate($cell).'</td>'. PHP_EOL; 
                         } else {                     
                             $html .= '<td class="resultset">'.$cell.'</td>'. PHP_EOL; 
                         }
@@ -203,6 +207,32 @@ class HtmlTable {
         echo $html;
     }
        
+
+    function datum_umwandeln($datum_string) {
+        // Gemini ... 
+        // Erstelle ein DateTime-Objekt aus dem Eingabe-String
+        $datum_objekt = DateTime::createFromFormat('Y-m-d', $datum_string);
+    
+        // Überprüfe, ob das Datum erfolgreich erstellt wurde
+        if ($datum_objekt) {
+            // Formatiere das Datum in das gewünschte Format 'TT.MM.JJJJ'
+            return $datum_objekt->format('d.m.Y');
+        } else {
+            // Gib einen Fehler zurück, wenn das Datum ungültig ist
+            return "Ungültiges Datumsformat";
+        }
+    }
+
+    function getFormattedDate($date_in) {
+        //  return $date_in; 
+        if (gettype($date_in) == 'NULL') {
+            return $date_in; 
+        } else {
+            $date = new DateTimeImmutable($date_in);
+            return $date->format('d.m.Y');
+        }
+    }
+
     
 //     function print_table_tablelist() {
 //         /* 

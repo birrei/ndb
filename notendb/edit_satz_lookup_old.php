@@ -65,7 +65,7 @@ if (isset($_POST["LookupTypeID"])) {
   <td class="eingabe2" colspan="2"><br />
   <?php
 
-  $info->option_linktext=1; 
+  // $info->option_linktext=1; 
   $info->print_link_table('lookup_type','sortcol=Name','Besonderheit-Typen',true,'');     
   $info->print_link_table('v_lookup','sortcol=Name','Besonderheiten',true,'');    
 
