@@ -92,7 +92,7 @@ class SchuelerSatz {
     include_once("dbconn/cl_db.php");
     $conn = new DbConn(); 
     $db=$conn->db; 
-    echo '<p>Lösche schueler_satz ID: '.$this->ID.':</p>';
+    // echo '<p>Lösche schueler_satz ID: '.$this->ID.':</p>';
     $delete = $db->prepare("DELETE FROM `schueler_satz` WHERE ID=:ID"); 
     $delete->bindValue(':ID', $this->ID);  
 
