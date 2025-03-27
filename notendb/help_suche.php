@@ -1,4 +1,5 @@
-<?php 
+<?php
+$PageTitle='Hilfe zur Suche';  
 include('head.php');
 ?>
 
@@ -187,7 +188,6 @@ include('head.php');
         </p>
 
 
-
 <h1 class="chapter-title chapter-title-h1" id="suche-schueler">SCHÜLER-SUCHE</h1>
     <p>Ergebnis-Tabelle: </p>
     <ul>
@@ -202,7 +202,7 @@ include('head.php');
         </li>
         <li>Noten: Auflistung der mit dem Schüler verknüpften Noten-Sammlungen (Zusammensetzung Sammmlung-Name, Musikstück-Name, Satz-Name - jeweils falls befüllt) </li>
     </ul>
-<h2 class="chapter-title chapter-title-h2" id="suche-schueler-hinweise">Text-Suche</h2>
+    <h2 class="chapter-title chapter-title-h2" id="suche-schueler-hinweise">Text-Suche</h2>
 
     <p>
         Suche Textteil Schüler-Tabelle: 
@@ -225,18 +225,25 @@ include('head.php');
 
     </p>
 
-<h2 class="chapter-title chapter-title-h2" id="suche-schueler-schueler">Schüler</h2>    
+    <h2 class="chapter-title chapter-title-h2" id="suche-schueler-schueler">Schüler</h2>    
+         <p> Auswahl 1 Schüler XXX </p> 
 
-    <p> Auswahl 1 Schüler </p> 
+    <h2 class="chapter-title chapter-title-h2" id="suche-schueler-schueler">Instrument</h2>    
+        <p>Instrument (Einfach-Auswahl) XXX 
+        </p> 
 
-<h2 class="chapter-title chapter-title-h2" id="suche-schueler-schueler">Instrument</h2>    
-    <p>Instrument (Einfach-Auswahl) </p> 
+    <h2 class="chapter-title chapter-title-h2" id="suche-schueler-schueler">Schwierigkeitsgrad</h2> 
+        <p>Schwierigkeitsgrad (Mehrfachauswahl): Suche Schwierigkeitsgrad(e), unabhängig von Instrument XXX</p> 
 
-<h2 class="chapter-title chapter-title-h2" id="suche-schueler-schueler">Schwierigkeitsgrad</h2> 
-    <p>Schwierigkeitsgrad (Mehrfachauswahl): Suche Schwierigkeitsgrad(e), unabhängig von Instrument</p> 
+    <h2 class="chapter-title chapter-title-h2" id="suche-schueler-status">Status Noten / Material</h2> 
+        <p>
+            Filter nach "Status". Es wird gesucht nach dem Status-Eintrag, der unter   
+            <a href="help_erfassung.php?#erfassung_satz_schueler">"Satz" > "Schüler"</a> 
+            oder <a href="help_erfassung.php?#erfassung_schueler_material">"Schüler x Material" Zuordnung</a> 
+            erfasst wurde. 
+        </p>
 
-
-
+        
 
 
 

@@ -23,6 +23,7 @@ include("cl_lookuptype.php");
 include("cl_linktype.php");
 include("cl_abfrage.php");
 include("cl_schueler.php");
+include("cl_status.php");
 
 $Standorte=[];   /* Sammlung */
 // $Verlage=[];   /* Sammlung */
@@ -200,6 +201,25 @@ if (isset($_POST['suchtext'])) {
     }
   }
   $schueler->print_select($SchuelerID,'',$schueler->Title);
+
+
+  /************* Status Noten / Material  ***********/
+  $status = new Status();
+  $StatusID=''; 
+  $filterStatus=''; 
+  if (isset($_POST['StatusID'])) {
+    if ($_POST['StatusID']!='') {
+      $StatusID = $_POST['StatusID']; 
+      $status->ID= $StatusID; 
+      $status->load_row(); 
+      $filterStatus='AND satz.ID IN (SELECT SatzID FROM schueler_satz WHERE StatusID='.$StatusID.') '; 
+      $Suche->Beschreibung.=($StatusID!=''?'* Schüler Noten-Status: '.$status->Name:'');     
+      $filter=true;       
+    }
+  }
+  echo '<p>';
+  $status->print_select($StatusID,'Status Schüler Satz/Material');
+  echo '</p>';
 
 ?>
 
@@ -764,6 +784,7 @@ if (isset($_POST['suchtext'])) {
                 
           $query.=($filterSchueler!=''?' AND satz.ID IN (SELECT SatzID from schueler_satz where SchuelerID='.$SchuelerID.')' . PHP_EOL:''); 
 
+          $query.=($filterStatus!=''?$filterStatus.PHP_EOL:'');       
 
           if($suchtext!=''){
             $query.="AND (sammlung.Name LIKE '%".$suchtext."%' OR  

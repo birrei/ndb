@@ -1,4 +1,5 @@
 <?php 
+$PageTitle='Hilfe zur Erfassung';  
 include('head.php');
 ?>
 
@@ -109,13 +110,14 @@ include('head.php');
     <h3 class="chapter-title chapter-title-h3" id="erfassung_satz_schueler">Satz: Zuordnung Schüler</h3>
         
         <p>Zuordndung / Bearbeitung eines Schülers: Button "Hinzufügen"
-            <br >Zuordnung mehrerer Schüler: 
+            <br >Zuordnung mehrerer Schüler: "Schnell-Zuordnung"
         </p>
 
     
         <p>Verfügbare Felder: 
         <ul>    
             <li>Schüler</li>
+            <li>Status</li>
             <li>Datum von</li>
             <li>Datum bis</li>
             <li>Bemerkung (hier können Anmerkungen/Notizen zur Verknüpfung abgelegt werden, 

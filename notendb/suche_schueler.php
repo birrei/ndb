@@ -7,6 +7,7 @@ include("cl_html_info.php");
 
 include("cl_instrument.php");  
 include("cl_schwierigkeitsgrad.php");  
+include("cl_status.php");  
 
 include("cl_lookup.php");   
 include("cl_lookuptype.php");
@@ -71,6 +72,7 @@ $Suche->Beschreibung = "<b>Schüler-Suche</b>".PHP_EOL;
 &nbsp;
 &nbsp;
 
+<!-- Link: Filter ein/ausblenden --> 
 <a onclick="hideFilter()" href="#">Filter ein/ausblenden</a>
 <script> 
       function hideFilter() {
@@ -168,9 +170,30 @@ if (isset($_POST['suchtext'])) {
   $schwierigkeitsgrad->print_select_multi($Schwierigkeitsgrade);  
   $Suche->Beschreibung.=(count($Schwierigkeitsgrade)>0?$schwierigkeitsgrad->titles_selected_list:'');  
 
+  /************* Status Noten / Material  ***********/
+  $status = new Status();
+  $StatusID=''; 
+  $filterStatus=''; 
+  if (isset($_POST['StatusID'])) {
+    if ($_POST['StatusID']!='') {
+      $StatusID = $_POST['StatusID']; 
+      $status->ID= $StatusID; 
+      $status->load_row(); 
+      // XXX Material noch einbeziehen
+      // $filterStatus='AND schueler.ID IN (SELECT SchuelerID FROM schueler_satz WHERE StatusID='.$StatusID.') '; 
+      $filterStatus='AND schueler_satz.StatusID='.$StatusID.' '; // nur Sätze mit gewähltem Status anzeigen 
+
+      $Suche->Beschreibung.=($StatusID!=''?'* Status: '.$status->Name:'');     
+      $filter=true;       
+    }
+  }
+  $status->print_select($StatusID,'Status Noten / Material');
+
 ?>
 
-<p></p>
+<p>
+
+</p>
 
 <hr>
 <p>
@@ -206,13 +229,17 @@ if (isset($_POST['suchtext'])) {
             order by 
                 IF(sm.ID is not NULL, CONCAT(sm.Name, ': ', material.Name), material.Name)
             SEPARATOR '<br />') as Materialien
+     
+     
      , GROUP_CONCAT(
             DISTINCT concat('* ', sammlung.Name, ' / ', musikstueck.Name, 
                         IF(satz.Name <> '', CONCAT(' / ', satz.Name), ''), 
+                        IF(schueler_satz.StatusID is not null, CONCAT(' / Status: ', status.Name), ''),
                         IF(schueler_satz.Bemerkung <> '', CONCAT(' / ', schueler_satz.Bemerkung), '')
             )  
             order by sammlung.Name, musikstueck.Nummer 
             SEPARATOR '<br />') as Noten 
+
             ";
         $edit_table='schueler'; 
 
@@ -228,6 +255,7 @@ if (isset($_POST['suchtext'])) {
         left join material on material.ID = schueler_material.MaterialID 
         left join sammlung sm on sm.ID=material.SammlungID 
         left join schueler_satz on schueler_satz.SchuelerID  = schueler.ID 
+        left join status on status.ID = schueler_satz.StatusID           
         left join satz on satz.ID = schueler_satz.SatzID 
         left join musikstueck on musikstueck.ID = satz.MusikstueckID
         left join sammlung on sammlung.ID = musikstueck.SammlungID    
@@ -249,6 +277,8 @@ if (isset($_POST['suchtext'])) {
           $query.=($filterInstrument!=''?$filterInstrument.PHP_EOL:''); 
 
           $query.=($filterSchwierigkeitsgrad!=''?$filterSchwierigkeitsgrad.PHP_EOL:''); 
+
+          $query.=($filterStatus!=''?$filterStatus.PHP_EOL:'');           
 
           // $query.=($filterLookups_satz!=''?$filterLookups_satz.PHP_EOL:'');           
 
