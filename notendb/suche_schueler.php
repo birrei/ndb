@@ -179,10 +179,13 @@ if (isset($_POST['suchtext'])) {
       $StatusID = $_POST['StatusID']; 
       $status->ID= $StatusID; 
       $status->load_row(); 
-      // XXX Material noch einbeziehen
       // $filterStatus='AND schueler.ID IN (SELECT SchuelerID FROM schueler_satz WHERE StatusID='.$StatusID.') '; 
-      $filterStatus='AND schueler_satz.StatusID='.$StatusID.' '; // nur Sätze mit gewähltem Status anzeigen 
+      // $filterStatus='AND schueler_satz.StatusID='.$StatusID.' '; // nur Sätze mit gewähltem Status anzeigen 
 
+      $filterStatus='AND 
+                ( schueler_satz.StatusID='.$StatusID.' OR 
+                  schueler_material.StatusID='.$StatusID.')  
+                '; 
       $Suche->Beschreibung.=($StatusID!=''?'* Status: '.$status->Name:'');     
       $filter=true;       
     }
@@ -280,8 +283,6 @@ if (isset($_POST['suchtext'])) {
 
           $query.=($filterStatus!=''?$filterStatus.PHP_EOL:'');           
 
-          // $query.=($filterLookups_satz!=''?$filterLookups_satz.PHP_EOL:'');           
-
           if($suchtext!=''){
             $query.="AND (schueler.Name LIKE '%".$suchtext."%'   
                     OR schueler.Bemerkung LIKE '%".$suchtext."%' 
@@ -289,7 +290,9 @@ if (isset($_POST['suchtext'])) {
                     OR sammlung.Bemerkung LIKE '%".$suchtext."%' 
                     OR musikstueck.Name LIKE '%".$suchtext."%'  
                     OR material.Name LIKE '%".$suchtext."%' 
-                    OR material.Bemerkung LIKE '%".$suchtext."%'                                                                                   
+                    OR material.Bemerkung LIKE '%".$suchtext."%'        
+                    OR schueler_satz.Bemerkung LIKE '%".$suchtext."%'     
+                    OR schueler_material.Bemerkung LIKE '%".$suchtext."%'                                                                                                                       
                     ) ". PHP_EOL;         
           }
           break; 
