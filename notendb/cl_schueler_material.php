@@ -98,11 +98,11 @@ class SchuelerMaterial {
     $conn = new DbConn(); 
     $db=$conn->db; 
     
-    echo 'TEST: ID: '.$this->ID; 
-    echo '<br>SchuelerID: '.$SchuelerID; 
-    echo '<br$MaterialID: '.$MaterialID; 
-    echo '<br>DatumVon: '.$DatumVon; 
-    echo '<br>DatumBis: '.$DatumBis; 
+    // echo 'TEST: ID: '.$this->ID; 
+    // echo '<br>SchuelerID: '.$SchuelerID; 
+    // echo '<br$MaterialID: '.$MaterialID; 
+    // echo '<br>DatumVon: '.$DatumVon; 
+    // echo '<br>DatumBis: '.$DatumBis; 
 
     if ($this->ID=='') {
       $this->insert_row($SchuelerID, $MaterialID); 
