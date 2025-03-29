@@ -1,0 +1,3 @@
+﻿
+Schüler Aktiv ja/nein 
+

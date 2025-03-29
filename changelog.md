@@ -1,5 +1,7 @@
 ﻿# Changelog  
 
+29.03.2025: Schüler x Material: Ergänzung Feld "Status" 
+
 27.03.2025: Seite "Suche Schüler": Filter "Status Noten / Material"   
 27.03.2025: Seite "Suche": Filter "Schüler Noten-Status"  
 
