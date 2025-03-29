@@ -159,8 +159,6 @@ $Suche->Beschreibung.='* Ansicht: '.$Ansicht.PHP_EOL;
           <option value="Satz Besonderheiten" <?php echo ($Ansicht=='Satz Besonderheiten'?'selected':'')?>>Satz Besonderheiten</option>                     
           <option value="Material" <?php echo ($Ansicht=='Material'?'selected':'')?>>Material</option>                     
 
-
-
 </select>
 
 <!---- Entscheidung Suche speichern ja / nein -----> 
@@ -212,8 +210,23 @@ if (isset($_POST['suchtext'])) {
       $StatusID = $_POST['StatusID']; 
       $status->ID= $StatusID; 
       $status->load_row(); 
-      $filterStatus='AND satz.ID IN (SELECT SatzID FROM schueler_satz WHERE StatusID='.$StatusID.') '; 
-      $Suche->Beschreibung.=($StatusID!=''?'* Schüler Noten-Status: '.$status->Name:'');     
+      // $filterStatus='AND satz.ID IN (SELECT SatzID FROM schueler_satz WHERE StatusID='.$StatusID.') '; 
+      // Filter für Ansichten Sammlung * > Satz* - Abfragen: 
+      $filterStatus1='AND ( 
+                          satz.ID IN (SELECT SatzID FROM schueler_satz WHERE StatusID='.$StatusID.') 
+                           OR sammlung.ID IN 
+                           (
+                              SELECT SammlungID FROM material WHERE ID IN 
+                                (
+                                  SELECT MaterialID FROM schueler_material WHERE StatusID='.$StatusID.'
+                                )
+                            ) 
+                          ) 
+                      '; 
+
+      // Filter für Ansichten Material                       
+      $filterStatus2='AND schueler_material.StatusID='.$StatusID.' '.PHP_EOL; 
+      $Suche->Beschreibung.=($StatusID!=''?'* Schüler (Noten/Material) Status: '.$status->Name.PHP_EOL:'');     
       $filter=true;       
     }
   }
@@ -713,7 +726,8 @@ if (isset($_POST['suchtext'])) {
                 LEFT JOIN satz_lookup on satz_lookup.SatzID = satz.ID 
                 LEFT JOIN v_satz_lookuptypes on v_satz_lookuptypes.SatzID = satz.ID
                 LEFT JOIN sammlung_lookup on sammlung_lookup.SammlungID = sammlung.ID       
-                LEFT JOIN v_sammlung_lookuptypes on v_sammlung_lookuptypes.SammlungID = sammlung.ID 
+                LEFT JOIN v_sammlung_lookuptypes on v_sammlung_lookuptypes.SammlungID = sammlung.ID
+                -- LEFT JOIN material on material.SammlungID = sammlung.ID                  
 
               WHERE 1=1 ". PHP_EOL; 
             break; 
@@ -784,7 +798,7 @@ if (isset($_POST['suchtext'])) {
                 
           $query.=($filterSchueler!=''?' AND satz.ID IN (SELECT SatzID from schueler_satz where SchuelerID='.$SchuelerID.')' . PHP_EOL:''); 
 
-          $query.=($filterStatus!=''?$filterStatus.PHP_EOL:'');       
+          $query.=($filterStatus1!=''?$filterStatus1.PHP_EOL:'');       
 
           if($suchtext!=''){
             $query.="AND (sammlung.Name LIKE '%".$suchtext."%' OR  
@@ -814,12 +828,13 @@ if (isset($_POST['suchtext'])) {
                                 )". PHP_EOL;         
          }
         break; 
-      case 'Material':   
-       
+      case 'Material':          
 
         $query.=($filterSchueler!=''?' AND material.ID IN (SELECT MaterialID from schueler_material where SchuelerID='.$SchuelerID.')' . PHP_EOL:''); 
 
         $query.=($filterStandorte!=''?' AND sammlung.StandortID '.$filterStandorte. PHP_EOL:''); 
+
+        $query.=($filterStatus2!=''?$filterStatus2.PHP_EOL:''); 
 
         if($suchtext!=''){
           $query.="AND (
