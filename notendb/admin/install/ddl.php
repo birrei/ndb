@@ -36,7 +36,6 @@ if (isset($_GET["option"])) {
 
     // drop_table('schueler_material'); 
     // install_table_schueler_material(); 
-
 }
 
 

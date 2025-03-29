@@ -39,7 +39,7 @@ switch($option) {
   break; 
 
 
-  case "delete": 
+  case "delete_1": 
     $ID = $_REQUEST["ID"]; 
     $schueler_satz=new SchuelerSatz(); 
     $schueler_satz->ID=$ID; 
@@ -52,10 +52,7 @@ switch($option) {
     $Bemerkung=$schueler_satz->Bemerkung;   
     $option='delete_2'; 
 
-    $html->print_form_confirm('edit_schueler_satz.php', $ID,$option,'Löschung'); 
-
-
-  break; 
+     break; 
 
   case 'delete_2': // after confirm 
     $schueler_satz=new SchuelerSatz(); 
@@ -65,10 +62,9 @@ switch($option) {
     $schueler_satz->delete(); 
           
     header('Location: edit_schueler_saetze.php?SchuelerID='.$SchuelerID);
-
     exit;
 
-  break;
+    break;
 
   case 'update2':   // update existing row 
     $ID = $_POST["ID"];    
@@ -83,7 +79,6 @@ switch($option) {
     $schueler_satz->update_row($SchuelerID, $SatzID, $DatumVon, $DatumBis, $Bemerkung, $StatusID); 
     
     header('Location: edit_schueler_saetze.php?SchuelerID='.$SchuelerID);
-
     exit;
 
   break;
@@ -91,6 +86,10 @@ switch($option) {
 }
 
 include_once('head_raw.php');
+
+if ($option=='delete_2') {
+  $html->print_form_confirm('edit_schueler_satz.php', $ID,$option,'Löschung'); 
+}
 
 ?> 
 
@@ -163,9 +162,7 @@ include_once('head_raw.php');
   </td>  
   <td class="eingabe2 eingabe2_3"></td>    
 </tr>
-</table>
 
- </table> 
 
 <input type="hidden" name="ID" value="<?php echo $ID; ?>">  
  <input type="hidden" name="SatzID" value="<?php echo $SatzID; ?>"> 
@@ -174,6 +171,19 @@ include_once('head_raw.php');
 
 </form>
 
+<tr>    
+  <td class="eingabe2 eingabe2_1"></td>    
+  <td class="eingabe2 eingabe2_2">
+      <form action="#" method="post">
+      <input type="hidden" name="ID" value="<?php echo $ID; ?>">
+      <input type="hidden" name="option" value="delete_1">      
+      <input type="submit" name="senden" value="Löschen">             
+      </form>
+  </td>
+  <td class="eingabe2 eingabe2_3"></td>  
+</tr> 
+
+</table>
 
 
 <?php 

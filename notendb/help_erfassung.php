@@ -109,19 +109,22 @@ include('head.php');
 
     <h3 class="chapter-title chapter-title-h3" id="erfassung_satz_schueler">Satz: Zuordnung Schüler</h3>
         
-        <p>Zuordndung / Bearbeitung eines Schülers: Button "Hinzufügen"
-            <br >Zuordnung mehrerer Schüler: "Schnell-Zuordnung"
-        </p>
-
+        <p>Vorgehensweisen:   
+        <ul>    
+        <li>Button "Hinzufügen": Öffnet das Formular zum Anlegen einer Schüler-Zuordnung</li>
+        <li>Button "Schnell-Zuordnung": Hier können mehrere Schüler auf einen Rutsch zugeordnet werden. 
+            Markiere alle gewünschten Schüler und klicke auf "Speichern" (unter der Liste).  
+            Die Zuordnung erfolgt automatisiert mit dem niedrigsten Status (kleinste ID in der Status-Tabelle).   
+        </li>
+        </ul>
     
         <p>Verfügbare Felder: 
         <ul>    
             <li>Schüler</li>
-            <li>Status</li>
+            <li>Status XXX</li>
             <li>Datum von</li>
             <li>Datum bis</li>
-            <li>Bemerkung (hier können Anmerkungen/Notizen zur Verknüpfung abgelegt werden, 
-                z.B. zum Grund der Auswahl dieser Noten für den Schüler</li>
+            <li>Bemerkung</li>
         </ul>
         </p>
         <p>Die erfassten Zuordnungen sind auch über das Formular "Schüler"  (<a href="#erfassung_schueler_noten">Schüler: Verknüpfte Noten</a>) sichtbar. </p>
@@ -133,8 +136,6 @@ include('head.php');
             " (Kopie)" im Feld "Name" ist die Kopie erkennbar. 
             Im Seitenkopf erscheint ein Hinweis auf den Kopiervorgang (Neue ID, alte ID mit Link).
             Über den Link kann bei Bedarf die Quelle in neuem Fenster geöffnet werden.  
-            
-            
         </p>           
 <h2 class="chapter-title chapter-title-h2" id="erfassung_material">Material</h2>
     <p> Materialien können zu einer Sammlung, aber auch unabhängig von einer Sammlung angelegt werden. </p>

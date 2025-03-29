@@ -839,11 +839,12 @@ class Satz {
       $html->edit_link_table='satz_schueler'; 
       $html->edit_link_title='Schueler'; 
       $html->edit_link_open_newpage=false; 
-      $html->show_missing_data_message=false;      
-      $html->add_link_delete=true; // XXX 
-      $html->del_link_filename='edit_satz_schueler.php'; 
-      $html->del_link_parent_key='SatzID'; 
-      $html->del_link_parent_id= $this->ID;  
+      $html->show_missing_data_message=false;    
+
+      // $html->add_link_delete=true; // XXX 
+      // $html->del_link_filename='edit_satz_schueler.php'; 
+      // $html->del_link_parent_key='SatzID'; 
+      // $html->del_link_parent_id= $this->ID;  
       
       // // Link zu Schüler-Formular 
       // $html->add_link_edit2=true; 

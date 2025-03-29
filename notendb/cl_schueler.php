@@ -301,11 +301,12 @@ class Schueler {
       $html->edit_link_table='schueler_satz'; 
       $html->edit_link_title='Schueler'; 
       $html->edit_link_open_newpage=false; 
-      $html->show_missing_data_message=false;      
-      $html->add_link_delete=true; // XXX 
-      $html->del_link_filename='edit_schueler_satz.php'; 
-      $html->del_link_parent_key='SchuelerID'; 
-      $html->del_link_parent_id= $this->ID;             
+      $html->show_missing_data_message=false; 
+
+      // $html->add_link_delete=true; // XXX 
+      // $html->del_link_filename='edit_schueler_satz.php'; 
+      // $html->del_link_parent_key='SchuelerID'; 
+      // $html->del_link_parent_id= $this->ID;             
       
       // // Link zu Satz-Formular 
       // $html->add_link_edit2=true; 
@@ -329,11 +330,13 @@ class Schueler {
     $query="SELECT schueler_material.ID
             , material.Name 
             , sammlung.Name as Sammlung  
-            -- , schueler_material.Bemerkung  as `Material Bemerkung`
-            , materialtyp.Name  as `Materialtyp`            
-           -- , schueler_material.SatzID
-           , schueler_material.MaterialID            
+            , materialtyp.Name  as `Materialtyp`
+            , schueler_material.DatumVon as `Datum von`
+            , schueler_material.DatumBis as `Datum bis` 
+            , status.Name as Status      
+            , schueler_material.Bemerkung                   
           FROM schueler_material
+          LEFT JOIN status on status.ID =  schueler_material.StatusID          
           LEFT JOIN material ON material.ID = schueler_material.MaterialID  
           LEFT JOIN materialtyp ON materialtyp.ID = material.MaterialtypID  
           LEFT JOIN sammlung on sammlung.ID = material.SammlungID                            
@@ -352,21 +355,21 @@ class Schueler {
       $stmt->execute(); 
       include_once("cl_html_table.php");      
       $html = new HtmlTable($stmt); 
-      $html->add_link_edit=false;      
-      // $html->edit_link_table='schueler_material'; 
-      // $html->edit_link_title='Schueler'; 
-      // $html->edit_link_open_newpage=false; 
+      $html->add_link_edit=true;      
+      $html->edit_link_table='schueler_material'; 
+      $html->edit_link_title='Schueler'; 
+      $html->edit_link_open_newpage=false; 
       $html->show_missing_data_message=false;      
-      $html->add_link_delete=true; // XXX 
-      $html->del_link_filename='edit_schueler_materials.php'; 
-      $html->del_link_parent_key='SchuelerID'; 
-      $html->del_link_parent_id= $this->ID;  
+      // $html->add_link_delete=true; // XXX 
+      // $html->del_link_filename='edit_schueler_materials.php'; 
+      // $html->del_link_parent_key='SchuelerID'; 
+      // $html->del_link_parent_id= $this->ID;  
       
-      // Link zu Material-Formular 
-      $html->add_link_edit2=true; 
-      $html->edit2_link_colname='MaterialID'; 
-      $html->edit2_link_filename='edit_material.php'; 
-      $html->edit2_link_title='Material';       
+      // // Link zu Material-Formular 
+      // $html->add_link_edit2=true; 
+      // $html->edit2_link_colname='MaterialID'; 
+      // $html->edit2_link_filename='edit_material.php'; 
+      // $html->edit2_link_title='Material';       
 
       $html->print_table2(); 
 
@@ -551,6 +554,38 @@ class Schueler {
     $insert->execute();  
 
   }   
+
+  function print_table_material_checklist(){
+    $query="select distinct material.ID, material.Name
+            from material 
+            left join schueler_material on material.ID = schueler_material.MaterialID 
+                        and schueler_material.SchuelerID = :SchuelerID 
+            where schueler_material.ID is null 
+            order by material.Name 
+        "; 
+
+    include_once("dbconn/cl_db.php");
+    $conn = new DbConn(); 
+    $db=$conn->db; 
+  
+    $stmt = $db->prepare($query); 
+    $stmt->bindParam(':SchuelerID', $this->ID, PDO::PARAM_INT); 
+
+    try {
+      $stmt->execute(); 
+      include_once("cl_html_table.php");      
+      $html = new HtmlTable($stmt); 
+      $html->print_table_checklist('material'); 
+
+
+    }
+    catch (PDOException $e) {
+      include_once("cl_html_info.php"); 
+      $info = new HtmlInfo();      
+      $info->print_user_error(); 
+      $info->print_error($stmt, $e); 
+    }
+  }
 
 
 

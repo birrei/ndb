@@ -1,5 +1,6 @@
 
 <?php 
+$PageTitle='Satz'; 
 include('head.php');
 include('cl_satz.php');
 include('cl_musikstueck.php');

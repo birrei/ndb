@@ -197,6 +197,18 @@ class status {
     }  
   }    
 
+  function getDefaultID() {
+    include_once("dbconn/cl_db.php");
+    $conn = new DbConn(); 
+    $db=$conn->db; 
+    $sql="SELECT (coalesce(MIN(ID),0)) AS DefaultID FROM status "; 
+    $stmt = $db->prepare($sql); 
+    $stmt->execute(); 
+    $col=$stmt->fetchColumn(); 
+    return $col;  
+  }  
+
+
 }
 
  

@@ -245,15 +245,17 @@ class Material {
 
   }
 
-
   function print_table_schueler(){
     $query="SELECT schueler_material.ID 
-          , schueler.Name as Schueler
-          , schueler_material.SchuelerID 
-          -- , schueler_material.Bemerkung  
+            , schueler.Name as Schueler
+            , schueler_material.DatumVon as `Datum von`
+            , schueler_material.DatumBis as `Datum bis`
+            , `status`.`Name` as `Status`   
+            , schueler_material.Bemerkung                
+           -- , schueler_satz.SchuelerID 
           FROM schueler_material
-          left join schueler 
-          on  schueler.ID = schueler_material.SchuelerID  
+          LEFT JOIN schueler on  schueler.ID = schueler_material.SchuelerID  
+          LEFT JOIN status on status.ID =  schueler_material.StatusID
           WHERE schueler_material.MaterialID = :MaterialID 
           order by schueler.Name  
         "; 
@@ -269,21 +271,22 @@ class Material {
       $stmt->execute(); 
       include_once("cl_html_table.php");      
       $html = new HtmlTable($stmt); 
-      $html->add_link_edit=false;       
-      // $html->edit_link_table='material_schueler'; 
-      // $html->edit_link_title='Schueler'; 
-      // $html->edit_link_open_newpage=false; 
-      $html->show_missing_data_message=false;      
-      $html->add_link_delete=true; // XXX 
-      $html->del_link_filename='edit_material_schuelers.php'; 
-      $html->del_link_parent_key='MaterialID'; 
-      $html->del_link_parent_id= $this->ID;    
+      $html->add_link_edit=true;       
+      $html->edit_link_table='material_schueler'; 
+      // $html->edit_link_title='Schueler'; #obsolete 
+      $html->edit_link_open_newpage=false; 
+      $html->show_missing_data_message=false;    
+
+      // $html->add_link_delete=true; // XXX 
+      // $html->del_link_filename='edit_material_schueler.php'; 
+      // $html->del_link_parent_key='MaterialID'; 
+      // $html->del_link_parent_id= $this->ID;    
       
-      // Link zu Schüler-Formular 
-      $html->add_link_edit2=true; 
-      $html->edit2_link_colname='SchuelerID'; 
-      $html->edit2_link_filename='edit_schueler.php'; 
-      $html->edit2_link_title='Schüler';       
+      // // Link zu Schüler-Formular 
+      // $html->add_link_edit2=true; 
+      // $html->edit2_link_colname='SchuelerID'; 
+      // $html->edit2_link_filename='edit_schueler.php'; 
+      // $html->edit2_link_title='Schüler';       
 
       $html->print_table2(); 
 
@@ -296,7 +299,6 @@ class Material {
     }
   }    
 
-
   function print_select( $selected_MaterialID='', $ParentID='', $MaterialtypID=''){
 
     // XXX Material für einen ausgewählten Typ   
@@ -304,16 +306,25 @@ class Material {
     include_once("dbconn/cl_db.php");  
     include_once("cl_html_select.php");
 
-    $query="SELECT material.ID
-			, case when LENGTH(material.Name) > 50
+    $query="
+    SELECT material.ID
+		   , CONCAT(
+		   	   IF(sammlung.ID is not null, 
+		   	   		CASE WHEN LENGTH(sammlung.Name) > 50
+	            	THEN LEFT(sammlung.Name, 50)
+	            	ELSE sammlung.Name
+	            	END 
+		   	   	, '') ,
+		   	   CASE WHEN LENGTH(material.Name) > 50
             	THEN CONCAT(LEFT(material.Name, 50), ' (...) (', materialtyp.Name, ')') 
             	ELSE CONCAT(material.Name, ' (',  materialtyp.Name, ')')
-            END 
-            	as Material
+            	END 
+		   ) as Material
             FROM material 
-            INNER JOIN materialtyp 
-            ON materialtyp.ID=material.MaterialtypID 
-            WHERE 1=1 " ;
+            INNER JOIN materialtyp ON materialtyp.ID=material.MaterialtypID
+            LEFT JOIN sammlung ON sammlung.ID = material.SammlungID  
+            WHERE 1=1 
+    " ;
 
     if ($selected_MaterialID!='') {
         $query.=($ParentID!=''?'AND material.ID NOT IN 
@@ -437,6 +448,38 @@ class Material {
     $insert->bindValue(':MaterialID', $ID_new);  
     $insert->execute();  
 
+  }
+
+  function print_table_schueler_checklist(){
+    $query="select distinct schueler.ID, schueler.Name
+            from schueler 
+            left join schueler_material on schueler.ID = schueler_material.SchuelerID 
+                        and schueler_material.MaterialID = :MaterialID 
+            where schueler_material.ID is null 
+            order by schueler.Name 
+        "; 
+
+    include_once("dbconn/cl_db.php");
+    $conn = new DbConn(); 
+    $db=$conn->db; 
+  
+    $stmt = $db->prepare($query); 
+    $stmt->bindParam(':MaterialID', $this->ID, PDO::PARAM_INT); 
+
+    try {
+      $stmt->execute(); 
+      include_once("cl_html_table.php");      
+      $html = new HtmlTable($stmt); 
+      $html->print_table_checklist('schueler'); 
+
+
+    }
+    catch (PDOException $e) {
+      include_once("cl_html_info.php"); 
+      $info = new HtmlInfo();      
+      $info->print_user_error(); 
+      $info->print_error($stmt, $e); 
+    }
   }
 
 }

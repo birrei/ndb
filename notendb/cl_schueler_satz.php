@@ -6,12 +6,10 @@ class SchuelerSatz {
 
   public $ID='';
   public $SatzID='';
-  public $StatusID='';
   public $SchuelerID=''; 
+  public $StatusID='';
   public $DatumVon='' ; 
   public $DatumBis='' ; 
-
-  // DatumBis XXX 
   public $Bemerkung=''; 
 
   public $titles_selected_list; 
@@ -23,24 +21,30 @@ class SchuelerSatz {
   }
 
   function insert_row ($SchuelerID, $SatzID) {
+
+    if ($SchuelerID=='' || $SatzID=='') {
+      return false; 
+    }   
+
     include_once("dbconn/cl_db.php");
     $conn = new DbConn(); 
     $db=$conn->db; 
 
-    if ($SchuelerID=='' || $SatzID=='') {
-      return false; 
-    }
-       
-    // echo 'Insert: SatzID: '.$this->SatzID; // test 
+    include_once("cl_status.php");
+    $status=new Status();      
+    $StatusID= $status->getDefaultID(); 
 
+    // echo 'Insert: SatzID: '.$this->SatzID; // test 
     $insert = $db->prepare("INSERT INTO `schueler_satz` 
               SET SatzID = :SatzID   
-                , SchuelerID  = :SchuelerID
-                "
-           );
+                  , SchuelerID  = :SchuelerID
+                  , StatusID  =:StatusID
+                  "
+             );
 
     $insert->bindParam(':SatzID', $SatzID);
-    $insert->bindParam(':SchuelerID', $SchuelerID);    
+    $insert->bindParam(':SchuelerID', $SchuelerID);  
+    $insert->bindParam(':StatusID', $StatusID);          
 
     try {
       $insert->execute(); 
@@ -63,10 +67,10 @@ class SchuelerSatz {
     $select = $db->prepare("SELECT ID
                           , SatzID
                           , SchuelerID
-                          , COALESCE(Bemerkung, '') as Bemerkung
                           , DatumVon
                           , DatumBis
                           , StatusID 
+                          , COALESCE(Bemerkung, '') as Bemerkung
                           FROM `schueler_satz`
                           WHERE `ID` = :ID");
 

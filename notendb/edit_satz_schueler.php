@@ -41,7 +41,7 @@ switch($option) {
   break; 
 
 
-  case "delete": 
+  case "delete_1": 
     $ID = $_REQUEST["ID"]; 
     $schueler_satz=new SchuelerSatz(); 
     $schueler_satz->ID=$ID; 
@@ -54,8 +54,6 @@ switch($option) {
     $Bemerkung=$schueler_satz->Bemerkung;   
     
     $option='delete_2'; 
-
-    $html->print_form_confirm('edit_satz_schueler.php', $ID,$option,'Löschung'); 
 
 
   break; 
@@ -72,7 +70,7 @@ switch($option) {
 
     exit;
 
-  break;
+    break;
 
   case 'update1':   // insert new row 
     $SatzID= $_POST["SatzID"]; 
@@ -88,6 +86,7 @@ switch($option) {
     header('Location: edit_satz_schuelers.php?SatzID='.$SatzID);
 
     exit;
+    break;
 
   case 'update2':   // update existing row 
     $ID = $_POST["ID"];    
@@ -111,8 +110,12 @@ switch($option) {
 }
 
 include_once('head_raw.php');
+
+if ($option=='delete_2') {
+  $html->print_form_confirm('edit_satz_schueler.php', $ID,$option,'Löschung'); 
+}
 ?> 
-<form action="edit_satz_schueler.php" method="POST">
+<form action="#" method="POST">
 <table class="eingabe2">
 <tr>
   <td class="eingabe2 eingabe2_1">Schüler: </td>
@@ -121,7 +124,6 @@ include_once('head_raw.php');
       $schueler = new Schueler(); 
       $schueler->Ref='Satz'; 
       $schueler ->print_select($SchuelerID,$SatzID);       
-
       $html->print_link_edit('schueler',$SchuelerID,true);   
       $html->print_link_table('v_schueler','sortcol=Name',$schueler->Titles,true,'');    
       $html->print_link_insert($schueler->table_name,$schueler->Title,true);
@@ -135,8 +137,7 @@ include_once('head_raw.php');
   <td class="eingabe2 eingabe2_2">
     <?php 
       $status = new Status(); 
-      $status ->print_select($StatusID);       
-
+      $status->print_select($StatusID);       
       $html->print_link_edit($status->table_name,$StatusID,true);         
       $html->print_link_table($status->table_name,'sortcol=Name',$status->Titles,true,'');    
       $html->print_link_insert($status->table_name,$status->Title,true);
@@ -174,9 +175,7 @@ include_once('head_raw.php');
   <td class="eingabe2 eingabe2_2"><?php $html->print_link_backToList('edit_satz_schuelers.php?SatzID='.$SatzID); ?></td>  
   <td class="eingabe2 eingabe2_3"></td>    
 </tr>
-</table>
 
- </table> 
  <input type="hidden" name="ID" value="<?php echo $ID; ?>"> 
  <input type="hidden" name="SatzID" value="<?php echo $SatzID; ?>"> 
  <input type="hidden" name="option" value="<?php echo $option; ?>">
@@ -184,6 +183,19 @@ include_once('head_raw.php');
 </form>
 
 
+<tr>    
+  <td class="eingabe2 eingabe2_1"></td>    
+  <td class="eingabe2 eingabe2_2">
+      <form action="#" method="post">
+      <input type="hidden" name="ID" value="<?php echo $ID; ?>">
+      <input type="hidden" name="option" value="delete_1">      
+      <input type="submit" name="senden" value="Löschen">             
+      </form>
+  </td>
+  <td class="eingabe2 eingabe2_3"></td>  
+</tr> 
+
+</table>
 
 <?php 
 
