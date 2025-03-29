@@ -1,6 +1,6 @@
 ﻿# Changelog  
 
-outlook.md
+[Ausblick](outlook.md)
 
 29.03.2025: Schüler x Material: Ergänzung Feld "Status" 
 
