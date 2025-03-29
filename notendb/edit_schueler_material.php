@@ -66,7 +66,6 @@ switch($option) {
     $DatumVon= $_POST["DatumVon"];     
     $DatumBis= $_POST["DatumBis"];     
     $Bemerkung= $_POST["Bemerkung"];  
-
     $schueler_material=new SchuelerMaterial(); 
     $schueler_material->ID = $ID; 
     $schueler_material->update_row($SchuelerID, $MaterialID, $DatumVon, $DatumBis, $Bemerkung, $StatusID); 
@@ -178,9 +177,9 @@ if ($option=='delete_2') {
   </td>  
   <td class="eingabe2 eingabe2_3"></td>    
 </tr>
-
- <input type="hidden" name="SchuelerID" value="<?php echo $SchuelerID; ?>">  
- <input type="hidden" name="option" value="<?php echo $option; ?>">
+<input type="hidden" name="ID" value="<?php echo $ID; ?>">
+<input type="hidden" name="SchuelerID" value="<?php echo $SchuelerID; ?>">  
+<input type="hidden" name="option" value="<?php echo $option; ?>">
 
 </form>
 
