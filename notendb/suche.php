@@ -204,14 +204,15 @@ if (isset($_POST['suchtext'])) {
   /************* Status Noten / Material  ***********/
   $status = new Status();
   $StatusID=''; 
-  $filterStatus=''; 
+  // $filterStatus='';
+  $filterStatus1=''; // Filter für Sammlung-/Musikstück-/Satz-Ansichten  
+  $filterStatus2=''; // Filter für Material-Ansichten    
   if (isset($_POST['StatusID'])) {
     if ($_POST['StatusID']!='') {
       $StatusID = $_POST['StatusID']; 
       $status->ID= $StatusID; 
       $status->load_row(); 
       // $filterStatus='AND satz.ID IN (SELECT SatzID FROM schueler_satz WHERE StatusID='.$StatusID.') '; 
-      // Filter für Ansichten Sammlung * > Satz* - Abfragen: 
       $filterStatus1='AND ( 
                           satz.ID IN (SELECT SatzID FROM schueler_satz WHERE StatusID='.$StatusID.') 
                            OR sammlung.ID IN 
@@ -222,9 +223,7 @@ if (isset($_POST['suchtext'])) {
                                 )
                             ) 
                           ) 
-                      '; 
-
-      // Filter für Ansichten Material                       
+                      ';                     
       $filterStatus2='AND schueler_material.StatusID='.$StatusID.' '.PHP_EOL; 
       $Suche->Beschreibung.=($StatusID!=''?'* Schüler (Noten/Material) Status: '.$status->Name.PHP_EOL:'');     
       $filter=true;       
