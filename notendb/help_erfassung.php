@@ -80,7 +80,8 @@ include('head.php');
 
 
 <h2 class="chapter-title chapter-title-h2" id="erfassung_musikstueck">Satz</h2>
-    <p class="draft"> 
+        <!-- 
+
         Entwurf  XXX: 
         1 Satz muss nicht zwingend ein Satz im Wortsinn sein, es ist einfach Teil eines Musikstück.  
         Sätze können Teile eines Musikstücks sein, die sich in den im Satz erfassten Eigenschaften 
@@ -88,6 +89,7 @@ include('head.php');
         ... XXX Erklärung zu Abschnitten 
         </p>
 
+        --> 
     <h3 class="chapter-title chapter-title-h3" id="erfassung_satz_spieldauer">Satz: Spieldauer</h3>
         <p>
             Im Formular werden die Felder "Minuten" und "Sekunden" anzeigt. 

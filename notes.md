@@ -17,3 +17,5 @@
   2) ohne Schnell-Löschmöglichkeit: es gibt Zusätzliche (Text-Datenfelder, deren Inhalt mit einer Löschung verloren geht)    
 
 * Suche: Breite Suchfilter-Liste: = Breite des längsten Eintrags innerhalb einer Auswahl-Box (im akt. Projekt: Besetzung- Einträge) (nicht vermeidbar, da ansonsten Teile von Einträgen nicht sichtbar bzw. gleich beginnende Einträge nicht unterscheidbar sind )
+
+* Schüler: Nur eine Name-Feld, aus Datenschutzgründen keine vollständigen Namen (weil: Nur für Lehrer, der weiß wer das ist) Keine Schülerverwaltung im umfassenden Sinne, nur Daten die für Unterichts-Praxis erforderlich sind.  
