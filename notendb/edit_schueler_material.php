@@ -115,7 +115,6 @@ if ($option=='delete_2') {
 
 <form action="#" method="post">
 <table class="eingabe2">
-
 <tr>
   <td class="eingabe2 eingabe2_1">Material:  </td>
   <td class="eingabe2 eingabe2_2">
@@ -127,7 +126,6 @@ if ($option=='delete_2') {
     ?>
   </td>  
 </tr>
-
 
 <tr>
   <td class="eingabe2 eingabe2_1">Status:</td>
