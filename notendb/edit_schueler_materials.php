@@ -9,8 +9,9 @@ $schueler=new Schueler();
 $schueler->ID=$_GET["SchuelerID"]; 
 $schueler->print_table_materials(); 
 
-echo '<p> <a href="edit_schueler_material.php?SchuelerID='.$schueler->ID.'&option=insert" class="form-link">Hinzufügen</a> 
-          <a href="edit_schueler_materials2.php?SchuelerID='.$schueler->ID.'&option=edit" class="form-link">Schnell-Zuordnung</a></p>'; 
+// verworfen 
+// echo '<p> <a href="edit_schueler_material.php?SchuelerID='.$schueler->ID.'&option=insert" class="form-link">Hinzufügen</a> 
+//           <a href="edit_schueler_materials2.php?SchuelerID='.$schueler->ID.'&option=edit" class="form-link">Schnell-Zuordnung</a></p>'; 
 
 
 echo '</div>'; 
