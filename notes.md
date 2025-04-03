@@ -19,3 +19,6 @@
 * Suche: Breite Suchfilter-Liste: = Breite des längsten Eintrags innerhalb einer Auswahl-Box (im akt. Projekt: Besetzung- Einträge) (nicht vermeidbar, da ansonsten Teile von Einträgen nicht sichtbar bzw. gleich beginnende Einträge nicht unterscheidbar sind )
 
 * Schüler: Nur eine Name-Feld, aus Datenschutzgründen keine vollständigen Namen (weil: Nur für Lehrer, der weiß wer das ist) Keine Schülerverwaltung im umfassenden Sinne, nur Daten die für Unterichts-Praxis erforderlich sind.  
+
+* Besonderheiten können für Sammlungen oder Sätze erfasst werden. Jede Besonderheit wird einem Besonderheit-Typ untergeordnet. Der Typ ist für die Erfassung einer Besonderheit am Satz / an der Sammlung nicht zwinged erforderlich -  jede Besonderheit hat  (über Typen hinweg) eine eigene eindeutige ID. 
+
