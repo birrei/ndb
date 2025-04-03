@@ -1,3 +1,4 @@
+//   Quelle: https://g.co/gemini/share/28ee811e0a56
 function erstelleInhaltsverzeichnis(zielId) {
     const zielElement = document.getElementById(zielId);
     if (!zielElement) {
@@ -53,4 +54,3 @@ function erstelleInhaltsverzeichnis(zielId) {
     erstelleInhaltsverzeichnis('inhaltsverzeichnis'); // Ersetze 'inhaltsverzeichnis' durch die ID des Elements, in dem das Inhaltsverzeichnis platziert werden soll
   });
 
-//   Quelle: https://g.co/gemini/share/28ee811e0a56
