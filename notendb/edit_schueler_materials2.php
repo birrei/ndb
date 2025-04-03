@@ -1,4 +1,6 @@
 <?php 
+// ! nicht verwendet 
+
 include_once("cl_schueler.php");
 include_once("cl_schueler_material.php");
 include_once("cl_html_info.php");
