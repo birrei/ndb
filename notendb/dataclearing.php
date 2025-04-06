@@ -76,34 +76,46 @@ if (isset($_POST["form-sended"])){
             }
             break; 
       case 'sammlung-verwendungszweck': 
-            if (!empty($_POST["SammlungID"]) & !empty($_POST["VerwendungszweckID"])) {
-                include_once('cl_sammlung.php');                     
-                $SammlungID=$_POST["SammlungID"]; 
-                $VerwendungszweckID=$_POST["VerwendungszweckID"];                 
-                $sammlung = new Sammlung(); 
-                $sammlung->ID=$SammlungID; 
-                // $sammlung->add_verwendungszweck($VerwendungszweckID);
-                if (isset($_POST["sammlung_delete_verwendungszweck"])) {          
-                    $sammlung->delete_verwendungszweck($VerwendungszweckID);
-                }
-                else {                                
-                    $sammlung->add_verwendungszweck($VerwendungszweckID);
-                }
-                        
+        if (!empty($_POST["SammlungID"]) & !empty($_POST["VerwendungszweckID"])) {
+            include_once('cl_sammlung.php');                     
+            $SammlungID=$_POST["SammlungID"]; 
+            $VerwendungszweckID=$_POST["VerwendungszweckID"];                 
+            $sammlung = new Sammlung(); 
+            $sammlung->ID=$SammlungID; 
+            // $sammlung->add_verwendungszweck($VerwendungszweckID);
+            if (isset($_POST["sammlung_delete_verwendungszweck"])) {          
+                $sammlung->delete_verwendungszweck($VerwendungszweckID);
             }
-            break; 
+            else {                                
+                $sammlung->add_verwendungszweck($VerwendungszweckID);
+            }
+                    
+        }
+        break; 
  
       case 'sammlung-komponist': 
-              if (!empty($_POST["SammlungID"]) & !empty($_POST["KomponistID"])) {
-                  include_once('cl_sammlung.php');                     
-                  $SammlungID=$_POST["SammlungID"]; 
-                  $KomponistID=$_POST["KomponistID"];                 
-                  $sammlung = new Sammlung(); 
-                  $sammlung->ID=$SammlungID; 
-                  $sammlung->add_komponist($KomponistID);                     
-              }
-              break;
-              
+        if (!empty($_POST["SammlungID"]) & !empty($_POST["KomponistID"])) {
+            include_once('cl_sammlung.php');                     
+            $SammlungID=$_POST["SammlungID"]; 
+            $KomponistID=$_POST["KomponistID"];                 
+            $sammlung = new Sammlung(); 
+            $sammlung->ID=$SammlungID; 
+            $sammlung->add_komponist($KomponistID);                     
+        }
+        break;
+
+      case 'sammlung-epoche': 
+        if (!empty($_POST["SammlungID"]) & !empty($_POST["EpocheID"])) {
+            include_once('cl_sammlung.php');                     
+            $SammlungID=$_POST["SammlungID"]; 
+            $EpocheID=$_POST["EpocheID"];                 
+            $sammlung = new Sammlung(); 
+            $sammlung->ID=$SammlungID; 
+            $sammlung->add_epoche($EpocheID);                     
+        }
+        break;
+                      
+      
       case 'sammlung-bearbeiter': 
           if (!empty($_POST["SammlungID"]) & !empty($_POST["Bearbeiter"])) {
               include_once('cl_sammlung.php');                     
@@ -139,10 +151,11 @@ echo '</pre>';
   <option value="sammlung-besetzung" <?php echo ($form_selected=='sammlung-besetzung'?'selected':''); ?>>Sammlung: Besetzung hinzufügen</option>   
   <option value="sammlung-schwierigkeitsgrad" <?php echo ($form_selected=='sammlung-schwierigkeitsgrad'?'selected':''); ?>>Sammlung: Schwierigkeitsgrad hinzufügen</option>   
   <option value="sammlung-komponist" <?php echo ($form_selected=='sammlung-komponist'?'selected':''); ?>>Sammlung: Komponist hinzufügen</option>   
+  <option value="sammlung-epoche" <?php echo ($form_selected=='sammlung-epoche'?'selected':''); ?>>Sammlung: Epoche hinzufügen</option>   
   <option value="sammlung-bearbeiter" <?php echo ($form_selected=='sammlung-bearbeiter'?'selected':''); ?>>Sammlung: Bearbeiter hinzufügen</option>   
   <option value="sammlung-erprobt" <?php echo ($form_selected=='sammlung-erprobt'?'selected':''); ?>>Sammlung: Erprobt-Eintrag hinzufügen</option>   
   <option value="sammlung-satz-besonderheit" <?php echo ($form_selected=='sammlung-satz-besonderheit'?'selected':''); ?>>Sammlung: Besonderheit (zu Satz) hinzufügen</option>   
-    
+  <option value="sammlung-epoche" <?php echo ($form_selected=='sammlung-epoche'?'selected':''); ?>>Sammlung: Epoche hinzufügen</option>   
   <input type="hidden" name="SammlungID" value="<?php echo $SammlungID; ?>">  
 </select>
 
@@ -195,7 +208,6 @@ if ($form_selected!='') {
 
       ?>
       <h3> Sammlung: Komponist ergänzen </h3>
-
       <form action="" method="post" name="sammlung-komponist">
       <input type="hidden" name="SammlungID" value="<?php echo $SammlungID; ?>">
       <?php
@@ -206,11 +218,7 @@ if ($form_selected!='') {
       <input class="btnSave" type="submit" name="submit" value="ausführen">    
       <input type="hidden" name="form-sended" value="sammlung-komponist">  
       <input type="hidden" name="form-selected" value="<?php echo $form_selected; ?>">           
-
-
       </form>
-
-
       <?php
 
       break; 
@@ -258,7 +266,27 @@ if ($form_selected!='') {
 
 
       <?php       
-      break;   
+      break;  
+      
+      case 'sammlung-epoche': 
+
+        ?>
+        <h3> Sammlung: Epoche ergänzen </h3>
+        <form action="" method="post" name="sammlung-epoche">
+        <input type="hidden" name="SammlungID" value="<?php echo $SammlungID; ?>">
+        <?php
+          include_once('cl_epoche.php'); 
+          $auswahl = new Epoche(); 
+          $auswahl->print_select('', $auswahl->Title); 
+          ?>
+        <input class="btnSave" type="submit" name="submit" value="ausführen">    
+        <input type="hidden" name="form-sended" value="sammlung-epoche">  
+        <input type="hidden" name="form-selected" value="<?php echo $form_selected; ?>">           
+        </form>
+        <?php
+  
+        break; 
+        
     
     case 'sammlung-schwierigkeitsgrad': 
       ?>

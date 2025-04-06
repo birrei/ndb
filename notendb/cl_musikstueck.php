@@ -741,6 +741,29 @@ class Musikstueck {
     }  
   }
 
+  function update_epoche ($EpocheID){
+    include_once("dbconn/cl_db.php");
+    $conn = new DbConn(); 
+    $db=$conn->db; 
+
+    $update = $db->prepare("UPDATE musikstueck 
+                            SET EpocheID = :EpocheID
+                            WHERE ID = :ID");
+
+    $update->bindValue(':ID', $this->ID);
+    $update->bindValue(':EpocheID', $EpocheID);
+
+    try {
+      $update->execute(); 
+    }
+    catch (PDOException $e) {
+      include_once("cl_html_info.php"); 
+      $info = new HtmlInfo();      
+      $info->print_user_error(); 
+      $info->print_error($update, $e);  
+    }  
+  }
+
   
   function update_bearbeiter ($Bearbeiter){
     include_once("dbconn/cl_db.php");
