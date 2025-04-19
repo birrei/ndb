@@ -10,7 +10,7 @@ include('head.php');
 
 
 <div class="body-doc"> 
-<h1 class="chapter-title chapter-title-h1" id="suche-erfassung">Erfassung</h1>
+<h1 class="chapter-title chapter-title-h1" id="suche_erfassung">Erfassung</h1>
 	<h2 class="chapter-title chapter-title-h2" id="erfassung_sammlung">Sammlung</h2>  
     <h3 class="chapter-title chapter-title-h3" id="erfassung_sammlung_erfasst">Sammlung: (vollständig) Erfasst</h3>
 
@@ -49,7 +49,7 @@ include('head.php');
         <p>XXX </p>
 
 
-    <h3 class="chapter-title chapter-title-h3" id="erfassung_musikstueck_kopieren">Musikstueck: kopieren</h3>
+    <h3 class="chapter-title chapter-title-h3" id="erfassung_musikstueck_kopieren">Musikstück: kopieren</h3>
 
         <p>Button "Musikstück kopieren": Die Sammlung inklusive  aller Eigenschaften und Untereinheiten 
             wird kopiert. Die Kopie wird im aktuellen Formular geöffnet. Am Zusatz  
@@ -227,48 +227,11 @@ include('head.php');
                 Schülern zu Materialen 
                 verwendet werden </p>
 
+<h1 class="chapter-title chapter-title-h1" id="suche_noten">Suche: Allgemeine Erläuterungen</h1>
 
 
-<h1 class="chapter-title chapter-title-h1" id="suche-noten">Suche Noten</h1>
-	<h2 class="chapter-title chapter-title-h2" id="suche-ansicht">Auswahl Ansicht</h2>
-    <h3 class="chapter-title chapter-title-h3" id="suche-ansicht-sammlung">Auswahl Ansicht: Sammlung</h3>
-        <p>  Die Ergebnistabelle wird auf Sammlung-Ebene gruppiert (Eine Zeile pro Sammlung).
-        Die Sortierung erfolgt nach Standort Name, Sammlung Name</p>
 
-    <h3 class="chapter-title chapter-title-h3" id="suche-ansicht-sammlung-links">Auswahl Ansicht: Sammlung mit Links</h3>
-        <p> Die  Ergebnistabelle wird auf Sammlung-/Link Ebene gruppiert (Eine Zeile pro Sammlung und Link).
-            Die Sortierung erfolgt nach Standort Name, Sammlung Name</p>
-        
-    <h3 class="chapter-title chapter-title-h3" id="suche-ansicht-musickstueck">Auswahl Ansicht: Musikstück</h3>
-        <p> Die  Ergebnistabelle wird auf Musikstück-Ebene gruppiert gruppiert (Eine Zeile pro Musikstück).
-        Die Sortierung erfolgt nach Standort Name, Sammlung Name, Musikstück Name </p>
-            
-        <p>  Hinweis: In "Musikstück"-Ansichten werden nur solche Sammlungen angezeigt, denen Musikstücke zugeordnet sind. </p>
-
-
-    <h3 class="chapter-title chapter-title-h3" id="suche-ansicht-satz">Auswahl Ansicht: Satz</h3>
-        <p> Die Ergebnistabelle  wird auf Satz-Ebene gruppiert (Eine Zeile pro Satz). 
-        Die Sortierung erfolgt nach Standort Name, Sammlung Name, Musikstück Name, Satz Name        </p>
-
-        <p> In "Satz"-Ansichten werden nur Sammlungen / Musikstücke angezeigt, denen Sätze zugeordnet sind. </p> 
-
-    <h3 class="chapter-title chapter-title-h3" id="suche-ansicht-satz-besonderheiten">Auswahl Ansicht: Satz Besonderheiten</h3>
-        <p>  Die Ergebnistabelle wird auf Satz-Ebene gruppiert (Eine Zeile pro Satz)
-            Es werden nur ausgewählte Spalten angezeigt, der Fokus bei dieser Ansicht ist die Spalte "Besonderheiten" - 
-            Diese wird als erste Spalte angezeigt. 
-            Die Ausgabe des Inhaltes in "Besonderheiten" erfolgt gruppiert mit Zeilenumbrüchen. 
-            Die Sortierung erfolgt nach Standort Name, Sammlung Name, Musikstück Name, Satz Name    </p>         
-                
-    <h3 class="chapter-title chapter-title-h3" id="suche-ansicht-material">Auswahl Ansicht: Material</h3>
-        <p>Die Ergebnistabelle zeigt Materialien sowie ggf. zugeordnete Schüler an.  
-            Es werden sowohl frei erfasste als auch mit einer Sammlung verknüpfte Materalien angezeigt, in letzterem Fall wird 
-            der Sammlung-Name mit angezeigt. Folgende Filter können verwendet werden: 
-            <br> Such-Kategorien: Schüler, Standort
-            <br> Such-Text: Durchsucht Material-Name, Material-Bemerkung, Sammlung-Name, Sammlung-Bemerkung 
-
-        </p>
-
-	<h2 class="chapter-title chapter-title-h2" id="suchlogik0">Suchlogik: Auswahl Kategorien</h2>
+    <h2 class="chapter-title chapter-title-h2" id="suchlogik0">Suchlogik: Auswahl Kategorien</h2>
     
     <p> Kategorie-Arten: </p> 
     <ul> 
@@ -365,12 +328,69 @@ include('head.php');
 
     <hr>
 
+<h1 class="chapter-title chapter-title-h1" id="suche_noten">Suche Noten</h1>
+	<h2 class="chapter-title chapter-title-h2" id="suche_ansicht">Ansichten</h2>
+      
+    <ul>
+        <li><b>Sammlung: </b>
+        Die Ergebnistabelle wird auf Sammlung-Ebene gruppiert (Eine Zeile pro Sammlung).
+        Die Sortierung erfolgt nach Standort Name, Sammlung Name
+        </li>
 
-	<h2 class="chapter-title chapter-title-h2" id="suchetext">Filter: Textsuche</h2>
+        <li><b>Sammlung Material: </b>
+        Die Ergebnistabelle ist bei dieser Ansicht grundsätzlich auf Sammlungen mit enthaltenen Materialien beschränkt. 
+        Die  Ergebnistabelle wird auf Sammlung-Ebene gruppiert (Eine Zeile pro Sammmlung). 
+        Die Sortierung erfolgt nach Standort Name, Sammlung Name. 
+        Materialen ohne Verbindung zu einer Sammlung werden nicht angezeigt. 
+        </li>
+
+
+        <li><b>Sammlung mit Links: </b>
+        Die  Ergebnistabelle wird auf Sammlung-/Link Ebene gruppiert (Eine Zeile pro Sammlung und Link).
+        Die Sortierung erfolgt nach Standort Name, Sammlung Name
+        </li>
+
+        <li><b>Musikstück: </b>
+        Die  Ergebnistabelle wird auf Musikstück-Ebene gruppiert gruppiert (Eine Zeile pro Musikstück).
+        Die Sortierung erfolgt nach Standort Name, Sammlung Name, Musikstück Name.  
+        Hinweis: In "Musikstück"-Ansichten werden nur solche Sammlungen angezeigt, denen Musikstücke zugeordnet sind.
+        </li>
+        <li><b>Satz: </b>
+        Die Ergebnistabelle  wird auf Satz-Ebene gruppiert (Eine Zeile pro Satz). 
+        Die Sortierung erfolgt nach Standort Name, Sammlung Name, Musikstück Name, Satz Name 
+        In "Satz"-Ansichten werden nur Sammlungen / Musikstücke angezeigt, denen Sätze zugeordnet sind. 
+        </li>
+        <li><b>Satz Besonderheiten: </b>
+        Die Ergebnistabelle wird auf Satz-Ebene gruppiert (Eine Zeile pro Satz), die Sortierung entspricht der Ansicht "Satz". 
+                Es werden nur ausgewählte Spalten angezeigt. 
+                Die Spalte "Besonderheiten" wird vorne angezeigt, die Ausgabe des Inhaltes in "Besonderheiten" 
+                erfolgt gruppiert nach Typ mit Zeilenumbrüchen. 
+            </li>
+            <li><b>Satz Schüler: </b>
+            Die Ergebnistabelle wird auf Satz-Ebene gruppiert (Eine Zeile pro Satz), die Sortierung entspricht der Ansicht "Satz". 
+                    Es werden nur ausgewählte Spalten angezeigt. 
+                   In der Spalte "Schüler" werden die Schüler komma-separiert aufgelistet. 
+            </li>
+            <!-- <li><b>Material: </b>
+                 Die Ergebnistabelle zeigt Materialien sowie ggf. zugeordnete Schüler an.  
+                Es werden sowohl frei erfasste als auch mit einer Sammlung verknüpfte Materalien angezeigt, in letzterem Fall wird 
+                der Sammlung-Name mit angezeigt. Folgende Filter können verwendet werden: 
+                <br> Such-Kategorien: Schüler, Standort
+                <br> Such-Text: Durchsucht Material-Name, Material-Bemerkung, Sammlung-Name, Sammlung-Bemerkung 
+            </li> -->
+
+
+
+            </ul>
+
+
+
+
+	<h2 class="chapter-title chapter-title-h2" id="suche_noten_text">Filter: Textsuche</h2>
     <p> Hinweis: Die Verwendung der Textsuche kann zu einer verzögerten Ergebnisanzeige führen! </p>
     <p> Folgende Felder werden durchsucht: XXX </p>
 
-	<h2 class="chapter-title chapter-title-h2" id="suche-satz-schwierigkeitsgrad">Filter: Instrument / Schwierigkeitsgrad</h2>
+	<h2 class="chapter-title chapter-title-h2" id="suche_satz_schwierigkeitsgrad">Filter: Instrument / Schwierigkeitsgrad</h2>
     <p> Hinweise: Der Filter ist nur für die Sammlung-, Musikstück- und Satz-Ansichten wirksam.
         Gesucht wird nach den am Satz unter "Schwierigkeitsgrad" (Instrument + Grad) erfassen Eigenschaften. 
     Die Auswahlbox enthält die in Verwendung befindlichen Kombinationen aus "Instrument" und "Schwierigkeitsgrad"</p>
@@ -396,29 +416,14 @@ include('head.php');
         <br>Klavier: Schwierigkeitsgrade 0/1 ODER 1 
 
         </p>
-	<h2 class="chapter-title chapter-title-h2" id="suche-satz-status">Filter: Status Schüler Noten/Material</h2>
-
-    <p><b>Suche nach:</b>: 
-    <br> Status der Schüler x Satz - Verknüpfung 
-    <br> oder 
-    <br> Status der Schüler x Material - Verknüpfung
-    </p>
-
-    <p> <b>Hinweise:</b> 
-    <br>In <u>Sammlung-, Musikstück- und Satz-Ansichten</u> werden einbezogen:  
-    <br>  * Schüler x Satz - Verknüpfungen 
-    <br>  * Schüler x Material - Verknüpfungen aus Materialien, die zur einer Sammlung gehören. 
-
-    <br>
-    <br>In <u>Material-Ansichten</u> werden Schüler x Material - Verknüpfungen einbezogen, 
-        unabhängig davon, ob die Materalien zu Sammlungen gehören. 
-
-    </p>
-
-
-
-<h1 class="chapter-title chapter-title-h1" id="suche-schueler">Suche Schüler</h1>
-	<h2 class="chapter-title chapter-title-h2" id="suche-schueler-ergebnistabelle">Filter: Status Schüler Noten/Material</h2>
+	<h2 class="chapter-title chapter-title-h2" id="suche_satz_status">Filter: Status Schüler-Satz</h2>
+        <ul>
+            <li>Sammlung-, Musikstück- und Satz-Ansichten: Suche nach Status der Schüler x Satz - Verknüpfung </li>
+            <li>Material-Ansichten: Suche nach Status der Schüler x Material - Verknüpfung</li>
+        </ul>
+  
+<h1 class="chapter-title chapter-title-h1" id="suche_schueler">Suche Schüler</h1>
+	<h2 class="chapter-title chapter-title-h2" id="suche_schueler_ergebnistabelle">Filter: Status Schüler Noten/Material</h2>
 
 		<p>Ergebnis-Tabelle: </p>
 		<ul>
@@ -435,7 +440,7 @@ include('head.php');
 		</ul>
 
 
-	<h2 class="chapter-title chapter-title-h2" id="suche-schueler-hinweise">Filter: Text-Suche</h2>
+	<h2 class="chapter-title chapter-title-h2" id="suche_schueler_hinweise">Filter: Text-Suche</h2>
 
     <p>Textsuche in folgenden Feldern: 
         <ul>
@@ -443,7 +448,7 @@ include('head.php');
             <li>Schüler Bemerkung</li>
             <li>Sammlung Name (nur mit Schülern verknüpfte Sammlungen) </li>
             <li>Sammlung Bemerkung (nur mit Schülern verknüpfte Sammlungen) </li>
-            <li>Musikstueck Name (nur mit Schülern verknüpfte Musikstücke) </li>
+            <li>Musikstück Name (nur mit Schülern verknüpfte Musikstücke) </li>
             <li>Satz Name (nur mit Schülern verknüpfte Sätze) </li>
             <li>Satz Bemerkung (nur mit Schülern verknüpfte Sätze) </li>
             <li>Schüler x Satz Verknüpfung Bemerkung  </li>             
@@ -453,16 +458,16 @@ include('head.php');
         </ul>        
     </p>
 
-	<h2 class="chapter-title chapter-title-h2" id="suche-schueler-schueler">Filter: Schüler</h2>    
+	<h2 class="chapter-title chapter-title-h2" id="suche_schueler_schueler">Filter: Schüler</h2>    
         <p> Auswahl 1 Schüler XXX </p> 
 
-	<h2 class="chapter-title chapter-title-h2" id="suche-schueler-schueler">Filter: Instrument</h2>    
+	<h2 class="chapter-title chapter-title-h2" id="suche_schueler_schueler">Filter: Instrument</h2>    
         <p>Instrument (Einfach-Auswahl) XXX </p> 
 
-	<h2 class="chapter-title chapter-title-h2" id="suche-schueler-schueler">Filter: Schwierigkeitsgrad</h2> 
+	<h2 class="chapter-title chapter-title-h2" id="suche_schueler_schueler">Filter: Schwierigkeitsgrad</h2> 
         <p>Schwierigkeitsgrad (Mehrfachauswahl): Suche Schwierigkeitsgrad(e), unabhängig von Instrument XXX</p> 
 
-	<h2 class="chapter-title chapter-title-h2" id="suche-schueler-status">Filter: Status Noten / Material</h2> 
+	<h2 class="chapter-title chapter-title-h2" id="suche_schueler_status">Filter: Status Noten / Material</h2> 
     <p>
         Filter nach "Status". Es wird gesucht nach dem Status-Eintrag, der unter   
         <a href="help_erfassung.php?#erfassung_satz_schueler">"Satz" > "Schüler"</a> 

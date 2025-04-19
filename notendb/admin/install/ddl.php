@@ -120,13 +120,12 @@ function install_view_v_schueler() {
 
       $sql=" 
       create or replace view v_schueler as 
-   
-      select 
+         select 
       schueler.ID 
     , schueler.Name
     , schueler.Bemerkung       
 	, v_schueler_instrumente.Instrumente  
-   , GROUP_CONCAT(DISTINCT 
+    , GROUP_CONCAT(DISTINCT 
             IF(sm.ID is not null
                    , CONCAT('* ', sm.Name, ': ', material.Name)
                    , CONCAT('* ', material.Name)
