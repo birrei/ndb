@@ -66,7 +66,7 @@ class InstrumentSchwierigkeitsgrad {
       $stmt->execute(); 
       $html = new HtmlSelect($stmt); 
       $html->visible_rows= 10; 
-      $html->print_select_multi('Schwierigkeitsgrad', 'Schwierigkeitsgrad[]', $options_selected, 'Schwierigkeitsgrad:'); 
+      $html->print_select_multi('Schwierigkeitsgrad', 'InstrumentSchwierigkeitsgrad[]', $options_selected, 'Satz Instrument/Schwierigkeitsgrad:'); 
       $this->titles_selected_list = $html->titles_selected_list; 
     }
     catch (PDOException $e) {

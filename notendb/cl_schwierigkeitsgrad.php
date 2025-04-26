@@ -155,7 +155,7 @@ class Schwierigkeitsgrad {
       $stmt->execute(); 
       $html = new HtmlSelect($stmt); 
       $html->visible_rows=5; 
-      $html->print_select_multi('Schwierigkeitsgrad', 'Schwierigkeitsgrad[]', $options_selected, 'Schwierigkeitsgrad:'); 
+      $html->print_select_multi('Schwierigkeitsgrad', 'Schwierigkeitsgrad[]', $options_selected, 'Schwierigkeitsgrad (Schüler):'); 
       $this->titles_selected_list = $html->titles_selected_list; 
     }
     catch (PDOException $e) {

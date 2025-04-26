@@ -22,3 +22,16 @@
 
 * Besonderheiten können für Sammlungen oder Sätze erfasst werden. Jede Besonderheit wird einem Besonderheit-Typ untergeordnet. Der Typ ist für die Erfassung einer Besonderheit am Satz / an der Sammlung nicht zwinged erforderlich -  jede Besonderheit hat  (über Typen hinweg) eine eigene eindeutige ID. 
 
+----
+Thema "Suche", "Ansichten", "Filter" 
+
+
+Wird eine eine gruppierte Auflistung innerhalb einer Zelle gefiltert? 
+  • Ja, wenn in der Zellen-Liste Unterelemente angezeigt werden. Beispiel: In einer Sammlung-Zeile werden die zugehörigen Musikstücke in einer Zelle gruppiert angezeigt. Wenn im Filter eine Besetzung gesucht wird, werden innerhalb der Zellen-internen Auflistung nur noch die passenden Musikstücke angezeigt. 
+  • Nein, wenn in der Zellen-Liste Zuordnungen angezeigt werden. Beispiel: In einer Musikstück-Zelle werden die verfügbaren Besetzungen angezeigt. Wenn über den Filter eine Besetzung gesucht wird, werden bei aktivem Filter innerhalb der gruppierten Auflistung alle für das Musikstück verfügbaren Besetzungen (also nicht nur die gesuchte Besetzung) angezeigt. 
+
+Der Wechsel der Ansicht startet die Suchfunktion(entsprechend Button "Suchen"). Steht ein Filter-Element sowohl in der ab- als auch in der angewählten Ansicht zur Verfügung, wird eine eventuell aktive Filter-Einstellung als wirksam übernommen - andernfalls wird die Filterung entfernt. 
+
+Die Ansichten sind in Ansicht-Gruppen (Noten, Material, Schüler) eingeteilt, der Gruppen-Name steht in der Auswahlbox in Klammern hinter dem Ansicht-Namen. Innerhalb einer Ansicht-Gruppe steht für jede Ansicht der gleiche Satz von Filtern zur Verfügung. Zwischen den Ansicht-Gruppen können die zur Verfügung stehenden Filter abweichen. Einige Filter (z.B. Schüler, Status Schüler) stehen in jeder Ansicht-Gruppe zur Verfügung. 
+
+
