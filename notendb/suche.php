@@ -112,7 +112,8 @@ include("cl_materialtyp.php");
 <form id="Suche" action="" method="post">
 <?php
 /************** Auswahl Ansicht **********/  
-  $Suche->Beschreibung.='Ansicht: '.$Ansicht.' - aktive Filter: '.PHP_EOL; 
+  $Suche->Beschreibung.='Ansicht: '.$Ansicht.' (Gruppe: '.$AnsichtGruppe.')'.PHP_EOL; 
+  $Suche->Beschreibung.='Aktive Filter: '.PHP_EOL; 
   // $Suche->Beschreibung.='* Ansicht Ebene: '.$AnsichtEbene.PHP_EOL; 
   // $Suche->Beschreibung.='* Ansicht Gruppe: '.$AnsichtGruppe.PHP_EOL; 
   ?>

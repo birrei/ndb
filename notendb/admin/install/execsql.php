@@ -1,11 +1,11 @@
 <?php 
-include('../head.php');
-include("../dbconn/cl_db.php"); 
-include("../cl_html_info.php"); 
+include('../../head_raw.php');
+include("../../dbconn/cl_db.php"); 
+include("../../cl_html_info.php"); 
 
 /* 
 Script führt die SQL-Commands aus allen *.sql-Dateien (die im gleichen Ordner liegen) aus. 
-Eine Datei kan mehrere SQL-Commands enthalte, diese müssen dann durch ein Semikolon ";" getrennt sein. 
+Eine Datei kan mehrere SQL-Commands enthalten, diese müssen dann durch ein Semikolon ";" getrennt sein. 
 */
 
 ?> 
@@ -60,7 +60,7 @@ echo "</div>";
 <?php 
 
 
-include('../foot.php');
+include('../../foot_raw.php');
 
 ?>
 

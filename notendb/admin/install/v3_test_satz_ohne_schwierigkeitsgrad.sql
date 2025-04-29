@@ -13,7 +13,7 @@ from musikstueck m
     inner join standort on standort.ID= s.StandortID     
     inner join satz sa on sa.MusikstueckID = m.ID 
     left join satz_schwierigkeitsgrad on satz_schwierigkeitsgrad.SatzID = sa.ID 
-where s.Erfasst=1
+where s.Erfasst=0
 and satz_schwierigkeitsgrad.ID is NULL
 order by standort.Name, s.Name, m.Nummer, sa.Nr
 
