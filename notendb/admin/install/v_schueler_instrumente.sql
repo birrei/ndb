@@ -5,7 +5,7 @@ select SchuelerID
         concat(Instrument, ': ', Schwierigkeitsgrade), 
         Instrument
         ) 
-        order by Instrument, Schwierigkeitsgrade separator '; ') Instrumente  
+        order by Instrument, Schwierigkeitsgrade separator ', ') Instrumente  
 from (
     select schueler_schwierigkeitsgrad.SchuelerID
         , schueler_schwierigkeitsgrad.InstrumentID

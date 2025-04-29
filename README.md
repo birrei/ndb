@@ -9,8 +9,8 @@ Für Musikunterricht und Orchesterleitung.
  * 1 Entwickler
 
 # Status
-In Arbeit, Fertigstellung der Grundfunktionen aktuell geplant für Ende 2025
-
+In Arbeit, Fertigstellung der Grundfunktionen aktuell geplant für ~~Ende 2025~~
+Mitte 2026
 
 # Hinweis: 
 Hinweis: Nicht gedacht für Bibliothekare, Musikwissenschaftler, Noten-Shops
