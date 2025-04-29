@@ -46,8 +46,7 @@ include("cl_materialtyp.php");
   $Suche = new Abfrage();
   $Suche->Beschreibung = ""; 
 
-  
-  /**************** */
+
   $query=''; 
   $query_SELECT=''; 
   $query_FROM=''; 
@@ -255,12 +254,7 @@ include("cl_materialtyp.php");
     <p class="navi-trenner">Sammlung </p> 
     <?php
   }
-/*** Navi-Block "Material */
-  if($AnsichtGruppe=='Material') {
-    ?>
-    <p class="navi-trenner">Material</p> 
-    <?php
-  }  
+ 
 /************* Filter Standort  ***********/
   if ($AnsichtGruppe=='Noten') {
     $standort = new Standort();
@@ -338,6 +332,31 @@ include("cl_materialtyp.php");
     }  
     $linktyp->print_select_multi($Linktypen);      
     $Suche->Beschreibung.=(count($Linktypen)>0?$linktyp->titles_selected_list:''); 
+  }
+
+
+/************ Filter Sammlung Erfasst ja / nein ************/  
+  if($AnsichtGruppe=='Noten') {
+    $optErfasst=''; // default "ohne Sammlung"
+    if (isset($_POST["optErfasst"])) {
+      $filter=true; 
+      $optErfasst=$_POST["optErfasst"]; 
+      switch($optErfasst) {
+        case 'ja': 
+          $query_WHERE.='AND sammlung.Erfasst=1 '.PHP_EOL; 
+          $Suche->Beschreibung.='* Vollständig erfasste Sammlungen'.PHP_EOL; 
+          break; 
+        case 'nein': 
+          $query_WHERE.='AND sammlung.Erfasst=0 '.PHP_EOL; 
+          $Suche->Beschreibung.='* Nicht vollständig erfasste Sammlungen'.PHP_EOL;           
+          break;              
+      }
+    }
+    ?><p>
+      <input type="radio" name="optErfasst" id="optErfasstNein" value="nein"<?php echo ($optErfasst=='nein'?' checked':''); ?>><label for="optErfasstNein">Nicht vollständig erfasst</label> 
+      <input type="radio" name="optErfasst" id="optErfasstJa" value="ja"<?php echo ($optErfasst=='ja'?' checked':''); ?>><label for="optErfasstJa">vollständig erfasst</label>
+      </p> 
+    <?php 
   }
 
 /*** Navi-Block "Musikstück */
@@ -627,8 +646,14 @@ include("cl_materialtyp.php");
     }
   }
 
+/*** Navi-Block "Material */
+  if($AnsichtGruppe=='Material') {
+    ?>
+    <p class="navi-trenner">Material</p> 
+    <?php
+  }   
 /************* Filter Material mit / ohne Sammlung **********/  
-  $optSammlung=''; 
+ 
   if($AnsichtGruppe=='Material') {
     $optSammlung=''; // default "ohne Sammlung"
     if (isset($_POST["optSammlung"])) {
@@ -676,8 +701,6 @@ include("cl_materialtyp.php");
 <!-- ende class search-filter --> 
 <div class="search-result" id="search-result">
 <?php
-
-
 /************* SQL zusammensetzen  **********/  
 
   $query.=getSQL_SELECT($Ansicht); 
