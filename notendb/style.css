@@ -153,8 +153,9 @@ p.warning {
     p.navi-trenner {
         color:black; 
         font-weight: bold;
-        background-color:aquamarine;
-        padding:3px;         
+        background-color:hotpink;
+        padding:3px;     
+
     }
     .field-caption{
         /* background-color:lightskyblue;     

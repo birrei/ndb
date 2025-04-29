@@ -24,7 +24,7 @@ include("cl_linktype.php");
 include("cl_abfrage.php");
 include("cl_schueler.php");
 include("cl_status.php");
-
+include("cl_materialtyp.php");
 
 /***** Parameter: Initialisierung, Defaults  ******/
   if (isset($_POST['Ansicht'])) {
@@ -126,6 +126,7 @@ include("cl_status.php");
       <option value="Satz Besonderheiten" <?php echo ($Ansicht=='Satz Besonderheiten'?'selected':'')?>>Satz Besonderheiten (Noten)</option>                     
       <option value="Satz Schueler" <?php echo ($Ansicht=='Satz Schueler'?'selected':'')?>>Satz Schüler (Noten)</option>    
       <option value="Material" <?php echo ($Ansicht=='Material'?'selected':'')?>>Material (Material)</option>
+      <option value="Material_erweitert" <?php echo ($Ansicht=='Material_erweitert'?'selected':'')?>>Material erweitert (Material)</option>      
       <option value="Schueler" <?php echo ($Ansicht=='Schueler'?'selected':'')?>>Schüler (Schüler)</option> 
       <option value="Schueler erweitert" <?php echo ($Ansicht=='Schueler erweitert'?'selected':'')?>>Schüler erweitert (Schüler)</option>                                        
   </select>
@@ -151,9 +152,11 @@ include("cl_status.php");
   <input class="btnSave" type="submit" value="Suchen" width="100px">
   <input type="hidden" name="Filter" value="Suchen">
   </P> 
-
+<!-- Navi-Block "Schüler (immer anzeigen) -->
+  <p class="navi-trenner">Schüler </p> 
   <?php
 /************* Filter Schüler (Auswahlbox immer anzeigen) ***********/
+
   $schueler = new Schueler();
   $SchuelerID=''; 
   if (isset($_POST['SchuelerID'])) {
@@ -162,10 +165,16 @@ include("cl_status.php");
       $schueler->ID=$SchuelerID; 
       $schueler->load_row(); 
       $Suche->Beschreibung.='* Schüler: '.$schueler->Name.PHP_EOL;  
-      switch($AnsichtGruppe) {
-        case 'Noten': 
+      switch($AnsichtEbene) {
+        case 'Sammlung': 
           $query_WHERE.='AND satz.ID IN (SELECT SatzID from schueler_satz where SchuelerID='.$SchuelerID.') ' . PHP_EOL;
-          break;            
+          break;     
+        case 'Musikstueck': 
+          $query_WHERE.='AND satz.ID IN (SELECT SatzID from schueler_satz where SchuelerID='.$SchuelerID.') ' . PHP_EOL;
+          break;         
+        case 'Satz': 
+          $query_WHERE.='AND schueler_satz.SchuelerID='.$SchuelerID.' ' . PHP_EOL;
+          break;                        
         case 'Material': 
           $query_WHERE.='AND material.ID IN (SELECT MaterialID from schueler_material where SchuelerID='.$SchuelerID.') ' . PHP_EOL;              
           break; 
@@ -245,6 +254,12 @@ include("cl_status.php");
     <p class="navi-trenner">Sammlung </p> 
     <?php
   }
+/*** Navi-Block "Material */
+  if($AnsichtGruppe=='Material') {
+    ?>
+    <p class="navi-trenner">Material</p> 
+    <?php
+  }  
 /************* Filter Standort  ***********/
   if ($AnsichtGruppe=='Noten') {
     $standort = new Standort();
@@ -635,6 +650,25 @@ include("cl_status.php");
       </p> 
     <?php 
   }
+
+/************* Filter Materialtyp  **********/
+  if ($AnsichtGruppe=='Material') {
+    $materialtyp = new Materialtyp();
+    $MaterialtypID=''; 
+    if (isset($_POST['MaterialtypID'])) {
+      $MaterialtypID = $_POST['MaterialtypID'];           
+      if ($MaterialtypID!='') {
+        $materialtyp->ID= $MaterialtypID; 
+        $materialtyp->load_row(); 
+        $query_WHERE.='AND material.MaterialtypID ='.$MaterialtypID.' '.PHP_EOL; 
+        $Suche->Beschreibung.=($MaterialtypID!=''?'* Materialtyp: '.$materialtyp->Name.PHP_EOL:'');     
+        $filter=true;       
+      }
+    }
+    echo '<p>'; 
+    $materialtyp->print_select($MaterialtypID, $materialtyp->Title);
+    echo '</p>'; 
+  }
 ?>
 </form>
 </div> 
@@ -642,13 +676,6 @@ include("cl_status.php");
 <div class="search-result" id="search-result">
 <?php
 
-/************* FAll: kein Filter ausgewählt **********/  
-if(!$filter) {
-  // $query.='LIMIT 5 '.PHP_EOL;
-  $Suche->Beschreibung.='Es ist kein aktiver Filter vorhanden. '; 
-  echo '<pre>'.$Suche->Beschreibung.'</pre>';  
-  goto keinFilter; 
-}
 
 /************* SQL zusammensetzen  **********/  
 
@@ -675,8 +702,12 @@ if(!$filter) {
 
   $query.= getSQL_GROUP_BY($AnsichtEbene); 
 
-  $query.= getSQL_ORDER_BY($Ansicht); 
- 
+  $query.= getSQL_ORDER_BY($Ansicht, $filter); 
+
+/************* Falls kein Filter ausgewählt wurde **********/  
+  if(!$filter) {
+    $Suche->Beschreibung.='Es wurde kein Filter gesetzt. Die 5 zuletzt erfassten Zeilen werden angezeigt'.PHP_EOL; 
+  } 
 
 /************* Ergebnistabelle anzeigen bzw. alternativ Suche speichern  **********/  
 
@@ -722,7 +753,7 @@ if(!$filter) {
     }    
   }
   
-  // echo '<pre style="font-size: 10px">'.$query.'</pre>'; // Test  
+  echo '<pre style="font-size: 11px; visibility: hidden;">'.$query.'</pre>'; // Test  
 
   keinFilter: 
 
@@ -744,8 +775,8 @@ if(!$filter) {
         , verlag.Name as Verlag
         , sammlung.Bemerkung ".PHP_EOL;
 
-
         break; 
+
       case 'Sammlung erweitert': 
         $query.="SELECT sammlung.ID
         , sammlung.Name as Sammlung        
@@ -772,6 +803,7 @@ if(!$filter) {
         , sammlung.Name as Sammlung
         , links.LinkText             
         , links.LinkTyp ".PHP_EOL; 
+
         break;   
 
       case 'Musikstueck':         
@@ -842,11 +874,19 @@ if(!$filter) {
         , material.Name
         , material.Bemerkung 
         , materialtyp.Name as Materialtyp
-        , sammlung.Name as Sammlung 
-        -- , material.MaterialtypID 
-        -- , material.SammlungID 
-        -- , GROUP_CONCAT(DISTINCT schueler.Name order by schueler.Name SEPARATOR '; ') as Schueler ".PHP_EOL;        
-        break;            
+        , sammlung.Name as Sammlung ".PHP_EOL;        
+        
+        break;   
+
+      case 'Material_erweitert': 
+        $query.="select material.ID
+        , material.Name
+        , material.Bemerkung 
+        , materialtyp.Name as Materialtyp
+        , sammlung.Name as Sammlung  
+        , GROUP_CONCAT(DISTINCT concat(schueler.Name, ' (Status: ', status.Name, ')')  ORDER BY schueler.Name SEPARATOR '<br > ') Schueler   ".PHP_EOL;        
+        break;  
+
       case 'Schueler': 
         $query.="SELECT schueler.ID 
         , schueler.Name
@@ -950,9 +990,10 @@ if(!$filter) {
         LEFT JOIN schwierigkeitsgrad on schwierigkeitsgrad.ID = satz_schwierigkeitsgrad.SchwierigkeitsgradID 
         LEFT JOIN instrument on instrument.ID = satz_schwierigkeitsgrad.InstrumentID 
         LEFT JOIN satz_lookup on satz_lookup.SatzID = satz.ID 
-        LEFT JOIN v_satz_lookuptypes on v_satz_lookuptypes.SatzID = satz.ID ". PHP_EOL; 
+        LEFT JOIN v_satz_lookuptypes on v_satz_lookuptypes.SatzID = satz.ID 
+        LEFT JOIN schueler_satz on schueler_satz.SatzID = satz.ID ". PHP_EOL; 
 
-        // -- LEFT JOIN schueler_satz on schueler_satz.SatzID = satz.ID
+        
         // -- LEFT JOIN schueler on schueler.ID = schueler_satz.SchuelerID
         // -- LEFT JOIN material on sammlung.ID = material.SammlungID 
         // -- LEFT JOIN materialtyp on materialtyp.ID = material.MaterialtypID
@@ -1019,6 +1060,16 @@ if(!$filter) {
     
         break; 
 
+      case 'Material_erweitert':
+        $query="FROM material  
+        LEFT JOIN materialtyp on materialtyp.ID = material.MaterialtypID 
+        LEFT JOIN sammlung on sammlung.ID = material.SammlungID 
+        LEFT JOIN schueler_material on schueler_material.MaterialID = material.ID 
+        LEFT JOIN status on status.ID = schueler_material.StatusID         
+        LEFT JOIN schueler on schueler.ID = schueler_material.SchuelerID  ". PHP_EOL; 
+
+        break; 
+
       case 'Material': 
         $query="FROM material  
         LEFT JOIN materialtyp on materialtyp.ID = material.MaterialtypID 
@@ -1026,6 +1077,8 @@ if(!$filter) {
         LEFT JOIN schueler_material on schueler_material.MaterialID = material.ID ". PHP_EOL; 
 
         break; 
+
+
       case 'Schueler': 
         $query.="FROM schueler 
         LEFT join schueler_material on schueler_material.SchuelerID = schueler.ID
@@ -1063,7 +1116,6 @@ if(!$filter) {
     $strSQL=''; 
     switch($AnsichtGruppe) {
       case 'Noten': 
-         
         $strSQL="AND (sammlung.Name LIKE '%".$suchtext."%' OR  
         sammlung.Bemerkung LIKE '%".$suchtext."%' OR                              
         musikstueck.Name LIKE '%".$suchtext."%' OR                              
@@ -1073,22 +1125,19 @@ if(!$filter) {
         satz.Taktart LIKE '%".$suchtext."%' OR
         satz.Tonart LIKE '%".$suchtext."%' OR
         satz.Tempobezeichnung LIKE '%".$suchtext."%' OR
-        satz.Bemerkung LIKE '%".$suchtext."%' OR 
-        satz.Orchesterbesetzung LIKE '%".$suchtext."%'                                              
+        satz.Orchesterbesetzung LIKE '%".$suchtext."%' OR 
+        satz.Bemerkung LIKE '%".$suchtext."%' 
         ) ". PHP_EOL; 
         break; 
       case 'Schueler':  
-      case 'Schueler erweitert':           
         $strSQL="AND (schueler.Name LIKE '%".$suchtext."%' OR  
         schueler.Bemerkung LIKE '%".$suchtext."%' OR                              
         schueler_satz.Bemerkung LIKE '%".$suchtext."%' OR                              
-        schueler_material.Bemerkung LIKE '%".$suchtext."%'                                           
-        ) ". PHP_EOL;              
+        schueler_material.Bemerkung LIKE '%".$suchtext."%') ". PHP_EOL;              
         break;   
       case 'Material':   
         $strSQL="AND (material.Name LIKE '%".$suchtext."%' OR  
-        material.Bemerkung LIKE '%".$suchtext."%' OR                                                         
-        schueler_material.Bemerkung LIKE '%".$suchtext."%'                                           
+        material.Bemerkung LIKE '%".$suchtext."%'                                                                                                
         ) ". PHP_EOL;              
         break;              
     }
@@ -1118,28 +1167,29 @@ if(!$filter) {
     return $strSQL; 
   }
 
-  function getSQL_ORDER_BY($Ansicht) {  
+  function getSQL_ORDER_BY($Ansicht, $filter=true) {  
     $strSQL=''; 
     switch ($Ansicht){    
       case 'Sammlung': 
       case 'Sammlung Links':   
-      case 'Sammlung erweitert':                      
-        $strSQL.="ORDER BY sammlung.Name ". PHP_EOL;     
+      case 'Sammlung erweitert':  
+        $strSQL.=($filter?'ORDER BY sammlung.Name':'ORDER BY sammlung.ID DESC LIMIT 5').PHP_EOL;                     
         break; 
       case 'Musikstueck': 
-        $strSQL.="ORDER BY sammlung.Name, musikstueck.Nummer ". PHP_EOL;         
+        $strSQL.=($filter?'ORDER BY sammlung.Name, musikstueck.Nummer':'ORDER BY musikstueck.ID DESC LIMIT 5').PHP_EOL;                         
         break; 
       case 'Satz Besonderheiten':   
       case 'Satz Schueler':                     
       case 'Satz': 
-        $strSQL.="ORDER BY sammlung.Name, musikstueck.Nummer, satz.Nr ". PHP_EOL;           
+        $strSQL.=($filter?'ORDER BY sammlung.Name, musikstueck.Nummer, satz.Nr ':'ORDER BY satz.ID DESC LIMIT 5').PHP_EOL;                
         break;  
       case 'Material':    
-        $strSQL.="ORDER BY material.Name ". PHP_EOL;   
+      case 'Material_erweitert':          
+        $strSQL.=($filter?'ORDER BY material.Name ':'ORDER BY material.ID DESC LIMIT 5').PHP_EOL;             
         break;    
       case 'Schueler': 
       case 'Schueler erweitert':  
-        $strSQL.="ORDER BY schueler.Name ". PHP_EOL;    
+        $strSQL.=($filter?'ORDER BY schueler.Name ':'ORDER BY schueler.ID DESC LIMIT 5').PHP_EOL;           
         break;                                   
     }
     return $strSQL; 
@@ -1166,20 +1216,21 @@ if(!$filter) {
   function getAnsichtEbene($Ansicht) {
     $AnsichtEbene=''; 
     switch ($Ansicht){
-      case 'Sammlung':        
       case 'Sammlung Links': 
-      case 'Sammlung erweitert':         
+      case 'Sammlung erweitert':    
+      case 'Sammlung':               
         $AnsichtEbene='Sammlung'; 
         break;   
       case 'Musikstueck': 
         $AnsichtEbene='Musikstueck'; 
         break; 
-      case 'Satz': 
       case 'Satz Schueler': 
       case 'Satz Besonderheiten':
+      case 'Satz':         
         $AnsichtEbene='Satz';                         
         break;   
       case 'Material':
+      case 'Material_erweitert':        
         $AnsichtEbene='Material';                         
         break;   
       case 'Schueler':
@@ -1207,10 +1258,7 @@ if(!$filter) {
         break;  
       case 'Schueler':
         $edit_table='schueler';                         
-        break;                    
-      case 'Schueler erweitert':
-        $edit_table='schueler';                         
-        break;      
+        break;                      
       }
       return $edit_table; 
   }
