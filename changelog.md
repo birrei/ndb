@@ -1,10 +1,13 @@
 ﻿# Changelog  
 
-[Ausblick](outlook.md)
+02.05.2025: Sammlung-Screen: Vereinfachung Unterformulare
+
+01.05.2025: Schüler: Aktiv ja/nein
 
 29.03.2025: Schüler x Material: Ergänzung Feld "Status" 
 
 27.03.2025: Seite "Suche Schüler": Filter "Status Noten / Material"   
+
 27.03.2025: Seite "Suche": Filter "Schüler Noten-Status"  
 
 20.03.2025: Schüler x Satz: Ergänzung Feld "Status" 
