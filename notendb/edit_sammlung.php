@@ -164,53 +164,30 @@ echo '
       <input type="hidden" name="option" value="update">      
       <input type="hidden" name="title" value="Sammlung"> 
   </form>
-
-    <tr> 
-      <td class="form-edit form-edit-col1">Musikstücke:
-      <p> <a href="edit_musikstueck.php?SammlungID='.$sammlung->ID.'&option=insert&title=Musikstück" target="_blank" class="form-link form-link-switch" onfocus="linkStyleFocus(this)">Musikstück hinzufügen</a></p>
-      <p> <a href="edit_sammlung_musikstuecke.php?SammlungID='.$sammlung->ID.'" target="musikstuecke" class="form-link form-link-switch">Aktualisieren - &gt;</a></p>
-      </td> 
-      <td class="form-edit form-edit-col2">
-          <iframe src="edit_sammlung_musikstuecke.php?SammlungID='.$sammlung->ID.'"  height="150" name="musikstuecke" class="form-iframe-var2"></iframe>
-    </td>
-    </tr> 
-
-    <tr> 
-      <td class="form-edit form-edit-col1">Materialien:
-      <p> <a href="edit_material.php?SammlungID='.$sammlung->ID.'&option=insert&title=Material" target="_blank" class="form-link form-link-switch" onfocus="linkStyleFocus(this)">Material hinzufügen</a></p>
-      <p> <a href="edit_sammlung_materials.php?SammlungID='.$sammlung->ID.'" target="material" class="form-link form-link-switch">Aktualisieren - &gt;</a></p>
-      </td> 
-      <td class="form-edit form-edit-col2">
-          <iframe src="edit_sammlung_materials.php?SammlungID='.$sammlung->ID.'"  height="150" name="material" class="form-iframe-var2"></iframe>
-    </td>
-    </tr> 
-  ';
-
-  ?>
-  
+'; 
+?>
   <tr> 
     <td class="form-edit form-edit-col1">Daten anzeigen: <br /> <br />
-      <input type="radio" id="Besonderheiten" name="target_form" value="Besonderheiten" onclick="changeIframeSrc('subform1', 'edit_sammlung_lookups.php?SammlungID=<?php echo $sammlung->ID; ?>');" checked>
-      <label for="Besonderheiten">Besonderheiten</label><br>
+      <input type="radio" id="Musikstuecke" name="target_form" value="Musikstuecke" onclick="changeIframeSrc('subform1', 'edit_sammlung_musikstuecke.php?SammlungID=<?php echo $sammlung->ID; ?>');" checked>
+        <label for="Musikstuecke">Musikstuecke</label><br>
+      <input type="radio" id="Material" name="target_form" value="Material" onclick="changeIframeSrc('subform1', 'edit_sammlung_materials.php?SammlungID=<?php echo $sammlung->ID; ?>');">
+        <label for="Material">Material</label><br>
+      <input type="radio" id="Besonderheiten" name="target_form" value="Besonderheiten" onclick="changeIframeSrc('subform1', 'edit_sammlung_lookups.php?SammlungID=<?php echo $sammlung->ID; ?>');">
+          <label for="Besonderheiten">Besonderheiten</label><br>
       <input type="radio" id="Links" name="target_form" value="Links" onclick="changeIframeSrc('subform1', 'edit_sammlung_links.php?SammlungID=<?php echo $sammlung->ID; ?>');">
-      <label for="Links">Links</label>
+          <label for="Links">Links</label>
     </td>
     <td class="form-edit form-edit-col2">
-          <iframe src="edit_sammlung_lookups.php?SammlungID=<?php echo $sammlung->ID; ?>" height="200" name="subform1" id="subform1" class="form-iframe-var2"></iframe>
+      <p> 
+      <a href="edit_musikstueck.php?SammlungID=<?php echo $sammlung->ID; ?>&option=insert&title=Musikstück" target="_blank" class="form-link form-link-switch" onfocus="linkStyleFocus(this)">Musikstück hinzufügen</a>
+      <a href="edit_material.php?SammlungID=<?php echo $sammlung->ID; ?>&option=insert&title=Material" target="_blank" class="form-link form-link-switch" onfocus="linkStyleFocus(this)">Material hinzufügen</a>
+      </p> 
+      <iframe src="edit_sammlung_musikstuecke.php?SammlungID=<?php echo $sammlung->ID; ?>" height="450" name="subform1" id="subform1" class="form-iframe-var2"></iframe>
     </td>
-    </tr> 
+  </tr> 
 
-    
-  <?php 
-  echo 
-  '      
   </table>
-
-
-
-  '; 
- 
-
+  <?php 
     echo '<p> <form action="edit_sammlung.php" method="post">
           <input type="hidden" name="ID" value="' . $sammlung->ID. '">
           <input type="hidden" name="option" value="copy">      
@@ -218,8 +195,6 @@ echo '
           <input type="submit" name="senden" value="Sammlung kopieren">             
       </form></p>
     '; 
-
-
 
     echo 
     '<p> <form action="edit_sammlung.php" method="post">
@@ -229,9 +204,6 @@ echo '
     <input type="submit" name="senden" value="Sammlung löschen">             
     </form></p>
     '; 
-    
-    
-
 
   echo '<p><a href=dataclearing.php?SammlungID='.$sammlung->ID.' target="_blank">Sammel-Updates</a><p>'; 
 
