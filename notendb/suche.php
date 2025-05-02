@@ -954,7 +954,9 @@ include("cl_materialtyp.php");
         LEFT JOIN standort  on sammlung.StandortID = standort.ID    
         LEFT JOIN verlag  on sammlung.VerlagID = verlag.ID
         LEFT JOIN musikstueck on sammlung.ID = musikstueck.SammlungID 
-        LEFT JOIN satz on satz.MusikstueckID = musikstueck.ID ".PHP_EOL; 
+        LEFT JOIN satz on satz.MusikstueckID = musikstueck.ID 
+        LEFT JOIN satz_erprobt on satz.ID = satz_erprobt.SatzID 
+        ".PHP_EOL; 
         break; 
 
 
@@ -965,6 +967,7 @@ include("cl_materialtyp.php");
         LEFT JOIN musikstueck on sammlung.ID = musikstueck.SammlungID
         -- LEFT JOIN v_komponist komponist on komponist.ID = musikstueck.KomponistID         
         LEFT JOIN satz on satz.MusikstueckID = musikstueck.ID
+        LEFT JOIN satz_erprobt on satz.ID = satz_erprobt.SatzID
         LEFT JOIN material on material.SammlungID = sammlung.ID 
         LEFT JOIN v_sammlung_lookuptypes as lookups on lookups.SammlungID = sammlung.ID ".PHP_EOL; 
         break; 
@@ -974,7 +977,8 @@ include("cl_materialtyp.php");
         LEFT JOIN standort  on sammlung.StandortID = standort.ID    
         LEFT JOIN verlag  on sammlung.VerlagID = verlag.ID
         LEFT JOIN musikstueck on sammlung.ID = musikstueck.SammlungID 
-        LEFT JOIN satz on satz.MusikstueckID = musikstueck.ID
+        LEFT JOIN satz on satz.MusikstueckID = musikstueck.ID 
+        LEFT JOIN satz_erprobt on satz.ID = satz_erprobt.SatzID 
         LEFT JOIN v_links as links on links.SammlungID = sammlung.ID ".PHP_EOL; 
         break; 
         
@@ -996,7 +1000,8 @@ include("cl_materialtyp.php");
               on v_musikstueck_besetzungen.MusikstueckID = musikstueck.ID 
         LEFT JOIN musikstueck_verwendungszweck on musikstueck.ID = musikstueck_verwendungszweck.MusikstueckID 
         LEFT JOIN verwendungszweck on musikstueck_verwendungszweck.VerwendungszweckID=verwendungszweck.ID    
-        LEFT JOIN satz on satz.MusikstueckID = musikstueck.ID ". PHP_EOL; 
+        LEFT JOIN satz on satz.MusikstueckID = musikstueck.ID 
+        LEFT JOIN satz_erprobt on satz.ID = satz_erprobt.SatzID ". PHP_EOL; 
 
         break; 
 
@@ -1150,8 +1155,8 @@ include("cl_materialtyp.php");
         satz.Tonart LIKE '%".$suchtext."%' OR
         satz.Tempobezeichnung LIKE '%".$suchtext."%' OR
         satz.Orchesterbesetzung LIKE '%".$suchtext."%' OR 
-        satz.Bemerkung LIKE '%".$suchtext."%' 
-        ) ". PHP_EOL; 
+        satz.Bemerkung LIKE '%".$suchtext."%' OR 
+        satz_erprobt.Bemerkung LIKE '%".$suchtext."%') ". PHP_EOL; 
         break; 
       case 'Schueler':  
         $strSQL="AND (schueler.Name LIKE '%".$suchtext."%' OR  
