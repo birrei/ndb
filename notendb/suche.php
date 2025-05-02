@@ -185,7 +185,7 @@ include("cl_materialtyp.php");
       $filter=true;       
     }
   }
-  $schueler->print_select($SchuelerID,'',$schueler->Title);
+  $schueler->print_select($SchuelerID,'',$schueler->Title, true );
 
 /************* Filter Schüler Status (3 Varianten)  ***********/
   $status = new Status();

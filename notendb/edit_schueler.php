@@ -26,8 +26,9 @@ if (isset($_REQUEST["option"])) {
       break; 
     
     case 'update': 
+      $Aktiv=(isset($_POST["Aktiv"])?1:0);       
       $schueler->ID = $_POST["ID"];    
-      $schueler->update_row($_POST["Name"],$_POST["Bemerkung"]); 
+      $schueler->update_row($_POST["Name"],$_POST["Bemerkung"], $Aktiv); 
       $show_data=true;           
       break; 
 
@@ -80,7 +81,9 @@ echo '
   <tr>    
   <label>
   <td class="form-edit form-edit-col1">ID:</td>  
-  <td class="form-edit form-edit-col2">'.$schueler->ID.'</td>
+  <td class="form-edit form-edit-col2">'.$schueler->ID.'
+      &nbsp; <label><input type="checkbox" name="Aktiv" '.($schueler->Aktiv==1?'checked':'').'>Aktiv</label> 
+  </td>
   </label>
     </tr> 
 

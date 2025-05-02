@@ -815,7 +815,8 @@ class Satz {
             , schueler_satz.DatumVon as `Datum von`
             , schueler_satz.DatumBis as `Datum bis`
             , `status`.`Name` as `Status`   
-            , schueler_satz.Bemerkung                
+            , schueler_satz.Bemerkung
+            , IF(schueler.Aktiv=1, 'Ja', 'Nein') as Aktiv_JN                            
            -- , schueler_satz.SchuelerID                   
           FROM schueler_satz
           left join schueler on  schueler.ID = schueler_satz.SchuelerID 

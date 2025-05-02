@@ -154,6 +154,21 @@
 
       break;     
 
+    case 'v_schueler': 
+      $Aktiv_JN='Ja'; 
+      if(isset($_REQUEST["filter"])) {
+        $Aktiv_JN=(isset($_REQUEST["Aktiv_JN"])?'Ja':'Nein'); 
+      }
+      echo '<form action="" method="get">'.PHP_EOL; 
+      echo '<label><input type="checkbox" name="Aktiv_JN" onchange="this.form.submit()" '.($Aktiv_JN=='Ja'?'checked':'').'>Aktiv</label>'; 
+      $query.=($Aktiv_JN!=""?"AND Aktiv_JN='".$Aktiv_JN."' ".PHP_EOL:""); 
+      echo '<input type="hidden" name="table" value="'.$table.'">
+            <input type="hidden" name="sortcol" value="'.$sortcol.'">
+            <input type="hidden" name="sortorder" value="'.$sortorder.'">
+            <input type="hidden" name="filter" value="aktive">            
+            </form><br>';           
+
+      break;     
     }
 
 

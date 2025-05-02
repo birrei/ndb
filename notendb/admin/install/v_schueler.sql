@@ -3,6 +3,7 @@ select schueler.ID
     , schueler.Name
     , schueler.Bemerkung       
     , v_schueler_instrumente.Instrumente  
+    , IF(schueler.Aktiv=1, 'Ja', 'Nein') as Aktiv_JN
 FROM schueler 
    LEFT JOIN  v_schueler_instrumente 
     ON v_schueler_instrumente.SchuelerID = schueler.ID 

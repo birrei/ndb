@@ -251,7 +251,8 @@ class Material {
             , schueler_material.DatumVon as `Datum von`
             , schueler_material.DatumBis as `Datum bis`
             , `status`.`Name` as `Status`   
-            , schueler_material.Bemerkung                
+            , schueler_material.Bemerkung
+            , IF(schueler.Aktiv=1, 'Ja', 'Nein') as Aktiv_JN                             
            -- , schueler_satz.SchuelerID 
           FROM schueler_material
           LEFT JOIN schueler on  schueler.ID = schueler_material.SchuelerID  

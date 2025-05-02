@@ -11,6 +11,7 @@ class Schueler {
   public $Titles='Schüler';  
   public $Ref = ''; // "Satz" oder "Material" 
   public string $infotext=''; 
+  public int $Aktiv=1; // true/false, tinyint 1/0 for mysql 
   
   public function __construct(){
     $this->table_name='schueler'; 
@@ -40,14 +41,19 @@ class Schueler {
     }
   }  
  
-  function print_select($selected_SchuelerID='', $ParentID='', $caption=''){
+  function print_select($selected_SchuelerID='', $ParentID='', $caption='', $nurAktiv=false){
     // $ParentID: MaterialID oder SatzID 
     // echo '<p>selected_SchuelerID: '.$selected_SchuelerID.', ParentID: '.$ParentID.'<p>'; // test 
     include_once("dbconn/cl_db.php");  
     include_once("cl_html_select.php");
 
-    $query='SELECT ID, Name FROM `schueler` WHERE 1=1 ';
-
+    if ($nurAktiv) {
+      $query='SELECT ID, Name FROM `schueler` WHERE Aktiv=1 ';
+    } 
+    else {
+      $query='SELECT ID, Name FROM `schueler` WHERE 1=1 ';
+    }
+    
     switch ($this->Ref) {
       case 'Satz': 
         if ($ParentID!='') {
@@ -102,19 +108,21 @@ class Schueler {
     }
   }
 
-  function update_row($Name, $Bemerkung) {
+  function update_row($Name, $Bemerkung, $Aktiv) {
     include_once("dbconn/cl_db.php");   
     $conn = new DbConn(); 
     $db=$conn->db; 
     
     $update = $db->prepare("UPDATE `schueler` 
                             SET`Name`     = :Name,
-                            Bemerkung = :Bemerkung 
+                            Bemerkung = :Bemerkung, 
+                            Aktiv = :Aktiv
                             WHERE `ID` = :ID"); 
 
     $update->bindParam(':ID', $this->ID, PDO::PARAM_INT);
     $update->bindParam(':Name', $Name);
     $update->bindParam(':Bemerkung', $Bemerkung);    
+    $update->bindParam(':Aktiv', $Aktiv);   
 
     try {
       $update->execute(); 
@@ -133,7 +141,10 @@ class Schueler {
     $conn = new DbConn(); 
     $db=$conn->db; 
 
-    $select = $db->prepare("SELECT `ID`, `Name`, COALESCE(Bemerkung, '') as Bemerkung 
+    $select = $db->prepare("SELECT `ID`
+                          , `Name`
+                          , COALESCE(Bemerkung, '') as Bemerkung
+                          , Aktiv  
                           FROM `schueler`
                           WHERE `ID` = :ID");
 
@@ -142,7 +153,8 @@ class Schueler {
     if ($select->rowCount()==1) {
       $row_data=$select->fetch();      
       $this->Name=$row_data["Name"];    
-      $this->Bemerkung=$row_data["Bemerkung"];         
+      $this->Bemerkung=$row_data["Bemerkung"];       
+      $this->Aktiv=$row_data["Aktiv"];             
       return true; 
     } 
     else {
@@ -477,6 +489,7 @@ class Schueler {
           SELECT CONCAT(Name, ' (Kopie)') as Name , Bemerkung
           FROM schueler 
           WHERE ID=:ID ";
+    // Aktiv nicht kopieren, da default = 1
 
     $insert = $db->prepare($sql); 
     $insert->bindValue(':ID', $this->ID);  
