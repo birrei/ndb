@@ -24,16 +24,10 @@ $abfragen[] = array('name' => 'Satz ohne Spieldauer'
           , 'table'   => "satz"              
          );
 
-$abfragen[] = array('name' => 'Satz ohne Erprobt-Angabe'
-         , 'testview'   => "v3_test_satz_ohne_erprobt"
-         , 'table'   => "satz"              
-        );
-
 $abfragen[] = array('name' => 'Satz ohne Schwierigkeitsgrad'
               , 'testview'   => "v3_test_satz_ohne_schwierigkeitsgrad"
               , 'table'   => "satz"              
               );
-
 
 // $abfragen[] = array('name' => 'Besonderheiten doppelt belegt'
 //               , 'testview'   => "v3_test_besonderheiten_doppelt"
