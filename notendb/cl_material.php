@@ -457,6 +457,7 @@ class Material {
             left join schueler_material on schueler.ID = schueler_material.SchuelerID 
                         and schueler_material.MaterialID = :MaterialID 
             where schueler_material.ID is null 
+            and schueler.Aktiv=1
             order by schueler.Name 
         "; 
 

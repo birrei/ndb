@@ -889,7 +889,8 @@ class Satz {
             from schueler 
             left join schueler_satz on schueler.ID = schueler_satz.SchuelerID 
                         and schueler_satz.SatzID = :SatzID 
-            where schueler_satz.ID is null 
+            where schueler_satz.ID is null
+            and schueler.Aktiv=1  
             order by schueler.Name 
         "; 
 

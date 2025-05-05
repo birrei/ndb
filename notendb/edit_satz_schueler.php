@@ -17,6 +17,8 @@ $DatumVon=null;
 $DatumBis=null; 
 $Bemerkung=''; 
 
+$nurAktiv=true; // In Auswahlliste Schüler nur schueler.Aktiv=1 anzeigen 
+
 switch($option) {
 
   case 'insert': // aus "edit_satz_schuelers.php" > "Hinzufügen"
@@ -37,6 +39,7 @@ switch($option) {
     $DatumBis=$schueler_satz->DatumBis;
     $Bemerkung=$schueler_satz->Bemerkung;   
     $option='update2'; 
+    $nurAktiv=false;     
 
   break; 
 
@@ -54,7 +57,7 @@ switch($option) {
     $Bemerkung=$schueler_satz->Bemerkung;   
     
     $option='delete_2'; 
-
+    $nurAktiv=false;
 
   break; 
 
@@ -101,7 +104,7 @@ switch($option) {
     $schueler_satz->ID = $ID; 
     $schueler_satz->update_row($SchuelerID, $SatzID, $DatumVon, $DatumBis, $Bemerkung, $StatusID); 
     
-   header('Location: edit_satz_schuelers.php?SatzID='.$SatzID);
+    header('Location: edit_satz_schuelers.php?SatzID='.$SatzID);
 
     exit;
 
@@ -123,7 +126,7 @@ if ($option=='delete_2') {
     <?php 
       $schueler = new Schueler(); 
       $schueler->Ref='Satz'; 
-      $schueler ->print_select($SchuelerID,$SatzID);       
+      $schueler->print_select($SchuelerID,$SatzID, '', $nurAktiv);       
       $html->print_link_edit('schueler',$SchuelerID,true);   
       $html->print_link_table('v_schueler','sortcol=Name',$schueler->Titles,true,'');    
       $html->print_link_insert($schueler->table_name,$schueler->Title,true);

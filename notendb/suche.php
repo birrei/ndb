@@ -157,6 +157,30 @@ include("cl_materialtyp.php");
   <?php
 /************* Filter Schüler (Auswahlbox immer anzeigen) ***********/
 
+  if($AnsichtGruppe=='Schueler') {
+    $optAktiv='ja'; // default nur "Aktiv"
+    $filter=true; 
+    if (isset($_POST["optAktiv"])) {
+      $optAktiv=$_POST["optAktiv"]; 
+    }
+    switch($optAktiv) {
+      case 'ja': 
+        $query_WHERE.='AND schueler.Aktiv=1 '.PHP_EOL; 
+        $Suche->Beschreibung.='* Nur aktive Schüler'.PHP_EOL; 
+        break; 
+      // case 'nein': 
+      //   $query_WHERE.='AND schueler.Aktiv=0 '.PHP_EOL; 
+      //   $Suche->Beschreibung.='* Nicht vollständig erfasste Sammlungen'.PHP_EOL;           
+      //   break;              
+    }    
+    ?><p>
+      <input type="radio" name="optAktiv" id="optAktivNein" value="nein"<?php echo ($optAktiv=='nein'?' checked':''); ?>><label for="optAktivNein">Alle Schüler</label> 
+      <input type="radio" name="optAktiv" id="optAktivJa" value="ja"<?php echo ($optAktiv=='ja'?' checked':''); ?>><label for="optAktivJa">Nur aktive Schüler</label>
+      </p> 
+    <?php 
+  }
+
+
   $schueler = new Schueler();
   $SchuelerID=''; 
   if (isset($_POST['SchuelerID'])) {
@@ -243,8 +267,6 @@ include("cl_materialtyp.php");
   
       break;   
   }
-
-
 
 
 
@@ -915,13 +937,15 @@ include("cl_materialtyp.php");
         $query.="SELECT schueler.ID 
         , schueler.Name
         , schueler.Bemerkung       
-        , v_schueler_instrumente.Instrumente  ".PHP_EOL;        
+        , v_schueler_instrumente.Instrumente  
+        , IF(schueler.Aktiv=1, 'Ja', 'Nein') as Aktiv_JN ".PHP_EOL;        
         break; 
       case 'Schueler erweitert':         
         $query.="SELECT schueler.ID 
         , schueler.Name
         , schueler.Bemerkung       
-        , v_schueler_instrumente.Instrumente  
+        , v_schueler_instrumente.Instrumente
+        , IF(schueler.Aktiv=1, 'Ja', 'Nein') as Aktiv_JN   
         , GROUP_CONCAT(DISTINCT CONCAT(
 		                IF(sm.ID is not null
 		                   , CONCAT('* ', sm.Name, ': ', material.Name)

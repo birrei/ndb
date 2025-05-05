@@ -16,7 +16,7 @@ $StatusID='';
 $DatumVon=null; 
 $DatumBis=null; 
 $Bemerkung=''; 
-
+$nurAktiv=true; // In Auswahlliste Schüler nur schueler.Aktiv=1 anzeigen 
 
 switch($option) {
 
@@ -38,6 +38,7 @@ switch($option) {
     $DatumBis=$schueler_material->DatumBis;
     $Bemerkung=$schueler_material->Bemerkung;   
     $option='update2'; 
+    $nurAktiv=false;  
 
     break; 
 
@@ -89,7 +90,8 @@ switch($option) {
     $Bemerkung=$schueler_material->Bemerkung;   
     
     $option='delete_2'; 
-
+    $nurAktiv=false;  
+    
     break; 
 
   case 'delete_2': 
