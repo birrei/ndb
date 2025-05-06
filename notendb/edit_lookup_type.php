@@ -35,7 +35,8 @@ if (isset($_REQUEST["option"])) {
 }
 
 $info->print_screen_header($lookuptype->Title.' bearbeiten'); 
-$info->print_link_table($lookuptype->table_name, 'sortcol=Name', $lookuptype->Titles); 
+// $info->print_link_table($lookuptype->table_name, 'sortcol=Name', $lookuptype->Titles); 
+$info->print_link_table('v_besonderheittypen', 'sortcol=Name', $lookuptype->Titles); 
 
 
 if ($show_data) {

@@ -51,7 +51,7 @@ if ($source=='table') {
 
 if ($show_data) {
   if ($source=='table') {
-    $info->print_link_table('v_lookup', 'sortcol=Name', $lookup->Titles,false);
+    $info->print_link_table('v_besonderheiten', 'sortcol=Name', $lookup->Titles,false);
   }
 
   
@@ -90,7 +90,8 @@ if ($show_data) {
 
         if ($source=='table') {
           $info->print_link_edit($lookup_type->table_name, $lookup->LookupTypeID,$lookup_type->Title, true); 
-          $info->print_link_table($lookup_type->table_name,'sortcol=Name',$lookup_type->Titles,true,'');    
+          // $info->print_link_table($lookup_type->table_name,'sortcol=Name',$lookup_type->Titles,true,'');  
+          $info->print_link_table('v_besonderheiten','sortcol=Name',$lookup_type->Titles,true,'');    
           $info->print_link_insert($lookup_type->table_name,$lookup_type->Title,true); 
         }
 

@@ -59,8 +59,10 @@ h3 {
             <a href="show_table2.php?table=erprobt&sortcol=Name">Erprobt-Eigenschaften</a> | 
             <a href="show_table2.php?table=schwierigkeitsgrad&sortcol=Name">Schwierigkeitsgrade</a> | 
             <a href="show_table2.php?table=instrument&sortcol=Name">Instrumente</a> | 
-            <a href="show_table2.php?table=v_lookup&sortcol=LookupTypeName,Name">Besonderheiten</a> | 
-            <a href="show_table2.php?table=lookup_type&sortcol=Name">Besonderheit Typen</a> 
+            <!-- <a href="show_table2.php?table=v_lookup&sortcol=LookupTypeName,Name">Besonderheiten</a> |  -->
+            <a href="show_table2.php?table=v_besonderheiten&sortcol=Name">Besonderheiten</a> | 
+            <!-- <a href="show_table2.php?table=lookup_type&sortcol=Name">Besonderheit Typen</a>  -->
+            <a href="show_table2.php?table=v_besonderheittypen&sortcol=Name">Besonderheit Typen</a> 
             </td>
         </tr>
 
@@ -114,5 +116,9 @@ h3 {
 
 <?php 
 include('foot.php');
+include('class.Log.php'); 
+$Loginfo = new Log(); 
+$Loginfo->printUserName(); 
+ 
 ?>
 

@@ -2,32 +2,35 @@
 
   $table=$_GET['table']; // Tabelle oder View 
 
-  /* Tabelle für Bearbeitung */
-  if (substr($table,0,2)=='v_') {
-    $table_edit=substr($table,2, strlen($table)-2);     // bei Views (suffix v_): "v_" vorne abschneiden
-  } else {
-    $table_edit=$table;
-  }
+/* Tabellen-Name für Bearbeiten-Links */
 
-  /* Ausgabe der Tabellen-Überschrift */
-  $table_aliases = array(
-    "v_lookup" => "Besonderheiten"
-    , "lookup_type" => "Besonderheit-Typen"
-  ); 
-  if (array_key_exists($table, $table_aliases)) {
-    $header = $table_aliases[$table]; 
-  } 
-    else {
-  $header= ucfirst($table_edit); 
-  }
+  $table_orgnames = array("v_besonderheiten" => "lookup", 
+                          "v_besonderheittypen" => "lookup_type");
 
-  $PageTitle=$header; 
+  $table_edit=array_key_exists($table, $table_orgnames)?$table_orgnames[$table]:$table; 
+
+  $table_edit=(substr($table_edit,0,2)=='v_')?substr($table_edit,2, strlen($table)-2):$table_edit; // falls $table mit "v_" beginnt, dann diesen Suffix abschneiden 
+  
+  // echo '<p>table_edit: '.$table_edit.'</p>'; // test 
+ 
+
+/* Überschriften (Anzeige Tabellen-Name oder Tabellen-Alias- Name) */
+
+  $table_aliases = array("v_besonderheiten" => "Besonderheiten"
+                       , "v_besonderheittypen" => "Besonderheit-Typen");
+  
+  $header=array_key_exists($table, $table_aliases)?$table_aliases[$table]:ucfirst($table_edit); 
+
+  // echo '<p>header: '.$header.'</p>';  
+
+  $PageTitle=$header; // übergabe Seiten-Titel an head.php: 
 
   include('head.php');
 
 
+
   /******************************* */
-  /** Festlegungen für Bearbeiten-Link */
+  /***** Einstellungen für Bearbeiten-Link */
 
   $add_link_edit=true; // Bearbeiten-Link in Ergebnistabelle anzeigen
   $table_edit_title=''; // Titel der Seite, die über den Bearbeiten-Link aufgerufen wird 
@@ -120,7 +123,7 @@
 
       break; 
 
-      case 'v_lookup': 
+      case 'v_besonderheiten': // case 'v_lookup': 
 
         echo '<form action="" method="get">'.PHP_EOL; 
         include_once("cl_lookuptype.php");
