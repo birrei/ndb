@@ -860,8 +860,8 @@ include("cl_materialtyp.php");
         , musikstueck.Name as Musikstueck
         , komponist.Name as Komponist
         , v_musikstueck_besetzungen.Besetzungen 
-        -- , GROUP_CONCAT(DISTINCT verwendungszweck.Name order by verwendungszweck.Name SEPARATOR ', ') Verwendungszwecke   
-        -- , GROUP_CONCAT(DISTINCT satz.Nr order by satz.Nr SEPARATOR ', ') Saetze         
+        , GROUP_CONCAT(DISTINCT verwendungszweck.Name order by verwendungszweck.Name SEPARATOR ', ') Verwendungszwecke   
+         , GROUP_CONCAT(DISTINCT satz.Nr order by satz.Nr SEPARATOR ', ') Saetze         
         , musikstueck.Bearbeiter 
         , gattung.Name as Gattung 
         , epoche.Name as Epoche ".PHP_EOL;         
