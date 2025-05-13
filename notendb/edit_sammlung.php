@@ -178,10 +178,10 @@ echo '
           <label for="Links">Links</label>
 
       <p> 
-      <a href="edit_musikstueck.php?SammlungID=<?php echo $sammlung->ID; ?>&option=insert&title=Musikstück" target="_blank" class="form-link form-link-switch" onfocus="linkStyleFocus(this)">Musikstück hinzufügen</a>
+      <a href="edit_musikstueck.php?SammlungID=<?php echo $sammlung->ID; ?>&option=insert&title=Musikstück" target="_blank" class="form-link form-link-switch">Musikstück hinzufügen</a>
       </p>
       <p>
-      <a href="edit_material.php?SammlungID=<?php echo $sammlung->ID; ?>&option=insert&title=Material" target="_blank" class="form-link form-link-switch" onfocus="linkStyleFocus(this)">Material hinzufügen</a>
+      <a href="edit_material.php?SammlungID=<?php echo $sammlung->ID; ?>&option=insert&title=Material" target="_blank" class="form-link form-link-switch">Material hinzufügen</a>
       </p> 
 
     </td>
