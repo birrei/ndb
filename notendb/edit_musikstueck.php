@@ -202,47 +202,46 @@ echo '
   ?>
   <tr> 
     <td class="form-edit form-edit-col1">Daten anzeigen: <br /> <br />
-      <input type="radio" id="Verwendungszwecke" name="target_form" value="Verwendungszwecke" onclick="changeIframeSrc('subform1', 'edit_musikstueck_verwendungszwecke.php?MusikstueckID=<?php echo $musikstueck->ID; ?>');" checked>
-      <label for="Verwendungszwecke">Verwendungszwecke</label><br>
+    <input type="radio" id="Saetze" name="target_form" value="Saetze" onclick="changeIframeSrc('subform1', 'edit_musikstueck_saetze.php?MusikstueckID=<?php echo $musikstueck->ID; ?>');" checked>
+    <label for="Saetze">Sätze</label><br>
+
       <input type="radio" id="Besetzungen" name="target_form" value="Besetzungen" onclick="changeIframeSrc('subform1', 'edit_musikstueck_besetzungen.php?MusikstueckID=<?php echo $musikstueck->ID; ?>');">
-      <label for="Besetzungen">Besetzungen</label>
+      <label for="Besetzungen">Besetzungen</label><br>
+
+      <input type="radio" id="Verwendungszwecke" name="target_form" value="Verwendungszwecke" onclick="changeIframeSrc('subform1', 'edit_musikstueck_verwendungszwecke.php?MusikstueckID=<?php echo $musikstueck->ID; ?>');">
+      <label for="Verwendungszwecke">Verwendungszwecke</label><br>
+
+      <p> 
+      <a href="edit_satz.php?MusikstueckID=<?php echo $musikstueck->ID; ?>'&option=insert&title=Satz" target="_blank" class="form-link">Satz hinzufügen</a>
+      </p>
     </td>
     <td class="form-edit form-edit-col2">
-          <iframe src="edit_musikstueck_verwendungszwecke.php?MusikstueckID=<?php echo $musikstueck->ID; ?>" height="200" name="subform1" id="subform1" class="form-iframe-var2"></iframe>
+          <iframe src="edit_musikstueck_saetze.php?MusikstueckID=<?php echo $musikstueck->ID; ?>'" height="400" name="subform1" id="subform1" class="form-iframe-var2"></iframe>
     </td>
   </tr> 
 
+
+
+
+  </table> 
     
   <?php 
-  
-  echo '
-  <tr> 
-    <td class="form-edit form-edit-col1">Sätze:<br/><br />
-    <a href="edit_satz.php?MusikstueckID='.$musikstueck->ID.'&option=insert&title=Satz" target="_blank" class="form-link" onfocus="linkStyleFocus(this)">Satz hinzufügen</a>
-    <br><br> <a href="edit_musikstueck_saetze.php?MusikstueckID='.$musikstueck->ID.'" target="Saetze" class="form-link">Aktualisieren - &gt; </a>
-    
-    </td> 
-    <td class="form-edit form-edit-col2"><iframe src="edit_musikstueck_saetze.php?MusikstueckID='.$musikstueck->ID.'" height="200" name="Saetze" class="form-iframe-var2"></iframe>
-  </td>
-  </tr> 
-</table> 
 
-';
   
-echo '<p> <form action="edit_musikstueck.php" method="post">
-    <input type="hidden" name="ID" value="' . $musikstueck->ID. '">
-    <input type="hidden" name="option" value="copy">      
-    <input type="hidden" name="title" value="Musikstueck"> 
-    <input type="submit" name="senden" value="Musikstück kopieren">             
-</form></p> '; 
+  echo '<p> <form action="edit_musikstueck.php" method="post">
+      <input type="hidden" name="ID" value="' . $musikstueck->ID. '">
+      <input type="hidden" name="option" value="copy">      
+      <input type="hidden" name="title" value="Musikstueck"> 
+      <input type="submit" name="senden" value="Musikstück kopieren">             
+  </form></p> '; 
 
-echo '<p> <form action="edit_musikstueck.php" method="post">
-<input type="hidden" name="ID" value="' . $musikstueck->ID. '">
-<input type="hidden" name="option" value="delete_1">      
-<input type="hidden" name="title" value="Musikstück"> 
-<input type="submit" name="senden" value="Musikstück löschen">             
-</form></p>
-'; 
+  echo '<p> <form action="edit_musikstueck.php" method="post">
+  <input type="hidden" name="ID" value="' . $musikstueck->ID. '">
+  <input type="hidden" name="option" value="delete_1">      
+  <input type="hidden" name="title" value="Musikstück"> 
+  <input type="submit" name="senden" value="Musikstück löschen">             
+  </form></p>
+  '; 
 
   
 
