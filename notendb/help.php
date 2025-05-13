@@ -236,6 +236,8 @@ include('head.php');
                 Schülern zu Materialen 
                 verwendet werden </p>
 
+<h1 class="chapter-title chapter-title-h1" id="suche_noten">Suche</h1>
+
 <h1 class="chapter-title chapter-title-h1" id="suche_noten">Suche: Allgemeine Erläuterungen</h1>
 
 
