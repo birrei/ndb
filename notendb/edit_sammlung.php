@@ -176,12 +176,17 @@ echo '
           <label for="Besonderheiten">Besonderheiten</label><br>
       <input type="radio" id="Links" name="target_form" value="Links" onclick="changeIframeSrc('subform1', 'edit_sammlung_links.php?SammlungID=<?php echo $sammlung->ID; ?>');">
           <label for="Links">Links</label>
-    </td>
-    <td class="form-edit form-edit-col2">
+
       <p> 
       <a href="edit_musikstueck.php?SammlungID=<?php echo $sammlung->ID; ?>&option=insert&title=Musikstück" target="_blank" class="form-link form-link-switch" onfocus="linkStyleFocus(this)">Musikstück hinzufügen</a>
+      </p>
+      <p>
       <a href="edit_material.php?SammlungID=<?php echo $sammlung->ID; ?>&option=insert&title=Material" target="_blank" class="form-link form-link-switch" onfocus="linkStyleFocus(this)">Material hinzufügen</a>
       </p> 
+
+    </td>
+    <td class="form-edit form-edit-col2">
+
       <iframe src="edit_sammlung_musikstuecke.php?SammlungID=<?php echo $sammlung->ID; ?>" height="450" name="subform1" id="subform1" class="form-iframe-var2"></iframe>
     </td>
   </tr> 
