@@ -1,5 +1,7 @@
 ﻿# Changelog  
 
+20.05.2025: Neu: Übung (noch expermimentell)
+
 02.05.2025: Sammlung-Screen: Vereinfachung Unterformulare
 
 01.05.2025: Schüler: Aktiv ja/nein

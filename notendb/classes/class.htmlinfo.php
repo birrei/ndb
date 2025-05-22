@@ -1,5 +1,5 @@
 <?php 
-class HtmlInfo {
+class HTML_Info {
     public $html;
     public $info_datetime;
     public $option_linktext=0; // Ausführlichkeit Linktext. 0 = ohne Titel (z.B: "bearbeiten"), 1 = mit Titel (z.B. "Verwendungszweck bearbeiten")      

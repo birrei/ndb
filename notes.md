@@ -42,6 +42,10 @@ Fazit - Vorgehen bei Zellen-internen Auflistungen:
 
 * Besonderheiten können für Sammlungen oder Sätze erfasst werden. Jede Besonderheit wird einem Besonderheit-Typ untergeordnet. Der Typ ist für die Erfassung einer Besonderheit am Satz / an der Sammlung nicht zwinged erforderlich -  jede Besonderheit hat  (über Typen hinweg) eine eigene eindeutige ID. 
 
+* Übung: Einfaches Erfassung von Übungen. Noch experimentell, nicht in Gesamtanwendung integriert. 
+  - Schüler, Übung Typ, 
+
+
 
 
 
