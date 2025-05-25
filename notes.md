@@ -45,9 +45,5 @@ Fazit - Vorgehen bei Zellen-internen Auflistungen:
 * Übung: Einfaches Erfassung von Übungen. Noch experimentell, nicht in Gesamtanwendung integriert. 
   - Schüler, Übung Typ, 
 
-
-
-
-
-
+* Übung: Anzeige der Stücke / Materialien, deren Verknüpfungs-Status ein "Aktiv" im Namen hat 
 

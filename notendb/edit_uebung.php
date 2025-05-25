@@ -13,12 +13,15 @@ $info= new HTML_Info();
 $option=$_REQUEST["option"];
 $show_data=true; 
 
+if (isset($_REQUEST["SchuelerID"])) {
+  $SchuelerID=$_REQUEST["SchuelerID"]!=''?$_REQUEST["SchuelerID"]:''; 
+}
 
 switch($option) {
 
   case 'insert': 
     $uebung = new Uebung();    
-    $uebung->insert_row('');
+    $uebung->insert_row($SchuelerID);
     $option='update'; 
     break; 
 
@@ -26,6 +29,7 @@ switch($option) {
     $uebung = new Uebung();       
     $uebung->ID=$_REQUEST["ID"];
     $uebung->load_row();  
+    $SchuelerID=$uebung->SchuelerID; 
     $option='update';     
     break; 
   
@@ -38,8 +42,11 @@ switch($option) {
       $_POST["UebungtypID"], 
       $_POST["SchuelerID"], 
       $_POST["Datum"], 
-      $_POST["Anzahl"]
+      $_POST["Anzahl"], 
+      $_POST["SatzID"],
+      $_POST["MaterialID"]
     );  
+    $SchuelerID=$uebung->SchuelerID;     
     break; 
 
   case 'delete_1': 
@@ -83,7 +90,6 @@ $info->print_screen_header($uebung->Title.' bearbeiten');
 
 $info->print_link_table('v_uebung', 'sortcol=Datum&sortorder=DESC', $uebung->Titles,false);
 
-
 $info->print_form_inline('delete_1',$uebung->ID,$uebung->Title, 'löschen'); 
 
 $info->print_form_inline('copy',$uebung->ID,$uebung->Title, 'kopieren'); 
@@ -100,31 +106,11 @@ echo '</p>
     <td class="form-edit form-edit-col1">ID:</td>  
     <td class="form-edit form-edit-col2">'.$uebung->ID.'</td>
     </label>
-  </tr> 
+  </tr> '; 
 
 
-  <tr>    
-  <label>  
-  <td class="form-edit form-edit-col1">Uebungtyp:</td>  
-  <td class="form-edit form-edit-col2">  
-        '; 
-        $typ=new UebungTyp(); 
-        $typ->print_select($uebung->UebungtypID); 
-
-    echo ' </label>  (XXX)  &nbsp;
-      '; 
-    // XXX 
-      // $info->print_link_edit($uebungtypen->table_name, $uebung->UebungtypID,$uebungtypen->Title, true); 
-      // $info->print_link_table($uebungtypen->table_name,'sortcol=Name',$uebungtypen->Titles,true,'');    
-      // $info->print_link_insert($uebungtypen->table_name,$uebungtypen->Title,true); 
-
-
-  echo '</td>
-    </tr> 
-
-
-
-
+  
+echo '
   <tr>    
   <label>  
   <td class="form-edit form-edit-col1">Schüler:</td>  
@@ -136,39 +122,107 @@ echo '</p>
        echo ' </label> ';             
       $info->print_link_edit('schueler',$uebung->SchuelerID,true);   
       $info->print_link_table('v_schueler','sortcol=Name',$schueler->Titles,true,'');    
-      $info->print_link_insert($schueler->table_name,$schueler->Title,true);
+     // $info->print_link_insert($schueler->table_name,$schueler->Title,true);
 
    echo '</td>
     </tr> 
+'; 
 
 
 
+echo '
 
   <tr>    
     <label>
-    <td class="form-edit form-edit-col1">Name:</td>  
+    <td class="form-edit form-edit-col1">Bezeichnung:</td>  
     <td class="form-edit form-edit-col2"><input type="text" name="Name" value="'.htmlentities($uebung->Name).'" size="40%" required="required" autofocus="autofocus" oninput="changeBackgroundColor(this)"></td>
     </label>
   </tr>     
 
+'; 
+
+
+
+echo '
+  <tr>    
+  <label>  
+  <td class="form-edit form-edit-col1">Uebungtyp:</td>  
+  <td class="form-edit form-edit-col2">  
+        '; 
+        $typ=new UebungTyp(); 
+        $typ->print_select($uebung->UebungtypID); 
+
+    echo ' </label>  
+      '; 
+    // XXX 
+      $info->print_link_edit($typ->table_name, $uebung->UebungtypID,$typ->Title, true); 
+      $info->print_link_table($typ->table_name,'sortcol=Name',$typ->Titles,true,'');    
+      // $info->print_link_insert($uebungtypen->table_name,$uebungtypen->Title,true); 
+
+
+  echo '</td>
+    </tr>'; 
+
+
+
+
+echo '
+
 
   <tr>    
-    <td class="eingabe2 eingabe2_1">Datum: </td>  
-    <td class="eingabe2 eingabe2_2"> <input type="date" name="Datum" value="'.$uebung->Datum.'" oninput="changeBackgroundColor(this)"></td>
+     <td class="form-edit form-edit-col1">Datum:</td>   
+     <td class="form-edit form-edit-col2"><input type="date" name="Datum" value="'.$uebung->Datum.'" oninput="changeBackgroundColor(this)"></td>
   </tr> 
 
   <tr>    
-    <td class="eingabe2 eingabe2_1">Anzahl: </td>  
-    <td class="eingabe2 eingabe2_2"> <input type="number" name="Anzahl" value="'.$uebung->Anzahl.'" oninput="changeBackgroundColor(this)"></td>
-  </tr> 
+    <td class="form-edit form-edit-col1">Anzahl: </td>  
+      <td class="form-edit form-edit-col2"><input type="number" name="Anzahl" value="'.$uebung->Anzahl.'" oninput="changeBackgroundColor(this)"></td>
+  </tr>'; 
 
+
+  echo '
   <tr>    
+    <label>  
+    <td class="form-edit form-edit-col1">Satz:</td>  
+    <td class="form-edit form-edit-col2">  
+          '; 
+        $schueler = new Schueler(); 
+        $schueler->ID = $SchuelerID; 
+        $schueler->print_select_saetze($uebung->SatzID); 
+        echo ' </label> ';             
+        $info->print_link_edit('satz',$uebung->SatzID,true);   
+        // $info->print_link_table('','sortcol=Name',$schueler->Titles,true,'');    
+      // $info->print_link_insert($schueler->table_name,$schueler->Title,true);
+
+    echo '</td>
+      </tr>'; 
+
+
+  echo '
+  <tr>    
+    <label>  
+    <td class="form-edit form-edit-col1">Material:</td>  
+    <td class="form-edit form-edit-col2">  
+          '; 
+        $schueler = new Schueler(); 
+        $schueler->ID = $SchuelerID; 
+        $schueler->print_select_materials($uebung->MaterialID); 
+        echo ' </label> ';             
+        $info->print_link_edit('material',$uebung->MaterialID,true);   
+        $info->print_link_table('v_material','sortcol=Name','Materialien',true,'');    
+      // $info->print_link_insert($schueler->table_name,$schueler->Title,true);
+
+    echo '</td>
+  </tr>'; 
+
+
+  echo '<tr>    
     <label>
     <td class="form-edit form-edit-col1">Bemerkung:</td>  
     <td class="form-edit form-edit-col2"><input type="text" name="Bemerkung" value="'.htmlentities($uebung->Bemerkung).'" size="40%" oninput="changeBackgroundColor(this)"></td>
     </label>
   </tr>     '; 
-      
+
     echo '
       <tr> 
         <td class="form-edit form-edit-col1"></td> 

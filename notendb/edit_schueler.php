@@ -1,6 +1,6 @@
 
 <?php 
-$PageTitle='Schueler'; 
+$PageTitle='Schüler'; 
 include('head.php');
 include("cl_schueler.php");
 include("cl_html_info.php");
@@ -123,23 +123,29 @@ echo '
 ?> 
 
 <tr> 
-<td class="form-edit form-edit-col1">Daten anzeigen: <br /> <br />
+  <td class="form-edit form-edit-col1">Daten anzeigen: <br /> <br />
 
-<input type="radio" id="opt_Schwierigkeitsgrad" name="target_form" value="Schwierigkeitsgrad" onclick="changeIframeSrc('subform1', 'edit_schueler_schwierigkeitsgrade.php?SchuelerID=<?php echo $schueler->ID; ?>');" checked>
-<label for="opt_Schwierigkeitsgrad">Instrumente / Schwierigkeitsgrade</label><br>
+  <input type="radio" id="opt_Uebung" name="target_form" value="Uebungen" onclick="changeIframeSrc('subform1', 'edit_schueler_uebungen.php?SchuelerID=<?php echo $schueler->ID; ?>');" checked>
+  <label for="opt_Uebung">Übungen</label><br>
 
-<input type="radio" id="opt_Saetze" name="target_form" value="Saetze" onclick="changeIframeSrc('subform1', 'edit_schueler_saetze.php?SchuelerID=<?php echo $schueler->ID; ?>');">
-<label for="opt_Saetze">Verknüpfte Noten</label><br>
+  <input type="radio" id="opt_Schwierigkeitsgrad" name="target_form" value="Schwierigkeitsgrad" onclick="changeIframeSrc('subform1', 'edit_schueler_schwierigkeitsgrade.php?SchuelerID=<?php echo $schueler->ID; ?>');">
+  <label for="opt_Schwierigkeitsgrad">Instrumente / Schwierigkeitsgrade</label><br>
 
-<input type="radio" id="opt_Material" name="target_form" value="Material" onclick="changeIframeSrc('subform1', 'edit_schueler_materials.php?SchuelerID=<?php echo $schueler->ID; ?>');">
-<label for="opt_Material">Verknüpfte Materialien</label><br>
+  <input type="radio" id="opt_Saetze" name="target_form" value="Saetze" onclick="changeIframeSrc('subform1', 'edit_schueler_saetze.php?SchuelerID=<?php echo $schueler->ID; ?>');">
+  <label for="opt_Saetze">Verknüpfte Noten</label><br>
+
+  <input type="radio" id="opt_Material" name="target_form" value="Material" onclick="changeIframeSrc('subform1', 'edit_schueler_materials.php?SchuelerID=<?php echo $schueler->ID; ?>');">
+  <label for="opt_Material">Verknüpfte Materialien</label><br>
 
 
+  <p> 
+  <a href="edit_uebung.php?SchuelerID=<?php echo $schueler->ID; ?>&option=insert" target="_blank" class="form-link form-link-switch">Übung hinzufügen</a>
+  </p>
 
-</td> 
-<td class="form-edit form-edit-col2">
-  <iframe src="edit_schueler_schwierigkeitsgrade.php?SchuelerID=<?php echo $schueler->ID; ?>&source=iframe" height="300" id="subform1" name="Info" class="form-iframe-var2"></iframe>
-</td>
+  </td> 
+  <td class="form-edit form-edit-col2">
+    <iframe src="edit_schueler_uebungen.php?SchuelerID=<?php echo $schueler->ID; ?>&source=iframe" height="300" id="subform1" name="Info" class="form-iframe-var2"></iframe>
+  </td>
 </tr> 
 
 

@@ -28,4 +28,17 @@ CREATE TABLE `uebung` (
 ; 
 
 
+ALTER TABLE uebung  ADD SatzID INT unsigned NULL; 
+
+ALTER TABLE uebung  
+ADD CONSTRAINT `uebung_satz` 
+FOREIGN KEY (`SatzID`) 
+REFERENCES `satz` (`ID`); 
+
+ALTER TABLE uebung  ADD MaterialID INT NULL; 
+
+ALTER TABLE uebung  
+ADD CONSTRAINT `uebung_material` 
+FOREIGN KEY (`MaterialID`) 
+REFERENCES `material` (`ID`); 
 

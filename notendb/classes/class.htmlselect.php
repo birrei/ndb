@@ -105,6 +105,9 @@ class HTML_Select {
                 }
             $html .= '</select>';
         }
+        else {
+            $html.= '<select name="'.$keyname.'"><option value=""><i>(keine Auswahl verfügbar)</i></option></select>' . PHP_EOL;             
+        }        
         echo $html;
     }    
 

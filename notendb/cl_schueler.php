@@ -569,6 +569,7 @@ class Schueler {
   }   
 
   function print_table_material_checklist(){
+    // Auswahl im Screen "Übung" 
     $query="select distinct material.ID, material.Name
             from material 
             left join schueler_material on material.ID = schueler_material.MaterialID 
@@ -600,6 +601,169 @@ class Schueler {
     }
   }
 
+  function print_select_saetze($selected_SatzID=''){
+
+    include_once("dbconn/cl_db.php");  
+    include_once("cl_html_select.php");
+
+    $query="
+      SELECT satz.ID
+          , CONCAT(
+                sammlung.Name, ' - ', 
+                  -- musikstueck.Nummer, ' - ', 
+                  musikstueck.Name, ' - Satz Nr: ',  
+                  satz.Nr
+                  ) Name 
+          -- , schueler_satz.SchuelerID
+        FROM satz  
+              inner join musikstueck on satz.MusikstueckID = musikstueck.ID
+              inner JOIN sammlung on sammlung.ID = musikstueck.SammlungID      
+              inner join schueler_satz on schueler_satz.SatzID = satz.ID
+              inner join status on status.ID=schueler_satz.StatusID
+        WHERE 1=1 
+        AND schueler_satz.SchuelerID = :SchuelerID  ";
+
+          
+    $query.=$selected_SatzID!=''?"AND satz.ID=:SatzID OR status.Name LIKE '%Aktiv%'":"AND status.Name LIKE '%Aktiv%'"; 
+
+    $conn = new DbConn(); 
+    $db=$conn->db; 
+
+    $stmt = $db->prepare($query);      
+    
+    $stmt->bindParam(':SchuelerID', $this->ID, PDO::PARAM_INT);
+
+    if ($selected_SatzID!='') {
+      $stmt->bindParam(':SatzID', $selected_SatzID, PDO::PARAM_INT);
+    }
+
+    $query.='ORDER BY `Name`'; 
+
+    // echo $query; // test 
+
+    try {
+      $stmt->execute(); 
+      // $stmt->debugDumpParams(); // Test 
+      $html = new HtmlSelect($stmt); 
+      // $html->caption = $caption;  
+      $html->autofocus=false;      
+      $html->print_select("SatzID", $selected_SatzID, true); 
+      
+    }
+    catch (PDOException $e) {
+      include_once("cl_html_info.php"); 
+      $info = new HtmlInfo();      
+      $info->print_user_error(); 
+      $info->print_error($stmt, $e); 
+    }
+  }
+
+
+  function print_select_materials($selected_MaterialID=''){
+
+    include_once("dbconn/cl_db.php");  
+    include_once("cl_html_select.php");
+
+    $query=" SELECT material.ID
+          , CONCAT(material.Name, ' (' , materialtyp.Name, ') ', sammlung.Name) as Name 
+    FROM material  
+            inner JOIN materialtyp on materialtyp.ID = material.MaterialtypID 
+            inner JOIN schueler_material on schueler_material.MaterialID = material.ID 
+            inner JOIN status on status.ID = schueler_material.StatusID         
+            inner JOIN sammlung on sammlung.ID = material.SammlungID   
+        WHERE 1=1 
+        AND schueler_material.SchuelerID = :SchuelerID  ";
+
+    $query.=$selected_MaterialID!=''?"AND material.ID=:MaterialID OR status.Name LIKE '%Aktiv%'":"AND status.Name LIKE '%Aktiv%'"; 
+
+    $conn = new DbConn(); 
+    $db=$conn->db; 
+
+    $stmt = $db->prepare($query);      
+    
+    $stmt->bindParam(':SchuelerID', $this->ID, PDO::PARAM_INT);
+
+    if ($selected_MaterialID!='') {
+      $stmt->bindParam(':MaterialID', $selected_MaterialID, PDO::PARAM_INT);
+    }
+
+    $query.='ORDER BY `Name`'; 
+
+    // echo $query; // test 
+
+    try {
+      $stmt->execute(); 
+      // $stmt->debugDumpParams(); // Test 
+      $html = new HtmlSelect($stmt); 
+      // $html->caption = $caption;  
+      $html->autofocus=false;      
+      $html->print_select("MaterialID", $selected_MaterialID, true); 
+      
+    }
+    catch (PDOException $e) {
+      include_once("cl_html_info.php"); 
+      $info = new HtmlInfo();      
+      $info->print_user_error(); 
+      $info->print_error($stmt, $e); 
+    }
+  }
+
+
+  function print_table_uebungen(){
+
+    $query="SELECT 
+              uebung.ID
+              , uebungtyp.Name as Typ    
+              , uebung.Name 
+              , uebung.Datum
+              , uebung.Anzahl
+              , uebungtyp.Einheit
+              , uebung.Bemerkung
+              , CONCAT(
+                    sammlung.Name, ' - ', 
+                      -- musikstueck.Nummer, ' - ', 
+                      musikstueck.Name, ' - Satz Nr. ',  
+                      satz.Nr
+                      ) Notenstueck  
+              , CONCAT(material.Name, ' (' , materialtyp.Name, ') ', sammlung2.Name) as Material 	         
+          FROM  uebung 
+              left join uebungtyp on uebung.UebungtypID=uebungtyp.ID 
+              left join satz  on satz.ID=uebung.SatzID 
+              left join musikstueck on satz.MusikstueckID = musikstueck.ID
+              left JOIN sammlung on sammlung.ID = musikstueck.SammlungID      
+              left join material  on material.ID=uebung.MaterialID
+              left JOIN materialtyp on materialtyp.ID = material.MaterialtypID      
+              left join sammlung as sammlung2  on sammlung2.ID=material.SammlungID
+          WHERE uebung.SchuelerID = :ID 
+          ORDER BY uebung.Datum DESC              
+        "; 
+
+    include_once("dbconn/cl_db.php");
+    $conn = new DbConn(); 
+    $db=$conn->db; 
+  
+    $stmt = $db->prepare($query); 
+    $stmt->bindParam(':ID', $this->ID, PDO::PARAM_INT); 
+
+    try {
+      $stmt->execute(); 
+      include_once("cl_html_table.php");      
+      $html = new HtmlTable($stmt); 
+      $html->add_link_edit=true;      
+      $html->edit_link_table='uebung'; 
+      $html->edit_link_title='Übung'; 
+      $html->edit_link_open_newpage=true; 
+      $html->show_missing_data_message=false;      
+      $html->print_table2(); 
+
+    }
+    catch (PDOException $e) {
+      include_once("cl_html_info.php"); 
+      $info = new HtmlInfo();      
+      $info->print_user_error(); 
+      $info->print_error($stmt, $e); 
+    }
+  }    
 
 
 }

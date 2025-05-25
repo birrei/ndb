@@ -139,23 +139,23 @@ echo '</td>
     </label>
   </tr> 
 
-        '; 
-        if ($SammlungID!='') {
-          echo '   
-          <tr>    
-          <label>  
-          <td class="form-edit form-edit-col1">Sammlung:</td>  
-          <td class="form-edit form-edit-col2">  '; 
-          $sammlung = new Sammlung();
-          $sammlung->print_select($SammlungID); 
+  '; 
 
-          $info->print_link_edit($sammlung->table_name, $SammlungID,$sammlung->Title, true); 
-   
-          echo ' </label>  &nbsp;
-              </td>
-              </tr> 
-            '; 
-        }
+    echo '   
+    <tr>    
+    <label>  
+    <td class="form-edit form-edit-col1">Sammlung:</td>  
+    <td class="form-edit form-edit-col2">  '; 
+    $sammlung = new Sammlung();
+    $sammlung->print_select($SammlungID); 
+
+    $info->print_link_edit($sammlung->table_name, $SammlungID,$sammlung->Title, true); 
+
+    echo ' </label>  &nbsp;
+        </td>
+        </tr> 
+      '; 
+
     echo '
       <tr> 
         <td class="form-edit form-edit-col1"></td> 

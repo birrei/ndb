@@ -11,6 +11,8 @@ class Uebung {
   public $Bemerkung=''; 
   public $UebungtypID; 
   public $SchuelerID='';
+  public $SatzID=''; 
+  public $MaterialID=''; 
   public $Datum=''; 
   public $Anzahl=''; 
   
@@ -32,12 +34,14 @@ class Uebung {
     $this->info=new HTML_Info(); 
   }
 
-  function insert_row ($Name) {
+  function insert_row ($SchuelerID) {
     $insert = $this->db->prepare("INSERT INTO `uebung` 
-              SET `Name`     = :Name"
+              SET `SchuelerID`     = :SchuelerID, 
+                   Datum           = DATE_FORMAT(CURDATE(), '%Y-%m-%d')
+              " 
            );
           
-    $insert->bindParam(':Name', $Name);
+    $insert->bindParam(':SchuelerID', $SchuelerID);
 
     try {
       $insert->execute(); 
@@ -49,8 +53,6 @@ class Uebung {
       $this->info->print_error($insert, $e);  ; 
     }
   }  
-
-
   
   function load_row() {  
 
@@ -63,6 +65,8 @@ class Uebung {
                             , uebung.SchuelerID
                             , uebung.Datum
                             , uebung.Anzahl 
+                            , uebung.SatzID 
+                            , uebung.MaterialID 
                           FROM  uebung left join uebungtyp on uebung.UebungtypID = uebungtyp.ID 
                           WHERE uebung.ID = :ID");
 
@@ -76,6 +80,8 @@ class Uebung {
       $this->Name=$row_data["Name"];       
       $this->UebungtypID=$row_data["UebungtypID"];      
       $this->SchuelerID=$row_data["SchuelerID"];        
+      $this->SatzID=$row_data["SatzID"];       
+      $this->MaterialID=$row_data["MaterialID"];            
       $this->Bemerkung=$row_data["Bemerkung"]; 
       $this->Datum=$row_data["Datum"];      
       $this->Anzahl=$row_data["Anzahl"];           
@@ -87,30 +93,14 @@ class Uebung {
     }  
   }  
 
-  function print_select_typ($value_selected=''){
-
-    $query="SELECT ID, Name FROM `uebungtyp` order by `Name`"; 
-
-    $stmt = $this->db->prepare($query); 
-
-    try {
-      $stmt->execute(); 
-      // $html->caption = $caption;       
-      $select=new HTML_Select($stmt); 
-      $select->print_select('UebungtypID',$value_selected); 
-    }
-    catch (PDOException $e) {  
-      $this->info->print_user_error(); 
-      $this->info->print_error($stmt, $e);  ;
-    }
-  }
-
   function update_row ($Name
                     , $Bemerkung
                     , $UebungtypID
                     , $SchuelerID                                                            
                     , $Datum
-                    , $Anzahl                                                   
+                    , $Anzahl
+                    , $SatzID 
+                    , $MaterialID
                     ) {
 
     $update = $this->db->prepare("UPDATE uebung  
@@ -119,7 +109,9 @@ class Uebung {
                 , Bemerkung=:Bemerkung 
                 , SchuelerID=:SchuelerID 
                 , Datum=:Datum               
-                , Anzahl=:Anzahl               
+                , Anzahl=:Anzahl
+                , SatzID=:SatzID
+                , MaterialID=:MaterialID                            
               WHERE ID=:ID"           
            );
 
@@ -130,6 +122,8 @@ class Uebung {
     $update->bindParam(':Bemerkung', $Bemerkung);
     $update->bindParam(':Datum', $Datum);      
     $update->bindParam(':Anzahl', $Anzahl);
+    $update->bindParam(':SatzID', $SatzID, ($SatzID=='' ? PDO::PARAM_NULL : PDO::PARAM_INT));
+    $update->bindParam(':MaterialID', $MaterialID, ($MaterialID=='' ? PDO::PARAM_NULL : PDO::PARAM_INT));    
   
 
     try {
@@ -141,7 +135,6 @@ class Uebung {
       $this->info->print_error($update, $e);  ; 
     }
   }  
- 
 
   function delete(){
 
@@ -158,6 +151,25 @@ class Uebung {
       return false ; 
     }  
   }   
+
+
+  // function print_select_typ($value_selected=''){
+
+  //   $query="SELECT ID, Name FROM `uebungtyp` order by `Name`"; 
+
+  //   $stmt = $this->db->prepare($query); 
+
+  //   try {
+  //     $stmt->execute(); 
+  //     // $html->caption = $caption;       
+  //     $select=new HTML_Select($stmt); 
+  //     $select->print_select('UebungtypID',$value_selected); 
+  //   }
+  //   catch (PDOException $e) {  
+  //     $this->info->print_user_error(); 
+  //     $this->info->print_error($stmt, $e);  ;
+  //   }
+  // }  
 
 }
 
