@@ -13,6 +13,8 @@ $info= new HTML_Info();
 $option=$_REQUEST["option"];
 $show_data=true; 
 
+$SchuelerID=''; 
+
 if (isset($_REQUEST["SchuelerID"])) {
   $SchuelerID=$_REQUEST["SchuelerID"]!=''?$_REQUEST["SchuelerID"]:''; 
 }
@@ -94,6 +96,10 @@ $info->print_form_inline('delete_1',$uebung->ID,$uebung->Title, 'löschen');
 
 $info->print_form_inline('copy',$uebung->ID,$uebung->Title, 'kopieren'); 
 
+$info->print_link_insert($uebung->table_name, $uebung->Title, false); 
+
+
+
 
 if (!$show_data) {goto pagefoot;}
 
@@ -135,7 +141,7 @@ echo '
   <tr>    
     <label>
     <td class="form-edit form-edit-col1">Bezeichnung:</td>  
-    <td class="form-edit form-edit-col2"><input type="text" name="Name" value="'.htmlentities($uebung->Name).'" size="40%" required="required" autofocus="autofocus" oninput="changeBackgroundColor(this)"></td>
+    <td class="form-edit form-edit-col2"><input type="text" name="Name" value="'.htmlentities($uebung->Name).'" size="40%" autofocus="autofocus" oninput="changeBackgroundColor(this)"></td>
     </label>
   </tr>     
 
