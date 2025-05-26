@@ -225,7 +225,9 @@ echo '
   echo '<tr>    
     <label>
     <td class="form-edit form-edit-col1">Bemerkung:</td>  
-    <td class="form-edit form-edit-col2"><input type="text" name="Bemerkung" value="'.htmlentities($uebung->Bemerkung).'" size="40%" oninput="changeBackgroundColor(this)"></td>
+    <td class="form-edit form-edit-col2">
+      <textarea name="Bemerkung" rows=3 cols=50 oninput="changeBackgroundColor(this)">'.htmlentities($uebung->Bemerkung).'</textarea> 
+    </td>
     </label>
   </tr>     '; 
 
