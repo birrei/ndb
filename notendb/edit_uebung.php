@@ -73,6 +73,18 @@ switch($option) {
     $info->print_info($uebung->infotext); 
     $show_data=false; 
     break; 
+
+
+    case 'copy': 
+      $ID_ref=$_REQUEST["ID"]; 
+      $uebung = new Uebung();          
+      $uebung->ID=$ID_ref; 
+      $uebung->copy();   
+      $uebung->load_row();       
+      $info->print_info_copy($uebung->Title, $ID_ref, $uebung->ID, 'edit_uebung'); 
+      $option='update'; 
+      $show_data=true; 
+    break;     
 }
 
 // test

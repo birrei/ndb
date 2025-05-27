@@ -152,6 +152,46 @@ class Uebung {
     }  
   }   
 
+  function copy(){
+
+    $sql="INSERT INTO uebung (Name
+                            , Bemerkung
+                            , UebungtypID
+                            , SchuelerID
+                            , Datum
+                            , Anzahl
+                            , SatzID
+                            , MaterialID
+                            )
+          SELECT CONCAT(Name, ' (Kopie)') as Name 
+                            , Bemerkung
+                            , UebungtypID
+                            , SchuelerID
+                            , DATE_FORMAT(CURDATE(), '%Y-%m-%d') as Datum
+                            , Anzahl
+                            , SatzID
+                            , MaterialID
+          FROM uebung  
+          WHERE ID=:ID 
+
+
+          ";
+
+    $insert = $this->db->prepare($sql); 
+    $insert->bindValue(':ID', $this->ID);  
+
+    try {
+      $insert->execute(); 
+      $ID_New = $this->db->lastInsertId();    
+      $this->ID =  $ID_New; // Stabübergabe (Objekt-Instanz übernimmt neue ID-Kopie )
+    }
+    catch (PDOException $e) {
+      $info = new HtmlInfo();      
+      $info->print_user_error(); 
+      $info->print_error($insert, $e);  
+    }  
+  }  
+
 
   // function print_select_typ($value_selected=''){
 
