@@ -531,7 +531,6 @@ class Schueler {
 
   }   
 
-  
   function copy_saetze($ID_new) {
     include_once("dbconn/cl_db.php");
     $conn = new DbConn(); 
@@ -658,7 +657,6 @@ class Schueler {
     }
   }
 
-
   function print_select_materials($selected_MaterialID=''){
 
     include_once("dbconn/cl_db.php");  
@@ -707,7 +705,6 @@ class Schueler {
       $info->print_error($stmt, $e); 
     }
   }
-
 
   function print_table_uebungen(){
 
@@ -765,6 +762,64 @@ class Schueler {
     }
   }    
 
+  function print_table_auswertung_uebungen(){
+    $query="
+        SELECT 
+            -- uebung.ID
+            uebungtyp.Name as Typ    
+            , YEAR(uebung.Datum) as Jahr
+            , MONTH(uebung.Datum) as Monat          
+            , SUM(uebung.Anzahl) as Anzahl 
+            , uebungtyp.Einheit            
+            , MIN(uebung.Datum) as `Datum Start`
+            , MAX(uebung.Datum) as `Datum Zuletzt`         
+            , COUNT(DISTINCT uebung.Datum) as Tage     
+            -- , uebung.SchuelerID
+            -- , uebung.UebungtypID
+        FROM  uebung 
+              left join uebungtyp on uebung.UebungtypID=uebungtyp.ID 
+              left join satz  on satz.ID=uebung.SatzID 
+              left join musikstueck on satz.MusikstueckID = musikstueck.ID
+              left JOIN sammlung on sammlung.ID = musikstueck.SammlungID      
+              left join material  on material.ID=uebung.MaterialID
+              left JOIN materialtyp on materialtyp.ID = material.MaterialtypID      
+              left join sammlung as sammlung2  on sammlung2.ID=material.SammlungID
+        WHERE uebung.SchuelerID = :ID 
+        AND UebungtypID  is not null 
+        GROUP by uebung.SchuelerID
+          , uebung.UebungtypID
+          , uebungtyp.Einheit
+          , YEAR(uebung.Datum)
+          , MONTH(uebung.Datum) 
+        ORDER BY `Datum Zuletzt` DESC              
+        "; 
+
+    include_once("dbconn/cl_db.php");
+    $conn = new DbConn(); 
+    $db=$conn->db; 
+  
+    $stmt = $db->prepare($query); 
+    $stmt->bindParam(':ID', $this->ID, PDO::PARAM_INT); 
+
+    try {
+      $stmt->execute(); 
+      include_once("cl_html_table.php");      
+      $html = new HtmlTable($stmt); 
+      $html->add_link_edit=false;      
+      $html->edit_link_table='uebung'; 
+      $html->edit_link_title='Übung'; 
+      $html->edit_link_open_newpage=true; 
+      $html->show_missing_data_message=false;      
+      $html->print_table2(); 
+
+    }
+    catch (PDOException $e) {
+      include_once("cl_html_info.php"); 
+      $info = new HtmlInfo();      
+      $info->print_user_error(); 
+      $info->print_error($stmt, $e); 
+    }
+  }    
 
 }
 
