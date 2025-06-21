@@ -1,14 +1,14 @@
 <?php
 include('head.php');
-include("cl_abfrage.php");
-include("cl_html_info.php");
+include_once("classes/class.abfrage.php");
+include_once("classes/class.htmlinfo.php");
 
 // echo '<h2>Abfrage bearbeiten</h2>'; 
 
 $abfrage = new Abfrage();
 $abfrage->ID=$_GET['ID'];
 
-$info = new HtmlInfo(); 
+$info = new HTML_Info(); 
 
 if ($abfrage->load_row()) {
 

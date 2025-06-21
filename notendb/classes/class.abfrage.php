@@ -1,9 +1,14 @@
 
 <?php 
 
+include_once("dbconn/class.db.php"); 
+include_once("class.htmlinfo.php"); 
+include_once("class.htmlselect.php"); 
+include_once("class.htmltable.php"); 
+
 class Abfrage {
 
-  public $table_name; 
+  public $table_name='abfrage'; 
   public $ID;
   public $Name;
   public $Beschreibung='';
@@ -16,16 +21,18 @@ class Abfrage {
   public $Titles='Abfragen';    
   public string $infotext=''; 
   
+  private $db; 
+  private $info; 
+
   public function __construct(){
-    $this->table_name='abfrage'; 
+    $conn=new DBConnection(); 
+    $this->db=$conn->db; 
+    $this->info=new HTML_Info(); 
   }
 
   function insert_row ($Name) {
-    include_once("dbconn/cl_db.php");
-    $conn = new DbConn(); 
-    $db=$conn->db; 
 
-    $insert = $db->prepare("INSERT INTO `abfrage` 
+    $insert = $this->db->prepare("INSERT INTO `abfrage` 
               SET `Name`     = :Name"
            );
 
@@ -33,22 +40,17 @@ class Abfrage {
 
     try {
       $insert->execute(); 
-      $this->ID=$db->lastInsertId();
+      $this->ID=$this->db->lastInsertId();
       $this->load_row(); 
     }
-      catch (PDOException $e) {
-      include_once("cl_html_info.php"); 
-      $info = new HtmlInfo();      
-      $info->print_user_error(); 
-      $info->print_error($insert, $e);  ; 
+    catch (PDOException $e) {
+      $this->info->print_user_error(); 
+      $this->info->print_error($insert, $e);  ; 
     }
   }  
  
   function insert_row2() {
     /* Anlass: Gespeicherte Suche  */
-    include_once("dbconn/cl_db.php");
-    $conn = new DbConn(); 
-    $db=$conn->db; 
 
     if ($this->Abfragetyp!='') {
       $this->AbfragetypID=$this->getTypID($this->Abfragetyp); 
@@ -61,7 +63,7 @@ class Abfrage {
     }
     
     /* Falls Abfrage mit gleichem Namen schon vorhanden ist, erfolgt ein Update  */
-    $checkselect = $db->prepare("SELECT MAX(ID) as maxID FROM abfrage WHERE Name=:Name");
+    $checkselect = $this->db->prepare("SELECT MAX(ID) as maxID FROM abfrage WHERE Name=:Name");
     $checkselect->bindParam(':Name', $this->Name);
     $checkselect->execute(); 
     $existingID=intval($checkselect->fetchColumn()); // = 0, falls Name nicht vorhanden  
@@ -70,7 +72,7 @@ class Abfrage {
       $this->ID = $existingID; 
       $this->update_row($this->Name,  $this->Beschreibung, $this->AbfragetypID, $this->Abfrage, $this->Tabelle); 
     } else {
-      $insert = $db->prepare("INSERT 
+      $insert = $this->db->prepare("INSERT 
                 INTO `abfrage` 
                 SET `Name` = :Name, 
                   Beschreibung=:Beschreibung, 
@@ -86,14 +88,12 @@ class Abfrage {
 
       try {
         $insert->execute(); 
-        $this->ID=$db->lastInsertId();
+        $this->ID=$this->db->lastInsertId();
         $this->load_row(); 
       }
-        catch (PDOException $e) {
-        include_once("cl_html_info.php"); 
-        $info = new HtmlInfo();      
-        $info->print_user_error(); 
-        $info->print_error($insert, $e);  ; 
+      catch (PDOException $e) {    
+        $this->info->print_user_error(); 
+        $this->info->print_error($insert, $e);  ; 
       }
     }
   }  
@@ -103,35 +103,24 @@ class Abfrage {
 
     $query="SELECT * from abfrage ORDER by Name"; 
 
-    include_once("dbconn/cl_db.php");
-    $conn = new DbConn(); 
-    $db=$conn->db; 
-
-    $select = $db->prepare($query); 
+    $select = $this->db->prepare($query); 
 
     try {
-      $select->execute(); 
-      include_once("cl_html_table.php");      
+      $select->execute();   
       $html = new HtmlTable($select); 
       $html->edit_link_table= $this->table_name;
       $html->print_table2();  
     }
-    catch (PDOException $e) {
-      include_once("cl_html_info.php"); 
-      $info = new HtmlInfo();      
-      $info->print_user_error(); 
-      $info->print_error($select, $e); 
+    catch (PDOException $e) {   
+      $this->info->print_user_error(); 
+      $this->info->print_error($select, $e); 
     }
   }
 
 
   function update_row($Name,$Beschreibung,$AbfragetypID) {
     // Nur Name, Beschreibung und Abfragetyp
-    include_once("dbconn/cl_db.php");   
-    $conn = new DbConn(); 
-    $db=$conn->db; 
-    
-    $update = $db->prepare("UPDATE `abfrage` 
+    $update = $this->db->prepare("UPDATE `abfrage` 
                             SET
                             `Name`     = :Name
                             , Beschreibung = :Beschreibung
@@ -150,18 +139,14 @@ class Abfrage {
     catch (PDOException $e) {
       include_once("cl_html_info.php"); 
       $info = new HtmlInfo();      
-      $info->print_user_error(); 
-      $info->print_error($update, $e); 
+      $this->info->print_user_error(); 
+      $this->info->print_error($update, $e); 
     }
   }
 
   function update_row2($Abfrage, $Tabelle ) {
     // nur SQL / Tabelle 
-    include_once("dbconn/cl_db.php");   
-    $conn = new DbConn(); 
-    $db=$conn->db; 
-    
-    $update = $db->prepare("UPDATE `abfrage` 
+    $update = $this->db->prepare("UPDATE `abfrage` 
                             SET Abfrage=:Abfrage
                             , Tabelle = :Tabelle
                             WHERE `ID` = :ID"); 
@@ -174,20 +159,15 @@ class Abfrage {
       $update->execute(); 
       $this->load_row(); 
     }
-    catch (PDOException $e) {
-      include_once("cl_html_info.php"); 
-      $info = new HtmlInfo();      
-      $info->print_user_error(); 
-      $info->print_error($stmt, $e); 
+    catch (PDOException $e) { 
+      $this->info->print_user_error(); 
+      $this->info->print_error($update, $e); 
     }
   }
 
   function load_row() {
-    include_once("dbconn/cl_db.php");   
-    $conn = new DbConn(); 
-    $db=$conn->db; 
 
-    $select = $db->prepare("SELECT ID
+    $select = $this->db->prepare("SELECT ID
                                 , COALESCE(Name,'') Name    
                                 , COALESCE(Beschreibung,'') Beschreibung
                                 , AbfragetypID 
@@ -215,10 +195,8 @@ class Abfrage {
   }  
   
   function delete(){
-    include_once("dbconn/cl_db.php");
-    $conn = new DbConn(); 
-    $db=$conn->db; 
-    $delete = $db->prepare("DELETE FROM `abfrage` WHERE ID=:ID"); 
+
+    $delete = $this->db->prepare("DELETE FROM `abfrage` WHERE ID=:ID"); 
     $delete->bindValue(':ID', $this->ID);  
 
     try {
@@ -226,22 +204,17 @@ class Abfrage {
       echo '<p>Die Abfrage wurde gelöscht.</p>';
       return true;           
     }
-    catch (PDOException $e) {
-      include_once("cl_html_info.php"); 
-      $info = new HtmlInfo();      
-      $info->print_user_error(); 
-      $info->print_error($delete, $e);  
+    catch (PDOException $e) {    
+      $this->info->print_user_error(); 
+      $this->info->print_error($delete, $e);  
       return false; 
     }  
   }  
 
   function getTypID($Name) {
-    include_once("dbconn/cl_db.php");
-    $conn = new DbConn(); 
-    $db=$conn->db; 
 
     $sql="SELECT coalesce(MAX(ID),0) as TypID from `abfragetyp` WHERE Name=:Name"; 
-    $stmt = $db->prepare($sql); 
+    $stmt = $this->db->prepare($sql); 
     $stmt->bindParam(':Name', $Name);
     $stmt->execute(); 
     $col=$stmt->fetchColumn(); 

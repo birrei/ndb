@@ -110,7 +110,7 @@
 
       case 'v_abfrage': 
         echo '<form action="" method="get">'.PHP_EOL; 
-        include_once("cl_abfragetyp.php");
+        include_once("classes/class.abfragetyp.php");
         $AbfragetypID=(isset($_REQUEST["AbfragetypID"])?$_REQUEST["AbfragetypID"]:'');
         $abfragetyp = new Abfragetyp(); 
         echo 'Abfragetyp: '.PHP_EOL; 

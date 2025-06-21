@@ -193,24 +193,6 @@ class Uebung {
   }  
 
 
-  // function print_select_typ($value_selected=''){
-
-  //   $query="SELECT ID, Name FROM `uebungtyp` order by `Name`"; 
-
-  //   $stmt = $this->db->prepare($query); 
-
-  //   try {
-  //     $stmt->execute(); 
-  //     // $html->caption = $caption;       
-  //     $select=new HTML_Select($stmt); 
-  //     $select->print_select('UebungtypID',$value_selected); 
-  //   }
-  //   catch (PDOException $e) {  
-  //     $this->info->print_user_error(); 
-  //     $this->info->print_error($stmt, $e);  ;
-  //   }
-  // }  
-
 }
 
  
