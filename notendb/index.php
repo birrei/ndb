@@ -77,8 +77,8 @@ h3 {
         <td class="start">
             <a href="show_table2.php?table=v_schueler&sortcol=Name">Schüler</a> |               
             <a href="show_table2.php?table=status&sortcol=Name">Status</a> | 
-            BETA: <a href="show_table2.php?table=v_uebung&sortcol=ID&sortorder=DESC">Übung</a> 
-            <a href="show_table2.php?table=uebungtyp&sortcol=Name">Übung Typ</a> 
+            <a href="show_table2.php?table=v_uebung&sortcol=ID&sortorder=DESC">Übungen</a> |  
+            <a href="show_table2.php?table=uebungtyp&sortcol=Name">Übung Typen</a> 
             </td>
 
       </tr>       
