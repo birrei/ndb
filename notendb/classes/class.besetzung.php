@@ -1,8 +1,13 @@
 <?php 
 
+include_once("dbconn/class.db.php"); 
+include_once("class.htmlinfo.php"); 
+include_once("class.htmlselect.php"); 
+include_once("class.htmltable.php"); 
+
 class Besetzung {
 
-  public $table_name; 
+  public $table_name='besetzung'; 
   public $ID;
   public $Name;
 
@@ -11,16 +16,18 @@ class Besetzung {
   public $Titles='Besetzungen'; 
   public string $infotext='';  
 
+  private $db; 
+  private $info; 
+
   public function __construct(){
-    $this->table_name='besetzung'; 
+    $conn=new DBConnection(); 
+    $this->db=$conn->db; 
+    $this->info=new HTML_Info(); 
   }
 
   function insert_row ($Name) {
-    include_once("dbconn/cl_db.php");
-    $conn = new DbConn(); 
-    $db=$conn->db; 
 
-    $insert = $db->prepare("INSERT INTO `besetzung` 
+    $insert = $this->db->prepare("INSERT INTO `besetzung` 
               SET `Name`     = :Name"
            );
 
@@ -28,24 +35,19 @@ class Besetzung {
 
     try {
       $insert->execute(); 
-      $this->ID=$db->lastInsertId();
+      $this->ID=$this->db->lastInsertId();
       $this->Name=$Name;  
     }
-      catch (PDOException $e) {
-      include_once("cl_html_info.php"); 
-      $info = new HtmlInfo();      
-      $info->print_user_error(); 
-      $info->print_error($insert, $e);  ; 
+    catch (PDOException $e) {
+     
+      $this->info->print_user_error(); 
+      $this->info->print_error($insert, $e);  ; 
     }
   }  
  
   function print_select($value_selected='',$referenced_MusikstueckID='', $caption='') {
-      
-    include_once("dbconn/cl_db.php");  
-    include_once("cl_html_select.php");
 
-    $query='SELECT ID, Name 
-            FROM `besetzung` ';
+    $query='SELECT ID, Name FROM `besetzung` ';
 
     if ($referenced_MusikstueckID!=''){
       $query.='WHERE ID NOT IN 
@@ -55,10 +57,7 @@ class Besetzung {
 
     $query.='ORDER BY `Name`'; 
 
-    $conn = new DbConn(); 
-    $db=$conn->db; 
-
-    $stmt = $db->prepare($query);
+    $stmt = $this->db->prepare($query);
     
     if ($referenced_MusikstueckID!=''){
       $stmt->bindParam(':MusikstueckID', $referenced_MusikstueckID);
@@ -66,24 +65,19 @@ class Besetzung {
 
     try {
       $stmt->execute(); 
-      $html = new HtmlSelect($stmt); 
+      $html = new HTML_Select($stmt); 
       $html->autofocus=true; 
       $html->caption = $caption; 
       $html->print_select("BesetzungID", $value_selected, true); 
       
     }
-    catch (PDOException $e) {
-      include_once("cl_html_info.php"); 
-      $info = new HtmlInfo();      
-      $info->print_user_error(); 
-      $info->print_error($stmt, $e); 
+    catch (PDOException $e) {    
+      $this->info->print_user_error(); 
+      $this->info->print_error($stmt, $e); 
     }
   }
 
   function print_select_multi($options_selected=[], $check_exact=false,$check_exclude=false){
-
-    include_once("dbconn/cl_db.php");  
-    include_once("cl_html_select.php");
 
     $query="SELECT ID, Name 
             FROM `besetzung` 
@@ -92,22 +86,20 @@ class Besetzung {
     $conn = new DbConn(); 
     $db=$conn->db; 
 
-    $stmt = $db->prepare($query); 
+    $stmt = $this->db->prepare($query); 
 
     try {
       $stmt->execute(); 
-      $html = new HtmlSelect($stmt); 
+      $html = new HTML_Select($stmt); 
       $html->visible_rows=15; //
       // $html->print_select_multi('Besetzung', 'Besetzungen[]', $options_selected, 'Besetzung(en):'); 
       $html->print_select_multi('Besetzung', 'Besetzungen[]', $options_selected, 'Besetzung(en):', true, $check_exact, true, $check_exclude); 
 
       $this->titles_selected_list = $html->titles_selected_list; 
     }
-    catch (PDOException $e) {
-      include_once("cl_html_info.php"); 
-      $info = new HtmlInfo();      
-      $info->print_user_error(); 
-      $info->print_error($stmt, $e); 
+    catch (PDOException $e) {     
+      $this->info->print_user_error(); 
+      $this->info->print_error($stmt, $e); 
     }
   }
 
@@ -115,38 +107,28 @@ class Besetzung {
 
     $query="SELECT * from besetzung ORDER by Name"; 
 
-    include_once("dbconn/cl_db.php");
-    $conn = new DbConn(); 
-    $db=$conn->db; 
-
-    $select = $db->prepare($query); 
+    $select = $this->db->prepare($query); 
 
     try {
-      $select->execute(); 
-      include_once("cl_html_table.php");      
-      $html = new HtmlTable($select); 
+      $select->execute();  
+      $html = new HTML_Table($select); 
       $html->edit_link_table= $this->table_name;
       $html->print_table2();  
 
     }
-    catch (PDOException $e) {
-      include_once("cl_html_info.php"); 
-      $info = new HtmlInfo();      
-      $info->print_user_error(); 
-      $info->print_error($select, $e); 
+    catch (PDOException $e) {  
+      $this->info->print_user_error(); 
+      $this->info->print_error($select, $e); 
     }
   }
 
   function update_row($Name) {
 
-    include_once("dbconn/cl_db.php");   
-    $conn = new DbConn(); 
-    $db=$conn->db; 
-    
-    $update = $db->prepare("UPDATE `besetzung` 
-                            SET
-                            `Name`     = :Name
-                            WHERE `ID` = :ID"); 
+    $query="UPDATE `besetzung` 
+            SET `Name`     = :Name
+            WHERE `ID` = :ID";     
+
+    $update = $this->db->prepare($query); 
 
     $update->bindParam(':ID', $this->ID, PDO::PARAM_INT);
     $update->bindParam(':Name', $Name);
@@ -155,20 +137,15 @@ class Besetzung {
       $update->execute(); 
       $this->load_row(); 
     }
-    catch (PDOException $e) {
-      include_once("cl_html_info.php"); 
-      $info = new HtmlInfo();      
-      $info->print_user_error(); 
-      $info->print_error($stmt, $e); 
+    catch (PDOException $e) {     
+      $this->info->print_user_error(); 
+      $this->info->print_error($update, $e); 
     }
   }
 
   function load_row() {
-    include_once("dbconn/cl_db.php");   
-    $conn = new DbConn(); 
-    $db=$conn->db; 
 
-    $select = $db->prepare("SELECT `ID`, `Name` 
+    $select = $this->db->prepare("SELECT `ID`, `Name` 
                           FROM `besetzung`
                           WHERE `ID` = :ID");
  
@@ -187,47 +164,43 @@ class Besetzung {
   }  
 
   function delete(){
-    include_once("dbconn/cl_db.php");
-    $conn = new DbConn(); 
-    $db=$conn->db; 
 
-    $select = $db->prepare("SELECT * from musikstueck_besetzung WHERE BesetzungID=:BesetzungID");
+    $select = $this->db->prepare("SELECT * from musikstueck_besetzung WHERE BesetzungID=:BesetzungID");
     $select->bindValue(':BesetzungID', $this->ID); 
     $select->execute();  
     if ($select->rowCount() > 0 ){
       $this->load_row(); 
-      echo '<p>Die Besetzung ID '.$this->ID.', Name: "'.$this->Name.'" 
-        kann nicht gelöscht werden, da noch eine Zuordnung auf '.$select->rowCount().' Musikstücke existiert. </p>';   
-      return false;            
+      $this->infotext='Die Besetzung ID '.$this->ID.', Name: "'.$this->Name.'" 
+        kann nicht gelöscht werden, da noch eine Zuordnung auf '.$select->rowCount().' Musikstücke existiert.';   
+      $this->info->print_user_error($this->infotext); 
+     return false;            
     }
  
-    $delete = $db->prepare("DELETE FROM `besetzung` WHERE ID=:ID"); 
+    $delete = $this->db->prepare("DELETE FROM `besetzung` WHERE ID=:ID"); 
     $delete->bindValue(':ID', $this->ID);  
 
     try {
       $delete->execute(); 
-      echo '<p>Die Zeile wurde gelöscht.</p>'; 
+      $this->infotext='<p>Die Zeile wurde gelöscht.</p>'; 
+      $this->info->print_user_error($this->infotext);      
       return true;         
     }
     catch (PDOException $e) {
-      include_once("cl_html_info.php"); 
-      $info = new HtmlInfo();      
-      $info->print_user_error(); 
-      $info->print_error($delete, $e);  
+      $this->info->print_user_error(); 
+      $this->info->print_error($delete, $e);  
       return false;  
     }  
   }
 
   function getArray(){
-    include_once("dbconn/cl_db.php");
+
     $arrTmp=[]; 
 
     $query_lookups = 'SELECT ID
                       FROM besetzung 
                       order by ID';
-    $conn = new DbConn(); 
-    $db=$conn->db; 
-    $select = $db->prepare($query_lookups); 
+
+    $select = $this->db->prepare($query_lookups); 
     $select->execute(); 
     $result = $select->fetchAll(PDO::FETCH_ASSOC);
 
@@ -237,6 +210,31 @@ class Besetzung {
     // print_r($arrTmp); // test
     return  $arrTmp; 
   }
+
+
+  function copy(){
+
+    $sql="INSERT INTO besetzung (Name)
+          SELECT CONCAT(Name, ' (Kopie)') as Name 
+          FROM besetzung  
+          WHERE ID=:ID 
+          ";
+
+    $insert = $this->db->prepare($sql); 
+    $insert->bindValue(':ID', $this->ID);  
+
+    try {
+      $insert->execute(); 
+      $ID_New = $this->db->lastInsertId();    
+      $this->ID =  $ID_New; // Stabübergabe (Objekt-Instanz übernimmt neue ID-Kopie )
+      $this->infotext='Der Datensatz wurde kopiert.';
+      $this->info->print_info($this->infotext);  
+    }
+    catch (PDOException $e) {   
+      $this->info->print_user_error(); 
+      $this->info->print_error($insert, $e);  
+    }  
+  }  
 
 
 }

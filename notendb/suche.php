@@ -5,7 +5,7 @@ include("dbconn/cl_db.php");
 include("cl_html_table.php");    
 include("cl_html_info.php");  
 
-include("cl_besetzung.php");  
+include_once("classes/class.besetzung.php");  
 include("cl_verwendungszweck.php"); 
 include("cl_standort.php"); 
 include("cl_komponist.php"); 
@@ -21,7 +21,7 @@ include("cl_instrument_schwierigkeitsgrad.php");
 include("cl_lookup.php");   
 include("cl_lookuptype.php");
 include("cl_linktype.php");
-include("cl_abfrage.php");
+include_once("classes/class.abfrage.php");
 include("cl_schueler.php");
 include("cl_status.php");
 include("cl_materialtyp.php");

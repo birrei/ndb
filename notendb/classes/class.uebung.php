@@ -184,11 +184,12 @@ class Uebung {
       $insert->execute(); 
       $ID_New = $this->db->lastInsertId();    
       $this->ID =  $ID_New; // Stabübergabe (Objekt-Instanz übernimmt neue ID-Kopie )
+      $this->infotext='Der Datensatz wurde kopiert.';
+      $this->info->print_info($this->infotext);        
     }
-    catch (PDOException $e) {
-      $info = new HtmlInfo();      
-      $info->print_user_error(); 
-      $info->print_error($insert, $e);  
+    catch (PDOException $e) {     
+      $this->info->print_user_error(); 
+      $this->info->print_error($insert, $e);  
     }  
   }  
 

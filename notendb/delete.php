@@ -53,10 +53,10 @@ switch($table) {
     $tablelink_table='v_komponist'; // view-Name 
     break; 
 
-  case 'besetzung': 
-    include_once('cl_besetzung.php');
-    $objekt = new Besetzung(); 
-    break; 
+  // case 'besetzung': 
+  //   include_once('cl_besetzung.php');
+  //   $objekt = new Besetzung(); 
+  //   break; 
   
   case 'verwendungszweck': 
     include_once('cl_verwendungszweck.php');

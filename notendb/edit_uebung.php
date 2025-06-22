@@ -52,16 +52,10 @@ switch($option) {
 
   case 'delete_1': 
     $uebung = new Uebung();       
-    $uebung->ID = $_REQUEST["ID"];  
+    $uebung->ID = $_POST["ID"];  
     $uebung->load_row(); 
     $Name=$uebung->Name; 
     $info->print_form_confirm('edit_uebung.php',$uebung->ID,'delete_2','Löschung'); 
-
-    // if($uebung->is_deletable()) {
-    //   $info->print_form_confirm('edit_uebung.php',$ID,'delete_2','Löschung'); 
-    // } else {
-    //   $info->print_warning($uebung->infotext); 
-    // }
     $show_data=true;      
     break; 
 
@@ -73,17 +67,16 @@ switch($option) {
     $show_data=false; 
     break; 
 
-
-    case 'copy': 
-      $ID_ref=$_REQUEST["ID"]; 
-      $uebung = new Uebung();          
-      $uebung->ID=$ID_ref; 
-      $uebung->copy();   
-      $uebung->load_row();       
-      $info->print_info_copy($uebung->Title, $ID_ref, $uebung->ID, 'edit_uebung'); 
-      $option='update'; 
-      $show_data=true; 
-    break;     
+  case 'copy': 
+    unset($_GET); 
+    $uebung = new Uebung();          
+    $uebung->ID=$_REQUEST["ID"]; 
+    $uebung->copy();   
+    $uebung->load_row();       
+    // $info->print_info_copy($uebung->Title, $ID_ref, $uebung->ID, 'edit_uebung'); 
+    $option='update'; 
+    $show_data=true; 
+  break;     
 }
 
 // test
@@ -103,14 +96,7 @@ $info->print_screen_header($uebung->Title.' bearbeiten');
 
 $info->print_link_table('v_uebung', 'sortcol=Datum&sortorder=DESC', $uebung->Titles,false);
 
-$info->print_form_inline('delete_1',$uebung->ID,$uebung->Title, 'löschen'); 
-
-$info->print_form_inline('copy',$uebung->ID,$uebung->Title, 'kopieren'); 
-
 $info->print_link_insert($uebung->table_name, $uebung->Title, false); 
-
-
-
 
 if (!$show_data) {goto pagefoot;}
 
@@ -124,15 +110,12 @@ echo '</p>
     <td class="form-edit form-edit-col2">'.$uebung->ID.'</td>
     </label>
   </tr> '; 
-
-
   
 echo '
   <tr>    
   <label>  
   <td class="form-edit form-edit-col1">Schüler:</td>  
-  <td class="form-edit form-edit-col2">  
-        '; 
+  <td class="form-edit form-edit-col2">  '; 
       $schueler = new Schueler(); 
       // $schueler->Ref='Satz'; 
       $schueler->print_select($uebung->SchuelerID); 
@@ -145,10 +128,7 @@ echo '
     </tr> 
 '; 
 
-
-
 echo '
-
   <tr>    
     <label>
     <td class="form-edit form-edit-col1">Bezeichnung:</td>  
@@ -208,8 +188,6 @@ echo '
         $schueler->print_select_saetze($uebung->SatzID); 
         echo ' </label> ';             
         $info->print_link_edit('satz',$uebung->SatzID,true);   
-        // $info->print_link_table('','sortcol=Name',$schueler->Titles,true,'');    
-      // $info->print_link_insert($schueler->table_name,$schueler->Title,true);
 
     echo '</td>
       </tr>'; 
@@ -227,7 +205,6 @@ echo '
         echo ' </label> ';             
         $info->print_link_edit('material',$uebung->MaterialID,true);   
         $info->print_link_table('v_material','sortcol=Name','Materialien',true,'');    
-      // $info->print_link_insert($schueler->table_name,$schueler->Title,true);
 
     echo '</td>
   </tr>'; 
@@ -251,16 +228,26 @@ echo '
 
   ?>
 
-
-  </table> 
   <input type="hidden" name="option" value="<?php echo $option; ?>"> 
   <input type="hidden" name="ID" value="<?php echo $uebung->ID; ?>">
   </form>
-  <br>
+
+  <?php 
+    echo '
+      <tr> 
+        <td class="form-edit form-edit-col1"></td> 
+        <td class="form-edit form-edit-col2">
+        <br>'; 
+        $info->print_form_inline('delete_1',$uebung->ID,$uebung->Title, 'löschen'); 
+        $info->print_form_inline('copy',$uebung->ID,$uebung->Title, 'kopieren'); 
+        echo '
+        </td>
+      </tr> '; 
+
+  ?>
+  </table> 
 
 <?php 
-   
-// $info->print_link_delete_row2($uebung->table_name, $uebung->ID,'Uebung'); 
 
 pagefoot: 
 

@@ -144,10 +144,10 @@ class HTML_Info {
 /* Formulare */   
 
 
-    function print_form_inline($option, $ID, $title, $action) {
+    function print_form_inline($option, $ID, $title, $action, $method='post') {
         // nur konkrete IDs, keine Ausgabe falls ID leer ist 
         if($ID!='') {
-            echo '<form action="#" method="post" style="display:inline;">
+            echo '<form action="#" method="'.$method.'" style="display:inline;">
             <input type="hidden" name="ID" value="' . $ID. '">
             <input type="hidden" name="option" value="'.$option.'">      
             <input type="submit" name="senden" value="'.$title.' '.$action.'">             

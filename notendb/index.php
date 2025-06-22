@@ -118,9 +118,9 @@ h3 {
 
 <?php 
 include('foot.php');
-include('class.Log.php'); 
-$Loginfo = new Log(); 
-$Loginfo->printUserName(); 
+// include('class.Log.php'); 
+// $Loginfo = new Log(); 
+// $Loginfo->printUserName(); 
  
 ?>
 

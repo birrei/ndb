@@ -129,7 +129,7 @@ class HTML_Table {
                         if ($this->edit_link_table!='') {
                             $html .= '<td class="resultset"><a href="edit_'.$this->edit_link_table.'.php?ID='.$row["ID"].'&option=edit'; 
                             $html .= ($this->edit_link_target_iframe?'&source=iframe':''); 
-                            $html .= ($this->edit_link_title!=''?'&title='.$this->edit_link_title:'');  
+                            // XXX $html .= ($this->edit_link_title!=''?'&title='.$this->edit_link_title:'');  
                             $html .= '"';     
                             $html .= ($this->edit_link_open_newpage?' target="_blank"':'');
                             $html .= ' tabindex="-1">Bearbeiten</a></td>'. PHP_EOL;                                                                                 
