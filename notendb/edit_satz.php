@@ -118,14 +118,14 @@ echo
 <tr>    
   <label>
   <td class="form-edit form-edit-col1">Nr:</td>  
-  <td class="form-edit form-edit-col2"><input type="text" name="Nr" value="'.$satz->Nr.'" size="45" maxlength="80"  autofocus="autofocus" required oninput="changeBackgroundColor(this)"></td>
+  <td class="form-edit form-edit-col2"><input type="text" name="Nr" value="'.$satz->Nr.'" size="50" autofocus="autofocus" required oninput="changeBackgroundColor(this)"></td>
   </label>
 </tr> 
 
   <tr>    
     <label>
     <td class="form-edit form-edit-col1">Name:</td>  
-    <td class="form-edit form-edit-col2"><input type="text" name="Name" value="'.htmlentities($satz->Name).'" size="100" maxlength="100" oninput="changeBackgroundColor(this)"> (max. 100 Zeichen)</td>
+    <td class="form-edit form-edit-col2"><input type="text" name="Name" value="'.htmlentities($satz->Name).'" size="100" oninput="changeBackgroundColor(this)"> (max. 100 Zeichen)</td>
     </label>
   </tr> 
 
