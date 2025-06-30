@@ -117,7 +117,7 @@ echo '</tr></label>
 <tr>    
   <label>
   <td class="form-edit form-edit-col1">Name:</td>  
-  <td class="form-edit form-edit-col2"><input type="text" name="Name" value="'.htmlentities($musikstueck->Name).'" size="100" oninput="changeBackgroundColor(this)"> (max. 500 Zeichen)</td>
+  <td class="form-edit form-edit-col2"><input type="text" name="Name" value="'.htmlentities($musikstueck->Name).'" oninput="changeBackgroundColor(this)"> (max. 500 Zeichen)</td>
   </label>
 </tr> 
 
