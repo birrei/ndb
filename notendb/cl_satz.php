@@ -930,17 +930,79 @@ class Satz {
         $strtmp.=($this->Musikstueck!=''?''.$this->Musikstueck.'<br>':''); 
         $strtmp.=($this->Nr!=''?'Satz Nr: '.$this->Nr.'':' ');         
         $strtmp.=($this->Name!=''?' '.$this->Name.'<br>':''); 
-        
-
 
       break; 
     }
-
     return $strtmp; 
-
-
   }
   
+
+  function print($mode){
+    /** 
+     *  mode 1: nur eine Zeile
+     *  mode 2: mehrere Zeilen  
+     *  XXXBETA 
+     *  XXXX schwierigkeitsgrad in Subquery stecken 
+     * */
+
+    $query="SELECT satz.ID as ID
+            , CONCAT(' - '
+                  , IF(COALESCE(satz.Name,'') <> '', satz.Name,'')
+                  , IF(COALESCE(satz.Tempobezeichnung,'') <> '', concat('; Tempo: ', satz.Tempobezeichnung),'')                 
+                  , IF(COALESCE(satz.Tonart,'') <> '', concat('; Tonart: ', satz.Tonart),'')
+                  , IF(COALESCE(satz.Taktart,'') <> '', concat('; Taktart: ', satz.Taktart),'')
+                  , IF(COALESCE(satz.Bemerkung,'') <> '', concat('; Bemerkung: ', satz.Bemerkung),'')
+                  , IF(schwierigkeitsgrad.ID IS NOT NULL, GROUP_CONCAT(DISTINCT concat('; Schwierigkeitsgrad(e): ', instrument.Name, ': ', schwierigkeitsgrad.Name)  order by schwierigkeitsgrad.Name SEPARATOR ', '), '')                                          
+                  , IF(v_satz_lookuptypes.SatzID IS NOT NULL, CONCAT('; Besonderheiten: ', v_satz_lookuptypes.LookupList), '')                                          
+                ) 
+                 as RowDesc   
+    from satz  
+        LEFT JOIN satz_erprobt on satz.ID = satz_erprobt.SatzID 
+        LEFT JOIN erprobt on erprobt.ID = satz_erprobt.ErprobtID  
+        LEFT JOIN satz_schwierigkeitsgrad on satz_schwierigkeitsgrad.SatzID = satz.ID 
+        LEFT JOIN instrument_schwierigkeitsgrad 
+            ON instrument_schwierigkeitsgrad.InstrumentID = satz_schwierigkeitsgrad.InstrumentID
+            AND instrument_schwierigkeitsgrad.SchwierigkeitsgradID = satz_schwierigkeitsgrad.SchwierigkeitsgradID
+        LEFT JOIN schwierigkeitsgrad on schwierigkeitsgrad.ID = satz_schwierigkeitsgrad.SchwierigkeitsgradID 
+        LEFT JOIN instrument on instrument.ID = satz_schwierigkeitsgrad.InstrumentID 
+        LEFT JOIN satz_lookup on satz_lookup.SatzID = satz.ID 
+        LEFT JOIN v_satz_lookuptypes on v_satz_lookuptypes.SatzID = satz.ID 
+        LEFT JOIN schueler_satz on schueler_satz.SatzID = satz.ID
+    WHERE satz.ID = :ID
+    GROUP BY satz.ID    
+    ORDER by satz.Nr"; 
+
+    include_once("dbconn/cl_db.php");
+    $conn = new DbConn(); 
+    $db=$conn->db; 
+  
+    $select = $db->prepare($query); 
+
+    $select->bindValue(':ID', $this->ID);  
+      
+    try {
+      $select->execute(); 
+      $result = $select->fetch(PDO::FETCH_ASSOC);
+      switch($mode) {
+        case 1: 
+          echo ' '.$result["RowDesc"].' '. PHP_EOL;  
+        break; 
+        case 2: 
+          echo '<p class="print-satz">'.$result["RowDesc"].'</p>'. PHP_EOL;           
+        break; 
+
+      }
+
+    }
+    catch (PDOException $e) {
+      include_once("cl_html_info.php"); 
+      $info = new HtmlInfo();      
+      $info->print_user_error(); 
+      $info->print_error($select, $e); 
+    }
+  }  
+
+
 
    
 }

@@ -173,6 +173,21 @@ p.warning {
     .body-doc {
         width: 60%; 
         margin-left:30px;  
-
     }
 
+
+/***** Sammlung Druck (print_sammlung.php) XXXBETA ****************/
+    p.print-sammlung {
+        font-weight: bold; 
+    }
+
+    p.print-musikstueck {
+        margin-top: 0px; 
+        /* background-color: aquamarine; */
+    }
+
+    p.print-satz {
+        margin-left:50px; 
+        margin-top: -10px; 
+        /* background-color: lightgreen;         */
+    }

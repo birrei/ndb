@@ -51,21 +51,21 @@ if (isset($_REQUEST["option"])) {
     break; 
 
     case 'delete_1': 
-        $sammlung->ID = $_REQUEST["ID"];  
-        $sammlung->load_row(); 
+      $sammlung->ID = $_REQUEST["ID"];  
+      $sammlung->load_row(); 
 
-        $info->print_warning('Soll Sammlung ID: '.$sammlung->ID.', Name: "'.$sammlung->Name.'" wirklich gelöscht werden?'); 
-        echo 
-        '<p> <form action="edit_sammlung.php" method="post">
-        <input type="hidden" name="ID" value="' . $sammlung->ID. '">
-        <input type="hidden" name="option" value="delete_2">      
-        <input type="hidden" name="title" value="Sammlung"> 
-        <input type="submit" name="senden" value="Löschung bestätigen">             
-        </form></p>
-        '; 
+      $info->print_warning('Soll Sammlung ID: '.$sammlung->ID.', Name: "'.$sammlung->Name.'" wirklich gelöscht werden?'); 
+      echo 
+      '<p> <form action="edit_sammlung.php" method="post">
+      <input type="hidden" name="ID" value="' . $sammlung->ID. '">
+      <input type="hidden" name="option" value="delete_2">      
+      <input type="hidden" name="title" value="Sammlung"> 
+      <input type="submit" name="senden" value="Löschung bestätigen">             
+      </form></p>
+      '; 
 
-        $show_data=true;      
-        break;      
+      $show_data=true;      
+      break;      
       
     case 'delete_2': 
       $sammlung->ID = $_POST["ID"];  
@@ -73,7 +73,6 @@ if (isset($_REQUEST["option"])) {
       $info->print_info('Die Sammlung wurde gelöscht.'); 
       $show_data=false; 
       break;       
-
   }
 }
 
@@ -83,6 +82,7 @@ $info->print_link_insert($sammlung->table_name, $sammlung->Title, false);
 
 if (!$show_data) {goto pagefoot;}
 
+echo '&nbsp; <a href="print_sammlung.php?ID='.$sammlung->ID.'" target="_blank">Drucken</a> (Entwurf, Beta)'; // XXXBETA
 
 echo '
 <form action="edit_sammlung.php" method="post">

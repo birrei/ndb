@@ -816,6 +816,157 @@ class Musikstueck {
     }
   }
   
+  function print(){
+
+// SELECT musikstueck.ID
+//         , standort.Name as Standort        
+//         ,sammlung.Name as Sammlung
+//         , musikstueck.Nummer as Nr
+//         , musikstueck.Name as Musikstueck
+//         , komponist.Name as Komponist
+//         , v_musikstueck_besetzungen.Besetzungen 
+//         , GROUP_CONCAT(DISTINCT verwendungszweck.Name order by verwendungszweck.Name SEPARATOR ', ') Verwendungszwecke   
+//         , GROUP_CONCAT(DISTINCT satz.Nr order by satz.Nr SEPARATOR ', ') Saetze         
+//         , musikstueck.Bearbeiter 
+//         , gattung.Name as Gattung 
+//         , epoche.Name as Epoche
+
+    // FROM sammlung 
+    //     LEFT JOIN standort  on sammlung.StandortID = standort.ID    
+    //     LEFT JOIN verlag  on sammlung.VerlagID = verlag.ID
+    //     LEFT JOIN musikstueck on sammlung.ID = musikstueck.SammlungID 
+    //     LEFT JOIN v_komponist komponist on komponist.ID = musikstueck.KomponistID
+    //     LEFT JOIN gattung on gattung.ID = musikstueck.GattungID  
+    //     LEFT JOIN epoche on epoche.ID = musikstueck.EpocheID              
+    //     LEFT JOIN (
+    //       select musikstueck_besetzung.MusikstueckID         
+    //           , GROUP_CONCAT(DISTINCT besetzung.Name  order by besetzung.Name SEPARATOR ', ') Besetzungen       
+    //       from musikstueck_besetzung 
+    //           left join besetzung on besetzung.ID = musikstueck_besetzung.BesetzungID 
+    //       group by musikstueck_besetzung.MusikstueckID 
+    //               ) v_musikstueck_besetzungen 
+    //           on v_musikstueck_besetzungen.MusikstueckID = musikstueck.ID 
+    //     LEFT JOIN musikstueck_verwendungszweck on musikstueck.ID = musikstueck_verwendungszweck.MusikstueckID 
+    //     LEFT JOIN verwendungszweck on musikstueck_verwendungszweck.VerwendungszweckID=verwendungszweck.ID    
+    //     LEFT JOIN satz on satz.MusikstueckID = musikstueck.ID 
+    //     LEFT JOIN satz_erprobt on satz.ID = satz_erprobt.SatzID 
+
+    $query="
+    
+    
+ SELECT musikstueck.ID as ID
+          , CONCAT(musikstueck.Nummer
+                  , ' '      
+                  , musikstueck.Name
+                  , IF(komponist.ID IS NOT NULL, concat('Komponist: ', komponist.Name, '; '), '')
+                  , IF(v_musikstueck_besetzungen.MusikstueckID IS NOT NULL, Concat('Besetzung(en): ', v_musikstueck_besetzungen.Besetzungen, '; '), '') 
+                  , IF(v_musikstueck_verwendungszwecke.MusikstueckID IS NOT NULL, Concat('Verwendungszweck(e): ', v_musikstueck_verwendungszwecke.Verwendungszwecke), '') 
+                  ) as RowDesc   
+    from musikstueck  
+    left join v_komponist as komponist 
+      on komponist.ID = musikstueck.KomponistID 
+    LEFT JOIN gattung on gattung.ID = musikstueck.GattungID  
+        LEFT JOIN epoche on epoche.ID = musikstueck.EpocheID              
+        LEFT JOIN (
+          select musikstueck_besetzung.MusikstueckID         
+              , GROUP_CONCAT(DISTINCT besetzung.Name  order by besetzung.Name SEPARATOR ', ') Besetzungen       
+          from musikstueck_besetzung 
+              left join besetzung on besetzung.ID = musikstueck_besetzung.BesetzungID 
+          group by musikstueck_besetzung.MusikstueckID 
+                  ) v_musikstueck_besetzungen 
+              on v_musikstueck_besetzungen.MusikstueckID = musikstueck.ID  
+        LEFT JOIN (
+     	  select musikstueck_verwendungszweck.MusikstueckID         
+              , GROUP_CONCAT(DISTINCT verwendungszweck.Name  order by verwendungszweck.Name SEPARATOR ', ') Verwendungszwecke       
+          from musikstueck_verwendungszweck 
+              left join verwendungszweck  on verwendungszweck.ID = musikstueck_verwendungszweck.VerwendungszweckID  
+          group by musikstueck_verwendungszweck.MusikstueckID 
+                  ) v_musikstueck_verwendungszwecke 
+              on v_musikstueck_verwendungszwecke.MusikstueckID = musikstueck.ID  
+    WHERE musikstueck.ID = :ID   
+    ORDER by musikstueck.Nummer
+    
+    "; 
+
+    include_once("dbconn/cl_db.php");
+    $conn = new DbConn(); 
+    $db=$conn->db; 
+  
+    $select = $db->prepare($query); 
+
+    $select->bindValue(':ID', $this->ID);  
+      
+    try {
+      $select->execute(); 
+      $result = $select->fetch(PDO::FETCH_ASSOC);
+      $AnzahlSatze=$this->getCountSaetze(); 
+
+      if ($AnzahlSatze == 1) {
+        // wenn nur 1 Satz, dann Satz = Fortsetzung von Musikstück (keine Unterordnung)
+        echo '<p class="print-musikstueck">'.$result["RowDesc"]. PHP_EOL; 
+        $this->print_saetze(1); 
+        echo '</p>'; 
+      } elseif ($AnzahlSatze > 0) {
+        echo '<p class="print-musikstueck">'.$result["RowDesc"].'</p>'. PHP_EOL; 
+        $this->print_saetze(2);                 
+      }
+
+
+    }
+    catch (PDOException $e) {
+      include_once("cl_html_info.php"); 
+      $info = new HtmlInfo();      
+      $info->print_user_error(); 
+      $info->print_error($select, $e); 
+    }
+  }  
+
+
+  function getCountSaetze() {
+
+    $query="SELECT COUNT(*) Anz from satz WHERE MusikstueckID = :MusikstueckID"; 
+
+    include_once("dbconn/cl_db.php");
+    $conn = new DbConn(); 
+    $db=$conn->db; 
+  
+    $select = $db->prepare($query); 
+
+    $select->bindValue(':MusikstueckID', $this->ID);  
+
+    $select->execute(); 
+
+    $anzahl=$select->fetchColumn(); 
+
+    return $anzahl;  
+  }
+
+  function print_saetze($mode){
+
+    include_once('cl_satz.php'); 
+
+    $query="SELECT ID FROM satz WHERE MusikstueckID = :MusikstueckID ORDER by Nr"; 
+
+    include_once("dbconn/cl_db.php");
+    $conn = new DbConn(); 
+    $db=$conn->db; 
+  
+    $select = $db->prepare($query); 
+
+    $select->bindValue(':MusikstueckID', $this->ID);  
+
+    $select->execute(); 
+
+    $result = $select->fetchAll(PDO::FETCH_ASSOC);
+
+    // echo count($result); 
+
+    foreach ($result as $row) {
+      $satz = new Satz(); 
+      $satz->ID = $row["ID"]; 
+      $satz->print($mode); 
+    }
+  }
 
   
 }

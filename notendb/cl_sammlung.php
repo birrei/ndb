@@ -1,6 +1,5 @@
 <?php 
- 
-class Sammlung {
+ class Sammlung {
   public $table_name; 
   public $ID;
   public $Name;
@@ -902,6 +901,74 @@ class Sammlung {
       $musikstueck = new Musikstueck(); 
       $musikstueck->ID = $value["ID"]; 
       $musikstueck->delete();  
+    }
+  }
+
+  function print(){
+
+    $query="
+      SELECT sammlung.ID 
+          , CONCAT('Sammlung ID: ', sammlung.ID, '<br>'
+                  , 'Sammlung Name: ', sammlung.Name, '<br>'
+                  , 'Standort: ', standort.Name, '<br>'                  
+                  , 'Verlag: ', verlag.Name, '<br>'               
+                  , IF(COALESCE(sammlung.Bemerkung,'') <> '', concat('Bemerkung: ', sammlung.Bemerkung), '')                  
+          )  as RowDesc   
+      FROM sammlung 
+          LEFT JOIN standort  on sammlung.StandortID = standort.ID    
+          LEFT JOIN verlag  on sammlung.VerlagID = verlag.ID
+          LEFT JOIN v_sammlung_lookuptypes as lookups on lookups.SammlungID = sammlung.ID 
+      WHERE sammlung.ID = :ID   
+      ORDER by sammlung.Name
+    "
+    ; 
+
+    include_once("dbconn/cl_db.php");
+    $conn = new DbConn(); 
+    $db=$conn->db; 
+  
+    $select = $db->prepare($query); 
+
+    $select->bindValue(':ID', $this->ID);  
+      
+    try {
+      $select->execute(); 
+      $result = $select->fetch(PDO::FETCH_ASSOC);
+      echo '<p class="print-sammlung">'.$result["RowDesc"].'</p>'. PHP_EOL; 
+      $this->print_musikstuecke(); 
+    }
+    catch (PDOException $e) {
+      include_once("cl_html_info.php"); 
+      $info = new HtmlInfo();      
+      $info->print_user_error(); 
+      $info->print_error($select, $e); 
+    }
+  }
+
+
+  function print_musikstuecke(){
+    include_once('cl_musikstueck.php'); 
+
+    $query="SELECT ID FROM musikstueck WHERE SammlungID = :SammlungID ORDER by Nummer"; 
+
+    include_once("dbconn/cl_db.php");
+    $conn = new DbConn(); 
+    $db=$conn->db; 
+  
+    $select = $db->prepare($query); 
+
+    $select->bindValue(':SammlungID', $this->ID);  
+
+    $select->execute(); 
+
+    $result = $select->fetchAll(PDO::FETCH_ASSOC);
+
+    // echo count($result); 
+
+    foreach ($result as $row) {
+      $musikstueck = new Musikstueck(); 
+      $musikstueck->ID = $row["ID"]; 
+      $musikstueck->print(); 
     }
   }
 
