@@ -100,7 +100,7 @@ echo '
   <tr>    
     <label>
     <td class="form-edit form-edit-col1">Name:</td>  
-    <td class="form-edit form-edit-col2"><input type="text" name="Name" value="'.htmlentities($sammlung->Name).'" size="100" required="required" autofocus="autofocus" oninput="changeBackgroundColor(this)"> (max. 100 Zeichen)</td>
+    <td class="form-edit form-edit-col2"><input type="text" name="Name" value="'.htmlentities($sammlung->Name).'" size="120" required="required" autofocus="autofocus" oninput="changeBackgroundColor(this)"> (max. 250 Zeichen)</td>
     </label>
   </tr> 
   '; 

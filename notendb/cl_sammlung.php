@@ -904,7 +904,9 @@
     }
   }
 
-  function print(){
+  function print($Ansicht){
+
+    // XXX Auswertung $Ansicht 
 
     $query="
       SELECT sammlung.ID 
@@ -968,6 +970,7 @@
     foreach ($result as $row) {
       $musikstueck = new Musikstueck(); 
       $musikstueck->ID = $row["ID"]; 
+      // echo '<p>print_musikstuecke ID '.$musikstueck->ID ; // test
       $musikstueck->print(); 
     }
   }
