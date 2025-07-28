@@ -1,5 +1,7 @@
 ﻿# Changelog  
 
+28.07.2025: Übernahme Einzelfelder "Tonarten" / "Taktarten" zu Standard-Lookups   
+
 20.05.2025: Neu: Übung (noch expermimentell)
 
 02.05.2025: Sammlung-Screen: Vereinfachung Unterformulare
