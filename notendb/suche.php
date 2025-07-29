@@ -876,8 +876,6 @@ include("cl_materialtyp.php");
             , musikstueck.Name as Musikstueck
             , satz.Nr as Nr
             , satz.Name as Satz 
-            , satz.Tonart 
-            , satz.Taktart
             , satz.Tempobezeichnung            
             , GROUP_CONCAT(DISTINCT concat(instrument.Name, ': ', schwierigkeitsgrad.Name)  order by schwierigkeitsgrad.Name SEPARATOR ', ') `Schwierigkeitsgrade`                   
             -- , SatzSchwierigkeitsgrad.Schwierigkeitsgrade           
@@ -1175,8 +1173,6 @@ include("cl_materialtyp.php");
         musikstueck.Opus LIKE '%".$suchtext."%' OR
         musikstueck.Bearbeiter LIKE '%".$suchtext."%' OR
         satz.Name LIKE '%".$suchtext."%' OR
-        satz.Taktart LIKE '%".$suchtext."%' OR
-        satz.Tonart LIKE '%".$suchtext."%' OR
         satz.Tempobezeichnung LIKE '%".$suchtext."%' OR
         satz.Orchesterbesetzung LIKE '%".$suchtext."%' OR 
         satz.Bemerkung LIKE '%".$suchtext."%' OR 

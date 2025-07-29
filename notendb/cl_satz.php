@@ -7,8 +7,6 @@ class Satz {
   public $Name;
   public $Nr;
   public $MusikstueckID;
-  public $Tonart;
-  public $Taktart;
   public $Tempobezeichnung;
   public $Spieldauer;
   public $ErprobtID;
@@ -63,8 +61,6 @@ class Satz {
             $Name
             , $Nr
             , $MusikstueckID
-            , $Tonart
-            , $Taktart
             , $Tempobezeichnung
             , $Spieldauer
             // , $ErprobtID
@@ -82,8 +78,6 @@ class Satz {
                           Name=:Name, 
                           Nr=:Nr, 
                           MusikstueckID=:MusikstueckID, 
-                          Tonart=:Tonart, 
-                          Taktart=:Taktart, 
                           Tempobezeichnung=:Tempobezeichnung, 
                           Spieldauer=:Spieldauer, 
                           Bemerkung=:Bemerkung,
@@ -94,8 +88,6 @@ class Satz {
     $update->bindParam(':Name', $Name);
     $update->bindParam(':Nr', $Nr);
     $update->bindParam(':MusikstueckID', $MusikstueckID);
-    $update->bindParam(':Tonart', $Tonart);
-    $update->bindParam(':Taktart', $Taktart);
     $update->bindParam(':Tempobezeichnung', $Tempobezeichnung);
     $update->bindParam(':Spieldauer', $Spieldauer, ($Spieldauer==''? PDO::PARAM_NULL:PDO::PARAM_INT));
     $update->bindParam(':Bemerkung', $Bemerkung);
@@ -123,8 +115,6 @@ class Satz {
                       ,COALESCE(Name,'') as Name 
                       ,`Nr`
                       ,`MusikstueckID`
-                      ,`Tonart`
-                      ,`Taktart`
                       ,`Tempobezeichnung`
                       ,`Spieldauer`
                       ,`ErprobtID`
@@ -140,8 +130,6 @@ class Satz {
       $this->Name=$row_data["Name"];
       $this->Nr=$row_data["Nr"];
       $this->MusikstueckID=$row_data["MusikstueckID"];
-      $this->Tonart=$row_data["Tonart"];
-      $this->Taktart=$row_data["Taktart"];
       $this->Tempobezeichnung=$row_data["Tempobezeichnung"];
       $this->Spieldauer=$row_data["Spieldauer"];
       $this->ErprobtID=$row_data["ErprobtID"];
@@ -165,8 +153,6 @@ class Satz {
                       ,COALESCE(Name,'') as Name 
                       ,`Nummer`
                       ,`MusikstueckID`
-                      ,`Tonart`
-                      ,`Taktart`
                       ,`Tempobezeichnung`
                       ,`Spieldauer`
                       ,`ErprobtID`
@@ -184,8 +170,6 @@ class Satz {
       $this->Name=$row_data["Name"];
       $this->Nr=$row_data["Nr"];
       $this->MusikstueckID=$row_data["MusikstueckID"];
-      $this->Tonart=$row_data["Tonart"];
-      $this->Taktart=$row_data["Taktart"];
       $this->Tempobezeichnung=$row_data["Tempobezeichnung"];
       $this->Spieldauer=$row_data["Spieldauer"];
       $this->ErprobtID=$row_data["ErprobtID"];
@@ -566,8 +550,6 @@ class Satz {
         INSERT INTO satz (
           Name
           , MusikstueckID
-          , Tonart
-          , Taktart
           , Tempobezeichnung
           , Spieldauer
           , Bemerkung
@@ -578,8 +560,6 @@ class Satz {
       SELECT 
          ".($MusikstueckID_New>0?"Name":"CONCAT(Name, ' (Kopie)') as Name")." 
          , ".($MusikstueckID_New>0?':MusikstueckID':'MusikstueckID')." as MusikstueckID    
-          , Tonart
-          , Taktart
           , Tempobezeichnung
           , Spieldauer
           , Bemerkung
@@ -949,8 +929,6 @@ class Satz {
             , CONCAT(' - '
                   , IF(COALESCE(satz.Name,'') <> '', satz.Name,'')
                   , IF(COALESCE(satz.Tempobezeichnung,'') <> '', concat('; Tempo: ', satz.Tempobezeichnung),'')                 
-                  , IF(COALESCE(satz.Tonart,'') <> '', concat('; Tonart: ', satz.Tonart),'')
-                  , IF(COALESCE(satz.Taktart,'') <> '', concat('; Taktart: ', satz.Taktart),'')
                   , IF(COALESCE(satz.Bemerkung,'') <> '', concat('; Bemerkung: ', satz.Bemerkung),'')
                   , IF(schwierigkeitsgrad.ID IS NOT NULL, GROUP_CONCAT(DISTINCT concat('; Schwierigkeitsgrad(e): ', instrument.Name, ': ', schwierigkeitsgrad.Name)  order by schwierigkeitsgrad.Name SEPARATOR ', '), '')                                          
                   , IF(v_satz_lookuptypes.SatzID IS NOT NULL, CONCAT('; Besonderheiten: ', v_satz_lookuptypes.LookupList), '')                                          

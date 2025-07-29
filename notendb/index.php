@@ -88,8 +88,6 @@ h3 {
         <td class="start">
             <a href="tests.php?title=Tests" tabindex="-1">Tests</a> |   
             <a href="show_table2.php?table=v2_info_Tempobezeichnungen&sortcol=Tempobezeichnung">Verwendete Tempobezeichnungen</a> | 
-            <a href="show_table2.php?table=v2_info_Tonarten&sortcol=Tonart">Verwendete Tonarten</a> | 
-            <a href="show_table2.php?table=v2_info_Taktarten&sortcol=Taktart">Verwendete Taktarten</a> | 
             <a href="show_table2.php?table=v2_info_Spieldauern&sortcol=Spieldauer">Verwendete Spieldauern</a> 
             </td>
       

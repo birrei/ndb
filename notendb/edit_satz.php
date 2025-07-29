@@ -37,8 +37,6 @@ if (isset($_REQUEST["option"])) {
         $_POST["Name"]
           , $_POST["Nr"]
           , $_POST["MusikstueckID"]
-          , $_POST["Tonart"]
-          , $_POST["Taktart"]
           , $_POST["Tempobezeichnung"]
           , $_POST["Spieldauer"]
           , $_POST["Bemerkung"]
@@ -138,19 +136,6 @@ echo
   </tr> 
 
 
-  <tr>    
-    <label>
-    <td class="form-edit form-edit-col1">Tonart:</td>  
-    <td class="form-edit form-edit-col2">
-    <input type="text" name="Tonart" value="'.$satz->Tonart.'" size="45" oninput="changeBackgroundColor(this)">
-    </label>
-    <label>
-    Taktart: 
-    <input type="text" name="Taktart" value="'.$satz->Taktart.'" size="45" oninput="changeBackgroundColor(this)"></td>
-          </label>
-    </td>
-  </tr> 
-
 
   <tr>    
     <label>
@@ -182,7 +167,7 @@ echo
   <label>
   <td class="form-edit form-edit-col1">Bemerkung:</td>  
   <td class="form-edit form-edit-col2">
-  <textarea name="Bemerkung" rows=1 cols=100 maxlength="500" oninput="changeBackgroundColor(this)">'.htmlentities($satz->Bemerkung).'</textarea> (max. 500 Zeichen)
+  <textarea name="Bemerkung" rows=2 cols=100 maxlength="500" oninput="changeBackgroundColor(this)">'.htmlentities($satz->Bemerkung).'</textarea> (max. 500 Zeichen)
   </td>
   </label>
 </tr>

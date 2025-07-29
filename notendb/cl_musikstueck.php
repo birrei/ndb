@@ -321,8 +321,6 @@ class Musikstueck {
     $query="SELECT satz.ID
               , satz.Nr
               , satz.Name
-              , satz.Tonart
-              , satz.Taktart
               , satz.Tempobezeichnung `Tempo-Bez.`
               , concat(
                   satz.Spieldauer DIV 60

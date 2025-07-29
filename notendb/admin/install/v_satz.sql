@@ -5,7 +5,6 @@ select
     , komponist.Name as Komponist 
     , satz.Nr 
     , satz.Name 
-    , satz.Taktart
     , satz.Tempobezeichnung
     , concat(
         satz.Spieldauer DIV 60
