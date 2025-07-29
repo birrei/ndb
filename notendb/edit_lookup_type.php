@@ -64,7 +64,7 @@ if ($show_data) {
     
     <tr>    
       <label>
-      <td class="form-edit form-edit-col1">Relation: </td>  
+      <td class="form-edit form-edit-col1">Tabelle: </td>  
       <td class="form-edit form-edit-col2">
 
       <select name="Relation"  required="required" oninput="changeBackgroundColor(this)">
@@ -89,12 +89,19 @@ if ($show_data) {
     </tr> 
 
     <tr>    
-      <td class="form-edit form-edit-col1">Konfig. Suche:</td>  
-      <td class="form-edit form-edit-col2">
-        
-        Type Key: <input type="text" name="type_key" value="'.$lookuptype->type_key.'" size="12" maxlength="80" required="required" oninput="changeBackgroundColor(this)"> 
-        Zeilen: <input type="text" name="selsize" value="'.$lookuptype->selsize.'" size="10" maxlength="80" required="required" oninput="changeBackgroundColor(this)"> 
-        
+      <td class="form-edit form-edit-col1">Suchfeld Größe:</td>  
+      <td class="form-edit form-edit-col2"><input type="text" name="selsize" value="'.$lookuptype->selsize.'" size="10" maxlength="80" required="required" oninput="changeBackgroundColor(this)"> 
+             <span class="form-infotext"> Anzahl Zeilen im Mehrfach-Auswahlfeld des Such-Formulars. </span>
+      </td>
+
+      </tr> 
+
+
+    
+    <tr>    
+      <td class="form-edit form-edit-col1">Schlüssel:</td>  
+      <td class="form-edit form-edit-col2"><input type="text" name="type_key" value="'.$lookuptype->type_key.'" size="50" maxlength="50" required="required" oninput="changeBackgroundColor(this)"> 
+      <span class="form-infotext"> Max. 50 Zeichen. Eine Vorgabe wird automatisch erzeugt, Vergabe eines sprechenden Kurz-Namens ist sinnvoll. </span>
       </td>
     </tr> 
 

@@ -106,7 +106,9 @@ p.warning {
              float:left; 
              margin-right: 3px;
          }    
-
+    .form-infotext {
+        color:darkgray; 
+    }
 /***** Formular-Raster in iframes  ****************/
     table.eingabe2 {
         margin-top: 5px;
