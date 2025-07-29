@@ -1,7 +1,7 @@
 <?php 
 include('head_raw.php');
-include_once("cl_satz.php");
-include_once("cl_schueler_satz.php");
+include_once("classes/class.satz.php");
+include_once("classes/class.schueler_satz.php");
 
 echo '<div style="display: grid; grid-template-columns: auto auto;">'; 
 

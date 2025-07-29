@@ -1,7 +1,7 @@
 
 <?php 
 include('head_raw.php');
-include("cl_musikstueck.php");
+include("classes/class.musikstueck.php");
 
 $musikstueck = new Musikstueck(); 
 $musikstueck->ID = $_GET["MusikstueckID"]; 

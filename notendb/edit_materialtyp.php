@@ -1,7 +1,7 @@
 
 <?php 
 include('head.php');
-include("cl_materialtyp.php");
+include("classes/class.materialtyp.php");
 include("cl_html_info.php");
 
 $materialtyp = new Materialtyp();

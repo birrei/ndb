@@ -5,7 +5,7 @@ include('head.php');
 include_once("classes/class.htmlinfo.php");
 include_once("classes/class.uebung.php");
 include_once("classes/class.uebungtyp.php");
-include_once("cl_schueler.php");
+include_once("classes/class.schueler.php");
 
 
 $info= new HTML_Info(); 

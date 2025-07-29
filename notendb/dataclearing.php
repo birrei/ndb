@@ -34,7 +34,7 @@ if (isset($_POST["form-sended"])){
       case 'sammlung-erprobt': 
         if (!empty($_POST["SammlungID"]) & !empty($_POST["ErprobtID"])) 
             {
-            include_once('cl_sammlung.php');                     
+            include_once('classes/class.sammlung.php');                     
             $SammlungID=$_POST["SammlungID"]; 
             $ErprobtID=$_POST["ErprobtID"];                              
             $sammlung = new Sammlung(); 
@@ -49,7 +49,7 @@ if (isset($_POST["form-sended"])){
           & !empty($_POST["InstrumentID"])
           & !empty($_POST["SchwierigkeitsgradID"]) ) 
             {
-            include_once('cl_sammlung.php');                     
+            include_once('classes/class.sammlung.php');                     
             $SammlungID=$_POST["SammlungID"]; 
             $InstrumentID=$_POST["InstrumentID"];  
             $SchwierigkeitsgradID=$_POST["SchwierigkeitsgradID"];                               
@@ -61,7 +61,7 @@ if (isset($_POST["form-sended"])){
         break;       
       case 'sammlung-besetzung': 
             if (!empty($_POST["SammlungID"]) & !empty($_POST["BesetzungID"])) {
-                include_once('cl_sammlung.php');                     
+                include_once('classes/class.sammlung.php');                     
                 $SammlungID=$_POST["SammlungID"]; 
                 $BesetzungID=$_POST["BesetzungID"];                 
                 $sammlung = new Sammlung(); 
@@ -77,7 +77,7 @@ if (isset($_POST["form-sended"])){
             break; 
       case 'sammlung-verwendungszweck': 
         if (!empty($_POST["SammlungID"]) & !empty($_POST["VerwendungszweckID"])) {
-            include_once('cl_sammlung.php');                     
+            include_once('classes/class.sammlung.php');                     
             $SammlungID=$_POST["SammlungID"]; 
             $VerwendungszweckID=$_POST["VerwendungszweckID"];                 
             $sammlung = new Sammlung(); 
@@ -95,7 +95,7 @@ if (isset($_POST["form-sended"])){
  
       case 'sammlung-komponist': 
         if (!empty($_POST["SammlungID"]) & !empty($_POST["KomponistID"])) {
-            include_once('cl_sammlung.php');                     
+            include_once('classes/class.sammlung.php');                     
             $SammlungID=$_POST["SammlungID"]; 
             $KomponistID=$_POST["KomponistID"];                 
             $sammlung = new Sammlung(); 
@@ -106,7 +106,7 @@ if (isset($_POST["form-sended"])){
 
       case 'sammlung-epoche': 
         if (!empty($_POST["SammlungID"]) & !empty($_POST["EpocheID"])) {
-            include_once('cl_sammlung.php');                     
+            include_once('classes/class.sammlung.php');                     
             $SammlungID=$_POST["SammlungID"]; 
             $EpocheID=$_POST["EpocheID"];                 
             $sammlung = new Sammlung(); 
@@ -118,7 +118,7 @@ if (isset($_POST["form-sended"])){
       
       case 'sammlung-bearbeiter': 
           if (!empty($_POST["SammlungID"]) & !empty($_POST["Bearbeiter"])) {
-              include_once('cl_sammlung.php');                     
+              include_once('classes/class.sammlung.php');                     
               $SammlungID=$_POST["SammlungID"]; 
               $Bearbeiter=$_POST["Bearbeiter"];                 
               $sammlung = new Sammlung(); 
@@ -130,7 +130,7 @@ if (isset($_POST["form-sended"])){
       case 'sammlung-satz-besonderheit': 
         
           if (!empty($_POST["SammlungID"]) & !empty($_POST["LookupID"])) {     
-              include_once('cl_sammlung.php');                     
+              include_once('classes/class.sammlung.php');                     
               $SammlungID=$_POST["SammlungID"]; 
               $LookupID=$_POST["LookupID"];                 
               $sammlung = new Sammlung(); 
@@ -174,7 +174,7 @@ if ($form_selected!='') {
       <form action="" method="post" name="sammlung-satz-besonderheit">
       <input type="hidden" name="SammlungID" value="<?php echo $SammlungID; ?>">
       <?php
-        include_once('cl_lookup.php'); 
+        include_once('classes/class.lookup.php'); 
         $auswahl = new Lookup(); 
         $auswahl->LookupTypeRelation='Satz'; 
         $auswahl->print_select('', $auswahl->Title,'Besonderheit Satz'); 
@@ -211,7 +211,7 @@ if ($form_selected!='') {
       <form action="" method="post" name="sammlung-komponist">
       <input type="hidden" name="SammlungID" value="<?php echo $SammlungID; ?>">
       <?php
-        include_once('cl_komponist.php'); 
+        include_once('classes/class.komponist.php'); 
         $auswahl = new Komponist(); 
         $auswahl->print_select('', $auswahl->Title); 
         ?>
@@ -231,7 +231,7 @@ if ($form_selected!='') {
         <form action="" method="post" name="sammlung-besetzung">
         <input type="hidden" name="SammlungID" value="<?php echo $SammlungID; ?>">
         <?php
-        include_once('cl_besetzung.php'); 
+        include_once('classes/class.besetzung.php'); 
         $auswahl = new Besetzung(); 
         $auswahl->print_select('', '',$auswahl->Title);  // XXX Beschriftung  
         ?>
@@ -252,7 +252,7 @@ if ($form_selected!='') {
         <form action="" method="post" name="sammlung-verwendungszweck">
         <input type="hidden" name="SammlungID" value="<?php echo $SammlungID; ?>">
         <?php
-        include_once('cl_verwendungszweck.php'); 
+        include_once('classes/class.verwendungszweck.php'); 
         $auswahl = new Verwendungszweck(); 
         $auswahl->print_select('','', $auswahl->Title);  // XXX Beschriftung  
         ?>
@@ -275,7 +275,7 @@ if ($form_selected!='') {
         <form action="" method="post" name="sammlung-epoche">
         <input type="hidden" name="SammlungID" value="<?php echo $SammlungID; ?>">
         <?php
-          include_once('cl_epoche.php'); 
+          include_once('classes/class.epoche.php'); 
           $auswahl = new Epoche(); 
           $auswahl->print_select('', $auswahl->Title); 
           ?>
@@ -311,7 +311,7 @@ if ($form_selected!='') {
         <form action="" method="post" name="sammlung-erprobt">
         <input type="hidden" name="SammlungID" value="<?php echo $SammlungID; ?>">
         <?php
-        include_once('cl_erprobt.php'); 
+        include_once('classes/class.erprobt.php'); 
         $auswahl = new Erprobt(); 
         $auswahl->print_select('', $auswahl->Title);  
         ?>

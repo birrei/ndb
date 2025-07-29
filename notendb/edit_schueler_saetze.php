@@ -1,6 +1,6 @@
 <?php 
 include('head_raw.php');
-include_once("cl_schueler.php");
+include_once("classes/class.schueler.php");
 
 echo '<div style="display: grid; grid-template-columns: auto auto;">'; 
 

@@ -383,7 +383,7 @@ class Material {
     // SammlungID_New= 0: Material Kopie an gleicher Sammlung, Funktion "Kopieren" an Material 
     // SammlungID_New=-1: Material Kopie Material ohne Sammlungs-Verknüpfung 
     include_once("dbconn/cl_db.php");
-    include_once("cl_satz.php");    
+    include_once("classes/class.satz.php");    
 
     $conn = new DbConn(); 
     $db=$conn->db; 

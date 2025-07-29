@@ -2,7 +2,7 @@
 include('../../head.php');
 include("../../dbconn/cl_db.php"); 
 include("../../cl_html_info.php"); 
-include("../../cl_link.php"); 
+include("../../classes/class.link.php"); 
 ?> 
 
 <h3>Import Google Chrome Bookmarks </h3>    

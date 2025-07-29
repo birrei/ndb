@@ -1,6 +1,6 @@
 <?php
 
-include ('cl_sammlung.php'); 
+include ('classes/class.sammlung.php'); 
 
 $PageTitle='Sammlung Druck'; 
 

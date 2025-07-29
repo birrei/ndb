@@ -485,7 +485,7 @@ class Musikstueck {
   function delete_saetze(){
 
     include_once("dbconn/cl_db.php");
-    include_once('cl_satz.php'); 
+    include_once('classes/class.satz.php'); 
 
     $conn = new DbConn(); 
     $db=$conn->db; 
@@ -534,7 +534,7 @@ class Musikstueck {
     // SammlungID_New > 0 : Musikstück Kopie zu Sammlung Kopie 
     // SammlungID_New= 0: Musikstück Kopie an gleicher Sammlung 
     include_once("dbconn/cl_db.php");
-    include_once("cl_satz.php");    
+    include_once("classes/class.satz.php");    
 
     $conn = new DbConn(); 
     $db=$conn->db; 
@@ -668,7 +668,7 @@ class Musikstueck {
   function add_schwierigkeitsgrad($InstrumentID, $SchwierigkeitsgradID){
     // dataclearing 
     include_once("dbconn/cl_db.php");
-    include_once('cl_satz.php'); 
+    include_once('classes/class.satz.php'); 
 
     $conn = new DbConn(); 
     $db=$conn->db; 
@@ -695,7 +695,7 @@ class Musikstueck {
   function add_satz_lookup($LookupID){
         // dataclearing 
     include_once("dbconn/cl_db.php");
-    include_once('cl_satz.php'); 
+    include_once('classes/class.satz.php'); 
 
     $conn = new DbConn(); 
     $db=$conn->db; 
@@ -790,7 +790,7 @@ class Musikstueck {
   function add_erprobt($ErprobtID){
     
     include_once("dbconn/cl_db.php");
-    include_once('cl_satz.php'); 
+    include_once('classes/class.satz.php'); 
 
     $conn = new DbConn(); 
     $db=$conn->db; 
@@ -907,7 +907,7 @@ class Musikstueck {
 
   function print_saetze($mode){
 
-    include_once('cl_satz.php'); 
+    include_once('classes/class.satz.php'); 
 
     $query="SELECT ID FROM satz WHERE MusikstueckID = :MusikstueckID ORDER by Nr"; 
 

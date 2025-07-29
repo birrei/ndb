@@ -1,7 +1,7 @@
 
 <?php 
 include('head.php');
-include("cl_epoche.php");
+include("classes/class.epoche.php");
 include("cl_html_info.php");
 
 $epoche = new Epoche();

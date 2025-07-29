@@ -2,7 +2,7 @@
 <?php 
 $PageTitle="Status"; 
 include('head.php');
-include("cl_status.php");
+include("classes/class.status.php");
 include("cl_html_info.php");
 
 

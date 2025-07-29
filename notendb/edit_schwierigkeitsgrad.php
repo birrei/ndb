@@ -1,7 +1,7 @@
 
 <?php 
 include('head.php');
-include("cl_schwierigkeitsgrad.php");
+include("classes/class.schwierigkeitsgrad.php");
 include("cl_html_info.php");
 
 $schwierigkeitsgrad=new Schwierigkeitsgrad(); 

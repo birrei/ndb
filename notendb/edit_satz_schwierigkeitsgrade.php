@@ -2,7 +2,7 @@
 <?php 
 include('head_raw.php');
 
-include_once("cl_satz.php");
+include_once("classes/class.satz.php");
 
 $satz=new Satz();
 $satz->ID=$_GET["SatzID"]; 

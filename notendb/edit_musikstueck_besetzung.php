@@ -2,9 +2,10 @@
 <?php 
 include('head_raw.php');
 include('cl_html_info.php');
+include_once('classes/class.besetzung.php'); 
+
 $info=new HtmlInfo(); 
 ?> 
-
 
 <form action="edit_musikstueck_besetzungen.php" method="get">
 
@@ -13,7 +14,6 @@ $info=new HtmlInfo();
   <td class="eingabe2 eingabe2_1">Besetzung: </td>
   <td class="eingabe2 eingabe2_2">
     <?php 
-      include_once("cl_besetzung.php");
       $besetzung = new Besetzung(); 
       $besetzung->print_select('',$_GET["MusikstueckID"]); 
     ?>

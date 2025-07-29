@@ -2,8 +2,8 @@
 <?php 
 include('head_raw.php');
 
-include_once("cl_satz.php");
-include_once("cl_satz_erprobt.php");
+include_once("classes/class.satz.php");
+include_once("classes/class.satz_erprobt.php");
 
 $satz=new Satz();
 $satz->ID=$_GET["SatzID"]; 

@@ -1,9 +1,9 @@
 
 <?php 
 include('head_raw.php');
-include('cl_satz_erprobt.php');
-include('cl_erprobt.php');
-include("cl_satz.php"); 
+include('classes/class.satz_erprobt.php');
+include('classes/class.erprobt.php');
+include("classes/class.satz.php"); 
 include("cl_html_info.php"); 
 
 

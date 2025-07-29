@@ -20,66 +20,61 @@ $iframe_parent_ID=''; // ID Parent-Screen - Wert
 
 switch($table) {
   // case 'sammlung': 
-  //   include_once('cl_sammlung.php');
+  //   include_once('classes/class.sammlung.php');
   //   $objekt = new Sammlung(); 
   //   break;   
      
   // case 'musikstueck': 
-  //   include_once('cl_musikstueck.php');
+  //   include_once('classes/class.musikstueck.php');
   //   $objekt = new Musikstueck(); 
   //   $show_link_table=false;     
   //   break; 
 
   // case 'satz': 
-  //   include_once('cl_satz.php');
+  //   include_once('classes/class.satz.php');
   //   $objekt = new Satz(); 
   //   $show_link_table=false;         
   //   break;      
   // ------------------------
 
   case 'standort': 
-    include_once('cl_standort.php');
+    include_once('classes/class.standort.php');
     $objekt = new Standort(); 
     break; 
 
   case 'verlag': 
-    include_once('cl_verlag.php');
+    include_once('classes/class.verlag.php');
     $objekt = new Verlag(); 
     break; 
 
   case 'komponist': 
-    include_once('cl_komponist.php');
+    include_once('classes/class.komponist.php');
     $objekt = new Komponist(); 
     $tablelink_table='v_komponist'; // view-Name 
     break; 
-
-  // case 'besetzung': 
-  //   include_once('cl_besetzung.php');
-  //   $objekt = new Besetzung(); 
-  //   break; 
   
   case 'verwendungszweck': 
-    include_once('cl_verwendungszweck.php');
+    include_once('classes/class.verwendungszweck.php');
     $objekt = new Verwendungszweck(); 
     break; 
 
   case 'gattung': 
-    include_once('cl_gattung.php');
+    include_once('classes/class.gattung.php');
     $objekt = new Gattung(); 
     break; 
 
   case 'epoche': 
-    include_once('cl_epoche.php');
+    include_once('classes/class.epoche.php');
     $objekt = new Epoche(); 
     break; 
 
   case 'erprobt': 
-    include_once('cl_erprobt.php');
+    include_once('classes/class.erprobt.php');
     $objekt = new Erprobt(); 
     break; 
 
   case 'lookup': 
-    include_once('cl_lookup.php');
+    include_once('classes/class.lookup.php');
     $objekt = new Lookup(); 
     $tablelink_table='v_lookup'; // view-Name
     // $in_iframe=true;           
@@ -87,35 +82,35 @@ switch($table) {
     break; 
 
   case 'instrument': 
-    include_once('cl_instrument.php');
+    include_once('classes/class.instrument.php');
     $objekt = new Instrument(); 
     break; 
 
 
   case 'schwierigkeitsgrad': 
-    include_once('cl_schwierigkeitsgrad.php');
+    include_once('classes/class.schwierigkeitsgrad.php');
     $objekt = new Schwierigkeitsgrad(); 
     break;     
 
   case 'lookup_type': 
-    include_once('cl_lookuptype.php');
+    include_once('classes/class.lookuptype.php');
     $objekt = new Lookuptype();     
     break; 
 
   case 'linktype': 
-    include_once('cl_linktype.php');
+    include_once('classes/class.linktype.php');
     $objekt = new Linktype();        
     break; 
 
   case 'link': 
-    include_once('cl_link.php');
+    include_once('classes/class.link.php');
     $objekt = new Link();
     $show_link_table=true;      
     // $in_iframe=true;     
     break;  
 
   case 'satz_erprobt': 
-    include_once('cl_satz_erprobt.php');
+    include_once('classes/class.satz_erprobt.php');
     $objekt = new SatzErprobt();
     $show_link_table=true;      
     // $in_iframe=true;     
@@ -134,19 +129,19 @@ switch($table) {
     break; 
 
   case 'schueler': // XXX 
-    include_once('cl_schueler.php');
+    include_once('classes/class.schueler.php');
     $objekt = new Schueler();     
     $tablelink_table='v_schueler'; 
     break; 
 
   case 'materialtyp': 
-    include_once('cl_materialtyp.php');
+    include_once('classes/class.materialtyp.php');
     $objekt = new Materialtyp();     
     $tablelink_table='materialtyp'; 
     break; 
 
   // case 'material': 
-  //   include_once('cl_material.php');
+  //   include_once('classes/class.material.php');
   //   $objekt = new Material();     
   //   $tablelink_table='v_material'; 
   //   break;     

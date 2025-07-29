@@ -6,25 +6,25 @@ include("cl_html_table.php");
 include("cl_html_info.php");  
 
 include_once("classes/class.besetzung.php");  
-include("cl_verwendungszweck.php"); 
-include("cl_standort.php"); 
-include("cl_komponist.php"); 
-include("cl_verlag.php"); 
-include("cl_gattung.php"); 
-include("cl_epoche.php"); 
-include("cl_erprobt.php");  
+include("classes/class.verwendungszweck.php"); 
+include("classes/class.standort.php"); 
+include("classes/class.komponist.php"); 
+include("classes/class.verlag.php"); 
+include("classes/class.gattung.php"); 
+include("classes/class.epoche.php"); 
+include("classes/class.erprobt.php");  
 
-include("cl_schwierigkeitsgrad.php");  
-include("cl_instrument.php");  
-include("cl_instrument_schwierigkeitsgrad.php");  
+include("classes/class.schwierigkeitsgrad.php");  
+include("classes/class.instrument.php");  
+include("classes/class.instrument_schwierigkeitsgrad.php");  
 
-include("cl_lookup.php");   
-include("cl_lookuptype.php");
-include("cl_linktype.php");
+include("classes/class.lookup.php");   
+include("classes/class.lookuptype.php");
+include("classes/class.linktype.php");
 include_once("classes/class.abfrage.php");
-include("cl_schueler.php");
-include("cl_status.php");
-include("cl_materialtyp.php");
+include("classes/class.schueler.php");
+include("classes/class.status.php");
+include("classes/class.materialtyp.php");
 
 /***** Parameter: Initialisierung, Defaults  ******/
   if (isset($_POST['Ansicht'])) {

@@ -1,8 +1,8 @@
 
 <?php 
 include('head_raw.php');
-include_once("cl_lookuptype.php");
-include_once("cl_lookup.php");
+include_once("classes/class.lookuptype.php");
+include_once("classes/class.lookup.php");
 
 $lookuptype=new Lookuptype();
 $lookuptype->ID=$_GET["LookupTypeID"]; 

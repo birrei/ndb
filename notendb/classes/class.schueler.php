@@ -241,7 +241,7 @@ class Schueler {
 
       try {
         $insert->execute(); 
-        include_once("cl_instrument_schwierigkeitsgrad.php");
+        include_once("classes/class.instrument_schwierigkeitsgrad.php");
         $instrument_schwierigkeitsgrad=new InstrumentSchwierigkeitsgrad(); 
         $instrument_schwierigkeitsgrad->insert_row($InstrumentID, $SchwierigkeitsgradID); 
       }

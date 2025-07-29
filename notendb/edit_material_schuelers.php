@@ -1,8 +1,8 @@
 
 <?php 
 include('head_raw.php');
-include_once("cl_material.php");
-include_once("cl_schueler_material.php");
+include_once("classes/class.material.php");
+include_once("classes/class.schueler_material.php");
 
 
 echo '<div style="display: grid; grid-template-columns: auto auto;">'; 

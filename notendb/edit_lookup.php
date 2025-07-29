@@ -9,8 +9,8 @@ if ($source=='iframe')  {
   include('head.php');
 }
 
-include("cl_lookuptype.php");
-include("cl_lookup.php");
+include("classes/class.lookuptype.php");
+include("classes/class.lookup.php");
 include("cl_html_info.php");
 
 $LookupTypeID=(isset($_REQUEST["LookupTypeID"])?$_REQUEST["LookupTypeID"]:''); 

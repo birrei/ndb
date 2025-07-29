@@ -1,8 +1,8 @@
 
 <?php 
 include('head_raw.php');
-include_once("cl_satz.php");
-include_once("cl_lookuptype.php");  
+include_once("classes/class.satz.php");
+include_once("classes/class.lookuptype.php");  
 
 $satz=new Satz();
 $satz->ID=$_GET["SatzID"]; 

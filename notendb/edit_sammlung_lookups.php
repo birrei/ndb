@@ -1,8 +1,8 @@
 
 <?php 
 include('head_raw.php');
-include_once("cl_sammlung.php");
-include_once("cl_lookuptype.php");  
+include_once("classes/class.sammlung.php");
+include_once("classes/class.lookuptype.php");  
 
 $sammlung=new Sammlung();
 $sammlung->ID=$_GET["SammlungID"]; 

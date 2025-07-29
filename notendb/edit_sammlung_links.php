@@ -1,8 +1,8 @@
 
 <?php 
 include('head_raw.php');
-include("cl_sammlung.php");
-include("cl_link.php");
+include("classes/class.sammlung.php");
+include("classes/class.link.php");
 
 $sammlung=new Sammlung(); 
 $sammlung->ID=$_GET["SammlungID"];  

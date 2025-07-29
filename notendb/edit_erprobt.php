@@ -1,7 +1,7 @@
 
 <?php 
 include('head.php');
-include("cl_erprobt.php");
+include("classes/class.erprobt.php");
 include("cl_html_info.php");
 
 $erprobt=new Erprobt(); 

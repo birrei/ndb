@@ -1,7 +1,7 @@
 
 <?php 
 include('head.php');
-include("cl_standort.php");
+include("classes/class.standort.php");
 include("cl_html_info.php");
 
 

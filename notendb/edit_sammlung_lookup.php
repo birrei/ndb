@@ -1,7 +1,7 @@
 
 <?php 
 include('head_raw.php');
-include('cl_lookuptype.php');
+include('classes/class.lookuptype.php');
 include("cl_html_info.php"); 
 
 $info = new HtmlInfo(); 
@@ -46,7 +46,7 @@ if (isset($_POST["LookupTypeID"])) {
   <td class="eingabe2 eingabe2_1">Besonderheit:</td>
   <td class="eingabe2 eingabe2_2">
   <?php 
-          include_once("cl_lookup.php");         
+          include_once("classes/class.lookup.php");         
           $lookup = new Lookup(); 
           $lookup->LookupTypeRelation='sammlung';
           if ($LookupTypeID!='') {  

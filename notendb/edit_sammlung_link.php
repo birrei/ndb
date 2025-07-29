@@ -1,8 +1,8 @@
 
 <?php 
 include('head_raw.php');
-include('cl_linktype.php');
-include("cl_link.php"); 
+include('classes/class.linktype.php');
+include("classes/class.link.php"); 
 include("cl_html_info.php"); 
 
 $link = new Link();

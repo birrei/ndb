@@ -1,7 +1,7 @@
 
 <?php 
 include('head.php');
-include("cl_gattung.php");
+include("classes/class.gattung.php");
 include("cl_html_info.php");
 
 

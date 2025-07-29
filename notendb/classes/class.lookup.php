@@ -244,7 +244,7 @@ class Lookup {
 
   function load_row() {
     include_once("dbconn/cl_db.php");   
-    include_once("cl_lookuptype.php"); 
+    include_once("classes/class.lookuptype.php"); 
 
     $conn = new DbConn(); 
     $db=$conn->db; 
@@ -284,7 +284,7 @@ class Lookup {
   ){
     include_once("dbconn/cl_db.php");  
     include_once("cl_html_select.php");
-    include_once("cl_lookuptype.php");
+    include_once("classes/class.lookuptype.php");
     
     // $this->ID_List=implode(',', $options_selected); 
 

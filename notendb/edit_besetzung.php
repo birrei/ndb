@@ -2,8 +2,6 @@
 <?php 
 $PageTitle='Besetzung'; 
 include('head.php');
-// include("cl_besetzung.php");
-// include("cl_html_info.php");
 include_once("classes/class.htmlinfo.php");
 include_once("classes/class.besetzung.php");
 

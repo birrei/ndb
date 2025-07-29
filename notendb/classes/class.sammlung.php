@@ -375,8 +375,8 @@
   function copy(){
 
     include_once("dbconn/cl_db.php");
-    include_once('cl_musikstueck.php'); 
-    include_once('cl_material.php');     
+    include_once('classes/class.musikstueck.php'); 
+    include_once('classes/class.material.php');     
     include_once("cl_html_info.php"); 
 
     $conn = new DbConn(); 
@@ -458,7 +458,7 @@
   function add_besetzung($BesetzungID){
     // dataclearing: Besetzung bei allen Musikstücken ergänzen  
    include_once("dbconn/cl_db.php");
-   include_once("cl_musikstueck.php");    
+   include_once("classes/class.musikstueck.php");    
    $conn = new DbConn(); 
    $db=$conn->db; 
 
@@ -486,7 +486,7 @@
     // dataclearing: eine Besetzung bei allen Musikstücken entfernen 
 
     include_once("dbconn/cl_db.php");
-    include_once("cl_musikstueck.php");    
+    include_once("classes/class.musikstueck.php");    
     $conn = new DbConn(); 
     $db=$conn->db; 
 
@@ -512,7 +512,7 @@
   function add_verwendungszweck($VerwendungszweckID){
       // dataclearing: Verwendungszweck bei allen Musikstücken ergänzen  
       include_once("dbconn/cl_db.php");
-      include_once("cl_musikstueck.php");    
+      include_once("classes/class.musikstueck.php");    
       $conn = new DbConn(); 
       $db=$conn->db; 
    
@@ -540,7 +540,7 @@
     // dataclearing: einen Verwendungszeck bei allen Musikstücken entfernen 
 
     include_once("dbconn/cl_db.php");
-    include_once("cl_musikstueck.php");    
+    include_once("classes/class.musikstueck.php");    
     $conn = new DbConn(); 
     $db=$conn->db; 
 
@@ -566,7 +566,7 @@
   function add_schwierigkeitsgrad($InstrumentID, $SchwierigkeitsgradID){
     // dataclearing: Schwierigkeitsgrad bei allen ungeordneten Sätzen ergänzen  
    include_once("dbconn/cl_db.php");
-   include_once("cl_musikstueck.php");    
+   include_once("classes/class.musikstueck.php");    
    $conn = new DbConn(); 
    $db=$conn->db; 
 
@@ -593,7 +593,7 @@
   function add_satz_lookup($LookupID){
     // dataclearing: Schwierigkeitsgrad bei allen ungeordneten Sätzen ergänzen  
    include_once("dbconn/cl_db.php");
-   include_once("cl_musikstueck.php");    
+   include_once("classes/class.musikstueck.php");    
    $conn = new DbConn(); 
    $db=$conn->db; 
 
@@ -618,7 +618,7 @@
   function add_komponist($KomponistID){
     // dataclearing: Verwendungszweck bei allen Musikstücken ergänzen  
     include_once("dbconn/cl_db.php");
-    include_once("cl_musikstueck.php");    
+    include_once("classes/class.musikstueck.php");    
     $conn = new DbConn(); 
     $db=$conn->db; 
  
@@ -645,7 +645,7 @@
   function add_bearbeiter($Bearbeiter){
     // dataclearing: Verwendungszweck bei allen Musikstücken ergänzen  
     include_once("dbconn/cl_db.php");
-    include_once("cl_musikstueck.php");    
+    include_once("classes/class.musikstueck.php");    
     $conn = new DbConn(); 
     $db=$conn->db; 
  
@@ -671,7 +671,7 @@
   function add_epoche($EpocheID){
     // dataclearing: Verwendungszweck bei allen Musikstücken ergänzen  
     include_once("dbconn/cl_db.php");
-    include_once("cl_musikstueck.php");    
+    include_once("classes/class.musikstueck.php");    
     $conn = new DbConn(); 
     $db=$conn->db; 
  
@@ -698,7 +698,7 @@
   function add_erprobt($ErprobtID){
     // dataclearing: Verwendungszweck bei allen Musikstücken ergänzen  
     include_once("dbconn/cl_db.php");
-    include_once("cl_musikstueck.php");    
+    include_once("classes/class.musikstueck.php");    
     $conn = new DbConn(); 
     $db=$conn->db; 
  
@@ -834,7 +834,7 @@
 
   function delete_materials(){
     include_once("dbconn/cl_db.php");
-    include_once('cl_material.php'); 
+    include_once('classes/class.material.php'); 
 
     $conn = new DbConn(); 
     $db=$conn->db; 
@@ -857,7 +857,7 @@
 
   function delete_links(){
     include_once("dbconn/cl_db.php");
-    include_once('cl_link.php'); 
+    include_once('classes/class.link.php'); 
 
     $conn = new DbConn(); 
     $db=$conn->db; 
@@ -880,7 +880,7 @@
 
   function delete_musikstuecke(){
     include_once("dbconn/cl_db.php");
-    include_once('cl_musikstueck.php'); 
+    include_once('classes/class.musikstueck.php'); 
 
     $conn = new DbConn(); 
     $db=$conn->db; 
@@ -949,7 +949,7 @@
 
 
   function print_musikstuecke(){
-    include_once('cl_musikstueck.php'); 
+    include_once('classes/class.musikstueck.php'); 
 
     $query="SELECT ID FROM musikstueck WHERE SammlungID = :SammlungID ORDER by Nummer"; 
 

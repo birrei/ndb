@@ -94,7 +94,7 @@
 
       case 'v_material': 
         echo '<form action="" method="get">'.PHP_EOL;       
-        include_once("cl_materialtyp.php");
+        include_once("classes/class.materialtyp.php");
         $MaterialtypID=(isset($_REQUEST["MaterialtypID"])?$_REQUEST["MaterialtypID"]:'');
         $materialtyp = new Materialtyp(); 
         echo 'Materialtyp: '.PHP_EOL; 
@@ -126,7 +126,7 @@
       case 'v_besonderheiten': // case 'v_lookup': 
 
         echo '<form action="" method="get">'.PHP_EOL; 
-        include_once("cl_lookuptype.php");
+        include_once("classes/class.lookuptype.php");
         $LookupTypeID=(isset($_REQUEST["LookupTypeID"])?$_REQUEST["LookupTypeID"]:'');
         $lookuptype = new Lookuptype(); 
         echo 'Besonderheit Typ: '.PHP_EOL; 
@@ -141,7 +141,7 @@
 
       case 'v_sammlung': 
         echo '<form action="" method="get">'.PHP_EOL; 
-        include_once("cl_standort.php");
+        include_once("classes/class.standort.php");
         $StandortID=(isset($_REQUEST["StandortID"])?$_REQUEST["StandortID"]:'');
         $Erfasst=(isset($_REQUEST["Erfasst"])?1:0); 
         $standort = new Standort(); 

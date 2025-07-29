@@ -1,11 +1,11 @@
 
 <?php 
 include('head.php');
-include("cl_musikstueck.php");
-include("cl_komponist.php");
-include("cl_sammlung.php");
-include("cl_gattung.php");
-include("cl_epoche.php");
+include("classes/class.musikstueck.php");
+include("classes/class.komponist.php");
+include("classes/class.sammlung.php");
+include("classes/class.gattung.php");
+include("classes/class.epoche.php");
 include('cl_html_info.php');
 
 $show_data=false;       

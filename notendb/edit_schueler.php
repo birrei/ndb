@@ -2,7 +2,7 @@
 <?php 
 $PageTitle='Schüler'; 
 include('head.php');
-include("cl_schueler.php");
+include("classes/class.schueler.php");
 include("cl_html_info.php");
 
 $schueler = new Schueler();

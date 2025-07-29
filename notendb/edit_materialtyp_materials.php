@@ -1,8 +1,8 @@
 
 <?php 
 include('head_raw.php');
-include_once("cl_materialtyp.php");
-include_once("cl_material.php");
+include_once("classes/class.materialtyp.php");
+include_once("classes/class.material.php");
 
 $materialtyp=new Materialtyp();
 $materialtyp->ID=$_GET["MaterialtypID"]; 

@@ -1,11 +1,11 @@
 <?php 
 
-class SchuelerMaterial {
+class SchuelerSatz {
 
   public $table_name; 
 
   public $ID='';
-  public $MaterialID='';
+  public $SatzID='';
   public $SchuelerID=''; 
   public $StatusID='';
   public $DatumVon='' ; 
@@ -13,43 +13,43 @@ class SchuelerMaterial {
   public $Bemerkung=''; 
 
   public $titles_selected_list; 
-  public $Title='Material Schüler';
-  public $Titles='Material Schüler'; 
-  public $Parent='Material'; // "Material" (dem Material wird ein Schüler hinzugefügt) 
-                             // oder "Schueler" (dem Schueler wird Material hinzugefügt) 
+  public $Title='SatzSchueler';
+  public $Titles='SatzSchuelers';  
 
   public function __construct(){
-    $this->table_name='schueler_material'; 
+    $this->table_name='schueler_satz'; 
   }
 
-  
-  function insert_row ($SchuelerID, $MaterialID) {
+  function insert_row ($SchuelerID, $SatzID) {
 
-    if ($SchuelerID=='' || $MaterialID=='') {
+    if ($SchuelerID=='' || $SatzID=='') {
       return false; 
-    }
+    }   
+
     include_once("dbconn/cl_db.php");
     $conn = new DbConn(); 
     $db=$conn->db; 
 
-    include_once("cl_status.php");
+    include_once("classes/class.status.php");
     $status=new Status();      
-    $StatusID= $status->getDefaultID();     
-       
-    $insert = $db->prepare("INSERT INTO `schueler_material` 
-                            SET SchuelerID =:SchuelerID, 
-                                MaterialID =:MaterialID, 
-                                StatusID   =:StatusID
-                                ");
+    $StatusID= $status->getDefaultID(); 
 
-    $insert->bindParam(':SchuelerID', $SchuelerID);
-    $insert->bindParam(':MaterialID', $MaterialID);
-    $insert->bindParam(':StatusID', $StatusID);  
+    // echo 'Insert: SatzID: '.$this->SatzID; // test 
+    $insert = $db->prepare("INSERT INTO `schueler_satz` 
+              SET SatzID = :SatzID   
+                  , SchuelerID  = :SchuelerID
+                  , StatusID  =:StatusID
+                  "
+             );
+
+    $insert->bindParam(':SatzID', $SatzID);
+    $insert->bindParam(':SchuelerID', $SchuelerID);  
+    $insert->bindParam(':StatusID', $StatusID);          
 
     try {
       $insert->execute(); 
       $this->ID=$db->lastInsertId();
-      $this->load_row();   
+      // $this->load_row();   
     }
       catch (PDOException $e) {
       include_once("cl_html_info.php"); 
@@ -58,20 +58,20 @@ class SchuelerMaterial {
       $info->print_error($insert, $e);  ; 
     }
   }  
- 
+   
   function load_row() {
     include_once("dbconn/cl_db.php");   
     $conn = new DbConn(); 
     $db=$conn->db; 
 
     $select = $db->prepare("SELECT ID
-                          , MaterialID
+                          , SatzID
                           , SchuelerID
-                          , StatusID 
                           , DatumVon
                           , DatumBis
-                          , COALESCE(Bemerkung, '') as Bemerkung                          
-                          FROM `schueler_material`
+                          , StatusID 
+                          , COALESCE(Bemerkung, '') as Bemerkung
+                          FROM `schueler_satz`
                           WHERE `ID` = :ID");
 
     $select->bindParam(':ID', $this->ID, PDO::PARAM_INT);
@@ -79,12 +79,12 @@ class SchuelerMaterial {
 
     if ($select->rowCount()==1) {
       $row_data=$select->fetch();
-      $this->MaterialID=$row_data["MaterialID"]; 
+      $this->SatzID=$row_data["SatzID"]; 
       $this->SchuelerID=$row_data["SchuelerID"];     
-      $this->StatusID=$row_data["StatusID"];
-      $this->DatumVon=$row_data["DatumVon"];
-      $this->DatumBis=$row_data["DatumBis"];                  
       $this->Bemerkung=$row_data["Bemerkung"];
+      $this->DatumVon=$row_data["DatumVon"];
+      $this->DatumBis=$row_data["DatumBis"];     
+      $this->StatusID=$row_data["StatusID"];                    
       return true; 
     } 
     else {
@@ -92,25 +92,46 @@ class SchuelerMaterial {
     }  
   }  
 
+  function delete(){
+    include_once("dbconn/cl_db.php");
+    $conn = new DbConn(); 
+    $db=$conn->db; 
+    // echo '<p>Lösche schueler_satz ID: '.$this->ID.':</p>';
+    $delete = $db->prepare("DELETE FROM `schueler_satz` WHERE ID=:ID"); 
+    $delete->bindValue(':ID', $this->ID);  
 
-  function update_row($SchuelerID, $MaterialID, $DatumVon, $DatumBis, $Bemerkung, $StatusID) {
+    try {
+      $delete->execute(); 
+      return true;        
+    }
+    catch (PDOException $e) {
+      include_once("cl_html_info.php"); 
+      $info = new HtmlInfo();      
+      $info->print_user_error(); 
+      $info->print_error($delete, $e);  
+      return false; 
+    }  
+  }  
+
+ 
+  function update_row($SchuelerID, $SatzID, $DatumVon, $DatumBis, $Bemerkung, $StatusID) {
     include_once("dbconn/cl_db.php");   
     $conn = new DbConn(); 
     $db=$conn->db; 
     
     // echo 'TEST: ID: '.$this->ID; 
     // echo '<br>SchuelerID: '.$SchuelerID; 
-    // echo '<br$MaterialID: '.$MaterialID; 
+    // echo '<br>SatzID: '.$SatzID; 
     // echo '<br>DatumVon: '.$DatumVon; 
     // echo '<br>DatumBis: '.$DatumBis; 
 
     if ($this->ID=='') {
-      $this->insert_row($SchuelerID, $MaterialID); 
+      $this->insert_row($SchuelerID, $SatzID); 
     }
 
-    $update = $db->prepare("UPDATE `schueler_material` 
+    $update = $db->prepare("UPDATE `schueler_satz` 
                             SET `SchuelerID`=:SchuelerID,
-                                 MaterialID=:MaterialID, 
+                                SatzID=:SatzID, 
                                 DatumVon=:DatumVon, 
                                 DatumBis=:DatumBis, 
                                 StatusID=:StatusID, 
@@ -120,7 +141,7 @@ class SchuelerMaterial {
     $update->bindParam(':ID', $this->ID, PDO::PARAM_INT);
 
     $update->bindParam(':SchuelerID', $SchuelerID, ($SchuelerID==''? PDO::PARAM_NULL:PDO::PARAM_INT));
-    $update->bindParam(':MaterialID', $MaterialID, ($MaterialID==''? PDO::PARAM_NULL:PDO::PARAM_INT));
+    $update->bindParam(':SatzID', $SatzID, ($SatzID==''? PDO::PARAM_NULL:PDO::PARAM_INT));
     $update->bindParam(':StatusID', $StatusID, ($StatusID==''? PDO::PARAM_NULL:PDO::PARAM_INT));
     $update->bindParam(':DatumVon', $DatumVon, ($DatumVon==''? PDO::PARAM_NULL:PDO::PARAM_STR));
     $update->bindParam(':DatumBis', $DatumBis, ($DatumBis==''? PDO::PARAM_NULL:PDO::PARAM_STR));
@@ -139,28 +160,6 @@ class SchuelerMaterial {
   }
 
 
-
-  function delete(){
-    include_once("dbconn/cl_db.php");
-    $conn = new DbConn(); 
-    $db=$conn->db; 
-    // echo '<p>Lösche schueler_material ID: '.$this->ID.':</p>';
-    $delete = $db->prepare("DELETE FROM `schueler_material` WHERE ID=:ID"); 
-    $delete->bindValue(':ID', $this->ID);  
-
-    try {
-      $delete->execute(); 
-      // echo '<p>Zeile wurde gelöscht.</p>';   
-      return true;        
-    }
-    catch (PDOException $e) {
-      include_once("cl_html_info.php"); 
-      $info = new HtmlInfo();      
-      $info->print_user_error(); 
-      $info->print_error($delete, $e);  
-      return false; 
-    }  
-  }  
 
 }
 

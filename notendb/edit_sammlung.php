@@ -2,9 +2,9 @@
 <?php 
 $PageTitle='Sammlung'; 
 include('head.php');
-include("cl_sammlung.php");
-include("cl_verlag.php");
-include("cl_standort.php");
+include("classes/class.sammlung.php");
+include("classes/class.verlag.php");
+include("classes/class.standort.php");
 include("cl_html_info.php");
 
 $sammlung = new Sammlung();

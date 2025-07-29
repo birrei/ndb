@@ -1,8 +1,8 @@
 <?php 
-include('cl_schueler_material.php');
-include('cl_schueler.php');
-include('cl_status.php');
-include("cl_material.php"); 
+include('classes/class.schueler_material.php');
+include('classes/class.schueler.php');
+include('classes/class.status.php');
+include("classes/class.material.php"); 
 include("cl_html_info.php"); 
 
 $option=$_REQUEST["option"]; 

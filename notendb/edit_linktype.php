@@ -1,7 +1,7 @@
 
 <?php 
 include('head.php');
-include("cl_linktype.php");
+include("classes/class.linktype.php");
 include("cl_html_info.php");
 
 $linktype = new Linktype();

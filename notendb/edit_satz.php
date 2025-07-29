@@ -2,10 +2,10 @@
 <?php 
 $PageTitle='Satz'; 
 include('head.php');
-include('cl_satz.php');
-include('cl_musikstueck.php');
-include('cl_erprobt.php');
-include('cl_schwierigkeitsgrad.php'); // entfernen 
+include('classes/class.satz.php');
+include('classes/class.musikstueck.php');
+include('classes/class.erprobt.php');
+include('classes/class.schwierigkeitsgrad.php'); // entfernen 
 include('cl_html_info.php');
 
 echo '<h2>Satz bearbeiten</h2>'; 

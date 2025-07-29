@@ -2,9 +2,9 @@
 <?php 
 
 include('head.php');
-include("cl_material.php");
-include("cl_materialtyp.php");
-include("cl_sammlung.php");
+include("classes/class.material.php");
+include("classes/class.materialtyp.php");
+include("classes/class.sammlung.php");
 include("cl_html_info.php");
 
 $MaterialtypID=(isset($_REQUEST["MaterialtypID"])?$_REQUEST["MaterialtypID"]:''); 

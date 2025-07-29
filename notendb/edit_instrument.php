@@ -1,7 +1,7 @@
 
 <?php 
 include('head.php');
-include("cl_instrument.php");
+include("classes/class.instrument.php");
 include("cl_html_info.php");
 
 $instrument = new Instrument();

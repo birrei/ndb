@@ -13,7 +13,7 @@ $info = new HtmlInfo();
   <td class="eingabe2 eingabe2_1">Instrument:</td>
   <td class="eingabe2 eingabe2_2">
       <?php 
-          include_once("cl_instrument.php");         
+          include_once("classes/class.instrument.php");         
           $instrument = new Instrument(); 
           // $instrument->print_select('',  $_GET["SatzID"]); 
           $instrument->print_select(); 
@@ -30,7 +30,7 @@ $info = new HtmlInfo();
   <td class="eingabe2 eingabe2_1">Schwierigkeitsgrad: </td>
   <td class="eingabe2 eingabe2_2">        
       <?php 
-          include_once("cl_schwierigkeitsgrad.php");         
+          include_once("classes/class.schwierigkeitsgrad.php");         
           $schwierigkeitsgrad = new Schwierigkeitsgrad(); 
           // $schwierigkeitsgrad->print_select( '',  $_GET["SatzID"]); 
           $schwierigkeitsgrad->print_select( ''); 

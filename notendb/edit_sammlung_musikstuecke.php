@@ -1,7 +1,7 @@
 
 <?php 
 include('head_raw.php');
-include("cl_sammlung.php");
+include("classes/class.sammlung.php");
 
 $sammlung=new Sammlung(); 
 $sammlung->ID=$_GET["SammlungID"];  

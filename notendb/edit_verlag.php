@@ -1,7 +1,7 @@
 
 <?php 
 include('head.php');
-include("cl_verlag.php");
+include("classes/class.verlag.php");
 include("cl_html_info.php");
 
 $verlag = new Verlag();

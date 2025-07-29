@@ -1,7 +1,7 @@
 
 <?php 
 include('head.php');
-include("cl_lookuptype.php");
+include("classes/class.lookuptype.php");
 include("cl_html_info.php");
 
 $lookuptype = new Lookuptype();

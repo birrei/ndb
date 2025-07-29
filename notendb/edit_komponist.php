@@ -1,7 +1,7 @@
 
 <?php 
 include('head.php');
-include("cl_komponist.php");
+include("classes/class.komponist.php");
 include("cl_html_info.php");
 
 

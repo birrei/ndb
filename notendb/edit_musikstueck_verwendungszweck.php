@@ -14,7 +14,7 @@ $info=new HtmlInfo();
   <td class="eingabe2 eingabe2_1">Verwendungszweck: </td>
   <td class="eingabe2 eingabe2_2">
     <?php 
-      include_once("cl_verwendungszweck.php");
+      include_once("classes/class.verwendungszweck.php");
       $verwendungszweck = new Verwendungszweck(); 
       $verwendungszweck->print_select('',$_GET["MusikstueckID"]); 
     ?>
