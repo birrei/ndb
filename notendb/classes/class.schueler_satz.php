@@ -36,7 +36,7 @@ class SchuelerSatz {
       return false; 
     }   
 
-    include_once("classes/class.status.php");
+    include_once("class.status.php");
     $status=new Status();      
     $StatusID= $status->getDefaultID(); 
 
@@ -58,8 +58,8 @@ class SchuelerSatz {
       // $this->load_row();   
     }
       catch (PDOException $e) {
-      include_once("cl_html_info.php"); 
-      $info = new HtmlInfo();      
+      include_once("class.html_info.php"); 
+      $info = new HTML_Info();      
       $info->print_user_error(); 
       $info->print_error($insert, $e);  ; 
     }
@@ -106,8 +106,8 @@ class SchuelerSatz {
       return true;        
     }
     catch (PDOException $e) {
-      include_once("cl_html_info.php"); 
-      $info = new HtmlInfo();      
+      include_once("class.html_info.php"); 
+      $info = new HTML_Info();      
       $info->print_user_error(); 
       $info->print_error($delete, $e);  
       return false; 
@@ -149,8 +149,8 @@ class SchuelerSatz {
       $this->load_row();  
     }
     catch (PDOException $e) {
-      include_once("cl_html_info.php"); 
-      $info = new HtmlInfo();      
+      include_once("class.html_info.php"); 
+      $info = new HTML_Info();      
       $info->print_user_error(); 
       $info->print_error($update, $e); 
     }

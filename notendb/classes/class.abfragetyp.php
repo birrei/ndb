@@ -3,6 +3,8 @@
 include_once("dbconn/class.db.php"); 
 include_once("class.htmlinfo.php"); 
 include_once("class.htmlselect.php"); 
+include_once("class.htmltable.php");    
+
 
 class Abfragetyp {
 
@@ -70,9 +72,8 @@ class Abfragetyp {
     $select = $this->db->prepare($query); 
 
     try {
-      $select->execute(); 
-      include_once("classes/class.htmltable.php");      
-      $html = new HtmlTable($select); 
+      $select->execute();   
+      $html = new HTML_Table($select); 
       $html->edit_link_table= $this->table_name;
       $html->print_table2();  
 
@@ -166,8 +167,7 @@ class Abfragetyp {
       $html->print_preselect("AbfragetypID", $value_selected, true); 
     }
     catch (PDOException $e) {
-      include_once("cl_html_info.php"); 
-      $info = new HtmlInfo();      
+      $info = new HTML_Info();      
       $this->info->print_user_error(); 
       $this->info->print_error($stmt, $e); 
     }

@@ -55,8 +55,8 @@ class Musikstueck {
       $this->load_row();  
     }
     catch (PDOException $e) {
-      include_once("cl_html_info.php"); 
-      $info = new HtmlInfo();      
+      include_once("class.html_info.php"); 
+      $info = new HTML_Info();      
       $info->print_user_error(); 
       $info->print_error($stmt, $e);  
     }  
@@ -116,8 +116,8 @@ class Musikstueck {
       $this->load_row();  
     }
     catch (PDOException $e) {
-      include_once("cl_html_info.php"); 
-      $info = new HtmlInfo();      
+      include_once("class.html_info.php"); 
+      $info = new HTML_Info();      
       $info->print_user_error(); 
       $info->print_error($update, $e); 
     }
@@ -175,8 +175,8 @@ class Musikstueck {
       
     try {
       $stmt->execute(); 
-      include_once("cl_html_table.php");      
-      $html = new HtmlTable($stmt); 
+      include_once("class.html_table.php");      
+      $html = new HTML_Table($stmt); 
 
       $html->add_link_edit=false;
       $html->add_link_delete=true;
@@ -188,8 +188,8 @@ class Musikstueck {
 
     }
     catch (PDOException $e) {
-      include_once("cl_html_info.php"); 
-      $info = new HtmlInfo();      
+      include_once("class.html_info.php"); 
+      $info = new HTML_Info();      
       $info->print_user_error(); 
       $info->print_error($stmt, $e); 
     }
@@ -211,8 +211,8 @@ class Musikstueck {
       
     try {
       $stmt->execute(); 
-      include_once("cl_html_table.php");      
-      $html = new HtmlTable($stmt); 
+      include_once("class.html_table.php");      
+      $html = new HTML_Table($stmt); 
       $html->add_link_edit=false;
       $html->add_link_delete=true;
       $html->del_link_filename=$target_file; 
@@ -222,8 +222,8 @@ class Musikstueck {
       $html->print_table2();      
     }
     catch (PDOException $e) {
-      include_once("cl_html_info.php"); 
-      $info = new HtmlInfo();      
+      include_once("class.html_info.php"); 
+      $info = new HTML_Info();      
       $info->print_user_error(); 
       $info->print_error($stmt, $e); 
     }
@@ -242,8 +242,8 @@ class Musikstueck {
         $update->execute(); 
       }
       catch (PDOException $e) {
-        include_once("cl_html_info.php"); 
-        $info = new HtmlInfo();      
+        include_once("class.html_info.php"); 
+        $info = new HTML_Info();      
         $info->print_user_error(); 
         $info->print_error($update, $e);  
       }  
@@ -263,8 +263,8 @@ class Musikstueck {
       $update->execute(); 
     }
     catch (PDOException $e) {
-      include_once("cl_html_info.php"); 
-      $info = new HtmlInfo();      
+      include_once("class.html_info.php"); 
+      $info = new HTML_Info();      
       $info->print_user_error(); 
       $info->print_error($update, $e);  
     }  
@@ -289,8 +289,8 @@ class Musikstueck {
       $html->print_select("MusikstueckID", $value_selected, false); 
     }
     catch (PDOException $e) {
-      include_once("cl_html_info.php"); 
-      $info = new HtmlInfo();      
+      include_once("class.html_info.php"); 
+      $info = new HTML_Info();      
       $info->print_user_error(); 
       $info->print_error($stmt, $e); 
     }
@@ -338,8 +338,8 @@ class Musikstueck {
       
     try {
       $stmt->execute(); 
-      include_once("cl_html_table.php");      
-      $html = new HtmlTable($stmt); 
+      include_once("class.html_table.php");      
+      $html = new HTML_Table($stmt); 
       $html->edit_link_table='satz'; 
       $html->edit_link_title='Satz'; 
       $html->edit_link_open_newpage=true; 
@@ -347,8 +347,8 @@ class Musikstueck {
       
     }
     catch (PDOException $e) {
-      include_once("cl_html_info.php"); 
-      $info = new HtmlInfo();      
+      include_once("class.html_info.php"); 
+      $info = new HTML_Info();      
       $info->print_user_error(); 
       $info->print_error($stmt, $e); 
     }
@@ -380,8 +380,8 @@ class Musikstueck {
       $delete->execute(); 
     }
     catch (PDOException $e) {
-      include_once("cl_html_info.php"); 
-      $info = new HtmlInfo();      
+      include_once("class.html_info.php"); 
+      $info = new HTML_Info();      
       $info->print_user_error(); 
       $info->print_error($delete, $e);  
     }  
@@ -398,8 +398,8 @@ class Musikstueck {
       $delete->execute(); 
     }
     catch (PDOException $e) {
-      include_once("cl_html_info.php"); 
-      $info = new HtmlInfo();      
+      include_once("class.html_info.php"); 
+      $info = new HTML_Info();      
       $info->print_user_error(); 
       $info->print_error($delete, $e);  
     }  
@@ -419,8 +419,8 @@ class Musikstueck {
       $delete->execute(); 
     }
     catch (PDOException $e) {
-      include_once("cl_html_info.php"); 
-      $info = new HtmlInfo();      
+      include_once("class.html_info.php"); 
+      $info = new HTML_Info();      
       $info->print_user_error(); 
       $info->print_error($delete, $e);  
     }  
@@ -437,8 +437,8 @@ class Musikstueck {
       $delete->execute(); 
     }
     catch (PDOException $e) {
-      include_once("cl_html_info.php"); 
-      $info = new HtmlInfo();      
+      include_once("class.html_info.php"); 
+      $info = new HTML_Info();      
       $info->print_user_error(); 
       $info->print_error($delete, $e);  
     }  
@@ -476,8 +476,8 @@ class Musikstueck {
       return true;          
     }
     catch (PDOException $e) {
-      include_once("cl_html_info.php"); 
-      $info = new HtmlInfo();      
+      include_once("class.html_info.php"); 
+      $info = new HTML_Info();      
       $info->print_user_error(); 
       $info->print_error($delete, $e); 
       return false;  
@@ -550,8 +550,8 @@ class Musikstueck {
                
     }
     catch (PDOException $e) {
-      include_once("cl_html_info.php"); 
-      $info = new HtmlInfo();      
+      include_once("class.html_info.php"); 
+      $info = new HTML_Info();      
       $info->print_user_error(); 
       $info->print_error($insert, $e);  
     }  
@@ -575,8 +575,8 @@ class Musikstueck {
       $insert->execute(); 
     }
     catch (PDOException $e) {
-      include_once("cl_html_info.php"); 
-      $info = new HtmlInfo();      
+      include_once("class.html_info.php"); 
+      $info = new HTML_Info();      
       $info->print_user_error(); 
       $info->print_error($insert, $e);  
     }  
@@ -599,8 +599,8 @@ class Musikstueck {
       $insert->execute(); 
     }
     catch (PDOException $e) {
-      include_once("cl_html_info.php"); 
-      $info = new HtmlInfo();      
+      include_once("class.html_info.php"); 
+      $info = new HTML_Info();      
       $info->print_user_error(); 
       $info->print_error($insert, $e);  
     }  
@@ -662,8 +662,8 @@ class Musikstueck {
       $update->execute(); 
     }
     catch (PDOException $e) {
-      include_once("cl_html_info.php"); 
-      $info = new HtmlInfo();      
+      include_once("class.html_info.php"); 
+      $info = new HTML_Info();      
       $info->print_user_error(); 
       $info->print_error($update, $e);  
     }  
@@ -682,8 +682,8 @@ class Musikstueck {
       $update->execute(); 
     }
     catch (PDOException $e) {
-      include_once("cl_html_info.php"); 
-      $info = new HtmlInfo();      
+      include_once("class.html_info.php"); 
+      $info = new HTML_Info();      
       $info->print_user_error(); 
       $info->print_error($update, $e);  
     }  
@@ -703,8 +703,8 @@ class Musikstueck {
       $update->execute(); 
     }
     catch (PDOException $e) {
-      include_once("cl_html_info.php"); 
-      $info = new HtmlInfo();      
+      include_once("class.html_info.php"); 
+      $info = new HTML_Info();      
       $info->print_user_error(); 
       $info->print_error($update, $e);  
     }  
@@ -792,8 +792,8 @@ class Musikstueck {
 
     }
     catch (PDOException $e) {
-      include_once("cl_html_info.php"); 
-      $info = new HtmlInfo();      
+      include_once("class.html_info.php"); 
+      $info = new HTML_Info();      
       $info->print_user_error(); 
       $info->print_error($select, $e); 
     }

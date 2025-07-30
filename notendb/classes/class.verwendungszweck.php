@@ -38,8 +38,8 @@ class Verwendungszweck {
       $this->load_row();    
     }
       catch (PDOException $e) {
-      include_once("cl_html_info.php"); 
-      $info = new HtmlInfo();      
+      include_once("class.html_info.php"); 
+      $info = new HTML_Info();      
       $info->print_user_error(); 
       $info->print_error($insert, $e);  ; 
     }
@@ -72,8 +72,8 @@ class Verwendungszweck {
       
     }
     catch (PDOException $e) {
-      include_once("cl_html_info.php"); 
-      $info = new HtmlInfo();      
+      include_once("class.html_info.php"); 
+      $info = new HTML_Info();      
       $info->print_user_error(); 
       $info->print_error($stmt, $e); 
     }
@@ -95,8 +95,8 @@ class Verwendungszweck {
       $this->titles_selected_list = $html->titles_selected_list; 
     }
     catch (PDOException $e) {
-      include_once("cl_html_info.php"); 
-      $info = new HtmlInfo();      
+      include_once("class.html_info.php"); 
+      $info = new HTML_Info();      
       $info->print_user_error(); 
       $info->print_error($stmt, $e); 
     }
@@ -110,14 +110,14 @@ class Verwendungszweck {
 
     try {
       $select->execute(); 
-      include_once("cl_html_table.php");      
-      $html = new HtmlTable($select); 
+      include_once("class.html_table.php");      
+      $html = new HTML_Table($select); 
       $html->edit_link_table= $this->table_name;
       $html->print_table2(); 
     }
     catch (PDOException $e) {
-      include_once("cl_html_info.php"); 
-      $info = new HtmlInfo();      
+      include_once("class.html_info.php"); 
+      $info = new HTML_Info();      
       $info->print_user_error(); 
       $info->print_error($select, $e); 
     }
@@ -138,8 +138,8 @@ class Verwendungszweck {
       $this->load_row();  
     }
     catch (PDOException $e) {
-      include_once("cl_html_info.php"); 
-      $info = new HtmlInfo();      
+      include_once("class.html_info.php"); 
+      $info = new HTML_Info();      
       $info->print_user_error(); 
       $info->print_error($stmt, $e); 
     }
@@ -187,8 +187,8 @@ class Verwendungszweck {
       return true;         
     }
     catch (PDOException $e) {
-      include_once("cl_html_info.php"); 
-      $info = new HtmlInfo();      
+      include_once("class.html_info.php"); 
+      $info = new HTML_Info();      
       $info->print_user_error(); 
       $info->print_error($delete, $e);  
       return false;  

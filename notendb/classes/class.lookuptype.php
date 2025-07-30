@@ -43,8 +43,8 @@ class Lookuptype {
       $this->load_row();   
     }
       catch (PDOException $e) {
-      include_once("cl_html_info.php"); 
-      $info = new HtmlInfo();      
+      include_once("class.html_info.php"); 
+      $info = new HTML_Info();      
       $info->print_user_error(); 
       $info->print_error($insert, $e);  ; 
     }
@@ -64,8 +64,8 @@ class Lookuptype {
       
     }
     catch (PDOException $e) {
-      include_once("cl_html_info.php"); 
-      $info = new HtmlInfo();      
+      include_once("class.html_info.php"); 
+      $info = new HTML_Info();      
       $info->print_user_error(); 
       $info->print_error($stmt, $e); 
     }
@@ -97,8 +97,8 @@ class Lookuptype {
       $html->print_preselect("LookupTypeID", $value_selected, true); 
     }
     catch (PDOException $e) {
-      include_once("cl_html_info.php"); 
-      $info = new HtmlInfo();      
+      include_once("class.html_info.php"); 
+      $info = new HTML_Info();      
       $info->print_user_error(); 
       $info->print_error($stmt, $e); 
     }
@@ -112,14 +112,14 @@ class Lookuptype {
 
     try {
       $select->execute(); 
-      include_once("cl_html_table.php");      
-      $html = new HtmlTable($select); 
+      include_once("class.html_table.php");      
+      $html = new HTML_Table($select); 
       $html->edit_link_table= $this->table_name;
       $html->print_table2();       
     }
     catch (PDOException $e) {
-      include_once("cl_html_info.php"); 
-      $info = new HtmlInfo();      
+      include_once("class.html_info.php"); 
+      $info = new HTML_Info();      
       $info->print_user_error(); 
       $info->print_error($select, $e); 
     }
@@ -165,8 +165,8 @@ class Lookuptype {
       return true; 
     }
     catch (PDOException $e) {
-      include_once("cl_html_info.php"); 
-      $info = new HtmlInfo();      
+      include_once("class.html_info.php"); 
+      $info = new HTML_Info();      
       $info->print_user_error(); 
       $info->print_error($stmt, $e); 
       return false; 
@@ -244,8 +244,8 @@ class Lookuptype {
     }
     catch (PDOException $e) {
       // print_r($e); 
-      include_once("cl_html_info.php"); 
-      $info = new HtmlInfo();      
+      include_once("class.html_info.php"); 
+      $info = new HTML_Info();      
       $info->print_user_error(); 
       $info->print_error($delete, $e); 
       return false;  
@@ -260,15 +260,15 @@ class Lookuptype {
       
     try {
       $stmt->execute(); 
-      include_once("cl_html_table.php");      
-      $html = new HtmlTable($stmt); 
+      include_once("class.html_table.php");      
+      $html = new HTML_Table($stmt); 
       $html->edit_link_table = 'lookup'; 
       $html->edit_link_target_iframe=true;       
       $html->print_table2(); 
     }
     catch (PDOException $e) {
-      include_once("cl_html_info.php"); 
-      $info = new HtmlInfo();      
+      include_once("class.html_info.php"); 
+      $info = new HTML_Info();      
       $info->print_user_error(); 
       $info->print_error($stmt, $e); 
     }

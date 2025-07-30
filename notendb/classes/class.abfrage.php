@@ -5,6 +5,7 @@ include_once("dbconn/class.db.php");
 include_once("class.htmlinfo.php"); 
 include_once("class.htmlselect.php"); 
 include_once("class.htmltable.php"); 
+include_once("class.abfragetyp.php");
 
 class Abfrage {
 
@@ -55,7 +56,6 @@ class Abfrage {
     if ($this->Abfragetyp!='') {
       $this->AbfragetypID=$this->getTypID($this->Abfragetyp); 
       if ($this->AbfragetypID==0) {
-         include_once("cl_abfragetyp.php");
          $abfragetyp = new Abfragetyp(); 
          $abfragetyp->insert_row($this->Abfragetyp); 
          $this->AbfragetypID = $abfragetyp->ID; 
@@ -107,7 +107,7 @@ class Abfrage {
 
     try {
       $select->execute();   
-      $html = new HtmlTable($select); 
+      $html = new HTML_Table($select); 
       $html->edit_link_table= $this->table_name;
       $html->print_table2();  
     }
@@ -137,8 +137,8 @@ class Abfrage {
       $this->load_row(); 
     }
     catch (PDOException $e) {
-      include_once("cl_html_info.php"); 
-      $info = new HtmlInfo();      
+      include_once("class.html_info.php"); 
+      $info = new HTML_Info();      
       $this->info->print_user_error(); 
       $this->info->print_error($update, $e); 
     }

@@ -40,8 +40,8 @@ class Schueler {
       $this->load_row();  
     }
       catch (PDOException $e) {
-      include_once("cl_html_info.php"); 
-      $info = new HtmlInfo();      
+      include_once("class.html_info.php"); 
+      $info = new HTML_Info();      
       $info->print_user_error(); 
       $info->print_error($insert, $e);  ; 
     }
@@ -102,8 +102,8 @@ class Schueler {
       
     }
     catch (PDOException $e) {
-      include_once("cl_html_info.php"); 
-      $info = new HtmlInfo();      
+      include_once("class.html_info.php"); 
+      $info = new HTML_Info();      
       $info->print_user_error(); 
       $info->print_error($stmt, $e); 
     }
@@ -127,8 +127,8 @@ class Schueler {
       $this->load_row();  
     }
     catch (PDOException $e) {
-      include_once("cl_html_info.php"); 
-      $info = new HtmlInfo();      
+      include_once("class.html_info.php"); 
+      $info = new HTML_Info();      
       $info->print_user_error(); 
       $info->print_error($stmt, $e); 
     }
@@ -178,8 +178,8 @@ class Schueler {
 
     try {
       $stmt->execute(); 
-      include_once("cl_html_table.php");      
-      $html = new HtmlTable($stmt); 
+      include_once("class.html_table.php");      
+      $html = new HTML_Table($stmt); 
       $html->add_link_edit=false;
       $html->add_link_delete=true;
       $html->del_link_filename=$target_file; 
@@ -190,8 +190,8 @@ class Schueler {
       $html->print_table2();           
     }
     catch (PDOException $e) {
-      include_once("cl_html_info.php"); 
-      $info = new HtmlInfo();      
+      include_once("class.html_info.php"); 
+      $info = new HTML_Info();      
       $info->print_user_error(); 
       $info->print_error($stmt, $e); 
     }
@@ -229,13 +229,13 @@ class Schueler {
 
       try {
         $insert->execute(); 
-        include_once("classes/class.instrument_schwierigkeitsgrad.php");
+        include_once("class.instrument_schwierigkeitsgrad.php");
         $instrument_schwierigkeitsgrad=new InstrumentSchwierigkeitsgrad(); 
         $instrument_schwierigkeitsgrad->insert_row($InstrumentID, $SchwierigkeitsgradID); 
       }
         catch (PDOException $e) {
-        include_once("cl_html_info.php"); 
-        $info = new HtmlInfo();      
+        include_once("class.html_info.php"); 
+        $info = new HTML_Info();      
         $info->print_user_error(); 
         $info->print_error($insert, $e);  
       }  
@@ -255,8 +255,8 @@ class Schueler {
       $delete->execute(); 
     }
     catch (PDOException $e) {
-      include_once("cl_html_info.php"); 
-      $info = new HtmlInfo();      
+      include_once("class.html_info.php"); 
+      $info = new HTML_Info();      
       $info->print_user_error(); 
       $info->print_error($delete, $e);  
     }  
@@ -288,8 +288,8 @@ class Schueler {
 
     try {
       $stmt->execute(); 
-      include_once("cl_html_table.php");      
-      $html = new HtmlTable($stmt); 
+      include_once("class.html_table.php");      
+      $html = new HTML_Table($stmt); 
       $html->add_link_edit=true;   
       $html->edit_link_table='schueler_satz'; 
       $html->edit_link_title='Schueler'; 
@@ -312,8 +312,8 @@ class Schueler {
 
     }
     catch (PDOException $e) {
-      include_once("cl_html_info.php"); 
-      $info = new HtmlInfo();      
+      include_once("class.html_info.php"); 
+      $info = new HTML_Info();      
       $info->print_user_error(); 
       $info->print_error($stmt, $e); 
     }
@@ -342,8 +342,8 @@ class Schueler {
 
     try {
       $stmt->execute(); 
-      include_once("cl_html_table.php");      
-      $html = new HtmlTable($stmt); 
+      include_once("class.html_table.php");      
+      $html = new HTML_Table($stmt); 
       $html->add_link_edit=true;      
       $html->edit_link_table='schueler_material'; 
       $html->edit_link_title='Schueler'; 
@@ -364,8 +364,8 @@ class Schueler {
 
     }
     catch (PDOException $e) {
-      include_once("cl_html_info.php"); 
-      $info = new HtmlInfo();      
+      include_once("class.html_info.php"); 
+      $info = new HTML_Info();      
       $info->print_user_error(); 
       $info->print_error($stmt, $e); 
     }
@@ -380,8 +380,8 @@ class Schueler {
       $delete->execute(); 
     }
     catch (PDOException $e) {
-      include_once("cl_html_info.php"); 
-      $info = new HtmlInfo();      
+      include_once("class.html_info.php"); 
+      $info = new HTML_Info();      
       $info->print_user_error(); 
       $info->print_error($delete, $e);  
     }  
@@ -396,8 +396,8 @@ class Schueler {
       $delete->execute(); 
     }
     catch (PDOException $e) {
-      include_once("cl_html_info.php"); 
-      $info = new HtmlInfo();      
+      include_once("class.html_info.php"); 
+      $info = new HTML_Info();      
       $info->print_user_error(); 
       $info->print_error($delete, $e);  
     }  
@@ -412,8 +412,8 @@ class Schueler {
       $delete->execute(); 
     }
     catch (PDOException $e) {
-      include_once("cl_html_info.php"); 
-      $info = new HtmlInfo();      
+      include_once("class.html_info.php"); 
+      $info = new HTML_Info();      
       $info->print_user_error(); 
       $info->print_error($delete, $e);  
     }  
@@ -434,8 +434,8 @@ class Schueler {
       return true;                
     }
     catch (PDOException $e) {
-      include_once("cl_html_info.php"); 
-      $info = new HtmlInfo();      
+      include_once("class.html_info.php"); 
+      $info = new HTML_Info();      
       $info->print_user_error(); 
       $info->print_error($delete, $e);  
       return false; 
@@ -464,7 +464,7 @@ class Schueler {
       $this->ID =  $ID_New; // Stabübergabe (Objekt-Instanz übernimmt neue ID-Kopie )
     }
     catch (PDOException $e) {
-      $info = new HtmlInfo();      
+      $info = new HTML_Info();      
       $info->print_user_error(); 
       $info->print_error($insert, $e);  
     }  
@@ -532,15 +532,15 @@ class Schueler {
 
     try {
       $stmt->execute(); 
-      include_once("cl_html_table.php");      
-      $html = new HtmlTable($stmt); 
+      include_once("class.html_table.php");      
+      $html = new HTML_Table($stmt); 
       $html->print_table_checklist('material'); 
 
 
     }
     catch (PDOException $e) {
-      include_once("cl_html_info.php"); 
-      $info = new HtmlInfo();      
+      include_once("class.html_info.php"); 
+      $info = new HTML_Info();      
       $info->print_user_error(); 
       $info->print_error($stmt, $e); 
     }
@@ -590,8 +590,8 @@ class Schueler {
       
     }
     catch (PDOException $e) {
-      include_once("cl_html_info.php"); 
-      $info = new HtmlInfo();      
+      include_once("class.html_info.php"); 
+      $info = new HTML_Info();      
       $info->print_user_error(); 
       $info->print_error($stmt, $e); 
     }
@@ -633,8 +633,8 @@ class Schueler {
       
     }
     catch (PDOException $e) {
-      include_once("cl_html_info.php"); 
-      $info = new HtmlInfo();      
+      include_once("class.html_info.php"); 
+      $info = new HTML_Info();      
       $info->print_user_error(); 
       $info->print_error($stmt, $e); 
     }
@@ -674,8 +674,8 @@ class Schueler {
 
     try {
       $stmt->execute(); 
-      include_once("cl_html_table.php");      
-      $html = new HtmlTable($stmt); 
+      include_once("class.html_table.php");      
+      $html = new HTML_Table($stmt); 
       $html->add_link_edit=true;      
       $html->edit_link_table='uebung'; 
       $html->edit_link_title='Übung'; 
@@ -685,8 +685,8 @@ class Schueler {
 
     }
     catch (PDOException $e) {
-      include_once("cl_html_info.php"); 
-      $info = new HtmlInfo();      
+      include_once("class.html_info.php"); 
+      $info = new HTML_Info();      
       $info->print_user_error(); 
       $info->print_error($stmt, $e); 
     }
@@ -729,8 +729,8 @@ class Schueler {
 
     try {
       $stmt->execute(); 
-      include_once("cl_html_table.php");      
-      $html = new HtmlTable($stmt); 
+      include_once("class.html_table.php");      
+      $html = new HTML_Table($stmt); 
       $html->add_link_edit=false;      
       $html->edit_link_table='uebung'; 
       $html->edit_link_title='Übung'; 
@@ -740,8 +740,8 @@ class Schueler {
 
     }
     catch (PDOException $e) {
-      include_once("cl_html_info.php"); 
-      $info = new HtmlInfo();      
+      include_once("class.html_info.php"); 
+      $info = new HTML_Info();      
       $info->print_user_error(); 
       $info->print_error($stmt, $e); 
     }
