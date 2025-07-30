@@ -1,7 +1,14 @@
 <?php 
+
+include_once("dbconn/class.db.php"); 
+include_once("class.htmlinfo.php"); 
+include_once("class.htmlselect.php"); 
+include_once("class.htmltable.php"); 
+include_once("class.satz.php");    
+
 class Musikstueck {
 
-  public $table_name; 
+  public $table_name='musikstueck'; 
 
   public $ID;
   public $Nummer;
@@ -17,21 +24,22 @@ class Musikstueck {
   public $Titles='Musikstücke';  
   public $autoupdate = false;
 
+  private $db; 
+  private $info; 
+
   public function __construct(){
-    $this->table_name='musikstueck';     
+    $conn=new DBConnection(); 
+    $this->db=$conn->db; 
+    $this->info=new HTML_Info(); 
   }
 
   function insert_row($Nummer='', $Name='') { 
-    include_once("dbconn/cl_db.php");
 
     $Nummer=($Nummer==''? $this->get_next_nummer():$Nummer);
 
     // $Name=($Name==''?'(Musikstück '.$Nummer.')':$Name); // falls Name leer ist,  wird "Musikstück <Nr>" gespeichert 
-    
-    $conn = new DbConn(); 
-    $db=$conn->db; 
   
-    $update = $db->prepare("INSERT INTO `musikstueck` SET
+    $update = $this->db->prepare("INSERT INTO `musikstueck` SET
                           `Name`     = :Name,
                           `SammlungID`     = :SammlungID,  
                           `Nummer`     = :Nummer")
@@ -43,7 +51,7 @@ class Musikstueck {
   
     try {
       $update->execute(); 
-      $this->ID = $db->lastInsertId();
+      $this->ID = $this->db->lastInsertId();
       $this->load_row();  
     }
     catch (PDOException $e) {
@@ -81,12 +89,7 @@ class Musikstueck {
     // echo '<br>GattungID: '.$GattungID;    
     // echo '<br>EpocheID: '.$EpocheID;    
 
-
-    include_once("dbconn/cl_db.php");   
-    $conn = new DbConn(); 
-    $db=$conn->db; 
-            
-    $update = $db->prepare("UPDATE `musikstueck` 
+    $update = $this->db->prepare("UPDATE `musikstueck` 
               SET
               `Nummer`     = :Nummer,             
               `Name`     = :Name,
@@ -122,11 +125,8 @@ class Musikstueck {
 
 
   function load_row() {
-    include_once("dbconn/cl_db.php");   
-    $conn = new DbConn(); 
-    $db=$conn->db; 
 
-    $select = $db->prepare("SELECT 
+    $select = $this->db->prepare("SELECT 
       `ID`
       ,`Name`                       
       ,`Opus`
@@ -170,11 +170,7 @@ class Musikstueck {
     WHERE mb.MusikstueckID = :MusikstueckID 
     ORDER by b.Name"; 
 
-    include_once("dbconn/cl_db.php");
-    $conn = new DbConn(); 
-    $db=$conn->db; 
-  
-    $stmt = $db->prepare($query); 
+    $stmt = $this->db->prepare($query); 
     $stmt->bindParam(':MusikstueckID', $this->ID, PDO::PARAM_INT); 
       
     try {
@@ -210,11 +206,7 @@ class Musikstueck {
     WHERE mb.MusikstueckID = :MusikstueckID 
     ORDER by v.Name"; 
 
-    include_once("dbconn/cl_db.php");
-    $conn = new DbConn(); 
-    $db=$conn->db; 
-  
-    $stmt = $db->prepare($query); 
+    $stmt = $this->db->prepare($query); 
     $stmt->bindParam(':MusikstueckID', $this->ID, PDO::PARAM_INT); 
       
     try {
@@ -238,11 +230,8 @@ class Musikstueck {
   }
 
   function add_besetzung ($BesetzungID){
-      include_once("dbconn/cl_db.php");
-      $conn = new DbConn(); 
-      $db=$conn->db; 
 
-      $update = $db->prepare("INSERT IGNORE INTO `musikstueck_besetzung` SET
+      $update = $this->db->prepare("INSERT IGNORE INTO `musikstueck_besetzung` SET
                             `MusikstueckID`     = :MusikstueckID,
                             `BesetzungID`     = :BesetzungID");
 
@@ -262,11 +251,8 @@ class Musikstueck {
   }
 
   function add_verwendungszweck ($VerwendungszweckID){
-    include_once("dbconn/cl_db.php");
-    $conn = new DbConn(); 
-    $db=$conn->db; 
 
-    $update = $db->prepare("INSERT IGNORE INTO `musikstueck_verwendungszweck` SET
+    $update = $this->db->prepare("INSERT IGNORE INTO `musikstueck_verwendungszweck` SET
                           `MusikstueckID`     = :MusikstueckID,
                           `VerwendungszweckID`     = :VerwendungszweckID");
 
@@ -287,18 +273,13 @@ class Musikstueck {
 
   function print_select($value_selected='', $caption=''){
     /***** select box (fake) *****/ 
-    include_once("dbconn/cl_db.php");  
-    include_once("cl_html_select.php");
 
     $query="SELECT DISTINCT `ID` as MusikstueckID
             , `Name` FROM `musikstueck` 
             WHERE ID=:ID";
 
 
-  	$conn = new DbConn(); 
-    $db=$conn->db; 
-  
-    $stmt = $db->prepare($query); 
+    $stmt = $this->db->prepare($query); 
     $stmt->bindParam(':ID', $value_selected, PDO::PARAM_INT);
 
     try {
@@ -351,12 +332,8 @@ class Musikstueck {
             WHERE satz.MusikstueckID = :MusikstueckID 
             GROUP by satz.ID 
             ORDER by Nr"; 
-                
-    include_once("dbconn/cl_db.php");
-    $conn = new DbConn(); 
-    $db=$conn->db; 
 
-    $stmt = $db->prepare($query); 
+    $stmt = $this->db->prepare($query); 
     $stmt->bindParam(':MusikstueckID', $this->ID, PDO::PARAM_INT); 
       
     try {
@@ -379,13 +356,10 @@ class Musikstueck {
   
 
   function get_next_nummer () {
-    include_once("dbconn/cl_db.php");
-    $conn = new DbConn(); 
-    $db=$conn->db; 
 
     $sql="SELECT (coalesce(MAX(Nummer),0)) + 1 as next_nr from `musikstueck` 
              WHERE SammlungID=:SammlungID"; 
-    $stmt = $db->prepare($sql); 
+    $stmt = $this->db->prepare($sql); 
     $stmt->bindParam(':SammlungID', $this->SammlungID, PDO::PARAM_INT); 
     $stmt->execute(); 
     $col=$stmt->fetchColumn(); 
@@ -393,11 +367,8 @@ class Musikstueck {
   }  
 
   function delete_verwendungszweck($ID){
-    include_once("dbconn/cl_db.php");
-    $conn = new DbConn(); 
-    $db=$conn->db; 
 
-    $delete = $db->prepare("DELETE 
+    $delete = $this->db->prepare("DELETE 
                           FROM `musikstueck_verwendungszweck` 
                           WHERE MusikstueckID=:MusikstueckID
                           AND VerwendungszweckID=:VerwendungszweckID
@@ -417,11 +388,8 @@ class Musikstueck {
   }  
 
   function delete_verwendungszwecke(){
-    include_once("dbconn/cl_db.php");
-    $conn = new DbConn(); 
-    $db=$conn->db; 
 
-    $delete = $db->prepare("DELETE 
+    $delete = $this->db->prepare("DELETE 
                           FROM `musikstueck_verwendungszweck` 
                           WHERE MusikstueckID=:ID"); 
     $delete->bindValue(':ID', $this->ID);  
@@ -438,11 +406,8 @@ class Musikstueck {
   }    
 
   function delete_besetzung($ID){
-    include_once("dbconn/cl_db.php");
-    $conn = new DbConn(); 
-    $db=$conn->db; 
 
-    $delete = $db->prepare("DELETE FROM `musikstueck_besetzung` 
+    $delete = $this->db->prepare("DELETE FROM `musikstueck_besetzung` 
                           WHERE MusikstueckID=:MusikstueckID
                           AND BesetzungID=:BesetzungID
                           "
@@ -462,11 +427,8 @@ class Musikstueck {
   }
 
   function delete_besetzungen(){
-    include_once("dbconn/cl_db.php");
-    $conn = new DbConn(); 
-    $db=$conn->db; 
 
-    $delete = $db->prepare("DELETE 
+    $delete = $this->db->prepare("DELETE 
                            FROM `musikstueck_besetzung` 
                            WHERE MusikstueckID=:ID"); 
     $delete->bindValue(':ID', $this->ID);  
@@ -484,13 +446,7 @@ class Musikstueck {
 
   function delete_saetze(){
 
-    include_once("dbconn/cl_db.php");
-    include_once('classes/class.satz.php'); 
-
-    $conn = new DbConn(); 
-    $db=$conn->db; 
-
-    $select = $db->prepare("SELECT ID  
+    $select = $this->db->prepare("SELECT ID  
                            FROM `satz` 
                            WHERE MusikstueckID=:ID"); 
     $select->bindValue(':ID', $this->ID);  
@@ -507,14 +463,12 @@ class Musikstueck {
   }
 
   function delete(){
-    include_once("dbconn/cl_db.php");
-    $conn = new DbConn(); 
-    $db=$conn->db; 
+
     $this->delete_verwendungszwecke();   
     $this->delete_besetzungen();
     $this->delete_saetze();      
  
-    $delete = $db->prepare("DELETE FROM `musikstueck` WHERE ID=:ID"); 
+    $delete = $this->db->prepare("DELETE FROM `musikstueck` WHERE ID=:ID"); 
     $delete->bindValue(':ID', $this->ID);  
 
     try {
@@ -533,11 +487,6 @@ class Musikstueck {
   function copy($SammlungID_New=0){
     // SammlungID_New > 0 : Musikstück Kopie zu Sammlung Kopie 
     // SammlungID_New= 0: Musikstück Kopie an gleicher Sammlung 
-    include_once("dbconn/cl_db.php");
-    include_once("classes/class.satz.php");    
-
-    $conn = new DbConn(); 
-    $db=$conn->db; 
 
     $sql="INSERT INTO musikstueck (
             `Name`
@@ -562,7 +511,7 @@ class Musikstueck {
 
     // echo '<pre>'.$sql.'</pre>'; // test 
     
-    $insert = $db->prepare($sql); 
+    $insert = $this->db->prepare($sql); 
     
     $insert->bindValue(':ID', $this->ID);  
     
@@ -572,10 +521,10 @@ class Musikstueck {
 
     try {
       $insert->execute(); 
-      $ID_New = $db->lastInsertId();    
+      $ID_New = $this->db->lastInsertId();    
         
       /*** Sätze kopieren ***/
-      $select = $db->prepare("SELECT ID  
+      $select = $this->db->prepare("SELECT ID  
                     FROM `satz` 
                     WHERE MusikstueckID=:ID"); 
 
@@ -610,9 +559,6 @@ class Musikstueck {
 
   
   function copy_besetzungen($ID_New) {
-    
-    $conn = new DbConn(); 
-    $db=$conn->db; 
 
     $sql="insert into musikstueck_besetzung
           (MusikstueckID, BesetzungID) 
@@ -621,7 +567,7 @@ class Musikstueck {
           from musikstueck_besetzung 
           where MusikstueckID=:ID";
 
-    $insert = $db->prepare($sql); 
+    $insert = $this->db->prepare($sql); 
     $insert->bindValue(':ID', $this->ID);  
     $insert->bindValue(':MusikstueckID_New', $ID_New);  
 
@@ -637,9 +583,6 @@ class Musikstueck {
   }
 
   function copy_verwendungszwecke($ID_New) {
-    
-    $conn = new DbConn(); 
-    $db=$conn->db; 
 
     $sql="insert into musikstueck_verwendungszweck
         (MusikstueckID, VerwendungszweckID) 
@@ -648,7 +591,7 @@ class Musikstueck {
         from musikstueck_verwendungszweck 
         where MusikstueckID=:ID";
 
-    $insert = $db->prepare($sql); 
+    $insert = $this->db->prepare($sql); 
     $insert->bindValue(':ID', $this->ID);  
     $insert->bindValue(':MusikstueckID_New', $ID_New);  
 
@@ -667,13 +610,8 @@ class Musikstueck {
 
   function add_schwierigkeitsgrad($InstrumentID, $SchwierigkeitsgradID){
     // dataclearing 
-    include_once("dbconn/cl_db.php");
-    include_once('classes/class.satz.php'); 
 
-    $conn = new DbConn(); 
-    $db=$conn->db; 
-
-    $select = $db->prepare("SELECT ID  
+    $select = $this->db->prepare("SELECT ID  
                            FROM `satz` 
                            WHERE MusikstueckID=:ID"); 
     $select->bindValue(':ID', $this->ID);  
@@ -694,13 +632,8 @@ class Musikstueck {
   
   function add_satz_lookup($LookupID){
         // dataclearing 
-    include_once("dbconn/cl_db.php");
-    include_once('classes/class.satz.php'); 
 
-    $conn = new DbConn(); 
-    $db=$conn->db; 
-
-    $select = $db->prepare("SELECT ID  FROM `satz` WHERE MusikstueckID=:ID"); 
+    $select = $this->db->prepare("SELECT ID  FROM `satz` WHERE MusikstueckID=:ID"); 
     
     $select->bindValue(':ID', $this->ID);  
 
@@ -717,11 +650,8 @@ class Musikstueck {
     
 
   function update_komponist ($KomponistID){
-    include_once("dbconn/cl_db.php");
-    $conn = new DbConn(); 
-    $db=$conn->db; 
 
-    $update = $db->prepare("UPDATE musikstueck 
+    $update = $this->db->prepare("UPDATE musikstueck 
                             SET KomponistID = :KomponistID
                             WHERE ID = :ID");
 
@@ -740,11 +670,8 @@ class Musikstueck {
   }
 
   function update_epoche ($EpocheID){
-    include_once("dbconn/cl_db.php");
-    $conn = new DbConn(); 
-    $db=$conn->db; 
 
-    $update = $db->prepare("UPDATE musikstueck 
+    $update = $this->db->prepare("UPDATE musikstueck 
                             SET EpocheID = :EpocheID
                             WHERE ID = :ID");
 
@@ -764,11 +691,8 @@ class Musikstueck {
 
   
   function update_bearbeiter ($Bearbeiter){
-    include_once("dbconn/cl_db.php");
-    $conn = new DbConn(); 
-    $db=$conn->db; 
 
-    $update = $db->prepare("UPDATE musikstueck 
+    $update = $this->db->prepare("UPDATE musikstueck 
                             SET Bearbeiter = :Bearbeiter
                             WHERE ID = :ID");
 
@@ -788,14 +712,8 @@ class Musikstueck {
 
 
   function add_erprobt($ErprobtID){
-    
-    include_once("dbconn/cl_db.php");
-    include_once('classes/class.satz.php'); 
 
-    $conn = new DbConn(); 
-    $db=$conn->db; 
-
-    $select = $db->prepare("SELECT ID  
+    $select = $this->db->prepare("SELECT ID  
                            FROM `satz` 
                            WHERE MusikstueckID=:ID"); 
     $select->bindValue(':ID', $this->ID);  
@@ -852,11 +770,7 @@ class Musikstueck {
     
     "; 
 
-    include_once("dbconn/cl_db.php");
-    $conn = new DbConn(); 
-    $db=$conn->db; 
-  
-    $select = $db->prepare($query); 
+    $select = $this->db->prepare($query); 
 
     $select->bindValue(':ID', $this->ID);  
       
@@ -889,12 +803,8 @@ class Musikstueck {
   function getCountSaetze() {
 
     $query="SELECT COUNT(*) Anz from satz WHERE MusikstueckID = :MusikstueckID"; 
-
-    include_once("dbconn/cl_db.php");
-    $conn = new DbConn(); 
-    $db=$conn->db; 
   
-    $select = $db->prepare($query); 
+    $select = $this->db->prepare($query); 
 
     $select->bindValue(':MusikstueckID', $this->ID);  
 
@@ -907,15 +817,9 @@ class Musikstueck {
 
   function print_saetze($mode){
 
-    include_once('classes/class.satz.php'); 
-
     $query="SELECT ID FROM satz WHERE MusikstueckID = :MusikstueckID ORDER by Nr"; 
 
-    include_once("dbconn/cl_db.php");
-    $conn = new DbConn(); 
-    $db=$conn->db; 
-  
-    $select = $db->prepare($query); 
+    $select = $this->db->prepare($query); 
 
     $select->bindValue(':MusikstueckID', $this->ID);  
 

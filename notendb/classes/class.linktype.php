@@ -1,7 +1,14 @@
 <?php 
+
+include_once("dbconn/class.db.php"); 
+include_once("class.htmlinfo.php"); 
+include_once("class.htmlselect.php"); 
+include_once("class.htmltable.php"); 
+
+
 class Linktype {
 
-  public $table_name; 
+  public $table_name='linktype'; 
   public $ID;
   public $Name;
   public $titles_selected_list; 
@@ -9,16 +16,18 @@ class Linktype {
   public $Titles='Link-Typen';  
   public string $infotext=''; 
   
+  private $db; 
+  private $info; 
+
   public function __construct(){
-    $this->table_name='linktype'; 
+    $conn=new DBConnection(); 
+    $this->db=$conn->db; 
+    $this->info=new HTML_Info(); 
   }
 
   function insert_row ($Name) {
-    include_once("dbconn/cl_db.php");
-    $conn = new DbConn(); 
-    $db=$conn->db; 
 
-    $insert = $db->prepare("INSERT INTO `linktype` 
+    $insert = $this->db->prepare("INSERT INTO `linktype` 
               SET `Name`     = :Name"              
            );
 
@@ -26,7 +35,7 @@ class Linktype {
 
     try {
       $insert->execute(); 
-      $this->ID=$db->lastInsertId();
+      $this->ID=$this->db->lastInsertId();
       $this->load_row();   
     }
       catch (PDOException $e) {
@@ -38,16 +47,10 @@ class Linktype {
   }  
  
   function print_select($value_selected='', $caption=''){
-      
-    include_once("dbconn/cl_db.php");  
-    include_once("cl_html_select.php");
 
     $query="SELECT ID, Name from linktype order by Name";
 
-    $conn = new DbConn(); 
-    $db=$conn->db; 
-
-    $stmt = $db->prepare($query); 
+    $stmt = $this->db->prepare($query); 
 
     try {
       $stmt->execute(); 
@@ -66,16 +69,10 @@ class Linktype {
   }
 
   function print_preselect($value_selected=''){
-      
-    include_once("dbconn/cl_db.php");  
-    include_once("cl_html_select.php");
 
     $query="SELECT ID, Name from linktype order by Name";
 
-    $conn = new DbConn(); 
-    $db=$conn->db; 
-
-    $stmt = $db->prepare($query); 
+    $stmt = $this->db->prepare($query); 
 
     try {
       $stmt->execute(); 
@@ -96,11 +93,7 @@ class Linktype {
 
     $query="SELECT * from linktype ORDER by Name"; 
 
-    include_once("dbconn/cl_db.php");
-    $conn = new DbConn(); 
-    $db=$conn->db; 
-
-    $select = $db->prepare($query); 
+    $select = $this->db->prepare($query); 
 
     try {
       $select->execute(); 
@@ -118,11 +111,8 @@ class Linktype {
   }
 
   function update_row($Name) {
-    include_once("dbconn/cl_db.php");   
-    $conn = new DbConn(); 
-    $db=$conn->db; 
-    
-    $update = $db->prepare("UPDATE `linktype` 
+
+    $update = $this->db->prepare("UPDATE `linktype` 
                             SET Name     = :Name
                             WHERE `ID` = :ID"); 
 
@@ -142,11 +132,8 @@ class Linktype {
   }
 
   function load_row() {
-    include_once("dbconn/cl_db.php");   
-    $conn = new DbConn(); 
-    $db=$conn->db; 
 
-    $select = $db->prepare("SELECT ID, Name
+    $select = $this->db->prepare("SELECT ID, Name
                           FROM `linktype`
                           WHERE `ID` = :ID");
 
@@ -172,7 +159,7 @@ class Linktype {
   //   $query_lookups = 'select ID, Name, type_key from linktype order by ID';
   //   $conn = new DbConn(); 
   //   $db=$conn->db; 
-  //   $select = $db->prepare($query_lookups); 
+  //   $select = $this->db->prepare($query_lookups); 
   //   $select->execute(); 
   //   $result = $select->fetchAll(PDO::FETCH_ASSOC);
 
@@ -187,17 +174,12 @@ class Linktype {
   //   }
 
   function print_select_multi($options_selected=[]){
-    include_once("dbconn/cl_db.php");  
-    include_once("cl_html_select.php");
 
     $query="SELECT ID, Name 
             FROM `linktype` 
             order by `Name`"; 
 
-    $conn = new DbConn(); 
-    $db=$conn->db; 
-
-    $stmt = $db->prepare($query); 
+    $stmt = $this->db->prepare($query); 
 
     try {
       $stmt->execute(); 
@@ -215,11 +197,8 @@ class Linktype {
 
   
   function delete(){
-    include_once("dbconn/cl_db.php");
-    $conn = new DbConn(); 
-    $db=$conn->db; 
 
-    $select = $db->prepare("SELECT * from link WHERE LinktypeID=:LinktypeID");
+    $select = $this->db->prepare("SELECT * from link WHERE LinktypeID=:LinktypeID");
     $select->bindValue(':LinktypeID', $this->ID); 
     $select->execute();  
     if ($select->rowCount() > 0 ){
@@ -229,7 +208,7 @@ class Linktype {
       return false;            
     }
 
-    $delete = $db->prepare("DELETE FROM linktype WHERE ID=:ID"); 
+    $delete = $this->db->prepare("DELETE FROM linktype WHERE ID=:ID"); 
     $delete->bindValue(':ID', $this->ID);  
 
     try {

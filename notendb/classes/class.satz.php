@@ -1,7 +1,13 @@
 <?php 
+
+include_once("dbconn/class.db.php"); 
+include_once("class.htmlinfo.php"); 
+include_once("class.htmlselect.php"); 
+include_once("class.htmltable.php"); 
+
 class Satz {
 
-  public $table_name; 
+  public $table_name='satz'; 
 
   public $ID;
   public $Name;
@@ -23,19 +29,21 @@ class Satz {
   public $Titles='Sätze';  
   // public $autoupdate = false; // verworfen 
   
+  private $db; 
+  private $info; 
+
   public function __construct(){
-    $this->table_name='satz';     
+    $conn=new DBConnection(); 
+    $this->db=$conn->db; 
+    $this->info=new HTML_Info(); 
   }
 
   function insert_row($Nr='', $Name=''){         
-    include_once("dbconn/cl_db.php");
-    $conn = new DbConn(); 
-    $db=$conn->db; 
 
     $Nr=($Nr==''? $this->get_next_nr():$Nr); 
     // $Name=($Name==''?'(Satz '.$Nr.')':$Name); 
       
-    $insert = $db->prepare("INSERT INTO `satz` SET
+    $insert = $this->db->prepare("INSERT INTO `satz` SET
                           `Nr`     = :Nr,
                           `Name`     = :Name,  
                           `MusikstueckID`     = :MusikstueckID");
@@ -46,7 +54,7 @@ class Satz {
   
     try {
       $insert->execute(); 
-      $this->ID = $db->lastInsertId();
+      $this->ID = $this->db->lastInsertId();
       $this->load_row();   
     }
     catch (PDOException $e) {
@@ -69,11 +77,7 @@ class Satz {
     
          ) {
 
-    include_once("dbconn/cl_db.php");   
-    $conn = new DbConn(); 
-    $db=$conn->db; 
-
-    $update = $db->prepare("UPDATE `satz` 
+    $update = $this->db->prepare("UPDATE `satz` 
                           SET
                           Name=:Name, 
                           Nr=:Nr, 
@@ -106,11 +110,8 @@ class Satz {
   }
 
   function load_row() {
-    include_once("dbconn/cl_db.php");   
-    $conn = new DbConn(); 
-    $db=$conn->db; 
 
-    $select = $db->prepare("SELECT 
+    $select = $this->db->prepare("SELECT 
                       `ID`
                       ,COALESCE(Name,'') as Name 
                       ,`Nr`
@@ -144,11 +145,7 @@ class Satz {
 
   function load_row2() {
     // Daten aus Musikstück, Sammlung 
-    include_once("dbconn/cl_db.php");   
-    $conn = new DbConn(); 
-    $db=$conn->db; 
-
-    $select = $db->prepare("SELECT 
+    $select = $this->db->prepare("SELECT 
                       `ID`
                       ,COALESCE(Name,'') as Name 
                       ,`Nummer`
@@ -184,11 +181,8 @@ class Satz {
 
   function load_row3() {
     // Daten aus Musikstück, Sammlung 
-    include_once("dbconn/cl_db.php");   
-    $conn = new DbConn(); 
-    $db=$conn->db; 
 
-    $select = $db->prepare("SELECT 
+    $select = $this->db->prepare("SELECT 
                       satz.ID
                       , COALESCE(satz.Name,'') as Satz 
                       , COALESCE(satz.Nr,'') as SatzNr                       
@@ -223,8 +217,6 @@ class Satz {
  
   function print_select($value_selected='', $caption=''){
 
-    include_once("dbconn/cl_db.php");  
-    include_once("cl_html_select.php");
 
     $query="SELECT DISTINCT 
             `ID` as SammlungID, Name 
@@ -234,7 +226,7 @@ class Satz {
 
   	$conn = new DbConn(); 
     $db=$conn->db; 
-    $stmt = $db->prepare($query); 
+    $stmt = $this->db->prepare($query); 
     $stmt->bindParam(':ID', $value_selected, PDO::PARAM_INT);
 
     try {
@@ -252,12 +244,10 @@ class Satz {
   }
 
   function get_next_nr() {
-    include_once("dbconn/cl_db.php");
-    $conn = new DbConn(); 
-    $db=$conn->db; 
+
     $sql="SELECT (coalesce(MAX(Nr),0)) + 1 as next_nr from `satz` 
              WHERE MusikstueckID=:MusikstueckID"; 
-    $stmt = $db->prepare($sql); 
+    $stmt = $this->db->prepare($sql); 
     $stmt->bindParam(':MusikstueckID', $this->MusikstueckID, PDO::PARAM_INT); 
     $stmt->execute(); 
     $col=$stmt->fetchColumn(); 
@@ -265,11 +255,8 @@ class Satz {
   }  
 
   function add_uebung($UebungID){
-    include_once("dbconn/cl_db.php");
-    $conn = new DbConn(); 
-    $db=$conn->db; 
 
-    $insert = $db->prepare("INSERT INTO `satz_uebung` SET
+    $insert = $this->db->prepare("INSERT INTO `satz_uebung` SET
         `SatzID`     = :SatzID,  
         `UebungID`     = :UebungID");
 
@@ -303,11 +290,7 @@ class Satz {
 
     // echo $query; 
 
-    include_once("dbconn/cl_db.php");
-    $conn = new DbConn(); 
-    $db=$conn->db; 
-  
-    $stmt = $db->prepare($query); 
+    $stmt = $this->db->prepare($query); 
     $stmt->bindParam(':SatzID', $this->ID, PDO::PARAM_INT);
     if ($LookupTypeID>0) {
       $stmt->bindParam(':LookupTypeID', $LookupTypeID, PDO::PARAM_INT);
@@ -335,11 +318,7 @@ class Satz {
 
   function add_lookup($LookupID){
 
-    include_once("dbconn/cl_db.php");
-    $conn = new DbConn(); 
-    $db=$conn->db; 
-
-    $insert = $db->prepare("INSERT IGNORE INTO `satz_lookup` SET
+    $insert = $this->db->prepare("INSERT IGNORE INTO `satz_lookup` SET
         `SatzID`     = :SatzID,  
         `LookupID`     = :LookupID");
 
@@ -358,11 +337,8 @@ class Satz {
   }
 
   function delete_lookup($ID){
-    include_once("dbconn/cl_db.php");
-    $conn = new DbConn(); 
-    $db=$conn->db; 
 
-    $delete = $db->prepare("DELETE FROM `satz_lookup` 
+    $delete = $this->db->prepare("DELETE FROM `satz_lookup` 
           WHERE SatzID=:SatzID
           AND LookupID=:LookupID "); 
     $delete->bindValue(':SatzID', $this->ID);            
@@ -380,11 +356,8 @@ class Satz {
   }
 
   function delete_lookups(){
-    include_once("dbconn/cl_db.php");
-    $conn = new DbConn(); 
-    $db=$conn->db; 
 
-    $delete = $db->prepare("DELETE FROM `satz_lookup` WHERE SatzID=:ID"); 
+    $delete = $this->db->prepare("DELETE FROM `satz_lookup` WHERE SatzID=:ID"); 
     $delete->bindValue(':ID', $this->ID);  
 
     try {
@@ -399,16 +372,13 @@ class Satz {
   }
  
   function delete(){
-    include_once("dbconn/cl_db.php");
-    $conn = new DbConn(); 
-    $db=$conn->db; 
   
     $this->delete_lookups(); 
     $this->delete_schwierigkeitsgrade(); 
     $this->delete_erprobte(); 
     $this->delete_schuelers(); 
      
-    $delete = $db->prepare("DELETE FROM `satz` WHERE ID=:ID"); 
+    $delete = $this->db->prepare("DELETE FROM `satz` WHERE ID=:ID"); 
     $delete->bindValue(':ID', $this->ID);  
 
     try {
@@ -438,11 +408,7 @@ class Satz {
           ORDER BY instrument.Name, schwierigkeitsgrad.Name 
         "; 
 
-    include_once("dbconn/cl_db.php");
-    $conn = new DbConn(); 
-    $db=$conn->db; 
-  
-    $stmt = $db->prepare($query); 
+    $stmt = $this->db->prepare($query); 
     $stmt->bindParam(':SatzID', $this->ID, PDO::PARAM_INT); 
 
     try {
@@ -466,11 +432,8 @@ class Satz {
   }  
 
   function add_schwierigkeitsgrad($SchwierigkeitsgradID, $InstrumentID){
-    include_once("dbconn/cl_db.php");
-    $conn = new DbConn(); 
-    $db=$conn->db; 
 
-    $insert = $db->prepare("INSERT INTO `satz_schwierigkeitsgrad` SET
+    $insert = $this->db->prepare("INSERT INTO `satz_schwierigkeitsgrad` SET
                         `SatzID`     = :SatzID,  
                         `SchwierigkeitsgradID`     = :SchwierigkeitsgradID,
                         `InstrumentID`     = :InstrumentID
@@ -495,11 +458,8 @@ class Satz {
   }
 
   function delete_schwierigkeitsgrade(){
-    include_once("dbconn/cl_db.php");
-    $conn = new DbConn(); 
-    $db=$conn->db; 
 
-    $delete = $db->prepare("DELETE FROM `satz_schwierigkeitsgrad` WHERE SatzID=:ID"); 
+    $delete = $this->db->prepare("DELETE FROM `satz_schwierigkeitsgrad` WHERE SatzID=:ID"); 
     $delete->bindValue(':ID', $this->ID);  
 
     try {
@@ -514,11 +474,8 @@ class Satz {
   }
 
   function delete_schwierigkeitsgrad($ID){
-    include_once("dbconn/cl_db.php");
-    $conn = new DbConn(); 
-    $db=$conn->db; 
 
-    $delete = $db->prepare("DELETE 
+    $delete = $this->db->prepare("DELETE 
                           FROM `satz_schwierigkeitsgrad` 
                           WHERE SatzID=:SatzID
                           AND InstrumentID=:InstrumentID"
@@ -541,10 +498,6 @@ class Satz {
     /* MusikstueckID_New= 0: Kopie von Satz an vorhandenem Musikstück 
        MusikstueckID_New> 0: Kopie von Satz an Kopie von Musikstück 
      */
-    include_once("dbconn/cl_db.php");
-
-    $conn = new DbConn(); 
-    $db=$conn->db; 
 
     $sql="
         INSERT INTO satz (
@@ -569,7 +522,7 @@ class Satz {
       FROM satz 
       WHERE ID=:ID ";
 
-    $insert = $db->prepare($sql); 
+    $insert = $this->db->prepare($sql); 
     $insert->bindValue(':ID', $this->ID);  
     if ($MusikstueckID_New>0) {
       $insert->bindValue(':MusikstueckID', $MusikstueckID_New);  
@@ -578,7 +531,7 @@ class Satz {
     try {
       $insert->execute(); 
 
-      $ID_New = $db->lastInsertId();   
+      $ID_New = $this->db->lastInsertId();   
       
       $this->copy_schwierigkeitsgrade($ID_New ); 
 
@@ -600,9 +553,6 @@ class Satz {
   }
   
   function copy_schwierigkeitsgrade($ID_new) {
-    include_once("dbconn/cl_db.php");
-    $conn = new DbConn(); 
-    $db=$conn->db; 
 
     // schwierigkeitsgrade 
     $sql="insert into satz_schwierigkeitsgrad
@@ -613,7 +563,7 @@ class Satz {
     from satz_schwierigkeitsgrad 
     where SatzID=:ID";
 
-    $insert = $db->prepare($sql); 
+    $insert = $this->db->prepare($sql); 
     $insert->bindValue(':ID', $this->ID);  
     $insert->bindValue(':SatzID_new', $ID_new);  
     $insert->execute();  
@@ -621,9 +571,6 @@ class Satz {
   }
 
   function copy_erprobte($ID_new) {
-    include_once("dbconn/cl_db.php");
-    $conn = new DbConn(); 
-    $db=$conn->db; 
 
     $sql="insert into satz_erprobt
           (SatzID, ErprobtID, Jahr, Bemerkung) 
@@ -634,7 +581,7 @@ class Satz {
     from satz_erprobt 
     where SatzID=:ID";
 
-    $insert = $db->prepare($sql); 
+    $insert = $this->db->prepare($sql); 
     $insert->bindValue(':ID', $this->ID);  
     $insert->bindValue(':SatzID_new', $ID_new);  
     $insert->execute();  
@@ -642,9 +589,6 @@ class Satz {
   }
 
   function copy_lookups($ID_new) {
-    include_once("dbconn/cl_db.php");
-    $conn = new DbConn(); 
-    $db=$conn->db; 
 
     $sql="insert into satz_lookup
           (SatzID, LookupID) 
@@ -653,7 +597,7 @@ class Satz {
     from satz_lookup 
     where SatzID=:ID";
 
-    $insert = $db->prepare($sql); 
+    $insert = $this->db->prepare($sql); 
     $insert->bindValue(':ID', $this->ID);  
     $insert->bindValue(':SatzID_new', $ID_new);  
     $insert->execute();  
@@ -661,9 +605,6 @@ class Satz {
   }
 
   function copy_schueler($ID_new) {
-    include_once("dbconn/cl_db.php");
-    $conn = new DbConn(); 
-    $db=$conn->db; 
 
     $sql="insert into schueler_satz
           (SatzID, SchuelerID) 
@@ -672,7 +613,7 @@ class Satz {
     from schueler_satz 
     where SatzID=:ID";
 
-    $insert = $db->prepare($sql); 
+    $insert = $this->db->prepare($sql); 
     $insert->bindValue(':ID', $this->ID);  
     $insert->bindValue(':SatzID_new', $ID_new);  
     $insert->execute();  
@@ -691,11 +632,7 @@ class Satz {
           order by satz_erprobt.Jahr DESC 
         "; 
 
-    include_once("dbconn/cl_db.php");
-    $conn = new DbConn(); 
-    $db=$conn->db; 
-  
-    $stmt = $db->prepare($query); 
+    $stmt = $this->db->prepare($query); 
     $stmt->bindParam(':SatzID', $this->ID, PDO::PARAM_INT); 
 
     try {
@@ -724,11 +661,7 @@ class Satz {
  
   function add_erprobt($Bemerkung){
     // XXX ??? 
-    include_once("dbconn/cl_db.php");
-    $conn = new DbConn(); 
-    $db=$conn->db; 
-
-    $insert = $db->prepare("INSERT INTO `satz_erprobt` SET
+    $insert = $this->db->prepare("INSERT INTO `satz_erprobt` SET
         `Bemerkung`     = :Bemerkung"
       );
 
@@ -747,11 +680,8 @@ class Satz {
   }
 
   function delete_erprobte(){
-    include_once("dbconn/cl_db.php");
-    $conn = new DbConn(); 
-    $db=$conn->db; 
 
-    $delete = $db->prepare("DELETE FROM `satz_erprobt` WHERE SatzID=:ID"); 
+    $delete = $this->db->prepare("DELETE FROM `satz_erprobt` WHERE SatzID=:ID"); 
     $delete->bindValue(':ID', $this->ID);  
 
     try {
@@ -766,11 +696,8 @@ class Satz {
   }
 
   function add_erprobt2($ErprobtID){
-    include_once("dbconn/cl_db.php");
-    $conn = new DbConn(); 
-    $db=$conn->db; 
 
-    $insert = $db->prepare("INSERT INTO `satz_erprobt` SET
+    $insert = $this->db->prepare("INSERT INTO `satz_erprobt` SET
         `SatzID`     = :SatzID , 
         `ErprobtID`     = :ErprobtID "
       );
@@ -805,11 +732,7 @@ class Satz {
           order by schueler.Name  
         "; 
 
-    include_once("dbconn/cl_db.php");
-    $conn = new DbConn(); 
-    $db=$conn->db; 
-  
-    $stmt = $db->prepare($query); 
+    $stmt = $this->db->prepare($query); 
     $stmt->bindParam(':SatzID', $this->ID, PDO::PARAM_INT); 
 
     try {
@@ -846,11 +769,8 @@ class Satz {
   }    
     
   function delete_schuelers(){
-    include_once("dbconn/cl_db.php");
-    $conn = new DbConn(); 
-    $db=$conn->db; 
 
-    $delete = $db->prepare("DELETE FROM `schueler_satz` WHERE SatzID=:ID"); 
+    $delete = $this->db->prepare("DELETE FROM `schueler_satz` WHERE SatzID=:ID"); 
     $delete->bindValue(':ID', $this->ID);  
 
     try {
@@ -874,11 +794,7 @@ class Satz {
             order by schueler.Name 
         "; 
 
-    include_once("dbconn/cl_db.php");
-    $conn = new DbConn(); 
-    $db=$conn->db; 
-  
-    $stmt = $db->prepare($query); 
+    $stmt = $this->db->prepare($query); 
     $stmt->bindParam(':SatzID', $this->ID, PDO::PARAM_INT); 
 
     try {
@@ -886,8 +802,6 @@ class Satz {
       include_once("cl_html_table.php");      
       $html = new HtmlTable($stmt); 
       $html->print_table_checklist('schueler'); 
-
-
     }
     catch (PDOException $e) {
       include_once("cl_html_info.php"); 
@@ -950,11 +864,7 @@ class Satz {
     GROUP BY satz.ID    
     ORDER by satz.Nr"; 
 
-    include_once("dbconn/cl_db.php");
-    $conn = new DbConn(); 
-    $db=$conn->db; 
-  
-    $select = $db->prepare($query); 
+    $select = $this->db->prepare($query); 
 
     $select->bindValue(':ID', $this->ID);  
       

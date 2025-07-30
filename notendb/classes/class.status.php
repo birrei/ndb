@@ -1,8 +1,13 @@
 <?php 
 
+include_once("dbconn/class.db.php"); 
+include_once("class.htmlinfo.php"); 
+include_once("class.htmlselect.php"); 
+include_once("class.htmltable.php"); 
+
 class status {
 
-  public $table_name; 
+  public $table_name='status'; 
   public $ID;
   public $Name;
 
@@ -11,16 +16,19 @@ class status {
   public string $infotext=''; 
   public $titles_selected_list; 
 
+
+  private $db; 
+  private $info; 
+
   public function __construct(){
-    $this->table_name='status'; 
+    $conn=new DBConnection(); 
+    $this->db=$conn->db; 
+    $this->info=new HTML_Info(); 
   }
 
   function insert_row ($Name) {
-    include_once("dbconn/cl_db.php");
-    $conn = new DbConn(); 
-    $db=$conn->db; 
 
-    $insert = $db->prepare("INSERT INTO `status` 
+    $insert = $this->db->prepare("INSERT INTO `status` 
               SET `Name`     = :Name"
            );
 
@@ -28,7 +36,7 @@ class status {
 
     try {
       $insert->execute(); 
-      $this->ID=$db->lastInsertId();
+      $this->ID=$this->db->lastInsertId();
       $this->load_row();   
     }
       catch (PDOException $e) {
@@ -40,9 +48,6 @@ class status {
   }  
  
   function print_select($value_selected='', $caption=''){
-      
-    include_once("dbconn/cl_db.php");  
-    include_once("cl_html_select.php");
 
     $query="SELECT ID, Name 
             FROM `status` 
@@ -51,7 +56,7 @@ class status {
     $conn = new DbConn(); 
     $db=$conn->db; 
 
-    $stmt = $db->prepare($query); 
+    $stmt = $this->db->prepare($query); 
 
     try {
       $stmt->execute(); 
@@ -72,11 +77,7 @@ class status {
 
     $query="SELECT * from status ORDER by Name"; 
 
-    include_once("dbconn/cl_db.php");
-    $conn = new DbConn(); 
-    $db=$conn->db; 
-
-    $select = $db->prepare($query); 
+    $select = $this->db->prepare($query); 
 
     try {
       $select->execute(); 
@@ -96,11 +97,8 @@ class status {
   }
 
   function update_row($Name) {
-    include_once("dbconn/cl_db.php");   
-    $conn = new DbConn(); 
-    $db=$conn->db; 
     
-    $update = $db->prepare("UPDATE `status` 
+    $update = $this->db->prepare("UPDATE `status` 
                             SET
                             `Name`     = :Name
                             WHERE `ID` = :ID"); 
@@ -121,11 +119,8 @@ class status {
   }
 
   function load_row() {
-    include_once("dbconn/cl_db.php");   
-    $conn = new DbConn(); 
-    $db=$conn->db; 
 
-    $select = $db->prepare("SELECT `ID`, `Name` 
+    $select = $this->db->prepare("SELECT `ID`, `Name` 
                           FROM `status`
                           WHERE `ID` = :ID");
 
@@ -144,17 +139,11 @@ class status {
   
   function print_select_multi($options_selected=[]){
 
-    include_once("dbconn/cl_db.php");  
-    include_once("cl_html_select.php");
-
     $query="SELECT ID, Name 
             FROM `status` 
             order by `Name`"; 
 
-    $conn = new DbConn(); 
-    $db=$conn->db; 
-
-    $stmt = $db->prepare($query); 
+    $stmt = $this->db->prepare($query); 
 
     try {
       $stmt->execute(); 
@@ -176,11 +165,8 @@ class status {
   }
 
   function delete(){
-    include_once("dbconn/cl_db.php");
-    $conn = new DbConn(); 
-    $db=$conn->db; 
 
-    $delete = $db->prepare("DELETE FROM `status` WHERE ID=:ID"); 
+    $delete = $this->db->prepare("DELETE FROM `status` WHERE ID=:ID"); 
     $delete->bindValue(':ID', $this->ID);  
 
     try {
@@ -198,11 +184,9 @@ class status {
   }    
 
   function getDefaultID() {
-    include_once("dbconn/cl_db.php");
-    $conn = new DbConn(); 
-    $db=$conn->db; 
+
     $sql="SELECT (coalesce(MIN(ID),0)) AS DefaultID FROM status "; 
-    $stmt = $db->prepare($sql); 
+    $stmt = $this->db->prepare($sql); 
     $stmt->execute(); 
     $col=$stmt->fetchColumn(); 
     return $col;  

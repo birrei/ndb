@@ -1,25 +1,30 @@
 <?php 
+include_once("dbconn/class.db.php"); 
+include_once("class.htmlinfo.php"); 
+include_once("class.htmlselect.php"); 
+include_once("class.htmltable.php"); 
 
 class Gattung {
 
-  public $table_name; 
+  public $table_name='gattung'; 
   public $ID;
   public $Name;
   public $titles_selected_list; 
   public $Title='Gattung';
   public $Titles='Gattungen';  
   public string $infotext=''; 
-  
+  private $db; 
+  private $info; 
+
   public function __construct(){
-    $this->table_name='gattung'; 
+    $conn=new DBConnection(); 
+    $this->db=$conn->db; 
+    $this->info=new HTML_Info(); 
   }
 
   function insert_row ($Name) {
-    include_once("dbconn/cl_db.php");
-    $conn = new DbConn(); 
-    $db=$conn->db; 
 
-    $insert = $db->prepare("INSERT INTO `gattung` 
+    $insert = $this->db->prepare("INSERT INTO `gattung` 
               SET `Name`     = :Name"
            );
 
@@ -27,7 +32,7 @@ class Gattung {
 
     try {
       $insert->execute(); 
-      $this->ID=$db->lastInsertId();
+      $this->ID=$this->db->lastInsertId();
       $this->load_row();  
     }
       catch (PDOException $e) {
@@ -39,18 +44,12 @@ class Gattung {
   }  
  
   function print_select($value_selected='', $caption=''){
-      
-    include_once("dbconn/cl_db.php");  
-    include_once("cl_html_select.php");
 
     $query="SELECT ID, Name 
             FROM `gattung` 
             order by `Name`"; 
 
-    $conn = new DbConn(); 
-    $db=$conn->db; 
-
-    $stmt = $db->prepare($query); 
+    $stmt = $this->db->prepare($query); 
 
     try {
       $stmt->execute(); 
@@ -71,11 +70,7 @@ class Gattung {
 
     $query="SELECT * from gattung ORDER by Name"; 
 
-    include_once("dbconn/cl_db.php");
-    $conn = new DbConn(); 
-    $db=$conn->db; 
-
-    $select = $db->prepare($query); 
+    $select = $this->db->prepare($query); 
 
     try {
       $select->execute(); 
@@ -94,11 +89,8 @@ class Gattung {
   }
 
   function update_row($Name) {
-    include_once("dbconn/cl_db.php");   
-    $conn = new DbConn(); 
-    $db=$conn->db; 
-    
-    $update = $db->prepare("UPDATE `gattung` 
+
+    $update = $this->db->prepare("UPDATE `gattung` 
                             SET
                             `Name`     = :Name
                             WHERE `ID` = :ID"); 
@@ -119,11 +111,8 @@ class Gattung {
   }
 
   function load_row() {
-    include_once("dbconn/cl_db.php");   
-    $conn = new DbConn(); 
-    $db=$conn->db; 
 
-    $select = $db->prepare("SELECT `ID`, `Name` 
+    $select = $this->db->prepare("SELECT `ID`, `Name` 
                           FROM `gattung`
                           WHERE `ID` = :ID");
 
@@ -142,17 +131,12 @@ class Gattung {
   
   function print_select_multi($options_selected=[]){
 
-    include_once("dbconn/cl_db.php");  
-    include_once("cl_html_select.php");
 
     $query="SELECT ID, Name 
             FROM `gattung` 
             order by `Name`"; 
 
-    $conn = new DbConn(); 
-    $db=$conn->db; 
-
-    $stmt = $db->prepare($query); 
+    $stmt = $this->db->prepare($query); 
 
     try {
       $stmt->execute(); 
@@ -170,11 +154,8 @@ class Gattung {
   
   
   function delete(){
-    include_once("dbconn/cl_db.php");
-    $conn = new DbConn(); 
-    $db=$conn->db; 
 
-    $select = $db->prepare("SELECT * from musikstueck WHERE GattungID=:GattungID");
+    $select = $this->db->prepare("SELECT * from musikstueck WHERE GattungID=:GattungID");
     $select->bindValue(':GattungID', $this->ID); 
     $select->execute();  
     if ($select->rowCount() > 0 ){
@@ -185,7 +166,7 @@ class Gattung {
       return false;            
     }
  
-    $delete = $db->prepare("DELETE FROM `gattung` WHERE ID=:ID"); 
+    $delete = $this->db->prepare("DELETE FROM `gattung` WHERE ID=:ID"); 
     $delete->bindValue(':ID', $this->ID);  
 
     try {

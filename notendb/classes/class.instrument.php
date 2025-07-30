@@ -1,9 +1,13 @@
 <?php 
 
+include_once("dbconn/class.db.php"); 
+include_once("class.htmlinfo.php"); 
+include_once("class.htmlselect.php"); 
+include_once("class.htmltable.php"); 
 
  class Instrument {
 
-  public $table_name; 
+  public $table_name='instrument'; 
   public $ID;
   public $Name;
   public $titles_selected_list; 
@@ -12,21 +16,23 @@
   public $Parent='Satz'; // Satz, Schueler 
   public string $infotext=''; 
   
+  private $db; 
+  private $info; 
+
   public function __construct(){
-    $this->table_name='instrument'; 
+    $conn=new DBConnection(); 
+    $this->db=$conn->db; 
+    $this->info=new HTML_Info(); 
   }
 
   function insert_row ($Name) {
-    include_once("dbconn/cl_db.php");
-    $conn = new DbConn(); 
-    $db=$conn->db; 
 
-    $insert = $db->prepare("INSERT INTO `instrument` SET `Name` = :Name");
+    $insert = $this->db->prepare("INSERT INTO `instrument` SET `Name` = :Name");
     $insert->bindParam(':Name', $Name);
 
     try {
       $insert->execute(); 
-      $this->ID=$db->lastInsertId();
+      $this->ID=$this->db->lastInsertId();
       $this->load_row();  
     }
       catch (PDOException $e) {
@@ -38,9 +44,6 @@
   }  
  
   function print_select($value_selected='', $refID='', $caption=''){
-      
-    include_once("dbconn/cl_db.php");  
-    include_once("cl_html_select.php");
 
     $query="SELECT ID, Name 
             FROM `instrument` "; 
@@ -68,10 +71,8 @@
     }
     $query.='ORDER BY `Name`';    
 
-    $conn = new DbConn(); 
-    $db=$conn->db; 
 
-    $stmt = $db->prepare($query); 
+    $stmt = $this->db->prepare($query); 
     if ($refID!=''){
       $stmt->bindParam(':refID', $refID);
     }        
@@ -96,11 +97,7 @@
 
     $query="SELECT * from instrument ORDER by Name"; 
 
-    include_once("dbconn/cl_db.php");
-    $conn = new DbConn(); 
-    $db=$conn->db; 
-
-    $select = $db->prepare($query); 
+    $select = $this->db->prepare($query); 
 
     try {
       $select->execute(); 
@@ -121,11 +118,7 @@
               $Name 
             ) {
 
-    include_once("dbconn/cl_db.php");   
-    $conn = new DbConn(); 
-    $db=$conn->db; 
-    
-    $update = $db->prepare("UPDATE `instrument` 
+    $update = $this->db->prepare("UPDATE `instrument` 
                             SET
                             `Name`     = :Name
                             WHERE `ID` = :ID"); 
@@ -146,14 +139,10 @@
   }
 
   function load_row() { 
-    include_once("dbconn/cl_db.php");   
-    $conn = new DbConn(); 
-    $db=$conn->db; 
 
-    $select = $db->prepare("SELECT `ID`, `Name`
+    $select = $this->db->prepare("SELECT `ID`, `Name`
                           FROM `instrument`
                           WHERE `ID` = :ID");
-
  
     $select->bindParam(':ID', $this->ID, PDO::PARAM_INT);
     $select->execute(); 
@@ -171,17 +160,11 @@
 
   function print_select_multi($options_selected=[]){
 
-    include_once("dbconn/cl_db.php");  
-    include_once("cl_html_select.php");
-
     $query="SELECT ID, Name 
             FROM `instrument` 
             order by `Name`"; 
 
-    $conn = new DbConn(); 
-    $db=$conn->db; 
-
-    $stmt = $db->prepare($query); 
+    $stmt = $this->db->prepare($query); 
 
     try {
       $stmt->execute(); 
@@ -199,11 +182,8 @@
   }  
 
   function delete(){
-    include_once("dbconn/cl_db.php");
-    $conn = new DbConn(); 
-    $db=$conn->db; 
 
-    $select = $db->prepare("SELECT * from satz_schwierigkeitsgrad WHERE InstrumentID=:InstrumentID");
+    $select = $this->db->prepare("SELECT * from satz_schwierigkeitsgrad WHERE InstrumentID=:InstrumentID");
     $select->bindValue(':InstrumentID', $this->ID); 
     $select->execute();  
     if ($select->rowCount() > 0 ){
@@ -214,7 +194,7 @@
       return false;            
     }
  
-    $delete = $db->prepare("DELETE FROM `instrument` WHERE ID=:ID"); 
+    $delete = $this->db->prepare("DELETE FROM `instrument` WHERE ID=:ID"); 
     $delete->bindValue(':ID', $this->ID);  
 
     try {

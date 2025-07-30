@@ -1,6 +1,15 @@
 <?php 
+
+include_once("dbconn/class.db.php"); 
+include_once("class.htmlinfo.php"); 
+include_once("class.htmlselect.php"); 
+include_once("class.htmltable.php"); 
+include_once("class.musikstueck.php");  
+include_once('class.material.php'); 
+include_once('class.link.php'); 
+
  class Sammlung {
-  public $table_name; 
+  public $table_name='sammlung'; 
   public $ID;
   public $Name;
   public $VerlagID;
@@ -17,24 +26,26 @@
   public int $anzahl_materials=0; 
   public int $anzahl_anzahl_links=0; 
 
+  private $db; 
+  private $info; 
+
   public function __construct(){
-    $this->table_name='sammlung'; 
+    $conn=new DBConnection(); 
+    $this->db=$conn->db; 
+    $this->info=new HTML_Info(); 
   }
 
+
   function insert_row($Name) {         
-    include_once("dbconn/cl_db.php");
 
-    $conn = new DbConn(); 
-    $db=$conn->db; 
-
-    $insert = $db->prepare("INSERT INTO `sammlung` SET
+    $insert = $this->db->prepare("INSERT INTO `sammlung` SET
                              `Name`     = :Name");
 
     $insert->bindValue(':Name', $Name);
 
     try {
       $insert->execute(); 
-      $this->ID = $db->lastInsertId();
+      $this->ID = $this->db->lastInsertId();
       $this->load_row();  
     }
       catch (PDOException $e) {
@@ -53,11 +64,7 @@
       on v.ID = s.VerlagID  
     ORDER by s.Name"; 
 
-    include_once("dbconn/cl_db.php");
-    $conn = new DbConn(); 
-    $db=$conn->db; 
-  
-    $select = $db->prepare($query); 
+    $select = $this->db->prepare($query); 
       
     try {
       $select->execute(); 
@@ -83,12 +90,8 @@
           , $Erfasst
          ) 
     {
-
-      include_once("dbconn/cl_db.php");   
-      $conn = new DbConn(); 
-      $db=$conn->db; 
-          
-      $update = $db->prepare("UPDATE `sammlung` 
+       
+      $update = $this->db->prepare("UPDATE `sammlung` 
             SET
             `Name`     = :Name,
             `VerlagID`     = :VerlagID,   
@@ -120,7 +123,7 @@
 
   function print_select($value_selected='', $caption=''){
     /***** select box (fake) *****/ 
-    include_once("dbconn/cl_db.php");  
+
     include_once("cl_html_select.php");
 
     $query="SELECT DISTINCT 
@@ -128,11 +131,8 @@
             FROM `sammlung` 
             WHERE ID=:ID
             order by `Name`"; 
-
-  	$conn = new DbConn(); 
-    $db=$conn->db; 
   
-    $stmt = $db->prepare($query); 
+    $stmt = $this->db->prepare($query); 
     $stmt->bindParam(':ID', $value_selected, PDO::PARAM_INT);
 
     try {
@@ -150,11 +150,8 @@
   }
 
   function load_row() {
-    include_once("dbconn/cl_db.php");   
-    $conn = new DbConn(); 
-    $db=$conn->db; 
 
-    $select = $db->prepare("SELECT 
+    $select = $this->db->prepare("SELECT 
                           ID, 
                           Name, 
                           VerlagID, 
@@ -210,11 +207,7 @@
     GROUP BY musikstueck.ID 
     ORDER by musikstueck.Nummer"; 
 
-    include_once("dbconn/cl_db.php");
-    $conn = new DbConn(); 
-    $db=$conn->db; 
-  
-    $stmt = $db->prepare($query); 
+    $stmt = $this->db->prepare($query); 
     $stmt->bindParam(':SammlungID', $this->ID, PDO::PARAM_INT); 
       
     try {
@@ -246,11 +239,7 @@
           where link.SammlungID= :ID
       "; 
                       
-    include_once("dbconn/cl_db.php");
-    $conn = new DbConn(); 
-    $db=$conn->db; 
-
-    $stmt = $db->prepare($query); 
+    $stmt = $this->db->prepare($query); 
     $stmt->bindParam(':ID', $this->ID, PDO::PARAM_INT); 
       
     try {
@@ -295,12 +284,8 @@
           $query.=" ORDER by lookup_type.Name, lookup.Name"; 
 
     // echo $query; 
-
-    include_once("dbconn/cl_db.php");
-    $conn = new DbConn(); 
-    $db=$conn->db; 
   
-    $stmt = $db->prepare($query); 
+    $stmt = $this->db->prepare($query); 
     $stmt->bindParam(':SammlungID', $this->ID, PDO::PARAM_INT);
     if ($LookupTypeID>0) {
       $stmt->bindParam(':LookupTypeID', $LookupTypeID, PDO::PARAM_INT);
@@ -328,11 +313,7 @@
     
   function add_lookup($LookupID){
 
-    include_once("dbconn/cl_db.php");
-    $conn = new DbConn(); 
-    $db=$conn->db; 
-
-    $insert = $db->prepare("INSERT INTO `sammlung_lookup` SET
+    $insert = $this->db->prepare("INSERT INTO `sammlung_lookup` SET
         `SammlungID`     = :SammlungID,  
         `LookupID`     = :LookupID");
 
@@ -351,11 +332,8 @@
   } 
   
   function delete_lookup($ID){
-    include_once("dbconn/cl_db.php");
-    $conn = new DbConn(); 
-    $db=$conn->db; 
 
-    $delete = $db->prepare("DELETE FROM `sammlung_lookup` 
+    $delete = $this->db->prepare("DELETE FROM `sammlung_lookup` 
                             WHERE SammlungID=:SammlungID 
                             AND LookupID=:LookupID"); 
     $delete->bindValue(':SammlungID', $this->ID);  
@@ -374,28 +352,24 @@
 
   function copy(){
 
-    include_once("dbconn/cl_db.php");
     include_once('classes/class.musikstueck.php'); 
     include_once('classes/class.material.php');     
     include_once("cl_html_info.php"); 
-
-    $conn = new DbConn(); 
-    $db=$conn->db; 
 
     $sql="INSERT INTO sammlung (Name, VerlagID, StandortID, Bemerkung)
           SELECT CONCAT(Name, ' (Kopie)') as Name , VerlagID, StandortID, Bemerkung
           FROM sammlung 
           WHERE ID=:ID ";
 
-    $insert = $db->prepare($sql); 
+    $insert = $this->db->prepare($sql); 
     $insert->bindValue(':ID', $this->ID);  
 
     try {
       $insert->execute(); 
-      $ID_New = $db->lastInsertId();    
+      $ID_New = $this->db->lastInsertId();    
       
       /** Musikstücke kopieren  */
-      $select = $db->prepare("SELECT ID  FROM `musikstueck` WHERE SammlungID=:ID"); 
+      $select = $this->db->prepare("SELECT ID  FROM `musikstueck` WHERE SammlungID=:ID"); 
 
       $select->bindValue(':ID', $this->ID);  
 
@@ -410,7 +384,7 @@
       }
 
       /*** Materialien kopieren ***/
-      $select = $db->prepare("SELECT ID  FROM `material` WHERE SammlungID=:ID"); 
+      $select = $this->db->prepare("SELECT ID  FROM `material` WHERE SammlungID=:ID"); 
 
       $select->bindValue(':ID', $this->ID);  
 
@@ -437,9 +411,6 @@
   }  
 
   function copy_lookups($ID_new) {
-    include_once("dbconn/cl_db.php");
-    $conn = new DbConn(); 
-    $db=$conn->db; 
 
     $sql="insert into sammlung_lookup
           (SammlungID, LookupID) 
@@ -448,7 +419,7 @@
     from sammlung_lookup 
     where SammlungID=:ID";
 
-    $insert = $db->prepare($sql); 
+    $insert = $this->db->prepare($sql); 
     $insert->bindValue(':ID', $this->ID);  
     $insert->bindValue(':SammlungID', $ID_new);  
     $insert->execute();  
@@ -457,12 +428,11 @@
 
   function add_besetzung($BesetzungID){
     // dataclearing: Besetzung bei allen Musikstücken ergänzen  
-   include_once("dbconn/cl_db.php");
-   include_once("classes/class.musikstueck.php");    
-   $conn = new DbConn(); 
-   $db=$conn->db; 
 
-   $select = $db->prepare("SELECT ID  
+   include_once("classes/class.musikstueck.php");    
+
+
+   $select = $this->db->prepare("SELECT ID  
    FROM `musikstueck` 
    WHERE SammlungID=:ID"); 
 
@@ -485,12 +455,9 @@
   function delete_besetzung($BesetzungID){
     // dataclearing: eine Besetzung bei allen Musikstücken entfernen 
 
-    include_once("dbconn/cl_db.php");
     include_once("classes/class.musikstueck.php");    
-    $conn = new DbConn(); 
-    $db=$conn->db; 
 
-    $select = $db->prepare("SELECT ID  
+    $select = $this->db->prepare("SELECT ID  
     FROM `musikstueck` 
     WHERE SammlungID=:ID"); 
 
@@ -511,12 +478,8 @@
   
   function add_verwendungszweck($VerwendungszweckID){
       // dataclearing: Verwendungszweck bei allen Musikstücken ergänzen  
-      include_once("dbconn/cl_db.php");
-      include_once("classes/class.musikstueck.php");    
-      $conn = new DbConn(); 
-      $db=$conn->db; 
    
-      $select = $db->prepare("SELECT ID  
+      $select = $this->db->prepare("SELECT ID  
       FROM `musikstueck` 
       WHERE SammlungID=:ID"); 
    
@@ -539,12 +502,7 @@
   function delete_verwendungszweck($VerwendungszweckID){
     // dataclearing: einen Verwendungszeck bei allen Musikstücken entfernen 
 
-    include_once("dbconn/cl_db.php");
-    include_once("classes/class.musikstueck.php");    
-    $conn = new DbConn(); 
-    $db=$conn->db; 
-
-    $select = $db->prepare("SELECT ID  
+    $select = $this->db->prepare("SELECT ID  
     FROM `musikstueck` 
     WHERE SammlungID=:ID"); 
 
@@ -565,12 +523,8 @@
 
   function add_schwierigkeitsgrad($InstrumentID, $SchwierigkeitsgradID){
     // dataclearing: Schwierigkeitsgrad bei allen ungeordneten Sätzen ergänzen  
-   include_once("dbconn/cl_db.php");
-   include_once("classes/class.musikstueck.php");    
-   $conn = new DbConn(); 
-   $db=$conn->db; 
 
-   $select = $db->prepare("SELECT ID  
+   $select = $this->db->prepare("SELECT ID  
    FROM `musikstueck` 
    WHERE SammlungID=:ID"); 
 
@@ -592,12 +546,8 @@
 
   function add_satz_lookup($LookupID){
     // dataclearing: Schwierigkeitsgrad bei allen ungeordneten Sätzen ergänzen  
-   include_once("dbconn/cl_db.php");
-   include_once("classes/class.musikstueck.php");    
-   $conn = new DbConn(); 
-   $db=$conn->db; 
 
-   $select = $db->prepare("SELECT ID  FROM `musikstueck` WHERE SammlungID=:ID"); 
+   $select = $this->db->prepare("SELECT ID  FROM `musikstueck` WHERE SammlungID=:ID"); 
 
    $select->bindValue(':ID', $this->ID);  
 
@@ -617,12 +567,8 @@
 
   function add_komponist($KomponistID){
     // dataclearing: Verwendungszweck bei allen Musikstücken ergänzen  
-    include_once("dbconn/cl_db.php");
-    include_once("classes/class.musikstueck.php");    
-    $conn = new DbConn(); 
-    $db=$conn->db; 
- 
-    $select = $db->prepare("SELECT ID  
+
+    $select = $this->db->prepare("SELECT ID  
     FROM `musikstueck` 
     WHERE SammlungID=:ID"); 
  
@@ -644,12 +590,8 @@
 
   function add_bearbeiter($Bearbeiter){
     // dataclearing: Verwendungszweck bei allen Musikstücken ergänzen  
-    include_once("dbconn/cl_db.php");
-    include_once("classes/class.musikstueck.php");    
-    $conn = new DbConn(); 
-    $db=$conn->db; 
- 
-    $select = $db->prepare("SELECT ID  
+
+    $select = $this->db->prepare("SELECT ID  
     FROM `musikstueck` 
     WHERE SammlungID=:ID"); 
  
@@ -670,12 +612,7 @@
 
   function add_epoche($EpocheID){
     // dataclearing: Verwendungszweck bei allen Musikstücken ergänzen  
-    include_once("dbconn/cl_db.php");
-    include_once("classes/class.musikstueck.php");    
-    $conn = new DbConn(); 
-    $db=$conn->db; 
- 
-    $select = $db->prepare("SELECT ID  
+    $select = $this->db->prepare("SELECT ID  
     FROM `musikstueck` 
     WHERE SammlungID=:ID"); 
  
@@ -697,12 +634,8 @@
 
   function add_erprobt($ErprobtID){
     // dataclearing: Verwendungszweck bei allen Musikstücken ergänzen  
-    include_once("dbconn/cl_db.php");
-    include_once("classes/class.musikstueck.php");    
-    $conn = new DbConn(); 
-    $db=$conn->db; 
- 
-    $select = $db->prepare("SELECT ID  
+
+    $select = $this->db->prepare("SELECT ID  
     FROM `musikstueck` 
     WHERE SammlungID=:ID"); 
  
@@ -735,11 +668,7 @@
         ORDER BY m.Name 
 	      "; 
 
-    include_once("dbconn/cl_db.php");
-    $conn = new DbConn(); 
-    $db=$conn->db; 
-  
-    $stmt = $db->prepare($query); 
+    $stmt = $this->db->prepare($query); 
     $stmt->bindParam(':SammlungID', $this->ID, PDO::PARAM_INT); 
       
     try {
@@ -761,11 +690,8 @@
   }  
 
   function count_musikstuecke() {
-    include_once("dbconn/cl_db.php");
-    $conn = new DbConn(); 
-    $db=$conn->db;  
 
-    $select = $db->prepare("SELECT ID from musikstueck WHERE Sammlung=:ID");
+    $select = $this->db->prepare("SELECT ID from musikstueck WHERE Sammlung=:ID");
     $select->bindValue(':ID', $this->ID); 
     $select->execute();  
 
@@ -774,11 +700,8 @@
   }
   
   function count_materials() {
-    include_once("dbconn/cl_db.php");
-    $conn = new DbConn(); 
-    $db=$conn->db;  
 
-    $select = $db->prepare("SELECT ID from material WHERE Sammlung=:ID");
+    $select = $this->db->prepare("SELECT ID from material WHERE Sammlung=:ID");
     $select->bindValue(':ID', $this->ID); 
     $select->execute();  
 
@@ -787,16 +710,13 @@
   }
 
   function delete(){
-    include_once("dbconn/cl_db.php");
-    $conn = new DbConn(); 
-    $db=$conn->db; 
 
     $this->delete_links();
     $this->delete_musikstuecke();  
     $this->delete_materials(); 
     $this->delete_lookups();          
  
-    $delete = $db->prepare("DELETE FROM `sammlung` WHERE ID=:ID"); 
+    $delete = $this->db->prepare("DELETE FROM `sammlung` WHERE ID=:ID"); 
     $delete->bindValue(':ID', $this->ID);  
 
     try {
@@ -813,11 +733,8 @@
   }  
 
   function delete_lookups(){
-    include_once("dbconn/cl_db.php");
-    $conn = new DbConn(); 
-    $db=$conn->db; 
 
-    $delete = $db->prepare("DELETE FROM `sammlung_lookup` 
+    $delete = $this->db->prepare("DELETE FROM `sammlung_lookup` 
                             WHERE SammlungID=:SammlungID "); 
     $delete->bindValue(':SammlungID', $this->ID);  
 
@@ -833,13 +750,8 @@
   }
 
   function delete_materials(){
-    include_once("dbconn/cl_db.php");
-    include_once('classes/class.material.php'); 
 
-    $conn = new DbConn(); 
-    $db=$conn->db; 
-
-    $select = $db->prepare("SELECT ID  FROM `material` WHERE SammlungID=:ID"); 
+    $select = $this->db->prepare("SELECT ID  FROM `material` WHERE SammlungID=:ID"); 
 
     $select->bindValue(':ID', $this->ID);  
 
@@ -856,13 +768,8 @@
   }
 
   function delete_links(){
-    include_once("dbconn/cl_db.php");
-    include_once('classes/class.link.php'); 
 
-    $conn = new DbConn(); 
-    $db=$conn->db; 
-
-    $select = $db->prepare("SELECT ID  
+    $select = $this->db->prepare("SELECT ID  
                            FROM `link` 
                            WHERE SammlungID=:ID"); 
     $select->bindValue(':ID', $this->ID);  
@@ -879,13 +786,8 @@
   }
 
   function delete_musikstuecke(){
-    include_once("dbconn/cl_db.php");
-    include_once('classes/class.musikstueck.php'); 
 
-    $conn = new DbConn(); 
-    $db=$conn->db; 
-
-    $select = $db->prepare("SELECT ID  
+    $select = $this->db->prepare("SELECT ID  
                            FROM `musikstueck` 
                            WHERE SammlungID=:ID"); 
     $select->bindValue(':ID', $this->ID);  
@@ -925,11 +827,7 @@
     "
     ; 
 
-    include_once("dbconn/cl_db.php");
-    $conn = new DbConn(); 
-    $db=$conn->db; 
-  
-    $select = $db->prepare($query); 
+    $select = $this->db->prepare($query); 
 
     $select->bindValue(':ID', $this->ID);  
       
@@ -949,15 +847,10 @@
 
 
   function print_musikstuecke(){
-    include_once('classes/class.musikstueck.php'); 
 
     $query="SELECT ID FROM musikstueck WHERE SammlungID = :SammlungID ORDER by Nummer"; 
 
-    include_once("dbconn/cl_db.php");
-    $conn = new DbConn(); 
-    $db=$conn->db; 
-  
-    $select = $db->prepare($query); 
+    $select = $this->db->prepare($query); 
 
     $select->bindValue(':SammlungID', $this->ID);  
 

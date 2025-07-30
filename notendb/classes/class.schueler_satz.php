@@ -1,8 +1,13 @@
 <?php 
 
+include_once("dbconn/class.db.php"); 
+include_once("class.htmlinfo.php"); 
+include_once("class.htmlselect.php"); 
+include_once("class.htmltable.php"); 
+
 class SchuelerSatz {
 
-  public $table_name; 
+  public $table_name='schueler_satz'; 
 
   public $ID='';
   public $SatzID='';
@@ -16,9 +21,14 @@ class SchuelerSatz {
   public $Title='SatzSchueler';
   public $Titles='SatzSchuelers';  
 
+  private $db; 
+  private $info; 
+
   public function __construct(){
-    $this->table_name='schueler_satz'; 
-  }
+    $conn=new DBConnection(); 
+    $this->db=$conn->db; 
+    $this->info=new HTML_Info(); 
+  }  
 
   function insert_row ($SchuelerID, $SatzID) {
 
@@ -26,16 +36,12 @@ class SchuelerSatz {
       return false; 
     }   
 
-    include_once("dbconn/cl_db.php");
-    $conn = new DbConn(); 
-    $db=$conn->db; 
-
     include_once("classes/class.status.php");
     $status=new Status();      
     $StatusID= $status->getDefaultID(); 
 
     // echo 'Insert: SatzID: '.$this->SatzID; // test 
-    $insert = $db->prepare("INSERT INTO `schueler_satz` 
+    $insert = $this->db->prepare("INSERT INTO `schueler_satz` 
               SET SatzID = :SatzID   
                   , SchuelerID  = :SchuelerID
                   , StatusID  =:StatusID
@@ -48,7 +54,7 @@ class SchuelerSatz {
 
     try {
       $insert->execute(); 
-      $this->ID=$db->lastInsertId();
+      $this->ID=$this->db->lastInsertId();
       // $this->load_row();   
     }
       catch (PDOException $e) {
@@ -60,11 +66,8 @@ class SchuelerSatz {
   }  
    
   function load_row() {
-    include_once("dbconn/cl_db.php");   
-    $conn = new DbConn(); 
-    $db=$conn->db; 
 
-    $select = $db->prepare("SELECT ID
+    $select = $this->db->prepare("SELECT ID
                           , SatzID
                           , SchuelerID
                           , DatumVon
@@ -93,11 +96,9 @@ class SchuelerSatz {
   }  
 
   function delete(){
-    include_once("dbconn/cl_db.php");
-    $conn = new DbConn(); 
-    $db=$conn->db; 
+
     // echo '<p>Lösche schueler_satz ID: '.$this->ID.':</p>';
-    $delete = $db->prepare("DELETE FROM `schueler_satz` WHERE ID=:ID"); 
+    $delete = $this->db->prepare("DELETE FROM `schueler_satz` WHERE ID=:ID"); 
     $delete->bindValue(':ID', $this->ID);  
 
     try {
@@ -115,10 +116,6 @@ class SchuelerSatz {
 
  
   function update_row($SchuelerID, $SatzID, $DatumVon, $DatumBis, $Bemerkung, $StatusID) {
-    include_once("dbconn/cl_db.php");   
-    $conn = new DbConn(); 
-    $db=$conn->db; 
-    
     // echo 'TEST: ID: '.$this->ID; 
     // echo '<br>SchuelerID: '.$SchuelerID; 
     // echo '<br>SatzID: '.$SatzID; 
@@ -129,7 +126,7 @@ class SchuelerSatz {
       $this->insert_row($SchuelerID, $SatzID); 
     }
 
-    $update = $db->prepare("UPDATE `schueler_satz` 
+    $update = $this->db->prepare("UPDATE `schueler_satz` 
                             SET `SchuelerID`=:SchuelerID,
                                 SatzID=:SatzID, 
                                 DatumVon=:DatumVon, 

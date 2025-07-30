@@ -1,9 +1,14 @@
 <?php 
 
+include_once("dbconn/class.db.php"); 
+include_once("class.htmlinfo.php"); 
+include_once("class.htmlselect.php"); 
+include_once("class.htmltable.php"); 
+
 
  class Verlag {
 
-  public $table_name; 
+  public $table_name='verlag';
   public $ID;
   public $Name;
   public $Bemerkung;
@@ -12,21 +17,23 @@
   public $Titles='Verlage';  
   public string $infotext=''; 
   
+  private $db; 
+  private $info; 
+
   public function __construct(){
-    $this->table_name='verlag'; 
+    $conn=new DBConnection(); 
+    $this->db=$conn->db; 
+    $this->info=new HTML_Info(); 
   }
 
   function insert_row ($Name) {
-    include_once("dbconn/cl_db.php");
-    $conn = new DbConn(); 
-    $db=$conn->db; 
 
-    $insert = $db->prepare("INSERT INTO `verlag` SET `Name`     = :Name");
+    $insert = $this->db->prepare("INSERT INTO `verlag` SET `Name`     = :Name");
     $insert->bindParam(':Name', $Name);
 
     try {
       $insert->execute(); 
-      $this->ID=$db->lastInsertId();
+      $this->ID=$this->db->lastInsertId();
       $this->load_row();  
     }
       catch (PDOException $e) {
@@ -38,18 +45,12 @@
   }  
  
   function print_select($value_selected='', $caption=''){
-      
-    include_once("dbconn/cl_db.php");  
-    include_once("cl_html_select.php");
 
     $query="SELECT ID, Name 
             FROM `verlag` 
             order by `Name`"; 
 
-    $conn = new DbConn(); 
-    $db=$conn->db; 
-
-    $stmt = $db->prepare($query); 
+    $stmt = $this->db->prepare($query); 
 
     try {
       $stmt->execute(); 
@@ -70,11 +71,7 @@
 
     $query="SELECT * from verlag ORDER by Name"; 
 
-    include_once("dbconn/cl_db.php");
-    $conn = new DbConn(); 
-    $db=$conn->db; 
-
-    $select = $db->prepare($query); 
+    $select = $this->db->prepare($query); 
 
     try {
       $select->execute(); 
@@ -95,12 +92,8 @@
               $Name
             , $Bemerkung    
             ) {
-
-    include_once("dbconn/cl_db.php");   
-    $conn = new DbConn(); 
-    $db=$conn->db; 
     
-    $update = $db->prepare("UPDATE `verlag` 
+    $update = $this->db->prepare("UPDATE `verlag` 
                             SET
                             `Name`     = :Name,
                             `Bemerkung` = :Bemerkung
@@ -123,11 +116,8 @@
   }
 
   function load_row() {
-    include_once("dbconn/cl_db.php");   
-    $conn = new DbConn(); 
-    $db=$conn->db; 
 
-    $select = $db->prepare("SELECT `ID`, `Name`, `Bemerkung` 
+    $select = $this->db->prepare("SELECT `ID`, `Name`, `Bemerkung` 
                           FROM `verlag`
                           WHERE `ID` = :ID");
 
@@ -147,17 +137,11 @@
 
   function print_select_multi($options_selected=[]){
 
-    include_once("dbconn/cl_db.php");  
-    include_once("cl_html_select.php");
-
     $query="SELECT ID, Name 
             FROM `verlag` 
             order by `Name`"; 
 
-    $conn = new DbConn(); 
-    $db=$conn->db; 
-
-    $stmt = $db->prepare($query); 
+    $stmt = $this->db->prepare($query); 
 
     try {
       $stmt->execute(); 
@@ -174,11 +158,8 @@
   }  
 
   function delete(){
-    include_once("dbconn/cl_db.php");
-    $conn = new DbConn(); 
-    $db=$conn->db; 
 
-    $select = $db->prepare("SELECT * from sammlung WHERE VerlagID=:VerlagID");
+    $select = $this->db->prepare("SELECT * from sammlung WHERE VerlagID=:VerlagID");
     $select->bindValue(':VerlagID', $this->ID); 
     $select->execute();  
     if ($select->rowCount() > 0 ){
@@ -188,7 +169,7 @@
       return false;            
     }
  
-    $delete = $db->prepare("DELETE FROM `verlag` WHERE ID=:ID"); 
+    $delete = $this->db->prepare("DELETE FROM `verlag` WHERE ID=:ID"); 
     $delete->bindValue(':ID', $this->ID);  
 
     try {

@@ -1,7 +1,13 @@
 <?php 
+
+include_once("dbconn/class.db.php"); 
+include_once("class.htmlinfo.php"); 
+include_once("class.htmlselect.php"); 
+include_once("class.htmltable.php"); 
+
 class Schwierigkeitsgrad {
 
-  public $table_name; 
+  public $table_name='schwierigkeitsgrad'; 
   public $ID;
   public $Name;
   public $titles_selected_list; 
@@ -9,16 +15,18 @@ class Schwierigkeitsgrad {
   public $Titles='Schwierigkeitsgrade';  
   public string $infotext=''; 
   
+  private $db; 
+  private $info; 
+
   public function __construct(){
-    $this->table_name='schwierigkeitsgrad'; 
+    $conn=new DBConnection(); 
+    $this->db=$conn->db; 
+    $this->info=new HTML_Info(); 
   }
 
   function insert_row ($Name) {
-    include_once("dbconn/cl_db.php");
-    $conn = new DbConn(); 
-    $db=$conn->db; 
 
-    $insert = $db->prepare("INSERT INTO `schwierigkeitsgrad` 
+    $insert = $this->db->prepare("INSERT INTO `schwierigkeitsgrad` 
               SET `Name`     = :Name"
            );
 
@@ -26,7 +34,7 @@ class Schwierigkeitsgrad {
 
     try {
       $insert->execute(); 
-      $this->ID=$db->lastInsertId();
+      $this->ID=$this->db->lastInsertId();
       $this->load_row();  
     }
       catch (PDOException $e) {
@@ -38,9 +46,7 @@ class Schwierigkeitsgrad {
   }  
  
   function print_select($value_selected=''){
-      
-    include_once("dbconn/cl_db.php");  
-    include_once("cl_html_select.php");
+
 
     $query='SELECT ID, Name 
             FROM `schwierigkeitsgrad` ';
@@ -50,7 +56,7 @@ class Schwierigkeitsgrad {
     $conn = new DbConn(); 
     $db=$conn->db; 
 
-    $stmt = $db->prepare($query); 
+    $stmt = $this->db->prepare($query); 
 
     try {
       $stmt->execute(); 
@@ -71,11 +77,7 @@ class Schwierigkeitsgrad {
 
     $query="SELECT * from schwierigkeitsgrad ORDER by Name"; 
 
-    include_once("dbconn/cl_db.php");
-    $conn = new DbConn(); 
-    $db=$conn->db; 
-
-    $select = $db->prepare($query); 
+    $select = $this->db->prepare($query); 
 
     try {
       $select->execute(); 
@@ -93,11 +95,8 @@ class Schwierigkeitsgrad {
   }
 
   function update_row($Name) {
-    include_once("dbconn/cl_db.php");   
-    $conn = new DbConn(); 
-    $db=$conn->db; 
     
-    $update = $db->prepare("UPDATE `schwierigkeitsgrad` 
+    $update = $this->db->prepare("UPDATE `schwierigkeitsgrad` 
                             SET
                             `Name`     = :Name
                             WHERE `ID` = :ID"); 
@@ -117,11 +116,8 @@ class Schwierigkeitsgrad {
   }
 
   function load_row() {
-    include_once("dbconn/cl_db.php");   
-    $conn = new DbConn(); 
-    $db=$conn->db; 
 
-    $select = $db->prepare("SELECT `ID`, `Name` 
+    $select = $this->db->prepare("SELECT `ID`, `Name` 
                           FROM `schwierigkeitsgrad`
                           WHERE `ID` = :ID");
 
@@ -139,17 +135,14 @@ class Schwierigkeitsgrad {
   }  
   
   function print_select_multi($options_selected=[]){
-    include_once("dbconn/cl_db.php");  
-    include_once("cl_html_select.php");
+
 
     $query="SELECT ID, Name 
             FROM `schwierigkeitsgrad` 
             order by `Name`"; 
 
-    $conn = new DbConn(); 
-    $db=$conn->db; 
 
-    $stmt = $db->prepare($query); 
+    $stmt = $this->db->prepare($query); 
 
     try {
       $stmt->execute(); 
@@ -167,11 +160,8 @@ class Schwierigkeitsgrad {
   }  
 
   function delete(){
-    include_once("dbconn/cl_db.php");
-    $conn = new DbConn(); 
-    $db=$conn->db; 
 
-    $select = $db->prepare("SELECT * from satz_schwierigkeitsgrad WHERE SchwierigkeitsgradID=:SchwierigkeitsgradID");
+    $select = $this->db->prepare("SELECT * from satz_schwierigkeitsgrad WHERE SchwierigkeitsgradID=:SchwierigkeitsgradID");
     $select->bindValue(':SchwierigkeitsgradID', $this->ID); 
     $select->execute();  
     if ($select->rowCount() > 0 ){
@@ -182,7 +172,7 @@ class Schwierigkeitsgrad {
       return false;            
     }
  
-    $delete = $db->prepare("DELETE FROM `schwierigkeitsgrad` WHERE ID=:ID"); 
+    $delete = $this->db->prepare("DELETE FROM `schwierigkeitsgrad` WHERE ID=:ID"); 
     $delete->bindValue(':ID', $this->ID);  
 
     try {

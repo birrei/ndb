@@ -1,8 +1,13 @@
 <?php 
 
+include_once("dbconn/class.db.php"); 
+include_once("class.htmlinfo.php"); 
+include_once("class.htmlselect.php"); 
+include_once("class.htmltable.php"); 
+
 class SatzErprobt {
 
-  public $table_name; 
+  public $table_name='satz_erprobt'; 
 
   public $ID='';
   public $SatzID='';
@@ -14,16 +19,18 @@ class SatzErprobt {
   public $Title='SatzErprobt';
   public $Titles='SatzErprobts';  
 
+  private $db; 
+  private $info; 
+
   public function __construct(){
-    $this->table_name='satz_erprobt'; 
+    $conn=new DBConnection(); 
+    $this->db=$conn->db; 
+    $this->info=new HTML_Info(); 
   }
 
   function insert_row () {
-    include_once("dbconn/cl_db.php");
-    $conn = new DbConn(); 
-    $db=$conn->db; 
 
-    $insert = $db->prepare("INSERT INTO `satz_erprobt` 
+    $insert = $this->db->prepare("INSERT INTO `satz_erprobt` 
               SET SatzID = :SatzID"       
            );
 
@@ -31,7 +38,7 @@ class SatzErprobt {
 
     try {
       $insert->execute(); 
-      $this->ID=$db->lastInsertId();
+      $this->ID=$this->db->lastInsertId();
       $this->load_row();   
     }
       catch (PDOException $e) {
@@ -43,9 +50,6 @@ class SatzErprobt {
   }  
    
   function update_row ($SatzID,$ErprobtID, $Jahr, $Bemerkung) {
-    include_once("dbconn/cl_db.php");
-    $conn = new DbConn(); 
-    $db=$conn->db; 
 
     // echo '<p>update_row - Parameter:<br />'; 
     // echo 'SatzID: '.$SatzID.'<br />';
@@ -55,7 +59,7 @@ class SatzErprobt {
     // echo 'Neue ID: '.$this->ID.'<br />';         
     // echo '</p>';       
     
-    $update = $db->prepare("UPDATE `satz_erprobt` 
+    $update = $this->db->prepare("UPDATE `satz_erprobt` 
               SET 
                 SatzID= :SatzID
               , ErprobtID=:ErprobtID
@@ -85,11 +89,8 @@ class SatzErprobt {
   }  
  
   function load_row() {
-    include_once("dbconn/cl_db.php");   
-    $conn = new DbConn(); 
-    $db=$conn->db; 
 
-    $select = $db->prepare("SELECT ID
+    $select = $this->db->prepare("SELECT ID
                           , SatzID
                           , ErprobtID
                           , Jahr
@@ -114,11 +115,9 @@ class SatzErprobt {
   }  
 
   function delete(){
-    include_once("dbconn/cl_db.php");
-    $conn = new DbConn(); 
-    $db=$conn->db; 
+
     // echo '<p>Lösche satz_erprobt ID: '.$this->ID.':</p>';
-    $delete = $db->prepare("DELETE FROM `satz_erprobt` WHERE ID=:ID"); 
+    $delete = $this->db->prepare("DELETE FROM `satz_erprobt` WHERE ID=:ID"); 
     $delete->bindValue(':ID', $this->ID);  
 
     try {

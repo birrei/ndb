@@ -1,7 +1,13 @@
 <?php 
+
+include_once("dbconn/class.db.php"); 
+include_once("class.htmlinfo.php"); 
+include_once("class.htmlselect.php"); 
+include_once("class.htmltable.php"); 
+
 class Lookuptype {
 
-  public $table_name; 
+  public $table_name='lookup_type';  
   public $ID;
   public $Name;
   public $Relation;
@@ -14,16 +20,18 @@ class Lookuptype {
   public $textWarning=''; 
   public string $infotext=''; 
   
+  private $db; 
+  private $info; 
+
   public function __construct(){
-    $this->table_name='lookup_type'; 
+    $conn=new DBConnection(); 
+    $this->db=$conn->db; 
+    $this->info=new HTML_Info(); 
   }
 
   function insert_row ($Name) {
-    include_once("dbconn/cl_db.php");
-    $conn = new DbConn(); 
-    $db=$conn->db; 
-    
-    $insert = $db->prepare("INSERT INTO `lookup_type` 
+
+    $insert = $this->db->prepare("INSERT INTO `lookup_type` 
               SET `Name`     = :Name"              
            );
 
@@ -31,7 +39,7 @@ class Lookuptype {
 
     try {
       $insert->execute(); 
-      $this->ID=$db->lastInsertId();
+      $this->ID=$this->db->lastInsertId();
       $this->load_row();   
     }
       catch (PDOException $e) {
@@ -43,16 +51,10 @@ class Lookuptype {
   }  
  
   function print_select($value_selected='', $caption=''){
-      
-    include_once("dbconn/cl_db.php");  
-    include_once("cl_html_select.php");
 
     $query="SELECT ID, Name from lookup_type order by Name";
 
-    $conn = new DbConn(); 
-    $db=$conn->db; 
-
-    $stmt = $db->prepare($query); 
+    $stmt = $this->db->prepare($query); 
 
     try {
       $stmt->execute(); 
@@ -70,9 +72,6 @@ class Lookuptype {
   }
 
   function print_preselect($value_selected=''){
-      
-    include_once("dbconn/cl_db.php");  
-    include_once("cl_html_select.php");
 
     if ($this->Relation!='') {
       $query="SELECT ID, Name 
@@ -85,12 +84,8 @@ class Lookuptype {
       FROM lookup_type
       ORDER BY Relation, Name";
     }
-  
 
-    $conn = new DbConn(); 
-    $db=$conn->db; 
-
-    $stmt = $db->prepare($query); 
+    $stmt = $this->db->prepare($query); 
 
     if ($this->Relation!='') {
       $stmt->bindParam(':Relation', $this->Relation);
@@ -113,11 +108,7 @@ class Lookuptype {
 
     $query="SELECT * from lookup_type ORDER by Name"; 
 
-    include_once("dbconn/cl_db.php");
-    $conn = new DbConn(); 
-    $db=$conn->db; 
-
-    $select = $db->prepare($query); 
+    $select = $this->db->prepare($query); 
 
     try {
       $select->execute(); 
@@ -135,13 +126,11 @@ class Lookuptype {
   }
 
   function update_row($Name, $Relation, $type_key, $selsize) {
-    include_once("dbconn/cl_db.php");   
-    $conn = new DbConn(); 
-    $db=$conn->db; 
 
     // prüfen, ob Wert "Relation" geändert wurde. 
     // Dieser darf nicht mehr geändert werden, falls bereits lookups vorhanden sind 
-    $select = $db->prepare("
+    // XXXX Check funkioniert nicht! 
+    $select = $this->db->prepare("
         select lookup_type.Relation 
         from lookup_type 
         inner join lookup on lookup.LookupTypeID = lookup_type.ID
@@ -157,7 +146,7 @@ class Lookuptype {
       }      
     }      
     
-    $update = $db->prepare("UPDATE `lookup_type` 
+    $update = $this->db->prepare("UPDATE `lookup_type` 
                             SET Name     = :Name, 
                               Relation   = :Relation, 
                               type_key   = :type_key, 
@@ -185,11 +174,8 @@ class Lookuptype {
   }
 
   function load_row() {
-    include_once("dbconn/cl_db.php");   
-    $conn = new DbConn(); 
-    $db=$conn->db; 
 
-    $select = $db->prepare("SELECT ID, Name, Relation, type_key, selsize
+    $select = $this->db->prepare("SELECT ID, Name, Relation, type_key, selsize
                           FROM `lookup_type`
                           WHERE `ID` = :ID");
 
@@ -212,7 +198,6 @@ class Lookuptype {
 
   function getArrData(){
     // alle Typen einer Relation 
-    include_once("dbconn/cl_db.php");
     $arrTmp=[]; 
     $query_lookups = 'SELECT ID, Name, type_key, selsize 
                       FROM lookup_type 
@@ -221,7 +206,7 @@ class Lookuptype {
                       order by ID';
     $conn = new DbConn(); 
     $db=$conn->db; 
-    $select = $db->prepare($query_lookups); 
+    $select = $this->db->prepare($query_lookups); 
     $select->bindParam(':Relation', $this->Relation);    
     $select->execute(); 
     $result = $select->fetchAll(PDO::FETCH_ASSOC);
@@ -239,11 +224,8 @@ class Lookuptype {
   }
 
   function delete(){
-    include_once("dbconn/cl_db.php");
-    $conn = new DbConn(); 
-    $db=$conn->db; 
 
-    $select = $db->prepare("SELECT * from lookup WHERE LookupTypeID=:LookupTypeID");
+    $select = $this->db->prepare("SELECT * from lookup WHERE LookupTypeID=:LookupTypeID");
     $select->bindValue(':LookupTypeID', $this->ID); 
     $select->execute();  
     if ($select->rowCount() > 0 ){
@@ -253,7 +235,7 @@ class Lookuptype {
       return false;            
     }
 
-    $delete = $db->prepare("DELETE FROM lookup_type WHERE ID=:ID"); 
+    $delete = $this->db->prepare("DELETE FROM lookup_type WHERE ID=:ID"); 
     $delete->bindValue(':ID', $this->ID);  
 
     try {
@@ -274,11 +256,7 @@ class Lookuptype {
   function print_table_lookups($target_file){
     $query="SELECT ID, Name FROM v_lookup where LookupTypeID=:LookupTypeID"; 
 
-    include_once("dbconn/cl_db.php");
-    $conn = new DbConn(); 
-    $db=$conn->db; 
-  
-    $stmt = $db->prepare($query); 
+    $stmt = $this->db->prepare($query); 
     $stmt->bindParam(':LookupTypeID', $this->ID, PDO::PARAM_INT); 
       
     try {

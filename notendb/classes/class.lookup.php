@@ -1,10 +1,13 @@
 <?php 
-/* Für Attribute, die aus "ID" / "Name" bestehen und per Mehrfach-Zuordnung verwendet werden 
+include_once("dbconn/class.db.php"); 
+include_once("class.htmlinfo.php"); 
+include_once("class.htmlselect.php"); 
+include_once("class.htmltable.php"); 
+include_once("class.lookuptype.php"); 
 
-*/
 class Lookup {
 
-  public $table_name; 
+  public $table_name='lookup'; 
   public $ID;
   public $Name;
   public $LookupTypeID; 
@@ -17,16 +20,18 @@ class Lookup {
   public $Titles='Besonderheiten';  
   public string $infotext=''; 
 
+  private $db; 
+  private $info; 
+
   public function __construct(){
-    $this->table_name='lookup'; 
+    $conn=new DBConnection(); 
+    $this->db=$conn->db; 
+    $this->info=new HTML_Info(); 
   }
 
   function insert_row ($LookupTypeID='') {
-    include_once("dbconn/cl_db.php");
-    $conn = new DbConn(); 
-    $db=$conn->db; 
 
-    $insert = $db->prepare("INSERT INTO `lookup` 
+    $insert = $this->db->prepare("INSERT INTO `lookup` 
               SET `LookupTypeID` =:LookupTypeID"          
            );
 
@@ -38,7 +43,7 @@ class Lookup {
 
     try {
       $insert->execute(); 
-      $this->ID=$db->lastInsertId();
+      $this->ID=$this->db->lastInsertId();
       $this->load_row();   
     }
       catch (PDOException $e) {
@@ -50,10 +55,7 @@ class Lookup {
   }  
  
   function print_select($value_selected='',$RelationID='', $caption=''){
-      
-    include_once("dbconn/cl_db.php");  
-    include_once("cl_html_select.php");
-
+  
     $query="SELECT lookup.ID
           -- , concat(lookup_type.Name, ': ', lookup.Name) as Besonderheit
               , lookup.Name as Besonderheit
@@ -84,10 +86,7 @@ class Lookup {
 
    // echo '<pre>'.$query.'</pre>';     // test 
 
-    $conn = new DbConn(); 
-    $db=$conn->db; 
-
-    $stmt = $db->prepare($query); 
+    $stmt = $this->db->prepare($query); 
     $stmt->bindParam(':Relation', $this->LookupTypeRelation);
 
     if ($RelationID!=''){
@@ -124,8 +123,6 @@ class Lookup {
 
   function print_select2($LookupTypeID, $RelationID='',$value_selected=''){
     // Lookup für einen ausgewählten Typ   
-    include_once("dbconn/cl_db.php");  
-    include_once("cl_html_select.php");
 
     $query="SELECT lookup.ID
             , lookup.Name
@@ -155,10 +152,7 @@ class Lookup {
 
     // echo $query; // Test 
 
-    $conn = new DbConn(); 
-    $db=$conn->db; 
-
-    $stmt = $db->prepare($query); 
+    $stmt = $this->db->prepare($query); 
     $stmt->bindParam(':LookupTypeID', $LookupTypeID);    
 
     if ($RelationID!=''){
@@ -189,11 +183,7 @@ class Lookup {
     $query.=($LookupTypeID!=''?"AND LookupTypeID = :LookupTypeID ":"");
     $query.="ORDER by Name"; 
 
-    include_once("dbconn/cl_db.php");
-    $conn = new DbConn(); 
-    $db=$conn->db; 
-    // echo $query; 
-    $select = $db->prepare($query); 
+    $select = $this->db->prepare($query); 
 
     if($LookupTypeID!='') {
       $select->bindParam(':LookupTypeID', $LookupTypeID);
@@ -215,11 +205,8 @@ class Lookup {
   }
 
   function update_row($Name, $LookupTypeID) {
-    include_once("dbconn/cl_db.php");   
-    $conn = new DbConn(); 
-    $db=$conn->db; 
-    
-    $update = $db->prepare("UPDATE `lookup` 
+
+    $update = $this->db->prepare("UPDATE `lookup` 
                             SET Name     = :Name
                                 , LookupTypeID=:LookupTypeID
                             WHERE `ID` = :ID"); 
@@ -227,8 +214,6 @@ class Lookup {
     $update->bindParam(':ID', $this->ID, PDO::PARAM_INT);
     $update->bindParam(':Name', $Name);
     $update->bindParam(':LookupTypeID', $LookupTypeID, ($LookupTypeID=='' ? PDO::PARAM_NULL : PDO::PARAM_INT));
-
-
 
     try {
       $update->execute(); 
@@ -243,13 +228,8 @@ class Lookup {
   }
 
   function load_row() {
-    include_once("dbconn/cl_db.php");   
-    include_once("classes/class.lookuptype.php"); 
 
-    $conn = new DbConn(); 
-    $db=$conn->db; 
-
-    $select = $db->prepare("SELECT ID, Name, LookupTypeID 
+    $select = $this->db->prepare("SELECT ID, Name, LookupTypeID 
                           FROM `lookup`
                           WHERE `ID` = :ID");
 
@@ -282,9 +262,6 @@ class Lookup {
         , $print_check_exclude=false // Anzeige Box Aussschluss-Suche
         , $check_exclude=false // Ausschluss-Suche aktiviert 
   ){
-    include_once("dbconn/cl_db.php");  
-    include_once("cl_html_select.php");
-    include_once("classes/class.lookuptype.php");
     
     // $this->ID_List=implode(',', $options_selected); 
 
@@ -294,15 +271,12 @@ class Lookup {
           ORDER BY Name 
           "; 
 
-    $conn = new DbConn(); 
-    $db=$conn->db; 
-
     $lookuptype=new Lookuptype(); 
     $lookuptype->ID = $this->LookupTypeID;
     $lookuptype->load_row(); 
 
     // echo $query; 
-    $select = $db->prepare($query); 
+    $select = $this->db->prepare($query); 
     $select->bindParam(':LookupTypeID', $this->LookupTypeID);
 
     try {
@@ -323,11 +297,8 @@ class Lookup {
   }  
 
   function delete(){
-    include_once("dbconn/cl_db.php");
-    $conn = new DbConn(); 
-    $db=$conn->db; 
 
-    $select = $db->prepare("SELECT * from satz_lookup WHERE LookupID=:LookupID");
+    $select = $this->db->prepare("SELECT * from satz_lookup WHERE LookupID=:LookupID");
     $select->bindValue(':LookupID', $this->ID); 
     $select->execute();  
     if ($select->rowCount() > 0 ){
@@ -337,7 +308,7 @@ class Lookup {
       return false;            
     }
 
-    $delete = $db->prepare("DELETE FROM lookup WHERE ID=:ID"); 
+    $delete = $this->db->prepare("DELETE FROM lookup WHERE ID=:ID"); 
     $delete->bindValue(':ID', $this->ID);  
 
     try {
@@ -356,16 +327,15 @@ class Lookup {
   } 
 
   function getArrLookups(){
-    include_once("dbconn/cl_db.php");
+
     $arrTmp=[]; 
 
     $query_lookups = 'SELECT ID, Name
                       FROM lookup 
                       WHERE LookupTypeID=:LookupTypeID 
                       order by Name';
-    $conn = new DbConn(); 
-    $db=$conn->db; 
-    $select = $db->prepare($query_lookups); 
+
+    $select = $this->db->prepare($query_lookups); 
     $select->bindParam(':LookupTypeID', $this->LookupTypeID);    
     $select->execute(); 
     $result = $select->fetchAll(PDO::FETCH_ASSOC);

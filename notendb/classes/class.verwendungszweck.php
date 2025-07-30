@@ -1,8 +1,13 @@
 <?php 
 
+include_once("dbconn/class.db.php"); 
+include_once("class.htmlinfo.php"); 
+include_once("class.htmlselect.php"); 
+include_once("class.htmltable.php"); 
+
 class Verwendungszweck {
 
-  public $table_name; 
+  public $table_name='verwendungszweck'; 
   public $ID;
   public $Name;
   public $titles_selected_list; 
@@ -10,16 +15,18 @@ class Verwendungszweck {
   public $Titles='Verwendungszwecke';  
   public string $infotext=''; 
   
+  private $db; 
+  private $info; 
+
   public function __construct(){
-    $this->table_name='verwendungszweck'; 
+    $conn=new DBConnection(); 
+    $this->db=$conn->db; 
+    $this->info=new HTML_Info(); 
   }
 
   function insert_row ($Name) {
-    include_once("dbconn/cl_db.php");
-    $conn = new DbConn(); 
-    $db=$conn->db; 
 
-    $insert = $db->prepare("INSERT INTO `verwendungszweck` 
+    $insert = $this->db->prepare("INSERT INTO `verwendungszweck` 
               SET `Name`     = :Name"
            );
 
@@ -27,7 +34,7 @@ class Verwendungszweck {
 
     try {
       $insert->execute(); 
-      $this->ID=$db->lastInsertId();
+      $this->ID=$this->db->lastInsertId();
       $this->load_row();    
     }
       catch (PDOException $e) {
@@ -39,10 +46,6 @@ class Verwendungszweck {
   }  
  
   function print_select($value_selected='',$referenced_MusikstueckID='', $caption=''){
-      
-    include_once("dbconn/cl_db.php");  
-    include_once("cl_html_select.php");
-
 
     $query='SELECT ID, Name 
             FROM `verwendungszweck` ';
@@ -54,11 +57,7 @@ class Verwendungszweck {
     }
     $query.='ORDER BY `Name`'; 
 
-
-    $conn = new DbConn(); 
-    $db=$conn->db; 
-
-    $stmt = $db->prepare($query); 
+    $stmt = $this->db->prepare($query); 
     
     if ($referenced_MusikstueckID!=''){
       $stmt->bindParam(':MusikstueckID', $referenced_MusikstueckID);
@@ -82,17 +81,11 @@ class Verwendungszweck {
 
   function print_select_multi($options_selected=[]){
 
-    include_once("dbconn/cl_db.php");  
-    include_once("cl_html_select.php");
-
     $query="SELECT ID, Name 
             FROM `verwendungszweck` 
             order by `Name`"; 
 
-    $conn = new DbConn(); 
-    $db=$conn->db; 
-
-    $stmt = $db->prepare($query); 
+    $stmt = $this->db->prepare($query); 
 
     try {
       $stmt->execute(); 
@@ -113,11 +106,7 @@ class Verwendungszweck {
 
     $query="SELECT * from verwendungszweck ORDER by Name"; 
 
-    include_once("dbconn/cl_db.php");
-    $conn = new DbConn(); 
-    $db=$conn->db; 
-
-    $select = $db->prepare($query); 
+    $select = $this->db->prepare($query); 
 
     try {
       $select->execute(); 
@@ -136,11 +125,7 @@ class Verwendungszweck {
 
   function update_row($Name) {
 
-    include_once("dbconn/cl_db.php");   
-    $conn = new DbConn(); 
-    $db=$conn->db; 
-    
-    $update = $db->prepare("UPDATE `verwendungszweck` 
+    $update = $this->db->prepare("UPDATE `verwendungszweck` 
                             SET
                             `Name`     = :Name
                             WHERE `ID` = :ID"); 
@@ -161,11 +146,8 @@ class Verwendungszweck {
   }
 
   function load_row() {
-    include_once("dbconn/cl_db.php");   
-    $conn = new DbConn(); 
-    $db=$conn->db; 
 
-    $select = $db->prepare("SELECT `ID`, `Name` 
+    $select = $this->db->prepare("SELECT `ID`, `Name` 
                           FROM `verwendungszweck`
                           WHERE `ID` = :ID");
 
@@ -185,11 +167,8 @@ class Verwendungszweck {
   }  
 
   function delete(){
-    include_once("dbconn/cl_db.php");
-    $conn = new DbConn(); 
-    $db=$conn->db; 
 
-    $select = $db->prepare("SELECT * from musikstueck_verwendungszweck WHERE VerwendungszweckID=:VerwendungszweckID");
+    $select = $this->db->prepare("SELECT * from musikstueck_verwendungszweck WHERE VerwendungszweckID=:VerwendungszweckID");
     $select->bindValue(':VerwendungszweckID', $this->ID); 
     $select->execute();  
     if ($select->rowCount() > 0 ){
@@ -199,7 +178,7 @@ class Verwendungszweck {
       return false;            
     }
  
-    $delete = $db->prepare("DELETE FROM `verwendungszweck` WHERE ID=:ID"); 
+    $delete = $this->db->prepare("DELETE FROM `verwendungszweck` WHERE ID=:ID"); 
     $delete->bindValue(':ID', $this->ID);  
 
     try {

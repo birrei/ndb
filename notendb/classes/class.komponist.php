@@ -1,8 +1,13 @@
 <?php 
  
+include_once("dbconn/class.db.php"); 
+include_once("class.htmlinfo.php"); 
+include_once("class.htmlselect.php"); 
+include_once("class.htmltable.php"); 
+
 class Komponist {
 
-  public $table_name; 
+  public $table_name='komponist'; 
 
   public $ID;
   public $Vorname;
@@ -16,16 +21,18 @@ class Komponist {
   public $Titles='Komponisten';  
   public string $infotext=''; 
   
+  private $db; 
+  private $info; 
+
   public function __construct(){
-    $this->table_name='komponist'; 
+    $conn=new DBConnection(); 
+    $this->db=$conn->db; 
+    $this->info=new HTML_Info(); 
   }
 
   function insert_row ($Vorname, $Nachname) {                
-    include_once("dbconn/cl_db.php");
-    $conn = new DbConn(); 
-    $db=$conn->db; 
 
-    $insert = $db->prepare("INSERT INTO `komponist` SET
+    $insert = $this->db->prepare("INSERT INTO `komponist` SET
                           `Vorname`     = :Vorname,
                           `Nachname`     = :Nachname
                           "
@@ -36,7 +43,7 @@ class Komponist {
 
     try {
       $insert->execute(); 
-      $this->ID=$db->lastInsertId();
+      $this->ID=$this->db->lastInsertId();
       $this->load_row();  
     }
     catch (PDOException $e) {
@@ -48,11 +55,8 @@ class Komponist {
   }
 
   function load_row() {
-    include_once("dbconn/cl_db.php");   
-    $conn = new DbConn(); 
-    $db=$conn->db; 
 
-    $select = $db->prepare("SELECT `ID`
+    $select = $this->db->prepare("SELECT `ID`
       , `Vorname`
       , `Nachname`
       , `Geburtsjahr`
@@ -84,11 +88,8 @@ class Komponist {
                 , $Sterbejahr
                 , $Bemerkung    
                   ) {
-    include_once("dbconn/cl_db.php");   
-    $conn = new DbConn(); 
-    $db=$conn->db; 
-    
-    $update = $db->prepare("UPDATE `komponist` 
+
+    $update = $this->db->prepare("UPDATE `komponist` 
                           SET
                           `Vorname`     = :Vorname,
                           `Nachname`     = :Nachname,
@@ -119,8 +120,6 @@ class Komponist {
 
   function print_select($value_selected='', $caption=''){
     /* Auswahl-Element Komponisten */   
-    include_once("dbconn/cl_db.php");  
-    include_once("cl_html_select.php");
 
     /* view v_select_komponist verwendet */
     $query="SELECT DISTINCT 
@@ -129,10 +128,7 @@ class Komponist {
             FROM `v_komponist` 
             order by `Nachname`"; 
 
-    $conn = new DbConn(); 
-    $db=$conn->db; 
-
-    $select = $db->prepare($query); 
+    $select = $this->db->prepare($query); 
 
     try {
       $select->execute(); 
@@ -150,14 +146,10 @@ class Komponist {
   }
 
   function print_table(){
-    /***** HTML-Tabelle ausgeben  ***************/ 
+
     $query="SELECT * from v_komponist ORDER by Name"; 
 
-    include_once("dbconn/cl_db.php");
-    $conn = new DbConn(); 
-    $db=$conn->db; 
-
-    $select = $db->prepare($query); 
+    $select = $this->db->prepare($query); 
 
     try {
       $select->execute(); 
@@ -177,17 +169,11 @@ class Komponist {
 
   function print_select_multi($options_selected=[]){
 
-    include_once("dbconn/cl_db.php");  
-    include_once("cl_html_select.php");
-
     $query="SELECT ID, Name 
             FROM `v_komponist` 
             order by `Name`"; 
 
-    $conn = new DbConn(); 
-    $db=$conn->db; 
-
-    $stmt = $db->prepare($query); 
+    $stmt = $this->db->prepare($query); 
 
     try {
       $stmt->execute(); 
@@ -203,10 +189,8 @@ class Komponist {
     }
   }    
   function delete(){
-    include_once("dbconn/cl_db.php");
-    $conn = new DbConn(); 
-    $db=$conn->db; 
-    $select = $db->prepare("SELECT * from musikstueck WHERE KomponistID=:KomponistID");
+
+    $select = $this->db->prepare("SELECT * from musikstueck WHERE KomponistID=:KomponistID");
     $select->bindValue(':KomponistID', $this->ID); 
     $select->execute();  
     if ($select->rowCount() > 0 ){
@@ -217,7 +201,7 @@ class Komponist {
       return false;            
     }
  
-    $delete = $db->prepare("DELETE FROM `komponist` WHERE ID=:ID"); 
+    $delete = $this->db->prepare("DELETE FROM `komponist` WHERE ID=:ID"); 
     $delete->bindValue(':ID', $this->ID);  
 
     try {

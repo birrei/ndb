@@ -1,8 +1,13 @@
 <?php 
+include_once("dbconn/class.db.php"); 
+include_once("class.htmlinfo.php"); 
+include_once("class.htmlselect.php"); 
+include_once("class.htmltable.php"); 
+include_once("class.satz.php");    
 
 class Material {
 
-  public $table_name; 
+  public $table_name='material'; 
   public $ID;
   public $Name='';
   public $Bemerkung=''; 
@@ -16,17 +21,19 @@ class Material {
 
   public string $infotext=''; 
 
+  private $db; 
+  private $info; 
+
   public function __construct(){
-    $this->table_name='material'; 
+    $conn=new DBConnection(); 
+    $this->db=$conn->db; 
+    $this->info=new HTML_Info(); 
   }
 
   function insert_row ($MaterialtypID='', $SammlungID='') {
     // echo '<p>SammlungID: '.$SammlungID.', MaterialtypID: '.$MaterialtypID.'</p>'; // test 
-    include_once("dbconn/cl_db.php");
-    $conn = new DbConn(); 
-    $db=$conn->db; 
 
-    $insert = $db->prepare("INSERT INTO `material` 
+    $insert = $this->db->prepare("INSERT INTO `material` 
           SET MaterialtypID = :MaterialtypID, 
                SammlungID = :SammlungID
           ");
@@ -36,7 +43,7 @@ class Material {
 
     try {
       $insert->execute(); 
-      $this->ID=$db->lastInsertId();
+      $this->ID=$this->db->lastInsertId();
       $this->load_row();   
     }
       catch (PDOException $e) {
@@ -48,14 +55,11 @@ class Material {
   }  
 
   function update_row ($MaterialtypID, $Name, $Bemerkung, $SammlungID='') {
-    include_once("dbconn/cl_db.php");
-    $conn = new DbConn(); 
-    $db=$conn->db; 
 
     if ($this->ID=='') {
       $this->insert_row(); 
     } 
-    $update = $db->prepare("UPDATE `material` 
+    $update = $this->db->prepare("UPDATE `material` 
               SET MaterialtypID= :MaterialtypID
                 , `Name`=:Name
                 , Bemerkung=:Bemerkung
@@ -82,11 +86,8 @@ class Material {
   }  
  
   function load_row() {
-    include_once("dbconn/cl_db.php");   
-    $conn = new DbConn(); 
-    $db=$conn->db; 
 
-    $select = $db->prepare("SELECT ID
+    $select = $this->db->prepare("SELECT ID
                             , `Name`
                             , COALESCE(Bemerkung, '') as Bemerkung
                             , MaterialtypID
@@ -111,11 +112,8 @@ class Material {
   }  
 
   function delete_schuelers(){
-    include_once("dbconn/cl_db.php");
-    $conn = new DbConn(); 
-    $db=$conn->db; 
 
-    $delete = $db->prepare("DELETE FROM `schueler_material` WHERE MaterialID=:ID"); 
+    $delete = $this->db->prepare("DELETE FROM `schueler_material` WHERE MaterialID=:ID"); 
     $delete->bindValue(':ID', $this->ID);  
 
     try {
@@ -130,11 +128,8 @@ class Material {
   }
 
   function count_schueler() {
-    include_once("dbconn/cl_db.php");
-    $conn = new DbConn(); 
-    $db=$conn->db;  
 
-    $select = $db->prepare("SELECT ID from schueler_material WHERE MaterialID=:ID");
+    $select = $this->db->prepare("SELECT ID from schueler_material WHERE MaterialID=:ID");
     $select->bindValue(':ID', $this->ID); 
     $select->execute();  
 
@@ -154,13 +149,9 @@ class Material {
 
   function delete(){
 
-    include_once("dbconn/cl_db.php");
-    $conn = new DbConn(); 
-    $db=$conn->db;       
-
     $this->delete_schuelers(); 
 
-    $delete = $db->prepare("DELETE FROM `material` WHERE ID=:ID"); 
+    $delete = $this->db->prepare("DELETE FROM `material` WHERE ID=:ID"); 
     $delete->bindValue(':ID', $this->ID);  
 
     try {
@@ -178,11 +169,8 @@ class Material {
   }   
 
   function insert_material_tmp ($URL, $Title) {
-    include_once("dbconn/cl_db.php");
-    $conn = new DbConn(); 
-    $db=$conn->db; 
 
-    $insert = $db->prepare("INSERT INTO `material_tmp` 
+    $insert = $this->db->prepare("INSERT INTO `material_tmp` 
               SET URL = :URL, Title=:Title "       
            );
 
@@ -201,11 +189,8 @@ class Material {
   }  
 
   function truncate_material_tmp () {
-    include_once("dbconn/cl_db.php");
-    $conn = new DbConn(); 
-    $db=$conn->db; 
 
-    $stmt = $db->prepare("TRUNCATE TABLE material_tmp");
+    $stmt = $this->db->prepare("TRUNCATE TABLE material_tmp");
 
     try {
       $stmt->execute(); 
@@ -220,11 +205,7 @@ class Material {
   
   function print_material_tmp () {
     $query="SELECT * FROM material_tmp"; 
-
-    include_once("dbconn/cl_db.php");
-    $conn = new DbConn(); 
-    $db=$conn->db; 
-    $stmt = $db->prepare($query); 
+    $stmt = $this->db->prepare($query); 
 
     try {
       $stmt->execute(); 
@@ -261,11 +242,7 @@ class Material {
           order by schueler.Name  
         "; 
 
-    include_once("dbconn/cl_db.php");
-    $conn = new DbConn(); 
-    $db=$conn->db; 
-  
-    $stmt = $db->prepare($query); 
+    $stmt = $this->db->prepare($query); 
     $stmt->bindParam(':MaterialID', $this->ID, PDO::PARAM_INT); 
 
     try {
@@ -303,9 +280,6 @@ class Material {
   function print_select( $selected_MaterialID='', $ParentID='', $MaterialtypID=''){
 
     // XXX Material für einen ausgewählten Typ   
-
-    include_once("dbconn/cl_db.php");  
-    include_once("cl_html_select.php");
 
     $query="
     SELECT material.ID
@@ -346,10 +320,7 @@ class Material {
 
     // echo $query; // Test 
 
-    $conn = new DbConn(); 
-    $db=$conn->db; 
-
-    $stmt = $db->prepare($query); 
+    $stmt = $this->db->prepare($query); 
 
     if ($MaterialtypID!=''){
       $stmt->bindParam(':MaterialtypID', $MaterialtypID, PDO::PARAM_INT);   
@@ -382,12 +353,6 @@ class Material {
     // SammlungID_New > 0 : Material Kopie zu Sammlung Kopie 
     // SammlungID_New= 0: Material Kopie an gleicher Sammlung, Funktion "Kopieren" an Material 
     // SammlungID_New=-1: Material Kopie Material ohne Sammlungs-Verknüpfung 
-    include_once("dbconn/cl_db.php");
-    include_once("classes/class.satz.php");    
-
-    $conn = new DbConn(); 
-    $db=$conn->db; 
-
 
     if ($SammlungID_New>0) {
       $sql="INSERT INTO material (SammlungID, MaterialtypID, `Name`, Bemerkung) 
@@ -408,7 +373,7 @@ class Material {
 
     // echo '<pre>'.$sql.'</pre>'; // test 
     
-    $insert = $db->prepare($sql); 
+    $insert = $this->db->prepare($sql); 
     
     $insert->bindValue(':ID', $this->ID);  
     
@@ -418,7 +383,7 @@ class Material {
 
     try {
       $insert->execute(); 
-      $ID_New = $db->lastInsertId();    
+      $ID_New = $this->db->lastInsertId();    
         
       $this->copy_schueler($ID_New); 
 
@@ -444,7 +409,7 @@ class Material {
     from schueler_material 
     where MaterialID=:ID";
 
-    $insert = $db->prepare($sql); 
+    $insert = $this->db->prepare($sql); 
     $insert->bindValue(':ID', $this->ID);  
     $insert->bindValue(':MaterialID', $ID_new);  
     $insert->execute();  
@@ -461,11 +426,7 @@ class Material {
             order by schueler.Name 
         "; 
 
-    include_once("dbconn/cl_db.php");
-    $conn = new DbConn(); 
-    $db=$conn->db; 
-  
-    $stmt = $db->prepare($query); 
+    $stmt = $this->db->prepare($query); 
     $stmt->bindParam(':MaterialID', $this->ID, PDO::PARAM_INT); 
 
     try {

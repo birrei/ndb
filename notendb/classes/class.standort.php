@@ -1,8 +1,13 @@
 <?php 
 
+include_once("dbconn/class.db.php"); 
+include_once("class.htmlinfo.php"); 
+include_once("class.htmlselect.php"); 
+include_once("class.htmltable.php"); 
+
 class Standort {
 
-  public $table_name; 
+  public $table_name='standort'; 
   public $ID;
   public $Name;
   public $titles_selected_list; 
@@ -10,16 +15,18 @@ class Standort {
   public $Titles='Standorte';  
   public string $infotext=''; 
   
+  private $db; 
+  private $info; 
+
   public function __construct(){
-    $this->table_name='standort'; 
+    $conn=new DBConnection(); 
+    $this->db=$conn->db; 
+    $this->info=new HTML_Info(); 
   }
 
   function insert_row ($Name) {
-    include_once("dbconn/cl_db.php");
-    $conn = new DbConn(); 
-    $db=$conn->db; 
 
-    $insert = $db->prepare("INSERT INTO `standort` 
+    $insert = $this->db->prepare("INSERT INTO `standort` 
               SET `Name`     = :Name"
            );
 
@@ -27,7 +34,7 @@ class Standort {
 
     try {
       $insert->execute(); 
-      $this->ID=$db->lastInsertId();
+      $this->ID=$this->db->lastInsertId();
       $this->load_row();  
     }
       catch (PDOException $e) {
@@ -39,18 +46,12 @@ class Standort {
   }  
  
   function print_select($value_selected='', $caption=''){
-      
-    include_once("dbconn/cl_db.php");  
-    include_once("cl_html_select.php");
 
     $query="SELECT ID, Name 
             FROM `standort` 
             order by `Name`"; 
 
-    $conn = new DbConn(); 
-    $db=$conn->db; 
-
-    $stmt = $db->prepare($query); 
+    $stmt = $this->db->prepare($query); 
 
     try {
       $stmt->execute(); 
@@ -71,11 +72,7 @@ class Standort {
 
     $query="SELECT * from standort ORDER by Name"; 
 
-    include_once("dbconn/cl_db.php");
-    $conn = new DbConn(); 
-    $db=$conn->db; 
-
-    $select = $db->prepare($query); 
+    $select = $this->db->prepare($query); 
 
     try {
       $select->execute(); 
@@ -93,11 +90,8 @@ class Standort {
   }
 
   function update_row($Name) {
-    include_once("dbconn/cl_db.php");   
-    $conn = new DbConn(); 
-    $db=$conn->db; 
-    
-    $update = $db->prepare("UPDATE `standort` 
+
+    $update = $this->db->prepare("UPDATE `standort` 
                             SET
                             `Name`     = :Name
                             WHERE `ID` = :ID"); 
@@ -118,11 +112,8 @@ class Standort {
   }
 
   function load_row() {
-    include_once("dbconn/cl_db.php");   
-    $conn = new DbConn(); 
-    $db=$conn->db; 
 
-    $select = $db->prepare("SELECT `ID`, `Name` 
+    $select = $this->db->prepare("SELECT `ID`, `Name` 
                           FROM `standort`
                           WHERE `ID` = :ID");
 
@@ -142,17 +133,11 @@ class Standort {
 
   function print_select_multi($options_selected=[]){
 
-    include_once("dbconn/cl_db.php");  
-    include_once("cl_html_select.php");
-
     $query="SELECT ID, Name 
             FROM `standort` 
             order by `Name`"; 
 
-    $conn = new DbConn(); 
-    $db=$conn->db; 
-
-    $stmt = $db->prepare($query); 
+    $stmt = $this->db->prepare($query); 
 
     try {
       $stmt->execute(); 
@@ -169,11 +154,8 @@ class Standort {
   }  
 
   function delete(){
-    include_once("dbconn/cl_db.php");
-    $conn = new DbConn(); 
-    $db=$conn->db; 
 
-    $select = $db->prepare("SELECT * from sammlung WHERE StandortID=:StandortID");
+    $select = $this->db->prepare("SELECT * from sammlung WHERE StandortID=:StandortID");
     $select->bindValue(':StandortID', $this->ID); 
     $select->execute();  
     if ($select->rowCount() > 0 ){
@@ -184,7 +166,7 @@ class Standort {
       return false;            
     }
  
-    $delete = $db->prepare("DELETE FROM `standort` WHERE ID=:ID"); 
+    $delete = $this->db->prepare("DELETE FROM `standort` WHERE ID=:ID"); 
     $delete->bindValue(':ID', $this->ID);  
 
     try {
@@ -202,9 +184,6 @@ class Standort {
   }
 
   function print_preselect($value_selected=''){
-      
-    include_once("dbconn/cl_db.php");  
-    include_once("cl_html_select.php");
 
     $query="SELECT ID, Name 
                   FROM standort
@@ -213,7 +192,7 @@ class Standort {
     $conn = new DbConn(); 
     $db=$conn->db; 
 
-    $stmt = $db->prepare($query); 
+    $stmt = $this->db->prepare($query); 
 
     try {
       $stmt->execute(); 

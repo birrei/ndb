@@ -1,21 +1,30 @@
 <?php 
+
+include_once("dbconn/class.db.php"); 
+include_once("class.htmlinfo.php"); 
+include_once("class.htmlselect.php"); 
+include_once("class.htmltable.php"); 
+
+
 class InstrumentSchwierigkeitsgrad {
 
-  public $table_name; 
+  public $table_name='instrument_schwierigkeitsgrad'; 
   public $ID;
   public $Name;
   public $titles_selected_list; 
   public $Title='Instrument / Schwierigkeitsgrad';
   public $Titles='Instrument / Schwierigkeitsgrade';  
 
+  private $db; 
+  private $info; 
+
   public function __construct(){
-    $this->table_name='instrument_schwierigkeitsgrad'; 
+    $conn=new DBConnection(); 
+    $this->db=$conn->db; 
+    $this->info=new HTML_Info(); 
   }
 
   function insert_row($InstrumentID, $SchwierigkeitsgradID ){
-    include_once("dbconn/cl_db.php");
-    $conn = new DbConn(); 
-    $db=$conn->db; 
 
     // Insert, falls Kombination InstrumentID/SchwierigkeitsgradID noch noch nicht vorhanden
     $query="INSERT INTO instrument_schwierigkeitsgrad (InstrumentID, SchwierigkeitsgradID)
@@ -26,14 +35,14 @@ class InstrumentSchwierigkeitsgrad {
           AND t_ref.SchwierigkeitsgradID  = t_ins.SchwierigkeitsgradID
         WHERE t_ref.InstrumentID  IS NULL "; 
 
-    $insert = $db->prepare($query);
+    $insert = $this->db->prepare($query);
     $insert->bindValue(':InstrumentID', $InstrumentID);      
     $insert->bindValue(':SchwierigkeitsgradID', $SchwierigkeitsgradID);  
 
     try {
       $insert->execute(); 
       if ($insert->rowCount()) {
-        $this->ID=$db->lastInsertId();      
+        $this->ID=$this->db->lastInsertId();      
       }
     }
     catch (PDOException $e) {
@@ -46,8 +55,6 @@ class InstrumentSchwierigkeitsgrad {
 
   
   function print_select_multi($options_selected=[]){
-    include_once("dbconn/cl_db.php");  
-    include_once("cl_html_select.php");
 
     $query="select ss.ID, concat(i.Name, ': ', s.Name) as Name
             from instrument_schwierigkeitsgrad ss 
@@ -57,10 +64,7 @@ class InstrumentSchwierigkeitsgrad {
               instrument i on ss.InstrumentID  = i.ID 	 
             order by i.Name, s.Name"; 
 
-    $conn = new DbConn(); 
-    $db=$conn->db; 
-
-    $stmt = $db->prepare($query); 
+    $stmt = $this->db->prepare($query); 
 
     try {
       $stmt->execute(); 
@@ -78,16 +82,15 @@ class InstrumentSchwierigkeitsgrad {
   }  
 
   function getSucheFilterSQL($Schwierigkeitsgrade){
-    include_once("dbconn/cl_db.php");
+
     $strFilter=''; 
     $query = "SELECT DISTINCT InstrumentID 
                       FROM instrument_schwierigkeitsgrad  
                       WHERE ID IN (".implode(',', $Schwierigkeitsgrade).") 
                       order by ID";
     // echo $query; 
-    $conn = new DbConn(); 
-    $db=$conn->db; 
-    $select = $db->prepare($query); 
+
+    $select = $this->db->prepare($query); 
     $select->execute(); 
     $result = $select->fetchAll(PDO::FETCH_ASSOC);
 
@@ -100,7 +103,7 @@ class InstrumentSchwierigkeitsgrad {
                 AND InstrumentID=".$row["InstrumentID"]."  
                 ORDER by ID";
       // echo $query2; 
-      $select2 = $db->prepare($query2); 
+      $select2 = $this->db->prepare($query2); 
       $select2->execute(); 
       $result2 = $select2->fetchAll(PDO::FETCH_ASSOC);
       foreach ($result2 as $row2) {

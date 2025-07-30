@@ -1,8 +1,13 @@
 <?php 
 
+include_once("dbconn/class.db.php"); 
+include_once("class.htmlinfo.php"); 
+include_once("class.htmlselect.php"); 
+include_once("class.htmltable.php"); 
+
 class SchuelerMaterial {
 
-  public $table_name; 
+  public $table_name='schueler_material'; 
 
   public $ID='';
   public $MaterialID='';
@@ -18,25 +23,26 @@ class SchuelerMaterial {
   public $Parent='Material'; // "Material" (dem Material wird ein Schüler hinzugefügt) 
                              // oder "Schueler" (dem Schueler wird Material hinzugefügt) 
 
-  public function __construct(){
-    $this->table_name='schueler_material'; 
-  }
+  private $db; 
+  private $info; 
 
+  public function __construct(){
+    $conn=new DBConnection(); 
+    $this->db=$conn->db; 
+    $this->info=new HTML_Info(); 
+  }
   
   function insert_row ($SchuelerID, $MaterialID) {
 
     if ($SchuelerID=='' || $MaterialID=='') {
       return false; 
     }
-    include_once("dbconn/cl_db.php");
-    $conn = new DbConn(); 
-    $db=$conn->db; 
 
-    include_once("classes/class.status.php");
+    include_once("class.status.php");
     $status=new Status();      
     $StatusID= $status->getDefaultID();     
        
-    $insert = $db->prepare("INSERT INTO `schueler_material` 
+    $insert = $this->db->prepare("INSERT INTO `schueler_material` 
                             SET SchuelerID =:SchuelerID, 
                                 MaterialID =:MaterialID, 
                                 StatusID   =:StatusID
@@ -48,7 +54,7 @@ class SchuelerMaterial {
 
     try {
       $insert->execute(); 
-      $this->ID=$db->lastInsertId();
+      $this->ID=$this->db->lastInsertId();
       $this->load_row();   
     }
       catch (PDOException $e) {
@@ -64,7 +70,7 @@ class SchuelerMaterial {
     $conn = new DbConn(); 
     $db=$conn->db; 
 
-    $select = $db->prepare("SELECT ID
+    $select = $this->db->prepare("SELECT ID
                           , MaterialID
                           , SchuelerID
                           , StatusID 
@@ -94,10 +100,7 @@ class SchuelerMaterial {
 
 
   function update_row($SchuelerID, $MaterialID, $DatumVon, $DatumBis, $Bemerkung, $StatusID) {
-    include_once("dbconn/cl_db.php");   
-    $conn = new DbConn(); 
-    $db=$conn->db; 
-    
+
     // echo 'TEST: ID: '.$this->ID; 
     // echo '<br>SchuelerID: '.$SchuelerID; 
     // echo '<br$MaterialID: '.$MaterialID; 
@@ -108,7 +111,7 @@ class SchuelerMaterial {
       $this->insert_row($SchuelerID, $MaterialID); 
     }
 
-    $update = $db->prepare("UPDATE `schueler_material` 
+    $update = $this->db->prepare("UPDATE `schueler_material` 
                             SET `SchuelerID`=:SchuelerID,
                                  MaterialID=:MaterialID, 
                                 DatumVon=:DatumVon, 
@@ -141,11 +144,9 @@ class SchuelerMaterial {
 
 
   function delete(){
-    include_once("dbconn/cl_db.php");
-    $conn = new DbConn(); 
-    $db=$conn->db; 
+
     // echo '<p>Lösche schueler_material ID: '.$this->ID.':</p>';
-    $delete = $db->prepare("DELETE FROM `schueler_material` WHERE ID=:ID"); 
+    $delete = $this->db->prepare("DELETE FROM `schueler_material` WHERE ID=:ID"); 
     $delete->bindValue(':ID', $this->ID);  
 
     try {

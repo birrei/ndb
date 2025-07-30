@@ -1,8 +1,12 @@
 <?php 
+include_once("dbconn/class.db.php"); 
+include_once("class.htmlinfo.php"); 
+include_once("class.htmlselect.php"); 
+include_once("class.htmltable.php"); 
 
 class Schueler {
 
-  public $table_name; 
+  public $table_name='schueler'; 
   public $ID;
   public $Name;
   public $Bemerkung;
@@ -13,16 +17,18 @@ class Schueler {
   public string $infotext=''; 
   public int $Aktiv=1; // true/false, tinyint 1/0 for mysql 
   
+  private $db; 
+  private $info; 
+
   public function __construct(){
-    $this->table_name='schueler'; 
+    $conn=new DBConnection(); 
+    $this->db=$conn->db; 
+    $this->info=new HTML_Info(); 
   }
 
   function insert_row ($Name) {
-    include_once("dbconn/cl_db.php");
-    $conn = new DbConn(); 
-    $db=$conn->db; 
 
-    $insert = $db->prepare("INSERT INTO `schueler` 
+    $insert = $this->db->prepare("INSERT INTO `schueler` 
               SET `Name`     = :Name"
            );
 
@@ -30,7 +36,7 @@ class Schueler {
 
     try {
       $insert->execute(); 
-      $this->ID=$db->lastInsertId();
+      $this->ID=$this->db->lastInsertId();
       $this->load_row();  
     }
       catch (PDOException $e) {
@@ -44,8 +50,6 @@ class Schueler {
   function print_select($selected_SchuelerID='', $ParentID='', $caption='', $nurAktiv=false){
     // $ParentID: MaterialID oder SatzID 
     // echo '<p>selected_SchuelerID: '.$selected_SchuelerID.', ParentID: '.$ParentID.'<p>'; // test 
-    include_once("dbconn/cl_db.php");  
-    include_once("cl_html_select.php");
 
     if ($nurAktiv) {
       $query='SELECT ID, Name FROM `schueler` WHERE Aktiv=1 ';
@@ -76,10 +80,7 @@ class Schueler {
 
     // echo $query; // test 
 
-    $conn = new DbConn(); 
-    $db=$conn->db; 
-    
-    $stmt = $db->prepare($query); 
+    $stmt = $this->db->prepare($query); 
 
     if ($ParentID!=''){
       // echo 'ParentID'; 
@@ -109,11 +110,8 @@ class Schueler {
   }
 
   function update_row($Name, $Bemerkung, $Aktiv) {
-    include_once("dbconn/cl_db.php");   
-    $conn = new DbConn(); 
-    $db=$conn->db; 
-    
-    $update = $db->prepare("UPDATE `schueler` 
+
+    $update = $this->db->prepare("UPDATE `schueler` 
                             SET`Name`     = :Name,
                             Bemerkung = :Bemerkung, 
                             Aktiv = :Aktiv
@@ -137,11 +135,8 @@ class Schueler {
   }
 
   function load_row() {
-    include_once("dbconn/cl_db.php");   
-    $conn = new DbConn(); 
-    $db=$conn->db; 
 
-    $select = $db->prepare("SELECT `ID`
+    $select = $this->db->prepare("SELECT `ID`
                           , `Name`
                           , COALESCE(Bemerkung, '') as Bemerkung
                           , Aktiv  
@@ -178,11 +173,7 @@ class Schueler {
           ORDER BY instrument.Name, schwierigkeitsgrad.Name 
         "; 
 
-    include_once("dbconn/cl_db.php");
-    $conn = new DbConn(); 
-    $db=$conn->db; 
-  
-    $stmt = $db->prepare($query); 
+    $stmt = $this->db->prepare($query); 
     $stmt->bindParam(':SchuelerID', $this->ID, PDO::PARAM_INT); 
 
     try {
@@ -207,11 +198,8 @@ class Schueler {
   }  
   
   function add_schwierigkeitsgrad($SchwierigkeitsgradID, $InstrumentID){
-    include_once("dbconn/cl_db.php");
-    $conn = new DbConn(); 
-    $db=$conn->db; 
-    
-    $select = $db->prepare("SELECT * FROM schueler_schwierigkeitsgrad   
+
+    $select = $this->db->prepare("SELECT * FROM schueler_schwierigkeitsgrad   
                         WHERE 
                         `SchuelerID`     = :SchuelerID AND 
                         `SchwierigkeitsgradID`     = :SchwierigkeitsgradID AND 
@@ -229,7 +217,7 @@ class Schueler {
         echo '<p>Die gewählte Kombination exisitiert bereits!</p>'; 
     } 
     else {
-      $insert = $db->prepare("INSERT INTO `schueler_schwierigkeitsgrad` SET
+      $insert = $this->db->prepare("INSERT INTO `schueler_schwierigkeitsgrad` SET
       `SchuelerID`     = :SchuelerID,  
       `SchwierigkeitsgradID`     = :SchwierigkeitsgradID,
       `InstrumentID`     = :InstrumentID
@@ -255,11 +243,8 @@ class Schueler {
   }
 
   function delete_schwierigkeitsgrad($ID){
-    include_once("dbconn/cl_db.php");
-    $conn = new DbConn(); 
-    $db=$conn->db; 
 
-    $delete = $db->prepare("DELETE 
+    $delete = $this->db->prepare("DELETE 
                       FROM `schueler_schwierigkeitsgrad` 
                       WHERE ID=:ID"
                     ); 
@@ -298,11 +283,7 @@ class Schueler {
     WHERE schueler_satz.SchuelerID = :ID
     order by satz.Name "; 
 
-    include_once("dbconn/cl_db.php");
-    $conn = new DbConn(); 
-    $db=$conn->db; 
-
-    $stmt = $db->prepare($query); 
+    $stmt = $this->db->prepare($query); 
     $stmt->bindParam(':ID', $this->ID, PDO::PARAM_INT); 
 
     try {
@@ -356,11 +337,7 @@ class Schueler {
           order by material.Name  
         "; 
 
-    include_once("dbconn/cl_db.php");
-    $conn = new DbConn(); 
-    $db=$conn->db; 
-  
-    $stmt = $db->prepare($query); 
+    $stmt = $this->db->prepare($query); 
     $stmt->bindParam(':ID', $this->ID, PDO::PARAM_INT); 
 
     try {
@@ -395,11 +372,8 @@ class Schueler {
   }    
 
   function delete_satze(){
-    include_once("dbconn/cl_db.php");
-    $conn = new DbConn(); 
-    $db=$conn->db; 
 
-    $delete = $db->prepare("DELETE FROM `schueler_satz` WHERE SchuelerID=:ID"); 
+    $delete = $this->db->prepare("DELETE FROM `schueler_satz` WHERE SchuelerID=:ID"); 
     $delete->bindValue(':ID', $this->ID);  
 
     try {
@@ -414,11 +388,8 @@ class Schueler {
   }
 
   function delete_materials(){
-    include_once("dbconn/cl_db.php");
-    $conn = new DbConn(); 
-    $db=$conn->db; 
 
-    $delete = $db->prepare("DELETE FROM `schueler_material` WHERE SchuelerID=:ID"); 
+    $delete = $this->db->prepare("DELETE FROM `schueler_material` WHERE SchuelerID=:ID"); 
     $delete->bindValue(':ID', $this->ID);  
 
     try {
@@ -433,11 +404,8 @@ class Schueler {
   }     
 
   function delete_schwierigkeitsgrade(){
-    include_once("dbconn/cl_db.php");
-    $conn = new DbConn(); 
-    $db=$conn->db; 
 
-    $delete = $db->prepare("DELETE FROM `schueler_schwierigkeitsgrad` WHERE SchuelerID=:ID"); 
+    $delete = $this->db->prepare("DELETE FROM `schueler_schwierigkeitsgrad` WHERE SchuelerID=:ID"); 
     $delete->bindValue(':ID', $this->ID);  
 
     try {
@@ -452,15 +420,12 @@ class Schueler {
   }       
 
   function delete(){
-    include_once("dbconn/cl_db.php");
-    $conn = new DbConn(); 
-    $db=$conn->db; 
-  
+
     $this->delete_materials(); 
     $this->delete_satze(); 
     $this->delete_schwierigkeitsgrade(); 
       
-    $delete = $db->prepare("DELETE FROM `schueler` WHERE ID=:ID"); 
+    $delete = $this->db->prepare("DELETE FROM `schueler` WHERE ID=:ID"); 
     $delete->bindValue(':ID', $this->ID);  
 
     try {
@@ -479,8 +444,6 @@ class Schueler {
 
   function copy(){
 
-    include_once("dbconn/cl_db.php");
-    include_once("cl_html_info.php"); 
 
     $conn = new DbConn(); 
     $db=$conn->db; 
@@ -491,12 +454,12 @@ class Schueler {
           WHERE ID=:ID ";
     // Aktiv nicht kopieren, da default = 1
 
-    $insert = $db->prepare($sql); 
+    $insert = $this->db->prepare($sql); 
     $insert->bindValue(':ID', $this->ID);  
 
     try {
       $insert->execute(); 
-      $ID_New = $db->lastInsertId();    
+      $ID_New = $this->db->lastInsertId();    
 
       $this->copy_schwierigkeitsgrade($ID_New); 
       $this->copy_saetze($ID_New); 
@@ -512,9 +475,6 @@ class Schueler {
   } 
 
   function copy_schwierigkeitsgrade($ID_new) {
-    include_once("dbconn/cl_db.php");
-    $conn = new DbConn(); 
-    $db=$conn->db; 
 
     $sql="INSERT INTO schueler_schwierigkeitsgrad
           (SchuelerID, SchwierigkeitsgradID, InstrumentID) 
@@ -524,7 +484,7 @@ class Schueler {
         FROM schueler_schwierigkeitsgrad 
         WHERE SchuelerID=:ID";
 
-    $insert = $db->prepare($sql); 
+    $insert = $this->db->prepare($sql); 
     $insert->bindValue(':ID', $this->ID);  
     $insert->bindValue(':SchuelerID_new', $ID_new);  
     $insert->execute();  
@@ -532,9 +492,6 @@ class Schueler {
   }   
 
   function copy_saetze($ID_new) {
-    include_once("dbconn/cl_db.php");
-    $conn = new DbConn(); 
-    $db=$conn->db; 
 
     $sql="INSERT INTO schueler_satz (SchuelerID, SatzID) 
         SELECT :SchuelerID_new as SchuelerID
@@ -542,7 +499,7 @@ class Schueler {
         FROM schueler_satz 
         WHERE SchuelerID=:ID";
 
-    $insert = $db->prepare($sql); 
+    $insert = $this->db->prepare($sql); 
     $insert->bindValue(':ID', $this->ID);  
     $insert->bindValue(':SchuelerID_new', $ID_new);  
     $insert->execute();  
@@ -550,9 +507,6 @@ class Schueler {
   }   
 
   function copy_materials($ID_new) {
-    include_once("dbconn/cl_db.php");
-    $conn = new DbConn(); 
-    $db=$conn->db; 
 
     $sql="INSERT INTO schueler_material(SchuelerID, MaterialID) 
         SELECT :SchuelerID_new as SchuelerID
@@ -560,7 +514,7 @@ class Schueler {
         FROM schueler_material 
         WHERE SchuelerID=:ID";
 
-    $insert = $db->prepare($sql); 
+    $insert = $this->db->prepare($sql); 
     $insert->bindValue(':ID', $this->ID);  
     $insert->bindValue(':SchuelerID_new', $ID_new);  
     $insert->execute();  
@@ -576,12 +530,8 @@ class Schueler {
             where schueler_material.ID is null 
             order by material.Name 
         "; 
-
-    include_once("dbconn/cl_db.php");
-    $conn = new DbConn(); 
-    $db=$conn->db; 
   
-    $stmt = $db->prepare($query); 
+    $stmt = $this->db->prepare($query); 
     $stmt->bindParam(':SchuelerID', $this->ID, PDO::PARAM_INT); 
 
     try {
@@ -601,9 +551,6 @@ class Schueler {
   }
 
   function print_select_saetze($selected_SatzID=''){
-
-    include_once("dbconn/cl_db.php");  
-    include_once("cl_html_select.php");
 
     $query="
       SELECT satz.ID
@@ -625,10 +572,7 @@ class Schueler {
           
     $query.=$selected_SatzID!=''?"AND satz.ID=:SatzID OR status.Name LIKE '%Aktiv%'":"AND status.Name LIKE '%Aktiv%'"; 
 
-    $conn = new DbConn(); 
-    $db=$conn->db; 
-
-    $stmt = $db->prepare($query);      
+    $stmt = $this->db->prepare($query);      
     
     $stmt->bindParam(':SchuelerID', $this->ID, PDO::PARAM_INT);
 
@@ -659,9 +603,6 @@ class Schueler {
 
   function print_select_materials($selected_MaterialID=''){
 
-    include_once("dbconn/cl_db.php");  
-    include_once("cl_html_select.php");
-
     $query=" SELECT material.ID
           , CONCAT(material.Name, ' (' , materialtyp.Name, ') ', sammlung.Name) as Name 
     FROM material  
@@ -674,10 +615,7 @@ class Schueler {
 
     $query.=$selected_MaterialID!=''?"AND material.ID=:MaterialID OR status.Name LIKE '%Aktiv%'":"AND status.Name LIKE '%Aktiv%'"; 
 
-    $conn = new DbConn(); 
-    $db=$conn->db; 
-
-    $stmt = $db->prepare($query);      
+    $stmt = $this->db->prepare($query);      
     
     $stmt->bindParam(':SchuelerID', $this->ID, PDO::PARAM_INT);
 
@@ -735,11 +673,7 @@ class Schueler {
           ORDER BY uebung.Datum DESC              
         "; 
 
-    include_once("dbconn/cl_db.php");
-    $conn = new DbConn(); 
-    $db=$conn->db; 
-  
-    $stmt = $db->prepare($query); 
+    $stmt = $this->db->prepare($query); 
     $stmt->bindParam(':ID', $this->ID, PDO::PARAM_INT); 
 
     try {
@@ -794,11 +728,7 @@ class Schueler {
         ORDER BY `Datum Zuletzt` DESC              
         "; 
 
-    include_once("dbconn/cl_db.php");
-    $conn = new DbConn(); 
-    $db=$conn->db; 
-  
-    $stmt = $db->prepare($query); 
+    $stmt = $this->db->prepare($query); 
     $stmt->bindParam(':ID', $this->ID, PDO::PARAM_INT); 
 
     try {

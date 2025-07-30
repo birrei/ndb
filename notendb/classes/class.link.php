@@ -1,8 +1,14 @@
 <?php 
 
+include_once("dbconn/class.db.php"); 
+include_once("class.htmlinfo.php"); 
+include_once("class.htmlselect.php"); 
+include_once("class.htmltable.php"); 
+
+
 class Link {
 
-  public $table_name; 
+  public $table_name='link'; 
   public $ID='';
   public $Name='';
   public $Bezeichnung=''; 
@@ -14,16 +20,19 @@ class Link {
   public $Titles='Links';  
   public string $infotext=''; 
   
+
+  private $db; 
+  private $info; 
+
   public function __construct(){
-    $this->table_name='link'; 
+    $conn=new DBConnection(); 
+    $this->db=$conn->db; 
+    $this->info=new HTML_Info(); 
   }
 
   function insert_row () {
-    include_once("dbconn/cl_db.php");
-    $conn = new DbConn(); 
-    $db=$conn->db; 
 
-    $insert = $db->prepare("INSERT INTO `link` 
+    $insert = $this->db->prepare("INSERT INTO `link` 
               SET SammlungID = :SammlungID"       
            );
 
@@ -31,7 +40,7 @@ class Link {
 
     try {
       $insert->execute(); 
-      $this->ID=$db->lastInsertId();
+      $this->ID=$this->db->lastInsertId();
       $this->load_row();   
     }
       catch (PDOException $e) {
@@ -43,14 +52,11 @@ class Link {
   }  
    
   function update_row ($LinktypeID, $Bezeichnung, $URL) {
-    include_once("dbconn/cl_db.php");
-    $conn = new DbConn(); 
-    $db=$conn->db; 
 
     if ($this->ID=='') {
       $this->insert_row(); 
     } 
-    $update = $db->prepare("UPDATE `link` 
+    $update = $this->db->prepare("UPDATE `link` 
               SET 
                 SammlungID=:SammlungID 
               , LinktypeID= :LinktypeID
@@ -79,11 +85,8 @@ class Link {
  
 
   function load_row() {
-    include_once("dbconn/cl_db.php");   
-    $conn = new DbConn(); 
-    $db=$conn->db; 
 
-    $select = $db->prepare("SELECT ID
+    $select = $this->db->prepare("SELECT ID
                           , COALESCE(Bezeichnung, '') as Bezeichnung
                           , COALESCE(URL, '') as URL
                           , LinktypeID
@@ -108,12 +111,10 @@ class Link {
   }  
 
   function delete(){
-    include_once("dbconn/cl_db.php");
-    $conn = new DbConn(); 
-    $db=$conn->db; 
+
     // echo '<p>Lösche Link ID: '.$this->ID.':</p>';
  
-    $delete = $db->prepare("DELETE FROM `link` WHERE ID=:ID"); 
+    $delete = $this->db->prepare("DELETE FROM `link` WHERE ID=:ID"); 
     $delete->bindValue(':ID', $this->ID);  
 
     try {
@@ -133,11 +134,8 @@ class Link {
 
 
   function insert_link_tmp ($URL, $Title) {
-    include_once("dbconn/cl_db.php");
-    $conn = new DbConn(); 
-    $db=$conn->db; 
 
-    $insert = $db->prepare("INSERT INTO `link_tmp` 
+    $insert = $this->db->prepare("INSERT INTO `link_tmp` 
               SET URL = :URL, Title=:Title "       
            );
 
@@ -156,11 +154,8 @@ class Link {
   }  
 
   function truncate_link_tmp () {
-    include_once("dbconn/cl_db.php");
-    $conn = new DbConn(); 
-    $db=$conn->db; 
 
-    $stmt = $db->prepare("TRUNCATE TABLE link_tmp");
+    $stmt = $this->db->prepare("TRUNCATE TABLE link_tmp");
 
     try {
       $stmt->execute(); 
@@ -176,11 +171,7 @@ class Link {
   function print_link_tmp () {
     $query="SELECT * FROM link_tmp"; 
 
-    include_once("dbconn/cl_db.php");
-    $conn = new DbConn(); 
-    $db=$conn->db; 
-    $stmt = $db->prepare($query); 
-
+    $stmt = $this->db->prepare($query); 
 
     try {
       $stmt->execute(); 
