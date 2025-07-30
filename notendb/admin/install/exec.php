@@ -39,7 +39,7 @@ if ( is_dir ( $dir )){
             echo '<p>Datei '.$file.' wurde erfolgreich ausgeführt.</p>';
           }
           catch (PDOException $e) {
-            // include_once("cl_html_info.php"); 
+            // include_once("classes/class.htmlinfo.php"); 
             $info = new HtmlInfo();      
             $info->print_user_error(); 
             $info->print_error($stmt, $e); 

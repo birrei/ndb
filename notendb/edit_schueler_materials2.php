@@ -3,7 +3,7 @@
 
 include_once("classes/class.schueler.php");
 include_once("classes/class.schueler_material.php");
-include_once("cl_html_info.php");
+include_once("classes/class.htmlinfo.php");
 
 $html= new HtmlInfo(); 
 

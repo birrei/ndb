@@ -33,7 +33,7 @@ if ($abfrage->load_row()) {
       
     try {
       $select->execute(); 
-      include_once("cl_html_table.php");      
+      include_once("classes/class.htmltable.php");      
       $html = new HtmlTable($select); 
       if ($table_edit!='') {
         $html->edit_link_table=$table_edit;    
@@ -46,7 +46,7 @@ if ($abfrage->load_row()) {
 
     }
     catch (PDOException $e) {
-      include_once("cl_html_info.php"); 
+      include_once("classes/class.htmlinfo.php"); 
       $info = new HtmlInfo();      
       $info->print_user_error(); 
       $info->print_error($select, $e); 

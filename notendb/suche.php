@@ -782,7 +782,7 @@ include("classes/class.materialtyp.php");
       
     try {
       $select->execute(); 
-      include_once("cl_html_table.php");      
+      include_once("classes/class.htmltable.php");      
       $html = new HtmlTable($select); 
       $html->add_link_edit=true; 
       $html->edit_link_table=$edit_table; 
@@ -792,7 +792,7 @@ include("classes/class.materialtyp.php");
       $html->print_table2(); 
     }
     catch (PDOException $e) {
-      include_once("cl_html_info.php"); 
+      include_once("classes/class.htmlinfo.php"); 
       $info = new HtmlInfo();      
       $info->print_user_error(); 
       $info->print_error($select, $e); 

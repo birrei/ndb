@@ -1,7 +1,7 @@
 <?php 
 include_once("classes/class.satz.php");
 include_once("classes/class.schueler_satz.php");
-include_once("cl_html_info.php");
+include_once("classes/class.htmlinfo.php");
 
 
 $satz=new Satz();

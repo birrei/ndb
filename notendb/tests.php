@@ -56,7 +56,7 @@ foreach ($abfragen as $abfrage)
 
   try {
     $select->execute(); 
-    include_once("cl_html_table.php");      
+    include_once("classes/class.htmltable.php");      
   
     if ($select->rowCount() > 0 ) {
       echo '<h3>'.$abfrage['name'].'</h3>';     
@@ -71,7 +71,7 @@ foreach ($abfragen as $abfrage)
     
   }
   catch (PDOException $e) {
-    include_once("cl_html_info.php"); 
+    include_once("classes/class.htmlinfo.php"); 
     $info = new HtmlInfo();      
     $info->print_user_error(); 
     $info->print_error($select, $e); 
