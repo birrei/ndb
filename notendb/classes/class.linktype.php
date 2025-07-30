@@ -157,8 +157,6 @@ class Linktype {
   //   include_once("dbconn/cl_db.php");
 
   //   $query_lookups = 'select ID, Name, type_key from linktype order by ID';
-  //   $conn = new DbConn(); 
-  //   $db=$conn->db; 
   //   $select = $this->db->prepare($query_lookups); 
   //   $select->execute(); 
   //   $result = $select->fetchAll(PDO::FETCH_ASSOC);

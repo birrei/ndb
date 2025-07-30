@@ -51,9 +51,6 @@ class Epoche {
             FROM `epoche` 
             order by `Name`"; 
 
-    $conn = new DbConn(); 
-    $this->db=$conn->db; 
-
     $stmt = $this->db->prepare($query); 
 
     try {

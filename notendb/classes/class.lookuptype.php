@@ -204,8 +204,7 @@ class Lookuptype {
                       WHERE Relation=:Relation 
                       AND ID IN (SELECT DISTINCT LookupTypeID from lookup) 
                       order by ID';
-    $conn = new DbConn(); 
-    $db=$conn->db; 
+
     $select = $this->db->prepare($query_lookups); 
     $select->bindParam(':Relation', $this->Relation);    
     $select->execute(); 

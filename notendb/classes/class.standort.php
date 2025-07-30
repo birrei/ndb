@@ -189,9 +189,6 @@ class Standort {
                   FROM standort
                   ORDER BY Name";
     
-    $conn = new DbConn(); 
-    $db=$conn->db; 
-
     $stmt = $this->db->prepare($query); 
 
     try {

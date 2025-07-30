@@ -444,10 +444,6 @@ class Schueler {
 
   function copy(){
 
-
-    $conn = new DbConn(); 
-    $db=$conn->db; 
-
     $sql="INSERT INTO schueler (Name, Bemerkung)
           SELECT CONCAT(Name, ' (Kopie)') as Name , Bemerkung
           FROM schueler 

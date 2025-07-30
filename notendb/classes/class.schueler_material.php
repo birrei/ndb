@@ -66,9 +66,6 @@ class SchuelerMaterial {
   }  
  
   function load_row() {
-    include_once("dbconn/cl_db.php");   
-    $conn = new DbConn(); 
-    $db=$conn->db; 
 
     $select = $this->db->prepare("SELECT ID
                           , MaterialID

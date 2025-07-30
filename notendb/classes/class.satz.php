@@ -224,8 +224,6 @@ class Satz {
             WHERE ID=:ID
             order by `Name`"; 
 
-  	$conn = new DbConn(); 
-    $db=$conn->db; 
     $stmt = $this->db->prepare($query); 
     $stmt->bindParam(':ID', $value_selected, PDO::PARAM_INT);
 

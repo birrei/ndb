@@ -398,9 +398,6 @@ class Material {
   }
 
   function copy_schueler($ID_new) {
-    include_once("dbconn/cl_db.php");
-    $conn = new DbConn(); 
-    $db=$conn->db; 
 
     $sql="insert into schueler_material 
           (MaterialID, SchuelerID) 

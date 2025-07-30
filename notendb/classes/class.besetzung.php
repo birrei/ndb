@@ -83,9 +83,6 @@ class Besetzung {
             FROM `besetzung` 
             order by `Name`"; 
 
-    $conn = new DbConn(); 
-    $db=$conn->db; 
-
     $stmt = $this->db->prepare($query); 
 
     try {

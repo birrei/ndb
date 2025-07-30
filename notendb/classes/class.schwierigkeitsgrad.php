@@ -53,9 +53,6 @@ class Schwierigkeitsgrad {
 
     $query.='ORDER BY `Name`'; 
 
-    $conn = new DbConn(); 
-    $db=$conn->db; 
-
     $stmt = $this->db->prepare($query); 
 
     try {
