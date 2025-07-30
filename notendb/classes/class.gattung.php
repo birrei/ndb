@@ -53,7 +53,7 @@ class Gattung {
 
     try {
       $stmt->execute(); 
-      $html = new HtmlSelect($stmt); 
+      $html = new HTML_Select($stmt); 
       $html->caption = $caption;       
       $html->print_select("GattungID", $value_selected, true); 
       
@@ -140,7 +140,7 @@ class Gattung {
 
     try {
       $stmt->execute(); 
-      $html = new HtmlSelect($stmt); 
+      $html = new HTML_Select($stmt); 
       $html->print_select_multi('Gattung', 'Gattungen[]', $options_selected, 'Gattung:'); 
       $this->titles_selected_list = $html->titles_selected_list;
     }

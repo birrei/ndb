@@ -107,7 +107,7 @@ class Lookup {
 
     try {
       $stmt->execute(); 
-      $html = new HtmlSelect($stmt); 
+      $html = new HTML_Select($stmt); 
       $html->autofocus=true; 
       $html->caption = $caption;       
       $html->print_select("LookupID", $value_selected, true); 
@@ -161,7 +161,7 @@ class Lookup {
 
     try {
       $stmt->execute(); 
-      $html = new HtmlSelect($stmt); 
+      $html = new HTML_Select($stmt); 
       // $html->caption = $caption;       
       $html->print_select("LookupID", $value_selected, true); 
       
@@ -281,7 +281,7 @@ class Lookup {
 
     try {
       $select->execute(); 
-      $html = new HtmlSelect($select); 
+      $html = new HTML_Select($select); 
       $html->visible_rows=$lookuptype->selsize; 
       $html->print_select_multi($type_key, $type_key.'[]', $options_selected,$caption, $print_check_exact, $check_exact
                               , $print_check_exclude, $check_exclude); 

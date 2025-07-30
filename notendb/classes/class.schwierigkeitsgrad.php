@@ -57,7 +57,7 @@ class Schwierigkeitsgrad {
 
     try {
       $stmt->execute(); 
-      $html = new HtmlSelect($stmt); 
+      $html = new HTML_Select($stmt); 
       // $html->caption = $this->Title;       
       $html->print_select("SchwierigkeitsgradID", $value_selected, true); 
       
@@ -143,7 +143,7 @@ class Schwierigkeitsgrad {
 
     try {
       $stmt->execute(); 
-      $html = new HtmlSelect($stmt); 
+      $html = new HTML_Select($stmt); 
       $html->visible_rows=5; 
       $html->print_select_multi('Schwierigkeitsgrad', 'Schwierigkeitsgrad[]', $options_selected, 'Schwierigkeitsgrad (Schüler):'); 
       $this->titles_selected_list = $html->titles_selected_list; 

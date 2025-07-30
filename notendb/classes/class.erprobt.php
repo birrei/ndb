@@ -55,7 +55,7 @@ class Erprobt {
 
     try {
       $stmt->execute(); 
-      $html = new HtmlSelect($stmt); 
+      $html = new HTML_Select($stmt); 
       $html->caption = $caption;       
       $html->print_select("ErprobtID", $value_selected, true); 
       
@@ -141,7 +141,7 @@ class Erprobt {
 
     try {
       $stmt->execute(); 
-      $html = new HtmlSelect($stmt); 
+      $html = new HTML_Select($stmt); 
       $html->print_select_multi('Erprobt', 'Erprobt[]', $options_selected, 'Erprobt:'); 
       $this->titles_selected_list = $html->titles_selected_list;      
     }

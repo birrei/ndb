@@ -95,7 +95,7 @@ class Schueler {
     try {
       $stmt->execute(); 
       // $stmt->debugDumpParams(); // Test 
-      $html = new HtmlSelect($stmt); 
+      $html = new HTML_Select($stmt); 
       $html->caption = $caption;  
       $html->autofocus=false;      
       $html->print_select("SchuelerID", $selected_SchuelerID, true); 
@@ -583,7 +583,7 @@ class Schueler {
     try {
       $stmt->execute(); 
       // $stmt->debugDumpParams(); // Test 
-      $html = new HtmlSelect($stmt); 
+      $html = new HTML_Select($stmt); 
       // $html->caption = $caption;  
       $html->autofocus=false;      
       $html->print_select("SatzID", $selected_SatzID, true); 
@@ -626,7 +626,7 @@ class Schueler {
     try {
       $stmt->execute(); 
       // $stmt->debugDumpParams(); // Test 
-      $html = new HtmlSelect($stmt); 
+      $html = new HTML_Select($stmt); 
       // $html->caption = $caption;  
       $html->autofocus=false;      
       $html->print_select("MaterialID", $selected_MaterialID, true); 

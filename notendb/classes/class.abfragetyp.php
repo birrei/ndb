@@ -162,7 +162,7 @@ class Abfragetyp {
 
     try {
       $stmt->execute(); 
-      $html = new HtmlSelect($stmt); 
+      $html = new HTML_Select($stmt); 
       $html->print_preselect("AbfragetypID", $value_selected, true); 
     }
     catch (PDOException $e) {

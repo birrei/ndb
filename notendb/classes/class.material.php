@@ -335,7 +335,7 @@ class Material {
 
     try {
       $stmt->execute(); 
-      $html = new HtmlSelect($stmt); 
+      $html = new HTML_Select($stmt); 
       // $stmt->debugDumpParams(); // Test 
       // $html->caption = $caption;       
       $html->print_select("MaterialID", $selected_MaterialID, true); 

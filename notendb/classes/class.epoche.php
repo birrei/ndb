@@ -55,7 +55,7 @@ class Epoche {
 
     try {
       $stmt->execute(); 
-      $html = new HtmlSelect($stmt); 
+      $html = new HTML_Select($stmt); 
       $html->caption = $caption;       
       $html->print_select("EpocheID", $value_selected, true); 
       
@@ -142,7 +142,7 @@ class Epoche {
 
     try {
       $stmt->execute(); 
-      $html = new HtmlSelect($stmt); 
+      $html = new HTML_Select($stmt); 
       $html->print_select_multi('Epoche', 'Epochen[]', $options_selected, 'Epoche(n):'); 
       $this->titles_selected_list = $html->titles_selected_list; 
     }

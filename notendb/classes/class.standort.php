@@ -55,7 +55,7 @@ class Standort {
 
     try {
       $stmt->execute(); 
-      $html = new HtmlSelect($stmt); 
+      $html = new HTML_Select($stmt); 
       $html->caption = $caption;       
       $html->print_select("StandortID", $value_selected, true); 
       
@@ -141,7 +141,7 @@ class Standort {
 
     try {
       $stmt->execute(); 
-      $html = new HtmlSelect($stmt); 
+      $html = new HTML_Select($stmt); 
       $html->print_select_multi('Standort', 'Standorte[]', $options_selected, 'Standort(e):'); 
       $this->titles_selected_list = $html->titles_selected_list;       
     }
@@ -193,7 +193,7 @@ class Standort {
 
     try {
       $stmt->execute(); 
-      $html = new HtmlSelect($stmt); 
+      $html = new HTML_Select($stmt); 
       $html->print_preselect("StandortID", $value_selected, true); 
     }
     catch (PDOException $e) {

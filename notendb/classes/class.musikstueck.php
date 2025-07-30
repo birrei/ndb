@@ -284,7 +284,7 @@ class Musikstueck {
 
     try {
       $stmt->execute(); 
-      $html = new HtmlSelect($stmt); 
+      $html = new HTML_Select($stmt); 
       $html->caption = $caption;       
       $html->print_select("MusikstueckID", $value_selected, false); 
     }

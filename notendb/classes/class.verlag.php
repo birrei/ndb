@@ -54,7 +54,7 @@ include_once("class.htmltable.php");
 
     try {
       $stmt->execute(); 
-      $html = new HtmlSelect($stmt); 
+      $html = new HTML_Select($stmt); 
       $html->caption = $caption;       
       $html->print_select("VerlagID", $value_selected, true); 
       
@@ -145,7 +145,7 @@ include_once("class.htmltable.php");
 
     try {
       $stmt->execute(); 
-      $html = new HtmlSelect($stmt); 
+      $html = new HTML_Select($stmt); 
       $html->print_select_multi('Verlag', 'Verlage[]', $options_selected, 'Verlag(e):');
       $this->titles_selected_list = $html->titles_selected_list;        
     }

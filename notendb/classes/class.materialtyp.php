@@ -54,7 +54,7 @@ class Materialtyp {
 
     try {
       $stmt->execute(); 
-      $html = new HtmlSelect($stmt); 
+      $html = new HTML_Select($stmt); 
       $html->caption = $caption;       
       $html->print_select("MaterialtypID", $value_selected, true); 
       
@@ -141,7 +141,7 @@ class Materialtyp {
 
     try {
       $stmt->execute(); 
-      $html = new HtmlSelect($stmt); 
+      $html = new HTML_Select($stmt); 
       $html->print_select_multi('Materialtyp', 'Materialtypen[]', $options_selected, 'Materialtyp(en):'); 
       $this->titles_selected_list = $html->titles_selected_list; 
     }
@@ -218,7 +218,7 @@ class Materialtyp {
 
     try {
       $stmt->execute(); 
-      $html = new HtmlSelect($stmt); 
+      $html = new HTML_Select($stmt); 
       $html->print_preselect("MaterialtypID", $value_selected, true); 
     }
     catch (PDOException $e) {

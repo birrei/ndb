@@ -79,7 +79,7 @@ include_once("class.htmltable.php");
 
     try {
       $stmt->execute(); 
-      $html = new HtmlSelect($stmt); 
+      $html = new HTML_Select($stmt); 
       $html->autofocus=false;     
       $html->caption = $caption;         
       $html->print_select("InstrumentID", $value_selected, true); 
@@ -168,7 +168,7 @@ include_once("class.htmltable.php");
 
     try {
       $stmt->execute(); 
-      $html = new HtmlSelect($stmt); 
+      $html = new HTML_Select($stmt); 
      //  $html->print_select_multi('Instrument', 'Instrumente[]', $options_selected, 'Instrument(e):');
      $html->print_select_multi('Instrument', 'Instrumente[]', $options_selected, 'Schwierigkeitsgrad Instrument(e):');
       $this->titles_selected_list = $html->titles_selected_list;        

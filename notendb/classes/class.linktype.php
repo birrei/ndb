@@ -54,7 +54,7 @@ class Linktype {
 
     try {
       $stmt->execute(); 
-      $html = new HtmlSelect($stmt); 
+      $html = new HTML_Select($stmt); 
       $html->autofocus=true;    
       $html->caption = $caption;          
       $html->print_select("LinktypeID", $value_selected, true); 
@@ -76,7 +76,7 @@ class Linktype {
 
     try {
       $stmt->execute(); 
-      $html = new HtmlSelect($stmt); 
+      $html = new HTML_Select($stmt); 
       $html->print_preselect("LookupTypeID", $value_selected, true); 
       
     }
@@ -181,7 +181,7 @@ class Linktype {
 
     try {
       $stmt->execute(); 
-      $html = new HtmlSelect($stmt); 
+      $html = new HTML_Select($stmt); 
       $html->print_select_multi('Linktyp', 'Linktypen[]', $options_selected, 'Linktyp(en):'); 
       $this->titles_selected_list = $html->titles_selected_list;      
     }

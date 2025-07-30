@@ -132,7 +132,7 @@ class Komponist {
 
     try {
       $select->execute(); 
-      $html = new HtmlSelect($select); 
+      $html = new HTML_Select($select); 
       $html->caption = $caption;       
       $html->print_select("KomponistID", $value_selected, true); 
       
@@ -177,7 +177,7 @@ class Komponist {
 
     try {
       $stmt->execute(); 
-      $html = new HtmlSelect($stmt); 
+      $html = new HTML_Select($stmt); 
       $html->print_select_multi('Komponist', 'Komponisten[]', $options_selected, 'Komponist(en):'); 
       $this->titles_selected_list = $html->titles_selected_list;      
     }

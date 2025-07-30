@@ -57,7 +57,7 @@ class status {
 
     try {
       $stmt->execute(); 
-      $html = new HtmlSelect($stmt); 
+      $html = new HTML_Select($stmt); 
       $html->caption = $caption;       
       $html->print_select("StatusID", $value_selected, true); 
       
@@ -144,7 +144,7 @@ class status {
 
     try {
       $stmt->execute(); 
-      $html = new HtmlSelect($stmt); 
+      $html = new HTML_Select($stmt); 
       $html->print_select_multi('status', 'status[]', $options_selected, 'status(n):'); 
       $this->titles_selected_list = $html->titles_selected_list; 
     }

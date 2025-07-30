@@ -65,7 +65,7 @@ class Verwendungszweck {
 
     try {
       $stmt->execute(); 
-      $html = new HtmlSelect($stmt); 
+      $html = new HTML_Select($stmt); 
       $html->autofocus=true; 
       $html->caption = $caption;       
       $html->print_select("VerwendungszweckID", $value_selected, true); 
@@ -89,7 +89,7 @@ class Verwendungszweck {
 
     try {
       $stmt->execute(); 
-      $html = new HtmlSelect($stmt); 
+      $html = new HTML_Select($stmt); 
       $html->visible_rows= 10; 
       $html->print_select_multi('Verwendungszweck', 'Verwendungszwecke[]', $options_selected, 'Verwendungszweck(e):'); 
       $this->titles_selected_list = $html->titles_selected_list; 

@@ -137,7 +137,7 @@ include_once('class.link.php');
 
     try {
       $stmt->execute(); 
-      $html = new HtmlSelect($stmt); 
+      $html = new HTML_Select($stmt); 
       $html->caption = $caption;       
       $html->print_select("SammlungID", $value_selected, false); 
     }
