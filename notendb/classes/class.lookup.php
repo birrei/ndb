@@ -47,7 +47,7 @@ class Lookup {
       $this->load_row();   
     }
       catch (PDOException $e) {
-      include_once("class.html_info.php"); 
+      include_once("class.htmlinfo.php"); 
       $info = new HTML_Info();      
       $info->print_user_error(); 
       $info->print_error($insert, $e);  ; 
@@ -114,7 +114,7 @@ class Lookup {
       
     }
     catch (PDOException $e) {
-      include_once("class.html_info.php"); 
+      include_once("class.htmlinfo.php"); 
       $info = new HTML_Info();      
       $info->print_user_error(); 
       $info->print_error($stmt, $e); 
@@ -167,7 +167,7 @@ class Lookup {
       
     }
     catch (PDOException $e) {
-      include_once("class.html_info.php"); 
+      include_once("class.htmlinfo.php"); 
       $info = new HTML_Info();      
       $info->print_user_error(); 
       $info->print_error($stmt, $e); 
@@ -191,13 +191,13 @@ class Lookup {
 
     try {
       $select->execute(); 
-      include_once("class.html_table.php");      
+            
       $html = new HTML_Table($select); 
       $html->edit_link_table= $this->table_name;
       $html->print_table2(); 
     }
     catch (PDOException $e) {
-      include_once("class.html_info.php"); 
+      include_once("class.htmlinfo.php"); 
       $info = new HTML_Info();      
       $info->print_user_error(); 
       $info->print_error($select, $e); 
@@ -220,7 +220,7 @@ class Lookup {
       $this->load_row(); 
     }
     catch (PDOException $e) {
-      include_once("class.html_info.php"); 
+      include_once("class.htmlinfo.php"); 
       $info = new HTML_Info();      
       $info->print_user_error(); 
       $info->print_error($update, $e); 
@@ -289,7 +289,7 @@ class Lookup {
       // echo  'cl_lookup: '.$this->titles_selected_list;
     }
     catch (PDOException $e) {
-      include_once("class.html_info.php"); 
+      include_once("class.htmlinfo.php"); 
       $info = new HTML_Info();      
       $info->print_user_error(); 
       $info->print_error($select, $e); 
@@ -318,7 +318,7 @@ class Lookup {
     }
     catch (PDOException $e) {
       // print_r($e); 
-      include_once("class.html_info.php"); 
+      include_once("class.htmlinfo.php"); 
       $info = new HTML_Info();      
       $info->print_user_error(); 
       $info->print_error($delete, $e); 

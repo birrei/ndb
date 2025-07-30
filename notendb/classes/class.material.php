@@ -47,7 +47,7 @@ class Material {
       $this->load_row();   
     }
       catch (PDOException $e) {
-      include_once("class.html_info.php"); 
+      include_once("class.htmlinfo.php"); 
       $info = new HTML_Info();      
       $info->print_user_error(); 
       $info->print_error($insert, $e);  ; 
@@ -78,7 +78,7 @@ class Material {
       $this->load_row();   
     }
       catch (PDOException $e) {
-      include_once("class.html_info.php"); 
+      include_once("class.htmlinfo.php"); 
       $info = new HTML_Info();      
       $info->print_user_error(); 
       $info->print_error($update, $e);  ; 
@@ -120,7 +120,7 @@ class Material {
       $delete->execute(); 
     }
     catch (PDOException $e) {
-      include_once("class.html_info.php"); 
+      include_once("class.htmlinfo.php"); 
       $info = new HTML_Info();      
       $info->print_user_error(); 
       $info->print_error($delete, $e);  
@@ -160,7 +160,7 @@ class Material {
       return true;          
     }
     catch (PDOException $e) {
-      include_once("class.html_info.php"); 
+      include_once("class.htmlinfo.php"); 
       $info = new HTML_Info();      
       $info->print_user_error(); 
       $info->print_error($delete, $e);  
@@ -181,7 +181,7 @@ class Material {
       $insert->execute(); 
     }
       catch (PDOException $e) {
-      include_once("class.html_info.php"); 
+      include_once("class.htmlinfo.php"); 
       $info = new HTML_Info();      
       $info->print_user_error(); 
       $info->print_error($insert, $e);  ; 
@@ -196,7 +196,7 @@ class Material {
       $stmt->execute(); 
     }
       catch (PDOException $e) {
-      include_once("class.html_info.php"); 
+      include_once("class.htmlinfo.php"); 
       $info = new HTML_Info();      
       $info->print_user_error(); 
       $info->print_error($stmt, $e);  ; 
@@ -209,7 +209,7 @@ class Material {
 
     try {
       $stmt->execute(); 
-      include_once("class.html_table.php");      
+            
       $html = new HTML_Table($stmt); 
       $html->add_link_edit=false;
       $html->add_link_delete=false;
@@ -218,7 +218,7 @@ class Material {
       $html->print_table2();           
     }
     catch (PDOException $e) {
-      include_once("class.html_info.php"); 
+      include_once("class.htmlinfo.php"); 
       $info = new HTML_Info();      
       $info->print_user_error(); 
       $info->print_error($stmt, $e); 
@@ -247,7 +247,7 @@ class Material {
 
     try {
       $stmt->execute(); 
-      include_once("class.html_table.php");      
+            
       $html = new HTML_Table($stmt); 
       $html->add_link_edit=true;       
       $html->edit_link_table='material_schueler'; 
@@ -270,7 +270,7 @@ class Material {
 
     }
     catch (PDOException $e) {
-      include_once("class.html_info.php"); 
+      include_once("class.htmlinfo.php"); 
       $info = new HTML_Info();      
       $info->print_user_error(); 
       $info->print_error($stmt, $e); 
@@ -342,7 +342,7 @@ class Material {
       
     }
     catch (PDOException $e) {
-      include_once("class.html_info.php"); 
+      include_once("class.htmlinfo.php"); 
       $info = new HTML_Info();      
       $info->print_user_error(); 
       $info->print_error($stmt, $e); 
@@ -390,7 +390,7 @@ class Material {
       $this->ID= $ID_New; 
     }
     catch (PDOException $e) {
-      include_once("class.html_info.php"); 
+      include_once("class.htmlinfo.php"); 
       $info = new HTML_Info();      
       $info->print_user_error(); 
       $info->print_error($insert, $e);  
@@ -428,14 +428,14 @@ class Material {
 
     try {
       $stmt->execute(); 
-      include_once("class.html_table.php");      
+            
       $html = new HTML_Table($stmt); 
       $html->print_table_checklist('schueler'); 
 
 
     }
     catch (PDOException $e) {
-      include_once("class.html_info.php"); 
+      include_once("class.htmlinfo.php"); 
       $info = new HTML_Info();      
       $info->print_user_error(); 
       $info->print_error($stmt, $e); 

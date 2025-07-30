@@ -36,7 +36,6 @@ class Gattung {
       $this->load_row();  
     }
       catch (PDOException $e) {
-      include_once("class.html_info.php"); 
       $info = new HTML_Info();      
       $info->print_user_error(); 
       $info->print_error($insert, $e);  ; 
@@ -59,7 +58,6 @@ class Gattung {
       
     }
     catch (PDOException $e) {
-      include_once("class.html_info.php"); 
       $info = new HTML_Info();      
       $info->print_user_error(); 
       $info->print_error($stmt, $e); 
@@ -74,14 +72,12 @@ class Gattung {
 
     try {
       $select->execute(); 
-      include_once("class.html_table.php");      
       $html = new HTML_Table($select); 
       $html->edit_link_table= $this->table_name;
       $html->print_table2();  
 
     }
     catch (PDOException $e) {
-      include_once("class.html_info.php"); 
       $info = new HTML_Info();      
       $info->print_user_error(); 
       $info->print_error($select, $e); 
@@ -103,10 +99,9 @@ class Gattung {
       $this->load_row();  
     }
     catch (PDOException $e) {
-      include_once("class.html_info.php"); 
       $info = new HTML_Info();      
       $info->print_user_error(); 
-      $info->print_error($stmt, $e); 
+      $info->print_error($update, $e); 
     }
   }
 
@@ -145,7 +140,6 @@ class Gattung {
       $this->titles_selected_list = $html->titles_selected_list;
     }
     catch (PDOException $e) {
-      include_once("class.html_info.php"); 
       $info = new HTML_Info();      
       $info->print_user_error(); 
       $info->print_error($stmt, $e); 
@@ -175,7 +169,6 @@ class Gattung {
       return true;         
     }
     catch (PDOException $e) {
-      include_once("class.html_info.php"); 
       $info = new HTML_Info();      
       $info->print_user_error(); 
       $info->print_error($delete, $e);  

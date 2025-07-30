@@ -42,7 +42,7 @@ class SatzErprobt {
       $this->load_row();   
     }
       catch (PDOException $e) {
-      include_once("class.html_info.php"); 
+      include_once("class.htmlinfo.php"); 
       $info = new HTML_Info();      
       $info->print_user_error(); 
       $info->print_error($insert, $e);  ; 
@@ -81,7 +81,7 @@ class SatzErprobt {
       $this->load_row();   
     }
       catch (PDOException $e) {
-      include_once("class.html_info.php"); 
+      include_once("class.htmlinfo.php"); 
       $info = new HTML_Info();      
       $info->print_user_error(); 
       $info->print_error($insert, $e);  ; 
@@ -126,7 +126,7 @@ class SatzErprobt {
       return true;        
     }
     catch (PDOException $e) {
-      include_once("class.html_info.php"); 
+      include_once("class.htmlinfo.php"); 
       $info = new HTML_Info();      
       $info->print_user_error(); 
       $info->print_error($delete, $e);  

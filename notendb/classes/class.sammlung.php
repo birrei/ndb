@@ -49,7 +49,7 @@ include_once('class.link.php');
       $this->load_row();  
     }
       catch (PDOException $e) {
-      include_once("class.html_info.php"); 
+      include_once("class.htmlinfo.php"); 
       $info = new HTML_Info();      
       $info->print_user_error(); 
       $info->print_error($insert, $e);  
@@ -68,13 +68,13 @@ include_once('class.link.php');
       
     try {
       $select->execute(); 
-      include_once("class.html_table.php");      
+            
       $html = new HTML_Table($select); 
       $html->edit_link_table= $this->table_name;
       $html->print_table2(); 
     }
     catch (PDOException $e) {
-      include_once("class.html_info.php"); 
+      include_once("class.htmlinfo.php"); 
       $info = new HTML_Info();      
       $info->print_user_error(); 
       $info->print_error($select, $e); 
@@ -114,7 +114,7 @@ include_once('class.link.php');
         $this->load_row();  
       }
       catch (PDOException $e) {
-        include_once("class.html_info.php"); 
+        include_once("class.htmlinfo.php"); 
         $info = new HTML_Info();      
         $info->print_user_error(); 
         $info->print_error($update, $e); 
@@ -124,7 +124,7 @@ include_once('class.link.php');
   function print_select($value_selected='', $caption=''){
     /***** select box (fake) *****/ 
 
-    include_once("class.html_select.php");
+    
 
     $query="SELECT DISTINCT 
             `ID` as SammlungID, Name 
@@ -142,7 +142,7 @@ include_once('class.link.php');
       $html->print_select("SammlungID", $value_selected, false); 
     }
     catch (PDOException $e) {
-      include_once("class.html_info.php"); 
+      include_once("class.htmlinfo.php"); 
       $info = new HTML_Info();      
       $info->print_user_error(); 
       $info->print_error($stmt, $e); 
@@ -212,7 +212,7 @@ include_once('class.link.php');
       
     try {
       $stmt->execute(); 
-      include_once("class.html_table.php");      
+            
       $html = new HTML_Table($stmt); 
       $html->edit_link_table='musikstueck'; 
       $html->edit_link_title='Musikstück'; 
@@ -221,7 +221,7 @@ include_once('class.link.php');
 
     }
     catch (PDOException $e) {
-      include_once("class.html_info.php"); 
+      include_once("class.htmlinfo.php"); 
       $info = new HTML_Info();      
       $info->print_user_error(); 
       $info->print_error($stmt, $e); 
@@ -244,7 +244,7 @@ include_once('class.link.php');
       
     try {
       $stmt->execute(); 
-      include_once("class.html_table.php");      
+            
       $html = new HTML_Table($stmt); 
       // $html->add_link_delete=true; 
       // $html->edit_link_table='link'; 
@@ -261,7 +261,7 @@ include_once('class.link.php');
       
     }
     catch (PDOException $e) {
-      include_once("class.html_info.php"); 
+      include_once("class.htmlinfo.php"); 
       $info = new HTML_Info();      
       $info->print_user_error(); 
       $info->print_error($stmt, $e); 
@@ -293,7 +293,7 @@ include_once('class.link.php');
 
     try {
       $stmt->execute(); 
-      include_once("class.html_table.php");      
+            
       $html = new HTML_Table($stmt); 
       $html->add_link_edit=false;
       $html->add_link_delete=true;
@@ -304,7 +304,7 @@ include_once('class.link.php');
       $html->print_table2(); 
     }
     catch (PDOException $e) {
-      include_once("class.html_info.php"); 
+      include_once("class.htmlinfo.php"); 
       $info = new HTML_Info();      
       $info->print_user_error(); 
       $info->print_error($stmt, $e); 
@@ -324,7 +324,7 @@ include_once('class.link.php');
       $insert->execute(); 
     }
     catch (PDOException $e) {
-      include_once("class.html_info.php"); 
+      include_once("class.htmlinfo.php"); 
       $info = new HTML_Info();      
       $info->print_user_error(); 
       $info->print_error($insert, $e);  
@@ -343,7 +343,7 @@ include_once('class.link.php');
       $delete->execute(); 
     }
     catch (PDOException $e) {
-      include_once("class.html_info.php"); 
+      include_once("class.htmlinfo.php"); 
       $info = new HTML_Info();      
       $info->print_user_error(); 
       $info->print_error($delete, $e);  
@@ -354,7 +354,7 @@ include_once('class.link.php');
 
     include_once('classes/class.musikstueck.php'); 
     include_once('classes/class.material.php');     
-    include_once("class.html_info.php"); 
+    include_once("class.htmlinfo.php"); 
 
     $sql="INSERT INTO sammlung (Name, VerlagID, StandortID, Bemerkung)
           SELECT CONCAT(Name, ' (Kopie)') as Name , VerlagID, StandortID, Bemerkung
@@ -673,7 +673,7 @@ include_once('class.link.php');
       
     try {
       $stmt->execute(); 
-      include_once("class.html_table.php");      
+            
       $html = new HTML_Table($stmt); 
       $html->edit_link_table='material'; 
       $html->edit_link_title='Material'; 
@@ -682,7 +682,7 @@ include_once('class.link.php');
 
     }
     catch (PDOException $e) {
-      include_once("class.html_info.php"); 
+      include_once("class.htmlinfo.php"); 
       $info = new HTML_Info();      
       $info->print_user_error(); 
       $info->print_error($stmt, $e); 
@@ -724,7 +724,7 @@ include_once('class.link.php');
       return true;          
     }
     catch (PDOException $e) {
-      include_once("class.html_info.php"); 
+      include_once("class.htmlinfo.php"); 
       $info = new HTML_Info();      
       $info->print_user_error(); 
       $info->print_error($delete, $e);  
@@ -742,7 +742,7 @@ include_once('class.link.php');
       $delete->execute(); 
     }
     catch (PDOException $e) {
-      include_once("class.html_info.php"); 
+      include_once("class.htmlinfo.php"); 
       $info = new HTML_Info();      
       $info->print_user_error(); 
       $info->print_error($delete, $e);  
@@ -838,7 +838,7 @@ include_once('class.link.php');
       $this->print_musikstuecke(); 
     }
     catch (PDOException $e) {
-      include_once("class.html_info.php"); 
+      include_once("class.htmlinfo.php"); 
       $info = new HTML_Info();      
       $info->print_user_error(); 
       $info->print_error($select, $e); 

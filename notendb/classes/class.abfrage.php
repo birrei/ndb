@@ -137,7 +137,6 @@ class Abfrage {
       $this->load_row(); 
     }
     catch (PDOException $e) {
-      include_once("class.html_info.php"); 
       $info = new HTML_Info();      
       $this->info->print_user_error(); 
       $this->info->print_error($update, $e); 

@@ -46,7 +46,6 @@ class InstrumentSchwierigkeitsgrad {
       }
     }
     catch (PDOException $e) {
-      include_once("class.html_info.php"); 
       $info = new HTML_Info();      
       $info->print_user_error(); 
       $info->print_error($insert, $e);  
@@ -74,7 +73,6 @@ class InstrumentSchwierigkeitsgrad {
       $this->titles_selected_list = $html->titles_selected_list; 
     }
     catch (PDOException $e) {
-      include_once("class.html_info.php"); 
       $info = new HTML_Info();      
       $info->print_user_error(); 
       $info->print_error($stmt, $e); 

@@ -44,7 +44,7 @@ class Link {
       $this->load_row();   
     }
       catch (PDOException $e) {
-      include_once("class.html_info.php"); 
+      include_once("class.htmlinfo.php"); 
       $info = new HTML_Info();      
       $info->print_user_error(); 
       $info->print_error($insert, $e);  ; 
@@ -76,7 +76,7 @@ class Link {
       $this->load_row();   
     }
       catch (PDOException $e) {
-      include_once("class.html_info.php"); 
+      include_once("class.htmlinfo.php"); 
       $info = new HTML_Info();      
       $info->print_user_error(); 
       $info->print_error($insert, $e);  ; 
@@ -123,7 +123,7 @@ class Link {
       return true;          
     }
     catch (PDOException $e) {
-      include_once("class.html_info.php"); 
+      include_once("class.htmlinfo.php"); 
       $info = new HTML_Info();      
       $info->print_user_error(); 
       $info->print_error($delete, $e);  
@@ -146,7 +146,7 @@ class Link {
       $insert->execute(); 
     }
       catch (PDOException $e) {
-      include_once("class.html_info.php"); 
+      include_once("class.htmlinfo.php"); 
       $info = new HTML_Info();      
       $info->print_user_error(); 
       $info->print_error($insert, $e);  ; 
@@ -161,7 +161,7 @@ class Link {
       $stmt->execute(); 
     }
       catch (PDOException $e) {
-      include_once("class.html_info.php"); 
+      include_once("class.htmlinfo.php"); 
       $info = new HTML_Info();      
       $info->print_user_error(); 
       $info->print_error($stmt, $e);  ; 
@@ -175,7 +175,7 @@ class Link {
 
     try {
       $stmt->execute(); 
-      include_once("class.html_table.php");      
+            
       $html = new HTML_Table($stmt); 
       $html->add_link_edit=false;
       $html->add_link_delete=false;
@@ -184,7 +184,7 @@ class Link {
       $html->print_table2();           
     }
     catch (PDOException $e) {
-      include_once("class.html_info.php"); 
+      include_once("class.htmlinfo.php"); 
       $info = new HTML_Info();      
       $info->print_user_error(); 
       $info->print_error($stmt, $e); 
