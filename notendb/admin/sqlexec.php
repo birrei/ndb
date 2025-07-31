@@ -1,7 +1,7 @@
 
 <?php 
 
-include('head.php');
+include_once('head.php');
 include("../dbconn/cl_db.php"); 
 include("../cl_html_info.php"); 
 include("../cl_html_table.php");  
@@ -42,14 +42,14 @@ if (isset($_POST['aktion']) and $_POST['aktion']=='ausfuehren') {
             echo '<pre>'.$sql.'</pre>'; 
             try {    
                 $stmt->execute(); 
-                $html = new HtmlTable($stmt); 
+                $html = new HTML_Table($stmt); 
                 // $html->edit_link_table= $this->table_name;
                 $html->add_link_edit=false; 
                 $html->show_row_count=true; 
                 $html->print_table2();           
             }
             catch (PDOException $e) {
-                $info = new HtmlInfo();      
+                $info = new HTML_Info();      
                 $info->print_user_error(); 
                 $info->print_error($stmt, $e); 
             }
@@ -60,7 +60,7 @@ if (isset($_POST['aktion']) and $_POST['aktion']=='ausfuehren') {
 }
 
 
-include('foot.php');
+include_once('foot.php');
 ?>
 
 

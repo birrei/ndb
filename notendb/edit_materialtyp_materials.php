@@ -1,6 +1,6 @@
 
 <?php 
-include('head_raw.php');
+include_once('head_raw.php');
 include_once("classes/class.materialtyp.php");
 include_once("classes/class.material.php");
 
@@ -16,7 +16,7 @@ echo '</div>';
 
 echo '&nbsp;<a href="edit_material.php?MaterialtypID='.$materialtyp->ID.'&option=insert&source=iframe" class="form-link">Hinzufügen</a>'; 
 
-include('foot_raw.php');
+include_once('foot_raw.php');
 
 
 ?>

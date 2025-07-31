@@ -1,15 +1,15 @@
 
 <?php 
 $PageTitle='Sammlung'; 
-include('head.php');
-include("classes/class.sammlung.php");
-include("classes/class.verlag.php");
-include("classes/class.standort.php");
-include("cl_html_info.php");
+include_once('head.php');
+include_once("classes/class.sammlung.php");
+include_once("classes/class.verlag.php");
+include_once("classes/class.standort.php");
+include_once("classes/class.htmlinfo.php");
 
 $sammlung = new Sammlung();
 
-$info= new HtmlInfo(); 
+$info= new HTML_Info(); 
 
 $show_data=false; 
 
@@ -216,6 +216,6 @@ echo '
 
 pagefoot: 
 
-include('foot.php');
+include_once('foot.php');
 
 ?>

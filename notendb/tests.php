@@ -1,6 +1,6 @@
 
 <?php 
-include('head.php');
+include_once('head.php');
 
 
 $abfragen[] = array('name' => 'Sammlungen ohne Musikstück'
@@ -60,7 +60,7 @@ foreach ($abfragen as $abfrage)
   
     if ($select->rowCount() > 0 ) {
       echo '<h3>'.$abfrage['name'].'</h3>';     
-      $html = new HtmlTable($select); 
+      $html = new HTML_Table($select); 
       $html->add_link_edit=true; 
       $html->edit_link_title= ucfirst($abfrage['table']); 
       $html->edit_link_table=$abfrage['table']; 
@@ -72,7 +72,7 @@ foreach ($abfragen as $abfrage)
   }
   catch (PDOException $e) {
     include_once("classes/class.htmlinfo.php"); 
-    $info = new HtmlInfo();      
+    $info = new HTML_Info();      
     $info->print_user_error(); 
     $info->print_error($select, $e); 
   }
@@ -83,6 +83,6 @@ foreach ($abfragen as $abfrage)
 
 
 
-include('foot.php');
+include_once('foot.php');
 
 ?>

@@ -1,11 +1,11 @@
 
 <?php 
-include('head.php');
-include("classes/class.lookuptype.php");
-include("cl_html_info.php");
+include_once('head.php');
+include_once("classes/class.lookuptype.php");
+include_once("classes/class.htmlinfo.php");
 
 $lookuptype = new Lookuptype();
-$info= new HtmlInfo(); 
+$info= new HTML_Info(); 
 
 $show_data=false; 
 
@@ -126,6 +126,6 @@ else {
     $info->print_user_error(); 
 }
 
-include('foot.php');
+include_once('foot.php');
 
 ?>

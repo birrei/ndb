@@ -1,7 +1,7 @@
 
 <?php 
 $PageTitle='Besetzung'; 
-include('head.php');
+include_once('head.php');
 include_once("classes/class.htmlinfo.php");
 include_once("classes/class.besetzung.php");
 
@@ -118,6 +118,6 @@ echo '
 
 pagefoot: 
 
-include('foot.php');
+include_once('foot.php');
 
 ?>

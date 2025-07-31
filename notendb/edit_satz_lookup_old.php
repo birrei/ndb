@@ -1,10 +1,10 @@
 
 <?php 
-include('head_raw.php');
-include('classes/class.lookuptype.php');
-include("cl_html_info.php"); 
+include_once('head_raw.php');
+include_once('classes/class.lookuptype.php');
+include_once("classes/class.htmlinfo.php"); 
 
-$info = new HtmlInfo(); 
+$info = new HTML_Info(); 
 
 $LookupTypeID=''; 
 
@@ -89,7 +89,7 @@ if (isset($_POST["LookupTypeID"])) {
 
    
 
-include('foot_raw.php');
+include_once('foot_raw.php');
 
 ?>
 

@@ -1,5 +1,5 @@
 <?php
-include('head.php');
+include_once('head.php');
 include_once("classes/class.abfrage.php");
 include_once("classes/class.htmlinfo.php");
 
@@ -34,7 +34,7 @@ if ($abfrage->load_row()) {
     try {
       $select->execute(); 
       include_once("classes/class.htmltable.php");      
-      $html = new HtmlTable($select); 
+      $html = new HTML_Table($select); 
       if ($table_edit!='') {
         $html->edit_link_table=$table_edit;    
         $html->add_link_edit = true; 
@@ -47,7 +47,7 @@ if ($abfrage->load_row()) {
     }
     catch (PDOException $e) {
       include_once("classes/class.htmlinfo.php"); 
-      $info = new HtmlInfo();      
+      $info = new HTML_Info();      
       $info->print_user_error(); 
       $info->print_error($select, $e); 
     }  
@@ -56,5 +56,5 @@ if ($abfrage->load_row()) {
   }
 }
 
-include('foot.php');
+include_once('foot.php');
 ?>

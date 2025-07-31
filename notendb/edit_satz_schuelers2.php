@@ -7,7 +7,7 @@ include_once("classes/class.htmlinfo.php");
 $satz=new Satz();
 $satz->ID=$_GET["SatzID"]; 
 
-$html= new HtmlInfo(); 
+$html= new HTML_Info(); 
 
 $schueler_satz=new SchuelerSatz(); 
 
@@ -30,7 +30,7 @@ switch($option) {
 
 }
 
-include('head_raw.php');
+include_once('head_raw.php');
 
 echo '<div style="float:left">
      <form action="#" method="post">'; 

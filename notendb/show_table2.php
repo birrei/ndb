@@ -25,7 +25,7 @@
 
   $PageTitle=$header; // übergabe Seiten-Titel an head.php: 
 
-  include('head.php');
+  include_once('head.php');
 
 
 
@@ -192,7 +192,7 @@
   try {
     $select->execute(); 
     include_once("classes/class.htmltable.php");      
-    $html = new HtmlTable($select); 
+    $html = new HTML_Table($select); 
     $html->add_link_show=$add_link_show; 
     
 
@@ -204,11 +204,11 @@
   }
   catch (PDOException $e) {
     include_once("classes/class.htmlinfo.php"); 
-    $info = new HtmlInfo();      
+    $info = new HTML_Info();      
     $info->print_user_error(); 
     $info->print_error($select, $e); 
   }
 
 
-include('foot.php');
+include_once('foot.php');
 ?>

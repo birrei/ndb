@@ -1,30 +1,30 @@
 <?php 
-include('head.php');
+include_once('head.php');
 include("dbconn/cl_db.php");
 
-include("cl_html_table.php");    
-include("cl_html_info.php");  
+include_once("classes/class.htmltable.php");    
+include_once("classes/class.htmlinfo.php");  
 
 include_once("classes/class.besetzung.php");  
-include("classes/class.verwendungszweck.php"); 
-include("classes/class.standort.php"); 
-include("classes/class.komponist.php"); 
-include("classes/class.verlag.php"); 
-include("classes/class.gattung.php"); 
-include("classes/class.epoche.php"); 
-include("classes/class.erprobt.php");  
+include_once("classes/class.verwendungszweck.php"); 
+include_once("classes/class.standort.php"); 
+include_once("classes/class.komponist.php"); 
+include_once("classes/class.verlag.php"); 
+include_once("classes/class.gattung.php"); 
+include_once("classes/class.epoche.php"); 
+include_once("classes/class.erprobt.php");  
 
-include("classes/class.schwierigkeitsgrad.php");  
-include("classes/class.instrument.php");  
-include("classes/class.instrument_schwierigkeitsgrad.php");  
+include_once("classes/class.schwierigkeitsgrad.php");  
+include_once("classes/class.instrument.php");  
+include_once("classes/class.instrument_schwierigkeitsgrad.php");  
 
-include("classes/class.lookup.php");   
-include("classes/class.lookuptype.php");
-include("classes/class.linktype.php");
+include_once("classes/class.lookup.php");   
+include_once("classes/class.lookuptype.php");
+include_once("classes/class.linktype.php");
 include_once("classes/class.abfrage.php");
-include("classes/class.schueler.php");
-include("classes/class.status.php");
-include("classes/class.materialtyp.php");
+include_once("classes/class.schueler.php");
+include_once("classes/class.status.php");
+include_once("classes/class.materialtyp.php");
 
 /***** Parameter: Initialisierung, Defaults  ******/
   if (isset($_POST['Ansicht'])) {
@@ -783,7 +783,7 @@ include("classes/class.materialtyp.php");
     try {
       $select->execute(); 
       include_once("classes/class.htmltable.php");      
-      $html = new HtmlTable($select); 
+      $html = new HTML_Table($select); 
       $html->add_link_edit=true; 
       $html->edit_link_table=$edit_table; 
       $html->edit_link_title=$Ansicht; 
@@ -793,7 +793,7 @@ include("classes/class.materialtyp.php");
     }
     catch (PDOException $e) {
       include_once("classes/class.htmlinfo.php"); 
-      $info = new HtmlInfo();      
+      $info = new HTML_Info();      
       $info->print_user_error(); 
       $info->print_error($select, $e); 
     }    
@@ -1312,5 +1312,5 @@ include("classes/class.materialtyp.php");
       return $edit_table; 
   }
  
-include('foot.php');
+include_once('foot.php');
 ?>

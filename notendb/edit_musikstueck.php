@@ -1,18 +1,18 @@
 
 <?php 
-include('head.php');
-include("classes/class.musikstueck.php");
-include("classes/class.komponist.php");
-include("classes/class.sammlung.php");
-include("classes/class.gattung.php");
-include("classes/class.epoche.php");
-include('cl_html_info.php');
+include_once('head.php');
+include_once("classes/class.musikstueck.php");
+include_once("classes/class.komponist.php");
+include_once("classes/class.sammlung.php");
+include_once("classes/class.gattung.php");
+include_once("classes/class.epoche.php");
+include_once("classes/class.htmlinfo.php");
 
 $show_data=false;       
 
 $musikstueck = new Musikstueck();
 
-$info= new HtmlInfo(); 
+$info= new HTML_Info(); 
 
 if (isset($_REQUEST["option"])) {
   switch($_REQUEST["option"]) {
@@ -248,6 +248,6 @@ echo '
 pagefoot:
 
 
-include('foot.php');
+include_once('foot.php');
 
 ?>

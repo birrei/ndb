@@ -1,7 +1,7 @@
 
 <?php 
 /// XXX ausrangieren, es wird stattdessen edit_lookup.php verwendet 
-include('head_raw.php');
+include_once('head_raw.php');
 ?>
 
 <form action="edit_lookup_type_lookups.php" method="get">
@@ -31,6 +31,6 @@ include('head_raw.php');
 
 <?php 
 
-include('foot_raw.php');
+include_once('foot_raw.php');
 
 ?>

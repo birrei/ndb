@@ -1,12 +1,12 @@
 
 <?php 
 $PageTitle='Schüler'; 
-include('head.php');
-include("classes/class.schueler.php");
-include("cl_html_info.php");
+include_once('head.php');
+include_once("classes/class.schueler.php");
+include_once("classes/class.htmlinfo.php");
 
 $schueler = new Schueler();
-$info= new HtmlInfo(); 
+$info= new HTML_Info(); 
 
 $show_data=false; 
 
@@ -183,6 +183,6 @@ echo '<p>
 
 pagefoot: 
 
-include('foot.php');
+include_once('foot.php');
 
 ?>

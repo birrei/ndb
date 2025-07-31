@@ -1,13 +1,13 @@
 <?php 
-include('classes/class.schueler_material.php');
-include('classes/class.schueler.php');
-include("classes/class.material.php"); 
-include("classes/class.status.php"); 
-include("cl_html_info.php"); 
+include_once('classes/class.schueler_material.php');
+include_once('classes/class.schueler.php');
+include_once("classes/class.material.php"); 
+include_once("classes/class.status.php"); 
+include_once("classes/class.htmlinfo.php"); 
 
 $option=$_REQUEST["option"]; 
 
-$html= new HtmlInfo(); 
+$html= new HTML_Info(); 
 
 $ID=null; 
 $MaterialID=null;
@@ -105,7 +105,7 @@ switch($option) {
     break;
 }
 
-include('head_raw.php');
+include_once('head_raw.php');
 
 if ($option=='delete_2') {
   $html->print_form_confirm('edit_schueler_material.php', $ID,$option,'Löschung'); 
@@ -200,6 +200,6 @@ if ($option=='delete_2') {
 
 <?php 
 
-include('foot_raw.php');
+include_once('foot_raw.php');
 
 ?>

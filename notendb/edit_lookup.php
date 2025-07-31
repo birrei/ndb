@@ -4,19 +4,19 @@
 $source=(isset($_REQUEST["source"])?$_REQUEST["source"]:'table'); 
 
 if ($source=='iframe')  {
-  include('head_raw.php');
+  include_once('head_raw.php');
 } else {
-  include('head.php');
+  include_once('head.php');
 }
 
-include("classes/class.lookuptype.php");
-include("classes/class.lookup.php");
-include("cl_html_info.php");
+include_once("classes/class.lookuptype.php");
+include_once("classes/class.lookup.php");
+include_once("classes/class.htmlinfo.php");
 
 $LookupTypeID=(isset($_REQUEST["LookupTypeID"])?$_REQUEST["LookupTypeID"]:''); 
 
 $lookup = new Lookup();
-$info= new HtmlInfo(); 
+$info= new HTML_Info(); 
 
 $show_data=false; 
 
@@ -124,6 +124,6 @@ else {
 }
 
 
-include('foot_raw.php');
+include_once('foot_raw.php');
 
 ?>

@@ -1,10 +1,12 @@
 
 <?php 
-include('head_raw.php');
-include('cl_html_info.php');
+
+include_once('head_raw.php');
+include_once("classes/class.htmlinfo.php");
 include_once('classes/class.besetzung.php'); 
 
-$info=new HtmlInfo(); 
+$info=new HTML_Info(); 
+
 ?> 
 
 <form action="edit_musikstueck_besetzungen.php" method="get">
@@ -72,5 +74,5 @@ $info=new HtmlInfo();
 
 <?php
 
-include('foot_raw.php');
+include_once('foot_raw.php');
 ?>

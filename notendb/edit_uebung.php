@@ -1,7 +1,7 @@
 
 <?php 
 $PageTitle='Übung'; 
-include('head.php');
+include_once('head.php');
 include_once("classes/class.htmlinfo.php");
 include_once("classes/class.uebung.php");
 include_once("classes/class.uebungtyp.php");
@@ -251,7 +251,7 @@ echo '
 
 pagefoot: 
 
-include('foot.php');
+include_once('foot.php');
 
 
 ?>

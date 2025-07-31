@@ -1,6 +1,6 @@
 
 <?php 
-include('head_raw.php');
+include_once('head_raw.php');
 include_once("classes/class.material.php");
 include_once("classes/class.schueler_material.php");
 
@@ -17,6 +17,6 @@ echo '<p> <a href="edit_material_schueler.php?MaterialID='.$material->ID.'&optio
 
 echo '</div>'; 
     
-include('foot_raw.php');
+include_once('foot_raw.php');
 
 ?>

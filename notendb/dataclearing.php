@@ -1,7 +1,7 @@
 <?php 
 $PageTitle='Sammelupdates'; 
 
-include('head.php');
+include_once('head.php');
 // echo '<p><a href="dataclearing.php">Seite neu laden</a>'; 
 
 $form_selected=''; 
@@ -342,6 +342,6 @@ if ($form_selected!='') {
 
 end: 
 
-include('foot.php');
+include_once('foot.php');
 ?>
 

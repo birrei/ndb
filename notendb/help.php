@@ -1,6 +1,6 @@
 <?php 
 $PageTitle='Hilfe';  
-include('head.php');
+include_once('head.php');
 ?>
 
 <p> Entwurf, nicht auf aktuellstem Stand! </p> 
@@ -534,6 +534,6 @@ include('head.php');
 
 
 <?php 
-include('foot.php');
+include_once('foot.php');
 ?>
 

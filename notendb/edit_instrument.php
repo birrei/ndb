@@ -1,11 +1,11 @@
 
 <?php 
-include('head.php');
-include("classes/class.instrument.php");
-include("cl_html_info.php");
+include_once('head.php');
+include_once("classes/class.instrument.php");
+include_once("classes/class.htmlinfo.php");
 
 $instrument = new Instrument();
-$info= new HtmlInfo(); 
+$info= new HTML_Info(); 
 
 $show_data=false; 
 
@@ -74,6 +74,6 @@ else {
 }
 
 
-include('foot.php');
+include_once('foot.php');
 
 ?>

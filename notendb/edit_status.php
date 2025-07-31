@@ -1,13 +1,13 @@
 
 <?php 
 $PageTitle="Status"; 
-include('head.php');
-include("classes/class.status.php");
-include("cl_html_info.php");
+include_once('head.php');
+include_once("classes/class.status.php");
+include_once("classes/class.htmlinfo.php");
 
 
 $status = new Status();
-$info= new HtmlInfo(); 
+$info= new HTML_Info(); 
 
 $option=$_REQUEST["option"];
 
@@ -108,7 +108,7 @@ if (!$show_data) {goto pagefoot;}
 
 pagefoot: 
 
-include('foot.php');
+include_once('foot.php');
 
 
 ?>

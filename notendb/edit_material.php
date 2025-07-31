@@ -1,18 +1,18 @@
 
 <?php 
 
-include('head.php');
-include("classes/class.material.php");
-include("classes/class.materialtyp.php");
-include("classes/class.sammlung.php");
-include("cl_html_info.php");
+include_once('head.php');
+include_once("classes/class.material.php");
+include_once("classes/class.materialtyp.php");
+include_once("classes/class.sammlung.php");
+include_once("classes/class.htmlinfo.php");
 
 $MaterialtypID=(isset($_REQUEST["MaterialtypID"])?$_REQUEST["MaterialtypID"]:''); 
 
 $SammlungID=(isset($_REQUEST["SammlungID"])?$_REQUEST["SammlungID"]:''); 
 
 $material = new Material();
-$info= new HtmlInfo(); 
+$info= new HTML_Info(); 
 
 $show_data=false; 
 
@@ -209,7 +209,7 @@ echo
 
 pagefoot: 
 
-include('foot.php');
+include_once('foot.php');
 
 
 ?>

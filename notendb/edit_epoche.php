@@ -1,11 +1,11 @@
 
 <?php 
-include('head.php');
-include("classes/class.epoche.php");
-include("cl_html_info.php");
+include_once('head.php');
+include_once("classes/class.epoche.php");
+include_once("classes/class.htmlinfo.php");
 
 $epoche = new Epoche();
-$info= new HtmlInfo(); 
+$info= new HTML_Info(); 
 
 $show_data=false; 
 
@@ -76,6 +76,6 @@ else {
 }
 
 
-include('foot.php');
+include_once('foot.php');
 
 ?>

@@ -1,5 +1,5 @@
 <?php 
-include('head_raw.php');
+include_once('head_raw.php');
 include_once("classes/class.satz.php");
 include_once("classes/class.schueler_satz.php");
 
@@ -14,5 +14,5 @@ echo '<p> <a href="edit_satz_schueler.php?SatzID='.$satz->ID.'&option=insert" cl
 
 echo '</div>'; 
 
-include('foot_raw.php');
+include_once('foot_raw.php');
 ?>

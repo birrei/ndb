@@ -1,6 +1,6 @@
 
 <?php 
-include('head_raw.php');
+include_once('head_raw.php');
 
 include_once("classes/class.satz.php");
 
@@ -33,6 +33,6 @@ echo '&nbsp;<a href="edit_satz_schwierigkeitsgrad.php?SatzID='.$satz->ID.'" clas
 
 
 
-include('foot_raw.php');
+include_once('foot_raw.php');
 
 ?>

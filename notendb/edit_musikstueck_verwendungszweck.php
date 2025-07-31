@@ -1,8 +1,8 @@
 
 <?php 
-include('head_raw.php');
-include('cl_html_info.php');
-$info=new HtmlInfo(); 
+include_once('head_raw.php');
+include_once("classes/class.htmlinfo.php");
+$info=new HTML_Info(); 
 ?> 
 
 
@@ -73,5 +73,5 @@ $info=new HtmlInfo();
 
 <?php
 
-include('foot_raw.php');
+include_once('foot_raw.php');
 ?>

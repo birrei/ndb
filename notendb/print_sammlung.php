@@ -4,7 +4,7 @@ include ('classes/class.sammlung.php');
 
 $PageTitle='Sammlung Druck'; 
 
-include('head.php');
+include_once('head.php');
 
 $Ansicht=isset($_GET["Ansicht"])?$_GET["Ansicht"]:'Einfach';
 
@@ -25,5 +25,5 @@ $sammlung->print($Ansicht);
 
 
 
-include('foot.php');
+include_once('foot.php');
 ?>

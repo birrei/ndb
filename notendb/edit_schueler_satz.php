@@ -1,14 +1,14 @@
 <?php 
-include('classes/class.schueler_satz.php');
-include('classes/class.schueler.php');
-include("classes/class.satz.php"); 
-include("classes/class.status.php"); 
-include("cl_html_info.php"); 
+include_once('classes/class.schueler_satz.php');
+include_once('classes/class.schueler.php');
+include_once("classes/class.satz.php"); 
+include_once("classes/class.status.php"); 
+include_once("classes/class.htmlinfo.php"); 
 
 $option=$_REQUEST["option"]; 
 
 
-$html= new HtmlInfo(); 
+$html= new HTML_Info(); 
 
 $ID=null; 
 $SatzID=null;
@@ -188,6 +188,6 @@ if ($option=='delete_2') {
 
 <?php 
 
-include('foot_raw.php');
+include_once('foot_raw.php');
 
 ?>

@@ -1,16 +1,16 @@
 
 <?php 
 $PageTitle='Satz'; 
-include('head.php');
-include('classes/class.satz.php');
-include('classes/class.musikstueck.php');
-include('classes/class.erprobt.php');
-include('classes/class.schwierigkeitsgrad.php'); // entfernen 
-include('cl_html_info.php');
+include_once('head.php');
+include_once('classes/class.satz.php');
+include_once('classes/class.musikstueck.php');
+include_once('classes/class.erprobt.php');
+include_once('classes/class.schwierigkeitsgrad.php'); // entfernen 
+include_once("classes/class.htmlinfo.php");
 
 echo '<h2>Satz bearbeiten</h2>'; 
 
-$info= new HtmlInfo(); 
+$info= new HTML_Info(); 
 
 $satz=new Satz(); 
 
@@ -240,7 +240,7 @@ echo '<p>
 pagefoot: 
 
 
-include('foot.php');
+include_once('foot.php');
 
 ?>
 

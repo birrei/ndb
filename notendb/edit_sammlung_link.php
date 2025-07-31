@@ -1,12 +1,12 @@
 
 <?php 
-include('head_raw.php');
-include('classes/class.linktype.php');
-include("classes/class.link.php"); 
-include("cl_html_info.php"); 
+include_once('head_raw.php');
+include_once('classes/class.linktype.php');
+include_once("classes/class.link.php"); 
+include_once("classes/class.htmlinfo.php"); 
 
 $link = new Link();
-$info= new HtmlInfo(); 
+$info= new HTML_Info(); 
 
 $show_data=false; 
 
@@ -115,6 +115,6 @@ if (isset($_REQUEST["option"])) {
 
 
 
-include('foot_raw.php');
+include_once('foot_raw.php');
 
 ?>

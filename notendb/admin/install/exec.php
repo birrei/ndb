@@ -1,5 +1,5 @@
 <?php 
-include('../../head_raw.php');
+include_once('../../head_raw.php');
 include("../../dbconn/cl_db.php"); 
 include("../../cl_html_info.php"); 
 
@@ -40,7 +40,7 @@ if ( is_dir ( $dir )){
           }
           catch (PDOException $e) {
             // include_once("classes/class.htmlinfo.php"); 
-            $info = new HtmlInfo();      
+            $info = new HTML_Info();      
             $info->print_user_error(); 
             $info->print_error($stmt, $e); 
             echo '<br>Datei '.$file.' wurde nicht erfolgreich ausgeführt. SQL:<br/>';
@@ -60,7 +60,7 @@ echo "</div>";
 <?php 
 
 
-include('../../foot_raw.php');
+include_once('../../foot_raw.php');
 
 ?>
 

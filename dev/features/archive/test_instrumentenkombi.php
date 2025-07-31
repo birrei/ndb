@@ -1,6 +1,6 @@
 
 <?php 
-include('head.php');
+include_once('head.php');
 
 /** Test Potenzmenge */
 /* https://www.php.de/forum/webentwicklung/php-einsteiger/php-tipps-2006/40886-array-alle-m%C3%B6glichen-kombinationen */
@@ -102,6 +102,6 @@ function printArr($arr_besetz_in) {
 
 
 
-include('foot.php');
+include_once('foot.php');
 
 ?>

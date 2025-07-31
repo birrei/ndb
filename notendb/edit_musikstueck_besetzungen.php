@@ -1,6 +1,6 @@
 
 <?php 
-include('head_raw.php');
+include_once('head_raw.php');
 include_once("classes/class.musikstueck.php");
 
 $musikstueck=new Musikstueck();
@@ -26,7 +26,7 @@ echo '</div>';
 echo '&nbsp;<a href="edit_musikstueck_besetzung.php?MusikstueckID='.$musikstueck->ID.'" class="form-link">Hinzufügen</a>'; 
 
 
-include('foot_raw.php');
+include_once('foot_raw.php');
 
 
 ?>

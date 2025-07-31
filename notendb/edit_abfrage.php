@@ -1,6 +1,6 @@
 
 <?php 
-include('head.php');
+include_once('head.php');
 include_once("classes/class.abfrage.php");
 include_once("classes/class.abfragetyp.php");
 include_once("classes/class.htmlinfo.php");
@@ -107,6 +107,6 @@ else {
     $info->print_user_error(); 
 }
 
-include('foot.php');
+include_once('foot.php');
 
 ?>

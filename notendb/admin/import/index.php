@@ -1,5 +1,5 @@
 <?php 
-include('../../head.php');
+include_once('../../head.php');
 include("../../dbconn/cl_db.php"); 
 include("../../cl_html_info.php"); 
 ?> 
@@ -11,7 +11,7 @@ include("../../cl_html_info.php");
 <?php 
 
 
-include('../foot.php');
+include_once('../foot.php');
 
 ?>
 

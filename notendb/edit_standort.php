@@ -1,12 +1,12 @@
 
 <?php 
-include('head.php');
-include("classes/class.standort.php");
-include("cl_html_info.php");
+include_once('head.php');
+include_once("classes/class.standort.php");
+include_once("classes/class.htmlinfo.php");
 
 
 $standort = new Standort();
-$info= new HtmlInfo(); 
+$info= new HTML_Info(); 
 
 
 
@@ -77,6 +77,6 @@ if ($show_data) {
 else {
     $info->print_user_error(); 
 }
-include('foot.php');
+include_once('foot.php');
 
 ?>

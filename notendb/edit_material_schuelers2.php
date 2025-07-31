@@ -3,7 +3,7 @@ include_once("classes/class.material.php");
 include_once("classes/class.schueler_material.php");
 include_once("classes/class.htmlinfo.php");
 
-$html= new HtmlInfo(); 
+$html= new HTML_Info(); 
 
 $material=new Material();
 $material->ID=$_GET["MaterialID"]; 
@@ -29,7 +29,7 @@ switch($option) {
 
 }
 
-include('head_raw.php');
+include_once('head_raw.php');
 
 echo '<div style="float:left">
      <form action="#" method="post">'; 

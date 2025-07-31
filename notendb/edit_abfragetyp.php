@@ -1,11 +1,11 @@
 
 <?php 
-include('head.php');
-include("cl_abfragetyp.php");
-include("cl_html_info.php");
+include_once('head.php');
+include_once("classes/class.abfragetyp.php");
+include_once("classes/class.htmlinfo.php");
 
 $abfragetyp = new Abfragetyp();
-$info= new HtmlInfo(); 
+$info= new HTML_Info(); 
 
 $show_data=false; 
 
@@ -76,6 +76,6 @@ else {
 }
 
 
-include('foot.php');
+include_once('foot.php');
 
 ?>

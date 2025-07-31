@@ -1,5 +1,5 @@
 <?php 
-include('head.php');
+include_once('head.php');
 ?>
 
 <style>
@@ -115,8 +115,8 @@ h3 {
 </table>
 
 <?php 
-include('foot.php');
-// include('class.Log.php'); 
+include_once('foot.php');
+// include_once('class.Log.php'); 
 // $Loginfo = new Log(); 
 // $Loginfo->printUserName(); 
  
