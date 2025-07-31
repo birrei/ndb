@@ -183,8 +183,8 @@
 
   /******************************* */
 
-  include_once("dbconn/cl_db.php");
-  $conn = new DbConn(); 
+  include_once("classes/dbconn/class.db.php");
+  $conn = new DBConnection(); 
   $db=$conn->db; 
 
   $select = $db->prepare($query); 

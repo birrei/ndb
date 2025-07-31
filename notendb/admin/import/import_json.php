@@ -1,8 +1,12 @@
 <?php 
 include_once('../../head.php');
-include("../../dbconn/cl_db.php"); 
-include("../../cl_html_info.php"); 
-include("../../classes/class.link.php"); 
+
+include_once("../classes/dbconn/class.db.php"); 
+include_once("../classes/class.htmlinfo.php"); 
+include_once("../classes/class.htmlselect.php"); 
+include_once("../classes/class.htmltable.php"); 
+
+
 ?> 
 
 <h3>Import Google Chrome Bookmarks </h3>    

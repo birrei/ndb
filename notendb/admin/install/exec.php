@@ -1,7 +1,12 @@
 <?php 
 include_once('../../head_raw.php');
-include("../../dbconn/cl_db.php"); 
-include("../../cl_html_info.php"); 
+ 
+
+include_once("../../classes/dbconn/class.db.php"); 
+include_once("../../classes/class.htmlinfo.php"); 
+include_once("../../classes/class.htmlselect.php"); 
+include_once("../../classes/class.htmltable.php"); 
+
 
 /* 
 Script führt die SQL-Commands aus allen *.sql-Dateien (die im gleichen Ordner liegen) aus. 
@@ -27,7 +32,7 @@ if ( is_dir ( $dir )){
         $sqltext = file_get_contents($file, true);
         $cmds = explode(';', $sqltext);
 
-        $conn = new DbConn(); 
+        $conn = new DBConnection(); 
         $db=$conn->db; 
 
         foreach($cmds as $cmd){

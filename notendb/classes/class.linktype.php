@@ -154,7 +154,7 @@ class Linktype {
 
   // Verwendung? XXX 
   // function setArrData(){
-  //   include_once("dbconn/cl_db.php");
+  //   include_once("classes/dbconn/class.db.php");
 
   //   $query_lookups = 'select ID, Name, type_key from linktype order by ID';
   //   $select = $this->db->prepare($query_lookups); 

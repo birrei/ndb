@@ -2,9 +2,11 @@
 <?php 
 
 include_once('head.php');
-include("../dbconn/cl_db.php"); 
-include("../cl_html_info.php"); 
-include("../cl_html_table.php");  
+
+include_once("../classes/dbconn/class.db.php"); 
+include_once("../classes/class.htmlinfo.php"); 
+include_once("../classes/class.htmlselect.php"); 
+include_once("../classes/class.htmltable.php"); 
 
 
 if (isset($_POST['abfrage'])) {
@@ -32,7 +34,7 @@ if (isset($_POST['aktion']) and $_POST['aktion']=='ausfuehren') {
 
         $cmds = explode(';', $sqltext);
 
-        $conn = new DbConn(); 
+        $conn = new DBConnection(); 
         $db=$conn->db; 
         
         foreach($cmds as $cmd){

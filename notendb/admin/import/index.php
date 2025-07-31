@@ -1,7 +1,11 @@
 <?php 
 include_once('../../head.php');
-include("../../dbconn/cl_db.php"); 
-include("../../cl_html_info.php"); 
+
+
+include_once("../classes/dbconn/class.db.php"); 
+include_once("../classes/class.htmlinfo.php"); 
+
+
 ?> 
 
 <h3>Import</h3>  
