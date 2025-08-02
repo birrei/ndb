@@ -1,5 +1,6 @@
 
 <?php 
+$PageTitle='Linktyp'; 
 include_once('head.php');
 include_once("classes/class.linktype.php");
 include_once("classes/class.htmlinfo.php");

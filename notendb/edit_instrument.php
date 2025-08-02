@@ -1,5 +1,6 @@
 
 <?php 
+$PageTitle='Instrument'; 
 include_once('head.php');
 include_once("classes/class.instrument.php");
 include_once("classes/class.htmlinfo.php");

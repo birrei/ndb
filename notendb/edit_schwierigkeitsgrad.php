@@ -1,5 +1,6 @@
 
 <?php 
+$PageTitle='Schwierigkeitsgrad'; 
 include_once('head.php');
 include_once("classes/class.schwierigkeitsgrad.php");
 include_once("classes/class.htmlinfo.php");

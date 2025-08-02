@@ -6,6 +6,7 @@ $source=(isset($_REQUEST["source"])?$_REQUEST["source"]:'table');
 if ($source=='iframe')  {
   include_once('head_raw.php');
 } else {
+  $PageTitle='Besonderheit'; 
   include_once('head.php');
 }
 

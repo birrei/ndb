@@ -1,5 +1,6 @@
 
 <?php 
+$PageTitle='Besonderheit Typ'; 
 include_once('head.php');
 include_once("classes/class.lookuptype.php");
 include_once("classes/class.htmlinfo.php");

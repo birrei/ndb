@@ -1,5 +1,6 @@
 
 <?php 
+$PageTitle='Gattung'; 
 include_once('head.php');
 include_once("classes/class.gattung.php");
 include_once("classes/class.htmlinfo.php");

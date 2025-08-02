@@ -1,5 +1,6 @@
 
 <?php 
+$PageTitle='Materialtyp'; 
 include_once('head.php');
 include_once("classes/class.materialtyp.php");
 include_once("classes/class.htmlinfo.php");

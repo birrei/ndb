@@ -1,5 +1,6 @@
 
 <?php 
+$PageTitle='Komponist'; 
 include_once('head.php');
 include_once("classes/class.komponist.php");
 include_once("classes/class.htmlinfo.php");

@@ -1,5 +1,6 @@
 
 <?php 
+$PageTitle='Abfragetyp'; 
 include_once('head.php');
 include_once("classes/class.abfragetyp.php");
 include_once("classes/class.htmlinfo.php");

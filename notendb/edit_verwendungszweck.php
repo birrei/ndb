@@ -1,5 +1,6 @@
 
 <?php 
+$PageTitle='Verwendungszweck'; 
 include_once('head.php');
 include_once("classes/class.verwendungszweck.php");
 include_once("classes/class.htmlinfo.php");

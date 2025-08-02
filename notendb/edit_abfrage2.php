@@ -1,5 +1,6 @@
 
 <?php 
+$PageTitle='Abfrage SQL'; 
 include_once('head.php');
 include_once("classes/class.abfrage.php");
 include_once("classes/class.htmlinfo.php");

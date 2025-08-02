@@ -1,5 +1,6 @@
 
 <?php 
+$PageTitle='Erprobt'; 
 include_once('head.php');
 include_once("classes/class.erprobt.php");
 include_once("classes/class.htmlinfo.php");

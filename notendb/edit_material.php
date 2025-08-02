@@ -1,6 +1,6 @@
 
 <?php 
-
+$PageTitle='Material'; 
 include_once('head.php');
 include_once("classes/class.material.php");
 include_once("classes/class.materialtyp.php");

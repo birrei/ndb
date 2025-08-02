@@ -1,5 +1,6 @@
 
 <?php 
+$PageTitle='Standort'; 
 include_once('head.php');
 include_once("classes/class.standort.php");
 include_once("classes/class.htmlinfo.php");

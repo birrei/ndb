@@ -58,7 +58,34 @@ include_once("classes/class.materialtyp.php");
 
 ?>
 
+  &nbsp;
+  &nbsp;
+
+<!---- Link: Filter ein/ausblenden  ----->
+
+  <a onclick="hideFilter()" href="#">Filter ein/ausblenden</a>
+  <script> 
+        function hideFilter() {
+          // Sichtbarkeit linke Filter-Spalte ein / aus  
+          if (document.getElementById("search-filter").hidden==false)
+          {
+            document.getElementById("search-filter").hidden=true; 
+            document.getElementById("search-page").style.gridTemplateColumns = "auto";
+          } else 
+          {
+            document.getElementById("search-filter").hidden=false;      
+            document.getElementById("search-page").style.gridTemplateColumns = "350pt auto"; 
+          }
+
+        }
+  </script>
+
+
+<div class="search-page" id="search-page">
+<div class="search-filter" id="search-filter">
+
 <!---- Button: alle Filter zurücksetzen --> 
+  <br>
   <input type="button" id="btnReset_All" value="Alle Filter zurücksetzen" onclick="Reset_All();" /> 
   <script type="text/javascript">  
             function Reset_All() {  
@@ -84,31 +111,8 @@ include_once("classes/class.materialtyp.php");
         }  
   </script> 
 
-  &nbsp;
-  &nbsp;
-
-<!---- Button: Filter ein/ausblenden  ----->
-
-  <a onclick="hideFilter()" href="#">Filter ein/ausblenden</a>
-  <script> 
-        function hideFilter() {
-          // Sichtbarkeit linke Filter-Spalte ein / aus  
-          if (document.getElementById("search-filter").hidden==false)
-          {
-            document.getElementById("search-filter").hidden=true; 
-            document.getElementById("search-page").style.gridTemplateColumns = "auto";
-          } else 
-          {
-            document.getElementById("search-filter").hidden=false;      
-            document.getElementById("search-page").style.gridTemplateColumns = "350pt auto"; 
-          }
-
-        }
-  </script>
-
-<div class="search-page" id="search-page">
-<div class="search-filter" id="search-filter">
 <form id="Suche" action="" method="post">
+
 <?php
 /************** Auswahl Ansicht **********/  
   $Suche->Beschreibung.='Ansicht: '.$Ansicht.' (Gruppe: '.$AnsichtGruppe.')'.PHP_EOL; 
@@ -976,6 +980,9 @@ include_once("classes/class.materialtyp.php");
         LEFT JOIN standort  on sammlung.StandortID = standort.ID    
         LEFT JOIN verlag  on sammlung.VerlagID = verlag.ID
         LEFT JOIN musikstueck on sammlung.ID = musikstueck.SammlungID 
+        LEFT JOIN v_komponist komponist on komponist.ID = musikstueck.KomponistID
+        LEFT JOIN gattung on gattung.ID = musikstueck.GattungID  
+        LEFT JOIN epoche on epoche.ID = musikstueck.EpocheID           
         LEFT JOIN satz on satz.MusikstueckID = musikstueck.ID 
         LEFT JOIN satz_erprobt on satz.ID = satz_erprobt.SatzID 
         ".PHP_EOL; 
@@ -987,7 +994,9 @@ include_once("classes/class.materialtyp.php");
         LEFT JOIN standort  on sammlung.StandortID = standort.ID    
         LEFT JOIN verlag  on sammlung.VerlagID = verlag.ID
         LEFT JOIN musikstueck on sammlung.ID = musikstueck.SammlungID
-        -- LEFT JOIN v_komponist komponist on komponist.ID = musikstueck.KomponistID         
+        LEFT JOIN v_komponist komponist on komponist.ID = musikstueck.KomponistID
+        LEFT JOIN gattung on gattung.ID = musikstueck.GattungID  
+        LEFT JOIN epoche on epoche.ID = musikstueck.EpocheID        
         LEFT JOIN satz on satz.MusikstueckID = musikstueck.ID
         LEFT JOIN satz_erprobt on satz.ID = satz_erprobt.SatzID
         LEFT JOIN material on material.SammlungID = sammlung.ID 
@@ -999,6 +1008,9 @@ include_once("classes/class.materialtyp.php");
         LEFT JOIN standort  on sammlung.StandortID = standort.ID    
         LEFT JOIN verlag  on sammlung.VerlagID = verlag.ID
         LEFT JOIN musikstueck on sammlung.ID = musikstueck.SammlungID 
+        LEFT JOIN v_komponist komponist on komponist.ID = musikstueck.KomponistID
+        LEFT JOIN gattung on gattung.ID = musikstueck.GattungID  
+        LEFT JOIN epoche on epoche.ID = musikstueck.EpocheID           
         LEFT JOIN satz on satz.MusikstueckID = musikstueck.ID 
         LEFT JOIN satz_erprobt on satz.ID = satz_erprobt.SatzID 
         LEFT JOIN v_links as links on links.SammlungID = sammlung.ID ".PHP_EOL; 
@@ -1031,6 +1043,9 @@ include_once("classes/class.materialtyp.php");
         $query="FROM sammlung 
         LEFT JOIN standort  on sammlung.StandortID = standort.ID    
         LEFT JOIN musikstueck on sammlung.ID = musikstueck.SammlungID  
+        LEFT JOIN v_komponist komponist on komponist.ID = musikstueck.KomponistID
+        LEFT JOIN gattung on gattung.ID = musikstueck.GattungID  
+        LEFT JOIN epoche on epoche.ID = musikstueck.EpocheID        
         LEFT JOIN satz on satz.MusikstueckID = musikstueck.ID 
         LEFT JOIN satz_erprobt on satz.ID = satz_erprobt.SatzID 
         LEFT JOIN erprobt on erprobt.ID = satz_erprobt.ErprobtID  
@@ -1065,6 +1080,9 @@ include_once("classes/class.materialtyp.php");
         $query="FROM sammlung 
         LEFT JOIN standort  on sammlung.StandortID = standort.ID    
         LEFT JOIN musikstueck on sammlung.ID = musikstueck.SammlungID  
+        LEFT JOIN v_komponist komponist on komponist.ID = musikstueck.KomponistID
+        LEFT JOIN gattung on gattung.ID = musikstueck.GattungID  
+        LEFT JOIN epoche on epoche.ID = musikstueck.EpocheID        
         LEFT JOIN satz on satz.MusikstueckID = musikstueck.ID 
         LEFT JOIN satz_erprobt on satz.ID = satz_erprobt.SatzID 
         LEFT JOIN erprobt on erprobt.ID = satz_erprobt.ErprobtID  
@@ -1171,7 +1189,10 @@ include_once("classes/class.materialtyp.php");
         sammlung.Bemerkung LIKE '%".$suchtext."%' OR                              
         musikstueck.Name LIKE '%".$suchtext."%' OR                              
         musikstueck.Opus LIKE '%".$suchtext."%' OR
-        musikstueck.Bearbeiter LIKE '%".$suchtext."%' OR
+        musikstueck.Bearbeiter LIKE '%".$suchtext."%' OR 
+        komponist.Name  LIKE '%".$suchtext."%' OR 
+        epoche.Name  LIKE '%".$suchtext."%' OR    
+        gattung.Name  LIKE '%".$suchtext."%' OR                 
         satz.Name LIKE '%".$suchtext."%' OR
         satz.Tempobezeichnung LIKE '%".$suchtext."%' OR
         satz.Orchesterbesetzung LIKE '%".$suchtext."%' OR 

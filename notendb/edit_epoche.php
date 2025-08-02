@@ -1,5 +1,6 @@
 
 <?php 
+$PageTitle='Epoche'; 
 include_once('head.php');
 include_once("classes/class.epoche.php");
 include_once("classes/class.htmlinfo.php");

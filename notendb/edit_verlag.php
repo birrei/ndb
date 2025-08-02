@@ -1,5 +1,6 @@
 
 <?php 
+$PageTitle='Verlag'; 
 include_once('head.php');
 include_once("classes/class.verlag.php");
 include_once("classes/class.htmlinfo.php");
