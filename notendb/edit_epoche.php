@@ -8,34 +8,51 @@ include_once("classes/class.htmlinfo.php");
 $epoche = new Epoche();
 $info= new HTML_Info(); 
 
-$show_data=false; 
+$option=isset($_REQUEST["option"])?$_REQUEST["option"]:'edit';
+$show_data=true; 
 
-if (isset($_REQUEST["option"])) {
-  switch($_REQUEST["option"]) {
-    case 'edit': // über "Bearbeiten"-Link
-      $epoche->ID=$_GET["ID"];
-      if ($epoche->load_row()) {
-        $show_data=true;       
-      }
-      break; 
+switch($option) {
+  case 'edit': // über "Bearbeiten"-Link
+    $epoche->ID=$_GET["ID"];
+    $epoche->load_row(); 
+    break; 
 
-    case 'insert': 
-      $epoche->insert_row('');
+  case 'insert': 
+    $epoche->insert_row('');
+    $show_data=true; 
+    break; 
+  
+  case 'update': 
+    $epoche->ID = $_POST["ID"];    
+    $epoche->update_row($_POST["Name"]); 
+    $show_data=true;           
+    break; 
+
+  case 'delete_1': 
+    $epoche->ID = $_REQUEST["ID"];  
+    $epoche->load_row(); 
+    $info->print_form_confirm(basename(__FILE__),$epoche->ID,'delete_2','Löschung');  
+    $show_data=true;      
+    break; 
+
+  case 'delete_2': 
+    $epoche->ID=$_REQUEST["ID"]; 
+    if($epoche->delete()) {
+      $show_data=false; 
+    } else  {
       $show_data=true; 
-      break; 
+    }
+    break; 
     
-    case 'update': 
-      $epoche->ID = $_POST["ID"];    
-      $epoche->update_row($_POST["Name"]); 
-      $show_data=true;           
-      break; 
-  }
+  default: 
+    $show_data=false; 
+       
 }
 
 $info->print_screen_header($epoche->Title.' bearbeiten'); 
 $info->print_link_table($epoche->table_name, 'sortcol=Name', $epoche->Titles); 
 
-if ($show_data) {
+if (!$show_data) {goto pagefoot;}
     
   echo '
   <form action="edit_epoche.php" method="post">
@@ -62,21 +79,31 @@ if ($show_data) {
       </td>
     </tr> 
 
-  </table> 
+
   <input type="hidden" name="option" value="update"> 
   <input type="hidden" name="title" value="Epoche">          
   <input type="hidden" name="ID" value="' . $epoche->ID. '">
 
   </form>
+
+  
+  <tr> 
+    <td class="form-edit form-edit-col1"></td> 
+    <td class="form-edit form-edit-col2"><br>
+   '; 
+    $info->print_form_inline('delete_1',$epoche->ID,$epoche->Title, 'löschen'); 
+
+  echo '     
+    </td>
+  </tr> 
+
+
+  </table> 
+  
+  
   '; 
 
-  $info->print_link_delete_row2($epoche->table_name, $epoche->ID, $epoche->Title); 
-} 
-else {
-    $info->print_user_error(); 
-}
-
-
+pagefoot: 
 include_once('foot.php');
 
 ?>

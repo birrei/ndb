@@ -90,6 +90,7 @@ class Uebung {
     } 
     else {
       return false; 
+      $this->info->print_error('Die Anzeige ist nicht möglich'); 
     }  
   }  
 

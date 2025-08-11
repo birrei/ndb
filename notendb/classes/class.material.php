@@ -141,7 +141,7 @@ class Material {
     $this->infotext=''; 
     $this->count_schueler(); 
     if ( $this->anzahl_schueler > 0 ) {
-      $this->infotext.='Das Material ist nicht löschbar, da '.$this->anzahl_schueler.' Schüler verknüpft sind.'; 
+      $this->infotext.='Das Material ist nicht löschbar, da '.$this->anzahl_schueler.' Schüler-Verknüpfung(en) vorhanden sind .'; 
       return false; 
     }
     return true; 

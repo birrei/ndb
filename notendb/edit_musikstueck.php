@@ -9,78 +9,77 @@ include_once("classes/class.gattung.php");
 include_once("classes/class.epoche.php");
 include_once("classes/class.htmlinfo.php");
 
-$show_data=false;       
-
 $musikstueck = new Musikstueck();
-
 $info= new HTML_Info(); 
 
-if (isset($_REQUEST["option"])) {
-  switch($_REQUEST["option"]) {
-    case 'edit': // über "Bearbeiten"-Link
-      $musikstueck->ID=$_GET["ID"];
-      if ($musikstueck->load_row()) {
-        $show_data=true;       
-      }
-      break; 
+$option=isset($_REQUEST["option"])?$_REQUEST["option"]:'edit';
+$show_data=true; 
 
-    case 'insert': 
-      $musikstueck->SammlungID = $_GET["SammlungID"];
-      $musikstueck->insert_row('');
-      $show_data=true; 
-      break; 
+
+switch($_REQUEST["option"]) {
+  case 'edit': // über "Bearbeiten"-Link
+    $musikstueck->ID=$_GET["ID"];
+    $show_data = $musikstueck->load_row();     
+    break; 
+
+  case 'insert': 
+    $musikstueck->SammlungID = $_GET["SammlungID"];
+    $musikstueck->insert_row('');
+    break; 
+  
+  case 'update': 
+    $musikstueck->ID = $_POST["ID"];    
+    $musikstueck->update_row($_POST["Nummer"]
+          , $_POST["Name"]
+          , $_POST["SammlungID"]
+          , $_POST["KomponistID"]
+          , $_POST["Opus"]
+          , $_POST["GattungID"]
+          , $_POST["Bearbeiter"]
+          , $_POST["EpocheID"]
+          ); 
+    break; 
+
+  case 'copy': 
+    $ID_ref=$_REQUEST["ID"]; 
+    $musikstueck->ID=$ID_ref; 
+    $musikstueck->copy();   
+    $musikstueck->load_row();       
+    $info->print_info_copy($musikstueck->Title, $ID_ref, $musikstueck->ID, 'edit_satz'); 
+    break;     
     
-    case 'update': 
-      $musikstueck->ID = $_POST["ID"];    
-      $musikstueck->update_row($_POST["Nummer"]
-            , $_POST["Name"]
-            , $_POST["SammlungID"]
-            , $_POST["KomponistID"]
-            , $_POST["Opus"]
-            , $_POST["GattungID"]
-            , $_POST["Bearbeiter"]
-            , $_POST["EpocheID"]
-            );
-      $show_data=true;           
-      break; 
+  case 'delete_1': 
+    $musikstueck->ID = $_REQUEST["ID"];  
+    $musikstueck->load_row(); 
+    $info->print_form_confirm(basename(__FILE__),$musikstueck->ID,'delete_2','Löschung');    
+    break; 
 
-    case 'copy': 
-      $ID_ref=$_REQUEST["ID"]; 
-      $musikstueck->ID=$ID_ref; 
-      $musikstueck->copy();   
-      $musikstueck->load_row();       
-      $info->print_info_copy($musikstueck->Title, $ID_ref, $musikstueck->ID, 'edit_satz'); 
-      $show_data=true; 
-      break;     
+
+    // $info->print_warning('Soll Musikstück ID: '.$musikstueck->ID.', Name: "'.$musikstueck->Name.'" wirklich gelöscht werden?'); 
+    // echo 
+    // '<p> <form action="edit_musikstueck.php" method="post">
+    // <input type="hidden" name="ID" value="' . $musikstueck->ID. '">
+    // <input type="hidden" name="option" value="delete_2">      
+    // <input type="hidden" name="title" value="Musikstück"> 
+    // <input type="submit" name="senden" value="Löschung bestätigen">             
+    // </form></p>
+    // '; 
+
+    // $show_data=true;      
+    break;      
+  
+  case 'delete_2': 
+    $musikstueck->ID = $_POST["ID"];  
+    $musikstueck->delete(); 
+    $info->print_info('Der Musikstück wurde gelöscht.'); 
+    $show_data=false; 
+    break;   
       
-    case 'delete_1': 
-      $musikstueck->ID = $_REQUEST["ID"];  
-      $musikstueck->load_row(); 
+  default: 
+    $show_data=false;            
 
-      $info->print_warning('Soll Musikstück ID: '.$musikstueck->ID.', Name: "'.$musikstueck->Name.'" wirklich gelöscht werden?'); 
-      echo 
-      '<p> <form action="edit_musikstueck.php" method="post">
-      <input type="hidden" name="ID" value="' . $musikstueck->ID. '">
-      <input type="hidden" name="option" value="delete_2">      
-      <input type="hidden" name="title" value="Musikstück"> 
-      <input type="submit" name="senden" value="Löschung bestätigen">             
-      </form></p>
-      '; 
-
-      $show_data=true;      
-      break;      
-    
-    case 'delete_2': 
-      $musikstueck->ID = $_POST["ID"];  
-      $musikstueck->delete(); 
-      $info->print_info('Der Musikstück wurde gelöscht.'); 
-      $show_data=false; 
-      break;          
-
-
-
-  }
 }
+
 
 $info->print_screen_header($musikstueck->Title.' bearbeiten'); 
 
@@ -220,29 +219,37 @@ echo '
           <iframe src="edit_musikstueck_saetze.php?MusikstueckID=<?php echo $musikstueck->ID; ?>'" height="400" name="subform1" id="subform1" class="form-iframe-var2"></iframe>
     </td>
   </tr> 
-
-
-
-
-  </table> 
-    
+ 
   <?php 
 
-  
-  echo '<p> <form action="edit_musikstueck.php" method="post">
-      <input type="hidden" name="ID" value="' . $musikstueck->ID. '">
-      <input type="hidden" name="option" value="copy">      
-      <input type="hidden" name="title" value="Musikstueck"> 
-      <input type="submit" name="senden" value="Musikstück kopieren">             
-  </form></p> '; 
+  echo '
+  <tr> 
+    <td class="form-edit form-edit-col1"></td> 
+    <td class="form-edit form-edit-col2"><br>
+    '; 
+    $info->print_form_inline('delete_1',$musikstueck->ID,$musikstueck->Title, 'löschen'); 
+    $info->print_form_inline('copy',$musikstueck->ID,$musikstueck->Title, 'kopieren');     
+    echo '     
+    </td>
+  </tr> 
 
-  echo '<p> <form action="edit_musikstueck.php" method="post">
-  <input type="hidden" name="ID" value="' . $musikstueck->ID. '">
-  <input type="hidden" name="option" value="delete_1">      
-  <input type="hidden" name="title" value="Musikstück"> 
-  <input type="submit" name="senden" value="Musikstück löschen">             
-  </form></p>
-  '; 
+  </table> 
+'; 
+  
+  // echo '<p> <form action="edit_musikstueck.php" method="post">
+  //     <input type="hidden" name="ID" value="' . $musikstueck->ID. '">
+  //     <input type="hidden" name="option" value="copy">      
+  //     <input type="hidden" name="title" value="Musikstueck"> 
+  //     <input type="submit" name="senden" value="Musikstück kopieren">             
+  // </form></p> '; 
+
+  // echo '<p> <form action="edit_musikstueck.php" method="post">
+  // <input type="hidden" name="ID" value="' . $musikstueck->ID. '">
+  // <input type="hidden" name="option" value="delete_1">      
+  // <input type="hidden" name="title" value="Musikstück"> 
+  // <input type="submit" name="senden" value="Musikstück löschen">             
+  // </form></p>
+  // '; 
 
   
 

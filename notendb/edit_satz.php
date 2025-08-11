@@ -5,87 +5,69 @@ include_once('head.php');
 include_once('classes/class.satz.php');
 include_once('classes/class.musikstueck.php');
 include_once('classes/class.erprobt.php');
-include_once('classes/class.schwierigkeitsgrad.php'); // entfernen 
+include_once('classes/class.schwierigkeitsgrad.php'); // XXX entfernen 
 include_once("classes/class.htmlinfo.php");
 
-echo '<h2>Satz bearbeiten</h2>'; 
-
+$satz=new Satz(); 
 $info= new HTML_Info(); 
 
-$satz=new Satz(); 
+$option=isset($_REQUEST["option"])?$_REQUEST["option"]:'edit';
+$show_data=true; 
 
-$show_data=false; 
+switch($option) {
+  case 'edit': // über "Bearbeiten"-Link
+    $satz->ID=$_GET["ID"];
+    $show_data = $satz->load_row();     
+    break;     
 
-if (isset($_REQUEST["option"])) {
-  switch($_REQUEST["option"]) {
-    case 'edit': // über "Bearbeiten"-Link
-      $satz->ID=$_GET["ID"];
-      if ($satz->load_row()) {
-        $show_data=true;       
-      }
-      break; 
+  case 'insert': 
+    $satz->MusikstueckID=$_GET["MusikstueckID"]; 
+    $satz->insert_row('',''); 
+    break; 
+  
+  case 'update': 
+    $satz->ID = $_POST["ID"];    
+    $satz->update_row(
+      $_POST["Name"]
+        , $_POST["Nr"]
+        , $_POST["MusikstueckID"]
+        , $_POST["Tempobezeichnung"]
+        , $_POST["Spieldauer"]
+        , $_POST["Bemerkung"]
+        , $_POST["Orchesterbesetzung"]                  
+        ); 
+        ;    
+    break; 
 
-    case 'insert': 
-      $satz->MusikstueckID=$_GET["MusikstueckID"]; 
-      $satz->insert_row('',''); 
-      $show_data=true; 
-      break; 
-    
-    case 'update': 
-      $satz->ID = $_POST["ID"];    
-      $satz->update_row(
-        $_POST["Name"]
-          , $_POST["Nr"]
-          , $_POST["MusikstueckID"]
-          , $_POST["Tempobezeichnung"]
-          , $_POST["Spieldauer"]
-          , $_POST["Bemerkung"]
-          , $_POST["Orchesterbesetzung"]                  
-            ); 
-          ;
-      $show_data=true;           
-      break; 
+  case 'copy': 
+    $ID_ref=$_REQUEST["ID"]; 
+    $satz->ID=$ID_ref; 
+    $satz->copy();   
+    $satz->load_row();       
+    $info->print_info_copy($satz->Title, $ID_ref, $satz->ID, 'edit_satz'); 
+    break; 
 
-    case 'copy': 
-      $ID_ref=$_REQUEST["ID"]; 
-      $satz->ID=$ID_ref; 
-      $satz->copy();   
-      $satz->load_row();       
-      $info->print_info_copy($satz->Title, $ID_ref, $satz->ID, 'edit_satz'); 
-      $show_data=true; 
-      break; 
+  case 'delete_1': 
+    $satz->ID = $_REQUEST["ID"];  
+    $satz->load_row(); 
+    $info->print_warning('Soll Satz ID: '.$satz->ID.', Name: "'.$satz->Name.'" wirklich gelöscht werden?'); 
+    $info->print_form_confirm(basename(__FILE__),$satz->ID,'delete_2','Löschung');   
 
+    break;      
+  
+  case 'delete_2': 
+    $satz->ID = $_POST["ID"];  
+    $satz->delete(); 
+    $info->print_info('Der Satz wurde gelöscht.'); 
+    $show_data=false; 
+    break;          
 
-    case 'delete_1': 
-      $satz->ID = $_REQUEST["ID"];  
-      $satz->load_row(); 
-
-      $info->print_warning('Soll Satz ID: '.$satz->ID.', Name: "'.$satz->Name.'" wirklich gelöscht werden?'); 
-      echo 
-      '<p> <form action="edit_satz.php" method="post">
-      <input type="hidden" name="ID" value="' . $satz->ID. '">
-      <input type="hidden" name="option" value="delete_2">      
-      <input type="hidden" name="title" value="Satz"> 
-      <input type="submit" name="senden" value="Löschung bestätigen">             
-      </form></p>
-      '; 
-
-      $show_data=true;      
-      break;      
-    
-    case 'delete_2': 
-      $satz->ID = $_POST["ID"];  
-      $satz->delete(); 
-      $info->print_info('Der Satz wurde gelöscht.'); 
-      $show_data=false; 
-      break;          
-
-
-
-            
+  default: 
+    $show_data=false;           
   }
-}
 
+
+$info->print_screen_header($satz->Title.' bearbeiten'); 
 
 if (!$show_data) {goto pagefoot;}
 
@@ -206,40 +188,22 @@ echo
     <iframe src="edit_satz_schwierigkeitsgrade.php?SatzID=<?php echo $satz->ID; ?>&source=iframe" height="300" id="subform1" name="Info" class="form-iframe-var2"></iframe>
   </td>
   </tr> 
-
-  </table> 
-
   <?php 
 
+echo '
+<tr> 
+  <td class="form-edit form-edit-col1"></td> 
+  <td class="form-edit form-edit-col2"><br>
+  '; 
+  $info->print_form_inline('delete_1',$satz->ID,$satz->Title, 'löschen'); 
+  $info->print_form_inline('copy',$satz->ID,$satz->Title, 'kopieren'); 
 
-
-echo '<p> 
-  <form action="edit_satz.php" method="post">
-      <input type="hidden" name="ID" value="' . $satz->ID. '">
-      <input type="hidden" name="option" value="copy">      
-      <input type="hidden" name="title" value="Satz"> 
-      <input type="submit" name="senden" value="Satz kopieren">             
-  </form>
-</p> '; 
-
-
-
-echo '<p> 
-  <form action="edit_satz.php" method="post">
-      <input type="hidden" name="ID" value="' . $satz->ID. '">
-      <input type="hidden" name="option" value="delete_1">      
-      <input type="hidden" name="title" value="Satz"> 
-      <input type="submit" name="senden" value="Satz löschen">             
-  </form>
-</p> '; 
-
-
-
-
+  echo '     
+  </td>
+</tr> 
+</table> '; 
 
 pagefoot: 
-
-
 include_once('foot.php');
 
 ?>

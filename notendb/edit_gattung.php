@@ -9,73 +9,91 @@ include_once("classes/class.htmlinfo.php");
 $gattung = new Gattung();
 $info= new HTML_Info(); 
 
-$show_data=false; 
+$option=isset($_REQUEST["option"])?$_REQUEST["option"]:'edit';
+$show_data=true; 
 
-if (isset($_REQUEST["option"])) {
-  switch($_REQUEST["option"]) {
-    case 'edit': // über "Bearbeiten"-Link
-      $gattung->ID=$_GET["ID"];
-      if ($gattung->load_row()) {
-        $show_data=true;       
-      }
-      break; 
+switch($option) {
+  case 'edit': // über "Bearbeiten"-Link
+    $gattung->ID=$_GET["ID"];
+    $show_data = $gattung->load_row();     
+    break; 
 
-    case 'insert': 
-      $gattung->insert_row('');
+  case 'insert': 
+    $gattung->insert_row('');
+    break; 
+  
+  case 'update': 
+    $gattung->ID = $_POST["ID"];    
+    $gattung->update_row($_POST["Name"]);           
+    break; 
+
+  case 'delete_1': 
+    $gattung->ID = $_REQUEST["ID"];  
+    $gattung->load_row(); 
+    $info->print_form_confirm(basename(__FILE__),$gattung->ID,'delete_2','Löschung');    
+    break; 
+
+  case 'delete_2': 
+    $gattung->ID=$_REQUEST["ID"]; 
+    if($gattung->delete()) {
+      $show_data=false; 
+    } else  {
       $show_data=true; 
-      break; 
-    
-    case 'update': 
-      $gattung->ID = $_POST["ID"];    
-      $gattung->update_row($_POST["Name"]); 
-      $show_data=true;           
-      break; 
-  }
+    }
+  break; 
+
+  default: 
+    $show_data=false;     
 }
 
 $info->print_screen_header($gattung->Title.' bearbeiten'); 
 $info->print_link_table($gattung->table_name, 'sortcol=Name', $gattung->Titles); 
 
-if ($show_data) {
-  echo '
-  <form action="edit_gattung.php" method="post">
-  <table class="form-edit"> 
-    <tr>    
+if (!$show_data) {goto pagefoot;}
+
+echo '
+<form action="edit_gattung.php" method="post">
+<table class="form-edit"> 
+  <tr>    
+  <label>
+  <td class="form-edit form-edit-col1">ID:</td>  
+  <td class="form-edit form-edit-col2">'.$gattung->ID.'</td>
+  </label>
+  </tr> 
+
+  <tr>    
     <label>
-    <td class="form-edit form-edit-col1">ID:</td>  
-    <td class="form-edit form-edit-col2">'.$gattung->ID.'</td>
+    <td class="form-edit form-edit-col1">Name:</td>  
+    <td class="form-edit form-edit-col2"><input type="text" name="Name" value="'.$gattung->Name.'" size="45" maxlength="80" required="required" autofocus="autofocus" oninput="changeBackgroundColor(this)"></td>
     </label>
-      </tr> 
+  </tr> 
 
-    <tr>    
-      <label>
-      <td class="form-edit form-edit-col1">Name:</td>  
-      <td class="form-edit form-edit-col2"><input type="text" name="Name" value="'.$gattung->Name.'" size="45" maxlength="80" required="required" autofocus="autofocus" oninput="changeBackgroundColor(this)"></td>
-      </label>
-    </tr> 
+  <tr> 
+    <td class="form-edit form-edit-col1"></td> 
+    <td class="form-edit form-edit-col2"><input class="btnSave" type="submit" name="senden" value="Speichern">
+    </td>
+  </tr> 
 
+<input type="hidden" name="option" value="update">       
+<input type="hidden" name="ID" value="' . $gattung->ID. '">
 
-    <tr> 
-      <td class="form-edit form-edit-col1"></td> 
-      <td class="form-edit form-edit-col2"><input class="btnSave" type="submit" name="senden" value="Speichern">
-
-      </td>
-    </tr> 
-
-  </table> 
-  <input type="hidden" name="option" value="update">
-  <input type="hidden" name="title" value="Gattung">        
-  <input type="hidden" name="ID" value="' . $gattung->ID. '">
-
-  </form>
+</form>
+  
+<tr> 
+  <td class="form-edit form-edit-col1"></td> 
+  <td class="form-edit form-edit-col2"><br>
   '; 
+  $info->print_form_inline('delete_1',$gattung->ID,$gattung->Title, 'löschen'); 
+  echo '     
+  </td>
+</tr> 
 
-  $info->print_link_delete_row2($gattung->table_name, $gattung->ID, $gattung->Title); 
-} 
-else {
-    $info->print_user_error(); 
-}
+</table> 
 
+
+'; 
+
+pagefoot: 
 include_once('foot.php');
 
 ?>

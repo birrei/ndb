@@ -8,7 +8,7 @@ include_once("classes/class.besetzung.php");
 
 $besetzung = new Besetzung();;
 $info= new HTML_Info(); 
-$option=$_REQUEST["option"];
+$option=isset($_REQUEST["option"])?$_REQUEST["option"]:'edit';
 $show_data=true; 
 
 switch($option) {
@@ -31,7 +31,7 @@ switch($option) {
   case 'delete_1': 
     $besetzung->ID = $_REQUEST["ID"];  
     $besetzung->load_row(); 
-    $info->print_form_confirm('edit_besetzung.php',$besetzung->ID,'delete_2','Löschung'); 
+    $info->print_form_confirm(basename(__FILE__),$abfragetyp->ID,'delete_2','Löschung');  
     $show_data=true;      
     break; 
 
@@ -52,6 +52,9 @@ switch($option) {
     $option='update'; 
     $show_data=true; 
   break;         
+    
+  default: 
+    $show_data=false; 
 }
 
 $info->print_screen_header($besetzung->Title.' bearbeiten'); 
@@ -96,7 +99,7 @@ echo '
     $info->print_form_inline('copy',$besetzung->ID,$besetzung->Title, 'kopieren'); 
 
 
-echo '     
+  echo '     
     </td>
   </tr> 
 
@@ -114,7 +117,6 @@ echo '
 
 '; 
 
-  // $info->print_link_delete_row2($besetzung->table_name, $besetzung->ID, $besetzung->Title, false); 
 
 pagefoot: 
 

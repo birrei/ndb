@@ -11,69 +11,58 @@ $sammlung = new Sammlung();
 
 $info= new HTML_Info(); 
 
-$show_data=false; 
+$option=isset($_REQUEST["option"])?$_REQUEST["option"]:'edit';
+$show_data=true; 
 
-if (isset($_REQUEST["option"])) {
-  switch($_REQUEST["option"]) {
-    case 'edit': // über "Bearbeiten"-Link
-      $sammlung->ID=$_GET["ID"];
-      if ($sammlung->load_row()) {
-        $show_data=true;       
-      }
-      break; 
-
-    case 'insert': 
-      $sammlung->insert_row(''); 
-      $show_data=true; 
-      break; 
-    
-    case 'update': 
-      $Erfasst=(isset($_POST["Erfasst"])?1:0); 
-      $sammlung->ID = $_POST["ID"];    
-      $sammlung->update_row(
-        $_POST["Name"]
-        , $_POST["VerlagID"]
-        , $_POST["StandortID"]
-        // , $_POST["Bestellnummer"]
-        , $_POST["Bemerkung"]
-        , $Erfasst
-      ); 
-      $show_data=true;           
-      break; 
-
-    case 'copy': 
-      $ID_ref=$_REQUEST["ID"]; 
-      $sammlung->ID=$ID_ref; 
-      $sammlung->copy();   
-      $sammlung->load_row();       
-      $info->print_info_copy($sammlung->Title, $ID_ref, $sammlung->ID, 'edit_sammlung'); 
-      $show_data=true; 
+switch($option) {
+  case 'edit': // über "Bearbeiten"-Link
+    $sammlung->ID=$_GET["ID"];
+    $show_data = $sammlung->load_row();        
     break; 
 
-    case 'delete_1': 
-      $sammlung->ID = $_REQUEST["ID"];  
-      $sammlung->load_row(); 
+  case 'insert': 
+    $sammlung->insert_row(''); 
+    break; 
+  
+  case 'update': 
+    $Erfasst=(isset($_POST["Erfasst"])?1:0); 
+    $sammlung->ID = $_POST["ID"];    
+    $sammlung->update_row(
+      $_POST["Name"]
+      , $_POST["VerlagID"]
+      , $_POST["StandortID"]
+      , $_POST["Bemerkung"]
+      , $Erfasst
+    );     
+    break; 
 
-      $info->print_warning('Soll Sammlung ID: '.$sammlung->ID.', Name: "'.$sammlung->Name.'" wirklich gelöscht werden?'); 
-      echo 
-      '<p> <form action="edit_sammlung.php" method="post">
-      <input type="hidden" name="ID" value="' . $sammlung->ID. '">
-      <input type="hidden" name="option" value="delete_2">      
-      <input type="hidden" name="title" value="Sammlung"> 
-      <input type="submit" name="senden" value="Löschung bestätigen">             
-      </form></p>
-      '; 
+  case 'copy': 
+    $ID_ref=$_REQUEST["ID"]; 
+    $sammlung->ID=$ID_ref; 
+    $sammlung->copy();   
+    $show_data = $sammlung->load_row();       
+    $info->print_info_copy($sammlung->Title, $ID_ref, $sammlung->ID, 'edit_sammlung'); 
+  break; 
 
-      $show_data=true;      
-      break;      
-      
-    case 'delete_2': 
-      $sammlung->ID = $_POST["ID"];  
-      $sammlung->delete(); 
-      $info->print_info('Die Sammlung wurde gelöscht.'); 
-      $show_data=false; 
-      break;       
-  }
+  case 'delete_1': 
+    $sammlung->ID = $_REQUEST["ID"];  
+    $sammlung->load_row(); 
+
+    $info->print_warning('Soll Sammlung ID: '.$sammlung->ID.', Name: "'.$sammlung->Name.'" wirklich gelöscht werden?'); 
+    $info->print_form_confirm(basename(__FILE__),$sammlung->ID,'delete_2','Löschung');   
+    
+    break;      
+    
+  case 'delete_2': 
+    $sammlung->ID = $_POST["ID"];  
+    $sammlung->delete(); 
+    $info->print_info('Die Sammlung wurde gelöscht.'); 
+    $show_data=false; 
+    break;    
+    
+  default: 
+    $show_data=false;     
+
 }
 
 $info->print_screen_header($sammlung->Title.' bearbeiten'); 
@@ -191,28 +180,23 @@ echo '
     </td>
   </tr> 
 
-  </table>
   <?php 
-    echo '<p> <form action="edit_sammlung.php" method="post">
-          <input type="hidden" name="ID" value="' . $sammlung->ID. '">
-          <input type="hidden" name="option" value="copy">      
-          <input type="hidden" name="title" value="Sammlung"> 
-          <input type="submit" name="senden" value="Sammlung kopieren">             
-      </form></p>
-    '; 
 
-    echo 
-    '<p> <form action="edit_sammlung.php" method="post">
-    <input type="hidden" name="ID" value="' . $sammlung->ID. '">
-    <input type="hidden" name="option" value="delete_1">      
-    <input type="hidden" name="title" value="Sammlung"> 
-    <input type="submit" name="senden" value="Sammlung löschen">             
-    </form></p>
-    '; 
-
+echo '
+<tr> 
+  <td class="form-edit form-edit-col1"></td> 
+  <td class="form-edit form-edit-col2"><br>
+  '; 
+  $info->print_form_inline('delete_1',$sammlung->ID,$sammlung->Title, 'löschen'); 
+  $info->print_form_inline('copy',$sammlung->ID,$sammlung->Title, 'kopieren');   
+  
   echo '<p><a href=dataclearing.php?SammlungID='.$sammlung->ID.' target="_blank">Sammel-Updates</a><p>'; 
 
-
+  echo '     
+  </td>
+</tr> 
+</table>     
+'; 
 
 pagefoot: 
 

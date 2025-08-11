@@ -170,7 +170,7 @@ class Besetzung {
       $this->infotext='Die Besetzung ID '.$this->ID.', Name: "'.$this->Name.'" 
         kann nicht gelöscht werden, da noch eine Zuordnung auf '.$select->rowCount().' Musikstücke existiert.';   
       $this->info->print_user_error($this->infotext); 
-     return false;            
+      return false;            
     }
  
     $delete = $this->db->prepare("DELETE FROM `besetzung` WHERE ID=:ID"); 

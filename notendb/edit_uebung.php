@@ -7,35 +7,44 @@ include_once("classes/class.uebung.php");
 include_once("classes/class.uebungtyp.php");
 include_once("classes/class.schueler.php");
 
-
+$uebung = new Uebung(); 
 $info= new HTML_Info(); 
-$option=$_REQUEST["option"];
+
+$option=isset($_REQUEST["option"])?$_REQUEST["option"]:'edit';
 $show_data=true; 
 
 $SchuelerID=''; 
+$UebungtypID=''; 
+$Einheit=''; 
 
 if (isset($_REQUEST["SchuelerID"])) {
   $SchuelerID=$_REQUEST["SchuelerID"]!=''?$_REQUEST["SchuelerID"]:''; 
 }
 
+if (isset($_REQUEST["UebungtypID"])) {
+  $UebungtypID=$_REQUEST["UebungtypID"]!=''?$_REQUEST["UebungtypID"]:''; 
+  if ($UebungtypID!='') {
+    $uebungtyp=new UebungTyp(); 
+    $uebungtyp->ID= $UebungtypID; 
+    $uebungtyp->load_row(); 
+    $Einheit = $uebungtyp->Einheit; 
+  }  
+}
+
 switch($option) {
 
   case 'insert': 
-    $uebung = new Uebung();    
     $uebung->insert_row($SchuelerID);
-    $option='update'; 
     break; 
 
-  case 'edit': // über "Bearbeiten"-Link
-    $uebung = new Uebung();       
+  case 'edit': // über "Bearbeiten"-Link    
     $uebung->ID=$_REQUEST["ID"];
-    $uebung->load_row();  
+   // $uebung->load_row();  
+    $show_data = $uebung->load_row();      
     $SchuelerID=$uebung->SchuelerID; 
-    $option='update';     
     break; 
   
-  case 'update': 
-    $uebung = new Uebung();       
+  case 'update':     
     $uebung->ID=$_POST["ID"]; 
     $uebung->update_row(
       $_POST["Name"], 
@@ -50,17 +59,14 @@ switch($option) {
     $SchuelerID=$uebung->SchuelerID;     
     break; 
 
-  case 'delete_1': 
-    $uebung = new Uebung();       
+  case 'delete_1':        
     $uebung->ID = $_POST["ID"];  
     $uebung->load_row(); 
     $Name=$uebung->Name; 
-    $info->print_form_confirm('edit_uebung.php',$uebung->ID,'delete_2','Löschung'); 
-    $show_data=true;      
+    $info->print_form_confirm(basename(__FILE__),$uebung->ID,'delete_2','Löschung');         
     break; 
 
-  case 'delete_2': 
-    $uebung = new Uebung();       
+  case 'delete_2':    
     $uebung->ID=$_REQUEST["ID"]; 
     $uebung->delete(); 
     $info->print_info($uebung->infotext); 
@@ -74,8 +80,6 @@ switch($option) {
     $uebung->copy();   
     $uebung->load_row();       
     // $info->print_info_copy($uebung->Title, $ID_ref, $uebung->ID, 'edit_uebung'); 
-    $option='update'; 
-    $show_data=true; 
   break;     
 }
 
@@ -173,7 +177,7 @@ echo '
 
   <tr>    
     <td class="form-edit form-edit-col1">Anzahl: </td>  
-      <td class="form-edit form-edit-col2"><input type="number" name="Anzahl" value="'.$uebung->Anzahl.'" oninput="changeBackgroundColor(this)"></td>
+      <td class="form-edit form-edit-col2"><input type="number" name="Anzahl" value="'.$uebung->Anzahl.'" oninput="changeBackgroundColor(this)"> '.$Einheit.'</td>
   </tr>'; 
 
 
@@ -228,7 +232,7 @@ echo '
 
   ?>
 
-  <input type="hidden" name="option" value="<?php echo $option; ?>"> 
+  <input type="hidden" name="option" value="update">
   <input type="hidden" name="ID" value="<?php echo $uebung->ID; ?>">
   </form>
 

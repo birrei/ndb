@@ -1,6 +1,6 @@
 <?php 
 include_once('head.php');
-include("dbconn/cl_db.php");
+include_once("classes/dbconn/class.db.php");    
 
 include_once("classes/class.htmltable.php");    
 include_once("classes/class.htmlinfo.php");  

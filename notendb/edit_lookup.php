@@ -19,38 +19,50 @@ $LookupTypeID=(isset($_REQUEST["LookupTypeID"])?$_REQUEST["LookupTypeID"]:'');
 $lookup = new Lookup();
 $info= new HTML_Info(); 
 
-$show_data=false; 
+$option=isset($_REQUEST["option"])?$_REQUEST["option"]:'edit';
+$show_data=true; 
 
-if (isset($_REQUEST["option"])) {
-  switch($_REQUEST["option"]) {
-    case 'edit': // über "Bearbeiten"-Link
-      $lookup->ID=$_GET["ID"];
-      if ($lookup->load_row()) {
-        $show_data=true;       
-      }
-      break; 
+switch($option) {
+  case 'edit': // über "Bearbeiten"-Link
+    $lookup->ID=$_GET["ID"];
+    $lookup->load_row(); 
+    break; 
 
-    case 'insert': 
-      $lookup->insert_row($LookupTypeID);  
+  case 'insert': 
+    $lookup->insert_row($LookupTypeID);   
+    break; 
+  
+  case 'update': 
+    $lookup->ID = $_POST["ID"];    
+    $lookup->update_row($_POST["Name"], $_POST["LookupTypeID"]); 
+    break; 
+
+  case 'delete_1': 
+    $lookup->ID = $_REQUEST["ID"];  
+    $lookup->load_row(); 
+    $info->print_form_confirm(basename(__FILE__),$lookup->ID,'delete_2','Löschung');  
+    $show_data=true;      
+    break; 
+
+  case 'delete_2': 
+    $lookup->ID=$_REQUEST["ID"]; 
+    if($lookup->delete()) {
+      $show_data=false; 
+    } else  {
       $show_data=true; 
-      break; 
-    
-    case 'update': 
-      $lookup->ID = $_POST["ID"];    
-      $lookup->update_row($_POST["Name"], $_POST["LookupTypeID"]); 
-      $show_data=true;           
-      break; 
-  }
+    }
+    break; 
+  default: 
+    $show_data=false;      
 }
 
-/** kein Screen-Header, da als Unterformular eingesetzt  */
 
 if ($source=='table') {
   $info->print_screen_header($lookup->Title.' bearbeiten'); 
 }
 
+if (!$show_data) {goto pagefoot;}
 
-if ($show_data) {
   if ($source=='table') {
     $info->print_link_table('v_besonderheiten', 'sortcol=Name', $lookup->Titles,false);
   }
@@ -110,21 +122,30 @@ if ($show_data) {
       </td>
     </tr> 
 
-  </table> 
+
   <input type="hidden" name="option" value="update">  
   <input type="hidden" name="title" value="Besonderheit">       
   <input type="hidden" name="ID" value="' . $lookup->ID. '">
   <input type="hidden" name="source" value="'.$source.'">
   </form>
+
+  <tr> 
+  <td class="form-edit form-edit-col1"></td> 
+  <td class="form-edit form-edit-col2"><br>
+  '; 
+  $info->print_form_inline('delete_1',$lookup->ID,$lookup->Title, 'löschen'); 
+  echo '     
+  </td>
+</tr> 
+
+  </table> 
+
   '; 
   $info->source=$source; 
-  $info->print_link_delete_row2($lookup->table_name, $lookup->ID, $lookup->Title, false); 
-} 
-else {
-    $info->print_user_error(); 
-}
 
 
+
+pagefoot: 
 include_once('foot_raw.php');
 
 ?>

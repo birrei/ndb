@@ -692,37 +692,54 @@ class Schueler {
     }
   }    
 
-  function print_table_auswertung_uebungen(){
-    $query="
-        SELECT 
-            -- uebung.ID
-            uebungtyp.Name as Typ    
-            , YEAR(uebung.Datum) as Jahr
-            , MONTH(uebung.Datum) as Monat          
-            , SUM(uebung.Anzahl) as Anzahl 
-            , uebungtyp.Einheit            
-            , MIN(uebung.Datum) as `Datum Start`
-            , MAX(uebung.Datum) as `Datum Zuletzt`         
-            , COUNT(DISTINCT uebung.Datum) as Tage     
-            -- , uebung.SchuelerID
-            -- , uebung.UebungtypID
-        FROM  uebung 
-              left join uebungtyp on uebung.UebungtypID=uebungtyp.ID 
-              left join satz  on satz.ID=uebung.SatzID 
-              left join musikstueck on satz.MusikstueckID = musikstueck.ID
-              left JOIN sammlung on sammlung.ID = musikstueck.SammlungID      
-              left join material  on material.ID=uebung.MaterialID
-              left JOIN materialtyp on materialtyp.ID = material.MaterialtypID      
-              left join sammlung as sammlung2  on sammlung2.ID=material.SammlungID
-        WHERE uebung.SchuelerID = :ID 
-        AND UebungtypID  is not null 
-        GROUP by uebung.SchuelerID
-          , uebung.UebungtypID
-          , uebungtyp.Einheit
-          , YEAR(uebung.Datum)
-          , MONTH(uebung.Datum) 
-        ORDER BY `Datum Zuletzt` DESC              
-        "; 
+  function print_table_auswertung_uebungen($type=1){
+
+    switch($type) {
+      case 1: 
+        $query="
+            SELECT 
+                -- uebung.ID
+                uebungtyp.Name as Typ    
+                , YEAR(uebung.Datum) as Jahr
+                , MONTH(uebung.Datum) as Monat          
+                , SUM(uebung.Anzahl) as Anzahl 
+                , uebungtyp.Einheit            
+                , MIN(uebung.Datum) as `Datum Start`
+                , MAX(uebung.Datum) as `Datum Zuletzt`         
+                , COUNT(DISTINCT uebung.Datum) as Tage     
+                -- , uebung.SchuelerID
+                -- , uebung.UebungtypID
+            FROM  uebung 
+                  left join uebungtyp on uebung.UebungtypID=uebungtyp.ID 
+                  left join satz  on satz.ID=uebung.SatzID 
+                  left join musikstueck on satz.MusikstueckID = musikstueck.ID
+                  left JOIN sammlung on sammlung.ID = musikstueck.SammlungID      
+                  left join material  on material.ID=uebung.MaterialID
+                  left JOIN materialtyp on materialtyp.ID = material.MaterialtypID      
+                  left join sammlung as sammlung2  on sammlung2.ID=material.SammlungID
+            WHERE uebung.SchuelerID = :ID 
+            AND UebungtypID  is not null 
+            GROUP by uebung.SchuelerID
+              , uebung.UebungtypID
+              , uebungtyp.Einheit
+              , YEAR(uebung.Datum)
+              , MONTH(uebung.Datum) 
+            ORDER BY `Datum Zuletzt` DESC              
+            "; 
+
+      break; 
+
+      case 2: 
+      break; 
+      
+      case 3: 
+      break; 
+      
+      case 4: 
+      break; 
+
+    
+    }
 
     $stmt = $this->db->prepare($query); 
     $stmt->bindParam(':ID', $this->ID, PDO::PARAM_INT); 

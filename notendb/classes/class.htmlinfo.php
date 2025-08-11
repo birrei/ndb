@@ -167,7 +167,7 @@ class HTML_Info {
         <form action="'.$filename.'" method="post">
         <input type="hidden" name="ID" value="' . $ID. '">
         <input type="hidden" name="option" value="'.$option.'">      
-        <input type="submit" name="senden" value="'.$aktion.' bestätigen">             
+        <input type="submit" name="senden" value="'.$aktion.' bestätigen"  style="color:red">             
         </form>
         </p>
         '; 

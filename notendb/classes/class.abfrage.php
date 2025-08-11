@@ -98,7 +98,6 @@ class Abfrage {
     }
   }  
 
-
   function print_table(){
 
     $query="SELECT * from abfrage ORDER by Name"; 
@@ -116,7 +115,6 @@ class Abfrage {
       $this->info->print_error($select, $e); 
     }
   }
-
 
   function update_row($Name,$Beschreibung,$AbfragetypID) {
     // Nur Name, Beschreibung und Abfragetyp
@@ -178,6 +176,8 @@ class Abfrage {
     $select->bindParam(':ID', $this->ID, PDO::PARAM_INT);
     $select->execute(); 
 
+    // echo $select->rowCount(); 
+
     if ($select->rowCount()==1) {
       $row_data=$select->fetch();      
       $this->Name=$row_data["Name"];    
@@ -188,6 +188,7 @@ class Abfrage {
       return true; 
     } 
     else {
+      $this->info->print_user_error('Anzeige nicht möglich') ;          
       return false; 
     }
  

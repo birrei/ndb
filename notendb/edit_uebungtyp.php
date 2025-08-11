@@ -5,56 +5,55 @@ include_once('head.php');;
 include_once("classes/class.htmlinfo.php");
 include_once("classes/class.uebungtyp.php");
 
+$uebungtyp = new UebungTyp();   
 $info= new HTML_Info(); 
-$option=$_REQUEST["option"];
-$show_data=true; 
 
+$option=isset($_REQUEST["option"])?$_REQUEST["option"]:'edit';
+$show_data=true; 
 
 switch($option) {
 
   case 'insert': 
-    $uebungtyp = new UebungTyp();    
+ 
     $uebungtyp->insert_row('');
     $option='update'; 
     break; 
 
-  case 'edit': // über "Bearbeiten"-Link
-    $uebungtyp = new UebungTyp();       
+  case 'edit': // über "Bearbeiten"-Link       
     $uebungtyp->ID=$_REQUEST["ID"];
     $uebungtyp->load_row();  
     $option='update';     
     break; 
   
-  case 'update': 
-    $uebungtyp = new UebungTyp();       
+  case 'update':        
     $uebungtyp->ID=$_POST["ID"]; 
     $uebungtyp->update_row($_POST["Name"],$_POST["Einheit"]);  
     break; 
 
-  case 'delete_1': 
-    $uebungtyp = new UebungTyp();       
+  case 'delete_1':        
     $uebungtyp->ID = $_REQUEST["ID"];  
-    $uebungtyp->load_row(); 
-    $Name=$uebungtyp->Name; 
-    $info->print_form_confirm('edit_uebungtyp.php',$uebungtyp->ID,'delete_2','Löschung'); 
-    $show_data=true;      
+    if($uebungtyp->is_deletable()) {
+      $info->print_form_confirm(basename(__FILE__),$uebungtyp->ID,'delete_2','Löschung');    
+    } else {
+      $info->print_warning($uebungtyp->infotext); 
+    }
     break; 
 
-  case 'delete_2': 
-    $uebungtyp = new UebungTyp();       
+  case 'delete_2':        
     $uebungtyp->ID=$_REQUEST["ID"]; 
     $uebungtyp->delete(); 
     $info->print_info($uebungtyp->infotext); 
     $show_data=false; 
     break; 
+
+  default: 
+    $show_data=false;       
 }
 
 
 $info->print_screen_header($uebungtyp->Title.' bearbeiten'); 
 
 $info->print_link_table('uebungtyp', 'sortcol=Name', $uebungtyp->Titles,false);
-
-$info->print_form_inline('delete_1',$uebungtyp->ID,$uebungtyp->Title, 'löschen'); 
 
 // $info->print_form_inline('copy',$uebungtyp->ID,$uebungtyp->Title, 'kopieren'); 
 
@@ -90,21 +89,28 @@ echo '</p>
       <td class="form-edit form-edit-col1"></td> 
       <td class="form-edit form-edit-col2"><input class="btnSave" type="submit" name="senden" value="Speichern">  
       </td>
-    </tr> '; 
+    </tr> 
+    
 
-  ?>
+    <input type="hidden" name="option" value="update">       
+    <input type="hidden" name="ID" value="' . $uebungtyp->ID. '">
 
-  </table> 
-  <input type="hidden" name="option" value="<?php echo $option; ?>"> 
-  <input type="hidden" name="ID" value="<?php echo $uebungtyp->ID; ?>">
   </form>
-  <br>
-
-<?php 
 
 
-   
-// $info->print_link_delete_row2($uebungtyp->table_name, $uebungtyp->ID,'Uebung'); 
+  
+    <tr> 
+      <td class="form-edit form-edit-col1"></td> 
+      <td class="form-edit form-edit-col2"><br>
+      '; 
+      $info->print_form_inline('delete_1',$uebungtyp->ID,$uebungtyp->Title, 'löschen'); 
+      echo '     
+      </td>
+    </tr> 
+        
+    </table>'; 
+
+
 
 pagefoot: 
 

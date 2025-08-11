@@ -488,6 +488,8 @@ class Musikstueck {
     // SammlungID_New > 0 : Musikstück Kopie zu Sammlung Kopie 
     // SammlungID_New= 0: Musikstück Kopie an gleicher Sammlung 
 
+    // XXX Nummer hochzählen! 
+
     $sql="INSERT INTO musikstueck (
             `Name`
             , Opus

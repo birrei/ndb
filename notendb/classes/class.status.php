@@ -157,8 +157,35 @@ class status {
   }  
  
   function is_deletable() {
-    return true; 
-    // XXX 
+    $tmp_is_deletable=true; 
+    $tmp_infotext=''; 
+    $this->infotext=''; 
+    $select = $this->db->prepare("SELECT * from schueler_satz WHERE StatusID=:StatusID");
+    $select->bindValue(':StatusID', $this->ID); 
+    $select->execute();  
+    if ($select->rowCount() > 0 ){
+      $tmp_is_deletable=false;       
+      $tmp_infotext.='Es existieren noch '.$select->rowCount().' Schüler/Satz-Verknüpfungen<br>';   
+
+    }
+    
+    $select = $this->db->prepare("SELECT * from schueler_material WHERE StatusID=:StatusID");
+    $select->bindValue(':StatusID', $this->ID); 
+    $select->execute();  
+    if ($select->rowCount() > 0 ){
+      $tmp_is_deletable=false;       
+      $tmp_infotext.='Es existieren noch '.$select->rowCount().' Schüler/Material-Verknüpfungen<br>';
+    }
+  
+    if (!$tmp_is_deletable) {
+      $this->load_row(); 
+      $this->infotext='Der Status-Eintrag ID '.$this->ID.', Name: "'.$this->Name.'" kann nicht gelöscht werden<br>';
+      $this->infotext.=$tmp_infotext; 
+      // $this->info->print_user_error($this->infotext); 
+      return false; 
+    } else {
+      return true; 
+    }
   }
 
   function delete(){

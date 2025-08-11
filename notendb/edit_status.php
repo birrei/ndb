@@ -9,7 +9,7 @@ include_once("classes/class.htmlinfo.php");
 $status = new Status();
 $info= new HTML_Info(); 
 
-$option=$_REQUEST["option"];
+$option=isset($_REQUEST["option"])?$_REQUEST["option"]:'edit';
 
 $show_data=true; 
 
@@ -46,7 +46,7 @@ switch($option) {
     $Name=$status->Name; 
     
     if($status->is_deletable()) {
-      $info->print_form_confirm('edit_status.php',$ID,'delete_2','Löschung'); 
+      $info->print_form_confirm(basename(__FILE__),$status->ID,'delete_2','Löschung');    
     } else {
       $info->print_warning($status->infotext); 
     }
@@ -60,6 +60,10 @@ switch($option) {
     $info->print_info($status->infotext); 
     $show_data=false; 
     break; 
+
+  default: 
+    $show_data=false; 
+
 }
 
 $info->print_screen_header($status->Title.' bearbeiten'); 
@@ -69,7 +73,6 @@ $info->print_link_table('status', 'sortcol=Name', $status->Titles,false);
 if (!$show_data) {goto pagefoot;}
 
 ?>
-
 
 <form action="#" method="post">
 <table class="form-edit" width="100%"> 
@@ -89,23 +92,30 @@ if (!$show_data) {goto pagefoot;}
     </td>
   </tr> 
 
-  </table> 
 
   <input type="hidden" name="ID" value="<?php echo $ID; ?>">  
   <input type="hidden" name="option" value="update"> 
 
   </form>
 
-  <p> 
-  <form action="#" method="post">
-  <input type="hidden" name="ID" value="<?php echo $ID; ?>">
-  <input type="hidden" name="option" value="delete_1">      
-  <input type="submit" name="senden" value="Status löschen">             
-  </form>
-  </p>
 
 <?php 
 
+echo '
+    
+  <tr> 
+    <td class="form-edit form-edit-col1"></td> 
+    <td class="form-edit form-edit-col2"><br>
+    '; 
+    $info->print_form_inline('delete_1',$status->ID,$status->Title, 'löschen'); 
+    echo '     
+    </td>
+  </tr> 
+
+  </table> 
+
+
+'; 
 pagefoot: 
 
 include_once('foot.php');

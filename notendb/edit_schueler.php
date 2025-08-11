@@ -8,72 +8,56 @@ include_once("classes/class.htmlinfo.php");
 $schueler = new Schueler();
 $info= new HTML_Info(); 
 
-$show_data=false; 
+$option=isset($_REQUEST["option"])?$_REQUEST["option"]:'edit';
+$show_data=true; 
 
-if (isset($_REQUEST["option"])) {
-  switch($_REQUEST["option"]) {
+switch($option) {
+  case 'edit': // über "Bearbeiten"-Link
+    $schueler->ID=$_GET["ID"];
+    $show_data = $schueler->load_row();  
+    break; 
 
-    case 'edit': // über "Bearbeiten"-Link
-      $schueler->ID=$_GET["ID"];
-      if ($schueler->load_row()) {
-        $show_data=true;       
-      }
-      break; 
-
-    case 'insert': 
-      $schueler->insert_row('');
-      $show_data=true; 
-      break; 
-    
-    case 'update': 
-      $Aktiv=(isset($_POST["Aktiv"])?1:0);       
-      $schueler->ID = $_POST["ID"];    
-      $schueler->update_row($_POST["Name"],$_POST["Bemerkung"], $Aktiv); 
-      $show_data=true;           
-      break; 
-
-    case 'delete_1': 
-      $schueler->ID = $_REQUEST["ID"];  
-      $schueler->load_row(); 
-
-      $info->print_warning('Soll Schüler ID: '.$schueler->ID.', Name: "'.$schueler->Name.'" wirklich gelöscht werden?'); 
-      echo 
-      '<p> <form action="edit_schueler.php" method="post">
-      <input type="hidden" name="ID" value="' . $schueler->ID. '">
-      <input type="hidden" name="option" value="delete_2">      
-      <input type="hidden" name="title" value="Schüler"> 
-      <input type="submit" name="senden" value="Löschung bestätigen">             
-      </form></p>
-      '; 
-
-      $show_data=true;      
-      break;      
-    
-    case 'delete_2': 
-      $schueler->ID = $_POST["ID"];  
-      $schueler->delete(); 
-      $info->print_info('Der Schüler wurde gelöscht.'); 
-      $show_data=false; 
-      break;          
-
-    case 'copy': 
-      $ID_ref=$_REQUEST["ID"]; 
-      $schueler->ID=$ID_ref; 
-      $schueler->copy();   
-      $schueler->load_row();       
-      $info->print_info_copy($schueler->Title, $ID_ref, $schueler->ID, 'edit_schueler'); 
-      $show_data=true; 
-
+  case 'insert': 
+    $schueler->insert_row('');
+    break; 
   
-  }
+  case 'update': 
+    $Aktiv=(isset($_POST["Aktiv"])?1:0);       
+    $schueler->ID = $_POST["ID"];    
+    $schueler->update_row($_POST["Name"],$_POST["Bemerkung"], $Aktiv);        
+    break; 
+
+  case 'delete_1': 
+    $schueler->ID = $_REQUEST["ID"];  
+    $schueler->load_row(); 
+    $info->print_warning('Soll Schüler ID: '.$schueler->ID.', Name: "'.$schueler->Name.'" wirklich gelöscht werden?'); 
+    $info->print_form_confirm(basename(__FILE__),$schueler->ID,'delete_2','Löschung');       
+    break;      
+  
+  case 'delete_2': 
+    $schueler->ID = $_POST["ID"];  
+    $schueler->delete(); 
+    $info->print_info('Der Schüler wurde gelöscht.'); 
+    $show_data=false;     
+    break;          
+
+  case 'copy': 
+    $ID_ref=$_REQUEST["ID"]; 
+    $schueler->ID=$ID_ref; 
+    $schueler->copy();   
+    $schueler->load_row();       
+    $info->print_info_copy($schueler->Title, $ID_ref, $schueler->ID, 'edit_schueler'); 
+    break;          
+
+  default: 
+    $show_data=false;     
+
 }
 
 $info->print_screen_header($schueler->Title.' bearbeiten'); 
 $info->print_link_table('v_schueler', 'sortcol=Name', $schueler->Titles); 
 
 if (!$show_data) {goto pagefoot;}
-
-
   
 echo '
 <form action="edit_schueler.php" method="post">
@@ -101,9 +85,7 @@ echo '
 
     <textarea name="Bemerkung" rows=2 cols=120 oninput="changeBackgroundColor(this)">'.htmlentities($schueler->Bemerkung).'</textarea> 
 
-
-    </td>
-    
+    </td>    
     </label>
   </tr> 
 
@@ -145,41 +127,24 @@ echo '
   <a href="edit_uebung.php?SchuelerID=<?php echo $schueler->ID; ?>&option=insert" target="_blank" class="form-link form-link-switch">Übung hinzufügen</a>
   </p>
 
-
-
-
   </td> 
   <td class="form-edit form-edit-col2">
     <iframe src="edit_schueler_uebungen.php?SchuelerID=<?php echo $schueler->ID; ?>&source=iframe" height="300" id="subform1" name="Info" class="form-iframe-var2"></iframe>
   </td>
 </tr> 
-
-
-</table> 
-
 <?php 
-
-  
-echo '<p> 
-<form action="edit_schueler.php" method="post">
-    <input type="hidden" name="ID" value="' . $schueler->ID. '">
-    <input type="hidden" name="option" value="copy">      
-    <input type="hidden" name="title" value="Schüler"> 
-    <input type="submit" name="senden" value="Schüler kopieren">             
-</form>
-</p> '; 
-
-
-echo '<p> 
-<form action="edit_schueler.php" method="post">
-    <input type="hidden" name="ID" value="' . $schueler->ID. '">
-    <input type="hidden" name="option" value="delete_1">      
-    <input type="hidden" name="title" value="Schüler"> 
-    <input type="submit" name="senden" value="Schüler löschen">             
-</form>
-</p> '; 
-
-
+echo '
+  <tr> 
+    <td class="form-edit form-edit-col1"></td> 
+    <td class="form-edit form-edit-col2"><br>
+    '; 
+    $info->print_form_inline('delete_1',$schueler->ID,$schueler->Title, 'löschen'); 
+    $info->print_form_inline('copy',$schueler->ID,$schueler->Title, 'kopieren');   
+    echo '     
+    </td>
+  </tr> 
+</table>  '
+; 
 
 pagefoot: 
 

@@ -14,77 +14,64 @@ $SammlungID=(isset($_REQUEST["SammlungID"])?$_REQUEST["SammlungID"]:'');
 $material = new Material();
 $info= new HTML_Info(); 
 
-$show_data=false; 
+$option=isset($_REQUEST["option"])?$_REQUEST["option"]:'edit';
+$show_data=true; 
 
-if (isset($_REQUEST["option"])) {
-  switch($_REQUEST["option"]) {
+switch($option) {
+  case 'edit': // über "Bearbeiten"-Link
+    $material->ID=$_GET["ID"];
+    if ($material->load_row()) {
+      $SammlungID=$material->SammlungID;      
+    }
+    break; 
 
-    case 'edit': // über "Bearbeiten"-Link
-      $material->ID=$_GET["ID"];
-      if ($material->load_row()) {
-        $show_data=true;  
-        $SammlungID=$material->SammlungID;      
-      }
-      break; 
-
-    case 'insert': 
-
-      $material->insert_row($MaterialtypID, $SammlungID);
-      $show_data=true; 
-      break; 
-    
-    case 'update': 
-      $material->ID = $_POST["ID"];    
-      $material->update_row(
-          $_POST["MaterialtypID"]   
-          , $_POST["Name"]        
-          , $_POST["Bemerkung"]  
-          // , $_POST["SammlungID"]    
-          , $SammlungID        
-          )
-          ;
-      $show_data=true;           
-      break; 
-
-    case 'delete_1': 
-      $material->ID = $_REQUEST["ID"];  
-      $material->load_row(); 
-      
-      if($material->is_deletable()) {
-
-        $info->print_info('Soll Material ID: '.$material->ID.', Name: "'.$material->Name.'" wirklich gelöscht werden?'); 
-        echo 
-        '<p> <form action="edit_material.php" method="post">
-        <input type="hidden" name="ID" value="' . $material->ID. '">
-        <input type="hidden" name="option" value="delete_2">      
-        <input type="hidden" name="title" value="Material"> 
-        <input type="submit" name="senden" value="Löschung bestätigen">             
-        </form></p>
-        '; 
-      } else {
-        $info->print_warning($material->infotext); 
-      }
-      $show_data=true;      
-      break; 
+  case 'insert': 
+    $material->insert_row($MaterialtypID, $SammlungID);
+    break; 
   
-    case 'delete_2': 
-      $material->ID = $_POST["ID"];  
-      $material->delete(); 
-      $info->print_info('Der Datensatz wurde gelöscht.'); 
-      $show_data=false; 
-      break; 
+  case 'update': 
+    $material->ID = $_POST["ID"];    
+    $material->update_row(
+        $MaterialtypID
+        , $_POST["Name"]        
+        , $_POST["Bemerkung"]  
+        , $SammlungID        
+        )
+        ;
+    $show_data=true;           
+    break; 
 
-    case 'copy': 
-      $ID_ref=$_REQUEST["ID"]; 
-      $material->ID=$ID_ref; 
-      $material->copy();   
-      $material->load_row();
-      $SammlungID = $material->SammlungID;        
-      $info->print_info_copy($material->Title, $ID_ref, $material->ID, 'edit_material'); 
-      $show_data=true; 
-      break;       
+  case 'delete_1': 
+    $material->ID = $_REQUEST["ID"];  
+    $material->load_row(); 
+    
+    if($material->is_deletable()) {
+      $info->print_form_confirm(basename(__FILE__),$material->ID,'delete_2','Löschung'); 
 
-  }
+    } else {
+      $info->print_warning($material->infotext); 
+    }
+    $show_data=true;      
+    break; 
+
+  case 'delete_2': 
+    $material->ID = $_POST["ID"];  
+    $material->delete(); 
+    $info->print_info('Der Datensatz wurde gelöscht.'); 
+    $show_data=false; 
+    break; 
+
+  case 'copy': 
+    $ID_ref=$_REQUEST["ID"]; 
+    $material->ID=$ID_ref; 
+    $material->copy();   
+    $material->load_row();
+    $SammlungID = $material->SammlungID;        
+    $info->print_info_copy($material->Title, $ID_ref, $material->ID, 'edit_material'); 
+    $show_data=true; 
+    break;       
+  default: 
+    $show_data=false;   
 }
 
 $info->print_screen_header($material->Title.' bearbeiten'); 
@@ -173,7 +160,7 @@ echo '</td>
   </td>
   </tr> 
 
-  </table> 
+
   <input type="hidden" name="option" value="update"> 
   <input type="hidden" name="title" value="Material">          
   <input type="hidden" name="ID" value="<?php echo $material->ID; ?>">
@@ -184,28 +171,44 @@ echo '</td>
 
 
 echo 
-'<p> <form action="edit_material.php" method="post">
-<input type="hidden" name="ID" value="' . $material->ID. '">
-<input type="hidden" name="option" value="copy">      
-<input type="hidden" name="title" value="Material"> 
-<input type="submit" name="senden" value="Material kopieren">             
-</form></p>
-'; 
+'
+  <tr> 
+    <td class="form-edit form-edit-col1"></td> 
+    <td class="form-edit form-edit-col2">
+    <br>'; 
+    $info->print_form_inline('delete_1',$material->ID,$material->Title, 'löschen'); 
+    $info->print_form_inline('copy',$material->ID,$material->Title, 'kopieren'); 
+    echo '
+    </td>
+  </tr>
+  
+  </table> 
+
+';
+
+// echo 
+// '<p> <form action="edit_material.php" method="post">
+// <input type="hidden" name="ID" value="' . $material->ID. '">
+// <input type="hidden" name="option" value="copy">      
+// <input type="hidden" name="title" value="Material"> 
+// <input type="submit" name="senden" value="Material kopieren">             
+// </form>
+// </p>
+// '; 
 
 
 
-echo 
-'<p> <form action="edit_material.php" method="post">
-<input type="hidden" name="ID" value="' . $material->ID. '">
-<input type="hidden" name="option" value="delete_1">      
-<input type="hidden" name="title" value="Material"> 
-<input type="submit" name="senden" value="Material löschen">             
-</form></p>
-'; 
+// echo 
+// '<p> <form action="edit_material.php" method="post">
+// <input type="hidden" name="ID" value="' . $material->ID. '">
+// <input type="hidden" name="option" value="delete_1">      
+// <input type="hidden" name="title" value="Material"> 
+// <input type="submit" name="senden" value="Material löschen">             
+// </form></p>
+// '; 
 
 
    
-// $info->print_link_delete_row2($material->table_name, $material->ID,'Material'); 
 
 pagefoot: 
 
