@@ -41,23 +41,16 @@ switch($option) {
 
   case 'delete_1': 
     $ID=$_REQUEST["ID"]; 
-    $status->ID = $ID;  
-    $status->load_row(); 
-    $Name=$status->Name; 
-    
+    $status->ID = $ID; 
     if($status->is_deletable()) {
       $info->print_form_confirm(basename(__FILE__),$status->ID,'delete_2','Löschung');    
-    } else {
-      $info->print_warning($status->infotext); 
-    }
-    $show_data=true;      
+    } 
     break; 
 
   case 'delete_2': 
     $ID=$_REQUEST["ID"]; 
     $status->ID = $ID;  
     $status->delete(); 
-    $info->print_info($status->infotext); 
     $show_data=false; 
     break; 
 
@@ -67,7 +60,6 @@ switch($option) {
 }
 
 $info->print_screen_header($status->Title.' bearbeiten'); 
-
 $info->print_link_table('status', 'sortcol=Name', $status->Titles,false);
 
 if (!$show_data) {goto pagefoot;}

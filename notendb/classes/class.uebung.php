@@ -153,6 +153,11 @@ class Uebung {
     }  
   }   
 
+  function is_deletable() {
+    // aktuell keine abhängigen Objekte 
+    return true; 
+  }
+
   function copy(){
 
     $sql="INSERT INTO uebung (Name

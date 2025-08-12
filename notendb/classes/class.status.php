@@ -157,31 +157,31 @@ class status {
   }  
  
   function is_deletable() {
-    $tmp_is_deletable=true; 
+    $deletable=true; 
+
     $tmp_infotext=''; 
     $this->infotext=''; 
     $select = $this->db->prepare("SELECT * from schueler_satz WHERE StatusID=:StatusID");
     $select->bindValue(':StatusID', $this->ID); 
     $select->execute();  
     if ($select->rowCount() > 0 ){
-      $tmp_is_deletable=false;       
+      $deletable=false;       
       $tmp_infotext.='Es existieren noch '.$select->rowCount().' Schüler/Satz-Verknüpfungen<br>';   
-
     }
     
     $select = $this->db->prepare("SELECT * from schueler_material WHERE StatusID=:StatusID");
     $select->bindValue(':StatusID', $this->ID); 
     $select->execute();  
     if ($select->rowCount() > 0 ){
-      $tmp_is_deletable=false;       
+      $deletable=false;       
       $tmp_infotext.='Es existieren noch '.$select->rowCount().' Schüler/Material-Verknüpfungen<br>';
     }
   
-    if (!$tmp_is_deletable) {
+    if (!$deletable) {
       $this->load_row(); 
       $this->infotext='Der Status-Eintrag ID '.$this->ID.', Name: "'.$this->Name.'" kann nicht gelöscht werden<br>';
       $this->infotext.=$tmp_infotext; 
-      // $this->info->print_user_error($this->infotext); 
+      $this->info->print_warning($this->infotext); 
       return false; 
     } else {
       return true; 
@@ -195,14 +195,12 @@ class status {
 
     try {
       $delete->execute(); 
-      $this->infotext='Die Zeile wurde gelöscht.'; 
+      $this->info->print_info('Der Status wurde gelöscht.');       
       return true;         
     }
     catch (PDOException $e) {
-      include_once("class.htmlinfo.php"); 
-      $info = new HTML_Info();      
-      $info->print_user_error(); 
-      $info->print_error($delete, $e);  
+      $this->info->print_user_error(); 
+      $this->info->print_error($delete, $e);  
       return false;  
     }  
   }    

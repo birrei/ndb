@@ -442,6 +442,23 @@ class Schueler {
     }  
   }  
 
+  function is_deletable() {
+    
+    $select = $this->db->prepare("SELECT * from sammlung WHERE VerlagID=:VerlagID");
+    $select->bindValue(':VerlagID', $this->ID); 
+    $select->execute();  
+
+    if ($select->rowCount() > 0 ){
+      $this->load_row(); 
+      $this->info->print_warning('Der Verlag ID '.$this->ID.', Name: "'.$this->Name.'" kann nicht gelöscht werden. 
+                                 Es existieren '.$select->rowCount().' zugeordnete Sammlungen.<br>'); 
+      return false;       
+    } else {
+      return true; 
+    }
+  }
+
+
   function copy(){
 
     $sql="INSERT INTO schueler (Name, Bemerkung)

@@ -159,33 +159,36 @@ include_once("class.htmltable.php");
 
   function delete(){
 
-    $select = $this->db->prepare("SELECT * from sammlung WHERE VerlagID=:VerlagID");
-    $select->bindValue(':VerlagID', $this->ID); 
-    $select->execute();  
-    if ($select->rowCount() > 0 ){
-      $this->load_row(); 
-      echo '<p>Der Verlag ID '.$this->ID.' "'.$this->Name.'" 
-        kann nicht gelöscht werden, da noch eine Zuordnung auf '.$select->rowCount().' Sammlungen existiert. </p>';   
-      return false;            
-    }
- 
     $delete = $this->db->prepare("DELETE FROM `verlag` WHERE ID=:ID"); 
     $delete->bindValue(':ID', $this->ID);  
 
     try {
       $delete->execute(); 
-      echo '<p>Der Verlag wurde gelöscht.</p>'; 
-      return true;         
+      $this->info->print_info('Der Verlag wurde gelöscht.'); 
+      return true;             
     }
     catch (PDOException $e) {
-      include_once("class.htmlinfo.php"); 
-      $info = new HTML_Info();      
-      $info->print_user_error(); 
-      $info->print_error($delete, $e);  
-      return false;  
+      $this->info->print_user_error(); 
+      $this->info->print_error($delete, $e);  
+      return false;   
     }  
   }  
 
+  function is_deletable() {
+    
+    $select = $this->db->prepare("SELECT * from sammlung WHERE VerlagID=:VerlagID");
+    $select->bindValue(':VerlagID', $this->ID); 
+    $select->execute();  
+
+    if ($select->rowCount() > 0 ){
+      $this->load_row(); 
+      $this->info->print_warning('Der Verlag ID '.$this->ID.', Name: "'.$this->Name.'" kann nicht gelöscht werden. 
+                                 Es existieren '.$select->rowCount().' zugeordnete Sammlungen.<br>'); 
+      return false;       
+    } else {
+      return true; 
+    }
+  }
 
 
 }

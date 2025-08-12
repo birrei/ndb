@@ -183,6 +183,23 @@ class Standort {
     }      
   }
 
+  function is_deletable() {
+    
+    $select = $this->db->prepare("SELECT * from sammlung WHERE StandortID=:StandortID");
+    $select->bindValue(':StandortID', $this->ID); 
+    $select->execute();  
+
+    if ($select->rowCount() > 0 ){
+      $this->load_row(); 
+      $this->info->print_warning('Der Standort ID '.$this->ID.', Name: "'.$this->Name.'" kann nicht gelöscht werden. 
+                                 Es existieren '.$select->rowCount().' zugeordnete Sammlungen.<br>'); 
+      return false;       
+    } else {
+      return true; 
+    }
+  }
+
+
   function print_preselect($value_selected=''){
 
     $query="SELECT ID, Name 

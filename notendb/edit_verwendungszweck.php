@@ -29,23 +29,21 @@ switch($option) {
 
   case 'delete_1': 
     $verwendungszweck->ID = $_REQUEST["ID"];  
-    $verwendungszweck->load_row(); 
-    $info->print_form_confirm(basename(__FILE__),$verwendungszweck->ID,'delete_2','Löschung');    
+    if($verwendungszweck->is_deletable()) {
+      $info->print_form_confirm(basename(__FILE__),$verwendungszweck->ID,'delete_2','Löschung');    
+    }  
     break; 
 
   case 'delete_2': 
     $verwendungszweck->ID=$_REQUEST["ID"]; 
-    if($verwendungszweck->delete()) {
-      $show_data=false; 
-    } else  {
-      $show_data=true; 
-    }
+    $verwendungszweck->delete(); 
+    $show_data=false; 
+
   break; 
 
   default: 
     $show_data=false;    
-
-  
+    
 }
 
 $info->print_screen_header($verwendungszweck->Title.' bearbeiten'); 

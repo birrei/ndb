@@ -70,6 +70,24 @@ class Schwierigkeitsgrad {
     }
   }
 
+    function is_deletable() {
+    
+    $select = $this->db->prepare("SELECT * from satz_schwierigkeitsgrad WHERE SchwierigkeitsgradID=:SchwierigkeitsgradID");
+    $select->bindValue(':SchwierigkeitsgradID', $this->ID); 
+    $select->execute();  
+
+    if ($select->rowCount() > 0 ){
+      $this->load_row(); 
+      $this->info->print_warning('Der Schwierigkeitsgrad ID '.$this->ID.', Name: "'.$this->Name.'" kann nicht gelöscht werden. 
+                                 Es existieren '.$select->rowCount().' zugeordnete Sätze.<br>'); 
+      return false;       
+    } else {
+      return true; 
+    }
+  }
+
+
+
   function print_table(){
 
     $query="SELECT * from schwierigkeitsgrad ORDER by Name"; 

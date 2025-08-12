@@ -102,30 +102,21 @@ class UebungTyp {
     }  
   }   
 
-  
   function is_deletable() {
-    $tmp_is_deletable=true; 
-    $tmp_infotext=''; 
-    $this->infotext=''; 
+    
     $select = $this->db->prepare("SELECT * from uebung WHERE UebungtypID=:UebungtypID");
     $select->bindValue(':UebungtypID', $this->ID); 
     $select->execute();  
+
     if ($select->rowCount() > 0 ){
-      $tmp_is_deletable=false;       
-      $tmp_infotext.='Es existieren '.$select->rowCount().' Übungen dieses Typs.<br>';   
-
-    }
-
-    if (!$tmp_is_deletable) {
       $this->load_row(); 
-      $this->infotext='Der Übungtyp ID '.$this->ID.', Name: "'.$this->Name.'" kann nicht gelöscht werden<br>';
-      $this->infotext.=$tmp_infotext; 
-      return false; 
+      $this->info->print_warning('Der Übungstyp ID '.$this->ID.', Name: "'.$this->Name.'" kann nicht gelöscht werden. 
+                                 Es existieren '.$select->rowCount().' zugeordnete Übungen.<br>'); 
+      return false;       
     } else {
       return true; 
     }
   }
-
 
   function print_select($value_selected=''){
 

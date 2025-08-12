@@ -29,17 +29,15 @@ switch($option) {
 
   case 'delete_1': 
     $verlag->ID = $_REQUEST["ID"];  
-    $verlag->load_row(); 
-    $info->print_form_confirm(basename(__FILE__),$verlag->ID,'delete_2','Löschung');    
+    if($verlag->is_deletable()) {
+      $info->print_form_confirm(basename(__FILE__),$verlag->ID,'delete_2','Löschung');    
+    }      
     break; 
 
   case 'delete_2': 
     $verlag->ID=$_REQUEST["ID"]; 
-    if($verlag->delete()) {
-      $show_data=false; 
-    } else  {
-      $show_data=true; 
-    }
+    $verlag->delete(); 
+    $show_data=false; 
   break; 
 
   default: 
