@@ -200,6 +200,27 @@ class Verwendungszweck {
   }
 
 
+  function print_preselect($value_selected=''){
+
+    $query="SELECT ID, Name 
+                  FROM verwendungszweck 
+                  ORDER BY Name";
+    
+    $stmt = $this->db->prepare($query); 
+
+    try {
+      $stmt->execute(); 
+      $html = new HTML_Select($stmt); 
+      $html->print_preselect("VerwendungszweckID", $value_selected, true); 
+    }
+    catch (PDOException $e) {
+      include_once("class.htmlinfo.php"); 
+      $info = new HTML_Info();      
+      $info->print_user_error(); 
+      $info->print_error($stmt, $e); 
+    }
+  }
+
 
 }
 

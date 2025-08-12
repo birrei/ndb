@@ -33,12 +33,11 @@ h3 {
 
       <tr> <td class="start"> <h3>Sammlung Stammdaten</h3></td> 
       <td class="start">
-                <a href="show_table2.php?table=verlag&sortcol=Name">Verlage</a> |  
-                <a href="show_table2.php?table=standort&sortcol=Name">Standorte</a> | 
-                <a href="show_table2.php?table=linktype&sortcol=Name">Link-Typen</a> 
-
-              </td>
-            </tr>
+            <a href="show_table2.php?table=verlag&sortcol=Name">Verlage</a> |  
+            <a href="show_table2.php?table=standort&sortcol=Name">Standorte</a> | 
+            <a href="show_table2.php?table=linktype&sortcol=Name">Link-Typen</a> 
+        </td>
+      </tr>
 
         <tr> <td class="start"> <h3>Musikstück Stammdaten</h3> </td> 
       
@@ -86,7 +85,8 @@ h3 {
 
         <tr> <td class="start"> <h3>Tests und Info-Sichten</h3> </td> 
         <td class="start">
-            <a href="tests.php?title=Tests" tabindex="-1">Tests</a> |   
+            <a href="show_table3.php">Verwendungszweck Planung</a>  <!-- XXX -->          
+            <a href="tests.php?title=Tests">Tests</a> |   
             <a href="show_table2.php?table=v2_info_Tempobezeichnungen&sortcol=Tempobezeichnung">Verwendete Tempobezeichnungen</a> | 
             <a href="show_table2.php?table=v2_info_Spieldauern&sortcol=Spieldauer">Verwendete Spieldauern</a> 
             </td>
