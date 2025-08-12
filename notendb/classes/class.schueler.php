@@ -433,11 +433,9 @@ class Schueler {
       // echo '<p>Der Schüler wurde gelöscht. </p>';  
       return true;                
     }
-    catch (PDOException $e) {
-      include_once("class.htmlinfo.php"); 
-      $info = new HTML_Info();      
-      $info->print_user_error(); 
-      $info->print_error($delete, $e);  
+    catch (PDOException $e) {  
+      $this->info->print_user_error(); 
+      $this->info->print_error($delete, $e);  
       return false; 
     }  
   }  
