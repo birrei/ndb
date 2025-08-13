@@ -101,13 +101,12 @@ h3 {
             </td>
       </tr>           
 
-
-
-        <tr> 
+      <tr> 
           <td class="start"> <h3>Repository</h3> </td> 
           <td class="start">    
             <a href="https://github.com/birrei/ndb/tree/main" tabindex="-1" target="_blank">GitHub</a> 
             <a href="https://github.com/birrei/ndb/blob/main/changelog.md" tabindex="-1" target="_blank">Changelog</a>
+            <a href="https://github.com/birrei/ndb/commits/main/" tabindex="-1" target="_blank">Commits</a>
             </td>
       </tr>            
 
