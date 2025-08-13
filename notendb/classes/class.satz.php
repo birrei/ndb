@@ -217,7 +217,6 @@ class Satz {
  
   function print_select($value_selected='', $caption=''){
 
-
     $query="SELECT DISTINCT 
             `ID` as SammlungID, Name 
             FROM `sammlung` 
@@ -888,7 +887,10 @@ class Satz {
     }
   }  
 
-
+  function is_deletable() {
+    return true; // aktuell keine Abängigkeiten berücksichtigt. 
+   
+  }
 
    
 }

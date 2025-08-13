@@ -838,7 +838,10 @@ class Musikstueck {
     }
   }
 
-  
+  function is_deletable() {
+    return true; // aktuell keine Abängigkeiten berücksichtigt. 
+   
+  }  
 }
 
 

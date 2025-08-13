@@ -419,11 +419,28 @@ class Schueler {
     }  
   }       
 
+  function delete_uebungen(){
+
+    $delete = $this->db->prepare("DELETE FROM `uebung` WHERE SchuelerID=:ID"); 
+    $delete->bindValue(':ID', $this->ID);  
+
+    try {
+      $delete->execute(); 
+    }
+    catch (PDOException $e) {
+      include_once("class.htmlinfo.php"); 
+      $info = new HTML_Info();      
+      $info->print_user_error(); 
+      $info->print_error($delete, $e);  
+    }  
+  }
+
   function delete(){
 
     $this->delete_materials(); 
     $this->delete_satze(); 
     $this->delete_schwierigkeitsgrade(); 
+    $this->delete_uebungen();     
       
     $delete = $this->db->prepare("DELETE FROM `schueler` WHERE ID=:ID"); 
     $delete->bindValue(':ID', $this->ID);  
@@ -442,14 +459,14 @@ class Schueler {
 
   function is_deletable() {
     
-    $select = $this->db->prepare("SELECT * from sammlung WHERE VerlagID=:VerlagID");
-    $select->bindValue(':VerlagID', $this->ID); 
+    $select = $this->db->prepare("SELECT * from uebung WHERE SchuelerID=:SchuelerID");
+    $select->bindValue(':SchuelerID', $this->ID); 
     $select->execute();  
 
     if ($select->rowCount() > 0 ){
       $this->load_row(); 
-      $this->info->print_warning('Der Verlag ID '.$this->ID.', Name: "'.$this->Name.'" kann nicht gelöscht werden. 
-                                 Es existieren '.$select->rowCount().' zugeordnete Sammlungen.<br>'); 
+      $this->info->print_warning('Der Schüler ID '.$this->ID.', Name: "'.$this->Name.'" kann nicht gelöscht werden. 
+                                  Es existieren '.$select->rowCount().' zugeordnete Übungen.<br>'); 
       return false;       
     } else {
       return true; 

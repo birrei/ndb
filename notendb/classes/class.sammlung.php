@@ -867,7 +867,11 @@ include_once('class.link.php');
       $musikstueck->print(); 
     }
   }
-
+  
+  function is_deletable() {
+    return true; // aktuell keine Abängigkeiten berücksichtigt. 
+   
+  }
 
 
 

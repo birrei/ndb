@@ -153,19 +153,24 @@ class Materialtyp {
     }
   }  
 
- 
-  function delete(){
 
+  function is_deletable() {
+    
     $select = $this->db->prepare("SELECT * from material WHERE MaterialtypID=:MaterialtypID");
     $select->bindValue(':MaterialtypID', $this->ID); 
     $select->execute();  
+
     if ($select->rowCount() > 0 ){
       $this->load_row(); 
-      echo '<p>Die Materialtyp ID '.$this->ID.' "'.$this->Name.'" 
-        kann nicht gelöscht werden, da noch eine Zuordnung auf '.$select->rowCount().' 
-        Materialien existiert. </p>';   
-      return false;            
+      $this->info->print_warning('Der Materialtyp ID '.$this->ID.', Name: "'.$this->Name.'" kann nicht gelöscht werden. 
+                                  Es existieren '.$select->rowCount().' zugeordnete Materialien.<br>'); 
+      return false;       
+    } else {
+      return true; 
     }
+  }
+
+  function delete(){
  
     $delete = $this->db->prepare("DELETE FROM `materialtyp` WHERE ID=:ID"); 
     $delete->bindValue(':ID', $this->ID);  
