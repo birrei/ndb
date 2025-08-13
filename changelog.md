@@ -1,5 +1,7 @@
 ﻿# Changelog  
 
+12.08.2025: Screen "Verwendungszweck Planung" - Testing ... 
+
 28.07.2025: Übernahme Einzelfelder "Tonarten" / "Taktarten" zu Standard-Lookups   
 
 20.05.2025: Neu: Übung (noch expermimentell)
