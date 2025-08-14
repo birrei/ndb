@@ -1,8 +1,8 @@
 ﻿# Changelog  
 
-12.08.2025: Screen "Verwendungszweck Planung" (Entwurf, Testing ...)  
+12.08.2025: Neuer Screen "Verwendungszweck Planung" 
 
-28.07.2025: Entfernung Einzelfelder "Tonarte" / "Taktart" (Übernahme zu Standard-Lookups)    
+28.07.2025: Entfernung Einzelfelder "Tonart" / "Taktart" (Übernahme zu Standard-Lookups)    
 
 01.07.2025: Funktion Sammlung Druck (Beta, sehr einfache Startversion)
 
