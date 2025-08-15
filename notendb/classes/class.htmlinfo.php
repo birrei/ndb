@@ -160,11 +160,10 @@ class HTML_Info {
 
 
 
-    function print_form_confirm($filename,$ID, $option,$aktion) {
+    function print_form_confirm($filename,$ID, $option,$aktion, $text='') {
 
         echo 
-        '<p>
-        <form action="'.$filename.'" method="post">
+        '<p>'.($text!=''?$text:'').'<br><form action="'.$filename.'" method="post">
         <input type="hidden" name="ID" value="' . $ID. '">
         <input type="hidden" name="option" value="'.$option.'">      
         <input type="submit" name="senden" value="'.$aktion.' bestätigen"  style="color:red">             

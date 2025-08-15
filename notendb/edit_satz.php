@@ -51,7 +51,8 @@ switch($option) {
     $satz->ID = $_REQUEST["ID"];  
     $satz->load_row();
     if($satz->is_deletable()) {
-      $info->print_form_confirm(basename(__FILE__),$satz->ID,'delete_2','Löschung');        
+      $info->print_form_confirm(basename(__FILE__),$satz->ID,'delete_2','Löschung', 
+                      'Soll Satz ID: '.$satz->ID.', Name: "'.$satz->Name.'" wirklich gelöscht werden?');        
     }         
     break;      
   
@@ -67,6 +68,8 @@ switch($option) {
 
 
 $info->print_screen_header($satz->Title.' bearbeiten'); 
+// Hier wird kein "Daten anzeigen" Button angezeigt. 
+// Eine Übersicht von Sätzen bezieht sich immer auf ein Musikstück. 
 
 if (!$show_data) {goto pagefoot;}
 

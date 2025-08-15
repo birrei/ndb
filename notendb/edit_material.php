@@ -45,7 +45,8 @@ switch($option) {
     $material->ID = $_REQUEST["ID"];  
     $material->load_row(); 
     if($material->is_deletable()) {
-      $info->print_form_confirm(basename(__FILE__),$material->ID,'delete_2','Löschung'); 
+      $info->print_form_confirm(basename(__FILE__),$material->ID,'delete_2','Löschung', 
+                      'Soll Material ID: '.$material->ID.', Name: "'.$material->Name.'" wirklich gelöscht werden?');        
     } 
 
     $show_data=true;      

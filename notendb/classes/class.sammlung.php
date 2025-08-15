@@ -697,7 +697,7 @@ include_once('class.link.php');
 
     try {
       $delete->execute(); 
-      $this->info->print_info('Der Satz wurde gelöscht.');              
+      $this->info->print_info('Die Sammlung wurde gelöscht.');              
       return true;          
     }
     catch (PDOException $e) {

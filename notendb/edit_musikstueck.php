@@ -52,7 +52,8 @@ switch($_REQUEST["option"]) {
     $musikstueck->ID = $_REQUEST["ID"];  
     $musikstueck->load_row(); 
     if($musikstueck->is_deletable()) {
-      $info->print_form_confirm(basename(__FILE__),$musikstueck->ID,'delete_2','Löschung');    
+      $info->print_form_confirm(basename(__FILE__),$musikstueck->ID,'delete_2','Löschung', 
+                      'Soll Musikstück ID: '.$musikstueck->ID.', Name: "'.$musikstueck->Name.'" wirklich gelöscht werden?');        
     }        
     break;      
   
@@ -69,6 +70,9 @@ switch($_REQUEST["option"]) {
 
 
 $info->print_screen_header($musikstueck->Title.' bearbeiten'); 
+
+// Hier wird kein "Daten anzeigen" Button angezeigt. 
+// Eine Übersicht von Musikstücken bezieht sich immer auf eine Sammlung. 
 
 if (!$show_data) {goto pagefoot;}
   
