@@ -60,9 +60,8 @@ class Erprobt {
       
     }
     catch (PDOException $e) {
-      $info = new HTML_Info();      
-      $info->print_user_error(); 
-      $info->print_error($stmt, $e); 
+      $this->info->print_user_error(); 
+      $this->info->print_error($stmt, $e); 
     }
   }
 
@@ -99,9 +98,8 @@ class Erprobt {
       $this->load_row();  
     }
     catch (PDOException $e) {
-      $info = new HTML_Info();      
-      $info->print_user_error(); 
-      $info->print_error($update, $e); 
+      $this->info->print_user_error(); 
+      $this->info->print_error($update, $e);  
     }
   }
 
@@ -141,42 +139,44 @@ class Erprobt {
       $this->titles_selected_list = $html->titles_selected_list;      
     }
     catch (PDOException $e) {
-      $info = new HTML_Info();      
-      $info->print_user_error(); 
-      $info->print_error($stmt, $e); 
+      $this->info->print_user_error(); 
+      $this->info->print_error($stmt, $e); 
     }
   }  
 
 
   function delete(){
 
-    $select = $this->db->prepare("SELECT * from satz_erprobt WHERE ErprobtID=:ErprobtID");
-    $select->bindValue(':ErprobtID', $this->ID); 
-    $select->execute();  
-    if ($select->rowCount() > 0 ){
-      $this->load_row(); 
-      echo '<p>Das Erprobt-Attribut ID '.$this->ID.' "'.$this->Name.'" 
-        kann nicht gelöscht werden, da noch eine Zuordnung auf '.$select->rowCount().' 
-        Sätze existiert. </p>';   
-      return false;            
-    }
- 
     $delete = $this->db->prepare("DELETE FROM `erprobt` WHERE ID=:ID"); 
     $delete->bindValue(':ID', $this->ID);  
 
     try {
       $delete->execute(); 
-      echo '<p>Die Zeile wurde gelöscht.</p>'; 
+      $this->info->print_info('Der Erprobt-Eintrag wurde gelöscht');     
       return true;         
     }
     catch (PDOException $e) {
-      $info = new HTML_Info();      
-      $info->print_user_error(); 
-      $info->print_error($delete, $e);  
+      $this->info->print_user_error(); 
+      $this->info->print_error($delete, $e);  
       return false;  
     }  
   }  
 
+  function is_deletable() {
+    
+    $select = $this->db->prepare("SELECT * from satz_erprobt WHERE ErprobtID=:ErprobtID");
+    $select->bindValue(':ErprobtID', $this->ID); 
+    $select->execute();  
+
+    if ($select->rowCount() > 0 ){
+      $this->load_row(); 
+      $this->info->print_warning('Erprobt-Ausprägung ID '.$this->ID.', Name: "'.$this->Name.'" kann nicht gelöscht werden. 
+                                 Es existieren '.$select->rowCount().' zugeordnete Sätze.<br>'); 
+      return false;       
+    } else {
+      return true; 
+    }
+  }
 
 }
 

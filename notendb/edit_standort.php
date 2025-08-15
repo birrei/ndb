@@ -30,17 +30,17 @@ switch($option) {
   case 'delete_1': 
     $standort->ID = $_REQUEST["ID"];  
     $standort->load_row(); 
-    $info->print_form_confirm(basename(__FILE__),$standort->ID,'delete_2','Löschung');    
+    if($standort->is_deletable()) {
+      $info->print_form_confirm(basename(__FILE__),$standort->ID,'delete_2','Löschung');        
+    }     
+   
     break; 
 
   case 'delete_2': 
     $standort->ID=$_REQUEST["ID"]; 
-    if($standort->delete()) {
-      $show_data=false; 
-    } else  {
-      $show_data=true; 
-    }
-  break; 
+    $standort->delete(); 
+    $show_data=false;   
+    break; 
 
   default: 
     $show_data=false;       

@@ -30,14 +30,14 @@ switch($option) {
   case 'delete_1': 
     $schueler->ID = $_REQUEST["ID"];  
     $schueler->load_row(); 
-    $info->print_warning('Soll Schüler ID: '.$schueler->ID.', Name: "'.$schueler->Name.'" wirklich gelöscht werden?'); 
-    $info->print_form_confirm(basename(__FILE__),$schueler->ID,'delete_2','Löschung');       
+    if($schueler->is_deletable()) {
+      $info->print_form_confirm(basename(__FILE__),$schueler->ID,'delete_2','Löschung');        
+    }      
     break;      
   
   case 'delete_2': 
     $schueler->ID = $_POST["ID"];  
     $schueler->delete(); 
-    $info->print_info('Der Schüler wurde gelöscht.'); 
     $show_data=false;     
     break;          
 

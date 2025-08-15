@@ -38,10 +38,8 @@ class Standort {
       $this->load_row();  
     }
       catch (PDOException $e) {
-      include_once("class.htmlinfo.php"); 
-      $info = new HTML_Info();      
-      $info->print_user_error(); 
-      $info->print_error($insert, $e);  ; 
+      $this->info->print_user_error(); 
+      $this->info->print_error($insert, $e);  ; 
     }
   }  
  
@@ -61,10 +59,8 @@ class Standort {
       
     }
     catch (PDOException $e) {
-      include_once("class.htmlinfo.php"); 
-      $info = new HTML_Info();      
-      $info->print_user_error(); 
-      $info->print_error($stmt, $e); 
+      $this->info->print_user_error(); 
+      $this->info->print_error($stmt, $e); 
     }
   }
 
@@ -82,10 +78,8 @@ class Standort {
       $html->print_table2(); 
     }
     catch (PDOException $e) {
-      include_once("class.htmlinfo.php"); 
-      $info = new HTML_Info();      
-      $info->print_user_error(); 
-      $info->print_error($select, $e); 
+      $this->info->print_user_error(); 
+      $this->info->print_error($select, $e);
     }
   }
 
@@ -104,10 +98,8 @@ class Standort {
       $this->load_row();  
     }
     catch (PDOException $e) {
-      include_once("class.htmlinfo.php"); 
-      $info = new HTML_Info();      
-      $info->print_user_error(); 
-      $info->print_error($stmt, $e); 
+      $this->info->print_user_error(); 
+      $this->info->print_error($update, $e); 
     }
   }
 
@@ -146,39 +138,24 @@ class Standort {
       $this->titles_selected_list = $html->titles_selected_list;       
     }
     catch (PDOException $e) {
-      include_once("class.htmlinfo.php"); 
-      $info = new HTML_Info();      
-      $info->print_user_error(); 
-      $info->print_error($stmt, $e); 
+      $this->info->print_user_error(); 
+      $this->info->print_error($stmt, $e); 
     }
   }  
 
   function delete(){
 
-    $select = $this->db->prepare("SELECT * from sammlung WHERE StandortID=:StandortID");
-    $select->bindValue(':StandortID', $this->ID); 
-    $select->execute();  
-    if ($select->rowCount() > 0 ){
-      $this->load_row(); 
-      echo '<p>Der Standort ID: '.$this->ID.', Name: "'.$this->Name.'" 
-            kann nicht gelöscht werden da noch eine Zuordnung auf '.$select->rowCount().' 
-            Sammlungen existiert. </p>';   
-      return false;            
-    }
- 
     $delete = $this->db->prepare("DELETE FROM `standort` WHERE ID=:ID"); 
     $delete->bindValue(':ID', $this->ID);  
 
     try {
       $delete->execute(); 
-      echo '<p>Der Standort wurde gelöscht.</p>'; 
+      $this->info->print_info('Der Standort wurde gelöscht.');             
       return true;         
     }
     catch (PDOException $e) {
-      include_once("class.htmlinfo.php"); 
-      $info = new HTML_Info();      
-      $info->print_user_error(); 
-      $info->print_error($delete, $e);  
+      $this->info->print_user_error(); 
+      $this->info->print_error($delete, $e);  
       return false;  
     }      
   }
@@ -214,10 +191,8 @@ class Standort {
       $html->print_preselect("StandortID", $value_selected, true); 
     }
     catch (PDOException $e) {
-      include_once("class.htmlinfo.php"); 
-      $info = new HTML_Info();      
-      $info->print_user_error(); 
-      $info->print_error($stmt, $e); 
+      $this->info->print_user_error(); 
+      $this->info->print_error($stmt, $e); 
     }
   }
 

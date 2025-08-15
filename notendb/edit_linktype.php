@@ -31,17 +31,17 @@ switch($option) {
   case 'delete_1': 
     $linktype->ID = $_REQUEST["ID"];  
     $linktype->load_row(); 
-    $info->print_form_confirm(basename(__FILE__),$linktype->ID,'delete_2','Löschung');  
+    if($linktype->is_deletable()) {
+      $info->print_form_confirm(basename(__FILE__),$linktype->ID,'delete_2','Löschung'); 
+    }       
+      
     $show_data=true;      
     break; 
 
   case 'delete_2': 
     $linktype->ID=$_REQUEST["ID"]; 
-    if($linktype->delete()) {
-      $show_data=false; 
-    } else  {
-      $show_data=true; 
-    }
+    $linktype->delete(); 
+    $show_data=false; 
     break; 
     
   default: 

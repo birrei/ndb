@@ -49,10 +49,8 @@ include_once('class.link.php');
       $this->load_row();  
     }
       catch (PDOException $e) {
-      include_once("class.htmlinfo.php"); 
-      $info = new HTML_Info();      
-      $info->print_user_error(); 
-      $info->print_error($insert, $e);  
+      $this->info->print_user_error(); 
+      $this->info->print_error($insert, $e);  
     }  
   }
 
@@ -74,10 +72,8 @@ include_once('class.link.php');
       $html->print_table2(); 
     }
     catch (PDOException $e) {
-      include_once("class.htmlinfo.php"); 
-      $info = new HTML_Info();      
-      $info->print_user_error(); 
-      $info->print_error($select, $e); 
+      $this->info->print_user_error(); 
+      $this->info->print_error($select, $e);
     }
   }
 
@@ -114,17 +110,13 @@ include_once('class.link.php');
         $this->load_row();  
       }
       catch (PDOException $e) {
-        include_once("class.htmlinfo.php"); 
-        $info = new HTML_Info();      
-        $info->print_user_error(); 
-        $info->print_error($update, $e); 
+        $this->info->print_user_error(); 
+        $this->info->print_error($update, $e); 
       }
   }
 
   function print_select($value_selected='', $caption=''){
     /***** select box (fake) *****/ 
-
-    
 
     $query="SELECT DISTINCT 
             `ID` as SammlungID, Name 
@@ -142,10 +134,8 @@ include_once('class.link.php');
       $html->print_select("SammlungID", $value_selected, false); 
     }
     catch (PDOException $e) {
-      include_once("class.htmlinfo.php"); 
-      $info = new HTML_Info();      
-      $info->print_user_error(); 
-      $info->print_error($stmt, $e); 
+      $this->info->print_user_error(); 
+      $this->info->print_error($stmt, $e); 
     }
   }
 
@@ -221,10 +211,8 @@ include_once('class.link.php');
 
     }
     catch (PDOException $e) {
-      include_once("class.htmlinfo.php"); 
-      $info = new HTML_Info();      
-      $info->print_user_error(); 
-      $info->print_error($stmt, $e); 
+      $this->info->print_user_error(); 
+      $this->info->print_error($stmt, $e); 
     }
   }  
 
@@ -261,10 +249,8 @@ include_once('class.link.php');
       
     }
     catch (PDOException $e) {
-      include_once("class.htmlinfo.php"); 
-      $info = new HTML_Info();      
-      $info->print_user_error(); 
-      $info->print_error($stmt, $e); 
+      $this->info->print_user_error(); 
+      $this->info->print_error($stmt, $e); 
     }
   }
   
@@ -304,10 +290,8 @@ include_once('class.link.php');
       $html->print_table2(); 
     }
     catch (PDOException $e) {
-      include_once("class.htmlinfo.php"); 
-      $info = new HTML_Info();      
-      $info->print_user_error(); 
-      $info->print_error($stmt, $e); 
+      $this->info->print_user_error(); 
+      $this->info->print_error($stmt, $e); 
     }
   }   
     
@@ -324,10 +308,8 @@ include_once('class.link.php');
       $insert->execute(); 
     }
     catch (PDOException $e) {
-      include_once("class.htmlinfo.php"); 
-      $info = new HTML_Info();      
-      $info->print_user_error(); 
-      $info->print_error($insert, $e);  
+      $this->info->print_user_error(); 
+      $this->info->print_error($insert, $e);  
     }  
   } 
   
@@ -343,10 +325,8 @@ include_once('class.link.php');
       $delete->execute(); 
     }
     catch (PDOException $e) {
-      include_once("class.htmlinfo.php"); 
-      $info = new HTML_Info();      
-      $info->print_user_error(); 
-      $info->print_error($delete, $e);  
+      $this->info->print_user_error(); 
+      $this->info->print_error($delete, $e);  
     }  
   }
 
@@ -354,7 +334,6 @@ include_once('class.link.php');
 
     include_once('classes/class.musikstueck.php'); 
     include_once('classes/class.material.php');     
-    include_once("class.htmlinfo.php"); 
 
     $sql="INSERT INTO sammlung (Name, VerlagID, StandortID, Bemerkung)
           SELECT CONCAT(Name, ' (Kopie)') as Name , VerlagID, StandortID, Bemerkung
@@ -403,10 +382,9 @@ include_once('class.link.php');
 
       $this->ID =  $ID_New; // Stabübergabe (Objekt-Instanz übernimmt neue ID-Kopie )
     }
-    catch (PDOException $e) {
-      $info = new HTML_Info();      
-      $info->print_user_error(); 
-      $info->print_error($insert, $e);  
+    catch (PDOException $e) {   
+      $this->info->print_user_error(); 
+      $this->info->print_error($insert, $e);  
     }  
   }  
 
@@ -682,10 +660,8 @@ include_once('class.link.php');
 
     }
     catch (PDOException $e) {
-      include_once("class.htmlinfo.php"); 
-      $info = new HTML_Info();      
-      $info->print_user_error(); 
-      $info->print_error($stmt, $e); 
+      $this->info->print_user_error(); 
+      $this->info->print_error($stmt, $e); 
     }
   }  
 
@@ -721,13 +697,12 @@ include_once('class.link.php');
 
     try {
       $delete->execute(); 
+      $this->info->print_info('Der Satz wurde gelöscht.');              
       return true;          
     }
     catch (PDOException $e) {
-      include_once("class.htmlinfo.php"); 
-      $info = new HTML_Info();      
-      $info->print_user_error(); 
-      $info->print_error($delete, $e);  
+      $this->info->print_user_error(); 
+      $this->info->print_error($delete, $e);  
       return false; 
     }  
   }  
@@ -742,10 +717,8 @@ include_once('class.link.php');
       $delete->execute(); 
     }
     catch (PDOException $e) {
-      include_once("class.htmlinfo.php"); 
-      $info = new HTML_Info();      
-      $info->print_user_error(); 
-      $info->print_error($delete, $e);  
+      $this->info->print_user_error(); 
+      $this->info->print_error($delete, $e);  
     }  
   }
 
@@ -838,10 +811,8 @@ include_once('class.link.php');
       $this->print_musikstuecke(); 
     }
     catch (PDOException $e) {
-      include_once("class.htmlinfo.php"); 
-      $info = new HTML_Info();      
-      $info->print_user_error(); 
-      $info->print_error($select, $e); 
+      $this->info->print_user_error(); 
+      $this->info->print_error($select, $e);
     }
   }
 

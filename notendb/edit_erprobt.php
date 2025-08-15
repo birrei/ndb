@@ -31,17 +31,15 @@ switch($option) {
   case 'delete_1': 
     $erprobt->ID = $_REQUEST["ID"];  
     $erprobt->load_row(); 
-    $info->print_form_confirm(basename(__FILE__),$erprobt->ID,'delete_2','Löschung');  
-    $show_data=true;      
+    if($erprobt->is_deletable()) {
+      $info->print_form_confirm(basename(__FILE__),$erprobt->ID,'delete_2','Löschung');  
+    }           
     break; 
 
   case 'delete_2': 
     $erprobt->ID=$_REQUEST["ID"]; 
-    if($erprobt->delete()) {
-      $show_data=false; 
-    } else  {
-      $show_data=true; 
-    }
+    $erprobt->delete(); 
+    $show_data=false; 
     break; 
     
   default: 

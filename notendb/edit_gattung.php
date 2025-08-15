@@ -30,17 +30,16 @@ switch($option) {
   case 'delete_1': 
     $gattung->ID = $_REQUEST["ID"];  
     $gattung->load_row(); 
-    $info->print_form_confirm(basename(__FILE__),$gattung->ID,'delete_2','Löschung');    
+    if($gattung->is_deletable()) {
+      $info->print_form_confirm(basename(__FILE__),$gattung->ID,'delete_2','Löschung');  
+    }           
     break; 
 
   case 'delete_2': 
     $gattung->ID=$_REQUEST["ID"]; 
-    if($gattung->delete()) {
-      $show_data=false; 
-    } else  {
-      $show_data=true; 
-    }
-  break; 
+    $gattung->delete(); 
+    $show_data=false; 
+    break; 
 
   default: 
     $show_data=false;     

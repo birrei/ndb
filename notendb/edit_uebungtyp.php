@@ -34,15 +34,12 @@ switch($option) {
     $uebungtyp->ID = $_REQUEST["ID"];  
     if($uebungtyp->is_deletable()) {
       $info->print_form_confirm(basename(__FILE__),$uebungtyp->ID,'delete_2','Löschung');    
-    } else {
-      $info->print_warning($uebungtyp->infotext); 
-    }
+    } 
     break; 
 
   case 'delete_2':        
     $uebungtyp->ID=$_REQUEST["ID"]; 
     $uebungtyp->delete(); 
-    $info->print_info($uebungtyp->infotext); 
     $show_data=false; 
     break; 
 

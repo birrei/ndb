@@ -162,23 +162,12 @@ class Besetzung {
 
   function delete(){
 
-    $select = $this->db->prepare("SELECT * from musikstueck_besetzung WHERE BesetzungID=:BesetzungID");
-    $select->bindValue(':BesetzungID', $this->ID); 
-    $select->execute();  
-    if ($select->rowCount() > 0 ){
-      $this->load_row(); 
-      $this->infotext='Die Besetzung ID '.$this->ID.', Name: "'.$this->Name.'" 
-        kann nicht gelöscht werden, da noch eine Zuordnung auf '.$select->rowCount().' Musikstücke existiert.';   
-      $this->info->print_user_error($this->infotext); 
-      return false;            
-    }
- 
     $delete = $this->db->prepare("DELETE FROM `besetzung` WHERE ID=:ID"); 
     $delete->bindValue(':ID', $this->ID);  
 
     try {
       $delete->execute(); 
-      $this->infotext='<p>Die Zeile wurde gelöscht.</p>'; 
+      $this->info->print_info('Die Besetzung wurde gelöscht');  
       $this->info->print_user_error($this->infotext);      
       return true;         
     }
@@ -189,6 +178,23 @@ class Besetzung {
     }  
   }
 
+  function is_deletable() {
+    
+    $select = $this->db->prepare("SELECT * from musikstueck_besetzung WHERE BesetzungID=:BesetzungID");
+    $select->bindValue(':BesetzungID', $this->ID); 
+    $select->execute();  
+
+    if ($select->rowCount() > 0 ){
+      $this->load_row(); 
+      $this->info->print_warning('Besetzung ID '.$this->ID.', Name: "'.$this->Name.'" kann nicht gelöscht werden. 
+                                 Es existieren '.$select->rowCount().' zugeordnete Musikstücke.<br>'); 
+      return false;       
+    } else {
+      return true; 
+    }
+  }
+  
+  
   function getArray(){
 
     $arrTmp=[]; 

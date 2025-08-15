@@ -31,17 +31,15 @@ switch($option) {
   case 'delete_1': 
     $besetzung->ID = $_REQUEST["ID"];  
     $besetzung->load_row(); 
-    $info->print_form_confirm(basename(__FILE__),$abfragetyp->ID,'delete_2','Löschung');  
-    $show_data=true;      
+    if($besetzung->is_deletable()) {
+      $info->print_form_confirm(basename(__FILE__),$besetzung->ID,'delete_2','Löschung');  
+    }    
     break; 
 
   case 'delete_2': 
     $besetzung->ID=$_REQUEST["ID"]; 
-    if($besetzung->delete()) {
-      $show_data=false; 
-    } else  {
-      $show_data=true; 
-    }
+    $besetzung->delete(); 
+    $show_data=false; 
     break; 
 
   case 'copy': 

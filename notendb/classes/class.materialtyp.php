@@ -37,10 +37,8 @@ class Materialtyp {
       $this->load_row();   
     }
       catch (PDOException $e) {
-      include_once("class.htmlinfo.php"); 
-      $info = new HTML_Info();      
-      $info->print_user_error(); 
-      $info->print_error($insert, $e);  ; 
+      $this->info->print_user_error(); 
+      $this->info->print_error($insert, $e);  ; 
     }
   }  
  
@@ -60,10 +58,8 @@ class Materialtyp {
       
     }
     catch (PDOException $e) {
-      include_once("class.htmlinfo.php"); 
-      $info = new HTML_Info();      
-      $info->print_user_error(); 
-      $info->print_error($stmt, $e); 
+      $this->info->print_user_error(); 
+      $this->info->print_error($stmt, $e); 
     }
   }
 
@@ -83,10 +79,8 @@ class Materialtyp {
       
     }
     catch (PDOException $e) {
-      include_once("class.htmlinfo.php"); 
-      $info = new HTML_Info();      
-      $info->print_user_error(); 
-      $info->print_error($select, $e); 
+      $this->info->print_user_error(); 
+      $this->info->print_error($select, $e);
     }
   }
 
@@ -105,10 +99,8 @@ class Materialtyp {
       $this->load_row();  
     }
     catch (PDOException $e) {
-      include_once("class.htmlinfo.php"); 
-      $info = new HTML_Info();      
-      $info->print_user_error(); 
-      $info->print_error($stmt, $e); 
+      $this->info->print_user_error(); 
+      $this->info->print_error($update, $e); 
     }
   }
 
@@ -146,10 +138,8 @@ class Materialtyp {
       $this->titles_selected_list = $html->titles_selected_list; 
     }
     catch (PDOException $e) {
-      include_once("class.htmlinfo.php"); 
-      $info = new HTML_Info();      
-      $info->print_user_error(); 
-      $info->print_error($stmt, $e); 
+      $this->info->print_user_error(); 
+      $this->info->print_error($stmt, $e); 
     }
   }  
 
@@ -177,14 +167,12 @@ class Materialtyp {
 
     try {
       $delete->execute(); 
-      echo '<p>Die Zeile wurde gelöscht.</p>'; 
+     $this->info->print_info('Der Materialtyp wurde gelöscht.');      
       return true;         
     }
     catch (PDOException $e) {
-      include_once("class.htmlinfo.php"); 
-      $info = new HTML_Info();      
-      $info->print_user_error(); 
-      $info->print_error($delete, $e);  
+      $this->info->print_user_error(); 
+      $this->info->print_error($delete, $e);  
       return false;  
     }  
   }    
@@ -205,10 +193,8 @@ class Materialtyp {
       $html->print_table2(); 
     }
     catch (PDOException $e) {
-      include_once("class.htmlinfo.php"); 
-      $info = new HTML_Info();      
-      $info->print_user_error(); 
-      $info->print_error($stmt, $e); 
+      $this->info->print_user_error(); 
+      $this->info->print_error($stmt, $e); 
     }
   }  
 
@@ -227,10 +213,8 @@ class Materialtyp {
       $html->print_preselect("MaterialtypID", $value_selected, true); 
     }
     catch (PDOException $e) {
-      include_once("class.htmlinfo.php"); 
-      $info = new HTML_Info();      
-      $info->print_user_error(); 
-      $info->print_error($stmt, $e); 
+      $this->info->print_user_error(); 
+      $this->info->print_error($stmt, $e); 
     }
   }
 

@@ -30,16 +30,15 @@ switch($option) {
   case 'delete_1': 
     $materialtyp->ID = $_REQUEST["ID"];  
     $materialtyp->load_row(); 
-    $info->print_form_confirm(basename(__FILE__),$materialtyp->ID,'delete_2','Löschung');    
+    if($materialtyp->is_deletable()) {
+       $info->print_form_confirm(basename(__FILE__),$materialtyp->ID,'delete_2','Löschung');    
+    }      
     break; 
 
   case 'delete_2': 
     $materialtyp->ID=$_REQUEST["ID"]; 
-    if($materialtyp->delete()) {
-      $show_data=false; 
-    } else  {
-      $show_data=true; 
-    }
+    $materialtyp->delete(); 
+    $show_data=false; 
     break; 
 
     default: 

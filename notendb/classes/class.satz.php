@@ -58,10 +58,8 @@ class Satz {
       $this->load_row();   
     }
     catch (PDOException $e) {
-      include_once("class.htmlinfo.php"); 
-      $info = new HTML_Info();      
-      $info->print_user_error(); 
-      $info->print_error($stmt, $e);  
+      $this->info->print_user_error(); 
+      $this->info->print_error($insert, $e);  
     } 
   }
 
@@ -102,10 +100,8 @@ class Satz {
       $this->load_row();  
     }
     catch (PDOException $e) {
-      include_once("class.htmlinfo.php"); 
-      $info = new HTML_Info();      
-      $info->print_user_error(); 
-      $info->print_error($update, $e); 
+      $this->info->print_user_error(); 
+      $this->info->print_error($update, $e);  
     }
   }
 
@@ -233,10 +229,8 @@ class Satz {
       $html->print_select("SammlungID", $value_selected, false); 
     }
     catch (PDOException $e) {
-      include_once("class.htmlinfo.php"); 
-      $info = new HTML_Info();      
-      $info->print_user_error(); 
-      $info->print_error($stmt, $e); 
+      $this->info->print_user_error(); 
+      $this->info->print_error($stmt, $e); 
     }
   }
 
@@ -264,10 +258,8 @@ class Satz {
       $insert->execute(); 
     }
     catch (PDOException $e) {
-      include_once("class.htmlinfo.php"); 
-      $info = new HTML_Info();      
-      $info->print_user_error(); 
-      $info->print_error($insert, $e);  
+      $this->info->print_user_error(); 
+      $this->info->print_error($insert, $e);  
     }  
   }
 
@@ -306,10 +298,8 @@ class Satz {
       $html->print_table2();       
     }
     catch (PDOException $e) {
-      include_once("class.htmlinfo.php"); 
-      $info = new HTML_Info();      
-      $info->print_user_error(); 
-      $info->print_error($stmt, $e); 
+      $this->info->print_user_error(); 
+      $this->info->print_error($stmt, $e); 
     }
   }  
 
@@ -326,10 +316,8 @@ class Satz {
       $insert->execute(); 
     }
     catch (PDOException $e) {
-      include_once("class.htmlinfo.php"); 
-      $info = new HTML_Info();      
-      $info->print_user_error(); 
-      $info->print_error($insert, $e);  
+      $this->info->print_user_error(); 
+      $this->info->print_error($insert, $e);  
     }  
   }
 
@@ -345,10 +333,8 @@ class Satz {
       $delete->execute(); 
     }
     catch (PDOException $e) {
-      include_once("class.htmlinfo.php"); 
-      $info = new HTML_Info();      
-      $info->print_user_error(); 
-      $info->print_error($delete, $e);  
+      $this->info->print_user_error(); 
+      $this->info->print_error($delete, $e);  
     }  
   }
 
@@ -361,10 +347,8 @@ class Satz {
       $delete->execute(); 
     }
     catch (PDOException $e) {
-      include_once("class.htmlinfo.php"); 
-      $info = new HTML_Info();      
-      $info->print_user_error(); 
-      $info->print_error($delete, $e);  
+      $this->info->print_user_error(); 
+      $this->info->print_error($delete, $e);  
     }  
   }
  
@@ -380,14 +364,12 @@ class Satz {
 
     try {
       $delete->execute(); 
-      // echo '<p>Der Satz wurde gelöscht. </p>';  
+      $this->info->print_info('Der Satz wurde gelöscht.');        
       return true;                
     }
     catch (PDOException $e) {
-      include_once("class.htmlinfo.php"); 
-      $info = new HTML_Info();      
-      $info->print_user_error(); 
-      $info->print_error($delete, $e);  
+      $this->info->print_user_error(); 
+      $this->info->print_error($delete, $e);  
       return false; 
     }  
   }  
@@ -421,10 +403,8 @@ class Satz {
       $html->print_table2();           
     }
     catch (PDOException $e) {
-      include_once("class.htmlinfo.php"); 
-      $info = new HTML_Info();      
-      $info->print_user_error(); 
-      $info->print_error($stmt, $e); 
+      $this->info->print_user_error(); 
+      $this->info->print_error($stmt, $e); 
     }
   }  
 
@@ -447,10 +427,8 @@ class Satz {
       $instrument_schwierigkeitsgrad->insert_row($InstrumentID, $SchwierigkeitsgradID); 
     }
     catch (PDOException $e) {
-      include_once("class.htmlinfo.php"); 
-      $info = new HTML_Info();      
-      $info->print_user_error(); 
-      $info->print_error($insert, $e);  
+      $this->info->print_user_error(); 
+      $this->info->print_error($insert, $e);  
     }  
   }
 
@@ -463,10 +441,8 @@ class Satz {
       $delete->execute(); 
     }
     catch (PDOException $e) {
-      include_once("class.htmlinfo.php"); 
-      $info = new HTML_Info();      
-      $info->print_user_error(); 
-      $info->print_error($delete, $e);  
+      $this->info->print_user_error(); 
+      $this->info->print_error($delete, $e);  
     }  
   }
 
@@ -484,10 +460,8 @@ class Satz {
       $delete->execute(); 
     }
     catch (PDOException $e) {
-      include_once("class.htmlinfo.php"); 
-      $info = new HTML_Info();      
-      $info->print_user_error(); 
-      $info->print_error($delete, $e);  
+      $this->info->print_user_error(); 
+      $this->info->print_error($delete, $e);  
     }  
   }
 
@@ -542,10 +516,8 @@ class Satz {
 
     }
     catch (PDOException $e) {
-      include_once("class.htmlinfo.php"); 
-      $info = new HTML_Info();      
-      $info->print_user_error(); 
-      $info->print_error($insert, $e);  
+      $this->info->print_user_error(); 
+      $this->info->print_error($insert, $e);  
     }  
   }
   
@@ -649,10 +621,8 @@ class Satz {
 
     }
     catch (PDOException $e) {
-      include_once("class.htmlinfo.php"); 
-      $info = new HTML_Info();      
-      $info->print_user_error(); 
-      $info->print_error($stmt, $e); 
+      $this->info->print_user_error(); 
+      $this->info->print_error($stmt, $e); 
     }
   }    
  
@@ -669,10 +639,8 @@ class Satz {
       $insert->execute(); 
     }
     catch (PDOException $e) {
-      include_once("class.htmlinfo.php"); 
-      $info = new HTML_Info();      
-      $info->print_user_error(); 
-      $info->print_error($insert, $e);  
+      $this->info->print_user_error(); 
+      $this->info->print_error($insert, $e);  
     }  
   }
 
@@ -685,10 +653,8 @@ class Satz {
       $delete->execute(); 
     }
     catch (PDOException $e) {
-      include_once("class.htmlinfo.php"); 
-      $info = new HTML_Info();      
-      $info->print_user_error(); 
-      $info->print_error($delete, $e);  
+      $this->info->print_user_error(); 
+      $this->info->print_error($delete, $e);  
     }  
   }
 
@@ -706,10 +672,8 @@ class Satz {
       $insert->execute(); 
     }
     catch (PDOException $e) {
-      include_once("class.htmlinfo.php"); 
-      $info = new HTML_Info();      
-      $info->print_user_error(); 
-      $info->print_error($insert, $e);  
+      $this->info->print_user_error(); 
+      $this->info->print_error($insert, $e);  
     }  
   }  
 
@@ -758,10 +722,8 @@ class Satz {
 
     }
     catch (PDOException $e) {
-      include_once("class.htmlinfo.php"); 
-      $info = new HTML_Info();      
-      $info->print_user_error(); 
-      $info->print_error($stmt, $e); 
+      $this->info->print_user_error(); 
+      $this->info->print_error($stmt, $e); 
     }
   }    
     
@@ -774,10 +736,8 @@ class Satz {
       $delete->execute(); 
     }
     catch (PDOException $e) {
-      include_once("class.htmlinfo.php"); 
-      $info = new HTML_Info();      
-      $info->print_user_error(); 
-      $info->print_error($delete, $e);  
+      $this->info->print_user_error(); 
+      $this->info->print_error($delete, $e);  
     }  
   }
 
@@ -801,10 +761,8 @@ class Satz {
       $html->print_table_checklist('schueler'); 
     }
     catch (PDOException $e) {
-      include_once("class.htmlinfo.php"); 
-      $info = new HTML_Info();      
-      $info->print_user_error(); 
-      $info->print_error($stmt, $e); 
+      $this->info->print_user_error(); 
+      $this->info->print_error($stmt, $e); 
     }
   }
 
@@ -880,10 +838,8 @@ class Satz {
 
     }
     catch (PDOException $e) {
-      include_once("class.htmlinfo.php"); 
-      $info = new HTML_Info();      
-      $info->print_user_error(); 
-      $info->print_error($select, $e); 
+      $this->info->print_user_error(); 
+      $this->info->print_error($select, $e);
     }
   }  
 

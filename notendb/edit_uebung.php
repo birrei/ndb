@@ -63,13 +63,14 @@ switch($option) {
     $uebung->ID = $_POST["ID"];  
     $uebung->load_row(); 
     $Name=$uebung->Name; 
-    $info->print_form_confirm(basename(__FILE__),$uebung->ID,'delete_2','Löschung');         
+    if($uebung->is_deletable()) {
+      $info->print_form_confirm(basename(__FILE__),$uebung->ID,'delete_2','Löschung');         
+    }     
     break; 
 
   case 'delete_2':    
     $uebung->ID=$_REQUEST["ID"]; 
     $uebung->delete(); 
-    $info->print_info($uebung->infotext); 
     $show_data=false; 
     break; 
 

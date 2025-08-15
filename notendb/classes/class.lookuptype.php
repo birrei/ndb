@@ -43,10 +43,8 @@ class Lookuptype {
       $this->load_row();   
     }
       catch (PDOException $e) {
-      include_once("class.htmlinfo.php"); 
-      $info = new HTML_Info();      
-      $info->print_user_error(); 
-      $info->print_error($insert, $e);  ; 
+      $this->info->print_user_error(); 
+      $this->info->print_error($insert, $e);  ; 
     }
   }  
  
@@ -64,10 +62,8 @@ class Lookuptype {
       
     }
     catch (PDOException $e) {
-      include_once("class.htmlinfo.php"); 
-      $info = new HTML_Info();      
-      $info->print_user_error(); 
-      $info->print_error($stmt, $e); 
+      $this->info->print_user_error(); 
+      $this->info->print_error($stmt, $e); 
     }
   }
 
@@ -97,10 +93,8 @@ class Lookuptype {
       $html->print_preselect("LookupTypeID", $value_selected, true); 
     }
     catch (PDOException $e) {
-      include_once("class.htmlinfo.php"); 
-      $info = new HTML_Info();      
-      $info->print_user_error(); 
-      $info->print_error($stmt, $e); 
+      $this->info->print_user_error(); 
+      $this->info->print_error($stmt, $e); 
     }
   }
 
@@ -118,10 +112,8 @@ class Lookuptype {
       $html->print_table2();       
     }
     catch (PDOException $e) {
-      include_once("class.htmlinfo.php"); 
-      $info = new HTML_Info();      
-      $info->print_user_error(); 
-      $info->print_error($select, $e); 
+      $this->info->print_user_error(); 
+      $this->info->print_error($select, $e);
     }
   }
 
@@ -165,10 +157,8 @@ class Lookuptype {
       return true; 
     }
     catch (PDOException $e) {
-      include_once("class.htmlinfo.php"); 
-      $info = new HTML_Info();      
-      $info->print_user_error(); 
-      $info->print_error($stmt, $e); 
+      $this->info->print_user_error(); 
+      $this->info->print_error($update, $e); 
       return false; 
     }
   }
@@ -224,30 +214,18 @@ class Lookuptype {
 
   function delete(){
 
-    $select = $this->db->prepare("SELECT * from lookup WHERE LookupTypeID=:LookupTypeID");
-    $select->bindValue(':LookupTypeID', $this->ID); 
-    $select->execute();  
-    if ($select->rowCount() > 0 ){
-      $this->load_row(); 
-      echo '<p>Der Besonderheit-Typ ID '.$this->ID.' "'.$this->Name.'"  
-      kann nicht gelöscht werden, da noch eine Zuordnung fuer '.$select->rowCount().' Besonderheiten existiert. </p>';   
-      return false;            
-    }
-
     $delete = $this->db->prepare("DELETE FROM lookup_type WHERE ID=:ID"); 
     $delete->bindValue(':ID', $this->ID);  
 
     try {
       $delete->execute(); 
-      echo '<p>Der Besonderheit-Typ wurde gelöscht.</p>';    
+      $this->info->print_info('Der Besonderheit-Typ wurde gelöscht.');    
       return true;       
     }
     catch (PDOException $e) {
       // print_r($e); 
-      include_once("class.htmlinfo.php"); 
-      $info = new HTML_Info();      
-      $info->print_user_error(); 
-      $info->print_error($delete, $e); 
+      $this->info->print_user_error(); 
+      $this->info->print_error($delete, $e);
       return false;  
     }  
   }   
@@ -267,10 +245,24 @@ class Lookuptype {
       $html->print_table2(); 
     }
     catch (PDOException $e) {
-      include_once("class.htmlinfo.php"); 
-      $info = new HTML_Info();      
-      $info->print_user_error(); 
-      $info->print_error($stmt, $e); 
+      $this->info->print_user_error(); 
+      $this->info->print_error($stmt, $e); 
+    }
+  }
+
+  function is_deletable() {
+    
+    $select = $this->db->prepare("SELECT * from lookup WHERE LookupTypeID=:LookupTypeID");
+    $select->bindValue(':LookupTypeID', $this->ID); 
+    $select->execute();  
+
+    if ($select->rowCount() > 0 ){
+      $this->load_row(); 
+      $this->info->print_warning('Besonderheit-Typ ID '.$this->ID.', Name: "'.$this->Name.'" kann nicht gelöscht werden. 
+                                 Es existieren '.$select->rowCount().' zugeordnete Besonderheiten.<br>'); 
+      return false;       
+    } else {
+      return true; 
     }
   }
 

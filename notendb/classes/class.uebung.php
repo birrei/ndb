@@ -144,6 +144,7 @@ class Uebung {
 
     try {
       $delete->execute(); 
+      $this->info->print_info('Die Übung wurde gelöscht.');             
       return true;          
     }
     catch (PDOException $e) {

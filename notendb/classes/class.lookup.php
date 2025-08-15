@@ -47,10 +47,8 @@ class Lookup {
       $this->load_row();   
     }
       catch (PDOException $e) {
-      include_once("class.htmlinfo.php"); 
-      $info = new HTML_Info();      
-      $info->print_user_error(); 
-      $info->print_error($insert, $e);  ; 
+      $this->info->print_user_error(); 
+      $this->info->print_error($insert, $e);  ; 
     }
   }  
  
@@ -114,10 +112,8 @@ class Lookup {
       
     }
     catch (PDOException $e) {
-      include_once("class.htmlinfo.php"); 
-      $info = new HTML_Info();      
-      $info->print_user_error(); 
-      $info->print_error($stmt, $e); 
+      $this->info->print_user_error(); 
+      $this->info->print_error($stmt, $e); 
     }
   }
 
@@ -167,10 +163,8 @@ class Lookup {
       
     }
     catch (PDOException $e) {
-      include_once("class.htmlinfo.php"); 
-      $info = new HTML_Info();      
-      $info->print_user_error(); 
-      $info->print_error($stmt, $e); 
+      $this->info->print_user_error(); 
+      $this->info->print_error($stmt, $e); 
     }
   }
 
@@ -197,10 +191,8 @@ class Lookup {
       $html->print_table2(); 
     }
     catch (PDOException $e) {
-      include_once("class.htmlinfo.php"); 
-      $info = new HTML_Info();      
-      $info->print_user_error(); 
-      $info->print_error($select, $e); 
+      $this->info->print_user_error(); 
+      $this->info->print_error($select, $e);
     }
   }
 
@@ -220,10 +212,8 @@ class Lookup {
       $this->load_row(); 
     }
     catch (PDOException $e) {
-      include_once("class.htmlinfo.php"); 
-      $info = new HTML_Info();      
-      $info->print_user_error(); 
-      $info->print_error($update, $e); 
+      $this->info->print_user_error(); 
+      $this->info->print_error($update, $e);  
     }
   }
 
@@ -289,39 +279,25 @@ class Lookup {
       // echo  'cl_lookup: '.$this->titles_selected_list;
     }
     catch (PDOException $e) {
-      include_once("class.htmlinfo.php"); 
-      $info = new HTML_Info();      
-      $info->print_user_error(); 
-      $info->print_error($select, $e); 
+      $this->info->print_user_error(); 
+      $this->info->print_error($select, $e);
     }
   }  
 
   function delete(){
-
-    $select = $this->db->prepare("SELECT * from satz_lookup WHERE LookupID=:LookupID");
-    $select->bindValue(':LookupID', $this->ID); 
-    $select->execute();  
-    if ($select->rowCount() > 0 ){
-      $this->load_row(); 
-      echo '<p>Die Besonderheit ID '.$this->ID.' "'.$this->Name.'" Typ "'.$this->LookupTypeName.'" 
-      kann nicht gelöscht werden, da noch eine Zuordnung auf '.$select->rowCount().' Sätze existiert. </p>';   
-      return false;            
-    }
 
     $delete = $this->db->prepare("DELETE FROM lookup WHERE ID=:ID"); 
     $delete->bindValue(':ID', $this->ID);  
 
     try {
       $delete->execute(); 
-      echo '<p>Die Besonderheit wurde gelöscht.</p>';    
+      $this->info->print_info('Die Besonderheit wurde gelöscht.');             
       return true;       
     }
     catch (PDOException $e) {
       // print_r($e); 
-      include_once("class.htmlinfo.php"); 
-      $info = new HTML_Info();      
-      $info->print_user_error(); 
-      $info->print_error($delete, $e); 
+      $this->info->print_user_error(); 
+      $this->info->print_error($delete, $e);
       return false;  
     }  
   } 
@@ -346,6 +322,28 @@ class Lookup {
     // print_r($arrTmp); // test
     return  $arrTmp; 
   }
+
+  function is_deletable() {
+    
+    $select = $this->db->prepare(
+      "SELECT ID from sammlung_lookup WHERE LookupID=:LookupID
+       UNION 
+       SELECT ID from satz_lookup WHERE LookupID=:LookupID 
+    ");
+    $select->bindValue(':LookupID', $this->ID); 
+    $select->execute();  
+
+    if ($select->rowCount() > 0 ){
+      $this->load_row(); 
+      $this->info->print_warning('Besonderheit ID '.$this->ID.', Name: "'.$this->Name.'" kann nicht gelöscht werden. 
+                                  Es existieren '.$select->rowCount().' zugeordnete Zeilen in Sammlung oder Satz.<br>'); 
+      return false;       
+    } else {
+      return true; 
+    }
+  }
+
+
 
 
 }

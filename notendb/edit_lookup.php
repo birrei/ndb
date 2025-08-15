@@ -40,18 +40,19 @@ switch($option) {
   case 'delete_1': 
     $lookup->ID = $_REQUEST["ID"];  
     $lookup->load_row(); 
-    $info->print_form_confirm(basename(__FILE__),$lookup->ID,'delete_2','Löschung');  
+    if($lookup->is_deletable()) {
+      $info->print_form_confirm(basename(__FILE__),$lookup->ID,'delete_2','Löschung'); 
+    }     
+     
     $show_data=true;      
     break; 
 
   case 'delete_2': 
     $lookup->ID=$_REQUEST["ID"]; 
-    if($lookup->delete()) {
-      $show_data=false; 
-    } else  {
-      $show_data=true; 
-    }
+    $lookup->delete(); 
+    $show_data=false; 
     break; 
+
   default: 
     $show_data=false;      
 }

@@ -33,18 +33,18 @@ switch($option) {
   case 'delete_1': 
     $lookuptype->ID = $_REQUEST["ID"];  
     $lookuptype->load_row(); 
-    $info->print_form_confirm(basename(__FILE__),$lookuptype->ID,'delete_2','Löschung');  
+    if($lookuptype->is_deletable()) {
+      $info->print_form_confirm(basename(__FILE__),$lookuptype->ID,'delete_2','Löschung'); 
+    }     
     $show_data=true;      
     break; 
 
   case 'delete_2': 
-    $lookuptype->ID=$_REQUEST["ID"]; 
-    if($lookuptype->delete()) {
-      $show_data=false; 
-    } else  {
-      $show_data=true; 
-    }
+    $lookuptype->ID=$_REQUEST["ID"];
+    $linktype->delete(); 
+    $show_data=false; 
     break; 
+    
   default: 
     $show_data=false;      
 }

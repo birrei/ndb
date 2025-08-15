@@ -44,10 +44,8 @@ class Link {
       $this->load_row();   
     }
       catch (PDOException $e) {
-      include_once("class.htmlinfo.php"); 
-      $info = new HTML_Info();      
-      $info->print_user_error(); 
-      $info->print_error($insert, $e);  ; 
+      $this->info->print_user_error(); 
+      $this->info->print_error($insert, $e);  ; 
     }
   }  
    
@@ -76,10 +74,8 @@ class Link {
       $this->load_row();   
     }
       catch (PDOException $e) {
-      include_once("class.htmlinfo.php"); 
-      $info = new HTML_Info();      
-      $info->print_user_error(); 
-      $info->print_error($insert, $e);  ; 
+      $this->info->print_user_error(); 
+      $this->info->print_error($update, $e);  ; 
     }
   }  
  
@@ -112,26 +108,26 @@ class Link {
 
   function delete(){
 
-    // echo '<p>Lösche Link ID: '.$this->ID.':</p>';
- 
     $delete = $this->db->prepare("DELETE FROM `link` WHERE ID=:ID"); 
     $delete->bindValue(':ID', $this->ID);  
 
     try {
       $delete->execute(); 
-      // echo '<p>Der Link wurde gelöscht.</p>'; 
+      $this->info->print_info('Der Link wurde gelöscht');              
       return true;          
     }
     catch (PDOException $e) {
-      include_once("class.htmlinfo.php"); 
-      $info = new HTML_Info();      
-      $info->print_user_error(); 
-      $info->print_error($delete, $e);  
+      $this->info->print_user_error(); 
+      $this->info->print_error($delete, $e);  
       return false ; 
     }  
   }  
 
-
+  
+  function is_deletable() {
+    return true; // aktuell keine Abängigkeiten berücksichtigt. 
+   
+  }
 
   function insert_link_tmp ($URL, $Title) {
 
@@ -146,10 +142,8 @@ class Link {
       $insert->execute(); 
     }
       catch (PDOException $e) {
-      include_once("class.htmlinfo.php"); 
-      $info = new HTML_Info();      
-      $info->print_user_error(); 
-      $info->print_error($insert, $e);  ; 
+      $this->info->print_user_error(); 
+      $this->info->print_error($insert, $e);  ; 
     }
   }  
 
@@ -161,10 +155,8 @@ class Link {
       $stmt->execute(); 
     }
       catch (PDOException $e) {
-      include_once("class.htmlinfo.php"); 
-      $info = new HTML_Info();      
-      $info->print_user_error(); 
-      $info->print_error($stmt, $e);  ; 
+      $this->info->print_user_error(); 
+      $this->info->print_error($stmt, $e);  ; 
     }
   }
   
@@ -184,10 +176,8 @@ class Link {
       $html->print_table2();           
     }
     catch (PDOException $e) {
-      include_once("class.htmlinfo.php"); 
-      $info = new HTML_Info();      
-      $info->print_user_error(); 
-      $info->print_error($stmt, $e); 
+      $this->info->print_user_error(); 
+      $this->info->print_error($stmt, $e); 
     }
 
   }

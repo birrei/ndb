@@ -51,27 +51,14 @@ switch($_REQUEST["option"]) {
   case 'delete_1': 
     $musikstueck->ID = $_REQUEST["ID"];  
     $musikstueck->load_row(); 
-    $info->print_form_confirm(basename(__FILE__),$musikstueck->ID,'delete_2','Löschung');    
-    break; 
-
-
-    // $info->print_warning('Soll Musikstück ID: '.$musikstueck->ID.', Name: "'.$musikstueck->Name.'" wirklich gelöscht werden?'); 
-    // echo 
-    // '<p> <form action="edit_musikstueck.php" method="post">
-    // <input type="hidden" name="ID" value="' . $musikstueck->ID. '">
-    // <input type="hidden" name="option" value="delete_2">      
-    // <input type="hidden" name="title" value="Musikstück"> 
-    // <input type="submit" name="senden" value="Löschung bestätigen">             
-    // </form></p>
-    // '; 
-
-    // $show_data=true;      
+    if($musikstueck->is_deletable()) {
+      $info->print_form_confirm(basename(__FILE__),$musikstueck->ID,'delete_2','Löschung');    
+    }        
     break;      
   
   case 'delete_2': 
     $musikstueck->ID = $_POST["ID"];  
     $musikstueck->delete(); 
-    $info->print_info('Der Musikstück wurde gelöscht.'); 
     $show_data=false; 
     break;   
       

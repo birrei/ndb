@@ -125,23 +125,12 @@ class Abfragetyp {
   
   function delete(){
 
-    $select = $this->db->prepare("SELECT * from abfrage WHERE AbfragetypID=:AbfragetypID");
-    $select->bindValue(':AbfragetypID', $this->ID); 
-    $select->execute();  
-    if ($select->rowCount() > 0 ){
-      $this->load_row(); 
-      echo '<p>Abfragetyp ID '.$this->ID.' "'.$this->Name.'" 
-        kann nicht gelöscht werden, da noch eine Zuordnung auf '.$select->rowCount().' 
-        Abfragen existiert. </p>';   
-      return false;            
-    }
- 
     $delete = $this->db->prepare("DELETE FROM `abfragetyp` WHERE ID=:ID"); 
     $delete->bindValue(':ID', $this->ID);  
 
     try {
       $delete->execute(); 
-      // echo '<p>Die Zeile wurde gelöscht.</p>'; 
+      $this->info->print_info('Der Abfragetyp wurde gelöscht');  
       return true;         
     }
     catch (PDOException $e) {
@@ -152,6 +141,21 @@ class Abfragetyp {
     }  
   }    
 
+  function is_deletable() {
+    
+    $select = $this->db->prepare("SELECT * from abfrage WHERE AbfragetypID=:AbfragetypID");
+    $select->bindValue(':AbfragetypID', $this->ID); 
+    $select->execute();  
+
+    if ($select->rowCount() > 0 ){
+      $this->load_row(); 
+      $this->info->print_warning('Abfragetyp ID '.$this->ID.', Name: "'.$this->Name.'" kann nicht gelöscht werden. 
+                                 Es existieren '.$select->rowCount().' zugeordnete Abfragen.<br>'); 
+      return false;       
+    } else {
+      return true; 
+    }
+  }
 
   function print_preselect($value_selected=''){
 
@@ -166,8 +170,7 @@ class Abfragetyp {
       $html = new HTML_Select($stmt); 
       $html->print_preselect("AbfragetypID", $value_selected, true); 
     }
-    catch (PDOException $e) {
-      $info = new HTML_Info();      
+    catch (PDOException $e) {   
       $this->info->print_user_error(); 
       $this->info->print_error($stmt, $e); 
     }

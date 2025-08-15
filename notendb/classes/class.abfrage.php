@@ -134,8 +134,7 @@ class Abfrage {
       $update->execute(); 
       $this->load_row(); 
     }
-    catch (PDOException $e) {
-      $info = new HTML_Info();      
+    catch (PDOException $e) {   
       $this->info->print_user_error(); 
       $this->info->print_error($update, $e); 
     }
@@ -201,7 +200,7 @@ class Abfrage {
 
     try {
       $delete->execute(); 
-      echo '<p>Die Abfrage wurde gelöscht.</p>';
+      $this->info->print_info('Die Abfrage wurde gelöscht');  
       return true;           
     }
     catch (PDOException $e) {    
@@ -210,6 +209,11 @@ class Abfrage {
       return false; 
     }  
   }  
+  
+  function is_deletable() {
+    // keine Abhängigkeiten 
+    return true; 
+  }
 
   function getTypID($Name) {
 

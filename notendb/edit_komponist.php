@@ -37,17 +37,16 @@ switch($option) {
   case 'delete_1': 
     $komponist->ID = $_REQUEST["ID"];  
     $komponist->load_row(); 
-    $info->print_form_confirm(basename(__FILE__),$komponist->ID,'delete_2','Löschung');  
+    if($komponist->is_deletable()) {
+      $info->print_form_confirm(basename(__FILE__),$komponist->ID,'delete_2','Löschung');  
+    }       
     $show_data=true;      
     break; 
 
   case 'delete_2': 
     $komponist->ID=$_REQUEST["ID"]; 
-    if($komponist->delete()) {
-      $show_data=false; 
-    } else  {
-      $show_data=true; 
-    }
+    $komponist->delete(); 
+    $show_data=false; 
     break; 
     
   default: 

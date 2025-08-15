@@ -58,9 +58,8 @@ class Gattung {
       
     }
     catch (PDOException $e) {
-      $info = new HTML_Info();      
-      $info->print_user_error(); 
-      $info->print_error($stmt, $e); 
+      $this->info->print_user_error(); 
+      $this->info->print_error($stmt, $e); 
     }
   }
 
@@ -99,9 +98,8 @@ class Gattung {
       $this->load_row();  
     }
     catch (PDOException $e) {
-      $info = new HTML_Info();      
-      $info->print_user_error(); 
-      $info->print_error($update, $e); 
+      $this->info->print_user_error(); 
+      $this->info->print_error($update, $e);  
     }
   }
 
@@ -140,43 +138,44 @@ class Gattung {
       $this->titles_selected_list = $html->titles_selected_list;
     }
     catch (PDOException $e) {
-      $info = new HTML_Info();      
-      $info->print_user_error(); 
-      $info->print_error($stmt, $e); 
+      $this->info->print_user_error(); 
+      $this->info->print_error($stmt, $e); 
     }
   } 
   
   
   function delete(){
 
-    $select = $this->db->prepare("SELECT * from musikstueck WHERE GattungID=:GattungID");
-    $select->bindValue(':GattungID', $this->ID); 
-    $select->execute();  
-    if ($select->rowCount() > 0 ){
-      $this->load_row(); 
-      echo '<p>Die Gattung ID '.$this->ID.' "'.$this->Name.'" 
-        kann nicht gelöscht werden, da noch eine Zuordnung auf '.$select->rowCount().' 
-        Musikstücke existiert. </p>';   
-      return false;            
-    }
- 
     $delete = $this->db->prepare("DELETE FROM `gattung` WHERE ID=:ID"); 
     $delete->bindValue(':ID', $this->ID);  
 
     try {
       $delete->execute(); 
-      echo '<p>Die Zeile wurde gelöscht.</p>'; 
+      $this->info->print_info('Die Gattung wurde gelöscht');              
       return true;         
     }
     catch (PDOException $e) {
-      $info = new HTML_Info();      
-      $info->print_user_error(); 
-      $info->print_error($delete, $e);  
+      $this->info->print_user_error(); 
+      $this->info->print_error($delete, $e);  
       return false;  
     }  
   }  
 
+  function is_deletable() {
+    
+    $select = $this->db->prepare("SELECT * from musikstueck WHERE GattungID=:GattungID");
+    $select->bindValue(':GattungID', $this->ID); 
+    $select->execute();  
 
+    if ($select->rowCount() > 0 ){
+      $this->load_row(); 
+      $this->info->print_warning('Gattung ID '.$this->ID.', Name: "'.$this->Name.'" kann nicht gelöscht werden. 
+                                 Es existieren '.$select->rowCount().' zugeordnete Musikstücke.<br>'); 
+      return false;       
+    } else {
+      return true; 
+    }
+  }
 }
 
  

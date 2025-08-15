@@ -31,17 +31,16 @@ switch($option) {
   case 'delete_1': 
     $instrument->ID = $_REQUEST["ID"];  
     $instrument->load_row(); 
-    $info->print_form_confirm(basename(__FILE__),$instrument->ID,'delete_2','Löschung');  
+    if($instrument->is_deletable()) {
+      $info->print_form_confirm(basename(__FILE__),$instrument->ID,'delete_2','Löschung');  
+    }     
     $show_data=true;      
     break; 
 
   case 'delete_2': 
     $instrument->ID=$_REQUEST["ID"]; 
-    if($instrument->delete()) {
-      $show_data=false; 
-    } else  {
-      $show_data=true; 
-    }
+    $instrument->delete(); 
+    $show_data=false; 
     break; 
      
   default: 

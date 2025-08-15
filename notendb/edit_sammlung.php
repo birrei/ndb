@@ -47,16 +47,16 @@ switch($option) {
   case 'delete_1': 
     $sammlung->ID = $_REQUEST["ID"];  
     $sammlung->load_row(); 
+    if($sammlung->is_deletable()) {
+      $info->print_warning('Soll Sammlung ID: '.$sammlung->ID.', Name: "'.$sammlung->Name.'" wirklich gelöscht werden?'); 
+      $info->print_form_confirm(basename(__FILE__),$sammlung->ID,'delete_2','Löschung');        
+    }     
 
-    $info->print_warning('Soll Sammlung ID: '.$sammlung->ID.', Name: "'.$sammlung->Name.'" wirklich gelöscht werden?'); 
-    $info->print_form_confirm(basename(__FILE__),$sammlung->ID,'delete_2','Löschung');   
-    
     break;      
     
   case 'delete_2': 
     $sammlung->ID = $_POST["ID"];  
     $sammlung->delete(); 
-    $info->print_info('Die Sammlung wurde gelöscht.'); 
     $show_data=false; 
     break;    
     

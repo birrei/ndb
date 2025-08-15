@@ -44,20 +44,16 @@ switch($option) {
   case 'delete_1': 
     $material->ID = $_REQUEST["ID"];  
     $material->load_row(); 
-    
     if($material->is_deletable()) {
       $info->print_form_confirm(basename(__FILE__),$material->ID,'delete_2','Löschung'); 
+    } 
 
-    } else {
-      $info->print_warning($material->infotext); 
-    }
     $show_data=true;      
     break; 
 
   case 'delete_2': 
     $material->ID = $_POST["ID"];  
     $material->delete(); 
-    $info->print_info('Der Datensatz wurde gelöscht.'); 
     $show_data=false; 
     break; 
 

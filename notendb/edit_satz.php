@@ -49,16 +49,15 @@ switch($option) {
 
   case 'delete_1': 
     $satz->ID = $_REQUEST["ID"];  
-    $satz->load_row(); 
-    $info->print_warning('Soll Satz ID: '.$satz->ID.', Name: "'.$satz->Name.'" wirklich gelöscht werden?'); 
-    $info->print_form_confirm(basename(__FILE__),$satz->ID,'delete_2','Löschung');   
-
+    $satz->load_row();
+    if($satz->is_deletable()) {
+      $info->print_form_confirm(basename(__FILE__),$satz->ID,'delete_2','Löschung');        
+    }         
     break;      
   
   case 'delete_2': 
     $satz->ID = $_POST["ID"];  
     $satz->delete(); 
-    $info->print_info('Der Satz wurde gelöscht.'); 
     $show_data=false; 
     break;          
 

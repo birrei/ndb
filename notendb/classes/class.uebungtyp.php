@@ -93,6 +93,7 @@ class UebungTyp {
 
     try {
       $delete->execute(); 
+      $this->info->print_info('Der Übung-Typ wurde gelöscht.');       
       return true;          
     }
     catch (PDOException $e) {

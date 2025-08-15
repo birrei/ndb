@@ -29,17 +29,16 @@ switch($option) {
   case 'delete_1': 
     $schwierigkeitsgrad->ID = $_REQUEST["ID"];  
     $schwierigkeitsgrad->load_row(); 
-    $info->print_form_confirm(basename(__FILE__),$schwierigkeitsgrad->ID,'delete_2','Löschung');    
+    if($schwierigkeitsgrad->is_deletable()) {
+      $info->print_form_confirm(basename(__FILE__),$schwierigkeitsgrad->ID,'delete_2','Löschung');        
+    }          
     break; 
 
   case 'delete_2': 
     $schwierigkeitsgrad->ID=$_REQUEST["ID"]; 
-    if($schwierigkeitsgrad->delete()) {
-      $show_data=false; 
-    } else  {
-      $show_data=true; 
-    }
-  break; 
+    $schwierigkeitsgrad->delete(); 
+    $show_data=false;   
+    break; 
 
   default: 
     $show_data=false;  

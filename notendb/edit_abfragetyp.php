@@ -32,13 +32,14 @@ switch($option) {
     $abfragetyp->ID = $_POST["ID"];  
     $abfragetyp->load_row(); 
     $Name=$abfragetyp->Name; 
-    $info->print_form_confirm(basename(__FILE__),$abfragetyp->ID,'delete_2','Löschung');     
+    if($abfragetyp->is_deletable()) {
+      $info->print_form_confirm(basename(__FILE__),$abfragetyp->ID,'delete_2','Löschung');  
+    }    
     break; 
 
   case 'delete_2': 
     $abfragetyp->ID=$_REQUEST["ID"]; 
     $abfragetyp->delete(); 
-    $info->print_info($abfragetyp->infotext); 
     $show_data=false; 
     break; 
     

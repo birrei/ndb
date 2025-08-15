@@ -47,10 +47,8 @@ class Material {
       $this->load_row();   
     }
       catch (PDOException $e) {
-      include_once("class.htmlinfo.php"); 
-      $info = new HTML_Info();      
-      $info->print_user_error(); 
-      $info->print_error($insert, $e);  ; 
+      $this->info->print_user_error(); 
+      $this->info->print_error($insert, $e);  ; 
     }
   }  
 
@@ -78,10 +76,8 @@ class Material {
       $this->load_row();   
     }
       catch (PDOException $e) {
-      include_once("class.htmlinfo.php"); 
-      $info = new HTML_Info();      
-      $info->print_user_error(); 
-      $info->print_error($update, $e);  ; 
+      $this->info->print_user_error(); 
+      $this->info->print_error($update, $e);   ; 
     }
   }  
  
@@ -120,10 +116,8 @@ class Material {
       $delete->execute(); 
     }
     catch (PDOException $e) {
-      include_once("class.htmlinfo.php"); 
-      $info = new HTML_Info();      
-      $info->print_user_error(); 
-      $info->print_error($delete, $e);  
+      $this->info->print_user_error(); 
+      $this->info->print_error($delete, $e);  
     }  
   }
 
@@ -157,14 +151,12 @@ class Material {
 
     try {
       $delete->execute(); 
-      // echo '<p>Der Material wurde gelöscht.</p>'; 
+      $this->info->print_info('Das Material wurde gelöscht.');      
       return true;          
     }
     catch (PDOException $e) {
-      include_once("class.htmlinfo.php"); 
-      $info = new HTML_Info();      
-      $info->print_user_error(); 
-      $info->print_error($delete, $e);  
+      $this->info->print_user_error(); 
+      $this->info->print_error($delete, $e);  
       return false ; 
     }  
   }   
@@ -182,10 +174,8 @@ class Material {
       $insert->execute(); 
     }
       catch (PDOException $e) {
-      include_once("class.htmlinfo.php"); 
-      $info = new HTML_Info();      
-      $info->print_user_error(); 
-      $info->print_error($insert, $e);  ; 
+      $this->info->print_user_error(); 
+      $this->info->print_error($insert, $e);  ; 
     }
   }  
 
@@ -197,10 +187,8 @@ class Material {
       $stmt->execute(); 
     }
       catch (PDOException $e) {
-      include_once("class.htmlinfo.php"); 
-      $info = new HTML_Info();      
-      $info->print_user_error(); 
-      $info->print_error($stmt, $e);  ; 
+      $this->info->print_user_error(); 
+      $this->info->print_error($stmt, $e);  ; 
     }
   }
   
@@ -219,10 +207,8 @@ class Material {
       $html->print_table2();           
     }
     catch (PDOException $e) {
-      include_once("class.htmlinfo.php"); 
-      $info = new HTML_Info();      
-      $info->print_user_error(); 
-      $info->print_error($stmt, $e); 
+      $this->info->print_user_error(); 
+      $this->info->print_error($stmt, $e); 
     }
 
   }
@@ -271,10 +257,8 @@ class Material {
 
     }
     catch (PDOException $e) {
-      include_once("class.htmlinfo.php"); 
-      $info = new HTML_Info();      
-      $info->print_user_error(); 
-      $info->print_error($stmt, $e); 
+      $this->info->print_user_error(); 
+      $this->info->print_error($stmt, $e); 
     }
   }    
 
@@ -343,10 +327,8 @@ class Material {
       
     }
     catch (PDOException $e) {
-      include_once("class.htmlinfo.php"); 
-      $info = new HTML_Info();      
-      $info->print_user_error(); 
-      $info->print_error($stmt, $e); 
+      $this->info->print_user_error(); 
+      $this->info->print_error($stmt, $e); 
     }
   }
 
@@ -391,10 +373,8 @@ class Material {
       $this->ID= $ID_New; 
     }
     catch (PDOException $e) {
-      include_once("class.htmlinfo.php"); 
-      $info = new HTML_Info();      
-      $info->print_user_error(); 
-      $info->print_error($insert, $e);  
+      $this->info->print_user_error(); 
+      $this->info->print_error($insert, $e);  
     }  
   }
 
@@ -429,17 +409,12 @@ class Material {
 
     try {
       $stmt->execute(); 
-            
       $html = new HTML_Table($stmt); 
       $html->print_table_checklist('schueler'); 
-
-
     }
     catch (PDOException $e) {
-      include_once("class.htmlinfo.php"); 
-      $info = new HTML_Info();      
-      $info->print_user_error(); 
-      $info->print_error($stmt, $e); 
+      $this->info->print_user_error(); 
+      $this->info->print_error($stmt, $e); 
     }
   }
 

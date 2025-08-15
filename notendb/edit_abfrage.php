@@ -31,18 +31,18 @@ switch($option) {
         )
         ;    
 
-
   case 'delete_1': 
     $abfrage->ID = $_POST["ID"];  
     $abfrage->load_row(); 
     $Name=$abfrage->Name; 
-    $info->print_form_confirm('edit_abfrage.php',$abfrage->ID,'delete_2','Löschung');     
+    if($abfrage->is_deletable()) {
+      $info->print_form_confirm(basename(__FILE__),$abfrage->ID,'delete_2','Löschung');  
+    }     
     break; 
 
   case 'delete_2': 
     $abfrage->ID=$_REQUEST["ID"]; 
     $abfrage->delete(); 
-    $info->print_info($abfrage->infotext); 
     $show_data=false; 
     break; 
 

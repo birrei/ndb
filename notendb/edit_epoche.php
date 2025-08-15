@@ -31,17 +31,16 @@ switch($option) {
   case 'delete_1': 
     $epoche->ID = $_REQUEST["ID"];  
     $epoche->load_row(); 
-    $info->print_form_confirm(basename(__FILE__),$epoche->ID,'delete_2','Löschung');  
-    $show_data=true;      
+    if($epoche->is_deletable()) {
+      $info->print_form_confirm(basename(__FILE__),$epoche->ID,'delete_2','Löschung');  
+    }          
     break; 
 
   case 'delete_2': 
     $epoche->ID=$_REQUEST["ID"]; 
-    if($epoche->delete()) {
-      $show_data=false; 
-    } else  {
-      $show_data=true; 
-    }
+    $epoche->delete(); 
+    $show_data=false; 
+
     break; 
     
   default: 
