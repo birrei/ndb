@@ -1,61 +1,79 @@
 <?php
+include_once('classes/class.htmlinfo.php');
+include_once('dictionary.php');
 
-  $table=$_GET['table']; // Tabelle oder View 
+$table=isset($_REQUEST["table"])?$_REQUEST["table"]:''; // Tabelle oder View 
+// $table kann Tabellen- oder Viewname sein. 
+// (z.B. "material" oder  "v_material")
 
-/* Tabellen-Name für Bearbeiten-Links */
+$show_data=true; 
 
-  $table_orgnames = array("v_besonderheiten" => "lookup", 
-                          "v_besonderheittypen" => "lookup_type");
+if ($table=='') {
+    echo 'Es wurde kein Tabellen-Objekt definiert.'; 
+    goto pagefoot;
+}
 
-  $table_edit=array_key_exists($table, $table_orgnames)?$table_orgnames[$table]:$table; 
+$objectkey=''; // Objekt-Name im dictionary (= viewname)
 
-  $table_edit=(substr($table_edit,0,2)=='v_')?substr($table_edit,2, strlen($table)-2):$table_edit; // falls $table mit "v_" beginnt, dann diesen Suffix abschneiden 
+$found = false;
+// $table als Viewname im dictionary?  
+foreach ($objekte as $schluessel => $inneres_array) {
+    if (isset($inneres_array['viewname']) && $inneres_array['viewname'] == $table) {
+        $objectkey=$schluessel;       
+        $found = true;
+        break; 
+    }
+}
+// $table als Tabellenname im dictionary?  
+if (!$found) {
+  foreach ($objekte as $schluessel => $inneres_array) {
+      if (isset($inneres_array['tablename']) && $inneres_array['tablename'] == $table) {
+        $objectkey=$schluessel; 
+        $found = true;  
+        break; 
+      }
+  }
+}
+
+if (!$found) {
+  $show_data=false; 
+  $table_edit=''; 
+  $PageTitle  = 'Tabelle '.$table.' nicht definiert'; 
+}  
+else {
+  $objekt = $objekte[$objectkey]; 
+  $table_edit  = $objekt["tablename"]; 
+  $PageTitle = $objekt["printname_plural"]; 
+}
+// ------------------
+
+include_once('head.php');
+
+if (!$show_data) 
+  {
+    echo $PageTitle; 
+    goto pagefoot;
+  }
+
+
+/** Einstellungen Bearbeiten-Link  (Link "Bearbeiten", der in der letzten Spalte der abgerufenen Tabelle angezeigt wird)   */
+
+$add_link_edit=true; // Bearbeiten-Link in Ergebnistabelle anzeigen ja nein (default ja, spezialfälle: nein)
+
+/*  Info-Views  */
+if (substr($table,0,3)=='v2_') {
+  $add_link_edit=false; 
+}
+
+/* Test-Views  */
+if (substr($table,0,3)=='v3_') {
+  $add_link_edit=false; 
+}
+
   
-  // echo '<p>table_edit: '.$table_edit.'</p>'; // test 
- 
+/** Einstellungen Insert-Link */
 
-/* Überschriften (Anzeige Tabellen-Name oder Tabellen-Alias- Name) */
-
-  $table_aliases = array("v_besonderheiten" => "Besonderheiten"
-                       , "v_besonderheittypen" => "Besonderheit-Typen");
-  
-  $header=array_key_exists($table, $table_aliases)?$table_aliases[$table]:ucfirst($table_edit); 
-
-  // echo '<p>header: '.$header.'</p>';  
-
-  $PageTitle=$header; // übergabe Seiten-Titel an head.php: 
-
-  include_once('head.php');
-
-
-
-  /******************************* */
-  /***** Einstellungen für Bearbeiten-Link */
-
-  $add_link_edit=true; // Bearbeiten-Link in Ergebnistabelle anzeigen
-  $table_edit_title=''; // Titel der Seite, die über den Bearbeiten-Link aufgerufen wird 
-  $edit_link_show_newpage=false; // true: Das öffnen des Bearbeiten-Links soll in einem neuen Fenster erfolge
-
-
-  /*  Info-Views  */
-  if (substr($table,0,3)=='v2_') {
-    $add_link_edit=false; 
-  }
-
-  /* Test-Views  */
-  if (substr($table,0,3)=='v3_') {
-    $add_link_edit=false; 
-  }
-  if (isset($_GET['title'])) {
-    $table_edit_title=$_GET['title']; 
-  }
-
-  if (isset($_GET['edit_link_show_newpage'])) {
-    $edit_link_show_newpage=true; 
-  }
-
-  /******* Einstellungen für "Neu einfügen" - Link ********/
-  $show_insert_link=true; // default 
+  $show_insert_link=true; // "Neu einfügen" - Link anzeigen ja / nein - default: ja 
 
   /*  Info-Views  */
   if (substr($table,0,3)=='v2_') {
@@ -65,16 +83,17 @@
   /*  Test-Views  */
   if (substr($table,0,3)=='v3_') {
     $show_insert_link=false;  
-  }
+}
 
-  /********* Zusätzliche "Anzeigen" Spalte in Ergebnistabelle */
+/* Zusätzliche "Anzeigen" Spalte in Ergebnistabelle */
   $add_link_show=false; 
 
   if (isset($_GET['add_link_show'])) {
-    $add_link_show=true; 
+    $add_link_show=true;  //  Stand Aug. 2025: nur "v_abfragen"
   }
 
   /* Sortierung */
+  // XXX Info / Alternativen für Sortierung 
   $sortcol=(isset($_GET['sortcol'])?$_GET['sortcol']:'ID'); 
   $sortorder=(isset($_GET['sortorder'])?$_GET['sortorder']:'ASC'); 
 
@@ -82,7 +101,7 @@
 
   $query = 'SELECT * FROM '.$table.' WHERE 1=1 ';
 
-  echo '<h3>'.$header.'</h3>'.PHP_EOL; 
+  echo '<h3>'.$PageTitle.'</h3>'.PHP_EOL; 
 
   // Link für Neu-Erfassung anzeigen? 
   if ($show_insert_link) {
@@ -198,8 +217,8 @@
 
     $html->add_link_edit= $add_link_edit; 
     $html->edit_link_table=$table_edit; 
-    $html->edit_link_open_newpage = $edit_link_show_newpage; 
-    $html->edit_link_title= $table_edit_title; 
+    $html->edit_link_open_newpage = false; 
+    // $html->edit_link_title= $table_edit_title; 
     $html->print_table2(); 
   }
   catch (PDOException $e) {
@@ -210,5 +229,6 @@
   }
 
 
+pagefoot: 
 include_once('foot.php');
 ?>
