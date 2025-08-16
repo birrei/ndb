@@ -4,13 +4,15 @@ $PageTitle='Abfragetyp';
 include_once('head.php');
 include_once("classes/class.abfragetyp.php");
 include_once("classes/class.htmlinfo.php");
+include_once('dictionary.php');
 
-$abfragetyp = new Abfragetyp();
+$objekt=$objekte["v_abfragetyp"]; // dictionary 
+$abfragetyp = new Abfragetyp($objekt);
+
 $info= new HTML_Info(); 
 
 $show_data=true; 
 $option=isset($_REQUEST["option"])?$_REQUEST["option"]:'edit';
-
 
 switch($option) {
   case 'edit': 
@@ -47,7 +49,6 @@ switch($option) {
     $show_data=false; 
 
 }
-
 
 $info->print_screen_header($abfragetyp->Title.' bearbeiten'); 
 $info->print_link_table($abfragetyp->table_name, 'sortcol=Name', $abfragetyp->Titles); 

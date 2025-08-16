@@ -5,12 +5,12 @@ include_once("class.htmlinfo.php");
 include_once("class.htmlselect.php"); 
 include_once("class.htmltable.php");    
 
-
 class Abfragetyp {
 
-  public $table_name='abfragetyp'; 
+  public $table_name=''; 
   public $ID;
   public $Name;
+
   public $titles_selected_list; 
   public $Title='Abfragetyp';
   public $Titles='Abfragetypen';  
@@ -19,7 +19,12 @@ class Abfragetyp {
   private $db; 
   private $info; 
 
-  public function __construct(){
+  public function __construct($objekt=[]){
+    // XXX pilot: Übergabe $object aus dictionary, s. edit_abfragetyp.php
+    $this->table_name=$objekt["tablename"];
+    $this->Title = $objekt["printname"];
+    $this->Titles = $objekt["printname_plural"]; 
+
     $conn=new DBConnection(); 
     $this->db=$conn->db; 
     $this->info=new HTML_Info(); 
