@@ -12,8 +12,8 @@ class Abfragetyp {
   public $Name;
 
   public $titles_selected_list; 
-  public $Title='Abfragetyp';
-  public $Titles='Abfragetypen';  
+  public $Title='';
+  public $Titles='';  
   public string $infotext=''; 
   
   private $db; 
