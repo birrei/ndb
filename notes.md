@@ -1,5 +1,11 @@
 
-Sammlung von Gedanken und Erklärungen, die (noch) nicht auf der Hilfe-Seite zu finden sind  
+Sammlung von Gedanken und Erklärungen, die (noch) nicht auf der Hilfe-Seite zu finden sind. 
+
+### Sammlung und Material 
+
+* Materialen sind (strukturell ähnlich Musikstücken) den Sammlungen (Sammlung = üblicherweise: Notenheft) untergeordnet. 
+* Es gibt Materialien, die einer echten (Noten-Sammlung) zugeordnet sind .. zwar nur Einzelfälle - aber  auch der Grund dafür, warum Materialien nun einer Sammlung zuordenbar sein müssen. 
+* Damit sollen auch Materialien, die zu keinem Notenheft (also keiner Sammlung) angehören, trotzdem eine "gedachte" ("viertuelle") Sammlung angelegt werden. 
 
 ### Thema "Suche", "Ansichten", "Filter" 
 
@@ -46,4 +52,10 @@ Zusammenfassung - Filter in Zellen-internen Auflistungen:
   - Schüler, Übung Typ, 
 
 * Übung: Anzeige der Stücke / Materialien, deren Verknüpfungs-Status ein "Aktiv" im Namen hat 
+
+
+-----------
+
+Grund für die Auslagerung von (Text-) Eigenschaften der Objekte in dictionary.php: 
+* Wären die Texteigenschaften Objekte in den Klassen definiert, müssten zum Abruf der Eigenschaften aller objekte auch alle Klassen instanziiert werden. 
 
