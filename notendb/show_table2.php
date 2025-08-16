@@ -18,20 +18,20 @@ $objectkey=''; // Objekt-Name im dictionary (= viewname)
 $found = false;
 // $table als Viewname im dictionary?  
 foreach ($objekte as $schluessel => $inneres_array) {
-    if (isset($inneres_array['viewname']) && $inneres_array['viewname'] == $table) {
-        $objectkey=$schluessel;       
-        $found = true;
-        break; 
-    }
+  if (isset($inneres_array['viewname']) && $inneres_array['viewname'] == $table) {
+      $objectkey=$schluessel;       
+      $found = true;
+      break; 
+  }
 }
 // $table als Tabellenname im dictionary?  
 if (!$found) {
   foreach ($objekte as $schluessel => $inneres_array) {
-      if (isset($inneres_array['tablename']) && $inneres_array['tablename'] == $table) {
-        $objectkey=$schluessel; 
-        $found = true;  
-        break; 
-      }
+    if (isset($inneres_array['tablename']) && $inneres_array['tablename'] == $table) {
+      $objectkey=$schluessel; 
+      $found = true;  
+      break; 
+    }
   }
 }
 
@@ -213,8 +213,6 @@ if (substr($table,0,3)=='v3_') {
     include_once("classes/class.htmltable.php");      
     $html = new HTML_Table($select); 
     $html->add_link_show=$add_link_show; 
-    
-
     $html->add_link_edit= $add_link_edit; 
     $html->edit_link_table=$table_edit; 
     $html->edit_link_open_newpage = false; 
@@ -222,7 +220,7 @@ if (substr($table,0,3)=='v3_') {
     $html->print_table2(); 
   }
   catch (PDOException $e) {
-    include_once("classes/class.htmlinfo.php"); 
+    // include_once("classes/class.htmlinfo.php"); 
     $info = new HTML_Info();      
     $info->print_user_error(); 
     $info->print_error($select, $e); 
