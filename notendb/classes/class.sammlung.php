@@ -264,7 +264,6 @@ include_once('class.link.php');
             on lookup.ID=sammlung_lookup.LookupID
           INNER JOIN lookup_type
             on lookup_type.ID = lookup.LookupTypeID
-            and lookup_type.Relation='sammlung' 
           WHERE sammlung_lookup.SammlungID = :SammlungID";
           $query.=($LookupTypeID>0?" AND lookup.LookupTypeID = :LookupTypeID":""); 
           $query.=" ORDER by lookup_type.Name, lookup.Name"; 

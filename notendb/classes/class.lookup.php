@@ -13,7 +13,8 @@ class Lookup {
   public $LookupTypeID; 
   public $LookupTypeKey;   
   public $LookupTypeName; 
-  public $LookupTypeRelation; 
+  public $LookupTypeRelation; // "satz", "sammlung", "material" oder "musikstueck" 
+  public $ReferenceID; // je nach "LookupTypeRelation":  SammlungID, SatzID, MaterialID oder MusikstueckID 
   public $ID_List; 
   public $titles_selected_list; 
   public $Title='Besonderheit';
@@ -52,29 +53,33 @@ class Lookup {
     }
   }  
  
-  function print_select($value_selected='',$RelationID='', $caption=''){
-  
+  function print_select($value_selected='',$caption=''){
+
+    $Relation = $this->LookupTypeRelation; 
+    $ReferenceID = $this->ReferenceID;
+    $LookupTypeID=$this->LookupTypeID;  
+
     $query="SELECT lookup.ID
-          -- , concat(lookup_type.Name, ': ', lookup.Name) as Besonderheit
-              , lookup.Name as Besonderheit
-          FROM lookup 
-          INNER JOIN lookup_type 
-          ON lookup_type.ID=lookup.LookupTypeID 
-          WHERE lookup_type.Relation=:Relation ";
+            , lookup.Name as Besonderheit
+            -- , concat(lookup_type.Name, ': ', lookup.Name) as Besonderheit
+            FROM lookup 
+            INNER JOIN lookup_type ON lookup_type.ID=lookup.LookupTypeID 
+            INNER JOIN lookuptype_relation ON lookup_type.ID=lookuptype_relation.LookuptypeID 
+            INNER JOIN relation ON relation.ID = lookuptype_relation.RelationID  
+            WHERE relation.Name=:Relation ".PHP_EOL;
 
+    if ($LookupTypeID!=''){
+        $query.="AND lookup.LookupTypeID=:LookupTypeID ".PHP_EOL; 
+    }  
 
-    if ($RelationID!=''){
-      switch ($this->LookupTypeRelation) {
+    if ($ReferenceID!=''){
+      switch ($Relation) {
         case 'sammlung': 
-          $query.='AND lookup.ID NOT IN 
-                  (SELECT LookupID FROM sammlung_lookup 
-                  WHERE SammlungID=:SammlungID)'; 
+          $query.='AND lookup.ID NOT IN (SELECT LookupID FROM sammlung_lookup WHERE SammlungID=:SammlungID) '.PHP_EOL; 
           break; 
 
         case 'satz': 
-          $query.='AND lookup.ID NOT IN 
-                  (SELECT LookupID FROM satz_lookup 
-                  WHERE SatzID=:SatzID)';  
+          $query.='AND lookup.ID NOT IN (SELECT LookupID FROM satz_lookup WHERE SatzID=:SatzID) '.PHP_EOL;  
           break; 
 
         }
@@ -85,26 +90,29 @@ class Lookup {
    // echo '<pre>'.$query.'</pre>';     // test 
 
     $stmt = $this->db->prepare($query); 
-    $stmt->bindParam(':Relation', $this->LookupTypeRelation);
+    $stmt->bindParam(':Relation', $Relation);
 
-    if ($RelationID!=''){
+    if ($LookupTypeID!=''){
+      $stmt->bindParam(':LookupTypeID', $LookupTypeID, PDO::PARAM_INT);
+    }  
 
-
+    if ($ReferenceID!=''){
       switch ($this->LookupTypeRelation) {
         case 'sammlung': 
-          $stmt->bindParam(':SammlungID', $RelationID);
+          $stmt->bindParam(':SammlungID', $ReferenceID, PDO::PARAM_INT);
           break; 
 
         case 'satz': 
-          $stmt->bindParam(':SatzID', $RelationID);
+          $stmt->bindParam(':SatzID', $ReferenceID, PDO::PARAM_INT);
           break; 
-
         }     
-
     }  
 
     try {
       $stmt->execute(); 
+      // echo '<pre>'; 
+      // $stmt->debugDumpParams(); // TEST 
+      // echo '</pre>';      
       $html = new HTML_Select($stmt); 
       $html->autofocus=true; 
       $html->caption = $caption;       
@@ -117,8 +125,12 @@ class Lookup {
     }
   }
 
-  function print_select2($LookupTypeID, $RelationID='',$value_selected=''){
+  function print_select2($LookupTypeID, $ReferenceID='',$value_selected=''){
+    // XXXX 
     // Lookup für einen ausgewählten Typ   
+
+    // ReferenceID: SammlungID, SatzID, MaterialID oder MusikstueckID 
+    $Relation=$this->LookupTypeRelation; // Optionen: "satz", "sammlung", "material", "musikstueck" 
 
     $query="SELECT lookup.ID
             , lookup.Name
@@ -128,7 +140,7 @@ class Lookup {
             WHERE 1=1 
             AND LookupTypeID=:LookupTypeID ";
 
-    if ($RelationID!=''){
+    if ($ReferenceID!=''){
         switch($this->LookupTypeRelation) {
           case 'sammlung': 
             $query.='AND lookup.ID NOT IN 
@@ -151,8 +163,8 @@ class Lookup {
     $stmt = $this->db->prepare($query); 
     $stmt->bindParam(':LookupTypeID', $LookupTypeID);    
 
-    if ($RelationID!=''){
-      $stmt->bindParam(':RelationID', $RelationID);
+    if ($ReferenceID!=''){
+      $stmt->bindParam(':RelationID', $ReferenceID);
     }  
 
     try {

@@ -6,6 +6,7 @@ include_once("classes/class.musikstueck.php");
 $musikstueck=new Musikstueck();
 $musikstueck->ID=$_GET["MusikstueckID"]; 
 
+// XXX $option mit case umstelleln 
 if (isset($_GET["option"])){
     if($_GET["option"]=='insert' and isset($_GET["BesetzungID"])) {
         if ($_GET["BesetzungID"]!='') {

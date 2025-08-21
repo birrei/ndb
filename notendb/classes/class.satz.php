@@ -272,7 +272,6 @@ class Satz {
             on lookup.ID=satz_lookup.LookupID
           INNER JOIN lookup_type
             on lookup_type.ID = lookup.LookupTypeID
-            and lookup_type.Relation='satz' 
           WHERE satz_lookup.SatzID = :SatzID";
           $query.=($LookupTypeID>0?" AND lookup.LookupTypeID = :LookupTypeID":""); 
           $query.=" ORDER by lookup_type.Name, lookup.Name"; 

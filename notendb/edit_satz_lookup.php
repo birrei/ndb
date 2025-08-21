@@ -3,14 +3,14 @@
 include_once('head_raw.php');
 include_once('classes/class.lookuptype.php');
 include_once("classes/class.htmlinfo.php"); 
+include_once("classes/class.lookup.php");     
 
 $info = new HTML_Info(); 
 
-$LookupTypeID=''; 
+$SatzID=$_GET["SatzID"]; 
 
-if (isset($_POST["LookupTypeID"])) {
-  $LookupTypeID= $_POST["LookupTypeID"]; 
-}
+$LookupTypeID=isset($_REQUEST["LookupTypeID"])?$_REQUEST["LookupTypeID"]:'';
+
 ?> 
 <table class="eingabe2">
 <form action="" method="post">
@@ -31,9 +31,7 @@ if (isset($_POST["LookupTypeID"])) {
 
     <td class="eingabe2 eingabe2_3"> 
     <?php 
- 
-    // $info->option_linktext=1; 
-    $info->print_link_table('lookup_type','sortcol=Name','Besonderheit-Typen',true,''); ;  
+    $info->print_link_table('v_lookup_type','sortcol=Name','Besonderheit-Typen',true,''); ;  
     ?>    
     </td>
 </tr>
@@ -47,26 +45,23 @@ if (isset($_POST["LookupTypeID"])) {
   <td class="eingabe2 eingabe2_1">Besonderheit:</td>
   <td class="eingabe2 eingabe2_2">
   <?php 
-          include_once("classes/class.lookup.php");         
-          $lookup = new Lookup(); 
-          $lookup->LookupTypeRelation='satz';
-          if ($LookupTypeID!='') {  
-            $lookup->print_select2($LookupTypeID, $_GET["SatzID"]); 
-          } else {
-            $lookup->print_select('',  $_GET["SatzID"]); 
-          }
+      $lookup = new Lookup(); 
+      $lookup->LookupTypeRelation='satz';
+      $lookup->LookupTypeID=$LookupTypeID; 
+      $lookup->ReferenceID=$SatzID; 
+      $lookup->print_select(); 
     ?>
   </td>
   
   <td class="eingabe2 eingabe2_3"> 
     <?php 
-     // $info->option_linktext=1;         
+
     $info->print_link_table('v_lookup','sortcol=Name','Besonderheiten',true,'&show_filter');  
     ?>    
     </td>  
 </tr>
 
-<!----------------  Zeile 2 ------------------------->
+<!----------------  Zeile 3 ------------------------->
 
 
 <tr>
@@ -75,22 +70,13 @@ if (isset($_POST["LookupTypeID"])) {
   <td class="eingabe2 eingabe2_3"></td>    
 </tr>
 
-<tr>
-  <td class="eingabe2 eingabe2_1"> </td>
-  <td class="eingabe2 eingabe2_2">
-  <?php
-    $info->print_link_reload();    
-  ?>
-  </td>  
-  <td class="eingabe2 eingabe2_3"></td>  
 
-</tr>
 
 <tr>
   <td class="eingabe2 eingabe2_1"> </td>
   <td class="eingabe2 eingabe2_2">
   <?php  
-    $info->print_link_backToList('edit_satz_lookups.php?SatzID='.$_GET["SatzID"]);       
+    // $info->print_link_backToList('edit_satz_lookups.php?SatzID='.$_GET["SatzID"]);       
   ?>
   </td>  
   <td class="eingabe2 eingabe2_3"></td>  

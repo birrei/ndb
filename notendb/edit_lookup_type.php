@@ -24,10 +24,10 @@ switch($option) {
   
   case 'update': 
     $lookuptype->ID = $_POST["ID"];    
-    $lookuptype->update_row($_POST["Name"],$_POST["Relation"],$_POST["type_key"],$_POST["selsize"]); 
-    if ($lookuptype->textWarning!='') {
-      $info->print_user_error($lookuptype->textWarning); 
-    }
+    $lookuptype->update_row($_POST["Name"],$_POST["type_key"],$_POST["selsize"]); 
+    // if ($lookuptype->textWarning!='') {
+    //   $info->print_user_error($lookuptype->textWarning); 
+    // }
     break; 
 
   case 'delete_1': 
@@ -50,7 +50,7 @@ switch($option) {
 }
 
 $info->print_screen_header($lookuptype->Title.' bearbeiten'); 
-$info->print_link_table('v_besonderheittypen', 'sortcol=Name', $lookuptype->Titles); 
+$info->print_link_table('v_lookup_type', 'sortcol=Name', $lookuptype->Titles); 
 
 if (!$show_data) {goto pagefoot;}
 
@@ -68,52 +68,41 @@ echo '
     <label>
     <td class="form-edit form-edit-col1">Name:</td>  
     <td class="form-edit form-edit-col2"><input type="text" name="Name" value="'.$lookuptype->Name.'" size="80" autofocus="autofocus"  oninput="changeBackgroundColor(this)" required>
-    
-
-    
     </td>
     </label>
   </tr> 
-  
-  <tr>    
-    <label>
-    <td class="form-edit form-edit-col1">Tabelle: </td>  
-    <td class="form-edit form-edit-col2">
-
-    <select name="Relation"  required="required" oninput="changeBackgroundColor(this)">
-        <option value="satz"'.($lookuptype->Relation=='satz'?' selected':'').'>Satz</option>              
-        <option value="sammlung"'.($lookuptype->Relation=='sammlung'?' selected':'').'>Sammlung</option>
-        <!-- ohne Musikstück --> 
-    </select>
-
-    </td>
-    </label>
-  </tr> 
-
+  '; 
+  ?>
   <tr> 
-    <td class="form-edit form-edit-col1">Besonderheiten:
-      <p> <a href="edit_lookup_type_lookups.php?LookupTypeID='.$lookuptype->ID.'" target="Lookups" class="form-link">Aktualisieren</a></p>
+    <td class="form-edit form-edit-col1">
+      
+      <!-- <p> <a href="edit_lookup_type_lookups.php?LookupTypeID=<?php echo $lookuptype->ID; ?>" target="Lookups" class="form-link">Aktualisieren</a></p>
+     -->
+      <input type="radio" id="Besonderheiten" name="target_form" value="Besonderheiten" onclick="changeIframeSrc('subform1', 'edit_lookup_type_lookups.php?LookupTypeID=<?php echo $lookuptype->ID; ?>&source=iframe');" checked>
+      <label for="Besonderheiten">Besonderheiten</label><br>
+    
+      <input type="radio" id="Relationen" name="target_form" value="Relationen" onclick="changeIframeSrc('subform1', 'edit_lookup_type_relationen.php?LookuptypeID=<?php echo $lookuptype->ID; ?>&source=iframe')">
+      <label for="Relationen">Relationen</label><br>
+          
+    
     </td> 
     <td class="form-edit form-edit-col2">
-    
-      <iframe src="edit_lookup_type_lookups.php?LookupTypeID='.$lookuptype->ID.'&source=iframe" height="400" name="Lookups" class="form-iframe-var2"></iframe>
-
+      <iframe src="edit_lookup_type_lookups.php?LookupTypeID=<?php echo $lookuptype->ID; ?>&source=iframe" height="400" name="subform1"  id="subform1" class="form-iframe-var2"></iframe>
     </td>
   </tr> 
 
   <tr>    
     <td class="form-edit form-edit-col1">Suchfeld Größe:</td>  
-    <td class="form-edit form-edit-col2"><input type="text" name="selsize" value="'.$lookuptype->selsize.'" size="10" maxlength="80" required="required" oninput="changeBackgroundColor(this)"> 
+    <td class="form-edit form-edit-col2"><input type="text" name="selsize" value="<?php echo $lookuptype->selsize; ?>" size="10" maxlength="80" required="required" oninput="changeBackgroundColor(this)"> 
             <span class="form-infotext"> Anzahl Zeilen im Mehrfach-Auswahlfeld des Such-Formulars. </span>
     </td>
-
-    </tr> 
+  </tr> 
 
 
   
   <tr>    
     <td class="form-edit form-edit-col1">Schlüssel:</td>  
-    <td class="form-edit form-edit-col2"><input type="text" name="type_key" value="'.$lookuptype->type_key.'" size="50" maxlength="50" required="required" oninput="changeBackgroundColor(this)"> 
+    <td class="form-edit form-edit-col2"><input type="text" name="type_key" value="<?php echo $lookuptype->type_key; ?>" size="50" maxlength="50" required="required" oninput="changeBackgroundColor(this)"> 
     <span class="form-infotext"> Max. 50 Zeichen. Eine Vorgabe wird automatisch erzeugt, Vergabe eines sprechenden Kurz-Namens ist sinnvoll. </span>
     </td>
   </tr> 
@@ -127,12 +116,13 @@ echo '
 
 
   <input type="hidden" name="option" value="update">     
-  <input type="hidden" name="title" value="Besonderheit Typ">    
-  <input type="hidden" name="ID" value="' . $lookuptype->ID. '">
+  <input type="hidden" name="ID" value="<?php echo $lookuptype->ID; ?>">
 
 </form>
 
-<tr> 
+<?php 
+
+echo '<tr> 
   <td class="form-edit form-edit-col1"></td> 
   <td class="form-edit form-edit-col2"><br>
   '; 
