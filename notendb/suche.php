@@ -1,5 +1,5 @@
 <?php 
-
+$PageTitle='Suche'; 
 include_once('head.php');
 
 include_once("classes/dbconn/class.db.php");  
