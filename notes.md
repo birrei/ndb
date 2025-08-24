@@ -7,6 +7,11 @@ Sammlung von Gedanken und Erklärungen, die (noch) nicht auf der Hilfe-Seite zu 
 
 ### Zuordnung mehrerer Relationen (= Tabellen) zu einem Lookup-Type (Besonderheit-Typ)
 
+Temp. 24.08.2025 - noch offen XXXX 
+ * Besonderheiten Einschluss-Suche / Ausschlusssuche
+ * Aktuell nur Ansicht-Gruppe "Noten" angepasst. 
+
+----------------
 Jeder Besonderheit-Typ kann nun (theortisch) bei jeder Datentabelle (Sammlung, Musikstück, Satz und Material) zugeordnet werden. 
 
 Suche-Navileiste (links): Neue Unterteilung: 
@@ -21,12 +26,8 @@ Suche-Navileiste (links): Neue Unterteilung:
 Neuer Block "Besonderheiten" 
 
 Die Reihenfolge innerhalb der Suchleiste sowie die sichtbare Zeilenzahl der Auswahlkästchen können durch entsprechende Einträge beim Besonderheit-Typ angepasst werden: 
-* Reihenfolge: Schlüssel
-* Zeilen-Anzahl der 
-
-Besonderheit-Typen: Reihenfolge der Suchkästchen über Feld "type_key" steuern 
-
-
+* Reihenfolge: Schlüssel ("type_key")
+* Zeilen-Anzahl: XXX 
 
 ### Sammlung und Material 
 
