@@ -811,7 +811,7 @@ include_once("suche_sql.php");
     $info->print_error($select, $e); 
   }    
 
-  echo '<pre style="font-size: 11px; visibility: visible;">'.$query.'</pre>'; // Test  
+  echo '<pre style="font-size: 11px; visibility: hidden;">'.$query.'</pre>'; // Test  
 
   keinFilter: 
 
