@@ -150,10 +150,17 @@ echo '</td>
   ?>
 
   <tr> 
-    <td class="form-edit form-edit-col1">Schüler:</td> 
+    <td class="form-edit form-edit-col1">Daten anzeigen:<br><br>
+
+      <input type="radio" id="opt_Besonderheiten" name="target_form" value="Besonderheiten" onclick="changeIframeSrc('subform1', 'edit_material_lookups.php?MaterialID=<?php echo $material->ID; ?>');" checked>
+      <label for="Besonderheiten">Besonderheiten</label><br>
+
+      <input type="radio" id="opt_Schueler" name="target_form" value="Schueler" onclick="changeIframeSrc('subform1', 'edit_material_schuelers.php?MaterialID=<?php echo $material->ID; ?>');">
+      <label for="opt_Schueler">Schüler</label>    
+
   </td> 
   <td class="form-edit form-edit-col2">
-    <iframe src="edit_material_schuelers.php?MaterialID=<?php echo $material->ID; ?>&source=iframe" height="300" id="subform1" name="Material" class="form-iframe-var2"></iframe>
+    <iframe src="edit_material_lookups.php?MaterialID=<?php echo $material->ID; ?>&source=iframe" height="300" id="subform1" name="Material" class="form-iframe-var2"></iframe>
   </td>
   </tr> 
 

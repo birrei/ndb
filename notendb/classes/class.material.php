@@ -107,20 +107,6 @@ class Material {
     }  
   }  
 
-  function delete_schuelers(){
-
-    $delete = $this->db->prepare("DELETE FROM `schueler_material` WHERE MaterialID=:ID"); 
-    $delete->bindValue(':ID', $this->ID);  
-
-    try {
-      $delete->execute(); 
-    }
-    catch (PDOException $e) {
-      $this->info->print_user_error(); 
-      $this->info->print_error($delete, $e);  
-    }  
-  }
-
   function count_schueler() {
 
     $select = $this->db->prepare("SELECT ID from schueler_material WHERE MaterialID=:ID");
@@ -141,9 +127,9 @@ class Material {
     return true; 
   }
 
-
   function delete(){
 
+    $this->delete_lookups();     
     $this->delete_schuelers(); 
 
     $delete = $this->db->prepare("DELETE FROM `material` WHERE ID=:ID"); 
@@ -160,6 +146,34 @@ class Material {
       return false ; 
     }  
   }   
+
+  function delete_lookups(){
+
+    $delete = $this->db->prepare("DELETE FROM material_lookup WHERE MaterialID=:ID"); 
+    $delete->bindValue(':ID', $this->ID);  
+
+    try {
+      $delete->execute(); 
+    }
+    catch (PDOException $e) {
+      $this->info->print_user_error(); 
+      $this->info->print_error($delete, $e);  
+    }  
+  }
+ 
+  function delete_schuelers(){
+
+    $delete = $this->db->prepare("DELETE FROM `schueler_material` WHERE MaterialID=:ID"); 
+    $delete->bindValue(':ID', $this->ID);  
+
+    try {
+      $delete->execute(); 
+    }
+    catch (PDOException $e) {
+      $this->info->print_user_error(); 
+      $this->info->print_error($delete, $e);  
+    }  
+  } 
 
   function insert_material_tmp ($URL, $Title) {
 
@@ -368,6 +382,8 @@ class Material {
       $insert->execute(); 
       $ID_New = $this->db->lastInsertId();    
         
+      $this->copy_lookups($ID_New); 
+
       $this->copy_schueler($ID_New); 
 
       $this->ID= $ID_New; 
@@ -394,6 +410,22 @@ class Material {
 
   }
 
+  function copy_lookups($ID_new) {
+
+    $sql="insert into material_lookup 
+          (MaterialID, LookupID) 
+    select :MaterialID as MaterialID
+          , LookupID
+    from material_lookup 
+    where MaterialID=:ID";
+
+    $insert = $this->db->prepare($sql); 
+    $insert->bindValue(':ID', $this->ID);  
+    $insert->bindValue(':MaterialID', $ID_new);  
+    $insert->execute();  
+
+  }  
+
   function print_table_schueler_checklist(){
     $query="select distinct schueler.ID, schueler.Name
             from schueler 
@@ -411,6 +443,81 @@ class Material {
       $stmt->execute(); 
       $html = new HTML_Table($stmt); 
       $html->print_table_checklist('schueler'); 
+    }
+    catch (PDOException $e) {
+      $this->info->print_user_error(); 
+      $this->info->print_error($stmt, $e); 
+    }
+  }
+
+  function add_lookup($LookupID){
+
+    $insert = $this->db->prepare("INSERT INTO `material_lookup` SET
+        `MaterialID`     = :MaterialID,  
+        `LookupID`     = :LookupID");
+
+    $insert->bindValue(':MaterialID', $this->ID);  
+    $insert->bindValue(':LookupID', $LookupID);  
+
+    try {
+      $insert->execute(); 
+    }
+    catch (PDOException $e) {
+      $this->info->print_user_error(); 
+      $this->info->print_error($insert, $e);  
+    }  
+  } 
+
+  function delete_lookup($LookupID){
+
+    $delete = $this->db->prepare("DELETE FROM `material_lookup` 
+                            WHERE MaterialID=:MaterialID 
+                            AND LookupID=:LookupID"); 
+    $delete->bindValue(':MaterialID', $this->ID);  
+    $delete->bindValue(':LookupID', $LookupID);  
+
+    try {
+      $delete->execute(); 
+    }
+    catch (PDOException $e) {
+      $this->info->print_user_error(); 
+      $this->info->print_error($delete, $e);  
+    }  
+  }
+
+  function print_table_lookups($target_file, $LookupTypeID=0){
+
+    $query="SELECT lookup.ID
+             , lookup_type.Name as Typ     
+             , lookup.Name  
+          FROM material_lookup          
+          INNER JOIN lookup 
+            on lookup.ID=material_lookup.LookupID
+          INNER JOIN lookup_type
+            on lookup_type.ID = lookup.LookupTypeID
+          WHERE material_lookup.MaterialID = :MaterialID";
+          $query.=($LookupTypeID>0?" AND lookup.LookupTypeID = :LookupTypeID":""); 
+          $query.=" ORDER by lookup_type.Name, lookup.Name"; 
+
+    // echo $query; 
+  
+    $stmt = $this->db->prepare($query); 
+    $stmt->bindParam(':MaterialID', $this->ID, PDO::PARAM_INT);
+    if ($LookupTypeID>0) {
+      $stmt->bindParam(':LookupTypeID', $LookupTypeID, PDO::PARAM_INT);
+    } 
+
+    try {
+      $stmt->execute(); 
+            
+      $html = new HTML_Table($stmt); 
+      $html->add_link_edit=false;
+      $html->add_link_delete=true;
+      $html->del_link_filename=$target_file; 
+      $html->del_link_parent_key='MaterialID'; 
+      $html->del_link_parent_id= $this->ID; 
+      $html->show_missing_data_message=false; 
+      $html->print_table2(); 
     }
     catch (PDOException $e) {
       $this->info->print_user_error(); 

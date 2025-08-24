@@ -56,9 +56,7 @@ a:hover {
     <a href="show_table2.php?table=v_schwierigkeitsgrad&sortcol=Name">Schwierigkeitsgrade</a> <br>
     <a href="show_table2.php?table=v_instrument&sortcol=Name">Instrumente</a> <br>
     <a href="show_table2.php?table=v_lookup&sortcol=LookupTypeName,Name">Besonderheiten</a> <br> 
-    <!-- <a href="show_table2.php?table=v_besonderheiten&sortcol=Name">Besonderheiten</a> <br> -->
-    <a href="show_table2.php?table=v_lookup_type&sortcol=Name">Besonderheit Typen</a> 
-    <!-- <a href="show_table2.php?table=v_besonderheittypen&sortcol=Name">Besonderheit Typen</a> <br> -->
+    <a href="show_table2.php?table=v_lookup_type&sortcol=Name">Besonderheit Typen</a> <br>
     <a href="show_table2.php?table=v_materialtyp&sortcol=Name">Materialtypen</a>  <br>
 
     <a href="show_table2.php?table=v_status&sortcol=Name">Status Ausprägungen</a> <i>(Status Schüler Satz/Material-Zuordnung)</i><br>

@@ -173,7 +173,8 @@ function getSQL_FROM($Ansicht){
       LEFT JOIN gattung on gattung.ID = musikstueck.GattungID  
       LEFT JOIN epoche on epoche.ID = musikstueck.EpocheID           
       LEFT JOIN satz on satz.MusikstueckID = musikstueck.ID 
-      LEFT JOIN satz_erprobt on satz.ID = satz_erprobt.SatzID 
+      LEFT JOIN satz_erprobt on satz.ID = satz_erprobt.SatzID
+      LEFT JOIN material on material.SammlungID = sammlung.ID        
       ".PHP_EOL; 
       break; 
 
@@ -202,6 +203,7 @@ function getSQL_FROM($Ansicht){
       LEFT JOIN epoche on epoche.ID = musikstueck.EpocheID           
       LEFT JOIN satz on satz.MusikstueckID = musikstueck.ID 
       LEFT JOIN satz_erprobt on satz.ID = satz_erprobt.SatzID 
+      LEFT JOIN material on material.SammlungID = sammlung.ID       
       LEFT JOIN v_links as links on links.SammlungID = sammlung.ID ".PHP_EOL; 
       break; 
       
@@ -212,7 +214,8 @@ function getSQL_FROM($Ansicht){
         LEFT JOIN musikstueck on sammlung.ID = musikstueck.SammlungID 
         LEFT JOIN v_komponist komponist on komponist.ID = musikstueck.KomponistID
         LEFT JOIN gattung on gattung.ID = musikstueck.GattungID  
-        LEFT JOIN epoche on epoche.ID = musikstueck.EpocheID              
+        LEFT JOIN epoche on epoche.ID = musikstueck.EpocheID     
+        LEFT JOIN material on material.SammlungID = sammlung.ID                  
         LEFT JOIN (
           select musikstueck_besetzung.MusikstueckID         
               , GROUP_CONCAT(DISTINCT besetzung.Name  order by besetzung.Name SEPARATOR ', ') Besetzungen       
@@ -230,7 +233,8 @@ function getSQL_FROM($Ansicht){
     case 'Satz':
       $query="FROM sammlung 
       LEFT JOIN standort  on sammlung.StandortID = standort.ID    
-      LEFT JOIN musikstueck on sammlung.ID = musikstueck.SammlungID  
+      LEFT JOIN musikstueck on sammlung.ID = musikstueck.SammlungID
+       LEFT JOIN material on material.SammlungID = sammlung.ID             
       LEFT JOIN v_komponist komponist on komponist.ID = musikstueck.KomponistID
       LEFT JOIN gattung on gattung.ID = musikstueck.GattungID  
       LEFT JOIN epoche on epoche.ID = musikstueck.EpocheID        
@@ -283,6 +287,7 @@ function getSQL_FROM($Ansicht){
       LEFT JOIN satz_lookup on satz_lookup.SatzID = satz.ID 
       LEFT JOIN v_satz_lookuptypes on v_satz_lookuptypes.SatzID = satz.ID 
       LEFT JOIN schueler_satz on schueler_satz.SatzID = satz.ID 
+       LEFT JOIN material on material.SammlungID = sammlung.ID           
       
       ". PHP_EOL;                   
 
@@ -305,6 +310,7 @@ function getSQL_FROM($Ansicht){
       LEFT JOIN musikstueck on sammlung.ID = musikstueck.SammlungID  
       LEFT JOIN satz on satz.MusikstueckID = musikstueck.ID 
       LEFT JOIN satz_erprobt on satz.ID = satz_erprobt.SatzID 
+       LEFT JOIN material on material.SammlungID = sammlung.ID           
       LEFT JOIN erprobt on erprobt.ID = satz_erprobt.ErprobtID  
       LEFT JOIN satz_schwierigkeitsgrad on satz_schwierigkeitsgrad.SatzID = satz.ID 
       LEFT JOIN instrument_schwierigkeitsgrad 
@@ -371,6 +377,110 @@ function getSQL_FROM($Ansicht){
 
   return $query; 
 }  
+
+function getSQL_WHERE_Filter_Lookup($lookup_values_selected, $relations) {
+  // Filter: einer oder mehrere LookupIDs können zutreffen (normaler Modus)
+  // echo 'Anzahl relations: '.count($relations).'<br>'; // TEST 
+  //   echo 'Anzahl lookups: '.count($lookup_values_selected).'<br>'; // TEST 
+  
+  
+  $query_WHERE=''; 
+  
+
+  if(count($relations) > 1) {
+    // Lookup-Typ mit mehreren Relations -> ODER verknüpfung! 
+    $query_WHERE.='AND (1=2 '. PHP_EOL; 
+    for ($r = 0; $r < count($relations); $r++) {
+
+      //  $relation=$relations[$r]; 
+      //  echo 'relation: '.$relation.'<br>'; // TEST
+      switch($relations[$r]) {
+        case 'satz'; 
+          $query_WHERE.='OR satz.ID IN (SELECT SatzID from satz_lookup WHERE LookupID IN ('.implode(',', $lookup_values_selected).')) '. PHP_EOL; 
+        break;      
+        case 'musikstueck'; 
+          $query_WHERE.='OR musikstueck.ID IN (SELECT MusikstueckID from musikstueck_lookup WHERE LookupID IN ('.implode(',', $lookup_values_selected).')) '. PHP_EOL; 
+        break;    
+        case 'sammlung'; 
+          $query_WHERE.='OR sammlung.ID IN (SELECT SammlungID from sammlung_lookup WHERE LookupID IN ('.implode(',', $lookup_values_selected).')) '. PHP_EOL; 
+        break;                                               
+        case 'material'; 
+          $query_WHERE.='OR material.ID IN (SELECT MaterialID from material_lookup WHERE LookupID IN ('.implode(',', $lookup_values_selected).')) '. PHP_EOL; 
+        break;                   
+      }
+
+    }
+    $query_WHERE.=') '. PHP_EOL;
+  } elseif(count($relations)==1) {
+    // Lookup-Typ mit genau einer relation-Verknüpfung
+    // echo 'relation 0: '.$relations[0]; // TEST 
+    switch($relations[0]) {
+      case 'satz'; 
+        $query_WHERE.='AND satz.ID IN (SELECT SatzID from satz_lookup WHERE LookupID IN ('.implode(',', $lookup_values_selected).')) '. PHP_EOL; 
+      break;      
+      case 'musikstueck'; 
+        $query_WHERE.='AND musikstueck.ID IN (SELECT MusikstueckID from musikstueck_lookup WHERE LookupID IN ('.implode(',', $lookup_values_selected).')) '. PHP_EOL; 
+      break;    
+      case 'sammlung'; 
+        $query_WHERE.='AND sammlung.ID IN (SELECT SammlungID from sammlung_lookup WHERE LookupID IN ('.implode(',', $lookup_values_selected).')) '. PHP_EOL; 
+      break;                                               
+      case 'material'; 
+        $query_WHERE.='AND material.ID IN (SELECT MaterialID from material_lookup WHERE LookupID IN ('.implode(',', $lookup_values_selected).')) '. PHP_EOL; 
+      break;                   
+    }
+  }   
+  
+  return $query_WHERE; 
+}
+
+function getSQL_WHERE_Filter_Lookup_include($LookupID, $relations) {
+  // Filter: alle ausgewählten LookupIDs müssen zutreffen ("Einschluss-Suche") 
+  // XXXX 
+
+  $query_WHERE=''; 
+
+  if(count($relations) > 1) {
+    // Lookup-Typ mit mehreren Relations -> ODER verknüpfung! 
+    $query_WHERE.='AND (1=2 '; 
+    for ($r = 0; $r < count($relations); $r++) {
+      switch($relations[$r]) {
+        case 'satz'; 
+          $query_WHERE.='OR satz.ID IN (SELECT SatzID from satz_lookup WHERE LookupID='.$LookupID.') '. PHP_EOL; 
+        break;      
+        case 'musikstueck'; 
+          $query_WHERE.='OR musikstueck.ID IN (SELECT MusikstueckID from musikstueck_lookup WHERE LookupID='.$LookupID.') '. PHP_EOL; 
+        break;    
+        case 'sammlung'; 
+          $query_WHERE.='OR sammlung.ID IN (SELECT SammlungID from sammlung_lookup WHERE LookupID='.$LookupID.') '. PHP_EOL; 
+        break;                                               
+        case 'material'; 
+          $query_WHERE.='OR material.ID IN (SELECT MaterialID from sammlung_lookup WHERE LookupID='.$LookupID.') '. PHP_EOL; 
+        break;                   
+      }
+        $query_WHERE.=') ';
+    }
+  } elseif(count($relations)==1) {
+    // Lookup-Typ mit genau einer relation-Verknüpfung
+    // echo 'relation 0: '.$relations[0]; // TEST 
+    switch($relations[0]) {
+      case 'satz'; 
+        $query_WHERE.='AND satz.ID IN (SELECT SatzID from satz_lookup WHERE LookupID='.$LookupID.') '. PHP_EOL; 
+      break;      
+      case 'musikstueck'; 
+        $query_WHERE.='AND musikstueck.ID IN (SELECT MusikstueckID from musikstueck_lookup WHERE LookupID='.$LookupID.' '. PHP_EOL; 
+      break;    
+      case 'sammlung'; 
+        $query_WHERE.='AND sammlung.ID IN (SELECT SammlungID from sammlung_lookup WHERE LookupID='.$LookupID.' '. PHP_EOL; 
+      break;                                               
+      case 'material'; 
+        $query_WHERE.='AND material.ID IN (SELECT MaterialID from sammlung_lookup WHERE LookupID='.$LookupID.' '. PHP_EOL; 
+      break;                   
+    }
+  } 
+
+  return $query_WHERE; 
+}
+
 
 function getSQL_WHERE_Suchtext($AnsichtGruppe, $suchtext) {
   $strSQL=''; 

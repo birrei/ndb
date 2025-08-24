@@ -345,6 +345,28 @@ class Musikstueck {
     $col=$stmt->fetchColumn(); 
     return $col;  
   }  
+  
+  function delete(){
+
+    $this->delete_verwendungszwecke();   
+    $this->delete_besetzungen();
+    $this->delete_lookups();      
+    $this->delete_saetze();      
+ 
+    $delete = $this->db->prepare("DELETE FROM `musikstueck` WHERE ID=:ID"); 
+    $delete->bindValue(':ID', $this->ID);  
+
+    try {
+      $delete->execute(); 
+      $this->info->print_info('Das Musikstück wurde gelöscht.');            
+      return true;          
+    }
+    catch (PDOException $e) {
+      $this->info->print_user_error(); 
+      $this->info->print_error($delete, $e);
+      return false;  
+    }  
+  }  
 
   function delete_verwendungszweck($ID){
 
@@ -434,32 +456,25 @@ class Musikstueck {
     }
   }
 
-  function delete(){
+  function delete_lookups(){
 
-    $this->delete_verwendungszwecke();   
-    $this->delete_besetzungen();
-    $this->delete_saetze();      
- 
-    $delete = $this->db->prepare("DELETE FROM `musikstueck` WHERE ID=:ID"); 
+    $delete = $this->db->prepare("DELETE FROM musikstueck_lookup WHERE MusikstueckID=:ID"); 
     $delete->bindValue(':ID', $this->ID);  
 
     try {
       $delete->execute(); 
-      $this->info->print_info('Das Musikstück wurde gelöscht.');            
-      return true;          
     }
     catch (PDOException $e) {
       $this->info->print_user_error(); 
-      $this->info->print_error($delete, $e);
-      return false;  
+      $this->info->print_error($delete, $e);  
     }  
-  }  
+  }
 
   function copy($SammlungID_New=0){
-    // SammlungID_New > 0 : Musikstück Kopie zu Sammlung Kopie 
-    // SammlungID_New= 0: Musikstück Kopie an gleicher Sammlung 
 
-    // XXX Nummer hochzählen! 
+    /*  SammlungID_New > 0 : Musikstück an neuer Sammlung (Sammlung wird auch kopiert)
+        SammlungID_New= 0: Musikstück Kopie an gleicher Sammlung
+     */
 
     $sql="INSERT INTO musikstueck (
             `Name`
@@ -474,7 +489,7 @@ class Musikstueck {
         SELECT ".($SammlungID_New>0?"Name":"CONCAT(Name, ' (Kopie)') as Name")." 
             , Opus
             , ".($SammlungID_New>0?':SammlungID':'SammlungID')." as SammlungID
-            , Nummer
+            , ".($SammlungID_New>0?'Nummer':':Nummer')." as Nummer    
             , KomponistID
             , Bearbeiter
             , GattungID
@@ -491,33 +506,22 @@ class Musikstueck {
     if ($SammlungID_New>0) {
       $insert->bindValue(':SammlungID', $SammlungID_New);  
     }
-
+    if ($SammlungID_New==0) {
+      // "Nummer" hochzählen 
+      $this->load_row(); // Ziel: $this->SammlungID einlesen  
+      $Nummer=$this->get_next_nummer();  
+      // echo 'Nummer: '.$Nummer.'<br>';  // TEST 
+      $insert->bindValue(':Nummer', $Nummer);  
+    }
+        
     try {
       $insert->execute(); 
       $ID_New = $this->db->lastInsertId();    
-        
-      /*** Sätze kopieren ***/
-      $select = $this->db->prepare("SELECT ID  
-                    FROM `satz` 
-                    WHERE MusikstueckID=:ID"); 
-
-      $select->bindValue(':ID', $this->ID);  
-
-      $select->execute(); 
-
-      $res = $select->fetchAll(PDO::FETCH_ASSOC);
-
-      // echo '<p>Anzahl Sätze: '.count($res); // test 
-
-      foreach ($res as $row=>$value) {
-        $satz = new Satz(); 
-        $satz->ID = $value["ID"]; 
-        $satz->copy($ID_New);  
-      }  
-
+     
+      $this->copy_saetze($ID_New); 
       $this->copy_verwendungszwecke($ID_New); 
-
       $this->copy_besetzungen($ID_New); 
+      $this->copy_lookups($ID_New); 
 
       $this->ID = $ID_New; 
                
@@ -528,6 +532,42 @@ class Musikstueck {
     }  
   }  
 
+  function copy_saetze($ID_New) {
+   
+    $select = $this->db->prepare("SELECT ID  
+                  FROM `satz` 
+                  WHERE MusikstueckID=:ID"); 
+
+    $select->bindValue(':ID', $this->ID);  
+
+    $select->execute(); 
+
+    $res = $select->fetchAll(PDO::FETCH_ASSOC);
+
+    // echo '<p>Anzahl Sätze: '.count($res); // test 
+
+    foreach ($res as $row=>$value) {
+      $satz = new Satz(); 
+      $satz->ID = $value["ID"]; 
+      $satz->copy($ID_New);  
+    }  
+  }
+
+  function copy_lookups($ID_new) {
+
+    $sql="insert into musikstueck_lookup 
+          (MusikstueckID, LookupID) 
+    select :MusikstueckID as MusikstueckID
+          , LookupID
+    from musikstueck_lookup 
+    where MusikstueckID=:ID";
+
+    $insert = $this->db->prepare($sql); 
+    $insert->bindValue(':ID', $this->ID);  
+    $insert->bindValue(':MusikstueckID', $ID_new);  
+    $insert->execute();  
+
+  }  
   
   function copy_besetzungen($ID_New) {
 
@@ -798,6 +838,82 @@ class Musikstueck {
   function is_deletable() {
     return true; // aktuell keine Abängigkeiten berücksichtigt. 
    
+  }  
+
+
+  function add_lookup($LookupID){
+
+    $insert = $this->db->prepare("INSERT INTO `musikstueck_lookup` SET
+        `MusikstueckID`     = :MusikstueckID,  
+        `LookupID`     = :LookupID");
+
+    $insert->bindValue(':MusikstueckID', $this->ID);  
+    $insert->bindValue(':LookupID', $LookupID);  
+
+    try {
+      $insert->execute(); 
+    }
+    catch (PDOException $e) {
+      $this->info->print_user_error(); 
+      $this->info->print_error($insert, $e);  
+    }  
+  } 
+
+  function delete_lookup($LookupID){
+
+    $delete = $this->db->prepare("DELETE FROM `musikstueck_lookup` 
+                            WHERE MusikstueckID=:MusikstueckID 
+                            AND LookupID=:LookupID"); 
+    $delete->bindValue(':MusikstueckID', $this->ID);  
+    $delete->bindValue(':LookupID', $LookupID);  
+
+    try {
+      $delete->execute(); 
+    }
+    catch (PDOException $e) {
+      $this->info->print_user_error(); 
+      $this->info->print_error($delete, $e);  
+    }  
+  }
+
+  function print_table_lookups($target_file, $LookupTypeID=0){
+
+    $query="SELECT lookup.ID
+             , lookup_type.Name as Typ     
+             , lookup.Name  
+          FROM musikstueck_lookup          
+          INNER JOIN lookup 
+            on lookup.ID=musikstueck_lookup.LookupID
+          INNER JOIN lookup_type
+            on lookup_type.ID = lookup.LookupTypeID
+          WHERE musikstueck_lookup.MusikstueckID = :MusikstueckID";
+          $query.=($LookupTypeID>0?" AND lookup.LookupTypeID = :LookupTypeID":""); 
+          $query.=" ORDER by lookup_type.Name, lookup.Name"; 
+
+    // echo $query; 
+  
+    $stmt = $this->db->prepare($query); 
+    $stmt->bindParam(':MusikstueckID', $this->ID, PDO::PARAM_INT);
+    if ($LookupTypeID>0) {
+      $stmt->bindParam(':LookupTypeID', $LookupTypeID, PDO::PARAM_INT);
+    } 
+
+    try {
+      $stmt->execute(); 
+            
+      $html = new HTML_Table($stmt); 
+      $html->add_link_edit=false;
+      $html->add_link_delete=true;
+      $html->del_link_filename=$target_file; 
+      $html->del_link_parent_key='MusikstueckID'; 
+      $html->del_link_parent_id= $this->ID; 
+      $html->show_missing_data_message=false; 
+      $html->print_table2(); 
+    }
+    catch (PDOException $e) {
+      $this->info->print_user_error(); 
+      $this->info->print_error($stmt, $e); 
+    }
   }  
 }
 

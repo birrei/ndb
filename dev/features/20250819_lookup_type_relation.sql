@@ -20,12 +20,10 @@ CREATE TABLE `lookuptype_relation` (
   PRIMARY KEY (`ID`)
 ) ; 
 
-
 ALTER TABLE lookuptype_relation
 ADD CONSTRAINT uc_lookuptype_relation
 UNIQUE (LookuptypeID, RelationID) 
 ;
-
 
 ALTER TABLE lookuptype_relation 
     ADD  FOREIGN KEY (LookuptypeID) 

@@ -82,6 +82,10 @@ class Lookup {
           $query.='AND lookup.ID NOT IN (SELECT LookupID FROM satz_lookup WHERE SatzID=:SatzID) '.PHP_EOL;  
           break; 
 
+        case 'material': 
+          $query.='AND lookup.ID NOT IN (SELECT LookupID FROM material_lookup WHERE MaterialID=:MaterialID) '.PHP_EOL;  
+          break;           
+
         }
       }
 
@@ -105,6 +109,10 @@ class Lookup {
         case 'satz': 
           $stmt->bindParam(':SatzID', $ReferenceID, PDO::PARAM_INT);
           break; 
+
+        case 'material': 
+          $stmt->bindParam(':MaterialID', $ReferenceID, PDO::PARAM_INT);
+          break;           
         }     
     }  
 
@@ -179,9 +187,6 @@ class Lookup {
       $this->info->print_error($stmt, $e); 
     }
   }
-
-
-
 
   function print_table($LookupTypeID='', $edit_link_open_newpage=true){
 
@@ -263,7 +268,7 @@ class Lookup {
         , $check_exact=false // Ausschluss-Suche aktiviert 
         , $print_check_exclude=false // Anzeige Box Aussschluss-Suche
         , $check_exclude=false // Ausschluss-Suche aktiviert 
-  ){
+    ) {
     
     // $this->ID_List=implode(',', $options_selected); 
 

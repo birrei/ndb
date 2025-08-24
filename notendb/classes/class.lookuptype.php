@@ -178,12 +178,11 @@ class Lookuptype {
     $arrTmp=[]; 
     $query_lookups = 'SELECT ID, Name, type_key, selsize 
                       FROM lookup_type 
-                      WHERE Relation=:Relation 
+                      WHERE 1=1 
                       AND ID IN (SELECT DISTINCT LookupTypeID from lookup) 
-                      order by ID';
+                      order by type_key';
 
-    $select = $this->db->prepare($query_lookups); 
-    $select->bindParam(':Relation', $this->Relation);    
+    $select = $this->db->prepare($query_lookups);   
     $select->execute(); 
     $result = $select->fetchAll(PDO::FETCH_ASSOC);
 
@@ -198,6 +197,61 @@ class Lookuptype {
         // print_r($this->ArrData); // test
     return $arrTmp; 
   }
+
+  function getArrData2(){
+    // alle Typen (ohne relation-filter)
+    $arrTmp=[]; 
+    $arrTmp2=[]; // relations 
+    $query1 = 'SELECT ID, Name, type_key, selsize 
+                      FROM lookup_type 
+                      WHERE 1=1 
+                      AND ID IN (SELECT DISTINCT LookupTypeID from lookup) 
+                      order by type_key';
+    $select = $this->db->prepare($query1);   
+    $select->execute(); 
+    $result = $select->fetchAll(PDO::FETCH_ASSOC);
+
+    foreach ($result as $row) {
+
+      $query2 = 'select lookuptype_relation.LookuptypeID, relation.Name as Relation  
+                        from lookuptype_relation 
+                        inner join relation 
+                        on lookuptype_relation.RelationID = relation.ID 
+                        where lookuptype_relation.LookuptypeID=:LookuptypeID 
+                        order by lookuptype_relation.LookuptypeID 
+                        ';
+      $select2 = $this->db->prepare($query2);   
+      $select2->bindParam(':LookuptypeID', $row["ID"], PDO::PARAM_INT);        
+      $select2->execute(); 
+      
+      // echo '<pre>'; 
+      // $select2->debugDumpParams(); // TEST 
+      // echo '</pre>';      
+     
+      $result2 = $select2->fetchAll(PDO::FETCH_ASSOC);
+     
+      $arrTmp2 = []; 
+      foreach ($result2 as $row2) {
+        // $arrTmp2[] = array('Relation'=>$row2["Relation"]); 
+         $arrTmp2[] = $row2["Relation"]; 
+      }
+
+      // echo '<pre>'; 
+      // echo '------------ LookuptypeID: '.$row["ID"].PHP_EOL; 
+      // print_r($arrTmp2); 
+      // echo '</pre>';         
+
+      $arrTmp[] = array(
+            'ID'=>$row["ID"], 
+            'Name'=>$row["Name"],
+            'type_key'=>$row["type_key"],
+            'selsize'=>$row["selsize"], 
+            'Relation'=> $arrTmp2           
+            ); 
+    }
+
+    return $arrTmp; 
+  }  
 
   function delete(){
 

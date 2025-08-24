@@ -327,29 +327,29 @@ include_once("suche_sql.php");
 
 
 /************* Filter Sammlung Besonderheiten **********/  
-  // if ($AnsichtGruppe=='Noten') {
-  // // if ($Ansicht=='Sammlung') {
-  //   // XXX noch analog zu Satz Besonderheiten umsetzen (Genaue Suche)
-  //   $lookuptypes=new Lookuptype(); 
-  //   $lookuptypes->Relation='sammlung'; 
-  //   $arrLookupTypes=$lookuptypes->getArrData(); 
-  //   $filterLookups_sammlung=''; 
-  //   for ($i = 0; $i < count($arrLookupTypes); $i++) {
-  //     $lookup=New Lookup(); 
-  //     $lookup->LookupTypeID=$arrLookupTypes[$i]["ID"];
-  //     $lookup_type_name=$arrLookupTypes[$i]["Name"]; 
-  //     $lookup_type_key= $arrLookupTypes[$i]["type_key"]; // z.B: "besdynam" ect.  
-  //     $lookup_values_selected=[];      
-  //     if (isset($_POST[$lookup_type_key])) {
-  //       $lookup_values_selected= $_POST[$lookup_type_key]; 
-  //       // $query_WHERE.='AND sammlung_lookup.LookupID IN ('.implode(',', $lookup_values_selected).') -- '.$lookup_type_name.''. PHP_EOL; 
-  //       $query_WHERE.='AND sammlung.ID IN (SELECT SammlungID FROM sammlung_lookup WHERE LookupID IN ('.implode(',', $lookup_values_selected).')) -- '.$lookup_type_name.''. PHP_EOL; 
-  //       $filter=true; 
-  //     } 
-  //     $lookup->print_select_multi($lookup_type_key,$lookup_values_selected, $lookup_type_name.':');
-  //     $Suche->Beschreibung.=(count($lookup_values_selected)?$lookup->titles_selected_list:'');   
-  //   }
-  // }
+  if ($AnsichtGruppe=='Noten') {
+  // if ($Ansicht=='Sammlung') {
+    // XXX noch analog zu Satz Besonderheiten umsetzen (Genaue Suche)
+    $lookuptypes=new Lookuptype(); 
+    $lookuptypes->Relation='sammlung'; 
+    $arrLookupTypes=$lookuptypes->getArrData(); 
+    $filterLookups_sammlung=''; 
+    for ($i = 0; $i < count($arrLookupTypes); $i++) {
+      $lookup=New Lookup(); 
+      $lookup->LookupTypeID=$arrLookupTypes[$i]["ID"];
+      $lookup_type_name=$arrLookupTypes[$i]["Name"]; 
+      $lookup_type_key= $arrLookupTypes[$i]["type_key"]; // z.B: "besdynam" ect.  
+      $lookup_values_selected=[];      
+      if (isset($_POST[$lookup_type_key])) {
+        $lookup_values_selected= $_POST[$lookup_type_key]; 
+        // $query_WHERE.='AND sammlung_lookup.LookupID IN ('.implode(',', $lookup_values_selected).') -- '.$lookup_type_name.''. PHP_EOL; 
+        $query_WHERE.='AND sammlung.ID IN (SELECT SammlungID FROM sammlung_lookup WHERE LookupID IN ('.implode(',', $lookup_values_selected).')) -- '.$lookup_type_name.''. PHP_EOL; 
+        $filter=true; 
+      } 
+      $lookup->print_select_multi($lookup_type_key,$lookup_values_selected, $lookup_type_name.':');
+      $Suche->Beschreibung.=(count($lookup_values_selected)?$lookup->titles_selected_list:'');   
+    }
+  }
 
 /************* Filter Linktypen  ************** */  
   if ($Ansicht=='Sammlung Links') {
@@ -632,6 +632,49 @@ include_once("suche_sql.php");
     <?php 
   }
 
+/************* Filter Besonderheiten Satz **********/
+  if($AnsichtGruppe=='Noten') {
+    $lookuptypes=new Lookuptype(); 
+    $lookuptypes->Relation='satz'; 
+    $arrLookupTypes=$lookuptypes->getArrData(); 
+    $filterLookups_satz=''; 
+    for ($i = 0; $i < count($arrLookupTypes); $i++) {
+      // print_r($arrLookupTypes[$i]);  // Test     
+      $lookup_check_include=false; // Einschluss-Suche ja/nein 
+      $lookup_check_exclude=false;    // Ausschluss-Suche ja/nein
+      $lookup_type_name=$arrLookupTypes[$i]["Name"]; 
+      $lookup_type_key= $arrLookupTypes[$i]["type_key"]; 
+
+      $lookup=New Lookup(); 
+      $lookup->LookupTypeID=$arrLookupTypes[$i]["ID"];
+      $lookup_values=[]; // alle Lookupwerte eines Typs 
+      $lookup_values_selected=[];    // ausgewählte Lookup-Werte 
+      $lookup_values_not_selected=[];  // nicht ausgewählte Lookup-Werte 
+      // print_r($lookup_values); // Test 
+      if (isset($_POST[$lookup_type_key])) {
+        $filter=true;       
+        $lookup_values_selected= $_POST[$lookup_type_key]; 
+        // print_r($lookup_values_selected); // test 
+        if (isset($_POST['include_'.$lookup_type_key])) { //  "Einschluss-Suche" aktiviert 
+          $lookup_check_include=true;         
+          for ($k = 0; $k < count($lookup_values_selected); $k++) {
+            $query_WHERE.='AND satz.ID IN (SELECT SatzID from satz_lookup WHERE LookupID='.$lookup_values_selected[$k].') '. PHP_EOL; 
+          }
+        } 
+        else {
+          $query_WHERE.='AND satz.ID IN (SELECT SatzID from satz_lookup WHERE LookupID IN ('.implode(',', $lookup_values_selected).')) '. PHP_EOL;         
+        }
+        if (isset($_POST['exclude_'.$lookup_type_key])) {    // Ausschluss-Suche aktiviert 
+          $lookup_values = $lookup->getArrLookups();        
+          $lookup_check_exclude=true; 
+          $lookup_values_not_selected = array_diff($lookup_values, $lookup_values_selected); // nicht ausgewählte Werte    
+          $query_WHERE.='AND satz.ID NOT IN (SELECT DISTINCT SatzID from satz_lookup WHERE LookupID IN ('.implode(',', $lookup_values_not_selected).')) '. PHP_EOL; 
+        }      
+      }    
+      $lookup->print_select_multi($lookup_type_key,$lookup_values_selected, $lookup_type_name.':', true, $lookup_check_include, true,$lookup_check_exclude );
+      $Suche->Beschreibung.=(count($lookup_values_selected)>0?$lookup->titles_selected_list:'');   
+    }
+  }
 
 /*** Navi-Block "Material */
   if($AnsichtGruppe=='Material') {
@@ -640,6 +683,33 @@ include_once("suche_sql.php");
     <?php
   }   
 
+/************* Filter Material mit / ohne Sammlung
+ * XXX entfernen, nicht mehr relevant 
+ * 
+ *  **********/  
+ 
+  if($AnsichtGruppe=='Material') {
+    $optSammlung=''; // default "ohne Sammlung"
+    if (isset($_POST["optSammlung"])) {
+      $filter=true; 
+      $optSammlung=$_POST["optSammlung"]; 
+      switch($optSammlung) {
+        case 'mit': 
+          $query_WHERE.='AND sammlung.ID IS NOT NULL '.PHP_EOL; 
+          $Suche->Beschreibung.='* Nur Materialen an Sammlungen'.PHP_EOL; 
+          break; 
+        case 'ohne': 
+          $query_WHERE.='AND sammlung.ID IS NULL '.PHP_EOL; 
+          $Suche->Beschreibung.='* Nur Materialien ohne Sammlung'.PHP_EOL;           
+          break;              
+      }
+    }
+    ?><p>
+      <input type="radio" name="optSammlung" id="ohneSammlung" value="ohne"<?php echo ($optSammlung=='ohne'?' checked':''); ?>><label for="ohneSammlung">Ohne Sammlung</label> 
+      <input type="radio" name="optSammlung" id="mitSammlung" value="mit"<?php echo ($optSammlung=='mit'?' checked':''); ?>><label for="mitSammlung">Mit Sammlung</label>
+      </p> 
+    <?php 
+  }
 
 /************* Filter Materialtyp  **********/
   if ($AnsichtGruppe=='Material') {
@@ -659,69 +729,6 @@ include_once("suche_sql.php");
     $materialtyp->print_select($MaterialtypID, $materialtyp->Title);
     echo '</p>'; 
   }
-
-
-
-      ?>
-    <p class="navi-trenner">Besonderheiten</p> 
-    <?php
-
-/************* Filter Besonderheiten  **********/
-  // if($AnsichtGruppe=='Noten') {
-
-    $lookuptypes=new Lookuptype(); 
-    // $lookuptypes->Relation='satz'; 
-    $arrLookupTypes=$lookuptypes->getArrData2(); 
-    $filterLookups_satz=''; 
-    for ($i = 0; $i < count($arrLookupTypes); $i++) {
-      // print_r($arrLookupTypes[$i]);  // Test     
-      $lookup_check_include=false; // Einschluss-Suche ja/nein 
-      $lookup_check_exclude=false;    // Ausschluss-Suche ja/nein
-      $lookup_type_name=$arrLookupTypes[$i]["Name"]; 
-      $lookup_type_key= $arrLookupTypes[$i]["type_key"]; 
-
-      $relations = $arrLookupTypes[$i]["Relation"];  // array zugeordnete "relations"
-      // echo 'Anzahl relations: '.count($relations).'<br>';
-      //       echo '1. relation: '.$relations[0].'<br>';
-
-      // print_r($relations); 
-
-      $lookup=New Lookup(); 
-      $lookup->LookupTypeID=$arrLookupTypes[$i]["ID"];
-      $lookup_values=[]; // alle Lookupwerte eines Typs 
-      $lookup_values_selected=[];    // ausgewählte Lookup-Werte 
-      $lookup_values_not_selected=[];  // nicht ausgewählte Lookup-Werte 
-      // print_r($lookup_values); // Test 
-      if (isset($_POST[$lookup_type_key])) {
-        $filter=true;       
-        $lookup_values_selected= $_POST[$lookup_type_key]; 
-        // print_r($lookup_values_selected); // test 
-        if (isset($_POST['include_'.$lookup_type_key])) { 
-          //  "Einschluss-Suche" aktiviert 
-          $lookup_check_include=true;         
-          for ($k = 0; $k < count($lookup_values_selected); $k++) {
-            $query_WHERE.= getSQL_WHERE_Filter_Lookup_include($lookup_values_selected[$k], $relations); 
-          }
-        } 
-        else {
-          //  "Einschluss-Suche" NICHT aktiviert, 
-          $query_WHERE.= getSQL_WHERE_Filter_Lookup($lookup_values_selected, $relations);             
-        }
-        if (isset($_POST['exclude_'.$lookup_type_key])) {    
-          // Ausschluss-Suche aktiviert 
-          $lookup_values = $lookup->getArrLookups();        
-          $lookup_check_exclude=true; 
-          $lookup_values_not_selected = array_diff($lookup_values, $lookup_values_selected); // nicht ausgewählte Werte    
-          $query_WHERE.='AND satz.ID NOT IN (SELECT DISTINCT SatzID from satz_lookup WHERE LookupID IN ('.implode(',', $lookup_values_not_selected).')) '. PHP_EOL; 
-        }      
-      }    
-      $lookup->print_select_multi($lookup_type_key,$lookup_values_selected, $lookup_type_name.':', true, $lookup_check_include, true,$lookup_check_exclude );
-      $Suche->Beschreibung.=(count($lookup_values_selected)>0?$lookup->titles_selected_list:'');   
-    }
-
-//  }
-
-
 ?>
 </form>
 </div> 
@@ -735,15 +742,14 @@ include_once("suche_sql.php");
 
   $query.=getSQL_FROM($Ansicht); 
 
-  // XXXX nicht verwenden ! 
-  // switch ($AnsichtEbene){    
-  //   case 'Musikstueck': 
-  //     $query_WHERE.="AND musikstueck.ID IS NOT NULL ". PHP_EOL;         
-  //     break;                  
-  //   case 'Satz': 
-  //     $query_WHERE.="AND satz.ID IS NOT NULL ". PHP_EOL;             
-  //     break;      
-  // }
+  switch ($AnsichtEbene){    
+    case 'Musikstueck': 
+      $query_WHERE.="AND musikstueck.ID IS NOT NULL ". PHP_EOL;         
+      break;                  
+    case 'Satz': 
+      $query_WHERE.="AND satz.ID IS NOT NULL ". PHP_EOL;             
+      break;      
+  }
   
   $query.=$query_WHERE; 
 
@@ -811,7 +817,7 @@ include_once("suche_sql.php");
     $info->print_error($select, $e); 
   }    
 
-  echo '<pre style="font-size: 11px; visibility: visible;">'.$query.'</pre>'; // Test  
+  echo '<pre style="font-size: 11px; visibility: hidden;">'.$query.'</pre>'; // Test  
 
   keinFilter: 
 

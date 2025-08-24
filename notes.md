@@ -1,7 +1,36 @@
 
+
 Sammlung von Gedanken und Erklärungen, die (noch) nicht auf der Hilfe-Seite zu finden sind. 
 
+
+---------------------
+
+### Zuordnung mehrerer Relationen (= Tabellen) zu einem Lookup-Type (Besonderheit-Typ)
+
+Jeder Besonderheit-Typ kann nun (theortisch) bei jeder Datentabelle (Sammlung, Musikstück, Satz und Material) zugeordnet werden. 
+
+Suche-Navileiste (links): Neue Unterteilung: 
+- Schüler  
+- Sammlung (*)
+- Musikstück (*) 
+- Satz (*) 
+- NEU: Besonderheiten
+
+(*) Nur jeweils "eigene" Eigenschaften. 
+
+Neuer Block "Besonderheiten" 
+
+Die Reihenfolge innerhalb der Suchleiste sowie die sichtbare Zeilenzahl der Auswahlkästchen können durch entsprechende Einträge beim Besonderheit-Typ angepasst werden: 
+* Reihenfolge: Schlüssel
+* Zeilen-Anzahl der 
+
+Besonderheit-Typen: Reihenfolge der Suchkästchen über Feld "type_key" steuern 
+
+
+
 ### Sammlung und Material 
+
+XXXX nachträgliche Zuonrdung von Material zu einer Sammlung? 
 
 * Materialen sind (strukturell ähnlich Musikstücken) den Sammlungen (Sammlung = üblicherweise: Notenheft) untergeordnet. 
 * Es gibt Materialien, die einer echten (Noten-Sammlung) zugeordnet sind .. zwar nur Einzelfälle - aber  auch der Grund dafür, warum Materialien nun einer Sammlung zuordenbar sein müssen. 
@@ -58,4 +87,9 @@ Zusammenfassung - Filter in Zellen-internen Auflistungen:
 
 Grund für die Auslagerung von (Text-) Eigenschaften der Objekte in dictionary.php: 
 * Wären die Texteigenschaften Objekte in den Klassen definiert, müssten zum Abruf der Eigenschaften aller objekte auch alle Klassen instanziiert werden. 
+
+
+Suche neu: Besonderheiten nicht mehr gestaffelt nach Sammlung, Musikstück, Material
+
+Problem: Feldauflistungen per GROUP_CONCAT: Text in Tabelle wird abgeschitten 
 

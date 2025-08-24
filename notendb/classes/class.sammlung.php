@@ -312,13 +312,13 @@ include_once('class.link.php');
     }  
   } 
   
-  function delete_lookup($ID){
+  function delete_lookup($LookupID){
 
     $delete = $this->db->prepare("DELETE FROM `sammlung_lookup` 
                             WHERE SammlungID=:SammlungID 
                             AND LookupID=:LookupID"); 
     $delete->bindValue(':SammlungID', $this->ID);  
-    $delete->bindValue(':LookupID', $ID);  
+    $delete->bindValue(':LookupID', $LookupID);  
 
     try {
       $delete->execute(); 
@@ -632,7 +632,6 @@ include_once('class.link.php');
      
   } 
 
-
   function print_table_material(){
 
     $query="select m.ID 
@@ -814,7 +813,6 @@ include_once('class.link.php');
       $this->info->print_error($select, $e);
     }
   }
-
 
   function print_musikstuecke(){
 

@@ -16,7 +16,7 @@ $option=isset($_REQUEST["option"])?$_REQUEST["option"]:'edit';
 $show_data=true; 
 
 
-switch($_REQUEST["option"]) {
+switch($option) {
   case 'edit': // über "Bearbeiten"-Link
     $musikstueck->ID=$_GET["ID"];
     $show_data = $musikstueck->load_row();     
@@ -202,6 +202,10 @@ echo '
 
       <input type="radio" id="Verwendungszwecke" name="target_form" value="Verwendungszwecke" onclick="changeIframeSrc('subform1', 'edit_musikstueck_verwendungszwecke.php?MusikstueckID=<?php echo $musikstueck->ID; ?>');">
       <label for="Verwendungszwecke">Verwendungszwecke</label><br>
+
+      <input type="radio" id="Besonderheiten" name="target_form" value="Besonderheiten" onclick="changeIframeSrc('subform1', 'edit_musikstueck_lookups.php?MusikstueckID=<?php echo $musikstueck->ID; ?>');">
+      <label for="Besonderheiten">Besonderheiten</label><br>
+
 
       <p> 
       <a href="edit_satz.php?MusikstueckID=<?php echo $musikstueck->ID; ?>'&option=insert&title=Satz" target="_blank" class="form-link">Satz hinzufügen</a>
