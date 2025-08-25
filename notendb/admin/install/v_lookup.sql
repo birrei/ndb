@@ -5,7 +5,7 @@ SELECT lookup.ID
     , lookup_type.Name as LookupTypeName
     , lookup_type.type_key as LookupTypeKey         
     , lookup.LookupTypeID 
-    , lookup_type.Relation  
+    -- , lookup_type.Relation  
     FROM lookup 
     LEFT JOIN lookup_type
       on lookup_type.ID = lookup.LookupTypeID

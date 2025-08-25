@@ -13,11 +13,9 @@ from material
     materialtyp on materialtyp.ID = material.MaterialtypID 
     left join 
     sammlung on sammlung.ID = material.SammlungID 
-
     LEFT JOIN material_schwierigkeitsgrad on material_schwierigkeitsgrad.MaterialID = material.ID 
     LEFT JOIN schwierigkeitsgrad on schwierigkeitsgrad.ID = material_schwierigkeitsgrad.SchwierigkeitsgradID 
     LEFT JOIN instrument on instrument.ID = material_schwierigkeitsgrad.InstrumentID     
     LEFT JOIN v_material_lookuptypes on v_material_lookuptypes.MaterialID = material.ID    
-       
-        GROUP BY material.ID 
-        ORDER BY material.Name 
+GROUP BY material.ID 
+ORDER BY material.Name 
