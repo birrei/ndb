@@ -384,6 +384,8 @@ class Material {
         
       $this->copy_lookups($ID_New); 
 
+      $this->copy_schwierigkeitsgrade($ID_New); 
+
       $this->copy_schueler($ID_New); 
 
       $this->ID= $ID_New; 
@@ -524,6 +526,115 @@ class Material {
       $this->info->print_error($stmt, $e); 
     }
   }
+
+  function print_table_schwierigkeitsgrade($target_file){
+    $query="SELECT instrument.ID 
+        , instrument.Name as Instrument 
+        , schwierigkeitsgrad.Name as Grad
+        FROM material_schwierigkeitsgrad 
+        inner join schwierigkeitsgrad 
+            on  schwierigkeitsgrad.ID = material_schwierigkeitsgrad.SchwierigkeitsgradID
+        inner join instrument
+        on instrument.ID = material_schwierigkeitsgrad.InstrumentID 
+        WHERE material_schwierigkeitsgrad.MaterialID = :MaterialID 
+        ORDER BY instrument.Name, schwierigkeitsgrad.Name 
+      "; 
+
+    $stmt = $this->db->prepare($query); 
+    $stmt->bindParam(':MaterialID', $this->ID, PDO::PARAM_INT); 
+
+    try {
+      $stmt->execute(); 
+            
+      $html = new HTML_Table($stmt); 
+      $html->add_link_edit=false;
+      $html->add_link_delete=true;
+      $html->del_link_filename=$target_file; 
+      $html->del_link_parent_key='MaterialID'; 
+      $html->del_link_parent_id= $this->ID; 
+      $html->show_missing_data_message=false; 
+      $html->print_table2();           
+    }
+    catch (PDOException $e) {
+      $this->info->print_user_error(); 
+      $this->info->print_error($stmt, $e); 
+    }
+  }  
+
+  function add_schwierigkeitsgrad($SchwierigkeitsgradID, $InstrumentID){
+
+    $insert = $this->db->prepare("INSERT INTO `material_schwierigkeitsgrad` SET
+                        `MaterialID`     = :MaterialID,  
+                        `SchwierigkeitsgradID`     = :SchwierigkeitsgradID,
+                        `InstrumentID`     = :InstrumentID
+        ");
+
+    $insert->bindValue(':MaterialID', $this->ID);  
+    $insert->bindValue(':SchwierigkeitsgradID', $SchwierigkeitsgradID);  
+    $insert->bindValue(':InstrumentID', $InstrumentID);      
+
+    try {
+      $insert->execute(); 
+      include_once("class.instrument_schwierigkeitsgrad.php");
+      $instrument_schwierigkeitsgrad=new InstrumentSchwierigkeitsgrad(); 
+      $instrument_schwierigkeitsgrad->insert_row($InstrumentID, $SchwierigkeitsgradID); 
+    }
+    catch (PDOException $e) {
+      $this->info->print_user_error(); 
+      $this->info->print_error($insert, $e);  
+    }  
+  }
+
+  function delete_schwierigkeitsgrade(){
+
+    $delete = $this->db->prepare("DELETE FROM `material_schwierigkeitsgrad` WHERE MaterialID=:ID"); 
+    $delete->bindValue(':ID', $this->ID);  
+
+    try {
+      $delete->execute(); 
+    }
+    catch (PDOException $e) {
+      $this->info->print_user_error(); 
+      $this->info->print_error($delete, $e);  
+    }  
+  }
+
+  function delete_schwierigkeitsgrad($ID){
+
+    $delete = $this->db->prepare("DELETE 
+                          FROM `material_schwierigkeitsgrad` 
+                          WHERE MaterialID=:MaterialID
+                          AND InstrumentID=:InstrumentID"
+                        ); 
+    $delete->bindValue(':MaterialID', $this->ID);  
+    $delete->bindValue(':InstrumentID', $ID);      
+
+    try {
+      $delete->execute(); 
+    }
+    catch (PDOException $e) {
+      $this->info->print_user_error(); 
+      $this->info->print_error($delete, $e);  
+    }  
+  }
+
+  function copy_schwierigkeitsgrade($ID_new) {
+
+    // schwierigkeitsgrade 
+    $sql="insert into material_schwierigkeitsgrad
+          (MaterialID, SchwierigkeitsgradID, InstrumentID) 
+    select :MaterialID_new as MaterialID
+          , SchwierigkeitsgradID
+          , InstrumentID
+    from material_schwierigkeitsgrad 
+    where MaterialID=:ID";
+
+    $insert = $this->db->prepare($sql); 
+    $insert->bindValue(':ID', $this->ID);  
+    $insert->bindValue(':MaterialID_new', $ID_new);  
+    $insert->execute();  
+
+  }  
 
 }
 

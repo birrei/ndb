@@ -634,14 +634,20 @@ include_once('class.link.php');
 
   function print_table_material(){
 
-    $query="select m.ID 
-          , m.Name  as Material 
-          , mt.Name  as Materialtyp 
-          , m.Bemerkung as Bemerkung 
-        from material m left join 
-          materialtyp mt on mt.ID  = m.MaterialtypID 
-        WHERE m.SammlungID=:SammlungID 
-        ORDER BY m.Name 
+    $query="SELECT material.ID 
+          , material.Name  as Material 
+          , materialtyp.Name  as Materialtyp 
+          , material.Bemerkung as Bemerkung 
+          , GROUP_CONCAT(DISTINCT concat(instrument.Name, ': ', schwierigkeitsgrad.Name)  order by schwierigkeitsgrad.Name SEPARATOR ', ') `Schwierigkeitsgrade`               
+          , v_material_lookuptypes.LookupList as Besonderheiten       
+        FROM material left join materialtyp on material.MaterialtypID = materialtyp.ID 
+          LEFT JOIN material_schwierigkeitsgrad on material_schwierigkeitsgrad.MaterialID = material.ID 
+          LEFT JOIN schwierigkeitsgrad on schwierigkeitsgrad.ID = material_schwierigkeitsgrad.SchwierigkeitsgradID 
+          LEFT JOIN instrument on instrument.ID = material_schwierigkeitsgrad.InstrumentID     
+          LEFT JOIN v_material_lookuptypes on v_material_lookuptypes.MaterialID = material.ID                 
+        WHERE material.SammlungID=:SammlungID 
+        GROUP BY material.ID 
+        ORDER BY material.Name 
 	      "; 
 
     $stmt = $this->db->prepare($query); 
