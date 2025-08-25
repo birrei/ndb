@@ -78,7 +78,7 @@ $info->print_link_table('v_material', 'sortcol=Name&show_filter', $material->Tit
 if (!$show_data) {goto pagefoot;}
 
 
-echo '</p>
+echo '
 <form action="edit_material.php" method="post">
 <table class="form-edit" width="100%"> 
   <tr>    

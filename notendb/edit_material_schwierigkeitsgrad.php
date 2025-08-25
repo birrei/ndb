@@ -15,6 +15,7 @@ $info = new HTML_Info();
       <?php 
           include_once("classes/class.instrument.php");         
           $instrument = new Instrument(); 
+          $instrument->Parent='Material'; 
           $instrument->print_select('',  $_GET["MaterialID"]); 
        ?>  
   </td>  

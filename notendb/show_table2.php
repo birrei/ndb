@@ -75,15 +75,21 @@ if (substr($table,0,3)=='v3_') {
 
   $show_insert_link=true; // "Neu einfügen" - Link anzeigen ja / nein - default: ja 
 
-  /*  Info-Views  */
+  /*  nicht: Info-Views  */
   if (substr($table,0,3)=='v2_') {
     $show_insert_link=false;
   }
 
-  /*  Test-Views  */
+  /*  nicht: Test-Views  */
   if (substr($table,0,3)=='v3_') {
     $show_insert_link=false;  
-}
+  }  
+  
+  /* nicht: sonstige Ausmahmeb */ 
+  if($table=='v_material') {
+    $show_insert_link=false;   
+  }
+
 
 /* Zusätzliche "Anzeigen" Spalte in Ergebnistabelle */
   $add_link_show=false; 
@@ -91,6 +97,8 @@ if (substr($table,0,3)=='v3_') {
   if (isset($_GET['add_link_show'])) {
     $add_link_show=true;  //  Stand Aug. 2025: nur "v_abfragen"
   }
+
+
 
   /* Sortierung */
   // XXX Info / Alternativen für Sortierung 
@@ -107,6 +115,8 @@ if (substr($table,0,3)=='v3_') {
   if ($show_insert_link) {
     echo '<a href="edit_'.$table_edit.'.php?option=insert">Neu erfassen</a><br><br>';
   }
+
+
 
   /*********** Filter  ********************/
     switch ($table) {
@@ -142,7 +152,7 @@ if (substr($table,0,3)=='v3_') {
 
       break; 
 
-      case 'v_besonderheiten': // case 'v_lookup': 
+      case 'v_lookup': // case 'v_lookup': 
 
         echo '<form action="" method="get">'.PHP_EOL; 
         include_once("classes/class.lookuptype.php");

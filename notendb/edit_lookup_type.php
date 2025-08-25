@@ -41,7 +41,7 @@ switch($option) {
 
   case 'delete_2': 
     $lookuptype->ID=$_REQUEST["ID"];
-    $linktype->delete(); 
+    $lookuptype->delete(); 
     $show_data=false; 
     break; 
     

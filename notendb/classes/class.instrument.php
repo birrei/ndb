@@ -13,7 +13,7 @@ include_once("class.htmltable.php");
   public $titles_selected_list; 
   public $Title='Instrument';
   public $Titles='Instrumente';  
-  public $Parent='Satz'; // Satz, Schueler 
+  public $Parent=''; // Satz, Material  
   public string $infotext=''; 
   
   private $db; 
@@ -55,6 +55,14 @@ include_once("class.htmltable.php");
                   WHERE SatzID=:refID) ';
         }
      
+      case 'Material': 
+        if ($refID!=''){
+          $query.='WHERE ID NOT IN 
+                  (SELECT InstrumentID FROM material_schwierigkeitsgrad   
+                  WHERE MaterialID=:refID) ';
+        }
+     
+        
         break; 
 
         case 'Schueler': 

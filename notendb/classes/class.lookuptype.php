@@ -121,6 +121,7 @@ class Lookuptype {
 
   function print_preselect($value_selected=''){
 
+    $query=''; 
     if ($this->Relation!='') {
       $query="SELECT lookup_type.ID
                     , lookup_type.Name 
@@ -130,12 +131,11 @@ class Lookuptype {
               WHERE relation.Name=:Relation  
               ORDER BY Name";
     } 
-    // XXXX ??
-    // else {
-    //   $query="SELECT ID, concat(Name, ' (', Relation,')') as Name
-    //   FROM lookup_type
-    //   ORDER BY Relation, Name";
-    // }
+    else {
+      $query="SELECT ID, Name
+      FROM lookup_type
+      ORDER BY Name";
+    }
 
     $stmt = $this->db->prepare($query); 
 
