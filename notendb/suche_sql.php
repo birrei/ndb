@@ -28,8 +28,7 @@ function getSQL_SELECT($Ansicht){
             ORDER BY sammlung.Name, musikstueck.Nummer, satz.Nr 
             SEPARATOR '<br />') `Musikstueck und Saetze`          
       , GROUP_CONCAT(DISTINCT CONCAT('* ', material.Name)  ORDER BY material.Name SEPARATOR '<br >') Materialien 
-      , lookups.LookupList as `Sammlung Besonderheiten` 
-      , sammlung.Erfasst as `vollständig erfasst`".PHP_EOL; 
+      , lookups.LookupList as `Sammlung Besonderheiten` ".PHP_EOL; 
 
       break; 
             
@@ -87,7 +86,7 @@ function getSQL_SELECT($Ansicht){
           , CONCAT(
               'Sammlung: ',sammlung.Name, 
               ', Musikstück: ', musikstueck.Nummer, ' ', musikstueck.Name, 
-              ', Satz: ', satz.Nr, '  ', satz.Name) Satz
+              ', Satz: ', satz.Nr, '  ', satz.Name) `Sammlung / Musikstueck / Satz` 
           , GROUP_CONCAT(DISTINCT concat(instrument.Name, ': ', schwierigkeitsgrad.Name)  order by schwierigkeitsgrad.Name SEPARATOR ', ') `Schwierigkeitsgrade`                    
           , GROUP_CONCAT(DISTINCT concat(schueler.Name, ' (Status: ', status.Name, ')')  ORDER BY schueler.Name SEPARATOR '<br > ') Schueler  ".PHP_EOL;                   
 
@@ -121,7 +120,10 @@ function getSQL_SELECT($Ansicht){
       , material.Bemerkung 
       , materialtyp.Name as Materialtyp
       , sammlung.Name as Sammlung  
+      , GROUP_CONCAT(DISTINCT concat(instrument.Name, ': ', schwierigkeitsgrad.Name)  order by schwierigkeitsgrad.Name SEPARATOR ', ') `Schwierigkeitsgrade`               
+      , v_material_lookuptypes.LookupList as Besonderheiten      
       , GROUP_CONCAT(DISTINCT concat(schueler.Name, ' (Status: ', status.Name, ')')  ORDER BY schueler.Name SEPARATOR '<br > ') Schueler   ".PHP_EOL;        
+      
       break;  
 
     case 'Schueler': 
@@ -211,7 +213,7 @@ function getSQL_FROM($Ansicht){
       $query="FROM sammlung 
         LEFT JOIN standort  on sammlung.StandortID = standort.ID    
         LEFT JOIN verlag  on sammlung.VerlagID = verlag.ID
-        LEFT JOIN musikstueck on sammlung.ID = musikstueck.SammlungID 
+        INNER JOIN musikstueck on sammlung.ID = musikstueck.SammlungID 
         LEFT JOIN v_komponist komponist on komponist.ID = musikstueck.KomponistID
         LEFT JOIN gattung on gattung.ID = musikstueck.GattungID  
         LEFT JOIN epoche on epoche.ID = musikstueck.EpocheID     
@@ -326,21 +328,51 @@ function getSQL_FROM($Ansicht){
   
       break; 
 
-    case 'Material_erweitert':
-      $query="FROM material  
-      LEFT JOIN materialtyp on materialtyp.ID = material.MaterialtypID 
-      LEFT JOIN sammlung on sammlung.ID = material.SammlungID 
-      LEFT JOIN schueler_material on schueler_material.MaterialID = material.ID 
-      LEFT JOIN status on status.ID = schueler_material.StatusID         
-      LEFT JOIN schueler on schueler.ID = schueler_material.SchuelerID  ". PHP_EOL; 
+
+    case 'Material': 
+
+      $query="FROM sammlung 
+      INNER JOIN material on material.SammlungID = sammlung.ID 
+      INNER JOIN materialtyp on materialtyp.ID = material.MaterialtypID               
+      LEFT JOIN standort  on sammlung.StandortID = standort.ID    
+      LEFT JOIN verlag  on sammlung.VerlagID = verlag.ID
+      LEFT JOIN musikstueck on sammlung.ID = musikstueck.SammlungID 
+      LEFT JOIN v_komponist komponist on komponist.ID = musikstueck.KomponistID
+      LEFT JOIN gattung on gattung.ID = musikstueck.GattungID  
+      LEFT JOIN epoche on epoche.ID = musikstueck.EpocheID           
+      LEFT JOIN satz on satz.MusikstueckID = musikstueck.ID 
+     
+      ".PHP_EOL; 
+
+      // $query="FROM material  
+      // LEFT JOIN materialtyp on materialtyp.ID = material.MaterialtypID 
+      // LEFT JOIN sammlung on sammlung.ID = material.SammlungID 
+      // LEFT JOIN schueler_material on schueler_material.MaterialID = material.ID ". PHP_EOL; 
 
       break; 
 
-    case 'Material': 
-      $query="FROM material  
-      LEFT JOIN materialtyp on materialtyp.ID = material.MaterialtypID 
-      LEFT JOIN sammlung on sammlung.ID = material.SammlungID 
-      LEFT JOIN schueler_material on schueler_material.MaterialID = material.ID ". PHP_EOL; 
+    case 'Material_erweitert':
+
+      $query="FROM sammlung 
+      INNER JOIN material on material.SammlungID = sammlung.ID 
+      INNER JOIN materialtyp on materialtyp.ID = material.MaterialtypID               
+      LEFT JOIN standort  on sammlung.StandortID = standort.ID    
+      LEFT JOIN verlag  on sammlung.VerlagID = verlag.ID
+      LEFT JOIN musikstueck on sammlung.ID = musikstueck.SammlungID 
+      LEFT JOIN v_komponist komponist on komponist.ID = musikstueck.KomponistID
+      LEFT JOIN gattung on gattung.ID = musikstueck.GattungID  
+      LEFT JOIN epoche on epoche.ID = musikstueck.EpocheID           
+      LEFT JOIN satz on satz.MusikstueckID = musikstueck.ID 
+      LEFT JOIN schueler_material on schueler_material.MaterialID = material.ID 
+      LEFT JOIN status on status.ID = schueler_material.StatusID         
+      LEFT JOIN schueler on schueler.ID = schueler_material.SchuelerID  
+      LEFT JOIN material_schwierigkeitsgrad on material_schwierigkeitsgrad.MaterialID = material.ID 
+      LEFT JOIN schwierigkeitsgrad on schwierigkeitsgrad.ID = material_schwierigkeitsgrad.SchwierigkeitsgradID 
+      LEFT JOIN instrument on instrument.ID = material_schwierigkeitsgrad.InstrumentID 
+      LEFT JOIN v_material_lookuptypes on v_material_lookuptypes.MaterialID = material.ID   
+
+      ". PHP_EOL; 
+
 
       break; 
 
@@ -386,12 +418,10 @@ function getSQL_WHERE_Filter_Lookup($lookup_values_selected, $relations) {
   
   $query_WHERE=''; 
   
-
   if(count($relations) > 1) {
     // Lookup-Typ mit mehreren Relations -> ODER verknüpfung! 
     $query_WHERE.='AND (1=2 '. PHP_EOL; 
     for ($r = 0; $r < count($relations); $r++) {
-
       //  $relation=$relations[$r]; 
       //  echo 'relation: '.$relation.'<br>'; // TEST
       switch($relations[$r]) {
@@ -483,6 +513,7 @@ function getSQL_WHERE_Filter_Lookup_include($LookupID, $relations) {
 
 
 function getSQL_WHERE_Suchtext($AnsichtGruppe, $suchtext) {
+  // XXX nicht verwendet 
   $strSQL=''; 
   switch($AnsichtGruppe) {
     case 'Noten': 
@@ -512,6 +543,52 @@ function getSQL_WHERE_Suchtext($AnsichtGruppe, $suchtext) {
       ) ". PHP_EOL;              
       break;              
   }
+  return $strSQL; 
+}
+
+function getSQL_WHERE_Suchtext_Ebene($AnsichtEbene, $suchtext) {
+
+  $strSQL=''; 
+
+  switch($AnsichtEbene) {
+    case 'Sammlung':     
+    case 'Musikstueck': 
+    case 'Satz': 
+      $strSQL="AND (sammlung.Name LIKE '%".$suchtext."%' OR  
+        sammlung.Bemerkung LIKE '%".$suchtext."%' OR                              
+        musikstueck.Name LIKE '%".$suchtext."%' OR                              
+        musikstueck.Opus LIKE '%".$suchtext."%' OR
+        musikstueck.Bearbeiter LIKE '%".$suchtext."%' OR 
+        komponist.Name  LIKE '%".$suchtext."%' OR 
+        epoche.Name  LIKE '%".$suchtext."%' OR    
+        gattung.Name  LIKE '%".$suchtext."%' OR                 
+        satz.Name LIKE '%".$suchtext."%' OR
+        satz.Tempobezeichnung LIKE '%".$suchtext."%' OR
+        satz.Orchesterbesetzung LIKE '%".$suchtext."%' OR 
+        satz.Bemerkung LIKE '%".$suchtext."%' OR 
+        satz_erprobt.Bemerkung LIKE '%".$suchtext."%'  OR 
+        material.Name LIKE '%".$suchtext."%' OR 
+        material.Bemerkung LIKE '%".$suchtext."%'  
+        ) ". PHP_EOL; 
+
+      break; 
+    case 'Material': 
+      $strSQL="AND (
+        sammlung.Name LIKE '%".$suchtext."%' OR  
+        sammlung.Bemerkung LIKE '%".$suchtext."%' OR              
+        material.Name LIKE '%".$suchtext."%' OR  
+        material.Bemerkung LIKE '%".$suchtext."%'                                                                                                
+        ) ". PHP_EOL; 
+
+      break; 
+    case 'Schueler': 
+      $strSQL="AND (schueler.Name LIKE '%".$suchtext."%' OR  
+        schueler.Bemerkung LIKE '%".$suchtext."%' OR                              
+        schueler_satz.Bemerkung LIKE '%".$suchtext."%' OR                              
+        schueler_material.Bemerkung LIKE '%".$suchtext."%') ". PHP_EOL;     
+
+      break;            
+  } 
   return $strSQL; 
 }
 
@@ -568,19 +645,33 @@ function getSQL_ORDER_BY($Ansicht, $filter=true) {
 
 function getAnsichtGruppe($AnsichtEbene) {
   $strTmp=''; 
+
   switch ($AnsichtEbene){
     case 'Sammlung':        
     case 'Musikstueck': 
     case 'Satz':
-      $strTmp='Noten';                         
-      break;   
     case 'Material':
-      $strTmp='Material'; 
+      $strTmp='Noten'; 
       break; 
     case 'Schueler': 
       $strTmp='Schueler'; 
       break; 
     }
+
+    // XXX-löschen 
+  // switch ($AnsichtEbene){
+  //   case 'Sammlung':        
+  //   case 'Musikstueck': 
+  //   case 'Satz':
+  //     $strTmp='Noten';                         
+  //     break;   
+  //   case 'Material':
+  //     $strTmp='Material'; 
+  //     break; 
+  //   case 'Schueler': 
+  //     $strTmp='Schueler'; 
+  //     break; 
+  //   }
     return $strTmp; 
 }
 

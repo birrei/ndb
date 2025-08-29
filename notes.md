@@ -106,3 +106,7 @@ Die Reihenfolge innerhalb der Suchleiste sowie die sichtbare Zeilenzahl der Ausw
 ### Material kopieren 
 
 -> Schüler-Verknüpfungen werden kopiert, jedoch nicht der Status der Verknüpfungen XXX! 
+
+### allerlei 
+
+* Der Filter bezieht sich immer auf den Suchleisten-Block, in dem der die Auswahlbox eingestellt ist. Beispiel: Die Auswahlbox "Schwierigkeitsgrad" im Block "Satz" hat eine andere Wirkung als die Schwierikgkeits. Ausnahme sind (neu) die Besonderheiten-Filter, die eine übergreifende Filterwirkung haben.  

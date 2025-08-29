@@ -30,8 +30,8 @@ include_once("classes/class.materialtyp.php");
 include_once("suche_sql.php");
 
 /***** Parameter: Initialisierung, Defaults  ******/
-  if (isset($_POST['Ansicht'])) {
-    $Ansicht=$_POST["Ansicht"];
+  if (isset($_REQUEST['Ansicht'])) {
+    $Ansicht=$_REQUEST["Ansicht"];
   } else {
     $Ansicht='Sammlung'; // default 
   }
@@ -115,7 +115,7 @@ include_once("suche_sql.php");
         }  
   </script> 
 
-<form id="Suche" action="" method="post">
+<form id="Suche" action="" method="get">
 
 <?php
 /************** Auswahl Ansicht **********/  
@@ -126,17 +126,17 @@ include_once("suche_sql.php");
   ?>
   <br><b>Ansicht: </b>
   <select id="Ansicht" name="Ansicht" onchange="this.form.submit()" style="background-color: lightgreen">
-      <option value="Sammlung" <?php echo ($Ansicht=='Sammlung'?'selected':'');?>>Sammlung (Noten)</option>   
-      <option value="Sammlung erweitert" <?php echo ($Ansicht=='Sammlung erweitert'?'selected':'')?>>Sammlung erweitert (Noten)</option>   
-      <option value="Sammlung Links" <?php echo ($Ansicht=='Sammlung Links'?'selected':'')?>>Sammlung Links (Noten)</option>              
-      <option value="Musikstueck" <?php echo ($Ansicht=='Musikstueck'?'selected':'');?>>Musikstück (Noten)</option>
-     <option value="Satz" <?php echo ($Ansicht=='Satz'?'selected':'')?>>Satz (Noten)</option>
-      <option value="Satz Besonderheiten" <?php echo ($Ansicht=='Satz Besonderheiten'?'selected':'')?>>Satz Besonderheiten (Noten)</option>                     
-      <option value="Satz Schueler" <?php echo ($Ansicht=='Satz Schueler'?'selected':'')?>>Satz Schüler (Noten)</option>    
-      <option value="Material" <?php echo ($Ansicht=='Material'?'selected':'')?>>Material (Material)</option>
-      <option value="Material_erweitert" <?php echo ($Ansicht=='Material_erweitert'?'selected':'')?>>Material erweitert (Material)</option>      
-      <option value="Schueler" <?php echo ($Ansicht=='Schueler'?'selected':'')?>>Schüler (Schüler)</option> 
-      <option value="Schueler erweitert" <?php echo ($Ansicht=='Schueler erweitert'?'selected':'')?>>Schüler erweitert (Schüler)</option>                                        
+      <option value="Sammlung" <?php echo ($Ansicht=='Sammlung'?'selected':'');?>>Noten: Sammlung</option>   
+      <option value="Sammlung erweitert" <?php echo ($Ansicht=='Sammlung erweitert'?'selected':'')?>>Noten: Sammlung erweitert</option>   
+      <option value="Sammlung Links" <?php echo ($Ansicht=='Sammlung Links'?'selected':'')?>>Noten: Sammlung Links</option>              
+      <option value="Musikstueck" <?php echo ($Ansicht=='Musikstueck'?'selected':'');?>>Noten: Musikstücke</option>
+     <option value="Satz" <?php echo ($Ansicht=='Satz'?'selected':'')?>>Noten: Satz</option>
+      <option value="Satz Besonderheiten" <?php echo ($Ansicht=='Satz Besonderheiten'?'selected':'')?>>Noten: Satz Besonderheiten</option>                     
+      <option value="Satz Schueler" <?php echo ($Ansicht=='Satz Schueler'?'selected':'')?>>Noten: Satz und Schüler</option>    
+      <option value="Material" <?php echo ($Ansicht=='Material'?'selected':'')?>>Noten: Material</option>
+      <option value="Material_erweitert" <?php echo ($Ansicht=='Material_erweitert'?'selected':'')?>>Noten: Material erweitert</option>      
+      <option value="Schueler" <?php echo ($Ansicht=='Schueler'?'selected':'')?>>Schüler</option> 
+      <option value="Schueler erweitert" <?php echo ($Ansicht=='Schueler erweitert'?'selected':'')?>>Schüler erweitert</option>                                        
   </select>
 
 <!---- Checkbox Suche speichern ja / nein -----> 
@@ -146,8 +146,8 @@ include_once("suche_sql.php");
 /************* Filter Suchtext  **********/  
   $suchtext=''; 
   $query_WHERE_Suchtext=''; 
-  if (isset($_POST['suchtext'])) {
-    $suchtext = $_POST['suchtext'];  
+  if (isset($_REQUEST['suchtext'])) {
+    $suchtext = $_REQUEST['suchtext'];  
     if ($suchtext!='') { 
       $Suche->Beschreibung.='* Suchtext: '.$suchtext.PHP_EOL; 
       $filter=true; 
@@ -163,57 +163,50 @@ include_once("suche_sql.php");
 <!-- Navi-Block "Schüler (immer anzeigen) -->
   <p class="navi-trenner">Schüler </p> 
   <?php
+
 /************* Filter Schüler (Auswahlbox immer anzeigen) ***********/
-
-  if($AnsichtGruppe=='Schueler') {
-    $optAktiv='ja'; // default nur "Aktiv"
-    $filter=true; 
-    if (isset($_POST["optAktiv"])) {
-      $optAktiv=$_POST["optAktiv"]; 
-    }
-    switch($optAktiv) {
-      case 'ja': 
-        $query_WHERE.='AND schueler.Aktiv=1 '.PHP_EOL; 
-        $Suche->Beschreibung.='* Nur aktive Schüler'.PHP_EOL; 
-        break; 
-      // case 'nein': 
-      //   $query_WHERE.='AND schueler.Aktiv=0 '.PHP_EOL; 
-      //   $Suche->Beschreibung.='* Nicht vollständig erfasste Sammlungen'.PHP_EOL;           
-      //   break;              
-    }    
-    ?><p>
-      <input type="radio" name="optAktiv" id="optAktivNein" value="nein"<?php echo ($optAktiv=='nein'?' checked':''); ?>><label for="optAktivNein">Alle Schüler</label> 
-      <input type="radio" name="optAktiv" id="optAktivJa" value="ja"<?php echo ($optAktiv=='ja'?' checked':''); ?>><label for="optAktivJa">Nur aktive Schüler</label>
-      </p> 
-    <?php 
-  }
-
 
   $schueler = new Schueler();
   $SchuelerID=''; 
-  if (isset($_POST['SchuelerID'])) {
-    if ($_POST['SchuelerID']!='') {
-      $SchuelerID = $_POST['SchuelerID']; 
+  if (isset($_REQUEST['SchuelerID'])) {
+    if ($_REQUEST['SchuelerID']!='') {
+      $SchuelerID = $_REQUEST['SchuelerID']; 
       $schueler->ID=$SchuelerID; 
       $schueler->load_row(); 
       $Suche->Beschreibung.='* Schüler: '.$schueler->Name.PHP_EOL;  
-      switch($AnsichtEbene) {
-        case 'Sammlung': 
-          $query_WHERE.='AND satz.ID IN (SELECT SatzID from schueler_satz where SchuelerID='.$SchuelerID.') ' . PHP_EOL;
+
+      switch($AnsichtGruppe) {
+        case 'Noten': 
+          $query_WHERE.='AND ( 
+                             satz.ID IN (SELECT SatzID from schueler_satz where SchuelerID='.$SchuelerID.') 
+                             OR 
+                             material.ID IN (SELECT MaterialID from schueler_material where SchuelerID='.$SchuelerID.')
+                             ) 
+                             ' . PHP_EOL;
           break;     
-        case 'Musikstueck': 
-          $query_WHERE.='AND satz.ID IN (SELECT SatzID from schueler_satz where SchuelerID='.$SchuelerID.') ' . PHP_EOL;
-          break;         
-        case 'Satz': 
-          $query_WHERE.='AND schueler_satz.SchuelerID='.$SchuelerID.' ' . PHP_EOL;
-          break;                        
-        case 'Material': 
-          $query_WHERE.='AND material.ID IN (SELECT MaterialID from schueler_material where SchuelerID='.$SchuelerID.') ' . PHP_EOL;              
-          break; 
         case 'Schueler': 
           $query_WHERE.='AND schueler.ID='.$SchuelerID.' ' . PHP_EOL;  
           break;            
-      }         
+      }  
+
+      // switch($AnsichtEbene) {
+      //   case 'Sammlung': 
+      //     $query_WHERE.='AND satz.ID IN (SELECT SatzID from schueler_satz where SchuelerID='.$SchuelerID.') ' . PHP_EOL;
+      //     break;     
+      //   case 'Musikstueck': 
+      //     $query_WHERE.='AND satz.ID IN (SELECT SatzID from schueler_satz where SchuelerID='.$SchuelerID.') ' . PHP_EOL;
+      //     break;         
+      //   case 'Satz': 
+      //     $query_WHERE.='AND schueler_satz.SchuelerID='.$SchuelerID.' ' . PHP_EOL;
+      //     break;                        
+      //   case 'Material': 
+      //     $query_WHERE.='AND material.ID IN (SELECT MaterialID from schueler_material where SchuelerID='.$SchuelerID.') ' . PHP_EOL;              
+      //     break; 
+      //   case 'Schueler': 
+      //     $query_WHERE.='AND schueler.ID='.$SchuelerID.' ' . PHP_EOL;  
+      //     break;            
+      // } 
+
       $filter=true;       
     }
   }
@@ -226,41 +219,46 @@ include_once("suche_sql.php");
 
   switch($AnsichtGruppe) {
     case 'Noten': 
-      if (isset($_POST['StatusID'])) {
-        $StatusID = $_POST['StatusID']; 
+      if (isset($_REQUEST['StatusID'])) {
+        $StatusID = $_REQUEST['StatusID']; 
         if ($StatusID!='') {
           $filter=true;    
           $status->ID= $StatusID; 
           $status->load_row(); 
-          $query_WHERE.='AND satz.ID IN (SELECT SatzID FROM schueler_satz WHERE StatusID='.$StatusID.') '.PHP_EOL; 
+          $query_WHERE.="AND (
+                          satz.ID IN (SELECT SatzID FROM schueler_satz WHERE StatusID=".$StatusID.") 
+                          OR 
+                          material.ID IN (SELECT MaterialID FROM schueler_material WHERE StatusID=".$StatusID.") 
+                          ) ".PHP_EOL; 
+
           $Suche->Beschreibung.='* Status Schüler Satz: '.$status->Name.PHP_EOL;    
         }
       }
       echo '<p>';
-      $status->print_select($StatusID, 'Status Schüler Satz');
+      $status->print_select($StatusID, 'Status');
       echo '</p>';
       break; 
 
-    case 'Material':
+    // case 'Material':
 
-      if (isset($_POST['StatusID'])) {
-        $StatusID = $_POST['StatusID']; 
-        if ($StatusID!='') {
-          $filter=true;    
-          $status->ID= $StatusID; 
-          $status->load_row(); 
-          $query_WHERE.='AND material.ID IN (SELECT MaterialID FROM schueler_material WHERE StatusID='.$StatusID.') '.PHP_EOL; 
-          $Suche->Beschreibung.='* Status Schüler Material: '.$status->Name.PHP_EOL;              
-        }
-      }
-      echo '<p>';
-      $status->print_select($StatusID, 'Status Schüler Material');
-      echo '</p>';
-      break; 
+    //   if (isset($_REQUEST['StatusID'])) {
+    //     $StatusID = $_REQUEST['StatusID']; 
+    //     if ($StatusID!='') {
+    //       $filter=true;    
+    //       $status->ID= $StatusID; 
+    //       $status->load_row(); 
+    //       $query_WHERE.='AND material.ID IN (SELECT MaterialID FROM schueler_material WHERE StatusID='.$StatusID.') '.PHP_EOL; 
+    //       $Suche->Beschreibung.='* Status Schüler Material: '.$status->Name.PHP_EOL;              
+    //     }
+    //   }
+    //   echo '<p>';
+    //   $status->print_select($StatusID, 'Status Schüler Material');
+    //   echo '</p>';
+    //   break; 
 
     case 'Schueler':
-      if (isset($_POST['StatusID'])) {
-        $StatusID = $_POST['StatusID']; 
+      if (isset($_REQUEST['StatusID'])) {
+        $StatusID = $_REQUEST['StatusID']; 
         if ($StatusID!='') {
           $filter=true;    
           $status->ID= $StatusID; 
@@ -270,7 +268,7 @@ include_once("suche_sql.php");
         }
       }
       echo '<p>';
-      $status->print_select($StatusID, 'Status Noten / Material');
+      $status->print_select($StatusID, 'Status');
       echo '</p>';
   
       break;   
@@ -289,8 +287,8 @@ include_once("suche_sql.php");
   if ($AnsichtGruppe=='Noten') {
     $standort = new Standort();
     $StandortID=''; 
-    if (isset($_POST['StandortID'])) {
-      $StandortID = $_POST['StandortID']; 
+    if (isset($_REQUEST['StandortID'])) {
+      $StandortID = $_REQUEST['StandortID']; 
       if ($StandortID!='') {
         $standort->ID=$StandortID; 
         $standort->load_row(); 
@@ -309,8 +307,8 @@ include_once("suche_sql.php");
   if ($AnsichtGruppe=='Noten') {
     $verlag = new Verlag();
     $VerlagID='';     
-    if (isset($_POST['VerlagID']) ) {
-      $VerlagID=$_POST['VerlagID']; 
+    if (isset($_REQUEST['VerlagID']) ) {
+      $VerlagID=$_REQUEST['VerlagID']; 
       if ($VerlagID!='') {
         $verlag->ID=$VerlagID; 
         $verlag->load_row(); 
@@ -327,6 +325,7 @@ include_once("suche_sql.php");
 
 
 /************* Filter Sammlung Besonderheiten **********/  
+// XXXX löschen 
   // if ($AnsichtGruppe=='Noten') {
   // // if ($Ansicht=='Sammlung') {
   //   // XXX noch analog zu Satz Besonderheiten umsetzen (Genaue Suche)
@@ -340,8 +339,8 @@ include_once("suche_sql.php");
   //     $lookup_type_name=$arrLookupTypes[$i]["Name"]; 
   //     $lookup_type_key= $arrLookupTypes[$i]["type_key"]; // z.B: "besdynam" ect.  
   //     $lookup_values_selected=[];      
-  //     if (isset($_POST[$lookup_type_key])) {
-  //       $lookup_values_selected= $_POST[$lookup_type_key]; 
+  //     if (isset($_REQUEST[$lookup_type_key])) {
+  //       $lookup_values_selected= $_REQUEST[$lookup_type_key]; 
   //       // $query_WHERE.='AND sammlung_lookup.LookupID IN ('.implode(',', $lookup_values_selected).') -- '.$lookup_type_name.''. PHP_EOL; 
   //       $query_WHERE.='AND sammlung.ID IN (SELECT SammlungID FROM sammlung_lookup WHERE LookupID IN ('.implode(',', $lookup_values_selected).')) -- '.$lookup_type_name.''. PHP_EOL; 
   //       $filter=true; 
@@ -355,39 +354,15 @@ include_once("suche_sql.php");
   if ($Ansicht=='Sammlung Links') {
     $Linktypen=[];   /* Sammlung */
     $linktyp = new Linktype();
-    if (isset($_POST['Linktypen'])) {
-      $Linktypen = $_POST['Linktypen']; 
+    if (isset($_REQUEST['Linktypen'])) {
+      $Linktypen = $_REQUEST['Linktypen']; 
       $query_WHERE.='AND links.LinktypeID IN ('.implode(',', $Linktypen).') '.PHP_EOL; 
       $filter=true;       
     }  
     $linktyp->print_select_multi($Linktypen);      
-    $Suche->Beschreibung.=(count($Linktypen)>0?$linktyp->titles_selected_list:''); 
+    $Suche->Beschreibung.=(count($Linktypen)>0?$linktyp->titles_selected_list.PHP_EOL:''); 
   }
 
-
-/************ Filter Sammlung Erfasst ja / nein ************/  
-  if($AnsichtGruppe=='Noten') {
-    $optErfasst=''; // default "ohne Sammlung"
-    if (isset($_POST["optErfasst"])) {
-      $filter=true; 
-      $optErfasst=$_POST["optErfasst"]; 
-      switch($optErfasst) {
-        case 'ja': 
-          $query_WHERE.='AND sammlung.Erfasst=1 '.PHP_EOL; 
-          $Suche->Beschreibung.='* Vollständig erfasste Sammlungen'.PHP_EOL; 
-          break; 
-        case 'nein': 
-          $query_WHERE.='AND sammlung.Erfasst=0 '.PHP_EOL; 
-          $Suche->Beschreibung.='* Nicht vollständig erfasste Sammlungen'.PHP_EOL;           
-          break;              
-      }
-    }
-    ?><p>
-      <input type="radio" name="optErfasst" id="optErfasstNein" value="nein"<?php echo ($optErfasst=='nein'?' checked':''); ?>><label for="optErfasstNein">Nicht vollständig erfasst</label> 
-      <input type="radio" name="optErfasst" id="optErfasstJa" value="ja"<?php echo ($optErfasst=='ja'?' checked':''); ?>><label for="optErfasstJa">vollständig erfasst</label>
-      </p> 
-    <?php 
-  }
 
 /*** Navi-Block "Musikstück */
   if($AnsichtGruppe=='Noten') {
@@ -400,9 +375,9 @@ include_once("suche_sql.php");
   if ($AnsichtGruppe=='Noten') {
     $komponist = new Komponist();
     $KomponistID=''; 
-    if (isset($_POST['KomponistID'])) {
-      if ($_POST['KomponistID']!='') {
-        $KomponistID = $_POST['KomponistID']; 
+    if (isset($_REQUEST['KomponistID'])) {
+      if ($_REQUEST['KomponistID']!='') {
+        $KomponistID = $_REQUEST['KomponistID']; 
         $komponist->ID=  $KomponistID; 
         $komponist->load_row(); 
         $query_WHERE.='AND musikstueck.KomponistID='.$KomponistID.' '.PHP_EOL; 
@@ -422,10 +397,10 @@ include_once("suche_sql.php");
     $besetzung_check_include=false; // Einschluss-Suche aktiviert 
     $besetzung_check_exclude=false; // Ausschluss-Suche aktiviert 
     $besetzung = new Besetzung();
-    if (isset($_POST['Besetzungen'])) {
+    if (isset($_REQUEST['Besetzungen'])) {
       $filter=true;       
-      $Besetzungen_selected = $_POST['Besetzungen'];    
-      if (isset($_POST["include_Besetzung"])) { 
+      $Besetzungen_selected = $_REQUEST['Besetzungen'];    
+      if (isset($_REQUEST["include_Besetzung"])) { 
         $besetzung_check_include=true;
         for ($i = 0; $i < count($Besetzungen_selected); $i++) {
             $query_WHERE.='AND musikstueck.ID IN (SELECT MusikstueckID FROM musikstueck_besetzung WHERE BesetzungID='.$Besetzungen_selected[$i].') '. PHP_EOL; 
@@ -434,7 +409,7 @@ include_once("suche_sql.php");
       else {
           $query_WHERE.='AND musikstueck.ID IN (SELECT MusikstueckID FROM musikstueck_besetzung WHERE BesetzungID IN ('.implode(',', $Besetzungen_selected).')) '.PHP_EOL; 
       }
-      if (isset($_POST["exclude_Besetzung"]))  {
+      if (isset($_REQUEST["exclude_Besetzung"]))  {
         $besetzung_check_exclude=true; 
         $Besetzungen_all= $besetzung->getArray();         
         $Besetzungen_not_selected = array_diff($Besetzungen_all, $Besetzungen_selected); // nicht ausgewählte Werte    
@@ -452,8 +427,8 @@ include_once("suche_sql.php");
 /************* Filter Verwendungszwecke  ***********/
   if ($AnsichtGruppe=='Noten') {
     $Verwendungszwecke=[]; 
-    if (isset($_POST['Verwendungszwecke'])) {
-      $Verwendungszwecke = $_POST['Verwendungszwecke'];   
+    if (isset($_REQUEST['Verwendungszwecke'])) {
+      $Verwendungszwecke = $_REQUEST['Verwendungszwecke'];   
       $query_WHERE.='AND musikstueck.ID IN (SELECT MusikstueckID FROM musikstueck_verwendungszweck WHERE VerwendungszweckID IN ('.implode(',', $Verwendungszwecke).')) '.PHP_EOL; 
       $filter=true;     
     }  
@@ -466,9 +441,9 @@ include_once("suche_sql.php");
   if ($AnsichtGruppe=='Noten') {
     $gattung = new Gattung();
     $GattungID=''; 
-    if (isset($_POST['GattungID'])) {
-        if ($_POST['GattungID']!='') {
-        $GattungID = $_POST['GattungID']; 
+    if (isset($_REQUEST['GattungID'])) {
+        if ($_REQUEST['GattungID']!='') {
+        $GattungID = $_REQUEST['GattungID']; 
         $gattung->ID=  $GattungID; 
         $gattung->load_row(); 
         $query_WHERE.='AND musikstueck.GattungID ='.$GattungID.' '.PHP_EOL; 
@@ -485,9 +460,9 @@ include_once("suche_sql.php");
   if ($AnsichtGruppe=='Noten') {
     $epoche = new Epoche();
     $EpocheID=''; 
-    if (isset($_POST['EpocheID'])) {
-      if ($_POST['EpocheID']!='') { 
-        $EpocheID = $_POST['EpocheID']; 
+    if (isset($_REQUEST['EpocheID'])) {
+      if ($_REQUEST['EpocheID']!='') { 
+        $EpocheID = $_REQUEST['EpocheID']; 
         $epoche->ID=  $EpocheID; 
         $epoche->load_row(); 
         $filterEpochen='AND musikstueck.EpocheID ='.$EpocheID.' '.PHP_EOL; 
@@ -508,12 +483,12 @@ include_once("suche_sql.php");
     <?php
   }
 
-/************* Filter Instrument/Schwierigkeitsgrad  ***********/
+/************* Filter Satz: Instrument/Schwierigkeitsgrad  ***********/
   if ($AnsichtGruppe=='Noten') {
     $InstrumentSchwierigkeitsgrade=[];
     $schwierigkeitsgrad = new InstrumentSchwierigkeitsgrad();
-    if (isset($_POST['InstrumentSchwierigkeitsgrad'])) {
-      $InstrumentSchwierigkeitsgrade = $_POST['InstrumentSchwierigkeitsgrad']; 
+    if (isset($_REQUEST['InstrumentSchwierigkeitsgrad'])) {
+      $InstrumentSchwierigkeitsgrade = $_REQUEST['InstrumentSchwierigkeitsgrad']; 
       $query_WHERE.=$schwierigkeitsgrad->getSucheFilterSQL($InstrumentSchwierigkeitsgrade).PHP_EOL;
       $filter=true;       
     }
@@ -521,46 +496,49 @@ include_once("suche_sql.php");
     $Suche->Beschreibung.=(count($InstrumentSchwierigkeitsgrade)>0?$schwierigkeitsgrad->titles_selected_list.PHP_EOL:'');
   }
 
+
   if ($AnsichtGruppe=='Schueler') {
-    $instrument = new Instrument();
-    $InstrumentID=''; 
-    $filterInstrument=''; 
-    if (isset($_POST['InstrumentID'])) {
-      if ($_POST['InstrumentID']!='') {
-        $InstrumentID = $_POST['InstrumentID']; 
-        $instrument->ID=  $InstrumentID; 
-        $instrument->load_row(); 
-        $query_WHERE.='AND schueler.ID IN (SELECT SchuelerID FROM schueler_schwierigkeitsgrad WHERE InstrumentID='.$InstrumentID.') '.PHP_EOL; 
-        $Suche->Beschreibung.='* Instrument (Schüler): '.$instrument->Name.PHP_EOL;     
+    $instrument_schueler = new Instrument();
+    $InstrumentID_Schueler=''; 
+    if (isset($_REQUEST['InstrumentID_Schueler'])) {
+      if ($_REQUEST['InstrumentID_Schueler']!='') {
+        $InstrumentID_Schueler = $_REQUEST['InstrumentID_Schueler']; 
+        $instrument_schueler->ID=  $InstrumentID_Schueler; 
+        $instrument_schueler->load_row(); 
+        $query_WHERE.='AND schueler.ID IN (SELECT SchuelerID FROM schueler_schwierigkeitsgrad WHERE InstrumentID='.$InstrumentID_Schueler.') '.PHP_EOL; 
+        $Suche->Beschreibung.='* Instrument (Schüler): '.$instrument_schueler->Name.PHP_EOL;     
         $filter=true;       
       }
     }
-    $instrument->print_select($InstrumentID,'','Instrument (Schüler)');
+    $instrument_schueler->Parent='Schueler';     
+    $instrument_schueler->print_select_suche($InstrumentID_Schueler,'Instrument');
 
-    $Schwierigkeitsgrade=[];
-    $schwierigkeitsgrad = new Schwierigkeitsgrad();
-    if (isset($_POST['Schwierigkeitsgrad'])) {
-      $Schwierigkeitsgrade = $_POST['Schwierigkeitsgrad']; 
+    $Schwierigkeitsgrade_Schueler=[]; 
+    $schwierigkeitsgrad_schueler = new Schwierigkeitsgrad();
+    if (isset($_REQUEST['Schwierigkeitsgrad_Schueler'])) {
+      $Schwierigkeitsgrade_Schueler = $_REQUEST['Schwierigkeitsgrad_Schueler']; 
       // echo count($Schwierigkeitsgrade); 
-      $query_WHERE.='AND schueler.ID IN (SELECT SchuelerID FROM schueler_schwierigkeitsgrad WHERE SchwierigkeitsgradID IN ('.implode(',', $Schwierigkeitsgrade).')) '.PHP_EOL; 
+      $query_WHERE.='AND schueler.ID IN (SELECT SchuelerID FROM schueler_schwierigkeitsgrad WHERE SchwierigkeitsgradID IN ('.implode(',', $Schwierigkeitsgrade_Schueler).')) '.PHP_EOL; 
       $filter=true;       
     }
-    $schwierigkeitsgrad->print_select_multi($Schwierigkeitsgrade, 'Schwierigkeitsgrad (Schüler)');  
-    $Suche->Beschreibung.=(count($Schwierigkeitsgrade)>0?$schwierigkeitsgrad->titles_selected_list:'');  
+    $schwierigkeitsgrad_schueler->Parent='Schueler';    
+    $schwierigkeitsgrad_schueler->print_select_multi($Schwierigkeitsgrade_Schueler, 'Schwierigkeitsgrad (Schüler)');  
+    $Suche->Beschreibung.=(count($Schwierigkeitsgrade_Schueler)>0?$schwierigkeitsgrad_schueler->titles_selected_list.PHP_EOL:'');  
   }
   
 /************* Filter Erprobt  ***********/
   if ($AnsichtGruppe=='Noten') {
     $Erprobt=[];  // im Suchfilter ausgewählte Erprobt-Einträge  (IDs) 
-    if (isset($_POST['Erprobt'])) {
-      $Erprobt = $_POST['Erprobt'];   
+    if (isset($_REQUEST['Erprobt'])) {
+      $Erprobt = $_REQUEST['Erprobt'];   
       $query_WHERE.='AND satz.ID IN (SELECT SatzID FROM satz_erprobt WHERE ErprobtID IN ('.implode(',', $Erprobt).')) '.PHP_EOL; 
       $filter=true;     
     } 
     $erprobt = new Erprobt();
     $erprobt->print_select_multi($Erprobt);  
-    $Suche->Beschreibung.=(count($Erprobt)>0?$erprobt->titles_selected_list:'');            
+    $Suche->Beschreibung.=(count($Erprobt)>0?$erprobt->titles_selected_list.PHP_EOL:'');            
   }
+
   // /************* Erprobt Jahr // vermutlich nicht benötigt ***********/
   // $ErprobtJahr_von=''; 
   // $ErprobtJahr_bis=''; 
@@ -634,19 +612,18 @@ include_once("suche_sql.php");
 
 
 /*** Navi-Block "Material */
-  if($AnsichtGruppe=='Material') {
+  if($AnsichtGruppe=='Noten') {
     ?>
     <p class="navi-trenner">Material</p> 
     <?php
   }   
 
-
-/************* Filter Materialtyp  **********/
-  if ($AnsichtGruppe=='Material') {
+/************* #Material: Filter Materialtyp  **********/
+  if ($AnsichtGruppe=='Noten') {
     $materialtyp = new Materialtyp();
     $MaterialtypID=''; 
-    if (isset($_POST['MaterialtypID'])) {
-      $MaterialtypID = $_POST['MaterialtypID'];           
+    if (isset($_REQUEST['MaterialtypID'])) {
+      $MaterialtypID = $_REQUEST['MaterialtypID'];           
       if ($MaterialtypID!='') {
         $materialtyp->ID= $MaterialtypID; 
         $materialtyp->load_row(); 
@@ -661,10 +638,41 @@ include_once("suche_sql.php");
   }
 
 
+/************* #Material: Filter Instrument **********/  
+  if ($AnsichtGruppe=='Noten') {
+    $instrument_material = new Instrument();
+    $InstrumentID_material=''; 
+    if (isset($_REQUEST['InstrumentID_Material'])) { 
+      if ($_REQUEST['InstrumentID_Material']!='') {
+        $InstrumentID_material = $_REQUEST['InstrumentID_Material']; 
+        $instrument_material->ID=  $InstrumentID_material; 
+        $instrument_material->load_row(); 
+        $query_WHERE.='AND material.ID IN (SELECT MaterialID FROM material_schwierigkeitsgrad WHERE InstrumentID='.$InstrumentID_material.') '.PHP_EOL; 
+        $Suche->Beschreibung.='* Instrument (Material): '.$instrument_material->Name.PHP_EOL;     
+        $filter=true;       
+      }
+    }
+    $instrument_material->Parent='Material'; 
+    $instrument_material->print_select_suche($InstrumentID_material,'Instrument');
 
-      ?>
-    <p class="navi-trenner">Besonderheiten</p> 
-    <?php
+
+/************* #Material: Filter Schwierigkeitsgrad **********/      
+    $Schwierigkeitsgrade_Material=[];
+    $schwierigkeitsgrad_material = new Schwierigkeitsgrad();
+    if (isset($_REQUEST['Schwierigkeitsgrad_Material'])) {
+      $Schwierigkeitsgrade_Material = $_REQUEST['Schwierigkeitsgrad_Material']; 
+      // echo count($Schwierigkeitsgrade); 
+      $query_WHERE.='AND material.ID IN (SELECT MaterialID FROM material_schwierigkeitsgrad WHERE SchwierigkeitsgradID IN ('.implode(',', $Schwierigkeitsgrade_Material).')) '.PHP_EOL; 
+      $filter=true;       
+    }
+    $schwierigkeitsgrad_material->Parent='Material'; 
+    $schwierigkeitsgrad_material->print_select_multi($Schwierigkeitsgrade_Material);  
+    $Suche->Beschreibung.=(count($Schwierigkeitsgrade_Material)>0?$schwierigkeitsgrad_material->titles_selected_list.PHP_EOL:'');  
+  }
+
+  ?>
+<p class="navi-trenner">Besonderheiten</p> 
+<?php
 
 /************* Filter Besonderheiten  **********/
   // if($AnsichtGruppe=='Noten') {
@@ -692,11 +700,11 @@ include_once("suche_sql.php");
       $lookup_values_selected=[];    // ausgewählte Lookup-Werte 
       $lookup_values_not_selected=[];  // nicht ausgewählte Lookup-Werte 
       // print_r($lookup_values); // Test 
-      if (isset($_POST[$lookup_type_key])) {
+      if (isset($_REQUEST[$lookup_type_key])) {
         $filter=true;       
-        $lookup_values_selected= $_POST[$lookup_type_key]; 
+        $lookup_values_selected= $_REQUEST[$lookup_type_key]; 
         // print_r($lookup_values_selected); // test 
-        if (isset($_POST['include_'.$lookup_type_key])) { 
+        if (isset($_REQUEST['include_'.$lookup_type_key])) { 
           //  "Einschluss-Suche" aktiviert 
           $lookup_check_include=true;         
           for ($k = 0; $k < count($lookup_values_selected); $k++) {
@@ -707,7 +715,7 @@ include_once("suche_sql.php");
           //  "Einschluss-Suche" NICHT aktiviert, 
           $query_WHERE.= getSQL_WHERE_Filter_Lookup($lookup_values_selected, $relations);             
         }
-        if (isset($_POST['exclude_'.$lookup_type_key])) {    
+        if (isset($_REQUEST['exclude_'.$lookup_type_key])) {    
           // Ausschluss-Suche aktiviert 
           $lookup_values = $lookup->getArrLookups();        
           $lookup_check_exclude=true; 
@@ -716,7 +724,7 @@ include_once("suche_sql.php");
         }      
       }    
       $lookup->print_select_multi($lookup_type_key,$lookup_values_selected, $lookup_type_name.':', true, $lookup_check_include, true,$lookup_check_exclude );
-      $Suche->Beschreibung.=(count($lookup_values_selected)>0?$lookup->titles_selected_list:'');   
+      $Suche->Beschreibung.=(count($lookup_values_selected)>0?$lookup->titles_selected_list.PHP_EOL:'');   
     }
 
 //  }
@@ -748,7 +756,8 @@ include_once("suche_sql.php");
   $query.=$query_WHERE; 
 
   if($suchtext!='') {
-    $query_WHERE_Suchtext=getSQL_WHERE_Suchtext($AnsichtGruppe, $suchtext); 
+    // $query_WHERE_Suchtext=getSQL_WHERE_Suchtext($AnsichtGruppe, $suchtext); 
+    $query_WHERE_Suchtext=getSQL_WHERE_Suchtext_Ebene($AnsichtEbene, $suchtext); 
     $query.=$query_WHERE_Suchtext; 
     // XXX groß-klein - Schreibung berücksichtigen 
   }
@@ -765,7 +774,7 @@ include_once("suche_sql.php");
 
 /************* Ergebnistabelle anzeigen bzw. alternativ Suche speichern  **********/  
 
-  if (isset($_POST["SucheSpeichern"])) {
+  if (isset($_REQUEST["SucheSpeichern"])) {
     $timestamp = time();
     $Suche->Name= 'Suche '.date("d.m.Y - H:i", time()); // Temp. Name, kann später geändert werden
     $Suche->Abfrage = $query; 

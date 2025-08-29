@@ -1,5 +1,9 @@
 ﻿# Changelog  
 
+25.08.2025: Material: Zuordnung Schwierigkeitsgrad 
+
+25.08.2025: Material: Zuordnunsmöglichkeit Besonderheiten  
+
 12.08.2025: Neuer Screen "Verwendungszweck Planung" 
 
 28.07.2025: Entfernung Einzelfelder "Tonart" / "Taktart" (Übernahme zu Standard-Lookups)    

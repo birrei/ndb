@@ -13,6 +13,8 @@ class Schwierigkeitsgrad {
   public $titles_selected_list; 
   public $Title='Schwierigkeitsgrad';
   public $Titles='Schwierigkeitsgrade';  
+  public $Parent=''; // Material oder Schueler (Satz nicht)
+  public $Ref=''; 
   public string $infotext=''; 
   
   private $db; 
@@ -66,7 +68,7 @@ class Schwierigkeitsgrad {
     }
   }
 
-    function is_deletable() {
+  function is_deletable() {
     
     $select = $this->db->prepare("SELECT * from satz_schwierigkeitsgrad WHERE SchwierigkeitsgradID=:SchwierigkeitsgradID");
     $select->bindValue(':SchwierigkeitsgradID', $this->ID); 
@@ -81,8 +83,6 @@ class Schwierigkeitsgrad {
       return true; 
     }
   }
-
-
 
   function print_table(){
 
@@ -143,11 +143,24 @@ class Schwierigkeitsgrad {
   
   function print_select_multi($options_selected=[]){
 
+    switch($this->Parent) {
+
+      case 'Material': 
+          $formInputName='Schwierigkeitsgrad_Material[]'; 
+          $formInputID='Schwierigkeitsgrad_Material'; 
+          $caption='Schwierigkeitsgrad Material: '; 
+        break; 
+
+      case 'Schueler': 
+        $formInputName='Schwierigkeitsgrad_Schueler[]'; 
+          $formInputID='Schwierigkeitsgrad_Schueler';         
+          $caption='Schwierigkeitsgrad Schüler: ';           
+        break; 
+    }    
 
     $query="SELECT ID, Name 
             FROM `schwierigkeitsgrad` 
             order by `Name`"; 
-
 
     $stmt = $this->db->prepare($query); 
 
@@ -155,7 +168,7 @@ class Schwierigkeitsgrad {
       $stmt->execute(); 
       $html = new HTML_Select($stmt); 
       $html->visible_rows=5; 
-      $html->print_select_multi('Schwierigkeitsgrad', 'Schwierigkeitsgrad[]', $options_selected, 'Schwierigkeitsgrad (Schüler):'); 
+      $html->print_select_multi( $formInputID, $formInputName, $options_selected,$caption); 
       $this->titles_selected_list = $html->titles_selected_list; 
     }
     catch (PDOException $e) {

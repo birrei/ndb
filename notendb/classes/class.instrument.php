@@ -13,7 +13,7 @@ include_once("class.htmltable.php");
   public $titles_selected_list; 
   public $Title='Instrument';
   public $Titles='Instrumente';  
-  public $Parent=''; // Satz, Material  
+  public $Parent=''; // Satz, Material, Schueler  
   public string $infotext=''; 
   
   private $db; 
@@ -42,27 +42,58 @@ include_once("class.htmltable.php");
     }
   }  
  
+  function print_select_suche($value_selected='', $caption=''){
+
+    $query="SELECT ID, Name FROM `instrument` ORDER BY Name ";   
+
+    switch($this->Parent) {
+      case 'Satz': 
+          $formInputName='InstrumentID_Satz'; 
+        break; 
+      case 'Material': 
+          $formInputName='InstrumentID_Material'; 
+        break; 
+
+      case 'Schueler': 
+        $formInputName='InstrumentID_Schueler'; 
+        break; 
+    }
+    
+    $stmt = $this->db->prepare($query); 
+    
+    try {
+      $stmt->execute(); 
+      $html = new HTML_Select($stmt); 
+      $html->autofocus=false;     
+      $html->caption = $caption;         
+      $html->print_select($formInputName, $value_selected); 
+      
+    }
+    catch (PDOException $e) {
+      $this->info->print_user_error(); 
+      $this->info->print_error($stmt, $e); 
+    }
+    
+  }
+
   function print_select($value_selected='', $refID='', $caption=''){
 
     $query="SELECT ID, Name 
             FROM `instrument` "; 
+            
 
     switch($this->Parent) {
       case 'Satz': 
         if ($refID!=''){
-          $query.='WHERE ID NOT IN 
-                  (SELECT InstrumentID FROM satz_schwierigkeitsgrad   
+          $query.='WHERE ID NOT IN (SELECT InstrumentID FROM satz_schwierigkeitsgrad   
                   WHERE SatzID=:refID) ';
         }
-     
+        break; 
       case 'Material': 
         if ($refID!=''){
-          $query.='WHERE ID NOT IN 
-                  (SELECT InstrumentID FROM material_schwierigkeitsgrad   
+          $query.='WHERE ID NOT IN (SELECT InstrumentID FROM material_schwierigkeitsgrad   
                   WHERE MaterialID=:refID) ';
         }
-     
-        
         break; 
 
         case 'Schueler': 
