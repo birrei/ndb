@@ -164,7 +164,11 @@ include_once("suche_sql.php");
   <p class="navi-trenner">Schüler </p> 
   <?php
 
-/************* Filter Schüler (Auswahlbox immer anzeigen) ***********/
+/************* Filter Schüler (AG-Wunsch: Auswahlbox immer anzeigen) ***********/
+
+    /*  XXXX-20250829/01 Auswahl Schüler Status in Schüler integrieren   */
+    // 3 mögliche Kombis: Nur Schüler ausgewählt, 2) Schüler + Status gewählt, 3) Nur Status gewählt 
+    
 
   $schueler = new Schueler();
   $SchuelerID=''; 
@@ -322,33 +326,6 @@ include_once("suche_sql.php");
     $verlag->print_select($VerlagID, $verlag->Title);
     echo '</p>';
   }
-
-
-/************* Filter Sammlung Besonderheiten **********/  
-// XXXX löschen 
-  // if ($AnsichtGruppe=='Noten') {
-  // // if ($Ansicht=='Sammlung') {
-  //   // XXX noch analog zu Satz Besonderheiten umsetzen (Genaue Suche)
-  //   $lookuptypes=new Lookuptype(); 
-  //   $lookuptypes->Relation='sammlung'; 
-  //   $arrLookupTypes=$lookuptypes->getArrData(); 
-  //   $filterLookups_sammlung=''; 
-  //   for ($i = 0; $i < count($arrLookupTypes); $i++) {
-  //     $lookup=New Lookup(); 
-  //     $lookup->LookupTypeID=$arrLookupTypes[$i]["ID"];
-  //     $lookup_type_name=$arrLookupTypes[$i]["Name"]; 
-  //     $lookup_type_key= $arrLookupTypes[$i]["type_key"]; // z.B: "besdynam" ect.  
-  //     $lookup_values_selected=[];      
-  //     if (isset($_REQUEST[$lookup_type_key])) {
-  //       $lookup_values_selected= $_REQUEST[$lookup_type_key]; 
-  //       // $query_WHERE.='AND sammlung_lookup.LookupID IN ('.implode(',', $lookup_values_selected).') -- '.$lookup_type_name.''. PHP_EOL; 
-  //       $query_WHERE.='AND sammlung.ID IN (SELECT SammlungID FROM sammlung_lookup WHERE LookupID IN ('.implode(',', $lookup_values_selected).')) -- '.$lookup_type_name.''. PHP_EOL; 
-  //       $filter=true; 
-  //     } 
-  //     $lookup->print_select_multi($lookup_type_key,$lookup_values_selected, $lookup_type_name.':');
-  //     $Suche->Beschreibung.=(count($lookup_values_selected)?$lookup->titles_selected_list:'');   
-  //   }
-  // }
 
 /************* Filter Linktypen  ************** */  
   if ($Ansicht=='Sammlung Links') {
@@ -674,7 +651,7 @@ include_once("suche_sql.php");
 <p class="navi-trenner">Besonderheiten</p> 
 <?php
 
-/************* Filter Besonderheiten  **********/
+/************* Filter Besonderheiten  XXXX **********/
   // if($AnsichtGruppe=='Noten') {
 
     $lookuptypes=new Lookuptype(); 
@@ -743,7 +720,7 @@ include_once("suche_sql.php");
 
   $query.=getSQL_FROM($Ansicht); 
 
-  // XXXX nicht verwenden ! 
+  // nicht verwenden ! 
   // switch ($AnsichtEbene){    
   //   case 'Musikstueck': 
   //     $query_WHERE.="AND musikstueck.ID IS NOT NULL ". PHP_EOL;         

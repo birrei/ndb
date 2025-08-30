@@ -9,6 +9,18 @@ include_once('head.php');
 
 <div class="body-doc"> 
 
+<h1 class="chapter-title chapter-title-h1" id="suche_beispiele">Übungs-Beispiele zur Suche</h1>
+    <p> Die folgenden Beispiele stammen aus dem Datenbestand des Initial-Projektes. Die verwendeten Suchbegriffe können in anderen Datenbeständen ggf. abweichen.  </p> 
+
+    <h2 class="chapter-title chapter-title-h2" id="suche-schueler-alle-noten">Suche: Noten- / Materialien zu einem Schüler</h2>
+    <p> Zeige alle Noten / Materialien für einen Schüler mit Status "Idee", wo "Tonleiter" geübt wird.   </p>  
+    <ul>
+        <li>Ansicht: "Sammlung erweitert" (dort sind Noten + Materialien in Spalten aufgelistet) </li>
+        <li>Abschnitt "Schüler" -> Auswahl "Schüler" (z.B. Anna-Luna) </li>
+        <li>Abschnitt "Schüler" -> Auswahl "Status" (z.B. "01 - Idee") </li>
+        <li>Abschnitt "Besonderheiten" -> Auswahl in Besonderheit "Übung sonst" -> "Tonleiter"  </li>
+    </ul>
+
 <h1 class="chapter-title chapter-title-h1" id="suche_ansicht">Ansichten</h1>
     <h2 class="chapter-title chapter-title-h2" id="suche_ansicht_noten">Noten</h2>
         <p>Sortierung: Sammlung Name, Musikstück Nr, Satz Nr</p>
@@ -302,17 +314,6 @@ include_once('head.php');
 
     <hr>
 
-<h1 class="chapter-title chapter-title-h1" id="suche_beispiele">Suche Übungs-Beispiele</h1>
-    <p> Die folgenden Beispiele stammen aus dem Datenbestand des Initial-Projektes. Die verwendeten Suchbegriffe können in anderen Datenbeständen ggf. abweichen.  </p> 
-
-    <h2 class="chapter-title chapter-title-h2" id="suche-schueler-alle-noten">Suche: Noten- / Materialien zu einem Schüler</h2>
-    <p> Zeige alle Noten / Materialien für einen Schüler mit Status "Idee", wo "Tonleiter" geübt wird.   </p>  
-    <ul>
-        <li>Ansicht: "Sammlung erweitert" (dort sind Noten + Materialien in Spalten aufgelistet) </li>
-        <li>Abschnitt "Schüler" -> Auswahl "Schüler" (z.B. Anna-Luna) </li>
-        <li>Abschnitt "Schüler" -> Auswahl "Status" (z.B. "01 - Idee") </li>
-        <li>Abschnitt "Besonderheiten" -> Auswahl in Kategorie "Tonleiter"  </li>
-    </ul>
 
 
 </div> 
