@@ -2,6 +2,7 @@
 $PageTitle='Suche'; 
 include_once('head.php');
 
+
 include_once("classes/dbconn/class.db.php");  
 include_once("classes/class.htmltable.php");    
 include_once("classes/class.htmlinfo.php");  
@@ -28,6 +29,9 @@ include_once("classes/class.status.php");
 include_once("classes/class.materialtyp.php");
 
 include_once("suche_sql.php");
+
+$info_all=new HTML_Info(); 
+$info_all->print_info("Aktuell nicht verwendbar: Besonderheiten, Einschlussuche/Auschlusssuche. Ansichten: Schüler, Schüler erweitert ");
 
 /***** Parameter: Initialisierung, Defaults  ******/
   if (isset($_REQUEST['Ansicht'])) {
@@ -83,6 +87,7 @@ include_once("suche_sql.php");
 
     }
   </script>
+
 
 
 <div class="search-page" id="search-page">
@@ -164,66 +169,137 @@ include_once("suche_sql.php");
   <p class="navi-trenner">Schüler </p> 
   <?php
 
-/************* Filter Schüler (AG-Wunsch: Auswahlbox immer anzeigen) ***********/
+/************* Filter Schüler, Schüler Status - Auswahlfelder werden - unabhängig von Ansicht - immer angezeigt ***********/
 
-    /*  XXXX-20250829/01 Auswahl Schüler Status in Schüler integrieren   */
-    // 3 mögliche Kombis: Nur Schüler ausgewählt, 2) Schüler + Status gewählt, 3) Nur Status gewählt 
+  /*  XXXX-20250829/01 Korrektur SQL  */
 
-
+  $SchuelerID=isset($_REQUEST['SchuelerID'])?$_REQUEST['SchuelerID']:'';
+    
   $schueler = new Schueler();
-  $SchuelerID=''; 
-  if (isset($_REQUEST['SchuelerID'])) {
-    if ($_REQUEST['SchuelerID']!='') {
-      $SchuelerID = $_REQUEST['SchuelerID']; 
+
+  if ($SchuelerID!='') {
+      $filter=true;        
       $schueler->ID=$SchuelerID; 
       $schueler->load_row(); 
-      $Suche->Beschreibung.='* Schüler: '.$schueler->Name.PHP_EOL;  
-
-      switch($AnsichtGruppe) {
-        case 'Noten': 
-          $query_WHERE.='AND ( 
-                             satz.ID IN (SELECT SatzID from schueler_satz where SchuelerID='.$SchuelerID.') 
-                             OR 
-                             material.ID IN (SELECT MaterialID from schueler_material where SchuelerID='.$SchuelerID.')
-                             ) 
-                             ' . PHP_EOL;
-          break;     
-        case 'Schueler': 
-          $query_WHERE.='AND schueler.ID='.$SchuelerID.' ' . PHP_EOL;  
-          break;            
-      }  
-
-      $filter=true;       
-    }
+      $Suche->Beschreibung.='* Schüler: '.$schueler->Name.PHP_EOL;        
   }
-  $schueler->print_select($SchuelerID,'',$schueler->Title, true );
 
-/************* Filter Schüler Status (3 Varianten)  ***********/
+  $StatusID=isset($_REQUEST['StatusID'])?$_REQUEST['StatusID']:''; 
+
   $status = new Status();
-  $StatusID=''; 
-  $captionStatus=''; 
+
+  if ($StatusID!='') {
+    $filter=true;        
+    $status->ID= $StatusID; 
+    $status->load_row(); 
+    $Suche->Beschreibung.='* Status Schüler: '.$status->Name.PHP_EOL;       
+  }
 
   switch($AnsichtGruppe) {
-    case 'Noten': 
-      if (isset($_REQUEST['StatusID'])) {
-        $StatusID = $_REQUEST['StatusID']; 
-        if ($StatusID!='') {
-          $filter=true;    
-          $status->ID= $StatusID; 
-          $status->load_row(); 
-          $query_WHERE.="AND (
-                          satz.ID IN (SELECT SatzID FROM schueler_satz WHERE StatusID=".$StatusID.") 
-                          OR 
-                          material.ID IN (SELECT MaterialID FROM schueler_material WHERE StatusID=".$StatusID.") 
-                          ) ".PHP_EOL; 
+    case 'Noten': // Ansicht Gruppe  "Noten" (Sammlung, Musikstück, Satz, Material )
+      if($SchuelerID!='' & $StatusID=='') { 
+        // 1) Nur Schüler ausgewählt 
+        $query_WHERE.="AND (satz.ID IN (SELECT SatzID from schueler_satz where SchuelerID=".$SchuelerID.") 
+                        OR 
+                        material.ID IN (SELECT MaterialID from schueler_material where SchuelerID=".$SchuelerID.")) " . PHP_EOL;        
 
-          $Suche->Beschreibung.='* Status Schüler Satz: '.$status->Name.PHP_EOL;    
-        }
       }
-      echo '<p>';
-      $status->print_select($StatusID, 'Status');
-      echo '</p>';
-      break; 
+      elseif($SchuelerID!='' & $StatusID!='') {
+        //  2) Schüler + Status ausgewählt 
+        $query_WHERE.="AND (satz.ID IN (SELECT SatzID from schueler_satz where SchuelerID=".$SchuelerID." AND StatusID=".$StatusID.") 
+                            OR 
+                            material.ID IN (SELECT MaterialID from schueler_material where SchuelerID=".$SchuelerID." AND StatusID=".$StatusID.")) " . PHP_EOL;        
+      }
+      elseif($SchuelerID=='' & $StatusID!='') {
+        // 3) Nur Status ausgewählt         
+        $query_WHERE.="AND (satz.ID IN (SELECT SatzID FROM schueler_satz WHERE StatusID=".$StatusID.") 
+                        OR 
+                        material.ID IN (SELECT MaterialID FROM schueler_material WHERE StatusID=".$StatusID.") ) ".PHP_EOL; 
+      }
+      break;   
+
+    case 'Schueler': // Ansicht Gruppe "Schüler" 
+
+      if($SchuelerID!='' & $StatusID=='') { 
+          // 1) Nur Schüler ausgewählt   
+          $query_WHERE.="AND schueler.ID=".$SchuelerID." ". PHP_EOL;  
+      }
+      elseif($SchuelerID!='' & $StatusID!='') {
+        $query_WHERE.="AND schueler.ID=".$SchuelerID." AND (
+                    schueler.ID IN (SELECT SchuelerID FROM schueler_satz WHERE SchuelerID=".$SchuelerID." AND StatusID=".$StatusID.") 
+                    OR 
+                    schueler.ID IN (SELECT SchuelerID FROM schueler_material WHERE SchuelerID=".$SchuelerID." AND StatusID=".$StatusID.")) " . PHP_EOL;        
+      }       
+      elseif($SchuelerID=='' & $StatusID!='') {
+        // 3) Nur Status ausgewählt        
+        $query_WHERE.="AND (schueler.ID IN (SELECT SchuelerID FROM schueler_satz WHERE StatusID=".$StatusID.") 
+                            OR 
+                            schueler.ID IN (SELECT SchuelerID FROM schueler_material WHERE StatusID=".$StatusID.") ) ".PHP_EOL; 
+      }
+
+      break;            
+  }
+  $schueler->print_select($SchuelerID,'',$schueler->Title, true );  
+
+  echo '<p>';
+  $status->print_select($StatusID, 'Status');
+  echo '</p>';
+
+
+
+
+  // if (isset($_REQUEST['SchuelerID'])) {
+  //   if ($_REQUEST['SchuelerID']!='') {
+  //     $SchuelerID = $_REQUEST['SchuelerID']; 
+  //     $schueler->ID=$SchuelerID; 
+  //     $schueler->load_row(); 
+  //     $Suche->Beschreibung.='* Schüler: '.$schueler->Name.PHP_EOL;  
+
+  //     switch($AnsichtGruppe) {
+  //       case 'Noten': 
+  //         $query_WHERE.='AND ( 
+  //                            satz.ID IN (SELECT SatzID from schueler_satz where SchuelerID='.$SchuelerID.') 
+  //                            OR 
+  //                            material.ID IN (SELECT MaterialID from schueler_material where SchuelerID='.$SchuelerID.')
+  //                            ) 
+  //                            ' . PHP_EOL;
+  //         break;     
+  //       case 'Schueler': 
+  //         $query_WHERE.='AND schueler.ID='.$SchuelerID.' ' . PHP_EOL;  
+  //         break;            
+  //     }  
+
+  //     $filter=true;       
+  //   }
+  // }
+  // $schueler->print_select($SchuelerID,'',$schueler->Title, true );
+
+/************* Filter Schüler Status (3 Varianten)  ***********/
+  // $status = new Status();
+  // $StatusID=''; 
+  // $captionStatus=''; 
+
+  // switch($AnsichtGruppe) {
+  //   case 'Noten': 
+  //     if (isset($_REQUEST['StatusID'])) {
+  //       $StatusID = $_REQUEST['StatusID']; 
+  //       if ($StatusID!='') {
+  //         $filter=true;    
+  //         $status->ID= $StatusID; 
+  //         $status->load_row(); 
+  //         $query_WHERE.="AND (
+  //                         satz.ID IN (SELECT SatzID FROM schueler_satz WHERE StatusID=".$StatusID.") 
+  //                         OR 
+  //                         material.ID IN (SELECT MaterialID FROM schueler_material WHERE StatusID=".$StatusID.") 
+  //                         ) ".PHP_EOL; 
+
+  //         $Suche->Beschreibung.='* Status Schüler Satz: '.$status->Name.PHP_EOL;    
+  //       }
+  //     }
+  //     echo '<p>';
+  //     $status->print_select($StatusID, 'Status');
+  //     echo '</p>';
+  //     break; 
 
     // case 'Material':
 
@@ -242,23 +318,23 @@ include_once("suche_sql.php");
     //   echo '</p>';
     //   break; 
 
-    case 'Schueler':
-      if (isset($_REQUEST['StatusID'])) {
-        $StatusID = $_REQUEST['StatusID']; 
-        if ($StatusID!='') {
-          $filter=true;    
-          $status->ID= $StatusID; 
-          $status->load_row(); 
-          $query_WHERE.='AND (schueler_satz.StatusID='.$StatusID.' OR schueler_material.StatusID='.$StatusID.') '.PHP_EOL;           
-          $Suche->Beschreibung.='* Status Noten / Material: '.$status->Name.PHP_EOL;                 
-        }
-      }
-      echo '<p>';
-      $status->print_select($StatusID, 'Status');
-      echo '</p>';
+    // case 'Schueler':
+    //   if (isset($_REQUEST['StatusID'])) {
+    //     $StatusID = $_REQUEST['StatusID']; 
+    //     if ($StatusID!='') {
+    //       $filter=true;    
+    //       $status->ID= $StatusID; 
+    //       $status->load_row(); 
+    //       $query_WHERE.='AND (schueler_satz.StatusID='.$StatusID.' OR schueler_material.StatusID='.$StatusID.') '.PHP_EOL;           
+    //       $Suche->Beschreibung.='* Status Noten / Material: '.$status->Name.PHP_EOL;                 
+    //     }
+    //   }
+    //   echo '<p>';
+    //   $status->print_select($StatusID, 'Status');
+    //   echo '</p>';
   
-      break;   
-  }
+    //   break;   
+  // }
 
 
 
