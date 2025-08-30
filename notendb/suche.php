@@ -168,7 +168,7 @@ include_once("suche_sql.php");
 
     /*  XXXX-20250829/01 Auswahl Schüler Status in Schüler integrieren   */
     // 3 mögliche Kombis: Nur Schüler ausgewählt, 2) Schüler + Status gewählt, 3) Nur Status gewählt 
-    
+
 
   $schueler = new Schueler();
   $SchuelerID=''; 
@@ -192,24 +192,6 @@ include_once("suche_sql.php");
           $query_WHERE.='AND schueler.ID='.$SchuelerID.' ' . PHP_EOL;  
           break;            
       }  
-
-      // switch($AnsichtEbene) {
-      //   case 'Sammlung': 
-      //     $query_WHERE.='AND satz.ID IN (SELECT SatzID from schueler_satz where SchuelerID='.$SchuelerID.') ' . PHP_EOL;
-      //     break;     
-      //   case 'Musikstueck': 
-      //     $query_WHERE.='AND satz.ID IN (SELECT SatzID from schueler_satz where SchuelerID='.$SchuelerID.') ' . PHP_EOL;
-      //     break;         
-      //   case 'Satz': 
-      //     $query_WHERE.='AND schueler_satz.SchuelerID='.$SchuelerID.' ' . PHP_EOL;
-      //     break;                        
-      //   case 'Material': 
-      //     $query_WHERE.='AND material.ID IN (SELECT MaterialID from schueler_material where SchuelerID='.$SchuelerID.') ' . PHP_EOL;              
-      //     break; 
-      //   case 'Schueler': 
-      //     $query_WHERE.='AND schueler.ID='.$SchuelerID.' ' . PHP_EOL;  
-      //     break;            
-      // } 
 
       $filter=true;       
     }
