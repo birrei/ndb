@@ -1,5 +1,5 @@
 <?php 
-$PageTitle='Hilfe';  
+$PageTitle='Hilfe Suche';  
 include_once('head.php');
 ?>
 
@@ -9,45 +9,80 @@ include_once('head.php');
 
 <div class="body-doc"> 
 
-<h1 class="chapter-title chapter-title-h1" id="suche_beispiele">Übungs-Beispiele zur Suche</h1>
-    <p> Die folgenden Beispiele stammen aus dem Datenbestand des Initial-Projektes. Die verwendeten Suchbegriffe können in anderen Datenbeständen ggf. abweichen.  </p> 
-
-    <h2 class="chapter-title chapter-title-h2" id="suche-schueler-alle-noten">Suche: Noten- / Materialien zu einem Schüler</h2>
-    <p> Zeige alle Noten / Materialien für einen Schüler mit Status "Idee", wo "Tonleiter" geübt wird.   </p>  
-    <ul>
-        <li>Ansicht: "Sammlung erweitert" (dort sind Noten + Materialien in Spalten aufgelistet) </li>
-        <li>Abschnitt "Schüler" -> Auswahl "Schüler" (z.B. Anna-Luna) </li>
-        <li>Abschnitt "Schüler" -> Auswahl "Status" (z.B. "01 - Idee") </li>
-        <li>Abschnitt "Besonderheiten" -> Auswahl in Besonderheit "Übung sonst" -> "Tonleiter"  </li>
-    </ul>
 
 <h1 class="chapter-title chapter-title-h1" id="suche_ansicht">Ansichten</h1>
-    <h2 class="chapter-title chapter-title-h2" id="suche_ansicht_noten">Noten</h2>
-        <p>Sortierung: Sammlung Name, Musikstück Nr, Satz Nr</p>
 
-        <h3 class="chapter-title chapter-title-h3" id="suche_ansicht_noten_sammlung">Noten: Sammlung</h3>
-            <p>Gruppierung auf Sammlung-Ebene. 
-            <br> Anzeige der Spalten:
-            <br> * Sammlung ID 
-            <br> * Sammlung Name  
-            <br> * Sammlung Standort 
-            <br> * Sammlung Verlag  
-            <br> * Sammlung Bemerkung  
+
+    <h2 class="chapter-title chapter-title-h2" id="suche_ansicht_noten">Sammlung</h2>
+
+        <p> Die Ergebnis-Tabellen werden auf Sammlung- Ebene gruppiert
+            Die Sortierung erfolgt nach Sammlung Name. 
+          
+        In beiden Ergebnistabellen werden die folgenden Spalten angezeigt: 
+        <br> * Sammlung ID 
+        <br> * Sammlung Name  
+        <br> * Sammlung Standort 
+        <br> * Sammlung Verlag  
+        <br> * Sammlung Bemerkung  
+        <br> * Sammlung Besonderheiten   
+        </p>
+
+    <h2 class="chapter-title chapter-title-h2" id="suche-ansicht-sammlung-erweitert">Sammlung erweitert</h2>
+
+
+            <p> Ergebnistabelle  "1) Sammlungen und Noten" ist auf Ebene Musikstück gruppiert und zeigt folgende Spalten an: 
+
+            <br> * Musikstück ID	
+            <br> * Sammlung Standort	
+            <br> * Sammlung Name 	
+            <br> * Musikstück Nr	
+            <br> * Musikstück Name 	
+            <br> * Musikstück Komponist	
+            <br> * Musikstück Besetzungen	
+            <br> * Musikstück Verwendungszwecke	
+            <br> * Musikstück Saetze (Liste der Satz-Nummern, sofern vorhanden)	
+            <br> * Musikstück Bearbeiter	
+            <br> * Musikstück Gattung	
+            <br> * Musikstück Epoche	
+
+            </p>
+
+           <p> Ergebnistabelle  "2) Sammlungen und Materalien" ist auf Ebene Material gruppiert und zeigt folgende Spalten an: 
+
+
+            <br> * Material ID	
+            <br> * Sammlung Name 	
+            <br> * Material Name 	
+            <br> * Material Bemerkung	
+            <br> * Materialtyp	
+            <br> * Material Schwierigkeitsgrade	
+            <br> * Material Besonderheiten
             </p>
 
 
-        <h3 class="chapter-title chapter-title-h3" id="suche_ansicht_noten_sammlung_erweitert">Noten: Sammlung erweitert</h3>
-            <p>Gruppierung auf Sammlung-Ebene. 
-            <br> Anzeige der Spalten:
-            <br> * Sammlung ID 
-            <br> * Sammlung Name  
+    <h2 class="chapter-title chapter-title-h2" id="suche-ansicht-sammlung-erweitert2">Sammlung erweitert 2</h2>
+
+            <p> Ergebnistabelle  "1) Sammlungen und Noten" ist auf Ebene Satz gruppiert und zeigt folgende Spalten an: 
+
+            <br> * Satz ID	
             <br> * Sammlung Standort 
-            <br> * Sammlung Verlag  
-            <br> * Sammlung Bemerkung  
-            </p>
+            <br> * Sammlung	Name 
+            <br> * Musikstueck Name 
+            <br> * Musikstück Komponist	            
+            <br> * Satz Nr	
+            <br> * Satz Name 	
+            <br> * Satz Tempobezeichnung	
+            <br> * Satz Schwierigkeitsgrade	
+            <br> * Satz Besonderheiten	
+            <br> * Satz Orchesterbesetzung	
+            <br> * Satz Bemerkung
+
+           <p>Die Anzeige der Ergebnistabelle  "2) Sammlungen und Materalien" entpricht derjenigen bei Ansicht <a href="#suche-ansicht-sammlung-erweitert">Sammlung erweitert"</a>. 
 
 
-            
+           
+<!-- 
+
 
         <h3 class="chapter-title chapter-title-h3" id="suche_ansicht_noten_sammlung_links">Sammlung Links</h3>
             <p>Gruppierung auf Sammlung-Ebene</p>
@@ -73,7 +108,7 @@ include_once('head.php');
         <h3 class="chapter-title chapter-title-h3" id="suche_ansicht_material_einfach">Schüler</h3>
         <h3 class="chapter-title chapter-title-h3" id="suche_ansicht_material_erweitert">Schüler erweitert</h3>
       
-<!-- 
+
         
 
 
@@ -117,9 +152,14 @@ include_once('head.php');
  -->
 
 
-<h1 class="chapter-title chapter-title-h1" id="suche_filter">Filter </h1>
+<h1 class="chapter-title chapter-title-h1" id="suche_filter">Wirkung von Filtern</h1>
 
-    <h2 class="chapter-title chapter-title-h2" id="suchlogik0">Suchlogik: Auswahl Kategorien</h2>
+    <h2 class="chapter-title chapter-title-h2" id="suchlogik-ansichten">Ansichten und Filter </h2>
+    <p>Such-Filter, die gleichzeitig Muskstücke/Sätze sowie Materialien einschließen sollen, 
+        müssen auf Sammlung-Ebene (Anschten "Sammlung *") ausgeführt werden. Wenn ein Musikstück*-Ansicht bzw. eine Satz*-Ansicht ausgewählt ist ausgewählt ist, werden ausgewählte Filter nur auf Sammlung, Musikstück  oder Satz angewandt, nicht jedoch auf Materialien 
+        (auch dann nicht, wenn nach einer Eigenschaft gefiltert wird, die grundsätzlich auch für Materialien zur Verfügung steht)  </p>
+
+    <h2 class="chapter-title chapter-title-h2" id="suchlogik-auswahl-einfach">Suchlogik bei Einfach-Auswahl</h2>
     
     <p> Kategorie-Arten: </p> 
     <ul> 
@@ -141,7 +181,7 @@ include_once('head.php');
 
     <hr>
 
-	<h2 class="chapter-title chapter-title-h2" id="suchlogik2">Suchlogik: Auswahl in einer Kategorie mit Mehrfachauswahl</h2>
+	<h2 class="chapter-title chapter-title-h2" id="suchlogik-auswahl-mehrfach">Suchlogik bei Mehrfachauswahl</h2>
 
     <p>
     Innerhalb einer Kategorie mit Mehrfach-Auswahl (z.B. Besetzung, Verwendungszweck) können ein oder mehrere Einträge ausgewählt werden.
@@ -314,42 +354,45 @@ include_once('head.php');
 
     <hr>
 
+	<p>&nbsp;</p>
+	<p>&nbsp;</p>
+	<p>&nbsp;</p>
+    
+ 	<p>&nbsp;</p>
+	<p>&nbsp;</p>
+	<p>&nbsp;</p>
+	<p>&nbsp;</p>
+	<p>&nbsp;</p>
+	<p>&nbsp;</p>
+	<p>&nbsp;</p>
+	<p>&nbsp;</p>
+	<p>&nbsp;</p>
+	<p>&nbsp;</p>
+
+	<p>&nbsp;</p>
+	<p>&nbsp;</p>
+	<p>&nbsp;</p>
+	<p>&nbsp;</p>
+	<p>&nbsp;</p>
+	<p>&nbsp;</p>
+	<p>&nbsp;</p>
+	<p>&nbsp;</p>
+	<p>&nbsp;</p>
+	<p>&nbsp;</p>
+
+   <p>Hinweise: </p>
+
+        
+    <p id="fussnote-ansichten"> 
+         (1) Auflistungen von Unterelementen (in "* erweitert-" - Ansichten) innerhalb einer Zelle können unvollständig sein, 
+         da die Kapazität dieser Darstellungsform begrenzt ist. Die Anzeige der Ergebnisse kann bei einer größeren Anzahl 
+         von Suchergebnissen ggf. verzögert erfolgen. 
+        </p> 
+
+
 
 
 </div> 
-
-	<p>&nbsp;</p>
-	<p>&nbsp;</p>
-	<p>&nbsp;</p>
-	<p>&nbsp;</p>
-	<p>&nbsp;</p>
-	<p>&nbsp;</p>
-	<p>&nbsp;</p>
-	<p>&nbsp;</p>
-	<p>&nbsp;</p>
-	<p>&nbsp;</p>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 

@@ -1,5 +1,6 @@
 <?php 
 class HTML_Table {
+    public $caption=''; // table caption 
     public $stmt;    
     public $result; 
     public $count_cols; 
@@ -47,8 +48,10 @@ class HTML_Table {
     
     
     function print_table2() {
- /* Verbesserung von print_table, ab jetzt diese verwenden! XXX  */
+
         $html = ''. PHP_EOL;
+
+        $html.= $this->caption!=''?'<h4>'.$this->caption.'</h4>':'';         
 
         if ($this->count_cols > 0 & $this->count_rows > 0)
         {
@@ -77,8 +80,10 @@ class HTML_Table {
                 padding: 2px;   
             }
             } 
-            </style>'. PHP_EOL;             
+            </style>'. PHP_EOL;   
+
             $html.= '<table class="resultset">'. PHP_EOL;
+
             $html.= '<thead>'. PHP_EOL;
             $html.= '<tr>'. PHP_EOL;
             for($i = 0; $i < $this->count_cols; ++$i) {
@@ -171,13 +176,13 @@ class HTML_Table {
                 $html .= '</tbody>'. PHP_EOL;   
             }
             $html .= '</table>'. PHP_EOL; 
-            $html .= ($this->show_row_count?'<pre>'.$this->count_rows.' Zeilen betroffen</pre>':''); 
+            $html .= ($this->show_row_count?'<pre>'.$this->count_rows.' Treffer</pre>':''); 
 
 
         }
         else {
                // $html .= ($this->show_missing_data_message?'<pre>Keine Daten vorhanden.</pre>':''); 
-               $html .= ($this->show_row_count?'<pre>'.$this->count_rows.' Zeilen betroffen</pre>':'');                
+               $html .= ($this->show_row_count?'<pre>'.$this->count_rows.' Treffer</pre>':'');                
         }
         echo $html;
     }

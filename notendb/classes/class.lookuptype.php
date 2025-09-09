@@ -174,7 +174,7 @@ class Lookuptype {
   }
 
   function getArrData(){
-    // alle Typen einer Relation 
+    // XXX obsolete  
     $arrTmp=[]; 
     $query_lookups = 'SELECT ID, Name, type_key, selsize 
                       FROM lookup_type 

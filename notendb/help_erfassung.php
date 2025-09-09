@@ -1,5 +1,5 @@
 <?php 
-$PageTitle='Hilfe';  
+$PageTitle='Hilfe Erfassung';  
 include_once('head.php');
 ?>
 

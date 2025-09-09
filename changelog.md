@@ -1,8 +1,10 @@
 ﻿# Changelog  
 
+09.09.2025: Suche mit 2 Ergebnistabellen (Sammung/Noten bzw. Sammlung/Material)
+
 25.08.2025: Material: Zuordnung Schwierigkeitsgrad 
 
-25.08.2025: Material: Zuordnunsmöglichkeit Besonderheiten  
+25.08.2025: Material: Zuordnung Besonderheiten  
 
 12.08.2025: Neuer Screen "Verwendungszweck Planung" 
 
