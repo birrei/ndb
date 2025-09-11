@@ -177,6 +177,11 @@ p.warning {
         margin-left:30px;  
     }
 
+    /* XXXX ?  */
+    .body-doc-toc {
+        width: 60%; 
+        margin-left:0px;  
+    }
 
 /***** Sammlung Druck (print_sammlung.php) XXXBETA ****************/
     p.print-sammlung {

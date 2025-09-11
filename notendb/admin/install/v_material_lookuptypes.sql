@@ -1,7 +1,7 @@
 CREATE OR REPLACE view v_material_lookuptypes as  
 select MaterialID
-   , GROUP_CONCAT(DISTINCT LookupList  order by LookupList SEPARATOR ' / ') LookupList
-   , GROUP_CONCAT(DISTINCT LookupList2  order by LookupList SEPARATOR '<br /><br />') LookupList2
+   , GROUP_CONCAT(LookupList SEPARATOR ' / ') LookupList
+   , GROUP_CONCAT(LookupList2 SEPARATOR '<br /><br />') LookupList2
 from 
 (
 select material_lookup.MaterialID 
@@ -13,5 +13,6 @@ select material_lookup.MaterialID
         left join lookup_type on lookup_type.ID = lookup.LookupTypeID
     -- where material_lookup.MaterialID = 64
     group by material_lookup.MaterialID ,  lookup_type.ID
+    order by material_lookup.MaterialID, lookup_type.type_key    
 ) material_lookuptype 
 group by MaterialID

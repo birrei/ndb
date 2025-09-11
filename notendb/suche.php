@@ -1,9 +1,6 @@
 <?php 
 $PageTitle='Suche'; 
 include_once('head.php');
-
-
-// include_once("classes/dbconn/class.db.php");  
 include_once("classes/class.htmltable.php");    
 include_once("classes/class.htmlinfo.php");  
 
@@ -29,8 +26,6 @@ include_once("classes/class.status.php");
 include_once("classes/class.materialtyp.php");
 include_once("classes/class.suchabfrage.php");
 
-include_once("suche_sql.php");
-
 
 /***** Parameter: Initialisierung, Defaults  ******/
 
@@ -38,21 +33,8 @@ include_once("suche_sql.php");
   $Ansicht=isset($_REQUEST['Ansicht'])?$_REQUEST['Ansicht']:'Sammlung'; 
   $Suchabfrage->setAnsicht($Ansicht); 
   $AnsichtGruppe=$Suchabfrage->AnsichtGruppe; 
-  // $AnsichtEbene=$Suchabfrage->AnsichtEbene; 
-  // $edit_table=$Suchabfrage->edit_table; 
-
-
 
   $filter=false;  
-
-  // // TEST 
-  // echo '<br>Ansicht: '.$Ansicht; 
-  // echo '<br>Ansicht Ebene: '.$AnsichtEbene; 
-  // echo '<br>Ansicht Domäne: '.$AnsichtGruppe; 
-  // echo '<br>edit_table: '.$edit_table; 
-
-
-  /**************** */
 
 ?>
 
@@ -117,14 +99,17 @@ include_once("suche_sql.php");
       <option value="Sammlung" <?php echo ($Ansicht=='Sammlung'?'selected':'');?>>Sammlung</option>   
       <option value="Sammlung erweitert" <?php echo ($Ansicht=='Sammlung erweitert'?'selected':'')?>>Sammlung erweitert</option>
       <option value="Sammlung erweitert 2" <?php echo ($Ansicht=='Sammlung erweitert 2'?'selected':'')?>>Sammlung erweitert 2</option>              
+      <option value="Sammlung erweitert 3" <?php echo ($Ansicht=='Sammlung erweitert 3'?'selected':'')?>>Sammlung erweitert 3</option>    
 
       <!-- <option value="Sammlung Links" <?php echo ($Ansicht=='Sammlung Links'?'selected':'')?>>Sammlung spezial: Links</option>     
       <option value="Satz Besonderheiten" <?php echo ($Ansicht=='Satz Besonderheiten'?'selected':'')?>>Satz spezial: Besonderheiten</option>                     
-      <option value="Satz Schueler" <?php echo ($Ansicht=='Satz Schueler'?'selected':'')?>>Satz spezial: Schüler</option>    
+
       <option value="Schueler" <?php echo ($Ansicht=='Schueler'?'selected':'')?>>Schüler</option> 
       <option value="Schueler erweitert" <?php echo ($Ansicht=='Schueler erweitert'?'selected':'')?>>Schüler erweitert</option>                                         -->
   
     </select>
+
+    &nbsp; <a href="help_suche.php#suche_ansichten" target="_blank">Hilfe</a>
 
 <?php 
 
@@ -643,6 +628,8 @@ include_once("suche_sql.php");
 
 /************* Ausgabe Ergebnisse **********/  
 
+  // $Suchabfrage->printSQL=true;  // TEST 
+
   $Suchabfrage->printDescription(); 
 
   if ($Suchabfrage->AnzahlFilter1 > 0) {
@@ -651,11 +638,9 @@ include_once("suche_sql.php");
 
   // $Suchabfrage->printTest(); // TEST 
  
-
   if ($Suchabfrage->AnzahlFilter2 > 0) {
      $Suchabfrage->printTable('Sammlung_Material');  
   }
-
 
   // $Suchabfrage->printTest(); // TEST 
 

@@ -27,10 +27,11 @@ class Suchabfrage {
   public $AnzahlFilter1=0; // Sammlung 
   public $AnzahlFilter2=0; // Material 
 
-  public $AnsichtEbene1=''; // Tabelle Sammlung 
-  public $AnsichtEbene2=''; // Tabelle Material 
+  public $AnsichtEbene1=''; // Obere Ergebnistabelle  Sammlung / Musikstück / Satz  (Noten) 
+  public $AnsichtEbene2=''; // Untere Ergebnistabelle Sammung  / Material 
   
   public $txtTest=''; 
+  public $printSQL=false; 
 
 /** Filter-Parameter *******/
   public $Suchtext=''; 
@@ -90,7 +91,8 @@ class Suchabfrage {
     switch ($this->Ansicht){
 
       case 'Sammlung':        
-        $this->AnsichtGruppe='Noten';                
+        $this->AnsichtGruppe='Noten';      // XXXX Parameter notwendig ?
+
         $this->AnsichtEbene1='Sammlung'; 
         $this->AnsichtEbene2='Sammlung';         
 
@@ -99,6 +101,7 @@ class Suchabfrage {
 
       case 'Sammlung erweitert':
         $this->AnsichtGruppe='Noten'; 
+
         $this->AnsichtEbene1='Musikstueck'; 
         $this->AnsichtEbene2='Material';            
         break;   
@@ -106,9 +109,14 @@ class Suchabfrage {
 
       case 'Sammlung erweitert 2':
         $this->AnsichtGruppe='Noten'; 
-        // $this->showResultsetSammlungNoten=true; 
-        // $this->showResultsetSammlungMaterial=true;  
-        // $this->showResultsetSchuler=false;          
+
+        $this->AnsichtEbene1='Satz'; 
+        $this->AnsichtEbene2='Material';            
+        break;   
+
+
+      case 'Sammlung erweitert 3':
+        $this->AnsichtGruppe='Noten'; 
 
         $this->AnsichtEbene1='Satz'; 
         $this->AnsichtEbene2='Material';            
@@ -191,7 +199,7 @@ class Suchabfrage {
       $this->Beschreibung.='<br>'; 
   }
  
-  private function getSQL_Sammlung() {
+  private function getSQL_Sammlung_Noten() {
           // XXXX
 
     $strTmp=''; 
@@ -209,7 +217,7 @@ class Suchabfrage {
         $this->edit_table='sammlung';                      
         break; 
 
-      case 'Sammlung erweitert': // Ebene Sammlung + Musikstück  
+      case 'Sammlung erweitert': // Ebene Sammlung / Musikstück   
 
         $strTmp.="SELECT musikstueck.ID
         , standort.Name as Standort        
@@ -228,9 +236,8 @@ class Suchabfrage {
           break; 
 
 
-      case 'Sammlung erweitert 2': 
+      case 'Sammlung erweitert 2':  // Ebene Sammlung / Musikstück / Satz 
         $strTmp.="SELECT satz.ID
-
             , standort.Name as Standort        
             , sammlung.Name as Sammlung
             -- , musikstueck.Nummer as MNr
@@ -240,55 +247,68 @@ class Suchabfrage {
             , satz.Name as Satz 
             , satz.Tempobezeichnung            
             , v_satz_instrumente_schwierigkeitsgrade.Schwierigkeitsgrade           
-            , v_satz_lookuptypes.LookupList as Besonderheiten                  
+            , v_satz_lookuptypes.LookupList2 as Besonderheiten                  
             , satz.Orchesterbesetzung 
-            , satz.Bemerkung ".PHP_EOL;   
+            , satz.Bemerkung 
+            
+          ".PHP_EOL;   
 
           $this->edit_table='satz';  
 
           break;   
-                  
 
+            
+      case 'Sammlung erweitert 3': // Ebene Sammlung / Musikstück / Satz 
+
+        $strTmp.="SELECT satz.ID
+            , standort.Name as Standort
+            , komponist.Name as Komponist 
+            -- , sammlung.Name as Sammlung
+            -- -- , musikstueck.Nummer as MNr
+            -- , musikstueck.Name as Musikstueck 
+            -- , satz.Nr as Nr
+            -- , satz.Name as Satz 
+            -- , satz.Tempobezeichnung   
+            , CONCAT(
+                'Sammlung: ',sammlung.Name, 
+                ', Musikstück: ', musikstueck.Nummer, ' ', musikstueck.Name, 
+                ', Satz: ', satz.Nr, '  ', satz.Name) `Sammlung / Musikstueck / Satz` 
+            , v_satz_instrumente_schwierigkeitsgrade.Schwierigkeitsgrade           
+            , v_satz_lookuptypes.LookupList2 as Besonderheiten                 
+            -- , satz.Orchesterbesetzung 
+            -- , satz.Bemerkung 
+            , GROUP_CONCAT(DISTINCT concat(schueler.Name, ' (Status: ', COALESCE(status.Name,''), ')')  ORDER BY schueler.Name SEPARATOR '<br > ') Schueler  ".PHP_EOL;   
+
+          $this->edit_table='satz';  
+
+        break;   
                 
-      case 'Sammlung Links': 
+
+
+      case 'Sammlung Links': // XXXX 
         $strTmp.="SELECT sammlung.ID
         , standort.Name as Standort
         , sammlung.Name as Sammlung
         , links.LinkText             
         , links.LinkTyp ".PHP_EOL; 
 
-          $this->edit_table='sammlung';  
+        $this->edit_table='sammlung';  
+        
         break;   
 
+  
 
-
-          
-
-            
-      case 'Satz Schueler': 
-        $strTmp.="SELECT satz.ID
-            , standort.Name as Standort
-            , CONCAT(
-                'Sammlung: ',sammlung.Name, 
-                ', Musikstück: ', musikstueck.Nummer, ' ', musikstueck.Name, 
-                ', Satz: ', satz.Nr, '  ', satz.Name) `Sammlung / Musikstueck / Satz` 
-            , GROUP_CONCAT(DISTINCT concat(schueler.Name, ' (Status: ', status.Name, ')')  ORDER BY schueler.Name SEPARATOR '<br > ') Schueler  ".PHP_EOL;                   
-
-          $this->edit_table='sammlung';  
-
-        break;     
-
-      case 'Satz Besonderheiten':           
-        $strTmp.="SELECT satz.ID
-        , v_satz_lookuptypes.LookupList2 as Besonderheiten    
-        , standort.Name as Standort                              
-        , sammlung.Name as Sammlung
-        , musikstueck.Nummer as MNr
-        , musikstueck.Name as Musikstueck
-        , satz.Nr as SatzNr
-        , satz.Name as Satz ".PHP_EOL;        
-          $this->edit_table='sammlung';  
-        break;   
+      // case 'Satz Besonderheiten':           
+      //   $strTmp.="SELECT satz.ID
+      //   , v_satz_lookuptypes.LookupList2 as Besonderheiten    
+      //   , standort.Name as Standort                              
+      //   , sammlung.Name as Sammlung
+      //   , musikstueck.Nummer as MNr
+      //   , musikstueck.Name as Musikstueck
+      //   , satz.Nr as SatzNr
+      //   , satz.Name as Satz ".PHP_EOL;        
+      //     $this->edit_table='sammlung';  
+      //   break;   
 
         
 
@@ -296,8 +316,8 @@ class Suchabfrage {
                   
       $strTmp.="FROM
         sammlung 
-        LEFT JOIN standort  on sammlung.StandortID = standort.ID    
-        LEFT JOIN verlag  on sammlung.VerlagID = verlag.ID
+        LEFT JOIN standort on sammlung.StandortID = standort.ID    
+        LEFT JOIN verlag on sammlung.VerlagID = verlag.ID
         LEFT JOIN v_links as links on links.SammlungID = sammlung.ID
         LEFT JOIN v_sammlung_lookuptypes as v_sammlung_lookuptypes on v_sammlung_lookuptypes.SammlungID = sammlung.ID 
         LEFT JOIN musikstueck on sammlung.ID = musikstueck.SammlungID 
@@ -311,12 +331,23 @@ class Suchabfrage {
         LEFT JOIN v_satz_instrumente_schwierigkeitsgrade ON v_satz_instrumente_schwierigkeitsgrade.SatzID = satz.ID 
         LEFT JOIN v_satz_lookuptypes on v_satz_lookuptypes.SatzID = satz.ID ".PHP_EOL;
       
-      if ($this->Ansicht=='Satz Schueler') {
+      if ($this->Ansicht=='Sammlung erweitert 3') {
+
         $strTmp.="
-              LEFT JOIN schueler_satz on schueler_satz.SatzID = satz.ID
-              LEFT JOIN schueler on schueler.ID = schueler_satz.SchuelerID
-              LEFT JOIN status ON status.ID = schueler_satz.StatusID  ".PHP_EOL;
-        }
+              LEFT JOIN schueler_satz ON schueler_satz.SatzID = satz.ID ".PHP_EOL;
+              if($this->SchuelerID!='') { 
+                $strTmp.="AND schueler_satz.SchuelerID=".$this->SchuelerID." " . PHP_EOL;        
+              }
+              elseif($this->SchuelerID!='' & $this->StatusID!='') {
+                $strTmp.="AND schueler_satz.SchuelerID=".$this->SchuelerID." AND StatusID=".$this->StatusID." " . PHP_EOL;        
+              }
+              elseif($this->SchuelerID=='' & $this->StatusID!='') {      
+                $strTmp.="AND schueler_satz.StatusID=".$this->StatusID." ".PHP_EOL; 
+              }                   
+
+        $strTmp.="LEFT JOIN schueler on schueler.ID = schueler_satz.SchuelerID
+                  LEFT JOIN status ON status.ID = schueler_satz.StatusID  ".PHP_EOL;
+      }
 
 
     $strTmp.="WHERE 1=1 ".PHP_EOL;
@@ -428,7 +459,8 @@ class Suchabfrage {
 
   }
 
-  private function getSQL_Material() {
+  private function getSQL_Sammlung_Material() {
+
     $strTmp=''; 
 
     switch ($this->Ansicht) 
@@ -454,12 +486,35 @@ class Suchabfrage {
         , material.Bemerkung as `Material Bemerkung` 
         , materialtyp.Name as Materialtyp
         , v_material_instrumente_schwierigkeitsgrade.Schwierigkeitsgrade   
-        , v_material_lookuptypes.LookupList as Besonderheiten 
+        , v_material_lookuptypes.LookupList2 as Besonderheiten 
          ".PHP_EOL;    
 
         $this->edit_table='material'; 
 
         break;  
+
+      case 'Sammlung erweitert 3': 
+
+
+        $strTmp.="select material.ID
+        , sammlung.Name as Sammlung
+        , material.Name as Material 
+        , material.Bemerkung as `Material Bemerkung` 
+        , materialtyp.Name as Materialtyp
+        , v_material_instrumente_schwierigkeitsgrade.Schwierigkeitsgrade   
+        , v_material_lookuptypes.LookupList2 as Besonderheiten 
+        , GROUP_CONCAT(DISTINCT concat(schueler.Name, ' (Status: ', status.Name, ')')  ORDER BY schueler.Name SEPARATOR '<br > ') Schueler   ".PHP_EOL;        
+            
+
+        $this->edit_table='material'; 
+
+        break;          
+
+
+
+
+
+
     }
     
     $strTmp.="FROM sammlung 
@@ -470,7 +525,26 @@ class Suchabfrage {
       LEFT JOIN v_sammlung_lookuptypes as v_sammlung_lookuptypes on v_sammlung_lookuptypes.SammlungID = sammlung.ID 
       LEFT JOIN v_material_lookuptypes on v_material_lookuptypes.MaterialID = material.ID                            
       LEFT JOIN v_material_instrumente_schwierigkeitsgrade ON v_material_instrumente_schwierigkeitsgrade.MaterialID = material.ID ".PHP_EOL;
-              
+
+      if ($this->Ansicht=='Sammlung erweitert 3') {
+        $strTmp.="
+              LEFT JOIN schueler_material ON schueler_material.MaterialID = material.ID ".PHP_EOL;
+              if($this->SchuelerID!='') { 
+                $strTmp.="AND schueler_material.SchuelerID=".$this->SchuelerID." " . PHP_EOL;        
+              }
+              elseif($this->SchuelerID!='' & $this->StatusID!='') {
+                //  2) Schüler + Status ausgewählt 
+                $strTmp.="AND schueler_material.SchuelerID=".$this->SchuelerID." AND StatusID=".$this->StatusID." " . PHP_EOL;        
+              }
+              elseif($this->SchuelerID=='' & $this->StatusID!='') {
+                // 3) Nur Status ausgewählt         
+                $strTmp.="AND schueler_material.StatusID=".$this->StatusID." ".PHP_EOL; 
+              }                   
+
+        $strTmp.="LEFT JOIN schueler on schueler.ID = schueler_material.SchuelerID
+                  LEFT JOIN status ON status.ID = schueler_material.StatusID  ".PHP_EOL;
+        }
+      
    
     $strTmp.="WHERE material.ID IS NOT NULL ".PHP_EOL;
  
@@ -483,11 +557,11 @@ class Suchabfrage {
     }
     if($this->SchuelerID!='' & $this->StatusID=='') { 
       // 1) Nur Schüler ausgewählt 
-      $strTmp.="AND material.ID IN (SELECT MaterialID from schueler_material where SchuelerID=".$this->SchuelerID.") " . PHP_EOL;        
+      $strTmp.="AND material.ID IN (SELECT MaterialID from schueler_material WHERE SchuelerID=".$this->SchuelerID.") " . PHP_EOL;        
     }
     elseif($this->SchuelerID!='' & $this->StatusID!='') {
       //  2) Schüler + Status ausgewählt 
-      $strTmp.="AND material.ID IN (SELECT MaterialID from schueler_material where SchuelerID=".$this->SchuelerID." AND StatusID=".$this->StatusID.") " . PHP_EOL;        
+      $strTmp.="AND material.ID IN (SELECT MaterialID from schueler_material WHERE SchuelerID=".$this->SchuelerID." AND StatusID=".$this->StatusID.") " . PHP_EOL;        
     }
     elseif($this->SchuelerID=='' & $this->StatusID!='') {
       // 3) Nur Status ausgewählt         
@@ -597,7 +671,7 @@ class Suchabfrage {
       for ($r = 0; $r < count($relations); $r++) {
         $relation=$relations[$r]; 
         if($relation==$table) {
-            $this->txtTest.='relation == table <br'; 
+            // $this->txtTest.='relation == table <br'; 
           if($lookuptype_check_include) {
             for ($ls = 0; $ls < count($lookup_values_selected); $ls++) { 
               $strTmp.='AND '.$table.'.ID IN (SELECT '.ucfirst($table).'ID from '.$table.'_lookup WHERE LookupID='.$lookup_values_selected[$ls].') '. PHP_EOL; 
@@ -614,25 +688,24 @@ class Suchabfrage {
     }
   }
 
-
-  public function printTable($resutTable, $SQLvisible=false) {
+  public function printTable($resutTable) {
 
     $table_caption=''; 
 
     switch($resutTable) {
       case 'Sammlung_Noten': 
-        $query = $this->getSQL_Sammlung(); 
+        $query = $this->getSQL_Sammlung_Noten(); 
         $table_caption='1) Sammlungen und Noten:'; 
       break; 
 
       case 'Sammlung_Material': 
-        $query = $this->getSQL_Material(); 
+        $query = $this->getSQL_Sammlung_Material(); 
         $table_caption='2) Sammlungen und Material:'; 
              
       break; 
 
       case 'Schueler': 
-        // XXXX $query = $this->getSQL_Material(); 
+        // XXXX $query = $this->getSQL_Sammlung_Material(); 
         // $title='Schüler';               
       break; 
 
@@ -658,12 +731,11 @@ class Suchabfrage {
       $info->print_error($select, $e); 
     }   
     
-    echo '<pre style="font-size: 11px; '.($SQLvisible?'':'display: none').';">'.$query .'</pre>'; // Test  
+    echo '<pre style="font-size: 11px; '.($this->printSQL?'':'display: none').';">'.$query .'</pre>'; // Test  
     
 
   }
   
-
   public function printDescription() {
       if ($this->Beschreibung!='') {
         echo '<p>'.$this->Beschreibung.'</p>'; 

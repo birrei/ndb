@@ -9,147 +9,52 @@ include_once('head.php');
 
 <div class="body-doc"> 
 
+<h1 class="chapter-title chapter-title-h1" id="suche_ansichten">Ansichten</h1>
 
-<h1 class="chapter-title chapter-title-h1" id="suche_ansicht">Ansichten</h1>
+    <h2 class="chapter-title chapter-title-h2" id="suche_ansichten_sammlung">Grundsätzliches</h2>
 
-
-    <h2 class="chapter-title chapter-title-h2" id="suche_ansicht_noten">Sammlung</h2>
-
-        <p> Die Ergebnis-Tabellen werden auf Sammlung- Ebene gruppiert
-            Die Sortierung erfolgt nach Sammlung Name. 
-          
-        In beiden Ergebnistabellen werden die folgenden Spalten angezeigt: 
-        <br> * Sammlung ID 
-        <br> * Sammlung Name  
-        <br> * Sammlung Standort 
-        <br> * Sammlung Verlag  
-        <br> * Sammlung Bemerkung  
-        <br> * Sammlung Besonderheiten   
+    <p>Durch die "Ansichten" wird festgelegt ... 
+        <br> ... welche Ergebnis-Tabellen angezeigt werden 
+        <br> ... welche Gruppierungs-Ebene bei der Ausgabe der jeweiligen Ergebnistabelle wirksam wird 
+        <br> ... welche Zusatz-Spalten zusätzlich (in welcher Weise) angezeigt werden.          
         </p>
+    
 
-    <h2 class="chapter-title chapter-title-h2" id="suche-ansicht-sammlung-erweitert">Sammlung erweitert</h2>
+    <h2 class="chapter-title chapter-title-h2" id="suche_ansichten_sammlung">Sammlung-Ansichten</h2>
 
-
-            <p> Ergebnistabelle  "1) Sammlungen und Noten" ist auf Ebene Musikstück gruppiert und zeigt folgende Spalten an: 
-
-            <br> * Musikstück ID	
-            <br> * Sammlung Standort	
-            <br> * Sammlung Name 	
-            <br> * Musikstück Nr	
-            <br> * Musikstück Name 	
-            <br> * Musikstück Komponist	
-            <br> * Musikstück Besetzungen	
-            <br> * Musikstück Verwendungszwecke	
-            <br> * Musikstück Saetze (Liste der Satz-Nummern, sofern vorhanden)	
-            <br> * Musikstück Bearbeiter	
-            <br> * Musikstück Gattung	
-            <br> * Musikstück Epoche	
-
-            </p>
-
-           <p> Ergebnistabelle  "2) Sammlungen und Materalien" ist auf Ebene Material gruppiert und zeigt folgende Spalten an: 
-
-
-            <br> * Material ID	
-            <br> * Sammlung Name 	
-            <br> * Material Name 	
-            <br> * Material Bemerkung	
-            <br> * Materialtyp	
-            <br> * Material Schwierigkeitsgrade	
-            <br> * Material Besonderheiten
-            </p>
-
-
-    <h2 class="chapter-title chapter-title-h2" id="suche-ansicht-sammlung-erweitert2">Sammlung erweitert 2</h2>
-
-            <p> Ergebnistabelle  "1) Sammlungen und Noten" ist auf Ebene Satz gruppiert und zeigt folgende Spalten an: 
-
-            <br> * Satz ID	
-            <br> * Sammlung Standort 
-            <br> * Sammlung	Name 
-            <br> * Musikstueck Name 
-            <br> * Musikstück Komponist	            
-            <br> * Satz Nr	
-            <br> * Satz Name 	
-            <br> * Satz Tempobezeichnung	
-            <br> * Satz Schwierigkeitsgrade	
-            <br> * Satz Besonderheiten	
-            <br> * Satz Orchesterbesetzung	
-            <br> * Satz Bemerkung
-
-           <p>Die Anzeige der Ergebnistabelle  "2) Sammlungen und Materalien" entpricht derjenigen bei Ansicht <a href="#suche-ansicht-sammlung-erweitert">Sammlung erweitert"</a>. 
-
-
-           
-<!-- 
-
-
-        <h3 class="chapter-title chapter-title-h3" id="suche_ansicht_noten_sammlung_links">Sammlung Links</h3>
-            <p>Gruppierung auf Sammlung-Ebene</p>
-
-        <h3 class="chapter-title chapter-title-h3" id="suche_ansicht_noten_musikstueck">Musikstueck</h3>
-            <p>Gruppierung auf Musikstück Ebene</p>
-        <h3 class="chapter-title chapter-title-h3" id="suche_ansicht_noten_satz">Satz</h3>
-            <p>Gruppierung auf Satz-Ebene</p>
-
-        <h3 class="chapter-title chapter-title-h3" id="suche_ansicht_noten_satz_besonderheiten">Satz Besonderheiten</h3>
-            <p>Gruppierung auf Satz-Ebene</p>        
-        <h3 class="chapter-title chapter-title-h3" id="suche_ansicht_noten_satz_schueler">Satz und Schüler</h3>
-            <p>Gruppierung auf Satz-Ebene</p>
-
-        <h3 class="chapter-title chapter-title-h3" id="suche_ansicht_material_einfach">Material</h3>
-            <p>Gruppierung auf Material-Ebene. Nur Sammlungen mit Materialien sind abrufbar.  </p>
-
-        <h3 class="chapter-title chapter-title-h3" id="suche_ansicht_material_erweitert">Material erweitert</h3>
-            <p>Gruppierung auf Material-Ebene. Nur Sammlungen mit Materialien sind abrufbar. </p>
-            
-    <h2 class="chapter-title chapter-title-h2" id="suche_ansicht_schueler">Schüler</h2>
-
-        <h3 class="chapter-title chapter-title-h3" id="suche_ansicht_material_einfach">Schüler</h3>
-        <h3 class="chapter-title chapter-title-h3" id="suche_ansicht_material_erweitert">Schüler erweitert</h3>
-      
-
+    <p>Für die Sammlung*-Ansichten ist definiert, das (je nach Filtereinstellung) folgende Ergebnistabellen sichtbar sein können: 
+        <br>  * <b>Sammlungen und Noten</b> 
+        <br>  * <b>Sammlungen und Material</b> 
+        </p>
         
 
-
-        <li><b>Sammlung mit Links: </b>
-        Die  Ergebnistabelle wird auf Sammlung-/Link Ebene gruppiert (Eine Zeile pro Sammlung und Link).
-        Die Sortierung erfolgt nach Standort Name, Sammlung Name
+    <p> Folgende Varianten sind für Sammlung*-Ansichten möglich: 
+    <ul> 
+        <li>Ansicht <b>"Sammlung"</b>: Beide Ergebnistabellen werden auf Ebene "Sammlung" angezeigt. </li>
+         <br>
+          
+        <li>Ansicht <b>"Sammlung erweitert"</b>: 
+            <br> Ergebnistabelle "Sammlungen und Noten" wird auf  Ebene "Sammlung > Musikstück" angezeigt. 
+            <br> Ergebnistabelle "Sammlungen und Material" wird auf  Ebene "Sammlung > Material" angezeigt. 
+             <br>
+             <br> 
+        </li>
+        <li>Ansicht <b>"Sammlung erweitert 2"</b>: 
+            <br> Ergebnistabelle "Sammlungen und Noten" wird auf  Ebene "Sammlung > Musikstück > Satz" angezeigt. 
+            <br> Ergebnistabelle "Sammlungen und Material" wird auf  Ebene "Sammlung > Material" angezeigt 
+             <br> 
+             <br>   
+        </li>
+        <li>Ansicht <b>"Sammlung erweitert 3"</b>: 
+            <br> Die Gruppierungsebene entspricht der Ansicht "Sammlung erweitert 2". 
+               Die Liste in Spalte "Besonderheiten" wird jedoch hier mit Zeilenumbruch (und damit übersichtlicher) ausgegeben, 
+               in einer zusätzliche Spalte wird die Liste der zugeordneten Schüler (inkl. Status) angezeigt.   
+                <br>    
         </li>
 
-        <li><b>Musikstück: </b>
-        Die  Ergebnistabelle wird auf Musikstück-Ebene gruppiert gruppiert (Eine Zeile pro Musikstück).
-        Die Sortierung erfolgt nach Standort Name, Sammlung Name, Musikstück Name.  
-        Hinweis: In "Musikstück"-Ansichten werden nur solche Sammlungen angezeigt, denen Musikstücke zugeordnet sind.
-        </li>
-        <li><b>Satz: </b>
-        Die Ergebnistabelle  wird auf Satz-Ebene gruppiert (Eine Zeile pro Satz). 
-        Die Sortierung erfolgt nach Standort Name, Sammlung Name, Musikstück Name, Satz Name 
-        In "Satz"-Ansichten werden nur Sammlungen / Musikstücke angezeigt, denen Sätze zugeordnet sind. 
-        </li>
-        <li><b>Satz Besonderheiten: </b>
-        Die Ergebnistabelle wird auf Satz-Ebene gruppiert (Eine Zeile pro Satz), die Sortierung entspricht der Ansicht "Satz". 
-                Es werden nur ausgewählte Spalten angezeigt. 
-                Die Spalte "Besonderheiten" wird vorne angezeigt, die Ausgabe des Inhaltes in "Besonderheiten" 
-                erfolgt gruppiert nach Typ mit Zeilenumbrüchen. 
-            </li>
-            <li><b>Satz Schüler: </b>
-            Die Ergebnistabelle wird auf Satz-Ebene gruppiert (Eine Zeile pro Satz), die Sortierung entspricht der Ansicht "Satz". 
-                    Es werden nur ausgewählte Spalten angezeigt. 
-                   In der Spalte "Schüler" werden die Schüler komma-separiert aufgelistet. 
-            </li>
-            <li><b>Material: </b>
-                 Die Ergebnistabelle zeigt Materialien sowie ggf. zugeordnete Schüler an.  
-                Es werden sowohl frei erfasste als auch mit einer Sammlung verknüpfte Materalien angezeigt, in letzterem Fall wird 
-                der Sammlung-Name mit angezeigt. Folgende Filter können verwendet werden: 
-                <br> Such-Kategorien: Schüler, Standort
-                <br> Such-Text: Durchsucht Material-Name, Material-Bemerkung, Sammlung-Name, Sammlung-Bemerkung 
-            </li> 
+    </ul>
 
 
-
-            </ul>
- -->
 
 
 <h1 class="chapter-title chapter-title-h1" id="suche_filter">Wirkung von Filtern</h1>

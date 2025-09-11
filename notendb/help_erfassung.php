@@ -7,7 +7,6 @@ include_once('head.php');
 
 <div id="inhaltsverzeichnis"></div>
 
-
 <div class="body-doc"> 
 	<h2 class="chapter-title chapter-title-h2" id="erfassung_sammlung">Sammlung</h2>  
         <h3 class="chapter-title chapter-title-h3" id="erfassung_sammlung_erfasst">Sammlung: (vollständig) Erfasst</h3>
