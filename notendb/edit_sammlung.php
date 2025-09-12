@@ -159,6 +159,8 @@ echo '
     <td class="form-edit form-edit-col1">Daten anzeigen: <br /> <br />
       <input type="radio" id="Musikstuecke" name="target_form" value="Musikstuecke" onclick="changeIframeSrc('subform1', 'edit_sammlung_musikstuecke.php?SammlungID=<?php echo $sammlung->ID; ?>');" checked>
         <label for="Musikstuecke">Musikstuecke</label><br>
+      <input type="radio" id="Saetze" name="target_form" value="Saetze" onclick="changeIframeSrc('subform1', 'edit_sammlung_saetze.php?SammlungID=<?php echo $sammlung->ID; ?>');">
+        <label for="Saetze">Sätze</label><br>        
       <input type="radio" id="Material" name="target_form" value="Material" onclick="changeIframeSrc('subform1', 'edit_sammlung_materials.php?SammlungID=<?php echo $sammlung->ID; ?>');">
         <label for="Material">Material</label><br>
       <input type="radio" id="Besonderheiten" name="target_form" value="Besonderheiten" onclick="changeIframeSrc('subform1', 'edit_sammlung_lookups.php?SammlungID=<?php echo $sammlung->ID; ?>');">

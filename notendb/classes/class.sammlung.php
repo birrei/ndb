@@ -216,6 +216,66 @@ include_once('class.link.php');
     }
   }  
 
+
+
+  function print_table_satze(){
+
+    $query="SELECT satz.ID 
+            , musikstueck.Nummer `M. Nr`
+            , musikstueck.Name as `Musikstueck Name`
+              , satz.Nr as `Satz Nr`
+              , satz.Name as `Satz Name`
+              , satz.Tempobezeichnung `Tempo Bez.`
+              , concat(
+                  satz.Spieldauer DIV 60
+                  ,''''
+                  , 
+                  satz.Spieldauer MOD 60
+                  , ''''''
+                ) as Spieldauer                    
+              , GROUP_CONCAT(DISTINCT concat(instrument.Name, ': ', schwierigkeitsgrad.Name)  order by schwierigkeitsgrad.Name SEPARATOR ', ') `Schwierigkeits-grade`  
+              , GROUP_CONCAT(DISTINCT  
+                  CASE 
+                    when satz_erprobt.Jahr is null 
+                    then erprobt.Name 
+                    else concat(satz_erprobt.Jahr, ': ', erprobt.Name)
+                  end 
+                  order by satz_erprobt.Jahr 
+                  DESC SEPARATOR ', ') as Erprobt                
+              , satz.Orchesterbesetzung as `Orchester Besetzung`
+              , v_satz_lookuptypes.LookupList as `Satz Besonderheiten`              
+              , satz.Bemerkung as `Satz Bemerkung`                                     
+    from musikstueck 
+      INNER join satz on satz.MusikstueckID = musikstueck.ID
+      LEFT JOIN satz_erprobt on satz.ID = satz_erprobt.SatzID 
+      LEFT JOIN erprobt on erprobt.ID = satz_erprobt.ErprobtID
+      LEFT JOIN satz_schwierigkeitsgrad on satz_schwierigkeitsgrad.SatzID = satz.ID 
+      LEFT JOIN schwierigkeitsgrad on schwierigkeitsgrad.ID = satz_schwierigkeitsgrad.SchwierigkeitsgradID 
+      LEFT JOIN instrument on instrument.ID = satz_schwierigkeitsgrad.InstrumentID 
+      LEFT join v_satz_lookuptypes on v_satz_lookuptypes.SatzID = satz.ID 
+    WHERE musikstueck.SammlungID = :SammlungID 
+    GROUP BY musikstueck.ID, satz.ID  
+    ORDER by musikstueck.Nummer, satz.Nr"; 
+
+    $stmt = $this->db->prepare($query); 
+    $stmt->bindParam(':SammlungID', $this->ID, PDO::PARAM_INT); 
+      
+    try {
+      $stmt->execute(); 
+            
+      $html = new HTML_Table($stmt); 
+      $html->edit_link_table='satz'; 
+      $html->edit_link_title='Satz'; 
+      $html->edit_link_open_newpage=true; 
+      $html->print_table2(); 
+
+    }
+    catch (PDOException $e) {
+      $this->info->print_user_error(); 
+      $this->info->print_error($stmt, $e); 
+    }
+  }  
+
   function print_table_links(){
 
     $query="select link.ID

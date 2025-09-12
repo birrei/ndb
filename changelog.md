@@ -1,5 +1,7 @@
 ﻿# Changelog  
 
+12.09.2025: Screen "Sammlung": Zusätzliches Unterfomular mit Auflistung der Sätze
+
 09.09.2025: Suche mit 2 Ergebnistabellen (Sammung/Noten bzw. Sammlung/Material)
 
 25.08.2025: Material: Zuordnung Schwierigkeitsgrad 

@@ -9,11 +9,33 @@ include_once('head.php');
 
 <div class="body-doc"> 
 	<h2 class="chapter-title chapter-title-h2" id="erfassung_sammlung">Sammlung</h2>  
-        <h3 class="chapter-title chapter-title-h3" id="erfassung_sammlung_erfasst">Sammlung: (vollständig) Erfasst</h3>
+        <h3 class="chapter-title chapter-title-h3" id="erfassung_sammlung_standort">Sammlung: Name XXX</h3>    
 
-            <p>Das Feld kann aktiviert werden, wenn die Erfassung der Sammlung (inklusive Musikstücke/Sätze) komplett abgeschlossen ist. 
+        <h3 class="chapter-title chapter-title-h3" id="erfassung_sammlung_erfasst">Sammlung: Erfasst</h3>
+
+            <p>Markierung, dass Sammlung vollständig erfasst ist. Das Feld kann aktiviert werden, wenn die Erfassung der Sammlung (inklusive Musikstücke/Sätze) komplett abgeschlossen ist. 
             <p> Hinweis: Die Datenprüfungen unter <a href="tests.php?title=Tests">Tests</a> enthalten nur Abfragen auf vollständig erfasste Sammlungen. </p>
             .... 
+
+        <h3 class="chapter-title chapter-title-h3" id="erfassung_sammlung_verlag">Sammlung: Verlag XXX</h3>        
+
+        <h3 class="chapter-title chapter-title-h3" id="erfassung_sammlung_standort">Sammlung: Standort XXX</h3>
+
+        <h3 class="chapter-title chapter-title-h3" id="erfassung_sammlung_bemerkung">Sammlung: Bemerkung XXX</h3>
+
+        <h3 class="chapter-title chapter-title-h3" id="erfassung_sammlung_musikstuecke">Sammlung, Daten anzeigen: Musikstücke XXX </h3>
+        
+        <h3 class="chapter-title chapter-title-h3" id="erfassung_sammlung_saetze">Sammlung, Daten anzeigen: Sätze </h3>
+        
+            <p> Die untergeordneten Musikstücke und Sätze werden angezeigt. Es werden nur die Musikstücke angezeigt, für die Sätze angelegt wurden. 
+                Vom Musikstück werden nur Nummer und Name angezeigt, ansonsten sind die Daten des Satzes sichtbar. 
+                Per Klick auf "Bearbeiten" öffnet sich das zugehörige Formular "Satz" in neuem Fenster   </p>
+                    
+        <h3 class="chapter-title chapter-title-h3" id="erfassung_sammlung_material">Sammlung: Material</h3>
+            <p>Beschreibung Material zu Sammlung XXX ... </p> 
+            <p>Ein Material kann auch unabhängig von einer Sammlung angelegt werden, siehe dazu Kapitel <a href="#erfassung_material">Material</a></p> 
+
+
         <h3 class="chapter-title chapter-title-h3" id="erfassung_sammlung_kopieren">Sammlung: kopieren</h3>
             <p>Button "Sammlung kopieren": Die Sammlung inklusive  aller Eigenschaften und Untereinheiten 
                 wird kopiert. Die Kopie wird im aktuellen Formular geöffnet. Am Zusatz  
@@ -22,9 +44,6 @@ include_once('head.php');
                 Über den Link kann bei Bedarf die Quelle in neuem Fenster geöffnet werden.  
             </p>
 
-            <h3 class="chapter-title chapter-title-h3" id="erfassung_sammlung_material">Sammlung: Material</h3>
-                <p>Beschreibung Material zu Sammlung XXX ... </p> 
-                <p>Ein Material kann auch unabhängig von einer Sammlung angelegt werden, siehe dazu Kapitel <a href="#erfassung_material">Material</a></p> 
 
 	<h2 class="chapter-title chapter-title-h2" id="erfassung_musikstueck">Musikstück</h2>
         <h3 class="chapter-title chapter-title-h3" id="erfassung_musikstueck_nummer">Musikstück: Nummer</h3>

@@ -249,9 +249,7 @@ class Suchabfrage {
             , v_satz_instrumente_schwierigkeitsgrade.Schwierigkeitsgrade           
             , v_satz_lookuptypes.LookupList2 as Besonderheiten                  
             , satz.Orchesterbesetzung 
-            , satz.Bemerkung 
-            
-          ".PHP_EOL;   
+            , satz.Bemerkung ".PHP_EOL;   
 
           $this->edit_table='satz';  
 
