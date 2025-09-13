@@ -30,7 +30,8 @@ switch($option) {
         , $_POST["AbfragetypID"]   
         )
         ;    
-
+    break;
+     
   case 'delete_1': 
     $abfrage->ID = $_POST["ID"];  
     $abfrage->load_row(); 

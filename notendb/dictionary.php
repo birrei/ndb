@@ -154,6 +154,14 @@ $objekte["v_abfragetyp"] = array(
                 'printname_plural'    =>"Abfrage-Typen" 
 ); 
 
+$objekte["v_abfrage"] = array(  
+                'viewname' =>"v_abfrage",         
+                'tablename' =>"abfrage", 
+                'printname' =>"Abfrage", 
+                'printname_plural'    =>"Abfragen" 
+); 
+
+
 
 
 

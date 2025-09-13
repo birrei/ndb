@@ -7,7 +7,7 @@ include_once("class.htmltable.php");
 
 class Abfragetyp {
 
-  public $table_name=''; 
+  public $table_name='abfragetyp'; 
   public $ID;
   public $Name;
 
@@ -20,10 +20,10 @@ class Abfragetyp {
   private $info; 
 
   public function __construct($objekt=[]){
-    // XXX pilot: Übergabe $object aus dictionary, s. edit_abfragetyp.php
-    $this->table_name=$objekt["tablename"];
-    $this->Title = $objekt["printname"];
-    $this->Titles = $objekt["printname_plural"]; 
+    // // XXX pilot: Übergabe $object aus dictionary, s. edit_abfragetyp.php // fehler 
+    // $this->table_name=$objekt["tablename"];
+    // $this->Title = $objekt["printname"];
+    // $this->Titles = $objekt["printname_plural"]; 
 
     $conn=new DBConnection(); 
     $this->db=$conn->db; 
