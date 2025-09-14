@@ -121,8 +121,8 @@ if ($option=='delete_2') {
     <?php 
       $material = new Material(); 
       $material ->print_select($MaterialID, $SchuelerID); //     
-      $html->print_link_table('v_material','sortcol=Name',$material->Titles,true,'');    
-      $html->print_link_insert($material->table_name,$material->Title,true);
+      $html->print_link_edit($material->table_name,$MaterialID,'',true); 
+      $html->print_link_table('v_material','sortcol=Name',$material->Titles,true,'');  ;
     ?>
   </td>  
 </tr>
@@ -135,7 +135,7 @@ if ($option=='delete_2') {
       $status->print_select($StatusID);       
       $html->print_link_edit($status->table_name,$StatusID,true);         
       $html->print_link_table($status->table_name,'sortcol=Name',$status->Titles,true,'');    
-      $html->print_link_insert($status->table_name,$status->Title,true);
+      // $html->print_link_insert($status->table_name,$status->Title,true);
     ?>
   </td>
   <td class="eingabe2 eingabe2_3"></td>    
