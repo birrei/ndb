@@ -92,7 +92,7 @@ include_once("classes/class.suchabfrage.php");
         }  
   </script> 
 
-<form id="Suche" action="" method="POST">
+<form id="Suche" action="" method="GET">
 
   <br><b>Ansicht: </b>
   <select id="Ansicht" name="Ansicht" onchange="this.form.submit()" style="background-color: lightgreen">

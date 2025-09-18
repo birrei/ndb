@@ -37,6 +37,7 @@ switch($option) {
           , $_POST["GattungID"]
           , $_POST["Bearbeiter"]
           , $_POST["EpocheID"]
+          , $_POST["Bemerkung"]
           ); 
     break; 
 
@@ -179,6 +180,16 @@ echo '
     echo '
   </td>
 </tr> 
+
+
+  <tr>    
+  <label>
+  <td class="form-edit form-edit-col1">Bemerkung:</td>  
+  <td class="form-edit form-edit-col2">
+  <textarea name="Bemerkung" rows=2 cols=100 maxlength="500" oninput="changeBackgroundColor(this)">'.htmlentities($musikstueck->Bemerkung).'</textarea> (max. 500 Zeichen)
+  </td>
+  </label>
+</tr>
 
 <tr> 
   <td class="form-edit form-edit-col1"></td> 

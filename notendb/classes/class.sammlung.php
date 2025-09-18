@@ -183,7 +183,8 @@ include_once('class.link.php');
             , epoche.Name as Epoche
             , GROUP_CONCAT(DISTINCT besetzung.Name order by besetzung.Name SEPARATOR ', ') Besetzungen
             , GROUP_CONCAT(DISTINCT verwendungszweck.Name order by verwendungszweck.Name SEPARATOR ', ') Verwendungszwecke                                         
-            , GROUP_CONCAT(DISTINCT satz.Nr order by satz.Nr SEPARATOR ', ') Saetze                                         
+            , GROUP_CONCAT(DISTINCT satz.Nr order by satz.Nr SEPARATOR ', ') Saetze
+            , musikstueck.Bemerkung                                                      
     from musikstueck 
       left join v_komponist komponist on musikstueck.KomponistID = komponist.ID
       left join gattung on gattung.ID = musikstueck.GattungID   

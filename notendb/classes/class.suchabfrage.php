@@ -230,7 +230,8 @@ class Suchabfrage {
         , GROUP_CONCAT(DISTINCT satz.Nr order by satz.Nr SEPARATOR ', ') Saetze         
         , musikstueck.Bearbeiter 
         , gattung.Name as Gattung 
-        , epoche.Name as Epoche ".PHP_EOL;   
+        , epoche.Name as Epoche
+        , musikstueck.Bemerkung ".PHP_EOL;   
 
           $this->edit_table='musikstueck'; 
           break; 
@@ -356,6 +357,7 @@ class Suchabfrage {
                   musikstueck.Name LIKE '%".$this->Suchtext."%' OR                              
                   musikstueck.Opus LIKE '%".$this->Suchtext."%' OR
                   musikstueck.Bearbeiter LIKE '%".$this->Suchtext."%' OR 
+                  musikstueck.Bemerkung LIKE '%".$this->Suchtext."%' OR                   
                   v_musikstueck_besetzungen.Besetzungen LIKE '%".$this->Suchtext."%' OR 
                   v_musikstueck_verwendungszwecke.Verwendungszwecke LIKE '%".$this->Suchtext."%' OR 
                   komponist.Name  LIKE '%".$this->Suchtext."%' OR 

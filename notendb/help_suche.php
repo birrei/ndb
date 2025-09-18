@@ -46,15 +46,14 @@ include_once('head.php');
              <br>   
         </li>
         <li>Ansicht <b>"Sammlung erweitert 3"</b>: 
-            <br> Die Gruppierungsebene entspricht der Ansicht "Sammlung erweitert 2". 
-               Die Liste in Spalte "Besonderheiten" wird jedoch hier mit Zeilenumbruch (und damit übersichtlicher) ausgegeben, 
-               in einer zusätzliche Spalte wird die Liste der zugeordneten Schüler (inkl. Status) angezeigt.   
+            <br> 
+               In einer zusätzliche Spalte wird die Liste der zugeordneten Schüler (inkl. Status) angezeigt. 
+               Die Gruppierungsebene entspricht der Ansicht "Sammlung erweitert 2" 
+                 
                 <br>    
         </li>
 
     </ul>
-
-
 
 
 <h1 class="chapter-title chapter-title-h1" id="suche_filter">Wirkung von Filtern</h1>

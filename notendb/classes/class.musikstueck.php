@@ -19,6 +19,7 @@ class Musikstueck {
   public $GattungID;
   public $Bearbeiter;
   public $EpocheID;
+  public $Bemerkung; 
   
   public $Title='Musikstück';
   public $Titles='Musikstücke';  
@@ -70,6 +71,7 @@ class Musikstueck {
             , $GattungID
             , $Bearbeiter
             , $EpocheID
+            , $Bemerkung
          ) {
    
     // echo '<p>Nummer: '.$Nummer;   
@@ -90,7 +92,8 @@ class Musikstueck {
               `Opus`     = :Opus,   
               `GattungID`     = :GattungID,                               
               `Bearbeiter`     = :Bearbeiter,   
-              `EpocheID`     = :EpocheID
+              `EpocheID`     = :EpocheID, 
+              `Bemerkung`     = :Bemerkung              
               WHERE `ID` = :ID");           
 
     $update->bindParam(':ID', $this->ID);
@@ -102,6 +105,7 @@ class Musikstueck {
     $update->bindParam(':GattungID', $GattungID,($GattungID=='' ? PDO::PARAM_NULL : PDO::PARAM_INT));
     $update->bindParam(':Bearbeiter', $Bearbeiter);
     $update->bindParam(':EpocheID', $EpocheID,($EpocheID=='' ? PDO::PARAM_NULL : PDO::PARAM_INT));
+    $update->bindParam(':Bemerkung', $Bemerkung);    
 
     try {
       $update->execute(); 
@@ -126,6 +130,7 @@ class Musikstueck {
       ,`Bearbeiter`
       ,`EpocheID`
       ,`GattungID`
+      , COALESCE(Bemerkung,'') Bemerkung      
     FROM `musikstueck`
     WHERE `ID` = :ID");
 
@@ -136,6 +141,7 @@ class Musikstueck {
       $row_data=$select->fetch();      
       $this->Nummer=$row_data["Nummer"];
       $this->Name=$row_data["Name"];
+      $this->Bemerkung=$row_data["Bemerkung"];
       $this->SammlungID=$row_data["SammlungID"];
       $this->KomponistID=$row_data["KomponistID"];
       $this->Opus=$row_data["Opus"];
