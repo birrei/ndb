@@ -63,6 +63,33 @@ class Musikstueck {
     
   }
 
+function move_order(int $offset=1 ) {
+
+    $select = $this->db->prepare("SELECT `Nummer` FROM `musikstueck` WHERE `ID` = :ID");
+
+    $select->bindParam(':ID', $this->ID, PDO::PARAM_INT);
+    $select->execute(); 
+    $row_data=$select->fetch();      
+    $tmpNummer=$row_data["Nummer"];
+    $tmpNummer=$tmpNummer + $offset; 
+
+    $update = $this->db->prepare("UPDATE `musikstueck` 
+                                  SET `Nummer` = :Nummer_Neu WHERE `ID` = :ID");           
+
+    $update->bindParam(':ID', $this->ID);
+    $update->bindParam(':Nummer_Neu', $tmpNummer , PDO::PARAM_INT);
+
+    try {
+      $update->execute(); 
+      // $this->load_row();  
+    }
+    catch (PDOException $e) {
+      $this->info->print_user_error(); 
+      $this->info->print_error($update, $e);  
+    }
+  }
+
+
   function update_row(
             $Nummer 
             , $Name

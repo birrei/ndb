@@ -221,8 +221,6 @@ include_once('class.link.php');
     }
   }  
 
-
-
   function print_table_satze(){
 
     $query="SELECT satz.ID 
@@ -393,6 +391,38 @@ include_once('class.link.php');
       $this->info->print_error($delete, $e);  
     }  
   }
+
+  function musikstuecke_move_order(int $Ab_Nr=1){
+    // dataclearing: Reihenfolge (= Nummer) der Musikstücke um 1 nach hinten schieben
+    // beginnend bei Nummer = $Ab_Nr 
+
+    if ($Ab_Nr==0) {
+      $this->info->print_user_error("Es wurde keine Nummer übergeben");
+      return; 
+    }
+    $select = $this->db->prepare("SELECT ID  FROM `musikstueck` 
+                                WHERE SammlungID=:ID 
+                                AND Nummer>=:Ab_Nr
+                                "); 
+
+    $select->bindValue(':ID', $this->ID, PDO::PARAM_INT);  
+    $select->bindValue(':Ab_Nr', $Ab_Nr, PDO::PARAM_INT);      
+
+    $select->execute(); 
+
+    // $select->debugDumpParams(); // TEST
+
+    $res = $select->fetchAll(PDO::FETCH_ASSOC);
+
+    foreach ($res as $row=>$value) {
+      $musikstueck = new Musikstueck(); 
+      $musikstueck->ID = $value["ID"]; 
+      $musikstueck->move_order();  
+    }
+        
+
+  }
+
 
   function copy(){
 

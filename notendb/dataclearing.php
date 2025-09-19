@@ -11,7 +11,7 @@ if (isset($_REQUEST["SammlungID"])) {
   $SammlungID=$_REQUEST["SammlungID"]; 
 } else 
 {
-  echo '<p>Die Funktion muss über ein Sammlung-Formular geöffnet werden. </p>'; 
+  echo '<p>Die Seite muss über ein Sammlung-Formular geöffnet werden. </p>'; 
   goto end; 
 }
 
@@ -31,6 +31,20 @@ echo '<pre>';
 if (isset($_POST["form-sended"])){
     // print_r($_POST); 
     switch($_POST["form-sended"]) {
+      case 'sammlung-musikstueck-order': 
+        if (!empty($_POST["SammlungID"]) & !empty($_POST["ab_musikstueck_nr"])) 
+            {
+            include_once('classes/class.sammlung.php');                     
+            $SammlungID=$_POST["SammlungID"]; 
+            $ab_musikstueck_nr=$_POST["ab_musikstueck_nr"];                   
+            $sammlung = new Sammlung(); 
+            $sammlung->ID=$SammlungID; 
+            $sammlung->musikstuecke_move_order($ab_musikstueck_nr); 
+
+        }
+
+      break; 
+      
       case 'sammlung-erprobt': 
         if (!empty($_POST["SammlungID"]) & !empty($_POST["ErprobtID"])) 
             {
@@ -156,6 +170,9 @@ echo '</pre>';
   <option value="sammlung-erprobt" <?php echo ($form_selected=='sammlung-erprobt'?'selected':''); ?>>Sammlung: Erprobt-Eintrag hinzufügen</option>   
   <option value="sammlung-satz-besonderheit" <?php echo ($form_selected=='sammlung-satz-besonderheit'?'selected':''); ?>>Sammlung: Besonderheit (zu Satz) hinzufügen</option>   
   <option value="sammlung-epoche" <?php echo ($form_selected=='sammlung-epoche'?'selected':''); ?>>Sammlung: Epoche hinzufügen</option>   
+  <option value="sammlung-musikstueck-order" <?php echo ($form_selected=='sammlung-musikstueck-order'?'selected':''); ?>>Sammlung: Reihenfolge Musikstücke schieben</option>   
+  
+  
   <input type="hidden" name="SammlungID" value="<?php echo $SammlungID; ?>">  
 </select>
 
@@ -166,6 +183,27 @@ echo '</pre>';
 
 if ($form_selected!='') {
   switch ($form_selected) {
+
+
+    case 'sammlung-musikstueck-order': 
+
+      ?>
+      <h3> Sammlung: Reihenfolge Musikstücke verschieben</h3>
+      <form action="" method="post" name="sammlung-musikstueck-order">
+      <input type="hidden" name="SammlungID" value="<?php echo $SammlungID; ?>">
+
+      <p> Verschieben ab Musikstück Nummer: 
+        <input type="text" name="ab_musikstueck_nr" autofocus="autofocus">
+      </p>
+
+      <input class="btnSave" type="submit" name="submit" value="ausführen">    
+      <input type="hidden" name="form-sended" value="sammlung-musikstueck-order">  
+      <input type="hidden" name="form-selected" value="<?php echo $form_selected; ?>">           
+      </form>
+      <?php
+
+      break; 
+
 
     case 'sammlung-satz-besonderheit': 
 
