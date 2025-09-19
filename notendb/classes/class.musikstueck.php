@@ -15,6 +15,7 @@ class Musikstueck {
   public $Name;
   public $SammlungID;
   public $KomponistID;
+  public $MaterialtypID; 
   public $Opus;
   public $GattungID;
   public $Bearbeiter;
@@ -72,6 +73,8 @@ class Musikstueck {
             , $Bearbeiter
             , $EpocheID
             , $Bemerkung
+            , $MaterialtypID
+
          ) {
    
     // echo '<p>Nummer: '.$Nummer;   
@@ -93,6 +96,7 @@ class Musikstueck {
               `GattungID`     = :GattungID,                               
               `Bearbeiter`     = :Bearbeiter,   
               `EpocheID`     = :EpocheID, 
+              `MaterialtypID`     = :MaterialtypID,               
               `Bemerkung`     = :Bemerkung              
               WHERE `ID` = :ID");           
 
@@ -101,6 +105,7 @@ class Musikstueck {
     $update->bindParam(':Name', $Name);
     $update->bindParam(':SammlungID', $SammlungID);
     $update->bindParam(':KomponistID', $KomponistID, ($KomponistID=='' ? PDO::PARAM_NULL : PDO::PARAM_INT));
+    $update->bindParam(':MaterialtypID', $MaterialtypID, ($MaterialtypID=='' ? PDO::PARAM_NULL : PDO::PARAM_INT));
     $update->bindParam(':Opus', $Opus);
     $update->bindParam(':GattungID', $GattungID,($GattungID=='' ? PDO::PARAM_NULL : PDO::PARAM_INT));
     $update->bindParam(':Bearbeiter', $Bearbeiter);
@@ -130,6 +135,7 @@ class Musikstueck {
       ,`Bearbeiter`
       ,`EpocheID`
       ,`GattungID`
+      ,`MaterialtypID`
       , COALESCE(Bemerkung,'') Bemerkung      
     FROM `musikstueck`
     WHERE `ID` = :ID");
@@ -146,6 +152,7 @@ class Musikstueck {
       $this->KomponistID=$row_data["KomponistID"];
       $this->Opus=$row_data["Opus"];
       $this->GattungID=$row_data["GattungID"];
+      $this->MaterialtypID=$row_data["MaterialtypID"];
       $this->Bearbeiter=$row_data["Bearbeiter"];
       $this->EpocheID=$row_data["EpocheID"];   
       return true;    
@@ -491,6 +498,8 @@ class Musikstueck {
             , Bearbeiter
             , GattungID
             , EpocheID
+            , MaterialtypID
+            , Bemerkung
         )
         SELECT ".($SammlungID_New>0?"Name":"CONCAT(Name, ' (Kopie)') as Name")." 
             , Opus
@@ -500,6 +509,8 @@ class Musikstueck {
             , Bearbeiter
             , GattungID
             , EpocheID
+            , MaterialtypID
+            , Bemerkung            
         FROM  musikstueck 
             where ID=:ID";
 
@@ -741,6 +752,7 @@ class Musikstueck {
   
   function print(){
     // echo '<p>musikstueck.print ID '.$this->ID.'</p>'; // test
+    // XXXX Bemerkung, MaterialtypID 
     $query="
       SELECT musikstueck.ID as ID
             , CONCAT(musikstueck.Nummer

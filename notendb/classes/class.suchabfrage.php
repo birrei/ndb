@@ -224,6 +224,7 @@ class Suchabfrage {
         , sammlung.Name as Sammlung
         , musikstueck.Nummer as Nr
         , musikstueck.Name as Musikstueck
+        , materialtyp.Name as Materialtyp        
         , komponist.Name as Komponist
         , v_musikstueck_besetzungen.Besetzungen 
         , v_musikstueck_verwendungszwecke.Verwendungszwecke 
@@ -231,6 +232,7 @@ class Suchabfrage {
         , musikstueck.Bearbeiter 
         , gattung.Name as Gattung 
         , epoche.Name as Epoche
+        , v_musikstueck_lookuptypes.LookupList2 as `Musikstueck Besonderheiten`  
         , musikstueck.Bemerkung ".PHP_EOL;   
 
           $this->edit_table='musikstueck'; 
@@ -248,7 +250,7 @@ class Suchabfrage {
             , satz.Name as Satz 
             , satz.Tempobezeichnung            
             , v_satz_instrumente_schwierigkeitsgrade.Schwierigkeitsgrade           
-            , v_satz_lookuptypes.LookupList2 as Besonderheiten                  
+            , v_satz_lookuptypes.LookupList2 as `Satz Besonderheiten`                   
             , satz.Orchesterbesetzung 
             , satz.Bemerkung ".PHP_EOL;   
 
@@ -257,23 +259,17 @@ class Suchabfrage {
           break;   
 
             
-      case 'Sammlung erweitert 3': // Ebene Sammlung / Musikstück / Satz 
+      case 'Sammlung erweitert 3': // Ebene Sammlung / Musikstück / Satz + Schüler 
 
         $strTmp.="SELECT satz.ID
             , standort.Name as Standort
-            , komponist.Name as Komponist 
-            -- , sammlung.Name as Sammlung
-            -- -- , musikstueck.Nummer as MNr
-            -- , musikstueck.Name as Musikstueck 
-            -- , satz.Nr as Nr
-            -- , satz.Name as Satz 
-            -- , satz.Tempobezeichnung   
+            , komponist.Name as Komponist  
             , CONCAT(
                 'Sammlung: ',sammlung.Name, 
                 ', Musikstück: ', musikstueck.Nummer, ' ', musikstueck.Name, 
                 ', Satz: ', satz.Nr, '  ', satz.Name) `Sammlung / Musikstueck / Satz` 
             , v_satz_instrumente_schwierigkeitsgrade.Schwierigkeitsgrade           
-            , v_satz_lookuptypes.LookupList2 as Besonderheiten                 
+            , v_satz_lookuptypes.LookupList2 as `Satz Besonderheiten`                   
             -- , satz.Orchesterbesetzung 
             -- , satz.Bemerkung 
             , GROUP_CONCAT(DISTINCT concat(schueler.Name, ' (Status: ', COALESCE(status.Name,''), ')')  ORDER BY schueler.Name SEPARATOR '<br > ') Schueler  ".PHP_EOL;   
@@ -284,32 +280,17 @@ class Suchabfrage {
                 
 
 
-      case 'Sammlung Links': // XXXX 
-        $strTmp.="SELECT sammlung.ID
-        , standort.Name as Standort
-        , sammlung.Name as Sammlung
-        , links.LinkText             
-        , links.LinkTyp ".PHP_EOL; 
-
-        $this->edit_table='sammlung';  
-        
-        break;   
-
-  
-
-      // case 'Satz Besonderheiten':           
-      //   $strTmp.="SELECT satz.ID
-      //   , v_satz_lookuptypes.LookupList2 as Besonderheiten    
-      //   , standort.Name as Standort                              
+      // case 'Sammlung Links': // XXXX 
+      //   $strTmp.="SELECT sammlung.ID
+      //   , standort.Name as Standort
       //   , sammlung.Name as Sammlung
-      //   , musikstueck.Nummer as MNr
-      //   , musikstueck.Name as Musikstueck
-      //   , satz.Nr as SatzNr
-      //   , satz.Name as Satz ".PHP_EOL;        
-      //     $this->edit_table='sammlung';  
+      //   , links.LinkText             
+      //   , links.LinkTyp ".PHP_EOL; 
+
+      //   $this->edit_table='sammlung';  
+        
       //   break;   
 
-        
 
       }
                   
@@ -328,7 +309,22 @@ class Suchabfrage {
         LEFT JOIN satz on satz.MusikstueckID = musikstueck.ID 
         LEFT JOIN satz_erprobt on satz.ID = satz_erprobt.SatzID
         LEFT JOIN v_satz_instrumente_schwierigkeitsgrade ON v_satz_instrumente_schwierigkeitsgrade.SatzID = satz.ID 
-        LEFT JOIN v_satz_lookuptypes on v_satz_lookuptypes.SatzID = satz.ID ".PHP_EOL;
+        LEFT JOIN materialtyp on materialtyp.ID = musikstueck.MaterialtypID         
+        ".PHP_EOL;
+
+      switch($this->Ansicht) {
+        case 'Sammlung erweitert': // Musikstück- Ebene 
+          $strTmp.="LEFT JOIN v_musikstueck_lookuptypes on v_musikstueck_lookuptypes.MusikstueckID = musikstueck.ID " . PHP_EOL;     
+          break; 
+                
+        case 'Sammlung erweitert 2': // Satz- Ebene 
+        case 'Sammlung erweitert 3': // Satz- Ebene 
+          $strTmp.="LEFT JOIN v_satz_lookuptypes on v_satz_lookuptypes.SatzID = satz.ID " . PHP_EOL;     
+          break; 
+
+
+      }  
+
       
       if ($this->Ansicht=='Sammlung erweitert 3') {
 
@@ -413,6 +409,9 @@ class Suchabfrage {
     if ($this->EpocheID!='') {
       $strTmp.="AND musikstueck.EpocheID=".$this->EpocheID." ". PHP_EOL; 
     }
+    if ($this->MaterialtypID!='') {
+      $strTmp.="AND musikstueck.MaterialtypID=".$this->MaterialtypID." ". PHP_EOL; 
+    }    
     if (count($this->InstrumentSchwierigkeitsgrade) > 0) { // Satz InstrumentXSchwierigkeitsgrad 
       $strTmp.=$this->getSQL_FilterInstrumentSchwierigkeitsgrad($this->InstrumentSchwierigkeitsgrade).PHP_EOL;
     }

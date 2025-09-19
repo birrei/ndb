@@ -9,6 +9,10 @@ include_once('head.php');
 
 <div class="body-doc"> 
 	<h2 class="chapter-title chapter-title-h2" id="erfassung_sammlung">Sammlung</h2>  
+        <h3 class="chapter-title chapter-title-h3" id="erfassung_sammlung_info">Was ist eine "Sammlung?"</h3>    
+
+            <p> Eine Sammlung kann sein: Ein Heft mit Musikstücken, ein Buch (Lehrwerk), ein Ordner im Dateisystem ... XXX </p>
+
         <h3 class="chapter-title chapter-title-h3" id="erfassung_sammlung_standort">Sammlung: Name XXX</h3>    
 
         <h3 class="chapter-title chapter-title-h3" id="erfassung_sammlung_erfasst">Sammlung: Erfasst</h3>

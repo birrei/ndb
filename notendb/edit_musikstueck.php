@@ -1,4 +1,3 @@
-
 <?php 
 $PageTitle='Musikstück'; 
 include_once('head.php');
@@ -7,6 +6,7 @@ include_once("classes/class.komponist.php");
 include_once("classes/class.sammlung.php");
 include_once("classes/class.gattung.php");
 include_once("classes/class.epoche.php");
+include_once("classes/class.materialtyp.php");
 include_once("classes/class.htmlinfo.php");
 
 $musikstueck = new Musikstueck();
@@ -38,6 +38,7 @@ switch($option) {
           , $_POST["Bearbeiter"]
           , $_POST["EpocheID"]
           , $_POST["Bemerkung"]
+          , $_POST["MaterialtypID"]
           ); 
     break; 
 
@@ -87,6 +88,25 @@ echo '<p>
 <td class="form-edit form-edit-col2">'.$musikstueck->ID.'</td>
 </label>
 </tr> 
+
+<tr>    
+<label>  
+  <td class="form-edit form-edit-col1">Materialtyp:</td>  
+  <td class="form-edit form-edit-col2">  
+        '; 
+        $materialtypen = new Materialtyp();
+        $materialtypen->print_select($musikstueck->MaterialtypID); 
+
+  echo ' </label>  &nbsp;
+      '; 
+      $info->print_link_edit($materialtypen->table_name, $musikstueck->MaterialtypID,$materialtypen->Title, true); 
+      $info->print_link_table($materialtypen->table_name,'sortcol=Name',$materialtypen->Titles,true,'');    
+      // $info->print_link_insert($materialtypen->table_name,$materialtypen->Title,true); 
+
+
+echo '</td>
+  </tr> 
+
 <tr>    
 <label>
 <td class="form-edit form-edit-col1">Sammlung:</td>  

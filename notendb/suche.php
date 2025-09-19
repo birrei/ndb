@@ -498,6 +498,7 @@ include_once("classes/class.suchabfrage.php");
         $materialtyp->load_row(); 
         $Suchabfrage->Beschreibung.=($MaterialtypID!=''?'* Materialtyp: '.$materialtyp->Name.'<br>':'');     
         $filter=true;
+        $Suchabfrage->AnzahlFilter1+=1;       
         $Suchabfrage->AnzahlFilter2+=1;       
       }
     }

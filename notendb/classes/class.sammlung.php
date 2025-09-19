@@ -176,13 +176,15 @@ include_once('class.link.php');
     $query="SELECT musikstueck.ID 
             , musikstueck.Nummer 
             , musikstueck.Name
+            , materialtyp.Name as Materialtyp             
             , komponist.Name Komponist            
             , musikstueck.Bearbeiter
-            , musikstueck.Opus
+            -- , musikstueck.Opus --- XXX 
             , gattung.Name as Gattung
             , epoche.Name as Epoche
             , GROUP_CONCAT(DISTINCT besetzung.Name order by besetzung.Name SEPARATOR ', ') Besetzungen
             , GROUP_CONCAT(DISTINCT verwendungszweck.Name order by verwendungszweck.Name SEPARATOR ', ') Verwendungszwecke                                         
+            , v_musikstueck_lookuptypes.LookupList as Besonderheiten 
             , GROUP_CONCAT(DISTINCT satz.Nr order by satz.Nr SEPARATOR ', ') Saetze
             , musikstueck.Bemerkung                                                      
     from musikstueck 
@@ -194,6 +196,8 @@ include_once('class.link.php');
       left join musikstueck_verwendungszweck on musikstueck_verwendungszweck.MusikstueckID = musikstueck.ID 
       left join verwendungszweck on verwendungszweck.ID = musikstueck_verwendungszweck.VerwendungszweckID
       left join satz on satz.MusikstueckID = musikstueck.ID 
+      left join materialtyp on musikstueck.MaterialtypID = materialtyp.ID
+      left join v_musikstueck_lookuptypes on v_musikstueck_lookuptypes.MusikstueckID = musikstueck.ID 
     WHERE musikstueck.SammlungID = :SammlungID 
     GROUP BY musikstueck.ID 
     ORDER by musikstueck.Nummer"; 
