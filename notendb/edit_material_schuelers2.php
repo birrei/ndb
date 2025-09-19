@@ -36,7 +36,7 @@ echo '<div style="float:left">
 
 $material->print_table_schueler_checklist(); 
 
-echo '<input type="submit" name="senden" value="Speichern">
+echo '<input type="submit" class="btnSave" name="senden" value="Speichern">
     <input type="hidden" name="option" value="update">      
     <input type="hidden" name="MaterialID" value="' . $material->ID. '">
     </form>

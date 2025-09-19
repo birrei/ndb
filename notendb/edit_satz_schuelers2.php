@@ -32,12 +32,14 @@ switch($option) {
 
 include_once('head_raw.php');
 
-echo '<div style="float:left">
+echo '
+<div style="float:left">
+
      <form action="#" method="post">'; 
 
 $satz->print_table_schueler_checklist(); 
 
-echo '<input type="submit" name="senden" value="Speichern">
+echo '<input type="submit" class="btnSave" name="senden" value="Speichern">
     <input type="hidden" name="option" value="update">      
     <input type="hidden" name="SatzID" value="' . $satz->ID. '">
     </form>
