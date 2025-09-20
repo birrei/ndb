@@ -844,8 +844,32 @@ class Satz {
 
   function is_deletable() {
     return true; // aktuell keine Abängigkeiten berücksichtigt. 
-   
   }
+
+function move_order(int $offset=1 ) {
+
+    $select = $this->db->prepare("SELECT `Nr` FROM `satz` WHERE `ID` = :ID");
+
+    $select->bindParam(':ID', $this->ID, PDO::PARAM_INT);
+    $select->execute(); 
+    $row_data=$select->fetch();      
+    $tmpNummer=$row_data["Nr"];
+    $tmpNummer=$tmpNummer + $offset; 
+
+    $update = $this->db->prepare("UPDATE `satz` SET `Nr` = :Nr_Neu WHERE `ID` = :ID");           
+
+    $update->bindParam(':ID', $this->ID, PDO::PARAM_INT);
+    $update->bindParam(':Nr_Neu', $tmpNummer , PDO::PARAM_INT);
+
+    try {
+      $update->execute(); 
+    }
+    catch (PDOException $e) {
+      $this->info->print_user_error(); 
+      $this->info->print_error($update, $e);  
+    }
+  }
+
 
    
 }

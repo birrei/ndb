@@ -31,6 +31,11 @@ class HTML_Table {
     public $add_link_show=false; // falls eine "show_*.php" für ein Tabelle vorgesehen ist (akt. show_abfrage.php)
     public $add_param_name; // für $add_link_show=true: "&Name=(wert im Name-Feld der Datenzeile)" ergänzen 
 
+
+    public $add_links_order=false; // 2 Spalten mit Sortier-Links hinzufügen 
+    public $filename_order_link=''; // Datei, die nach Sortierungvorgang (wieder) aufgerufen wird 
+    public $links_order_params=''; // options string 
+
     public $show_missing_data_message=true; 
     public $show_row_count=false; 
     public $in_iframe=false; 
@@ -102,7 +107,10 @@ class HTML_Table {
             if ($this->add_link_edit2) {
                 $html .= '<th class="resultset">Aktion</th>'. PHP_EOL;                     
             }
-                          
+                        
+            if ($this->add_links_order) {
+                $html .= '<th class="resultset">Sortierung</th><th class="resultset">Sortierung</th>'. PHP_EOL;                     
+            }            
               
             $html .=  '</tr>'. PHP_EOL;
             $html .= '</thead>';
@@ -169,7 +177,15 @@ class HTML_Table {
                             // Standard-Verwendung: Löschung mit Bestätigungs-Dialog in delete.php
                             $html .= '<td class="resultset"><a href="delete.php?table='.$this->del_link_table.'&ID='.$row["ID"].($this->del_link_title!=''?'&title='.$this->del_link_title:'').'"'. ($this->del_link_open_newpage?' target="_blank"':'').' tabindex="-1">Löschen</a></td>'. PHP_EOL;  
                         }                                        
-                    }                    
+                    }
+                    if ($this->add_links_order) {
+                        // XXXX 
+                           $html .= '<td class="resultset"><a href="'.$this->filename_order_link.'?ID='.$row["ID"].'&option=order_up'.$this->links_order_params.'" tabindex="-1">nach oben</a></td>
+                                     <td class="resultset"><a href="'.$this->filename_order_link.'?ID='.$row["ID"].'&option=order_down'.$this->links_order_params.'" tabindex="-1">nach unten</a></td>
+                                     '. PHP_EOL;                                          
+
+                    } 
+                                                            
                     //    
                     $html .= '</tr>'. PHP_EOL;
                 } 

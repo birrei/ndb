@@ -417,10 +417,9 @@ include_once('class.link.php');
     foreach ($res as $row=>$value) {
       $musikstueck = new Musikstueck(); 
       $musikstueck->ID = $value["ID"]; 
+      // echo '<br>Musikstueck ID:'.$musikstueck->ID; 
       $musikstueck->move_order();  
     }
-        
-
   }
 
 
@@ -942,6 +941,36 @@ include_once('class.link.php');
    
   }
 
+  function print_table_musikstuecke3($filename_order_link){
+    /* einfache auflistung, für Reihenfolge-Verschiebungsaktionen */
+    $query="SELECT ID, Nummer, Name 
+            FROM musikstueck 
+            WHERE SammlungID=:SammlungID 
+            ORDER by Nummer"; 
+
+    $stmt = $this->db->prepare($query); 
+    $stmt->bindParam(':SammlungID', $this->ID, PDO::PARAM_INT); 
+      
+    try {
+      $stmt->execute(); 
+            
+      $html = new HTML_Table($stmt); 
+      $html->edit_link_table='musikstueck'; 
+      $html->edit_link_title='Musikstück'; 
+      $html->edit_link_open_newpage=true; 
+      $html->add_links_order=true; 
+      $html->add_link_edit=false; 
+      $html->filename_order_link=$filename_order_link; 
+      $html->links_order_params='&SammlungID='.$this->ID; 
+
+      $html->print_table2(); 
+
+    }
+    catch (PDOException $e) {
+      $this->info->print_user_error(); 
+      $this->info->print_error($stmt, $e); 
+    }
+  }  
 
 
 

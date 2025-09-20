@@ -192,7 +192,11 @@ echo '
   $info->print_form_inline('delete_1',$sammlung->ID,$sammlung->Title, 'löschen'); 
   $info->print_form_inline('copy',$sammlung->ID,$sammlung->Title, 'kopieren');   
   
-  echo '<p><a href=dataclearing.php?SammlungID='.$sammlung->ID.' target="_blank">Sammel-Updates</a><p>'; 
+  echo '<p>
+    <a href=dataclearing.php?SammlungID='.$sammlung->ID.' target="_blank">Sammel-Updates</a> | 
+    <a href=edit_sammlung_musikstuecke_uebersicht.php?SammlungID='.$sammlung->ID.' target="_blank">Musikstücke sortieren</a> 
+
+  <p>'; 
 
   echo '     
   </td>

@@ -76,7 +76,7 @@ function move_order(int $offset=1 ) {
     $update = $this->db->prepare("UPDATE `musikstueck` 
                                   SET `Nummer` = :Nummer_Neu WHERE `ID` = :ID");           
 
-    $update->bindParam(':ID', $this->ID);
+    $update->bindParam(':ID', $this->ID, PDO::PARAM_INT);
     $update->bindParam(':Nummer_Neu', $tmpNummer , PDO::PARAM_INT);
 
     try {
@@ -959,8 +959,41 @@ function move_order(int $offset=1 ) {
       $this->info->print_user_error(); 
       $this->info->print_error($stmt, $e); 
     }
+  } 
+  
+  function print_table_saetze3($filename_order_link){
+    /* einfache auflistung, für Reihenfolge-Verschiebungsaktionen */
+    $query="SELECT ID, Nr, Name 
+            FROM satz 
+            WHERE MusikstueckID=:MusikstueckID 
+            ORDER by Nr"; 
+
+    $stmt = $this->db->prepare($query); 
+    $stmt->bindParam(':MusikstueckID', $this->ID, PDO::PARAM_INT); 
+      
+    try {
+      $stmt->execute(); 
+            
+      $html = new HTML_Table($stmt); 
+      $html->edit_link_table='satz'; 
+      $html->edit_link_title='Satz'; 
+      $html->edit_link_open_newpage=true; 
+      $html->add_links_order=true; 
+      $html->add_link_edit=false; 
+      $html->filename_order_link=$filename_order_link; 
+      $html->links_order_params='&MusikstueckID='.$this->ID; 
+
+      $html->print_table2(); 
+
+    }
+    catch (PDOException $e) {
+      $this->info->print_user_error(); 
+      $this->info->print_error($stmt, $e); 
+    }
   }  
+ 
 }
+
 
 
 

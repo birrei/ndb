@@ -255,28 +255,21 @@ echo '
     <td class="form-edit form-edit-col2"><br>
     '; 
     $info->print_form_inline('delete_1',$musikstueck->ID,$musikstueck->Title, 'löschen'); 
-    $info->print_form_inline('copy',$musikstueck->ID,$musikstueck->Title, 'kopieren');     
-    echo '     
+    $info->print_form_inline('copy',$musikstueck->ID,$musikstueck->Title, 'kopieren');    
+    
+  echo '<p>
+
+    <a href=edit_musikstueck_saetze_uebersicht.php?MusikstueckID='.$musikstueck->ID.' target="_blank">Sätze sortieren</a> 
+
+    <p> 
     </td>
   </tr> 
 
+
+
   </table> 
 '; 
-  
-  // echo '<p> <form action="edit_musikstueck.php" method="post">
-  //     <input type="hidden" name="ID" value="' . $musikstueck->ID. '">
-  //     <input type="hidden" name="option" value="copy">      
-  //     <input type="hidden" name="title" value="Musikstueck"> 
-  //     <input type="submit" name="senden" value="Musikstück kopieren">             
-  // </form></p> '; 
 
-  // echo '<p> <form action="edit_musikstueck.php" method="post">
-  // <input type="hidden" name="ID" value="' . $musikstueck->ID. '">
-  // <input type="hidden" name="option" value="delete_1">      
-  // <input type="hidden" name="title" value="Musikstück"> 
-  // <input type="submit" name="senden" value="Musikstück löschen">             
-  // </form></p>
-  // '; 
 
   
 
