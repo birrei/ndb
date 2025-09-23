@@ -160,9 +160,15 @@ echo '
       <input type="radio" id="Musikstuecke" name="target_form" value="Musikstuecke" onclick="changeIframeSrc('subform1', 'edit_sammlung_musikstuecke.php?SammlungID=<?php echo $sammlung->ID; ?>');" checked>
         <label for="Musikstuecke">Musikstuecke</label><br>
       <input type="radio" id="Saetze" name="target_form" value="Saetze" onclick="changeIframeSrc('subform1', 'edit_sammlung_saetze.php?SammlungID=<?php echo $sammlung->ID; ?>');">
-        <label for="Saetze">Sätze</label><br>        
+        <label for="Saetze">Sätze</label><br>     
+      <input type="radio" id="Saetze_Schueler" name="target_form" value="Saetze_Schueler" onclick="changeIframeSrc('subform1', 'edit_sammlung_saetze_schueler.php?SammlungID=<?php echo $sammlung->ID; ?>');">
+        <label for="Saetze_Schueler">Sätze + Schüler</label><br>     
+                
+        <!-- entfernen: XXXX  -->
       <input type="radio" id="Material" name="target_form" value="Material" onclick="changeIframeSrc('subform1', 'edit_sammlung_materials.php?SammlungID=<?php echo $sammlung->ID; ?>');">
         <label for="Material">Material</label><br>
+
+
       <input type="radio" id="Besonderheiten" name="target_form" value="Besonderheiten" onclick="changeIframeSrc('subform1', 'edit_sammlung_lookups.php?SammlungID=<?php echo $sammlung->ID; ?>');">
           <label for="Besonderheiten">Besonderheiten</label><br>
       <input type="radio" id="Links" name="target_form" value="Links" onclick="changeIframeSrc('subform1', 'edit_sammlung_links.php?SammlungID=<?php echo $sammlung->ID; ?>');">
