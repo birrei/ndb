@@ -979,7 +979,7 @@ function move_order(int $offset=1 ) {
       $html->edit_link_title='Satz'; 
       $html->edit_link_open_newpage=true; 
       $html->add_links_order=true; 
-      $html->add_link_edit=false; 
+      $html->add_link_edit=true; 
       $html->filename_order_link=$filename_order_link; 
       $html->links_order_params='&MusikstueckID='.$this->ID; 
 

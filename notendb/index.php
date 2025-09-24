@@ -34,8 +34,9 @@ a:hover {
 <tr>
     <td class="start"><h3>Daten</h3></td>
     <td class="start">
-      <a href="show_table2.php?table=v_sammlung&sortcol=ID&sortorder=DESC">Sammlungen</a> <i>(Sammlungen, Musikstücke, Sätze, Material)</i><br>
-      <a href="show_table2.php?table=v_material&sortcol=Name">Material</a> <i>(separate Übersicht) </i> <br>
+      <a href="show_table2.php?table=v_sammlung&sortcol=ID&sortorder=DESC">Sammlungen</a> 
+        <i>(Sammlungen, Musikstücke, Sätze)</i><br>
+      <!-- <a href="show_table2.php?table=v_material&sortcol=Name">Material</a> <i>(separate Übersicht) </i> <br> -->
       <a href="show_table2.php?table=v_schueler&sortcol=Name">Schüler</a> <br>
       <a href="show_table2.php?table=v_uebung&sortcol=ID&sortorder=DESC">Übungen</a> <br>
   </td>
@@ -53,10 +54,9 @@ a:hover {
     <a href="show_table2.php?table=v_epoche&sortcol=Name">Epochen</a> <br>
 
     <a href="show_table2.php?table=v_erprobt&sortcol=Name">Erprobt-Eigenschaften</a> <br>
-    <a href="show_table2.php?table=v_schwierigkeitsgrad&sortcol=Name">Schwierigkeitsgrade</a> <br>
+    <a href="show_table2.php?table=v_schwierigkeitsgrad&sortcol=Name">Schwierigkeitsgrade</a>, 
     <a href="show_table2.php?table=v_instrument&sortcol=Name">Instrumente</a> <br>
-    <a href="show_table2.php?table=v_lookup&sortcol=LookupTypeName,Name">Besonderheiten</a> <br> 
-    <a href="show_table2.php?table=v_lookup_type&sortcol=Name">Besonderheit Typen</a> <br>
+    <a href="show_table2.php?table=v_lookup&sortcol=LookupTypeName,Name">Besonderheiten</a>, <a href="show_table2.php?table=v_lookup_type&sortcol=Name">Besonderheit Typen</a> <br>
     <a href="show_table2.php?table=v_materialtyp&sortcol=Name">Materialtypen</a>  <br>
 
     <a href="show_table2.php?table=v_status&sortcol=Name">Status Ausprägungen</a> <i>(Status Schüler Satz/Material-Zuordnung)</i><br>

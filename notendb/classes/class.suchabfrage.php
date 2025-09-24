@@ -14,21 +14,18 @@ class Suchabfrage {
   private $db; 
   private $info; 
 /** Eigenschaften *******/  
-  public $Beschreibung=''; 
-  public $Ansicht=''; 
+
+  public $Ansicht=''; // Name Suchformular Auswahlelement "Ansicht"  
   public $AnsichtGruppe=''; // "Noten" oder "Schüler" 
-  public $AnsichtEbene=''; // 
-  public $edit_table=''; // Org. Tabellen-Name. Wird für den "Bearbeiten"-Link in der Ergebnistabelle benötigt 
-  public $showResultsetSammlungNoten=false; 
-  public $showResultsetSammlungMaterial=false; 
-  public $showResultsetSchuler=false; 
+  public $AnsichtEbene=''; // Gruppierungs-Ebene
+  public $edit_table=''; // Org. Tabellen-Name, relevant für "Bearbeiten"-Link 
+  public $AnsichtBezeichnung='';  // Für Anwender sichtbare Ansicht-Bezeichnung 
 
 
-  public $AnzahlFilter1=0; // Sammlung 
-  public $AnzahlFilter2=0; // Material 
 
-  public $AnsichtEbene1=''; // Obere Ergebnistabelle  Sammlung / Musikstück / Satz  (Noten) 
-  public $AnsichtEbene2=''; // Untere Ergebnistabelle Sammung  / Material 
+  public $Beschreibung=''; 
+
+
   
   public $txtTest=''; 
   public $printSQL=false; 
@@ -56,21 +53,28 @@ class Suchabfrage {
 
   public $Verwendungszwecke=[]; 
 
-
   public $InstrumentSchwierigkeitsgrade=[]; // zu Filter Satz  
 
   public $MaterialtypID='';  
 
-  public $InstrumentID_Material=''; 
-  public $Schwierigkeitsgrade_Material=[];
+  public $InstrumentID_Satz=''; 
   
   public $InstrumentID_Schueler='';  
   public $Schwierigkeitsgrade_Schueler=[];
   
   public $AllLookupTypes=[]; 
 
-  public $printSammlung=false; // Ergebnistabelle "Sammlung" anzeigen 
-  public $printMaterial=false; // Ergebnistabelle "Material" anzeigen 
+  // ------------------------------------------
+
+  public $printSammlung=false; // XXXX Parameter entfernen 
+  public $printMaterial=false; // XXXX Parameter entfernen 
+
+  public $showResultsetSammlungNoten=false; // XXXX Parameter entfernen 
+  public $showResultsetSammlungMaterial=false; // XXXX Parameter entfernen 
+  public $showResultsetSchuler=false; // XXXX Parameter entfernen 
+
+  public $AnzahlFilter1=0; // XXXX Parameter entfernen 
+  public $AnzahlFilter2=0; // XXXX Parameter entfernen 
 
 
 /** Methoden ********/  
@@ -79,123 +83,61 @@ class Suchabfrage {
     $conn=new DBConnection(); 
     $this->db=$conn->db; 
     $this->info=new HTML_Info(); 
+    // $this->setAnsichten(); 
   }
 
-   public function setAnsicht($Ansicht) {
-    // Ansicht = die vom Anwender im Suchformular gewählte Ansicht  
+  public function setAnsicht($Ansicht) {
+    /**
+     * Sammlung: Sammlung 
+     * Sammlung2: Sammlung, Musikstück 
+     * Sammlung3: Sammlung, Musikstück, Satz 
+     * Sammlung4: Sammlung, Musikstück, Satz + Schüler 
+     */
+  
+    $this->Ansicht=$Ansicht;    
 
-    $this->Ansicht=$Ansicht;     
-
-    $this->Beschreibung.='<b>Ansicht: '.$this->Ansicht.'</b><br>'; 
 
     switch ($this->Ansicht){
 
       case 'Sammlung':        
-        $this->AnsichtGruppe='Noten';      // XXXX Parameter notwendig ?
+        $this->AnsichtGruppe='Noten';    
+        $this->AnsichtBezeichnung='Sammlung'; 
 
-        $this->AnsichtEbene1='Sammlung'; 
-        $this->AnsichtEbene2='Sammlung';         
+        $this->AnsichtEbene='Sammlung'; 
 
         break;         
 
 
-      case 'Sammlung erweitert':
+      case 'Sammlung2':
         $this->AnsichtGruppe='Noten'; 
+        $this->AnsichtBezeichnung='Sammlung, Musikstück'; 
 
-        $this->AnsichtEbene1='Musikstueck'; 
-        $this->AnsichtEbene2='Material';            
+        $this->AnsichtEbene='Musikstueck'; 
         break;   
 
 
-      case 'Sammlung erweitert 2':
+      case 'Sammlung3':
         $this->AnsichtGruppe='Noten'; 
+        $this->AnsichtBezeichnung='Sammlung, Musikstück, Satz'; 
 
-        $this->AnsichtEbene1='Satz'; 
-        $this->AnsichtEbene2='Material';            
+        $this->AnsichtEbene='Satz'; 
         break;   
 
 
-      case 'Sammlung erweitert 3':
+      case 'Sammlung4':
         $this->AnsichtGruppe='Noten'; 
+        $this->AnsichtBezeichnung='Sammlung, Musikstück, Satz + Schüler'; 
 
-        $this->AnsichtEbene1='Satz'; 
-        $this->AnsichtEbene2='Material';            
+        $this->AnsichtEbene='Satz'; 
         break;   
 
-
-
-
-      // case 'Sammlung Links': 
-      //   $this->AnsichtGruppe='Noten';         
-      //   $this->showResultsetSammlungNoten=true; 
-      //   $this->showResultsetSammlungMaterial=false; 
-      //   $this->showResultsetSchuler=false;                  
-       
-      //   break;   
-
-
-      // case 'Musikstueck': 
-      //   $this->AnsichtGruppe='Noten';         
-      //   $this->showResultsetSammlungNoten=true;   
-      //   $this->showResultsetSammlungMaterial=false; 
-      //   $this->showResultsetSchuler=false;               
-      //   break;   
-
-      // case 'Satz Schueler': 
-      //   $this->AnsichtGruppe='Noten';         
-      //   $this->showResultsetSammlungNoten=true;    
-      //   $this->showResultsetSammlungMaterial=false; 
-      //   $this->showResultsetSchuler=false;              
-      //   break;   
-
-
-      // case 'Satz Besonderheiten':
-      //   $this->AnsichtGruppe='Noten';         
-      //   $this->showResultsetSammlungNoten=true;   
-      //   $this->showResultsetSammlungMaterial=false; 
-      //   $this->showResultsetSchuler=false;               
-      //   break;   
-
-      // case 'Satz':         
-      //   $this->AnsichtGruppe='Noten';         
-      //   $this->showResultsetSammlungNoten=true; 
-      //   $this->showResultsetSammlungMaterial=false; 
-      //   $this->showResultsetSchuler=false;                 
-      //   break;   
-                    
-
-      // case 'Material':
-      //   $this->AnsichtGruppe='Noten';         
-      //   $this->showResultsetSammlungNoten=false; 
-      //   $this->showResultsetSammlungMaterial=true; 
-      //   $this->showResultsetSchuler=false;                
-      //   break;   
-
-
-      // case 'Material_erweitert':        
-      //   $this->AnsichtGruppe='Noten';         
-      //   $this->showResultsetSammlungNoten=false; 
-      //   $this->showResultsetSammlungMaterial=true; 
-      //   $this->showResultsetSchuler=false;          
-      //   break;   
-  
-      // case 'Schueler':
-      //   $this->AnsichtGruppe='Schueler';         
-      //   $this->showResultsetSammlungNoten=false; 
-      //   $this->showResultsetSammlungMaterial=false; 
-      //   $this->showResultsetSchuler=true;   
-
-      //   break;   
-
-      // case 'Schueler erweitert':
-      //   $this->AnsichtGruppe='Schueler';         
-      //   $this->showResultsetSammlungNoten=false; 
-      //   $this->showResultsetSammlungMaterial=false; 
-      //   $this->showResultsetSchuler=true;   
-
-      //   break;                        
+                      
         
       }
+
+      
+    $this->Beschreibung.='<b>Ansicht: '.$this->AnsichtBezeichnung.'</b><br>'; 
+
       $this->Beschreibung.='<br>'; 
   }
  
@@ -217,7 +159,7 @@ class Suchabfrage {
         $this->edit_table='sammlung';                      
         break; 
 
-      case 'Sammlung erweitert': // Ebene Sammlung / Musikstück   
+      case 'Sammlung2': // Ebene Sammlung / Musikstück   
 
         $strTmp.="SELECT musikstueck.ID
         , standort.Name as Standort        
@@ -239,13 +181,14 @@ class Suchabfrage {
           break; 
 
 
-      case 'Sammlung erweitert 2':  // Ebene Sammlung / Musikstück / Satz 
+      case 'Sammlung3':  // Ebene Sammlung / Musikstück / Satz 
         $strTmp.="SELECT satz.ID
             , standort.Name as Standort        
             , sammlung.Name as Sammlung
             -- , musikstueck.Nummer as MNr
             , musikstueck.Name as Musikstueck
-            , komponist.Name as Komponist                  
+            , komponist.Name as Komponist    
+        , v_musikstueck_besetzungen.Besetzungen                           
             , satz.Nr as Nr
             , satz.Name as Satz 
             , satz.Tempobezeichnung            
@@ -259,7 +202,7 @@ class Suchabfrage {
           break;   
 
             
-      case 'Sammlung erweitert 3': // Ebene Sammlung / Musikstück / Satz + Schüler 
+      case 'Sammlung4': // Ebene Sammlung / Musikstück / Satz + Schüler 
 
         $strTmp.="SELECT satz.ID
             , standort.Name as Standort
@@ -313,12 +256,12 @@ class Suchabfrage {
         ".PHP_EOL;
 
       switch($this->Ansicht) {
-        case 'Sammlung erweitert': // Musikstück- Ebene 
+        case 'Sammlung2': // Musikstück- Ebene 
           $strTmp.="LEFT JOIN v_musikstueck_lookuptypes on v_musikstueck_lookuptypes.MusikstueckID = musikstueck.ID " . PHP_EOL;     
           break; 
                 
-        case 'Sammlung erweitert 2': // Satz- Ebene 
-        case 'Sammlung erweitert 3': // Satz- Ebene 
+        case 'Sammlung3': // Satz- Ebene 
+        case 'Sammlung4': // Satz- Ebene 
           $strTmp.="LEFT JOIN v_satz_lookuptypes on v_satz_lookuptypes.SatzID = satz.ID " . PHP_EOL;     
           break; 
 
@@ -326,7 +269,7 @@ class Suchabfrage {
       }  
 
       
-      if ($this->Ansicht=='Sammlung erweitert 3') {
+      if ($this->Ansicht=='Sammlung4') {
 
         $strTmp.="
               LEFT JOIN schueler_satz ON schueler_satz.SatzID = satz.ID ".PHP_EOL;
@@ -415,21 +358,23 @@ class Suchabfrage {
     if (count($this->InstrumentSchwierigkeitsgrade) > 0) { // Satz InstrumentXSchwierigkeitsgrad 
       $strTmp.=$this->getSQL_FilterInstrumentSchwierigkeitsgrad($this->InstrumentSchwierigkeitsgrade).PHP_EOL;
     }
-    // if ($this->MaterialtypID!='') {
-    //   $strTmp.="AND material.MaterialtypID =".$this->MaterialtypID." ".PHP_EOL; 
-    // }        
-    // if ($this->InstrumentID_Material!='') {
-    //   $strTmp.="AND material.ID IN (SELECT MaterialID FROM material_schwierigkeitsgrad WHERE InstrumentID=".$this->InstrumentID_Material.") ".PHP_EOL; 
-    // }       
+      
+    if ($this->InstrumentID_Satz!='') {
+      $strTmp.="AND satz.ID IN (SELECT SatzID FROM satz_schwierigkeitsgrad WHERE InstrumentID=".$this->InstrumentID_Satz.") ".PHP_EOL; 
+    }       
     // if (count($this->Schwierigkeitsgrade_Material) > 0) {
-    //   $strTmp.='AND material.ID IN (SELECT MaterialID FROM material_schwierigkeitsgrad WHERE SchwierigkeitsgradID IN ('.implode(',', $this->Schwierigkeitsgrade_Material).')) '.PHP_EOL; 
+    //   $strTmp.='AND satz.ID IN (SELECT SatzID FROM satz_schwierigkeitsgrad WHERE SchwierigkeitsgradID IN ('.implode(',', $this->Schwierigkeitsgrade_Material).')) '.PHP_EOL; 
     // }
+
+
+
     if (count($this->AllLookupTypes) > 0) {
       $strTmp.=$this->getSQL_FilterLookups('sammlung'); 
+      // $strTmp.=$this->getSQL_FilterLookups('musikstueck');       
       $strTmp.=$this->getSQL_FilterLookups('satz');           
     }  
     
-    switch ($this->AnsichtEbene1){
+    switch ($this->AnsichtEbene){
       case 'Sammlung':
         $strTmp.="GROUP BY sammlung.ID ".PHP_EOL;               
       break; 
@@ -442,7 +387,7 @@ class Suchabfrage {
     }
 
     // ORDER BY 
-    switch ($this->AnsichtEbene1){
+    switch ($this->AnsichtEbene){
       case 'Sammlung':
         $strTmp.="ORDER BY sammlung.Name ".PHP_EOL;                     
       break; 
@@ -458,162 +403,162 @@ class Suchabfrage {
 
   }
 
-  private function getSQL_Sammlung_Material() {
+  // private function getSQL_Sammlung_Material() {
 
-    $strTmp=''; 
+  //   $strTmp=''; 
 
-    switch ($this->Ansicht) 
-    {
-      case 'Sammlung': 
-        $strTmp.="SELECT sammlung.ID
-                , sammlung.Name as Sammlung
-                , standort.Name as Standort                  
-                , verlag.Name as Verlag
-                , sammlung.Bemerkung 
-                , v_sammlung_lookuptypes.LookupList as `Besonderheiten` ".PHP_EOL;        
+  //   switch ($this->Ansicht) 
+  //   {
+  //     case 'Sammlung': 
+  //       $strTmp.="SELECT sammlung.ID
+  //               , sammlung.Name as Sammlung
+  //               , standort.Name as Standort                  
+  //               , verlag.Name as Verlag
+  //               , sammlung.Bemerkung 
+  //               , v_sammlung_lookuptypes.LookupList as `Besonderheiten` ".PHP_EOL;        
 
-        $this->edit_table='sammlung'; 
+  //       $this->edit_table='sammlung'; 
         
-        break;  
+  //       break;  
 
-      case 'Sammlung erweitert': 
-      case 'Sammlung erweitert 2': 
+  //     case 'Sammlung2': 
+  //     case 'Sammlung3': 
 
-        $strTmp.="select material.ID
-        , sammlung.Name as Sammlung
-        , material.Name as Material 
-        , material.Bemerkung as `Material Bemerkung` 
-        , materialtyp.Name as Materialtyp
-        , v_material_instrumente_schwierigkeitsgrade.Schwierigkeitsgrade   
-        , v_material_lookuptypes.LookupList2 as Besonderheiten 
-         ".PHP_EOL;    
+  //       $strTmp.="select material.ID
+  //       , sammlung.Name as Sammlung
+  //       , material.Name as Material 
+  //       , material.Bemerkung as `Material Bemerkung` 
+  //       , materialtyp.Name as Materialtyp
+  //       , v_material_instrumente_schwierigkeitsgrade.Schwierigkeitsgrade   
+  //       , v_material_lookuptypes.LookupList2 as Besonderheiten 
+  //        ".PHP_EOL;    
 
-        $this->edit_table='material'; 
+  //       $this->edit_table='material'; 
 
-        break;  
+  //       break;  
 
-      case 'Sammlung erweitert 3': 
+  //     case 'Sammlung4': 
 
 
-        $strTmp.="select material.ID
-        , sammlung.Name as Sammlung
-        , material.Name as Material 
-        , material.Bemerkung as `Material Bemerkung` 
-        , materialtyp.Name as Materialtyp
-        , v_material_instrumente_schwierigkeitsgrade.Schwierigkeitsgrade   
-        , v_material_lookuptypes.LookupList2 as Besonderheiten 
-        , GROUP_CONCAT(DISTINCT concat(schueler.Name, ' (Status: ', status.Name, ')')  ORDER BY schueler.Name SEPARATOR '<br > ') Schueler   ".PHP_EOL;        
+  //       $strTmp.="select material.ID
+  //       , sammlung.Name as Sammlung
+  //       , material.Name as Material 
+  //       , material.Bemerkung as `Material Bemerkung` 
+  //       , materialtyp.Name as Materialtyp
+  //       , v_material_instrumente_schwierigkeitsgrade.Schwierigkeitsgrade   
+  //       , v_material_lookuptypes.LookupList2 as Besonderheiten 
+  //       , GROUP_CONCAT(DISTINCT concat(schueler.Name, ' (Status: ', status.Name, ')')  ORDER BY schueler.Name SEPARATOR '<br > ') Schueler   ".PHP_EOL;        
             
 
-        $this->edit_table='material'; 
+  //       $this->edit_table='material'; 
 
-        break;          
-
-
+  //       break;          
 
 
 
 
-    }
+
+
+  //   }
     
-    $strTmp.="FROM sammlung 
-      INNER JOIN material on material.SammlungID = sammlung.ID
-      LEFT JOIN materialtyp on materialtyp.ID = material.MaterialtypID                 
-      LEFT JOIN standort  on sammlung.StandortID = standort.ID 
-      LEFT JOIN verlag  on sammlung.VerlagID = verlag.ID 
-      LEFT JOIN v_sammlung_lookuptypes as v_sammlung_lookuptypes on v_sammlung_lookuptypes.SammlungID = sammlung.ID 
-      LEFT JOIN v_material_lookuptypes on v_material_lookuptypes.MaterialID = material.ID                            
-      LEFT JOIN v_material_instrumente_schwierigkeitsgrade ON v_material_instrumente_schwierigkeitsgrade.MaterialID = material.ID ".PHP_EOL;
+  //   $strTmp.="FROM sammlung 
+  //     INNER JOIN material on material.SammlungID = sammlung.ID
+  //     LEFT JOIN materialtyp on materialtyp.ID = material.MaterialtypID                 
+  //     LEFT JOIN standort  on sammlung.StandortID = standort.ID 
+  //     LEFT JOIN verlag  on sammlung.VerlagID = verlag.ID 
+  //     LEFT JOIN v_sammlung_lookuptypes as v_sammlung_lookuptypes on v_sammlung_lookuptypes.SammlungID = sammlung.ID 
+  //     LEFT JOIN v_material_lookuptypes on v_material_lookuptypes.MaterialID = material.ID                            
+  //     LEFT JOIN v_material_instrumente_schwierigkeitsgrade ON v_material_instrumente_schwierigkeitsgrade.MaterialID = material.ID ".PHP_EOL;
 
-      if ($this->Ansicht=='Sammlung erweitert 3') {
-        $strTmp.="
-              LEFT JOIN schueler_material ON schueler_material.MaterialID = material.ID ".PHP_EOL;
-              if($this->SchuelerID!='') { 
-                $strTmp.="AND schueler_material.SchuelerID=".$this->SchuelerID." " . PHP_EOL;        
-              }
-              elseif($this->SchuelerID!='' & $this->StatusID!='') {
-                //  2) Schüler + Status ausgewählt 
-                $strTmp.="AND schueler_material.SchuelerID=".$this->SchuelerID." AND StatusID=".$this->StatusID." " . PHP_EOL;        
-              }
-              elseif($this->SchuelerID=='' & $this->StatusID!='') {
-                // 3) Nur Status ausgewählt         
-                $strTmp.="AND schueler_material.StatusID=".$this->StatusID." ".PHP_EOL; 
-              }                   
+  //     if ($this->Ansicht=='Sammlung4') {
+  //       $strTmp.="
+  //             LEFT JOIN schueler_material ON schueler_material.MaterialID = material.ID ".PHP_EOL;
+  //             if($this->SchuelerID!='') { 
+  //               $strTmp.="AND schueler_material.SchuelerID=".$this->SchuelerID." " . PHP_EOL;        
+  //             }
+  //             elseif($this->SchuelerID!='' & $this->StatusID!='') {
+  //               //  2) Schüler + Status ausgewählt 
+  //               $strTmp.="AND schueler_material.SchuelerID=".$this->SchuelerID." AND StatusID=".$this->StatusID." " . PHP_EOL;        
+  //             }
+  //             elseif($this->SchuelerID=='' & $this->StatusID!='') {
+  //               // 3) Nur Status ausgewählt         
+  //               $strTmp.="AND schueler_material.StatusID=".$this->StatusID." ".PHP_EOL; 
+  //             }                   
 
-        $strTmp.="LEFT JOIN schueler on schueler.ID = schueler_material.SchuelerID
-                  LEFT JOIN status ON status.ID = schueler_material.StatusID  ".PHP_EOL;
-        }
+  //       $strTmp.="LEFT JOIN schueler on schueler.ID = schueler_material.SchuelerID
+  //                 LEFT JOIN status ON status.ID = schueler_material.StatusID  ".PHP_EOL;
+  //       }
       
    
-    $strTmp.="WHERE material.ID IS NOT NULL ".PHP_EOL;
+  //   $strTmp.="WHERE material.ID IS NOT NULL ".PHP_EOL;
  
-    if ($this->Suchtext!='') {
-      $strTmp.="AND (sammlung.Name LIKE '%".$this->Suchtext."%' OR  
-                  sammlung.Bemerkung LIKE '%".$this->Suchtext."%' OR                              
-                  material.Name LIKE '%".$this->Suchtext."%' OR 
-                  material.Bemerkung LIKE '%".$this->Suchtext."%' 
-                  ) ". PHP_EOL;           
-    }
-    if($this->SchuelerID!='' & $this->StatusID=='') { 
-      // 1) Nur Schüler ausgewählt 
-      $strTmp.="AND material.ID IN (SELECT MaterialID from schueler_material WHERE SchuelerID=".$this->SchuelerID.") " . PHP_EOL;        
-    }
-    elseif($this->SchuelerID!='' & $this->StatusID!='') {
-      //  2) Schüler + Status ausgewählt 
-      $strTmp.="AND material.ID IN (SELECT MaterialID from schueler_material WHERE SchuelerID=".$this->SchuelerID." AND StatusID=".$this->StatusID.") " . PHP_EOL;        
-    }
-    elseif($this->SchuelerID=='' & $this->StatusID!='') {
-      // 3) Nur Status ausgewählt         
-      $strTmp.="AND material.ID IN (SELECT MaterialID FROM schueler_material WHERE StatusID=".$this->StatusID.") ".PHP_EOL; 
-    }        
-    if ($this->StandortID!='') {
-      $strTmp.="AND sammlung.StandortID=".$this->StandortID." ". PHP_EOL; 
-    }
-    if ($this->VerlagID!='') {
-      $strTmp.="AND sammlung.VerlagID=".$this->VerlagID." ". PHP_EOL; 
-    }
-    if (count($this->Linktypen) > 0) {
-      $strTmp.='AND sammlung.ID IN (SELECT SammlungID FROM link WHERE LinktypeID IN ('.implode(',', $this->Linktypen).')) '.PHP_EOL; 
-    }              
-    if ($this->MaterialtypID!='') {
-      $strTmp.="AND material.MaterialtypID =".$this->MaterialtypID." ".PHP_EOL; 
-    }        
-    if ($this->InstrumentID_Material!='') {
-      $strTmp.="AND material.ID IN (SELECT MaterialID FROM material_schwierigkeitsgrad WHERE InstrumentID=".$this->InstrumentID_Material.") ".PHP_EOL; 
-    }       
-    if (count($this->Schwierigkeitsgrade_Material) > 0) {
-      $strTmp.='AND material.ID IN (SELECT MaterialID FROM material_schwierigkeitsgrad WHERE SchwierigkeitsgradID IN ('.implode(',', $this->Schwierigkeitsgrade_Material).')) '.PHP_EOL; 
-    }
-    if (count($this->AllLookupTypes) > 0) {
-      $strTmp.=$this->getSQL_FilterLookups('sammlung');       
-      $strTmp.=$this->getSQL_FilterLookups('material'); 
-    }        
+  //   if ($this->Suchtext!='') {
+  //     $strTmp.="AND (sammlung.Name LIKE '%".$this->Suchtext."%' OR  
+  //                 sammlung.Bemerkung LIKE '%".$this->Suchtext."%' OR                              
+  //                 material.Name LIKE '%".$this->Suchtext."%' OR 
+  //                 material.Bemerkung LIKE '%".$this->Suchtext."%' 
+  //                 ) ". PHP_EOL;           
+  //   }
+  //   if($this->SchuelerID!='' & $this->StatusID=='') { 
+  //     // 1) Nur Schüler ausgewählt 
+  //     $strTmp.="AND material.ID IN (SELECT MaterialID from schueler_material WHERE SchuelerID=".$this->SchuelerID.") " . PHP_EOL;        
+  //   }
+  //   elseif($this->SchuelerID!='' & $this->StatusID!='') {
+  //     //  2) Schüler + Status ausgewählt 
+  //     $strTmp.="AND material.ID IN (SELECT MaterialID from schueler_material WHERE SchuelerID=".$this->SchuelerID." AND StatusID=".$this->StatusID.") " . PHP_EOL;        
+  //   }
+  //   elseif($this->SchuelerID=='' & $this->StatusID!='') {
+  //     // 3) Nur Status ausgewählt         
+  //     $strTmp.="AND material.ID IN (SELECT MaterialID FROM schueler_material WHERE StatusID=".$this->StatusID.") ".PHP_EOL; 
+  //   }        
+  //   if ($this->StandortID!='') {
+  //     $strTmp.="AND sammlung.StandortID=".$this->StandortID." ". PHP_EOL; 
+  //   }
+  //   if ($this->VerlagID!='') {
+  //     $strTmp.="AND sammlung.VerlagID=".$this->VerlagID." ". PHP_EOL; 
+  //   }
+  //   if (count($this->Linktypen) > 0) {
+  //     $strTmp.='AND sammlung.ID IN (SELECT SammlungID FROM link WHERE LinktypeID IN ('.implode(',', $this->Linktypen).')) '.PHP_EOL; 
+  //   }              
+  //   if ($this->MaterialtypID!='') {
+  //     $strTmp.="AND material.MaterialtypID =".$this->MaterialtypID." ".PHP_EOL; 
+  //   }        
+  //   // if ($this->InstrumentID_Material!='') {
+  //   //   $strTmp.="AND material.ID IN (SELECT MaterialID FROM material_schwierigkeitsgrad WHERE InstrumentID=".$this->InstrumentID_Material.") ".PHP_EOL; 
+  //   // }       
+  //   // if (count($this->Schwierigkeitsgrade_Material) > 0) {
+  //   //   $strTmp.='AND material.ID IN (SELECT MaterialID FROM material_schwierigkeitsgrad WHERE SchwierigkeitsgradID IN ('.implode(',', $this->Schwierigkeitsgrade_Material).')) '.PHP_EOL; 
+  //   // }
+  //   if (count($this->AllLookupTypes) > 0) {
+  //     $strTmp.=$this->getSQL_FilterLookups('sammlung');       
+  //     $strTmp.=$this->getSQL_FilterLookups('material'); 
+  //   }        
     
-    // echo 'Ansicht Ebene2: '.$this->AnsichtEbene2.'<br>'; 
+  //   // echo 'Ansicht Ebene2: '.$this->AnsichtEbene2.'<br>'; 
     
-    switch ($this->AnsichtEbene2){
-      case 'Sammlung':
-        $strTmp.="GROUP BY sammlung.ID ".PHP_EOL;               
-      break; 
-      case 'Material':
-        $strTmp.="GROUP BY sammlung.ID, material.ID ".PHP_EOL;                     
-      break;         
+  //   switch ($this->AnsichtEbene2){
+  //     case 'Sammlung':
+  //       $strTmp.="GROUP BY sammlung.ID ".PHP_EOL;               
+  //     break; 
+  //     case 'Material':
+  //       $strTmp.="GROUP BY sammlung.ID, material.ID ".PHP_EOL;                     
+  //     break;         
                             
-    }
+  //   }
     
-    switch ($this->AnsichtEbene2){
-      case 'Sammlung':
-        $strTmp.="ORDER BY sammlung.Name ".PHP_EOL;              
-      break; 
-      case 'Material':
-        $strTmp.="ORDER BY sammlung.Name, material.Name ".PHP_EOL;                
-      break;         
+  //   switch ($this->AnsichtEbene2){
+  //     case 'Sammlung':
+  //       $strTmp.="ORDER BY sammlung.Name ".PHP_EOL;              
+  //     break; 
+  //     case 'Material':
+  //       $strTmp.="ORDER BY sammlung.Name, material.Name ".PHP_EOL;                
+  //     break;         
                             
-    }
+  //   }
 
-    return $strTmp; 
+  //   return $strTmp; 
 
-  }
+  // }
 
   private function getSQL_FilterInstrumentSchwierigkeitsgrad($Schwierigkeitsgrade){
 
@@ -694,14 +639,14 @@ class Suchabfrage {
     switch($resutTable) {
       case 'Sammlung_Noten': 
         $query = $this->getSQL_Sammlung_Noten(); 
-        $table_caption='1) Sammlungen und Noten:'; 
+        // $table_caption='1) Sammlungen und Noten:'; 
       break; 
 
-      case 'Sammlung_Material': 
-        $query = $this->getSQL_Sammlung_Material(); 
-        $table_caption='2) Sammlungen und Material:'; 
+      // case 'Sammlung_Material': 
+      //   $query = $this->getSQL_Sammlung_Material(); 
+      //   $table_caption='2) Sammlungen und Material:'; 
              
-      break; 
+      // break; 
 
       case 'Schueler': 
         // XXXX $query = $this->getSQL_Sammlung_Material(); 
@@ -790,6 +735,37 @@ class Suchabfrage {
     echo $this->txtTest; 
     echo '</pre>'; 
 
+
+  }
+
+  private function setAnsichten() {
+    // vorerst verworfen 
+    // $Ansichten["Sammlung"] = array(  
+    //             'name' =>"Sammlung",     
+    //             'anzeigename' =>"Sammlung", 
+    //             'ebene' =>"sammlung", 
+    //             ); 
+
+    // $Ansichten["Sammlung2"] = array(  
+    //             'name' =>"Sammlung2",     
+    //             'anzeigename' =>"Sammlung, Musikstück", 
+    //             'ebene' =>"musikstueck", 
+    //             ); 
+
+
+    // $Ansichten["Sammlung3"] = array(  
+    //             'name' =>"Sammlung3",     
+    //             'anzeigename' =>"Sammlung, Musikstück, Satz", 
+    //             'ebene' =>"satz", 
+    //             ); 
+
+    // $Ansichten["Sammlung4"] = array(  
+    //             'name' =>"Sammlung4",     
+    //             'anzeigename' =>"Sammlung, Musikstück, Satz + Schüler", 
+    //             'ebene' =>"satz", 
+    //             ); 
+
+                                
 
   }
 

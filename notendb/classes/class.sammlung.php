@@ -956,10 +956,11 @@ include_once('class.link.php');
             
       $html = new HTML_Table($stmt); 
       $html->edit_link_table='musikstueck'; 
-      $html->edit_link_title='Musikstück'; 
+      // $html->edit_link_title='Musikstück'; 
       $html->edit_link_open_newpage=true; 
       $html->add_links_order=true; 
-      $html->add_link_edit=false; 
+      $html->add_link_edit=true; 
+
       $html->filename_order_link=$filename_order_link; 
       $html->links_order_params='&SammlungID='.$this->ID; 
 
@@ -972,6 +973,45 @@ include_once('class.link.php');
     }
   }  
 
+  function print_table_saetze_schueler(){
+
+    $query="SELECT satz.ID 
+            , musikstueck.Nummer `M. Nr`
+            , musikstueck.Name as `Musikstueck Name`
+              , satz.Nr as `Satz Nr`
+              , satz.Name as `Satz Name`
+              , GROUP_CONCAT(DISTINCT concat(schueler.Name, ' (Status: ', COALESCE(status.Name,''), ')')  ORDER BY schueler.Name SEPARATOR '<br > ') Schueler  
+         
+    from musikstueck 
+      INNER join satz on satz.MusikstueckID = musikstueck.ID
+      LEFT JOIN satz_schwierigkeitsgrad on satz_schwierigkeitsgrad.SatzID = satz.ID 
+      LEFT JOIN schwierigkeitsgrad on schwierigkeitsgrad.ID = satz_schwierigkeitsgrad.SchwierigkeitsgradID 
+      LEFT JOIN instrument on instrument.ID = satz_schwierigkeitsgrad.InstrumentID 
+      LEFT JOIN schueler_satz ON schueler_satz.SatzID = satz.ID 
+      LEFT JOIN schueler on schueler.ID = schueler_satz.SchuelerID
+      LEFT JOIN status ON status.ID = schueler_satz.StatusID 
+    WHERE musikstueck.SammlungID = :SammlungID 
+    GROUP BY musikstueck.ID, satz.ID  
+    ORDER by musikstueck.Nummer, satz.Nr"; 
+
+    $stmt = $this->db->prepare($query); 
+    $stmt->bindParam(':SammlungID', $this->ID, PDO::PARAM_INT); 
+      
+    try {
+      $stmt->execute(); 
+            
+      $html = new HTML_Table($stmt); 
+      $html->edit_link_table='satz'; 
+      $html->edit_link_title='Satz'; 
+      $html->edit_link_open_newpage=true; 
+      $html->print_table2(); 
+
+    }
+    catch (PDOException $e) {
+      $this->info->print_user_error(); 
+      $this->info->print_error($stmt, $e); 
+    }
+  }  
 
 
 }

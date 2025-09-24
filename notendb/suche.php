@@ -97,9 +97,9 @@ include_once("classes/class.suchabfrage.php");
   <br><b>Ansicht: </b>
   <select id="Ansicht" name="Ansicht" onchange="this.form.submit()" style="background-color: lightgreen">
       <option value="Sammlung" <?php echo ($Ansicht=='Sammlung'?'selected':'');?>>Sammlung</option>   
-      <option value="Sammlung erweitert" <?php echo ($Ansicht=='Sammlung erweitert'?'selected':'')?>>Sammlung erweitert</option>
-      <option value="Sammlung erweitert 2" <?php echo ($Ansicht=='Sammlung erweitert 2'?'selected':'')?>>Sammlung erweitert 2</option>              
-      <option value="Sammlung erweitert 3" <?php echo ($Ansicht=='Sammlung erweitert 3'?'selected':'')?>>Sammlung erweitert 3</option>    
+      <option value="Sammlung2" <?php echo ($Ansicht=='Sammlung2'?'selected':'')?>>Sammlung, Musikstück</option>
+      <option value="Sammlung3" <?php echo ($Ansicht=='Sammlung3'?'selected':'')?>>Sammlung, Musikstück, Satz</option>              
+      <option value="Sammlung4" <?php echo ($Ansicht=='Sammlung4'?'selected':'')?>>Sammlung, Musikstück, Satz + Schüler</option>    
 
       <!-- <option value="Sammlung Links" <?php echo ($Ansicht=='Sammlung Links'?'selected':'')?>>Sammlung spezial: Links</option>     
       <option value="Satz Besonderheiten" <?php echo ($Ansicht=='Satz Besonderheiten'?'selected':'')?>>Satz spezial: Besonderheiten</option>                     
@@ -337,6 +337,27 @@ include_once("classes/class.suchabfrage.php");
     echo '</p>'; 
   }
  
+/************* #Material: Filter Materialtyp  **********/
+  if ($AnsichtGruppe=='Noten') {
+    $materialtyp = new Materialtyp();
+    $MaterialtypID=''; 
+    if (isset($_REQUEST['MaterialtypID'])) {
+      $MaterialtypID = $_REQUEST['MaterialtypID'];           
+      if ($MaterialtypID!='') {
+        $materialtyp->ID= $MaterialtypID; 
+        $Suchabfrage->MaterialtypID=$MaterialtypID;
+        $materialtyp->load_row(); 
+        $Suchabfrage->Beschreibung.=($MaterialtypID!=''?'* Materialtyp: '.$materialtyp->Name.'<br>':'');     
+        $filter=true;
+        $Suchabfrage->AnzahlFilter1+=1;       
+        $Suchabfrage->AnzahlFilter2+=1;       
+      }
+    }
+    echo '<p>'; 
+    $materialtyp->print_select($MaterialtypID, $materialtyp->Title);
+    echo '</p>'; 
+  }
+
 
 /*** Navi-Block "Satz */
   if($AnsichtGruppe=='Noten') {
@@ -479,69 +500,46 @@ include_once("classes/class.suchabfrage.php");
 
 
 
-/*** Navi-Block "Material */
-  if($AnsichtGruppe=='Noten') {
-    ?>
-    <p class="navi-trenner">Material</p> 
-    <?php
-  }   
 
-/************* #Material: Filter Materialtyp  **********/
+
+
+
+
+/************* #Satz: Filter Instrument **********/  
   if ($AnsichtGruppe=='Noten') {
-    $materialtyp = new Materialtyp();
-    $MaterialtypID=''; 
-    if (isset($_REQUEST['MaterialtypID'])) {
-      $MaterialtypID = $_REQUEST['MaterialtypID'];           
-      if ($MaterialtypID!='') {
-        $materialtyp->ID= $MaterialtypID; 
-        $Suchabfrage->MaterialtypID=$MaterialtypID;
-        $materialtyp->load_row(); 
-        $Suchabfrage->Beschreibung.=($MaterialtypID!=''?'* Materialtyp: '.$materialtyp->Name.'<br>':'');     
+    $instrument_satz = new Instrument();
+    $InstrumentID_Satz=''; 
+    if (isset($_REQUEST['InstrumentID_Satz'])) { 
+      $InstrumentID_Satz=$_REQUEST['InstrumentID_Satz'];       
+      if ($InstrumentID_Satz!='') {
+        $Suchabfrage->InstrumentID_Satz=$InstrumentID_Satz; 
+        $instrument_satz->ID=  $InstrumentID_Satz; 
+        $instrument_satz->load_row(); 
+        $Suchabfrage->Beschreibung.='* Instrument: '.$instrument_satz->Name.'<br>';     
         $filter=true;
-        $Suchabfrage->AnzahlFilter1+=1;       
-        $Suchabfrage->AnzahlFilter2+=1;       
+      $Suchabfrage->AnzahlFilter1+=1;              
       }
     }
-    echo '<p>'; 
-    $materialtyp->print_select($MaterialtypID, $materialtyp->Title);
-    echo '</p>'; 
-  }
-
-
-
-
-/************* #Material: Filter Instrument **********/  
-  if ($AnsichtGruppe=='Noten') {
-    $instrument_material = new Instrument();
-    $InstrumentID_Material=''; 
-    if (isset($_REQUEST['InstrumentID_Material'])) { 
-      $InstrumentID_Material=$_REQUEST['InstrumentID_Material'];       
-      if ($InstrumentID_Material!='') {
-        $Suchabfrage->InstrumentID_Material=$InstrumentID_Material; 
-        $instrument_material->ID=  $InstrumentID_Material; 
-        $instrument_material->load_row(); 
-        $Suchabfrage->Beschreibung.='* Instrument Material: '.$instrument_material->Name.'<br>';     
-        $filter=true;
-        $Suchabfrage->AnzahlFilter2+=1;       
-      }
-    }
-    $instrument_material->Parent='Material'; 
-    $instrument_material->print_select_suche($InstrumentID_Material,'Instrument');
+    // $instrument_material->Parent='Material'; 
+    $instrument_satz->Parent='Satz'; 
+    $instrument_satz->print_select_suche($InstrumentID_Satz,'Instrument');
 
 
 
 /************* #Material: Filter Schwierigkeitsgrad **********/      
-    $Schwierigkeitsgrade_Material=[];
-    $schwierigkeitsgrad_material = new Schwierigkeitsgrad();
-    if (isset($_REQUEST['Schwierigkeitsgrad_Material'])) {
-      $Schwierigkeitsgrade_Material = $_REQUEST['Schwierigkeitsgrad_Material']; 
-      $Suchabfrage->Schwierigkeitsgrade_Material = $Schwierigkeitsgrade_Material; 
-      $filter=true; 
-      $Suchabfrage->AnzahlFilter2+=1;      
-    }
-    $schwierigkeitsgrad_material->Parent='Material'; 
-    $schwierigkeitsgrad_material->print_select_multi($Schwierigkeitsgrade_Material);  
-    $Suchabfrage->Beschreibung.=(count($Schwierigkeitsgrade_Material)>0?$schwierigkeitsgrad_material->titles_selected_list.'<br>':'');  
+    // $Schwierigkeitsgrade_Material=[];
+    // $schwierigkeitsgrad_material = new Schwierigkeitsgrad();
+    // if (isset($_REQUEST['Schwierigkeitsgrad_Material'])) {
+    //   $Schwierigkeitsgrade_Material = $_REQUEST['Schwierigkeitsgrad_Material']; 
+    //   $Suchabfrage->Schwierigkeitsgrade_Material = $Schwierigkeitsgrade_Material; 
+    //   $filter=true; 
+    //   $Suchabfrage->AnzahlFilter2+=1;      
+    // }
+    // $schwierigkeitsgrad_material->Parent='Material'; 
+    // // $schwierigkeitsgrad_material->Parent='Satz';     
+    // $schwierigkeitsgrad_material->print_select_multi($Schwierigkeitsgrade_Material);  
+    // $Suchabfrage->Beschreibung.=(count($Schwierigkeitsgrade_Material)>0?$schwierigkeitsgrad_material->titles_selected_list.'<br>':'');  
+  
   }
 
 
@@ -633,15 +631,17 @@ include_once("classes/class.suchabfrage.php");
 
   $Suchabfrage->printDescription(); 
 
-  if ($Suchabfrage->AnzahlFilter1 > 0) {
-     $Suchabfrage->printTable('Sammlung_Noten'); 
-  }
+  $Suchabfrage->printTable('Sammlung_Noten'); 
+
+  // if ($Suchabfrage->AnzahlFilter1 > 0) {
+
+  // }
 
   // $Suchabfrage->printTest(); // TEST 
  
-  if ($Suchabfrage->AnzahlFilter2 > 0) {
-     $Suchabfrage->printTable('Sammlung_Material');  
-  }
+  // if ($Suchabfrage->AnzahlFilter2 > 0) {
+  //    $Suchabfrage->printTable('Sammlung_Material');  
+  // }
 
   // $Suchabfrage->printTest(); // TEST 
 

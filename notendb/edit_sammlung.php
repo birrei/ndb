@@ -164,9 +164,6 @@ echo '
       <input type="radio" id="Saetze_Schueler" name="target_form" value="Saetze_Schueler" onclick="changeIframeSrc('subform1', 'edit_sammlung_saetze_schueler.php?SammlungID=<?php echo $sammlung->ID; ?>');">
         <label for="Saetze_Schueler">Sätze + Schüler</label><br>     
                 
-        <!-- entfernen: XXXX  -->
-      <input type="radio" id="Material" name="target_form" value="Material" onclick="changeIframeSrc('subform1', 'edit_sammlung_materials.php?SammlungID=<?php echo $sammlung->ID; ?>');">
-        <label for="Material">Material</label><br>
 
 
       <input type="radio" id="Besonderheiten" name="target_form" value="Besonderheiten" onclick="changeIframeSrc('subform1', 'edit_sammlung_lookups.php?SammlungID=<?php echo $sammlung->ID; ?>');">
@@ -177,9 +174,7 @@ echo '
       <p> 
       <a href="edit_musikstueck.php?SammlungID=<?php echo $sammlung->ID; ?>&option=insert&title=Musikstück" target="_blank" class="form-link form-link-switch">Musikstück hinzufügen</a>
       </p>
-      <p>
-      <a href="edit_material.php?SammlungID=<?php echo $sammlung->ID; ?>&option=insert&title=Material" target="_blank" class="form-link form-link-switch">Material hinzufügen</a>
-      </p> 
+  
 
     </td>
     <td class="form-edit form-edit-col2">
