@@ -101,11 +101,8 @@ include_once("classes/class.suchabfrage.php");
       <option value="Sammlung3" <?php echo ($Ansicht=='Sammlung3'?'selected':'')?>>Sammlung, Musikstück, Satz</option>              
       <option value="Sammlung4" <?php echo ($Ansicht=='Sammlung4'?'selected':'')?>>Sammlung, Musikstück, Satz + Schüler</option>    
 
-      <!-- <option value="Sammlung Links" <?php echo ($Ansicht=='Sammlung Links'?'selected':'')?>>Sammlung spezial: Links</option>     
-      <option value="Satz Besonderheiten" <?php echo ($Ansicht=='Satz Besonderheiten'?'selected':'')?>>Satz spezial: Besonderheiten</option>                     
-
-      <option value="Schueler" <?php echo ($Ansicht=='Schueler'?'selected':'')?>>Schüler</option> 
-      <option value="Schueler erweitert" <?php echo ($Ansicht=='Schueler erweitert'?'selected':'')?>>Schüler erweitert</option>                                         -->
+      <option value="Schueler1" <?php echo ($Ansicht=='Schueler1'?'selected':'')?>>Schüler</option> 
+      <option value="Schueler2" <?php echo ($Ansicht=='Schueler2'?'selected':'')?>>Schüler erweitert</option>                                        
   
     </select>
 
@@ -154,6 +151,10 @@ include_once("classes/class.suchabfrage.php");
       $Suchabfrage->AnzahlFilter2+=1;  
   }
 
+  $schueler->print_select($SchuelerID,'',$schueler->Title, true );  
+
+
+
   $StatusID=isset($_REQUEST['StatusID'])?$_REQUEST['StatusID']:''; 
 
   $status = new Status();
@@ -168,21 +169,20 @@ include_once("classes/class.suchabfrage.php");
     $Suchabfrage->AnzahlFilter2+=1;              
   }
 
-  $schueler->print_select($SchuelerID,'',$schueler->Title, true );  
 
   echo '<p>';
   $status->print_select($StatusID, 'Status');
   echo '</p>';
 
 
-/*** Navi-Block "Sammlung */
+/*** Navi-Block Gruppe Noten, "Sammlung */
   if($AnsichtGruppe=='Noten') {
     ?>
     <p class="navi-trenner">Sammlung </p> 
     <?php
   }
  
-/************* Filter Standort  ***********/
+/************* Gruppe Noten, Filter Standort  ***********/
   if ($AnsichtGruppe=='Noten') {
     $standort = new Standort();
     $StandortID=''; 
@@ -203,7 +203,7 @@ include_once("classes/class.suchabfrage.php");
     echo '</p>';  
   }
 
-/************* Filter Verlag  ***********/
+/************* Gruppe Noten, Filter Verlag  ***********/
   if ($AnsichtGruppe=='Noten') {
     $verlag = new Verlag();
     $VerlagID='';     
@@ -224,7 +224,7 @@ include_once("classes/class.suchabfrage.php");
     echo '</p>';
   }
 
-/************* XXXX Filter Linktypen  ************** */  
+/************* Gruppe Noten, Filter Linktyp  ************** */  
   if ($AnsichtGruppe=='Noten') {
     $Linktypen=[];   /* Sammlung */
     $linktyp = new Linktype();
@@ -240,14 +240,14 @@ include_once("classes/class.suchabfrage.php");
   }
 
 
-/*** Navi-Block "Musikstück */
+/*** Navi-Block Gruppe Noten, "Musikstück */
   if($AnsichtGruppe=='Noten') {
     ?>
     <p class="navi-trenner">Musikstück </p> 
     <?php 
   }
 
-/************* Filter Komponist  ***********/
+/************* Gruppe Noten, Filter Komponist  ***********/
   if ($AnsichtGruppe=='Noten') {
     $komponist = new Komponist();
     $KomponistID=''; 
@@ -267,7 +267,7 @@ include_once("classes/class.suchabfrage.php");
   }
 
 
-/************* Filter Besetzungen  ***********/
+/************* Gruppe Noten, Filter Besetzungen  ***********/
   if ($AnsichtGruppe=='Noten') {
     $besetzung = new Besetzung();
     if (isset($_REQUEST['Besetzungen'])) {
@@ -285,7 +285,8 @@ include_once("classes/class.suchabfrage.php");
     $Suchabfrage->Beschreibung.=($Suchabfrage->besetzung_check_exclude?' / +Ausschluss-Suche':'');  
   }
 
-/************* Filter Verwendungszwecke XXX offen: Einschluss/Ausschluss-Suche (erforderlich?) ***********/
+/************* Gruppe Noten, Filter Verwendungszwecke  ***********/
+  /** XXX offen: Einschluss/Ausschluss-Suche (erforderlich?) */
   if ($AnsichtGruppe=='Noten') {
     if (isset($_REQUEST['Verwendungszwecke'])) {
       $Suchabfrage->Verwendungszwecke = $_REQUEST['Verwendungszwecke'];   
@@ -297,7 +298,7 @@ include_once("classes/class.suchabfrage.php");
     $Suchabfrage->Beschreibung.=(count($Suchabfrage->Verwendungszwecke)>0?$verwendungszweck->titles_selected_list.PHP_EOL:'');  
   }
 
-/************* Filter Gattung  ***********/
+/************* Gruppe Noten, Filter Gattung  ***********/
   if ($AnsichtGruppe=='Noten') {
     $gattung = new Gattung();
     $GattungID=''; 
@@ -317,7 +318,7 @@ include_once("classes/class.suchabfrage.php");
     echo '</p>'; 
   }
 
-/************* Filter Epoche  ***********/
+/************* Gruppe Noten, Filter Epoche  ***********/
   if ($AnsichtGruppe=='Noten') {
     $epoche = new Epoche();
     $EpocheID=''; 
@@ -337,7 +338,7 @@ include_once("classes/class.suchabfrage.php");
     echo '</p>'; 
   }
  
-/************* #Material: Filter Materialtyp  **********/
+/************* Gruppe Noten, Filter Materialtyp  **********/
   if ($AnsichtGruppe=='Noten') {
     $materialtyp = new Materialtyp();
     $MaterialtypID=''; 
@@ -359,14 +360,14 @@ include_once("classes/class.suchabfrage.php");
   }
 
 
-/*** Navi-Block "Satz */
+/*** Navi-Block Gruppe Noten, "Satz */
   if($AnsichtGruppe=='Noten') {
     ?>
     <p class="navi-trenner">Satz </p> 
     <?php
   }
 
-/************* Filter Satz: Instrument/Schwierigkeitsgrad  ***********/
+/************* Gruppe Noten, Filter Satz: Instrument/Schwierigkeitsgrad  ***********/
   if ($AnsichtGruppe=='Noten') {
     $InstrumentSchwierigkeitsgrade=[];
     $schwierigkeitsgrad = new InstrumentSchwierigkeitsgrad();
@@ -410,7 +411,7 @@ include_once("classes/class.suchabfrage.php");
     //   $Suchabfrage->Beschreibung.=(count($Schwierigkeitsgrade_Schueler)>0?$schwierigkeitsgrad_schueler->titles_selected_list.PHP_EOL:'');  
     // }
   
-/************* Filter Erprobt  ***********/
+/************* Gruppe Noten, Filter Erprobt  ***********/
   // if ($AnsichtGruppe=='Noten') {
   //   $Erprobt=[];  // im Suchfilter ausgewählte Erprobt-Einträge  (IDs) 
   //   if (isset($_REQUEST['Erprobt'])) {
@@ -449,7 +450,7 @@ include_once("classes/class.suchabfrage.php");
 
 
 
-/************* Filter Spieldauer  ****************/  
+/************* Gruppe Noten, Filter Spieldauer  ****************/  
   if ($AnsichtGruppe=='Noten') {
     $spieldauer_von_min=''; // Nutzer-Eingabe 
     $spieldauer_bis_min='';  //  Nutzer-Eingabe 
@@ -505,7 +506,7 @@ include_once("classes/class.suchabfrage.php");
 
 
 
-/************* #Satz: Filter Instrument **********/  
+/************* Gruppe Noten, Filter Instrument **********/  
   if ($AnsichtGruppe=='Noten') {
     $instrument_satz = new Instrument();
     $InstrumentID_Satz=''; 
@@ -526,7 +527,7 @@ include_once("classes/class.suchabfrage.php");
 
 
 
-/************* #Material: Filter Schwierigkeitsgrad **********/      
+/************* ALT #Material: Filter Schwierigkeitsgrad **********/      
     // $Schwierigkeitsgrade_Material=[];
     // $schwierigkeitsgrad_material = new Schwierigkeitsgrad();
     // if (isset($_REQUEST['Schwierigkeitsgrad_Material'])) {
@@ -574,7 +575,8 @@ include_once("classes/class.suchabfrage.php");
       if (in_array("satz", $relations)) {
         $Suchabfrage->AnzahlFilter1+=1;
       }
-      if (in_array("material", $relations)) {
+      if (in_array("musikstueck", $relations)) {
+        // XXXX 
         $Suchabfrage->AnzahlFilter2+=1;
       }               
       $lookup_values_selected= $_REQUEST[$lookup_type_key]; 
@@ -627,11 +629,11 @@ include_once("classes/class.suchabfrage.php");
 
 /************* Ausgabe Ergebnisse **********/  
 
-  // $Suchabfrage->printSQL=true;  // TEST 
+  $Suchabfrage->printSQL=true;  // TEST 
 
   $Suchabfrage->printDescription(); 
 
-  $Suchabfrage->printTable('Sammlung_Noten'); 
+  $Suchabfrage->printTable(); 
 
   // if ($Suchabfrage->AnzahlFilter1 > 0) {
 
