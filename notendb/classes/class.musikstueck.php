@@ -551,7 +551,7 @@ function move_order(int $offset=1 ) {
       $insert->bindValue(':SammlungID', $SammlungID_New);  
     }
     if ($SammlungID_New==0) {
-      // "Nummer" hochzählen 
+      // "Nr" hochzählen 
       $this->load_row(); // Ziel: $this->SammlungID einlesen  
       $Nummer=$this->get_next_nummer();  
       // echo 'Nummer: '.$Nummer.'<br>';  // TEST 

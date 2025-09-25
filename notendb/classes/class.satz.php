@@ -473,20 +473,19 @@ class Satz {
         INSERT INTO satz (
           Name
           , MusikstueckID
+          , Nr          
           , Tempobezeichnung
           , Spieldauer
           , Bemerkung
-          , Nr
           , ErprobtID
           , Orchesterbesetzung  
       )
-      SELECT 
-         ".($MusikstueckID_New>0?"Name":"CONCAT(Name, ' (Kopie)') as Name")." 
-         , ".($MusikstueckID_New>0?':MusikstueckID':'MusikstueckID')." as MusikstueckID    
+      SELECT ".($MusikstueckID_New>0?"Name":"CONCAT(Name, ' (Kopie)') as Name")." 
+          , ".($MusikstueckID_New>0?':MusikstueckID':'MusikstueckID')." as MusikstueckID  
+          , ".($MusikstueckID_New>0?'Nr':':Nr')." as Nr               
           , Tempobezeichnung
           , Spieldauer
           , Bemerkung
-          , Nr
           , ErprobtID
           , Orchesterbesetzung            
       FROM satz 
@@ -494,8 +493,15 @@ class Satz {
 
     $insert = $this->db->prepare($sql); 
     $insert->bindValue(':ID', $this->ID);  
+    
     if ($MusikstueckID_New>0) {
       $insert->bindValue(':MusikstueckID', $MusikstueckID_New);  
+    }
+    if ($MusikstueckID_New==0) {
+      // "Nummer" hochzählen 
+      $this->load_row(); // Ziel: $this->MusikstueckID einlesen  
+      $Nummer=$this->get_next_nr();  
+      $insert->bindValue(':Nr', $Nummer);  
     }
 
     try {
