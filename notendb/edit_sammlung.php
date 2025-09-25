@@ -48,8 +48,7 @@ switch($option) {
     $sammlung->ID = $_REQUEST["ID"];  
     $sammlung->load_row(); 
     if($sammlung->is_deletable()) {
-         $info->print_form_confirm(basename(__FILE__),$sammlung->ID,'delete_2','Löschung', 
-                                'Soll Sammlung ID: '.$sammlung->ID.', Name: "'.$sammlung->Name.'" wirklich gelöscht werden?');        
+      $info->print_form_confirm(basename(__FILE__),$sammlung->ID,'delete_2','Löschung', $sammlung->infotext); 
     }     
 
     break;      

@@ -21,6 +21,7 @@ include_once('class.link.php');
 
   public $Title='Sammlung';
   public $Titles='Sammlungen';  
+  public $infotext=''; 
 
   public int $anzahl_musikstuecke=0; 
   public int $anzahl_materials=0; 
@@ -937,8 +938,8 @@ include_once('class.link.php');
   }
   
   function is_deletable() {
+    $this->infotext='Soll Sammlung ID: '.$this->ID.', Name: "'.$this->Name.'" wirklich gelöscht werden?';        
     return true; // aktuell keine Abängigkeiten berücksichtigt. 
-   
   }
 
   function print_table_musikstuecke3($filename_order_link){

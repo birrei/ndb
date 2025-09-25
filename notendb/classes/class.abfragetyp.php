@@ -148,16 +148,17 @@ class Abfragetyp {
 
   function is_deletable() {
     
+    $this->load_row();     
     $select = $this->db->prepare("SELECT * from abfrage WHERE AbfragetypID=:AbfragetypID");
     $select->bindValue(':AbfragetypID', $this->ID); 
     $select->execute();  
 
     if ($select->rowCount() > 0 ){
-      $this->load_row(); 
       $this->info->print_warning('Abfragetyp ID '.$this->ID.', Name: "'.$this->Name.'" kann nicht gelöscht werden. 
                                  Es existieren '.$select->rowCount().' zugeordnete Abfragen.<br>'); 
       return false;       
     } else {
+      $this->infotext='Soll Abfragetyp ID: '.$this->ID.', Name: "'.$this->Name.'" wirklich gelöscht werden?';        
       return true; 
     }
   }
