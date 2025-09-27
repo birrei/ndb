@@ -445,10 +445,10 @@ class Suchabfrage {
     switch ($this->AnsichtEbene){
       case 'Sammlung':
         $strTmp.="GROUP BY sammlung.ID ".PHP_EOL;               
-      break; 
+        break; 
       case 'Musikstueck':
         $strTmp.="GROUP BY musikstueck.ID ".PHP_EOL;                     
-      break;         
+        break;         
       case 'Satz':
         $strTmp.="GROUP BY satz.ID ".PHP_EOL;                    
         break;         
@@ -461,15 +461,16 @@ class Suchabfrage {
     switch ($this->AnsichtEbene){
       case 'Sammlung':
         $strTmp.="ORDER BY sammlung.Name ".PHP_EOL;                     
-      break; 
+        break; 
       case 'Musikstueck':
         $strTmp.="ORDER BY sammlung.Name, musikstueck.Nummer".PHP_EOL;                     
-      break;         
+        break;         
       case 'Satz':
-        $strTmp.="ORDER BY sammlung.Name, musikstueck.Nummer, satz.Nr ".PHP_EOL;                    
+        $strTmp.="ORDER BY sammlung.Name, musikstueck.Nummer, satz.Nr ".PHP_EOL; 
+        break;                           
       case 'Schueler':
         $strTmp.="ORDER BY schueler.Name ".PHP_EOL;                    
-      break;                  
+        break;                  
     }
 
     return $strTmp; 
