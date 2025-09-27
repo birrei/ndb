@@ -12,7 +12,6 @@ class Uebung {
   public $UebungtypID; 
   public $SchuelerID='';
   public $SatzID=''; 
-  public $MaterialID=''; 
   public $Datum=''; 
   public $Anzahl=''; 
   
@@ -66,7 +65,6 @@ class Uebung {
                             , uebung.Datum
                             , uebung.Anzahl 
                             , uebung.SatzID 
-                            , uebung.MaterialID 
                           FROM  uebung left join uebungtyp on uebung.UebungtypID = uebungtyp.ID 
                           WHERE uebung.ID = :ID");
 
@@ -81,7 +79,6 @@ class Uebung {
       $this->UebungtypID=$row_data["UebungtypID"];      
       $this->SchuelerID=$row_data["SchuelerID"];        
       $this->SatzID=$row_data["SatzID"];       
-      $this->MaterialID=$row_data["MaterialID"];            
       $this->Bemerkung=$row_data["Bemerkung"]; 
       $this->Datum=$row_data["Datum"];      
       $this->Anzahl=$row_data["Anzahl"];           
@@ -101,7 +98,6 @@ class Uebung {
                     , $Datum
                     , $Anzahl
                     , $SatzID 
-                    , $MaterialID
                     ) {
 
     $update = $this->db->prepare("UPDATE uebung  
@@ -112,7 +108,6 @@ class Uebung {
                 , Datum=:Datum               
                 , Anzahl=:Anzahl
                 , SatzID=:SatzID
-                , MaterialID=:MaterialID                            
               WHERE ID=:ID"           
            );
 
@@ -124,7 +119,6 @@ class Uebung {
     $update->bindParam(':Datum', $Datum);      
     $update->bindParam(':Anzahl', $Anzahl);
     $update->bindParam(':SatzID', $SatzID, ($SatzID=='' ? PDO::PARAM_NULL : PDO::PARAM_INT));
-    $update->bindParam(':MaterialID', $MaterialID, ($MaterialID=='' ? PDO::PARAM_NULL : PDO::PARAM_INT));    
   
 
     try {
@@ -168,7 +162,6 @@ class Uebung {
                             , Datum
                             , Anzahl
                             , SatzID
-                            , MaterialID
                             )
           SELECT CONCAT(Name, ' (Kopie)') as Name 
                             , Bemerkung
@@ -177,7 +170,6 @@ class Uebung {
                             , DATE_FORMAT(CURDATE(), '%Y-%m-%d') as Datum
                             , Anzahl
                             , SatzID
-                            , MaterialID
           FROM uebung  
           WHERE ID=:ID 
 

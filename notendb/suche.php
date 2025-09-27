@@ -629,24 +629,13 @@ include_once("classes/class.suchabfrage.php");
 
 /************* Ausgabe Ergebnisse **********/  
 
-  $Suchabfrage->printSQL=true;  // TEST 
+  // $Suchabfrage->printSQL=true;  // TEST 
 
   $Suchabfrage->printDescription(); 
 
   $Suchabfrage->printTable(); 
 
-  // if ($Suchabfrage->AnzahlFilter1 > 0) {
-
-  // }
-
   // $Suchabfrage->printTest(); // TEST 
- 
-  // if ($Suchabfrage->AnzahlFilter2 > 0) {
-  //    $Suchabfrage->printTable('Sammlung_Material');  
-  // }
-
-  // $Suchabfrage->printTest(); // TEST 
-
 
   keinFilter: 
 

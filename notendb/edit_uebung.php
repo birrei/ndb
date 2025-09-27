@@ -53,9 +53,7 @@ switch($option) {
       $_POST["SchuelerID"], 
       $_POST["Datum"], 
       $_POST["Anzahl"], 
-      $_POST["SatzID"],
-      $_POST["MaterialID"]
-    );  
+      $_POST["SatzID"]    );  
     $SchuelerID=$uebung->SchuelerID;     
     break; 
 
@@ -198,21 +196,6 @@ echo '
       </tr>'; 
 
 
-  echo '
-  <tr>    
-    <label>  
-    <td class="form-edit form-edit-col1">Material:</td>  
-    <td class="form-edit form-edit-col2">  
-          '; 
-        $schueler = new Schueler(); 
-        $schueler->ID = $SchuelerID; 
-        $schueler->print_select_materials($uebung->MaterialID); 
-        echo ' </label> ';             
-        $info->print_link_edit('material',$uebung->MaterialID,true);   
-        $info->print_link_table('v_material','sortcol=Name','Materialien',true,'');    
-
-    echo '</td>
-  </tr>'; 
 
 
   echo '<tr>    

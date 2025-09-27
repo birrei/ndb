@@ -571,16 +571,9 @@ class Schueler {
         WHERE 1=1 
         AND schueler_satz.SchuelerID = :SchuelerID  ";
 
-          
-    $query.=$selected_SatzID!=''?"AND satz.ID=:SatzID OR status.Name LIKE '%Aktiv%'":"AND status.Name LIKE '%Aktiv%'"; 
-
     $stmt = $this->db->prepare($query);      
     
     $stmt->bindParam(':SchuelerID', $this->ID, PDO::PARAM_INT);
-
-    if ($selected_SatzID!='') {
-      $stmt->bindParam(':SatzID', $selected_SatzID, PDO::PARAM_INT);
-    }
 
     $query.='ORDER BY `Name`'; 
 
@@ -646,8 +639,8 @@ class Schueler {
 
     $query="SELECT 
               uebung.ID
-              , uebungtyp.Name as Typ    
-              , uebung.Name 
+              , uebungtyp.Name as `Uebung Typ`     
+              , uebung.Name as `Uebung Name`
               , uebung.Datum
               , uebung.Anzahl
               , uebungtyp.Einheit
@@ -657,16 +650,12 @@ class Schueler {
                       -- musikstueck.Nummer, ' - ', 
                       musikstueck.Name, ' - Satz Nr. ',  
                       satz.Nr
-                      ) Notenstueck  
-              , CONCAT(material.Name, ' (' , materialtyp.Name, ') ', sammlung2.Name) as Material 	         
+                      ) Noten   
           FROM  uebung 
               left join uebungtyp on uebung.UebungtypID=uebungtyp.ID 
               left join satz  on satz.ID=uebung.SatzID 
               left join musikstueck on satz.MusikstueckID = musikstueck.ID
               left JOIN sammlung on sammlung.ID = musikstueck.SammlungID      
-              left join material  on material.ID=uebung.MaterialID
-              left JOIN materialtyp on materialtyp.ID = material.MaterialtypID      
-              left join sammlung as sammlung2  on sammlung2.ID=material.SammlungID
           WHERE uebung.SchuelerID = :ID 
           ORDER BY uebung.Datum DESC              
         "; 
@@ -711,12 +700,7 @@ class Schueler {
                 -- , uebung.UebungtypID
             FROM  uebung 
                   left join uebungtyp on uebung.UebungtypID=uebungtyp.ID 
-                  left join satz  on satz.ID=uebung.SatzID 
-                  left join musikstueck on satz.MusikstueckID = musikstueck.ID
-                  left JOIN sammlung on sammlung.ID = musikstueck.SammlungID      
-                  left join material  on material.ID=uebung.MaterialID
-                  left JOIN materialtyp on materialtyp.ID = material.MaterialtypID      
-                  left join sammlung as sammlung2  on sammlung2.ID=material.SammlungID
+                  left join satz  on satz.ID=uebung.SatzID     
             WHERE uebung.SchuelerID = :ID 
             AND UebungtypID  is not null 
             GROUP by uebung.SchuelerID
