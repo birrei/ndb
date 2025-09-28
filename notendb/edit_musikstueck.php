@@ -89,23 +89,6 @@ echo '<p>
 </label>
 </tr> 
 
-<tr>    
-<label>  
-  <td class="form-edit form-edit-col1">Materialtyp:</td>  
-  <td class="form-edit form-edit-col2">  
-        '; 
-        $materialtypen = new Materialtyp();
-        $materialtypen->print_select($musikstueck->MaterialtypID); 
-
-  echo ' </label>  &nbsp;
-      '; 
-      $info->print_link_edit($materialtypen->table_name, $musikstueck->MaterialtypID,$materialtypen->Title, true); 
-      $info->print_link_table($materialtypen->table_name,'sortcol=Name',$materialtypen->Titles,true,'');    
-      // $info->print_link_insert($materialtypen->table_name,$materialtypen->Title,true); 
-
-
-echo '</td>
-  </tr> 
 
 <tr>    
 <label>
@@ -133,6 +116,23 @@ echo '</tr></label>
   </label>
 </tr> 
 
+<tr>    
+<label>  
+  <td class="form-edit form-edit-col1">Materialtyp:</td>  
+  <td class="form-edit form-edit-col2">  
+        '; 
+        $materialtypen = new Materialtyp();
+        $materialtypen->print_select($musikstueck->MaterialtypID); 
+
+  echo ' </label>  &nbsp;
+      '; 
+      $info->print_link_edit($materialtypen->table_name, $musikstueck->MaterialtypID,$materialtypen->Title, true); 
+      $info->print_link_table($materialtypen->table_name,'sortcol=Name',$materialtypen->Titles,true,'');    
+      // $info->print_link_insert($materialtypen->table_name,$materialtypen->Title,true); 
+
+
+echo '</td>
+  </tr> 
 <tr>    
 <label>
 <td class="form-edit form-edit-col1">Komponist:</td>  
