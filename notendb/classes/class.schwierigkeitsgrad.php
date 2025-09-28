@@ -145,16 +145,17 @@ class Schwierigkeitsgrad {
 
     switch($this->Parent) {
 
-      case 'Material': 
-          $formInputName='Schwierigkeitsgrad_Material[]'; 
-          $formInputID='Schwierigkeitsgrad_Material'; 
-          $caption='Schwierigkeitsgrad Material: '; 
-        break; 
+      // case 'Material': 
+      //     $formInputName='Schwierigkeitsgrad_Material[]'; 
+      //     $formInputID='Schwierigkeitsgrad_Material'; 
+      //     $caption='Schwierigkeitsgrad Material: '; 
+      //   break; 
 
       case 'Schueler': 
         $formInputName='Schwierigkeitsgrad_Schueler[]'; 
           $formInputID='Schwierigkeitsgrad_Schueler';         
-          $caption='Schwierigkeitsgrad Schüler: ';           
+          // $caption='Schwierigkeitsgrad Schüler: ';           
+          $caption='Schwierigkeitsgrad: '; // Zusatz verworfen, da Suche- Auswahlfeld in gekennzeichnetem  Bereich angezeigt wird.           
         break; 
     }    
 

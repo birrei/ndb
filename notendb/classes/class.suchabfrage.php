@@ -230,15 +230,15 @@ class Suchabfrage {
         $strTmp.="SELECT schueler.ID 
         , schueler.Name as `Schueler Name`        
         , schueler.Bemerkung       
-        , v_schueler_instrumente.Instrumente  ".PHP_EOL; 
+        , v_schueler_instrumente.Instrumente as `Instrumente / Schwierigkeitsgrade`".PHP_EOL; 
         
         break; 
         
       case 'Schueler2':         
         $strTmp.="SELECT schueler.ID 
         , schueler.Name as `Schueler Name`        
-        , schueler.Bemerkung       
-        , v_schueler_instrumente.Instrumente
+        , schueler.Bemerkung `Schueler Bemerkung`       
+        , v_schueler_instrumente.Instrumente as `Instrumente / Schwierigkeitsgrade`
         -- , IF(schueler.Aktiv=1, 'Ja', 'Nein') as Aktiv   
         , GROUP_CONCAT(
                 DISTINCT concat('* ', sammlung.Name, ' / ', musikstueck.Name, 
@@ -397,11 +397,7 @@ class Suchabfrage {
             
           if ($this->InstrumentID_Satz!='') {
             $strTmp.="AND satz.ID IN (SELECT SatzID FROM satz_schwierigkeitsgrad WHERE InstrumentID=".$this->InstrumentID_Satz.") ".PHP_EOL; 
-          }       
-          // if (count($this->Schwierigkeitsgrade_Material) > 0) {
-          //   $strTmp.='AND satz.ID IN (SELECT SatzID FROM satz_schwierigkeitsgrad WHERE SchwierigkeitsgradID IN ('.implode(',', $this->Schwierigkeitsgrade_Material).')) '.PHP_EOL; 
-          // }
-
+          }                  
           if (count($this->AllLookupTypes) > 0) {
             $strTmp.=$this->getSQL_FilterLookups('sammlung'); 
             // $strTmp.=$this->getSQL_FilterLookups('musikstueck');       // XXXX
@@ -431,7 +427,13 @@ class Suchabfrage {
           // 3) Nur Status ausgewählt         
           $strTmp.="AND schueler_satz.StatusID=".$this->StatusID." ".PHP_EOL; 
           // $strTmp.="AND schueler.ID IN (SELECT SchuelerID FROM schueler_satz WHERE StatusID=".$this->StatusID.") ".PHP_EOL; 
-        }           
+        }
+        if ($this->InstrumentID_Schueler!='') {
+            $strTmp.="AND schueler.ID IN (SELECT SchuelerID FROM schueler_schwierigkeitsgrad WHERE InstrumentID=".$this->InstrumentID_Schueler.") ".PHP_EOL; 
+        }
+        if (count($this->Schwierigkeitsgrade_Schueler) > 0) {
+            $strTmp.="AND schueler.ID IN (SELECT SchuelerID FROM schueler_schwierigkeitsgrad WHERE SchwierigkeitsgradID IN (".implode(',', $this->Schwierigkeitsgrade_Schueler).")) ".PHP_EOL; 
+        }                   
         if (count($this->AllLookupTypes) > 0) {
           $strTmp.=$this->getSQL_FilterLookups('satz'); // nur Satz, da           
         }  

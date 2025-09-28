@@ -130,12 +130,10 @@ include_once("classes/class.suchabfrage.php");
   <input class="btnSave" type="submit" value="Suchen" width="100px">
   <input type="hidden" name="Filter" value="Suchen">
   </P> 
-
-<!-- Navi-Block "Schüler (immer anzeigen) -->
   <p class="navi-trenner">Schüler </p> 
   <?php
 
-/************* Filter Schüler, Schüler Status - Auswahlfelder werden - unabhängig von Ansicht - immer angezeigt ***********/
+/************* Gruppe Schüler, Filter Schüler -> immer sichtbar   ***********/ 
 
   $SchuelerID=isset($_REQUEST['SchuelerID'])?$_REQUEST['SchuelerID']:'';
     
@@ -153,7 +151,7 @@ include_once("classes/class.suchabfrage.php");
 
   $schueler->print_select($SchuelerID,'',$schueler->Title, true );  
 
-
+/************* Gruppe Schüler, Filter Status -> immer sichtbar   ***********/ 
 
   $StatusID=isset($_REQUEST['StatusID'])?$_REQUEST['StatusID']:''; 
 
@@ -164,16 +162,47 @@ include_once("classes/class.suchabfrage.php");
     $Suchabfrage->StatusID = $StatusID;        
     $status->ID= $StatusID; 
     $status->load_row(); 
-    $Suchabfrage->Beschreibung.='* Status Schüler: '.$status->Name.'<br>';
+    $Suchabfrage->Beschreibung.='* Status Schüler/Noten: '.$status->Name.'<br>';
     $Suchabfrage->AnzahlFilter1+=1;
     $Suchabfrage->AnzahlFilter2+=1;              
   }
 
 
   echo '<p>';
-  $status->print_select($StatusID, 'Status');
+  $status->print_select($StatusID, 'Status Noten');
   echo '</p>';
 
+/************* Gruppe Schüler, Filter Instrument  ***********/  
+  if ($AnsichtGruppe=='Schueler') {
+    $instrument_schueler = new Instrument();
+    $InstrumentID_Schueler=''; 
+    if (isset($_REQUEST['InstrumentID_Schueler'])) { 
+      $InstrumentID_Schueler=$_REQUEST['InstrumentID_Schueler'];       
+      if ($InstrumentID_Schueler!='') {
+        $Suchabfrage->InstrumentID_Schueler=$InstrumentID_Schueler; 
+        $instrument_schueler->ID=  $InstrumentID_Schueler; 
+        $instrument_schueler->load_row(); 
+        $Suchabfrage->Beschreibung.='* Instrument: '.$instrument_schueler->Name.'<br>';     
+        $filter=true;
+      $Suchabfrage->AnzahlFilter1+=1;              
+      }
+    }
+    $instrument_schueler->Parent='Schueler'; 
+    $instrument_schueler->print_select_suche($InstrumentID_Schueler,'Instrument');
+  }
+
+/************* Gruppe Schüler, Filter Schwierigkeitsgrade  ***********/  
+  if ($AnsichtGruppe=='Schueler') {
+    if (isset($_REQUEST['Schwierigkeitsgrad_Schueler'])) {
+      $Suchabfrage->Schwierigkeitsgrade_Schueler = $_REQUEST['Schwierigkeitsgrad_Schueler'];   
+      $filter=true;     
+      $Suchabfrage->AnzahlFilter1+=1;       
+    }  
+    $schwierigkeitsgrad_schueler = new Schwierigkeitsgrad();
+    $schwierigkeitsgrad_schueler->Parent='Schueler';     
+    $schwierigkeitsgrad_schueler->print_select_multi($Suchabfrage->Schwierigkeitsgrade_Schueler);    
+    $Suchabfrage->Beschreibung.=(count($Suchabfrage->Schwierigkeitsgrade_Schueler)>0?$schwierigkeitsgrad_schueler->titles_selected_list.'<br>':'');  
+  }
 
 /*** Navi-Block Gruppe Noten, "Sammlung */
   if($AnsichtGruppe=='Noten') {
@@ -286,7 +315,6 @@ include_once("classes/class.suchabfrage.php");
   }
 
 /************* Gruppe Noten, Filter Verwendungszwecke  ***********/
-  /** XXX offen: Einschluss/Ausschluss-Suche (erforderlich?) */
   if ($AnsichtGruppe=='Noten') {
     if (isset($_REQUEST['Verwendungszwecke'])) {
       $Suchabfrage->Verwendungszwecke = $_REQUEST['Verwendungszwecke'];   
@@ -295,7 +323,7 @@ include_once("classes/class.suchabfrage.php");
     }  
     $verwendungszweck = new Verwendungszweck();
     $verwendungszweck->print_select_multi($Suchabfrage->Verwendungszwecke);    
-    $Suchabfrage->Beschreibung.=(count($Suchabfrage->Verwendungszwecke)>0?$verwendungszweck->titles_selected_list.PHP_EOL:'');  
+    $Suchabfrage->Beschreibung.=(count($Suchabfrage->Verwendungszwecke)>0?$verwendungszweck->titles_selected_list.'<br>':'');  
   }
 
 /************* Gruppe Noten, Filter Gattung  ***********/
@@ -381,36 +409,26 @@ include_once("classes/class.suchabfrage.php");
     $Suchabfrage->Beschreibung.=(count($InstrumentSchwierigkeitsgrade)>0?$schwierigkeitsgrad->titles_selected_list.'<br>':'');
   }
 
+/************* Gruppe Noten, Filter Instrument **********/  
+  if ($AnsichtGruppe=='Noten') {
+    $instrument_satz = new Instrument();
+    $InstrumentID_Satz=''; 
+    if (isset($_REQUEST['InstrumentID_Satz'])) { 
+      $InstrumentID_Satz=$_REQUEST['InstrumentID_Satz'];       
+      if ($InstrumentID_Satz!='') {
+        $Suchabfrage->InstrumentID_Satz=$InstrumentID_Satz; 
+        $instrument_satz->ID=  $InstrumentID_Satz; 
+        $instrument_satz->load_row(); 
+        $Suchabfrage->Beschreibung.='* Instrument: '.$instrument_satz->Name.'<br>';     
+        $filter=true;
+      $Suchabfrage->AnzahlFilter1+=1;              
+      }
+    }
+    // $instrument_material->Parent='Material'; 
+    $instrument_satz->Parent='Satz'; 
+    $instrument_satz->print_select_suche($InstrumentID_Satz,'Instrument');
 
-  // if ($AnsichtGruppe=='Schueler') {
-    //   $instrument_schueler = new Instrument();
-    //   $InstrumentID_Schueler=''; 
-    //   if (isset($_REQUEST['InstrumentID_Schueler'])) {
-    //     if ($_REQUEST['InstrumentID_Schueler']!='') {
-    //       $InstrumentID_Schueler = $_REQUEST['InstrumentID_Schueler']; 
-    //       $instrument_schueler->ID=  $InstrumentID_Schueler; 
-    //       $instrument_schueler->load_row(); 
-    //       $query_WHERE.='AND schueler.ID IN (SELECT SchuelerID FROM schueler_schwierigkeitsgrad WHERE InstrumentID='.$InstrumentID_Schueler.') '.PHP_EOL; 
-    //       $Suchabfrage->Beschreibung.='* Instrument (Schüler): '.$instrument_schueler->Name.'<br>';     
-    //       $filter=true;       
-    //     }
-    //   }
-    //   $instrument_schueler->Parent='Schueler';     
-    //   $instrument_schueler->print_select_suche($InstrumentID_Schueler,'Instrument');
 
-    //   $Schwierigkeitsgrade_Schueler=[]; 
-    //   $schwierigkeitsgrad_schueler = new Schwierigkeitsgrad();
-    //   if (isset($_REQUEST['Schwierigkeitsgrad_Schueler'])) {
-    //     $Schwierigkeitsgrade_Schueler = $_REQUEST['Schwierigkeitsgrad_Schueler']; 
-    //     // echo count($Schwierigkeitsgrade); 
-    //     $query_WHERE.='AND schueler.ID IN (SELECT SchuelerID FROM schueler_schwierigkeitsgrad WHERE SchwierigkeitsgradID IN ('.implode(',', $Schwierigkeitsgrade_Schueler).')) '.PHP_EOL; 
-    //     $filter=true;       
-    //   }
-    //   $schwierigkeitsgrad_schueler->Parent='Schueler';    
-    //   $schwierigkeitsgrad_schueler->print_select_multi($Schwierigkeitsgrade_Schueler, 'Schwierigkeitsgrad (Schüler)');  
-    //   $Suchabfrage->Beschreibung.=(count($Schwierigkeitsgrade_Schueler)>0?$schwierigkeitsgrad_schueler->titles_selected_list.PHP_EOL:'');  
-    // }
-  
 /************* Gruppe Noten, Filter Erprobt  ***********/
   // if ($AnsichtGruppe=='Noten') {
   //   $Erprobt=[];  // im Suchfilter ausgewählte Erprobt-Einträge  (IDs) 
@@ -506,24 +524,6 @@ include_once("classes/class.suchabfrage.php");
 
 
 
-/************* Gruppe Noten, Filter Instrument **********/  
-  if ($AnsichtGruppe=='Noten') {
-    $instrument_satz = new Instrument();
-    $InstrumentID_Satz=''; 
-    if (isset($_REQUEST['InstrumentID_Satz'])) { 
-      $InstrumentID_Satz=$_REQUEST['InstrumentID_Satz'];       
-      if ($InstrumentID_Satz!='') {
-        $Suchabfrage->InstrumentID_Satz=$InstrumentID_Satz; 
-        $instrument_satz->ID=  $InstrumentID_Satz; 
-        $instrument_satz->load_row(); 
-        $Suchabfrage->Beschreibung.='* Instrument: '.$instrument_satz->Name.'<br>';     
-        $filter=true;
-      $Suchabfrage->AnzahlFilter1+=1;              
-      }
-    }
-    // $instrument_material->Parent='Material'; 
-    $instrument_satz->Parent='Satz'; 
-    $instrument_satz->print_select_suche($InstrumentID_Satz,'Instrument');
 
 
 
