@@ -1,5 +1,6 @@
 <?php 
 // ! nicht verwendet 
+// XXX_obsolete 
 
 include_once("classes/class.schueler.php");
 include_once("classes/class.schueler_material.php");
@@ -36,7 +37,7 @@ include_once('head_raw.php');
 echo '<div style="float:left">
      <form action="#" method="post">'; 
 
-$schueler->print_table_material_checklist(); 
+// $schueler->print_table_material_checklist(); 
 
 echo '<input type="submit" name="senden" value="Speichern">
     <input type="hidden" name="option" value="update">      

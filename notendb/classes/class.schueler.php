@@ -13,7 +13,6 @@ class Schueler {
   public $titles_selected_list; 
   public $Title='Schüler';
   public $Titles='Schüler';  
-  public $Ref = ''; // "Satz" oder "Material" 
   public string $infotext=''; 
   public int $Aktiv=1; // true/false, tinyint 1/0 for mysql 
   
@@ -45,44 +44,30 @@ class Schueler {
     }
   }  
  
-  function print_select($selected_SchuelerID='', $ParentID='', $caption='', $nurAktiv=false){
-    // $ParentID: MaterialID oder SatzID 
-    // echo '<p>selected_SchuelerID: '.$selected_SchuelerID.', ParentID: '.$ParentID.'<p>'; // test 
+  function print_select($selected_SchuelerID='', $SatzID='', $caption='', $nurAktiv=false){
 
+    $query=''; 
+ 
     if ($nurAktiv) {
       $query='SELECT ID, Name FROM `schueler` WHERE Aktiv=1 ';
     } 
     else {
       $query='SELECT ID, Name FROM `schueler` WHERE 1=1 ';
     }
+
+    if ($SatzID!='') {
+      $query.="AND ID NOT IN 
+            (SELECT SchuelerID FROM schueler_satz 
+            WHERE SatzID=:SatzID ".($selected_SchuelerID!=''?"AND SchuelerID!=:selected_SchuelerID":'').") "; 
+    }         
     
-    switch ($this->Ref) {
-      case 'Satz': 
-        if ($ParentID!='') {
-          $query.="AND ID NOT IN 
-                (SELECT SchuelerID FROM schueler_satz 
-                WHERE SatzID=:ParentID ".($selected_SchuelerID!=''?"AND SchuelerID!=:selected_SchuelerID":'').") "; 
-        }  
-        break; 
-      case 'Material': 
-        if ($ParentID!='') {
-          $query.="AND ID NOT IN 
-                (SELECT SchuelerID FROM schueler_material  
-                WHERE MaterialID=:ParentID ".($selected_SchuelerID!=''?"AND SchuelerID!=:selected_SchuelerID":'').") "; 
-        } 
-                               
-        break;       
-    }
-
     $query.='ORDER BY `Name`'; 
-
-    // echo $query; // test 
 
     $stmt = $this->db->prepare($query); 
 
-    if ($ParentID!=''){
-      // echo 'ParentID'; 
-      $stmt->bindParam(':ParentID', $ParentID, PDO::PARAM_INT);
+    if ($SatzID!=''){
+      // echo 'ParentID'; // test 
+      $stmt->bindParam(':SatzID', $ParentID, PDO::PARAM_INT);
 
       if ($selected_SchuelerID!=''){
         // echo 'selected_SchuelerID';       
@@ -305,56 +290,6 @@ class Schueler {
     }
   }    
   
-  function print_table_materials(){
-    $query="SELECT schueler_material.ID
-            , material.Name 
-            , sammlung.Name as Sammlung  
-            , materialtyp.Name  as `Materialtyp`
-            , schueler_material.DatumVon as `Datum von`
-            , schueler_material.DatumBis as `Datum bis` 
-            , status.Name as Status      
-            , schueler_material.Bemerkung                   
-          FROM schueler_material
-          LEFT JOIN status on status.ID =  schueler_material.StatusID          
-          LEFT JOIN material ON material.ID = schueler_material.MaterialID  
-          LEFT JOIN materialtyp ON materialtyp.ID = material.MaterialtypID  
-          LEFT JOIN sammlung on sammlung.ID = material.SammlungID                            
-          WHERE schueler_material.SchuelerID = :ID
-          order by material.Name  
-        "; 
-
-    $stmt = $this->db->prepare($query); 
-    $stmt->bindParam(':ID', $this->ID, PDO::PARAM_INT); 
-
-    try {
-      $stmt->execute(); 
-            
-      $html = new HTML_Table($stmt); 
-      $html->add_link_edit=true;      
-      $html->edit_link_table='schueler_material'; 
-      $html->edit_link_title='Schueler'; 
-      $html->edit_link_open_newpage=false; 
-      $html->show_missing_data_message=false;      
-      // $html->add_link_delete=true; // XXX 
-      // $html->del_link_filename='edit_schueler_materials.php'; 
-      // $html->del_link_parent_key='SchuelerID'; 
-      // $html->del_link_parent_id= $this->ID;  
-      
-      // // Link zu Material-Formular 
-      // $html->add_link_edit2=true; 
-      // $html->edit2_link_colname='MaterialID'; 
-      // $html->edit2_link_filename='edit_material.php'; 
-      // $html->edit2_link_title='Material';       
-
-      $html->print_table2(); 
-
-    }
-    catch (PDOException $e) {
-      $this->info->print_user_error(); 
-      $this->info->print_error($stmt, $e); 
-    }
-  }    
-
   function delete_satze(){
 
     $delete = $this->db->prepare("DELETE FROM `schueler_satz` WHERE SchuelerID=:ID"); 
@@ -369,19 +304,6 @@ class Schueler {
     }  
   }
 
-  function delete_materials(){
-
-    $delete = $this->db->prepare("DELETE FROM `schueler_material` WHERE SchuelerID=:ID"); 
-    $delete->bindValue(':ID', $this->ID);  
-
-    try {
-      $delete->execute(); 
-    }
-    catch (PDOException $e) {
-      $this->info->print_user_error(); 
-      $this->info->print_error($delete, $e);  
-    }  
-  }     
 
   function delete_schwierigkeitsgrade(){
 
@@ -413,7 +335,6 @@ class Schueler {
 
   function delete(){
 
-    $this->delete_materials(); 
     $this->delete_satze(); 
     $this->delete_schwierigkeitsgrade(); 
     $this->delete_uebungen();     
@@ -467,7 +388,6 @@ class Schueler {
 
       $this->copy_schwierigkeitsgrade($ID_New); 
       $this->copy_saetze($ID_New); 
-      $this->copy_materials($ID_New); 
 
       $this->ID =  $ID_New; // Stabübergabe (Objekt-Instanz übernimmt neue ID-Kopie )
     }
@@ -510,47 +430,8 @@ class Schueler {
 
   }   
 
-  function copy_materials($ID_new) {
+ 
 
-    $sql="INSERT INTO schueler_material(SchuelerID, MaterialID) 
-        SELECT :SchuelerID_new as SchuelerID
-              , MaterialID
-        FROM schueler_material 
-        WHERE SchuelerID=:ID";
-
-    $insert = $this->db->prepare($sql); 
-    $insert->bindValue(':ID', $this->ID);  
-    $insert->bindValue(':SchuelerID_new', $ID_new);  
-    $insert->execute();  
-
-  }   
-
-  function print_table_material_checklist(){
-    // Auswahl im Screen "Übung" 
-    $query="select distinct material.ID, material.Name
-            from material 
-            left join schueler_material on material.ID = schueler_material.MaterialID 
-                        and schueler_material.SchuelerID = :SchuelerID 
-            where schueler_material.ID is null 
-            order by material.Name 
-        "; 
-  
-    $stmt = $this->db->prepare($query); 
-    $stmt->bindParam(':SchuelerID', $this->ID, PDO::PARAM_INT); 
-
-    try {
-      $stmt->execute(); 
-            
-      $html = new HTML_Table($stmt); 
-      $html->print_table_checklist('material'); 
-
-
-    }
-    catch (PDOException $e) {
-      $this->info->print_user_error(); 
-      $this->info->print_error($stmt, $e); 
-    }
-  }
 
   function print_select_saetze($selected_SatzID=''){
 
@@ -586,47 +467,6 @@ class Schueler {
       // $html->caption = $caption;  
       $html->autofocus=false;      
       $html->print_select("SatzID", $selected_SatzID, true); 
-      
-    }
-    catch (PDOException $e) {
-      $this->info->print_user_error(); 
-      $this->info->print_error($stmt, $e); 
-    }
-  }
-
-  function print_select_materials($selected_MaterialID=''){
-
-    $query=" SELECT material.ID
-          , CONCAT(material.Name, ' (' , materialtyp.Name, ') ', sammlung.Name) as Name 
-    FROM material  
-            inner JOIN materialtyp on materialtyp.ID = material.MaterialtypID 
-            inner JOIN schueler_material on schueler_material.MaterialID = material.ID 
-            inner JOIN status on status.ID = schueler_material.StatusID         
-            inner JOIN sammlung on sammlung.ID = material.SammlungID   
-        WHERE 1=1 
-        AND schueler_material.SchuelerID = :SchuelerID  ";
-
-    $query.=$selected_MaterialID!=''?"AND material.ID=:MaterialID OR status.Name LIKE '%Aktiv%'":"AND status.Name LIKE '%Aktiv%'"; 
-
-    $stmt = $this->db->prepare($query);      
-    
-    $stmt->bindParam(':SchuelerID', $this->ID, PDO::PARAM_INT);
-
-    if ($selected_MaterialID!='') {
-      $stmt->bindParam(':MaterialID', $selected_MaterialID, PDO::PARAM_INT);
-    }
-
-    $query.='ORDER BY `Name`'; 
-
-    // echo $query; // test 
-
-    try {
-      $stmt->execute(); 
-      // $stmt->debugDumpParams(); // Test 
-      $html = new HTML_Select($stmt); 
-      // $html->caption = $caption;  
-      $html->autofocus=false;      
-      $html->print_select("MaterialID", $selected_MaterialID, true); 
       
     }
     catch (PDOException $e) {
@@ -682,7 +522,7 @@ class Schueler {
   }    
 
   function print_table_auswertung_uebungen($type=1){
-    // XXX 
+    // XXXX 
     switch($type) {
       case 1: 
         $query="
