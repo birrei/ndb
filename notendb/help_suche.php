@@ -13,67 +13,65 @@ include_once('head.php');
 
     <h2 class="chapter-title chapter-title-h2" id="suche_ansichten_sammlung">Grundsätzliches</h2>
 
-    <p>Durch die "Ansichten" wird festgelegt ... 
-        <br> ... welche Ergebnis-Tabellen angezeigt werden 
-        <br> ... welche Gruppierungs-Ebene bei der Ausgabe der jeweiligen Ergebnistabelle wirksam wird 
-        <br> ... welche Zusatz-Spalten zusätzlich (in welcher Weise) angezeigt werden.          
-        </p>
+
+    <p>Durch die "Ansichten" wird festgelegt ... </p>
+    <ul>
+        <li>Welche Filtermöglichkeiten eingeblendet werden </li>
+        <li>Wie die Ergebnistabelle ausgegeben wird (Gruppierungsegbene, angezeigte Spalten)</li>
+        <li>Schüler Status Bemerkung</li>
+                   
+        </ul>   
+
+
+
+    <h2 class="chapter-title chapter-title-h3" id="suche_ansichten_gruppe_noten">Ansichten Gruppe "Noten"</h2>
+            <p> Verfügbare Filterbereiche: Suchtext, Schüler (Name + Noten Status) Sammlung, Musikstück, Satz, Besonderheiten  </p>
+            
+        <h3 class="chapter-title chapter-title-h3" id="suche_ansichten_sammlung1">Ansicht "Sammlung"</h3>
+            <p> XXX</p> 
+        <h3 class="chapter-title chapter-title-h3" id="suche_ansichten_sammlung2">Ansicht "Sammlung, Musikstück"</h3>
+            <p> XXX</p> 
+
+        <h3 class="chapter-title chapter-title-h3" id="suche_ansichten_sammlung3">Ansicht "Sammlung, Musikstück, Satz"</h3>
+            <p> XXX</p> 
+
+        <h3 class="chapter-title chapter-title-h3" id="suche_ansichten_sammlung3">Ansicht "Sammlung, Musikstück, Satz + Schüler"</h3>
+            <p> XXX</p> 
+            
     
-
-    <h2 class="chapter-title chapter-title-h2" id="suche_ansichten_sammlung">Sammlung-Ansichten</h2>
-
-    <p>Für die Sammlung*-Ansichten ist definiert, das (je nach Filtereinstellung) folgende Ergebnistabellen sichtbar sein können: 
-        <br>  * <b>Sammlungen und Noten</b> 
-        <br>  * <b>Sammlungen und Material</b> 
-        </p>
-        
-
-    <p> Folgende Varianten sind für Sammlung*-Ansichten möglich: 
-    <ul> 
-        <li>Ansicht <b>"Sammlung"</b>: Beide Ergebnistabellen werden auf Ebene "Sammlung" angezeigt. </li>
-         <br>
-          
-        <li>Ansicht <b>"Sammlung erweitert"</b>: 
-            <br> Ergebnistabelle "Sammlungen und Noten" wird auf  Ebene "Sammlung > Musikstück" angezeigt. 
-            <br> Ergebnistabelle "Sammlungen und Material" wird auf  Ebene "Sammlung > Material" angezeigt. 
-             <br>
-             <br> 
-        </li>
-        <li>Ansicht <b>"Sammlung erweitert 2"</b>: 
-            <br> Ergebnistabelle "Sammlungen und Noten" wird auf  Ebene "Sammlung > Musikstück > Satz" angezeigt. 
-            <br> Ergebnistabelle "Sammlungen und Material" wird auf  Ebene "Sammlung > Material" angezeigt 
-             <br> 
-             <br>   
-        </li>
-        <li>Ansicht <b>"Sammlung erweitert 3"</b>: 
-            <br> 
-               In einer zusätzliche Spalte wird die Liste der zugeordneten Schüler (inkl. Status) angezeigt. 
-               Die Gruppierungsebene entspricht der Ansicht "Sammlung erweitert 2" 
-                 
-                <br>    
-        </li>
-
-    </ul>
+    <h2 class="chapter-title chapter-title-h2" id="suche_ansichten_gruppe_schueler">Ansichten Gruppe "Schüler"</h2>
+            <p> Verfügbare Filterbereiche: Suchtext, Schüler, Besonderheiten  </p>
+            <p> </p>             
+        <h3 class="chapter-title chapter-title-h3" id="suche_ansichten_schueler1">Ansicht "Schüler"</h3>
+                <p> XXX</p> 
+        <h3 class="chapter-title chapter-title-h3" id="suche_ansichten_schueler1">Ansicht "Schüler erweitert"</h3>
+                <p> XXX</p> 
 
 
-<h1 class="chapter-title chapter-title-h1" id="suche_filter">Wirkung von Filtern</h1>
+<h1 class="chapter-title chapter-title-h1" id="suche_filter">Arten von Filtern</h1>
 
-    <h2 class="chapter-title chapter-title-h2" id="suchlogik-ansichten">Ansichten und Filter </h2>
-    <p>Such-Filter, die gleichzeitig Muskstücke/Sätze sowie Materialien einschließen sollen, 
-        müssen auf Sammlung-Ebene (Anschten "Sammlung *") ausgeführt werden. Wenn ein Musikstück*-Ansicht bzw. eine Satz*-Ansicht ausgewählt ist ausgewählt ist, werden ausgewählte Filter nur auf Sammlung, Musikstück  oder Satz angewandt, nicht jedoch auf Materialien 
-        (auch dann nicht, wenn nach einer Eigenschaft gefiltert wird, die grundsätzlich auch für Materialien zur Verfügung steht)  </p>
-
-    <h2 class="chapter-title chapter-title-h2" id="suchlogik-auswahl-einfach">Suchlogik bei Einfach-Auswahl</h2>
+    <h2 class="chapter-title chapter-title-h2" id="suchlogik-auswahl-einfach">Klappliste mit Einfach-Auswahl</h2>
     
-    <p> Kategorie-Arten: </p> 
-    <ul> 
-        <li> Einfach-Auswahl (z.B. Verlag, Komponist). Es kann nur ein Eintrag ausgewählt werden</li> 
-        <li> Mehrfach-Auswahl (z.B. Besetzung, Verwendungszweck). Es können ein oder mehrere Einträge ausgewählt werden. </li>         
-    </ul>
+            <p>XXX</p>
 
-    <p> Die Suche orientiert sich an den Erfassungs-Optionen, Beispiel: Das Suchfeld Komponist bietet nur eine Einfach-Auswahl an, da einer Sammlung nur ein Komponist zugeorndet werden kann. </p>
+	<h2 class="chapter-title chapter-title-h2" id="suchlogik-auswahl-mehrfach">Klappliste mit Mehrfachauswahl</h2>
 
-    <p>Die Kombination mehrere Kategorien erfolgt über UND-Verknüpfung.</p> 
+            <p>Mehrere Einträge markieren: STRG halten und Einträge anklicken </p>
+            <p>Einträge Auswahl entfernen: STRG halten und markierten Einträg anklicken </p>
+            <p>Mehrere Einträge untereinander markieren: SHIFT halten und ersten sowie letzten Eintrag anklicken   </p>
+
+
+        <!-- 
+    <p> Die Suche orientiert sich an den Erfassungs-Optionen, 
+        Beispiel: Das Suchfeld Komponist bietet nur eine Einfach-Auswahl an, 
+        da einer Sammlung nur ein Komponist zugeorndet werden kann. </p> -->
+
+<h1 class="chapter-title chapter-title-h1" id="suche_logik">Erklärungen zu Suchlogiken </h1>
+
+    <h2 class="chapter-title chapter-title-h2" id="suchlogik-filter-kombination">Kombination der Filter</h2>
+
+
+    <p>Die Kombination mehrere Filter erfolgt über UND-Verknüpfung.</p> 
 
     <p> Beispiel: 
         <br />Komponist: "Mozart" 
@@ -83,9 +81,8 @@ include_once('head.php');
         <br />Verwendungszweck: "Hochzeit" ODER "Fest"
     </p> 
 
-    <hr>
+    <h2 class="chapter-title chapter-title-h2" id="suchlogik-filter-kombination">Suchlogik bei Mehrfach-Auswahlfiltern</h2>
 
-	<h2 class="chapter-title chapter-title-h2" id="suchlogik-auswahl-mehrfach">Suchlogik bei Mehrfachauswahl</h2>
 
     <p>
     Innerhalb einer Kategorie mit Mehrfach-Auswahl (z.B. Besetzung, Verwendungszweck) können ein oder mehrere Einträge ausgewählt werden.
@@ -139,23 +136,6 @@ include_once('head.php');
 
 
 
-    <p> Suche nach mehreren Eigenschaften 
-        
-    <p> Beispiel: (hier: Notenwerte "Achtel" und "Viertel"): </p>
-
-    <ul> 
-        <li>    Finde Sätze, bei denen Notenwerte "Achtel" ODER "Viertel" vorkommmen: Standard-Suche
-        </li> 
-        <li>    Finde Sätze, bei denen Notenwerte "Achtel" UND "Viertel" vorkommmen: Standard-Suche mit Option "Einschluss-Suche"    
-        </li> 
-        <li>    Finde Sätze, bei denen NUR Notenwerte "Achtel" ODER "Viertel" vorkommmen: Standard-Suche mit Option "Ausschluss-Suche"
-        </li> 
-        <li>    Finde Sätze, bei denen NUR Notenwerte "Achtel" UND "Viertel" vorkommmen: Standard-Suche mit Optionen "Einschluss-Suche" und "Ausschluss-Suche"
-        </li>         
-    </ul>
-
-    </p>
-
 
 
     <hr>
@@ -164,18 +144,52 @@ include_once('head.php');
 <h1 class="chapter-title chapter-title-h1" id="suche_filter_einzeln">Einzelne Filter</h1>
 
 
-	<h2 class="chapter-title chapter-title-h2" id="suche_noten_text">Filter: Textsuche</h2>
-    <p> Hinweis: Die Verwendung der Textsuche kann zu einer verzögerten Ergebnisanzeige führen! </p>
-    <p> Folgende Felder werden durchsucht: XXX </p>
+	<h2 class="chapter-title chapter-title-h2" id="suche_schueler_hinweise">Filter: Text-Suche</h2>
+
+    <p>Bei Aktivierung einer Ansicht aus der Gruppe "Noten" (Sammlung, Musikstück, Satz ~ ) 
+        werden folgende Felder durchsucht: </p>
+
+    <ul>
+
+            <li>Sammlung Name</li>
+            <li>Sammlung Bemerkung  </li>
+            <li>Musikstück Name  </li>
+            <li>Musikstück Bemerkung  </li>
+            <li>Musikstück Bearbeiter</li>
+            <li>Musikstück Opus</li>
+            <li>Musikstück Besetzungen </li>
+            <li>Musikstück Verwendungszwecke </li>
+            <li>Musikstück Komponist   </li>   
+            <li>Musikstück Epoche </li>   
+            <li>Musikstück Gattung</li>   
+
+            <li>Satz Name  </li>
+            <li>Satz Bemerkung  </li>          
+            <li>Satz Tempobezeichnung  </li>          
+            <li>Satz Orchesterbesetzung  </li>          
+            <li>Satz Erprobt Bemerkung  </li>          
+        </ul>  
+
+    <p>Bei Aktivierung einer Ansicht aus der Gruppe "Schüler" werden folgende Felder durchsucht </p>
+
+    <ul>
+        <li>Schüler Name</li>
+        <li>Schüler Bemerkung</li>
+        <li>Schüler Status Bemerkung</li>
+                   
+        </ul>        
 
 	<h2 class="chapter-title chapter-title-h2" id="suche_satz_schwierigkeitsgrad">Filter: Satz: Instrument / Schwierigkeitsgrad</h2>
     <p> Hinweise: Der Filter ist nur für die Sammlung-, Musikstück- und Satz-Ansichten (Gruppe Noten) wirksam.
         Gesucht wird nach den am Satz unter "Schwierigkeitsgrad" (Instrument + Grad) erfassen Eigenschaften. 
     Die Auswahlbox enthält die in Verwendung befindlichen Kombinationen aus "Instrument" und "Schwierigkeitsgrad"</p>
-    <p>Für die Suchlogik werden die Instrumente separat behandelt. Das funktioniert so, 
+    <p>Für die Suchlogik werden die Instrumente separat behandelt. </p>
+        
+    <p>Das funktioniert so, 
         als stünde für jedes Instrument eine eigene Auswahlbox zur Verfügung 
         (Verknüpfung der ausgewählten Instrumente mit UND, 
-        Verknüpfung der Schwierigkeitsgrade innerhalb eines Instruments mit ODER). 
+        Verknüpfung der Schwierigkeitsgrade innerhalb eines Instruments mit ODER). </p>
+
     </p>
     <p> Beispielsuche zu Besetzung "Violine und Klavier": 
         Du möchtest ein Stück finden mit einem etwas anspruchsvolleren Part für die Violine und einem 
@@ -221,23 +235,7 @@ include_once('head.php');
 		</ul>
 
 
-	<h2 class="chapter-title chapter-title-h2" id="suche_schueler_hinweise">Filter: Text-Suche</h2>
 
-    <p>Textsuche in folgenden Feldern: 
-        <ul>
-            <li>Schüler Name</li>
-            <li>Schüler Bemerkung</li>
-            <li>Sammlung Name (nur mit Schülern verknüpfte Sammlungen) </li>
-            <li>Sammlung Bemerkung (nur mit Schülern verknüpfte Sammlungen) </li>
-            <li>Musikstück Name (nur mit Schülern verknüpfte Musikstücke) </li>
-            <li>Satz Name (nur mit Schülern verknüpfte Sätze) </li>
-            <li>Satz Bemerkung (nur mit Schülern verknüpfte Sätze) </li>
-            <li>Schüler x Satz Verknüpfung Bemerkung  </li>             
-            <li>Material Name  (nur mit Schülern verknüpfte Materialen) </li>
-            <li>Material Bemerkung (nur mit Schülern verknüpfte Materialen) </li>
-            <li>Schüler x Material Verknüpfung Bemerkung  </li>    
-        </ul>        
-    </p>
 
 	<h2 class="chapter-title chapter-title-h2" id="suche_schueler_schueler">Filter: Schüler</h2>    
         <p> Auswahl 1 Schüler XXX </p> 
