@@ -1,6 +1,6 @@
 
 <?php 
-
+/** Link "Sätze sortieren". Wird in separatem Fenster/Registerblatt geöffnet */
 $PageTitle='Musikstück Sätze Übersicht'; 
 
 include_once('head.php');

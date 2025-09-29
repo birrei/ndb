@@ -1,5 +1,7 @@
 
 <?php 
+/** Link "Musikstücke sortieren". Wird in separatem Fenster/Registerblatt geöffnet */
+
 $PageTitle='Sammlung Musikstücke Übersicht'; 
 include_once('head.php');
 include_once("classes/class.sammlung.php");
