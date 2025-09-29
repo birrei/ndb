@@ -32,12 +32,18 @@ switch($option) {
         $satz->ID=$_GET["ID"]; 
         $satz->move_order(1); 
         
-
     break; 
+
+    case 'rebase_numbers': 
+        $musikstueck->rebase_numbers();  
+
+    break;     
 }
 
 
 $musikstueck->print_table_saetze3(basename(__FILE__));
+
+echo '<p><a href="'.basename(__FILE__).'?MusikstueckID='.$musikstueck->ID.'&option=rebase_numbers">Neu durchnummerieren</a></p>'; 
 
 
 include_once('foot.php');

@@ -1034,6 +1034,35 @@ function move_order(int $offset=1 ) {
       $this->info->print_error($stmt, $e); 
     }
   }  
+
+
+  function rebase_numbers() {
+   
+    $select = $this->db->prepare("SELECT ID  
+                  FROM `satz` 
+                  WHERE MusikstueckID=:ID
+                  ORDER BY Nr, ID "); 
+
+    $select->bindValue(':ID', $this->ID, PDO::PARAM_INT);  
+
+    $select->execute(); 
+
+    $res = $select->fetchAll(PDO::FETCH_ASSOC);
+
+    $Nr=1; 
+
+    foreach ($res as $row=>$value) {
+
+      $update= $this->db->prepare("UPDATE satz SET Nr=:Nr WHERE ID=:ID"); 
+
+      $update->bindValue(':ID', $value["ID"], PDO::PARAM_INT);  
+      $update->bindValue(':Nr', $Nr, PDO::PARAM_INT);  
+      $update->execute(); 
+
+      $Nr+=1; 
+   
+    }  
+  }  
  
 }
 
