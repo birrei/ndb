@@ -374,6 +374,49 @@ function move_order(int $offset=1 ) {
     }
   }
   
+  function print_table_saetze_schueler(){
+
+    $query="SELECT satz.ID
+              , satz.Nr
+              , satz.Name                
+              -- , GROUP_CONCAT(DISTINCT concat(instrument.Name, ': ', schwierigkeitsgrad.Name)  order by schwierigkeitsgrad.Name SEPARATOR ', ') `Schwierigkeitsgrade`  
+              -- , v_satz_lookuptypes.LookupList as Besonderheiten              
+              -- , satz.Bemerkung
+              , GROUP_CONCAT(DISTINCT concat(schueler.Name, ' (Status: ', COALESCE(status.Name,''), ')')  ORDER BY schueler.Name SEPARATOR '<br > ') Schueler                               
+            FROM satz 
+              LEFT JOIN satz_erprobt on satz.ID = satz_erprobt.SatzID 
+              left JOIN satz_schwierigkeitsgrad on satz_schwierigkeitsgrad.SatzID = satz.ID 
+              LEFT JOIN schwierigkeitsgrad on schwierigkeitsgrad.ID = satz_schwierigkeitsgrad.SchwierigkeitsgradID 
+              LEFT JOIN instrument on instrument.ID = satz_schwierigkeitsgrad.InstrumentID 
+              left join v_satz_lookuptypes on v_satz_lookuptypes.SatzID = satz.ID 
+              LEFT JOIN schueler_satz ON schueler_satz.SatzID = satz.ID 
+              LEFT JOIN schueler on schueler.ID = schueler_satz.SchuelerID
+              LEFT JOIN status ON status.ID = schueler_satz.StatusID 
+                            
+            WHERE satz.MusikstueckID = :MusikstueckID 
+            GROUP by satz.ID 
+            ORDER by Nr"; 
+
+    $stmt = $this->db->prepare($query); 
+    $stmt->bindParam(':MusikstueckID', $this->ID, PDO::PARAM_INT); 
+      
+    try {
+      $stmt->execute(); 
+            
+      $html = new HTML_Table($stmt); 
+      $html->edit_link_table='satz'; 
+      $html->edit_link_title='Satz'; 
+      $html->edit_link_open_newpage=true; 
+      $html->print_table2();       
+      
+    }
+    catch (PDOException $e) {
+      $this->info->print_user_error(); 
+      $this->info->print_error($stmt, $e); 
+    }
+  }
+  
+
 
   function get_next_nummer () {
 

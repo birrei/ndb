@@ -228,6 +228,9 @@ echo '
       <input type="radio" id="Saetze" name="target_form" value="Saetze" onclick="changeIframeSrc('subform1', 'edit_musikstueck_saetze.php?MusikstueckID=<?php echo $musikstueck->ID; ?>');" checked>
       <label for="Saetze">Sätze</label><br>
 
+      <input type="radio" id="Saetze_Schueler" name="target_form" value="Saetze_Schueler" onclick="changeIframeSrc('subform1', 'edit_musikstueck_saetze_schueler.php?MusikstueckID=<?php echo $musikstueck->ID; ?>');">
+      <label for="Saetze_Schueler">Sätze + Schüler</label><br>
+
       <input type="radio" id="Besetzungen" name="target_form" value="Besetzungen" onclick="changeIframeSrc('subform1', 'edit_musikstueck_besetzungen.php?MusikstueckID=<?php echo $musikstueck->ID; ?>');">
       <label for="Besetzungen">Besetzungen</label><br>
 
