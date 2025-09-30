@@ -3,6 +3,7 @@ include_once("dbconn/class.db.php");
 include_once("class.htmlinfo.php"); 
 include_once("class.htmlselect.php"); 
 include_once("class.htmltable.php"); 
+include_once("class.sqlpart.php");
 
 class Schueler {
 
@@ -236,18 +237,14 @@ class Schueler {
   }
   
   function print_table_saetze(){
-      $query="SELECT schueler_satz.ID
-      , sammlung.Name as `Sammlung`
-      , musikstueck.Nummer as `Nr`    
-      , musikstueck.Name as `Musikstück`
-      , satz.Nr as `Satz Nr`    
-      , satz.Name as `Satz Name`
+      $sql = new SQLPart(); 
+      $query="SELECT schueler_satz.ID,  "; 
+      $query.=$sql->select_concat_noten_namen; 
+      $query.="
       , status.Name as `Status`
-      , schueler_satz.DatumVon as `Datum von` 
-      , schueler_satz.DatumBis as `Datum bis` 
-      , schueler_satz.Bemerkung
-
-     -- , schueler_satz.SatzID           
+      -- , schueler_satz.DatumVon as `Datum von` 
+      -- , schueler_satz.DatumBis as `Datum bis` 
+      , schueler_satz.Bemerkung as `Status Bemerkung` 
     FROM schueler_satz
     LEFT JOIN satz ON satz.ID = schueler_satz.SatzID  
     LEFT JOIN musikstueck ON musikstueck.ID = satz.MusikstueckID
@@ -290,6 +287,99 @@ class Schueler {
     }
   }    
   
+  function print_table_saetze_lookups(){
+    
+      $sql = new SQLPart(); 
+
+      $query="SELECT satz.ID,  "; 
+      $query.=$sql->select_concat_noten_namen; 
+      $query.=", v_satz_lookuptypes.LookupList2 as `Satz Besonderheiten`   
+      , status.Name as `Status`       
+   FROM schueler_satz
+    LEFT JOIN satz ON satz.ID = schueler_satz.SatzID  
+    LEFT JOIN musikstueck ON musikstueck.ID = satz.MusikstueckID
+    LEFT JOIN sammlung ON sammlung.ID = musikstueck.SammlungID
+    LEFT JOIN v_satz_lookuptypes on v_satz_lookuptypes.SatzID = satz.ID    
+    LEFT JOIN status ON status.ID = schueler_satz.StatusID                                
+    WHERE schueler_satz.SchuelerID = :ID
+    order by satz.Name "; 
+
+    $stmt = $this->db->prepare($query); 
+    $stmt->bindParam(':ID', $this->ID, PDO::PARAM_INT); 
+
+    try {
+      $stmt->execute(); 
+
+      // $stmt->debugDumpParams(); 
+            
+      $html = new HTML_Table($stmt); 
+      $html->add_link_edit=true;   
+      $html->edit_link_table='satz'; 
+      $html->edit_link_title='Schueler'; 
+      $html->edit_link_open_newpage=true; 
+
+      // $html->add_link_delete=true; // XXX 
+      // $html->del_link_filename='edit_schueler_satz.php'; 
+      // $html->del_link_parent_key='SchuelerID'; 
+      // $html->del_link_parent_id= $this->ID;             
+      
+      // // Link zu Satz-Formular 
+      // $html->add_link_edit2=true; 
+      // $html->edit2_link_colname='SatzID'; 
+      // $html->edit2_link_filename='edit_satz.php'; 
+      // $html->edit2_link_title='Satz';       
+
+      
+      $html->print_table2(); 
+
+    }
+    catch (PDOException $e) {
+      $this->info->print_user_error(); 
+      $this->info->print_error($stmt, $e); 
+    }
+  }    
+
+   function print_table_lookups(){
+
+    $query="SELECT LookupList2 as `Alle Besonderheiten aus zugeordneten Noten`       
+    FROM v_schueler_lookuptypes                                  
+    WHERE SchuelerID = :ID "; 
+  
+    $stmt = $this->db->prepare($query); 
+    $stmt->bindParam(':ID', $this->ID, PDO::PARAM_INT); 
+
+    try {
+      $stmt->execute(); 
+
+      // $stmt->debugDumpParams(); 
+            
+      $html = new HTML_Table($stmt); 
+      $html->add_link_edit=false;   
+      // $html->edit_link_table='satz'; 
+      // $html->edit_link_title='Schueler'; 
+      // $html->edit_link_open_newpage=true; 
+
+      // $html->add_link_delete=true; // XXX 
+      // $html->del_link_filename='edit_schueler_satz.php'; 
+      // $html->del_link_parent_key='SchuelerID'; 
+      // $html->del_link_parent_id= $this->ID;             
+      
+      // // Link zu Satz-Formular 
+      // $html->add_link_edit2=true; 
+      // $html->edit2_link_colname='SatzID'; 
+      // $html->edit2_link_filename='edit_satz.php'; 
+      // $html->edit2_link_title='Satz';       
+
+      
+      $html->print_table2(); 
+
+    }
+    catch (PDOException $e) {
+      $this->info->print_user_error(); 
+      $this->info->print_error($stmt, $e); 
+    }
+  }    
+     
   function delete_satze(){
 
     $delete = $this->db->prepare("DELETE FROM `schueler_satz` WHERE SchuelerID=:ID"); 

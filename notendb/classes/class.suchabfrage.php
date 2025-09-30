@@ -20,12 +20,7 @@ class Suchabfrage {
   public $AnsichtEbene=''; // Gruppierungs-Ebene
   public $edit_table=''; // Org. Tabellen-Name, relevant für "Bearbeiten"-Link 
   public $AnsichtBezeichnung='';  // Für Anwender sichtbare Ansicht-Bezeichnung 
-
-
-
   public $Beschreibung=''; 
-
-
   
   public $txtTest=''; 
   public $printSQL=false; 

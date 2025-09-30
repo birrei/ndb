@@ -116,6 +116,12 @@ echo '
   <input type="radio" id="opt_Saetze" name="target_form" value="Saetze" onclick="changeIframeSrc('subform1', 'edit_schueler_saetze.php?SchuelerID=<?php echo $schueler->ID; ?>');">
   <label for="opt_Saetze">Verknüpfte Noten</label><br>
 
+  <input type="radio" id="opt_Saetze_Lookups" name="target_form" value="Saetze_Lookups" onclick="changeIframeSrc('subform1', 'edit_schueler_saetze_lookups.php?SchuelerID=<?php echo $schueler->ID; ?>');">
+  <label for="opt_Saetze_Lookups">Verknüpfte Noten + Besonderheiten</label><br>
+
+  <input type="radio" id="opt_Lookups" name="target_form" value="Lookups" onclick="changeIframeSrc('subform1', 'edit_schueler_lookups.php?SchuelerID=<?php echo $schueler->ID; ?>');">
+  <label for="opt_Lookups">Besonderheiten</label><br>
+
 <!-- Auswertung 1: Übungen Typ/Jahr/Monat/ -->
   <input type="radio" id="opt_Auswertung1" name="target_form" value="Uebungen" onclick="changeIframeSrc('subform1', 'edit_schueler_auswertung1.php?SchuelerID=<?php echo $schueler->ID; ?>');">
   <label for="opt_Auswertung1">Auswertung Übungen</label><br>
