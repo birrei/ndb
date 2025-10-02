@@ -341,7 +341,7 @@ class Schueler {
 
    function print_table_lookups(){
 
-    $query="SELECT LookupList2 as `Alle Besonderheiten aus zugeordneten Noten`       
+    $query="SELECT Status, LookupList2 as `Alle Besonderheiten aus zugeordneten Noten`       
     FROM v_schueler_lookuptypes                                  
     WHERE SchuelerID = :ID "; 
   
@@ -619,8 +619,8 @@ class Schueler {
             SELECT 
                 -- uebung.ID
                 uebungtyp.Name as Typ    
-                , YEAR(uebung.Datum) as Jahr
-                , MONTH(uebung.Datum) as Monat          
+                -- , YEAR(uebung.Datum) as Jahr
+                -- , MONTH(uebung.Datum) as Monat          
                 , SUM(uebung.Anzahl) as Anzahl 
                 , uebungtyp.Einheit            
                 , MIN(uebung.Datum) as `Datum Start`
@@ -636,8 +636,8 @@ class Schueler {
             GROUP by uebung.SchuelerID
               , uebung.UebungtypID
               , uebungtyp.Einheit
-              , YEAR(uebung.Datum)
-              , MONTH(uebung.Datum) 
+              -- , YEAR(uebung.Datum)
+              -- , MONTH(uebung.Datum) 
             ORDER BY `Datum Zuletzt` DESC              
             "; 
 
