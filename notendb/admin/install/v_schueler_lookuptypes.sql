@@ -16,7 +16,6 @@ select schueler_satz.SchuelerID
         inner join lookup_type on lookup_type.ID = lookup.LookupTypeID
         inner join schueler_satz on schueler_satz.SatzID = satz_lookup.SatzID
         inner join status on status.ID = schueler_satz.StatusID 
-    where schueler_satz.SchuelerID = 32
     group by schueler_satz.SchuelerID ,  lookup_type.ID, schueler_satz.StatusID 
     order by schueler_satz.SchuelerID, status.Name, lookup_type.type_key
     ) satz_lookuptype 
