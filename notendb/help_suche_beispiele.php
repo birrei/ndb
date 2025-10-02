@@ -38,12 +38,15 @@ include_once('head.php');
 
     </ol>
     </p> 
+
+    
             
+    <!-- 
     <h2 class="chapter-title chapter-title-h2" id="suche-schueler-alle-noten">Verwendung von Ansichten: Suche Schüler mit zugeordneten Noten</h2>
     <p> 1. Zeige zugeordnete Noten für einen Schüler mit Status "Idee"</p>  
     <p> 2. Zeige zugeordnete Noten für einen Schüler mit Besonderheit "Tonleiter" </p>  
-
     <p>! probiere verschiedene Ansichten, welche eignen sich? </p> 
+     -->
 
     <!-- <ul>
         <li>Ansicht: "Sammlung, Musikstück, Satz " </li>
