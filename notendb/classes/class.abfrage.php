@@ -212,7 +212,6 @@ class Abfrage {
   
   function is_deletable() {
     // keine Abhängigkeiten 
-    $this->infotext='Soll Abfrage ID: '.$this->ID.', Name: "'.$this->Name.'" wirklich gelöscht werden?';        
     return true; 
   }
 

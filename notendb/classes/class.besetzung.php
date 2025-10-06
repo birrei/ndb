@@ -168,7 +168,6 @@ class Besetzung {
     try {
       $delete->execute(); 
       $this->info->print_info('Die Besetzung wurde gelöscht');  
-      $this->info->print_user_error($this->infotext);      
       return true;         
     }
     catch (PDOException $e) {
@@ -178,16 +177,25 @@ class Besetzung {
     }  
   }
 
-  function is_deletable() {
-    
+
+  function getAnzahlMusikstuecke() {
     $select = $this->db->prepare("SELECT * from musikstueck_besetzung WHERE BesetzungID=:BesetzungID");
     $select->bindValue(':BesetzungID', $this->ID); 
-    $select->execute();  
+    $select->execute(); 
+    return $select->rowCount(); 
+  }
 
-    if ($select->rowCount() > 0 ){
+
+  function is_deletable() {
+    
+    $anzahl_musikstucke=$this->getAnzahlMusikstuecke(); 
+    
+    $this->load_row();     
+
+    if ($anzahl_musikstucke > 0 ){
       $this->load_row(); 
       $this->info->print_warning('Besetzung ID '.$this->ID.', Name: "'.$this->Name.'" kann nicht gelöscht werden. 
-                                 Es existieren '.$select->rowCount().' zugeordnete Musikstücke.<br>'); 
+                                 Es existieren '.$anzahl_musikstucke.' zugeordnete Musikstücke.<br>'); 
       return false;       
     } else {
       return true; 

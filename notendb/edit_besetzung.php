@@ -32,7 +32,7 @@ switch($option) {
     $besetzung->ID = $_REQUEST["ID"];  
     $besetzung->load_row(); 
     if($besetzung->is_deletable()) {
-      $info->print_form_confirm(basename(__FILE__),$besetzung->ID,'delete_2','Löschung');  
+      $info->print_form_delete_confirm(basename(__FILE__), $besetzung->Title, $besetzung->ID, $besetzung->Name);   
     }    
     break; 
 

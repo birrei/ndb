@@ -33,7 +33,7 @@ switch($option) {
   case 'delete_1':        
     $uebungtyp->ID = $_REQUEST["ID"];  
     if($uebungtyp->is_deletable()) {
-      $info->print_form_confirm(basename(__FILE__),$uebungtyp->ID,'delete_2','Löschung');    
+      $info->print_form_delete_confirm(basename(__FILE__), $uebungtyp->Title, $uebungtyp->ID, $uebungtyp->Name);   
     } 
     break; 
 

@@ -146,19 +146,23 @@ class Abfragetyp {
     }  
   }    
 
-  function is_deletable() {
-    
-    $this->load_row();     
+  function getAnzahlAbfragen() {
     $select = $this->db->prepare("SELECT * from abfrage WHERE AbfragetypID=:AbfragetypID");
     $select->bindValue(':AbfragetypID', $this->ID); 
     $select->execute();  
+    return $select->rowCount(); 
+  }
 
-    if ($select->rowCount() > 0 ){
+  function is_deletable() {
+    $anzahl_abfragen=$this->getAnzahlAbfragen(); 
+    
+    $this->load_row();     
+
+    if ($anzahl_abfragen > 0 ){
       $this->info->print_warning('Abfragetyp ID '.$this->ID.', Name: "'.$this->Name.'" kann nicht gelöscht werden. 
-                                 Es existieren '.$select->rowCount().' zugeordnete Abfragen.<br>'); 
+                                 Es existieren '.$anzahl_abfragen.' zugeordnete Abfragen.<br>'); 
       return false;       
     } else {
-      $this->infotext='Soll Abfragetyp ID: '.$this->ID.', Name: "'.$this->Name.'" wirklich gelöscht werden?';        
       return true; 
     }
   }

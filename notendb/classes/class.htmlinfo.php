@@ -162,6 +162,7 @@ class HTML_Info {
 
     function print_form_confirm($filename,$ID, $option,$aktion, $text='') {
 
+        
         echo 
         '<p>'.($text!=''?$text:'').'<br><form action="'.$filename.'" method="post">
         <input type="hidden" name="ID" value="' . $ID. '">
@@ -173,6 +174,20 @@ class HTML_Info {
 
 
     }
+
+    function print_form_delete_confirm($filename, $Bezeichnung, $ID, $Name) {
+        
+        echo '<p style="color: red;">Soll '.$Bezeichnung.' ID '.$ID.', "'.$Name.'" wirklich gelöscht werden? <br>
+        <form action="'.$filename.'" method="post">
+        <input type="hidden" name="ID" value="' . $ID. '">
+        <input type="hidden" name="option" value="delete_2">      
+        <input type="submit" name="senden" value="Löschung bestätigen"  style="color:red">             
+        </form>
+        </p>
+        '; 
+
+
+    }    
 
 
 }

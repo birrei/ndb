@@ -31,7 +31,7 @@ switch($option) {
     $standort->ID = $_REQUEST["ID"];  
     $standort->load_row(); 
     if($standort->is_deletable()) {
-      $info->print_form_confirm(basename(__FILE__),$standort->ID,'delete_2','Löschung');        
+      $info->print_form_delete_confirm(basename(__FILE__), $standort->Title, $standort->ID, $standort->Name);   
     }     
    
     break; 

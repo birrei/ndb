@@ -38,7 +38,7 @@ switch($option) {
     $komponist->ID = $_REQUEST["ID"];  
     $komponist->load_row(); 
     if($komponist->is_deletable()) {
-      $info->print_form_confirm(basename(__FILE__),$komponist->ID,'delete_2','Löschung');  
+      $info->print_form_delete_confirm(basename(__FILE__), $komponist->Title, $komponist->ID, $komponist->Name);   
     }       
     $show_data=true;      
     break; 

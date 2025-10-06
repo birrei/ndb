@@ -34,7 +34,7 @@ switch($option) {
     $lookuptype->ID = $_REQUEST["ID"];  
     $lookuptype->load_row(); 
     if($lookuptype->is_deletable()) {
-      $info->print_form_confirm(basename(__FILE__),$lookuptype->ID,'delete_2','Löschung'); 
+      $info->print_form_delete_confirm(basename(__FILE__), $lookuptype->Title, $lookuptype->ID, $lookuptype->Name);   
     }     
     $show_data=true;      
     break; 

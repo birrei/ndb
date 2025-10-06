@@ -31,7 +31,7 @@ switch($option) {
     $gattung->ID = $_REQUEST["ID"];  
     $gattung->load_row(); 
     if($gattung->is_deletable()) {
-      $info->print_form_confirm(basename(__FILE__),$gattung->ID,'delete_2','Löschung');  
+      $info->print_form_delete_confirm(basename(__FILE__), $gattung->Title, $gattung->ID, $gattung->Name);   
     }           
     break; 
 

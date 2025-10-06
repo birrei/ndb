@@ -32,7 +32,8 @@ switch($option) {
     $erprobt->ID = $_REQUEST["ID"];  
     $erprobt->load_row(); 
     if($erprobt->is_deletable()) {
-      $info->print_form_confirm(basename(__FILE__),$erprobt->ID,'delete_2','Löschung');  
+      $info->print_form_delete_confirm(basename(__FILE__), $erprobt->Title, $erprobt->ID, $erprobt->Name);   
+
     }           
     break; 
 

@@ -41,7 +41,7 @@ switch($option) {
     $lookup->ID = $_REQUEST["ID"];  
     $lookup->load_row(); 
     if($lookup->is_deletable()) {
-      $info->print_form_confirm(basename(__FILE__),$lookup->ID,'delete_2','Löschung'); 
+      $info->print_form_delete_confirm(basename(__FILE__), $lookup->Title, $lookup->ID, $lookup->Name);   
     }     
      
     $show_data=true;      

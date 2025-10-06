@@ -30,7 +30,7 @@ switch($option) {
   case 'delete_1': 
     $verwendungszweck->ID = $_REQUEST["ID"];  
     if($verwendungszweck->is_deletable()) {
-      $info->print_form_confirm(basename(__FILE__),$verwendungszweck->ID,'delete_2','Löschung');    
+      $info->print_form_delete_confirm(basename(__FILE__), $verwendungszweck->Title, $verwendungszweck->ID, $verwendungszweck->Name);   
     }  
     break; 
 

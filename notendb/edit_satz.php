@@ -51,8 +51,7 @@ switch($option) {
     $satz->ID = $_REQUEST["ID"];  
     $satz->load_row();
     if($satz->is_deletable()) {
-      $info->print_form_confirm(basename(__FILE__),$satz->ID,'delete_2','Löschung', 
-                      'Soll Satz ID: '.$satz->ID.', Name: "'.$satz->Name.'" wirklich gelöscht werden?');        
+      $info->print_form_delete_confirm(basename(__FILE__), $satz->Title, $satz->ID, $satz->Name);   
     }         
     break;      
   

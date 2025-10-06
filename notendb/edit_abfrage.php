@@ -37,7 +37,7 @@ switch($option) {
     $abfrage->load_row(); 
     $Name=$abfrage->Name; 
     if($abfrage->is_deletable()) {
-      $info->print_form_confirm(basename(__FILE__),$abfrage->ID,'delete_2','Löschung', $abfrage->infotext);  
+      $info->print_form_delete_confirm(basename(__FILE__), 'Abfrage', $abfrage->ID, $abfrage->Name);   
     }     
     break; 
 

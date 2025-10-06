@@ -31,7 +31,7 @@ switch($option) {
     $schueler->ID = $_REQUEST["ID"];  
     $schueler->load_row(); 
     if($schueler->is_deletable()) {
-      $info->print_form_confirm(basename(__FILE__),$schueler->ID,'delete_2','Löschung');        
+      $info->print_form_delete_confirm(basename(__FILE__), $schueler->Title, $schueler->ID, $schueler->Name);   
     }      
     break;      
   

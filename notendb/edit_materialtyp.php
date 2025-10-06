@@ -31,7 +31,7 @@ switch($option) {
     $materialtyp->ID = $_REQUEST["ID"];  
     $materialtyp->load_row(); 
     if($materialtyp->is_deletable()) {
-       $info->print_form_confirm(basename(__FILE__),$materialtyp->ID,'delete_2','Löschung');    
+      $info->print_form_delete_confirm(basename(__FILE__), $materialtyp->Title, $materialtyp->ID, $materialtyp->Name);   
     }      
     break; 
 

@@ -32,7 +32,7 @@ switch($option) {
     $instrument->ID = $_REQUEST["ID"];  
     $instrument->load_row(); 
     if($instrument->is_deletable()) {
-      $info->print_form_confirm(basename(__FILE__),$instrument->ID,'delete_2','Löschung');  
+      $info->print_form_delete_confirm(basename(__FILE__), $instrument->Title, $instrument->ID, $instrument->Name);   
     }     
     $show_data=true;      
     break; 

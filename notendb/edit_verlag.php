@@ -30,7 +30,7 @@ switch($option) {
   case 'delete_1': 
     $verlag->ID = $_REQUEST["ID"];  
     if($verlag->is_deletable()) {
-      $info->print_form_confirm(basename(__FILE__),$verlag->ID,'delete_2','Löschung');    
+      $info->print_form_delete_confirm(basename(__FILE__), $verlag->Title, $verlag->ID, $verlag->Name);   
     }      
     break; 
 

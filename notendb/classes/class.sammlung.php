@@ -938,7 +938,6 @@ include_once('class.link.php');
   }
   
   function is_deletable() {
-    $this->infotext='Soll Sammlung ID: '.$this->ID.', Name: "'.$this->Name.'" wirklich gelöscht werden?';        
     return true; // aktuell keine Abängigkeiten berücksichtigt. 
   }
 

@@ -43,7 +43,7 @@ switch($option) {
     $ID=$_REQUEST["ID"]; 
     $status->ID = $ID; 
     if($status->is_deletable()) {
-      $info->print_form_confirm(basename(__FILE__),$status->ID,'delete_2','Löschung');    
+      $info->print_form_delete_confirm(basename(__FILE__), $status->Title, $status->ID, $status->Name);   
     } 
     break; 
 

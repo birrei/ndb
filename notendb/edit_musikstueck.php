@@ -54,8 +54,7 @@ switch($option) {
     $musikstueck->ID = $_REQUEST["ID"];  
     $musikstueck->load_row(); 
     if($musikstueck->is_deletable()) {
-      $info->print_form_confirm(basename(__FILE__),$musikstueck->ID,'delete_2','Löschung', 
-                      'Soll Musikstück ID: '.$musikstueck->ID.', Name: "'.$musikstueck->Name.'" wirklich gelöscht werden?');        
+      $info->print_form_delete_confirm(basename(__FILE__), $musikstueck->Title, $musikstueck->ID, $musikstueck->Name);   
     }        
     break;      
   

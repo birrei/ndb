@@ -30,7 +30,7 @@ switch($option) {
     $schwierigkeitsgrad->ID = $_REQUEST["ID"];  
     $schwierigkeitsgrad->load_row(); 
     if($schwierigkeitsgrad->is_deletable()) {
-      $info->print_form_confirm(basename(__FILE__),$schwierigkeitsgrad->ID,'delete_2','Löschung');        
+      $info->print_form_delete_confirm(basename(__FILE__), $schwierigkeitsgrad->Title, $schwierigkeitsgrad->ID, $schwierigkeitsgrad->Name);   
     }          
     break; 
 

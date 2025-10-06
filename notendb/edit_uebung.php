@@ -62,7 +62,7 @@ switch($option) {
     $uebung->load_row(); 
     $Name=$uebung->Name; 
     if($uebung->is_deletable()) {
-      $info->print_form_confirm(basename(__FILE__),$uebung->ID,'delete_2','Löschung');         
+      $info->print_form_delete_confirm(basename(__FILE__), $uebung->Title, $uebung->ID, $uebung->Name);   
     }     
     break; 
 

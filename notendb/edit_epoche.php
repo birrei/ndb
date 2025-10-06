@@ -32,7 +32,8 @@ switch($option) {
     $epoche->ID = $_REQUEST["ID"];  
     $epoche->load_row(); 
     if($epoche->is_deletable()) {
-      $info->print_form_confirm(basename(__FILE__),$epoche->ID,'delete_2','Löschung');  
+      // $info->print_form_confirm(basename(__FILE__),$epoche->ID,'delete_2','Löschung'); 
+      $info->print_form_delete_confirm(basename(__FILE__), $epoche->Title, $epoche->ID, $epoche->Name);   
     }          
     break; 
 

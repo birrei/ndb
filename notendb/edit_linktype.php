@@ -32,7 +32,7 @@ switch($option) {
     $linktype->ID = $_REQUEST["ID"];  
     $linktype->load_row(); 
     if($linktype->is_deletable()) {
-      $info->print_form_confirm(basename(__FILE__),$linktype->ID,'delete_2','Löschung'); 
+      $info->print_form_delete_confirm(basename(__FILE__), $linktype->Title, $linktype->ID, $linktype->Name);   
     }       
       
     $show_data=true;      
