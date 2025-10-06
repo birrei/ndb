@@ -120,7 +120,6 @@ echo '
   <td class="form-edit form-edit-col1">Schüler:</td>  
   <td class="form-edit form-edit-col2">  '; 
       $schueler = new Schueler(); 
-      // $schueler->Ref='Satz'; 
       $schueler->print_select($uebung->SchuelerID); 
        echo ' </label> ';             
       $info->print_link_edit('schueler',$uebung->SchuelerID,true);   

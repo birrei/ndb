@@ -125,7 +125,6 @@ if ($option=='delete_2') {
   <td class="eingabe2 eingabe2_2">
     <?php 
       $schueler = new Schueler(); 
-      $schueler->Ref='Satz'; 
       $schueler->print_select($SchuelerID,$SatzID, '', $nurAktiv);       
       $html->print_link_edit('schueler',$SchuelerID,true);   
       $html->print_link_table('v_schueler','sortcol=Name',$schueler->Titles,true,'');    
