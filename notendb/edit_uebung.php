@@ -133,7 +133,7 @@ echo '
 echo '
   <tr>    
     <label>
-    <td class="form-edit form-edit-col1">Bezeichnung:</td>  
+    <td class="form-edit form-edit-col1">Name:</td>  
     <td class="form-edit form-edit-col2"><input type="text" name="Name" value="'.htmlentities($uebung->Name).'" size="40%" autofocus="autofocus" oninput="changeBackgroundColor(this)"></td>
     </label>
   </tr>     
