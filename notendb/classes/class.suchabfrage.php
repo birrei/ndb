@@ -319,6 +319,18 @@ class Suchabfrage {
   /** WHERE  */
     $strTmp.="WHERE 1=1 ".PHP_EOL;
 
+
+    switch($this->AnsichtEbene) {
+      case 'Musikstueck': 
+        $strTmp.="AND musikstueck.ID IS NOT NULL ".PHP_EOL;
+      break; 
+      case 'Satz': 
+        $strTmp.="AND satz.ID IS NOT NULL ".PHP_EOL;
+
+      break;         
+
+    }
+
     switch ($this->AnsichtGruppe){    
       case 'Noten': // AnsichtGruppe
         if ($this->Suchtext!='') {
