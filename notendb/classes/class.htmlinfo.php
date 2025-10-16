@@ -59,6 +59,7 @@ class HTML_Info {
         echo ($this->use_paragraph?'<p>':'').'<a href="edit_'.$target_table.'2.php?ID='.$ID.'&title='.$target_title.'&option=edit"'.($newpage?' target="_blank"':'').' tabindex="-1" class="form-link">Abfrage-Text bearbeiten</a>'.($suffix!=''?$suffix:'').($this->use_paragraph?'</p>':'');
     }
 
+
     function print_link_insert($target_table, $target_title, $newpage=true, $suffix='') {
         echo ($this->use_paragraph?'<p>':'').'<a href="edit_'.$target_table.'.php?title='.$target_title.'&option=insert"'.($newpage?' target="_blank"':'').' tabindex="-1" class="form-link">neu erfassen</a>'.($suffix!=''?$suffix:'').($this->use_paragraph?'</p>':'');
         // Nur "neu erfassen", ohne Titel-Bezeichnung 
@@ -90,6 +91,10 @@ class HTML_Info {
         echo ($this->use_paragraph?'<p>':'').'<a href="" tabindex="-1" class="form-link">Formular neu laden</a>'.($this->use_paragraph?'</p>':''); 
     }
 
+
+    function print_link_overview($target_file, $target_params, $target_title, $use_paragraph=false) {
+        echo ($use_paragraph?'<p>':'').'<a href="'.$target_file.'?'.$target_params.'" target="_blank" tabindex="-1" class="form-link">'.$target_title.'</a>'.($use_paragraph?'</p>':'');
+    }        
 
 /* Seiten-Überschriften */   
 

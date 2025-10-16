@@ -217,7 +217,12 @@ class HTML_Table {
                 $html .= '<tbody>';                
                 foreach ($this->result as $row) {
                     $html .= '<tr>'. PHP_EOL;
-                    $html .= '      <td class="checkboxtable"><label><input type="checkbox" name="'.$checkbox_name.'[]" value="'.$row["ID"].'"> '.$row["Name"].' </label> </td>'. PHP_EOL; 
+                    if($this->add_link_edit & $this->edit_link_table!='') {
+                        $html .= '      <td class="checkboxtable"><label><input type="checkbox" name="'.$checkbox_name.'[]" value="'.$row["ID"].'"> '.$row["Name"].' </label> <a href="edit_'.$this->edit_link_table.'.php?ID='.$row["ID"].'" target="_blank">Bearbeiten</a></td>'. PHP_EOL; 
+                    }
+                    else {
+                        $html .= '      <td class="checkboxtable"><label><input type="checkbox" name="'.$checkbox_name.'[]" value="'.$row["ID"].'"> '.$row["Name"].' </label> </td>'. PHP_EOL; 
+                    }
                     $html .= '</tr>'. PHP_EOL;
                 } 
                 $html .= '</tbody>'. PHP_EOL;   

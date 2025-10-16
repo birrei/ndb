@@ -239,7 +239,8 @@ class Schueler {
   function print_table_saetze(){
       $sql = new SQLPart(); 
       $query="SELECT schueler_satz.ID,  "; 
-      $query.=$sql->select_concat_noten_namen; 
+      // $query.=$sql->select_concat_noten_namen; 
+      $query.=$sql->getSQL_COL_CONCAT_Noten(1);       
       $query.="
       , status.Name as `Status`
       -- , schueler_satz.DatumVon as `Datum von` 
@@ -251,7 +252,7 @@ class Schueler {
     LEFT JOIN sammlung ON sammlung.ID = musikstueck.SammlungID
     LEFT JOIN status ON status.ID = schueler_satz.StatusID                                
     WHERE schueler_satz.SchuelerID = :ID
-    order by satz.Name "; 
+    order by status.Name, Noten "; 
 
     $stmt = $this->db->prepare($query); 
     $stmt->bindParam(':ID', $this->ID, PDO::PARAM_INT); 
@@ -292,9 +293,10 @@ class Schueler {
       $sql = new SQLPart(); 
 
       $query="SELECT satz.ID,  "; 
-      $query.=$sql->select_concat_noten_namen; 
+      // $query.=$sql->select_concat_noten_namen; 
+      $query.=$sql->getSQL_COL_CONCAT_Noten(1); 
       $query.=", v_satz_lookuptypes.LookupList2 as `Satz Besonderheiten`   
-      , status.Name as `Status`       
+              , status.Name as `Status`       
    FROM schueler_satz
     LEFT JOIN satz ON satz.ID = schueler_satz.SatzID  
     LEFT JOIN musikstueck ON musikstueck.ID = satz.MusikstueckID
@@ -302,7 +304,7 @@ class Schueler {
     LEFT JOIN v_satz_lookuptypes on v_satz_lookuptypes.SatzID = satz.ID    
     LEFT JOIN status ON status.ID = schueler_satz.StatusID                                
     WHERE schueler_satz.SchuelerID = :ID
-    order by satz.Name "; 
+    order by status.Name, Noten "; 
 
     $stmt = $this->db->prepare($query); 
     $stmt->bindParam(':ID', $this->ID, PDO::PARAM_INT); 
@@ -675,6 +677,54 @@ class Schueler {
       $this->info->print_error($stmt, $e); 
     }
   }    
+
+
+  function print_table_saetze_checklist($MaterialtypID='', $checkSchwierigkeitsgrad=false){
+    $query="SELECT DISTINCT satz.ID
+            , CONCAT(sammlung.Name, '; ', musikstueck.Nummer, ': ', COALESCE(musikstueck.Name, ''), '; ', satz.Nr, ': ', COALESCE(satz.Name, '')) as Name  
+            FROM sammlung 
+            INNER JOIN musikstueck on musikstueck.SammlungID = sammlung.ID 
+            INNER JOIN satz on satz.MusikstueckID = musikstueck.ID  
+            LEFT JOIN schueler_satz on satz.ID = schueler_satz.SatzID  
+                        AND schueler_satz.SchuelerID = :SchuelerID 
+            WHERE 1=1
+            ".($MaterialtypID!=""?"AND musikstueck.MaterialtypID=:MaterialtypID ":"")." 
+            AND schueler_satz.ID is null "; 
+
+    if($checkSchwierigkeitsgrad) {
+          
+    $query.="
+        AND satz.ID IN (
+                  SELECT DISTINCT satz_schwierigkeitsgrad.SatzID 
+                  FROM schueler_schwierigkeitsgrad 
+                  INNER JOIN  satz_schwierigkeitsgrad 
+                  ON schueler_schwierigkeitsgrad.InstrumentID  = satz_schwierigkeitsgrad.InstrumentID 
+                  AND schueler_schwierigkeitsgrad.SchwierigkeitsgradID = satz_schwierigkeitsgrad.SchwierigkeitsgradID
+                  WHERE schueler_schwierigkeitsgrad.SchuelerID = :SchuelerID
+                )    
+        "; 
+    }
+    $query.="ORDER BY sammlung.Name, musikstueck.Nummer, satz.Nr  "; 
+    // echo '<pre>'.$query.'</pre>'; 
+    $stmt = $this->db->prepare($query); 
+    $stmt->bindParam(':SchuelerID', $this->ID, PDO::PARAM_INT); 
+    if ($MaterialtypID!='') {
+      $stmt->bindParam(':MaterialtypID', $MaterialtypID, PDO::PARAM_INT); 
+    }
+
+    try {
+      $stmt->execute(); 
+      // $stmt->debugDumpParams(); 
+      $html = new HTML_Table($stmt); 
+      $html->add_link_edit=true; 
+      $html->edit_link_table='satz'; 
+      $html->print_table_checklist('satz'); 
+    }
+    catch (PDOException $e) {
+      $this->info->print_user_error(); 
+      $this->info->print_error($stmt, $e); 
+    }
+  }  
 
 }
 

@@ -18,25 +18,30 @@ include_once('head.php');
     <ul>
         <li>Welche Filtermöglichkeiten eingeblendet werden </li>
         <li>Wie die Ergebnistabelle ausgegeben wird (Gruppierungsegbene, angezeigte Spalten)</li>
-        <li>Schüler Status Bemerkung</li>
                    
         </ul>   
 
 
-
+    
     <h2 class="chapter-title chapter-title-h3" id="suche_ansichten_gruppe_noten">Ansichten Gruppe "Noten"</h2>
             <p> Verfügbare Filterbereiche: Suchtext, Schüler (Name + Noten Status) Sammlung, Musikstück, Satz, Besonderheiten  </p>
             
         <h3 class="chapter-title chapter-title-h3" id="suche_ansichten_sammlung1">Ansicht "Sammlung"</h3>
-            <p> XXX</p> 
+            <p>Die Ergebnistabelle zeigt Sammlungen an. 
+                In der Abfrage sind auch Sammlungen ohne Musikstücke / Sätze eingeschlossen.</p> 
+
         <h3 class="chapter-title chapter-title-h3" id="suche_ansichten_sammlung2">Ansicht "Sammlung, Musikstück"</h3>
-            <p> XXX</p> 
+            <p>Die Ergebnistabelle zeigt Sammlungen und Musikstücke an.  
+                In der Abfrage sind Musikstücke ohne Sätze eingeschlossen, Sammlungen ohne Musikstücke jedoch ausgeschlossen. 
+                </p> 
 
         <h3 class="chapter-title chapter-title-h3" id="suche_ansichten_sammlung3">Ansicht "Sammlung, Musikstück, Satz"</h3>
-            <p> XXX</p> 
+            <p>Die Ergebnistabelle zeigt Sammlungen, Musikstücke und Sätze an. 
+                In der Abfrage sind nur Sammlungen mit Musikstücken / Sätzen eingeschlossen</p> 
 
         <h3 class="chapter-title chapter-title-h3" id="suche_ansichten_sammlung3">Ansicht "Sammlung, Musikstück, Satz + Schüler"</h3>
-            <p> XXX</p> 
+            <p>Gruppierung und Abfrage entpricht "Sammlung, Musikstueck, Satz"- jedoch zeigt die Ergebnistabelle weniger 
+                Noten-bezogene Informationen, dafür zusätzlich eine Spalte "Schüler" mit einer Auflistung aller zugeordneten Schüler /Status-Infos</p> 
             
     
     <h2 class="chapter-title chapter-title-h2" id="suche_ansichten_gruppe_schueler">Ansichten Gruppe "Schüler"</h2>
