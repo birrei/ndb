@@ -56,6 +56,7 @@ class status {
     try {
       $stmt->execute(); 
       $html = new HTML_Select($stmt); 
+      $html->required=true; 
       $html->caption = $caption;       
       $html->print_select("StatusID", $value_selected, true); 
       

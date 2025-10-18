@@ -128,7 +128,7 @@ if ($option=='delete_2') {
       $schueler->print_select($SchuelerID,$SatzID, '', $nurAktiv);       
       $html->print_link_edit('schueler',$SchuelerID,true);   
       $html->print_link_table('v_schueler','sortcol=Name',$schueler->Titles,true,'');    
-      $html->print_link_insert($schueler->table_name,$schueler->Title,true);
+      // $html->print_link_insert($schueler->table_name,$schueler->Title,true);
     ?>
   </td>
   <td class="eingabe2 eingabe2_3"></td>    
@@ -142,7 +142,7 @@ if ($option=='delete_2') {
       $status->print_select($StatusID);       
       $html->print_link_edit($status->table_name,$StatusID,true);         
       $html->print_link_table($status->table_name,'sortcol=Name',$status->Titles,true,'');    
-      $html->print_link_insert($status->table_name,$status->Title,true);
+      // $html->print_link_insert($status->table_name,$status->Title,true);
     ?>
   </td>
   <td class="eingabe2 eingabe2_3"></td>    

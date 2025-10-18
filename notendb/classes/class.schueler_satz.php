@@ -30,15 +30,17 @@ class SchuelerSatz {
     $this->info=new HTML_Info(); 
   }  
 
-  function insert_row ($SchuelerID, $SatzID) {
+  function insert_row ($SchuelerID, $SatzID, $StatusID='') {
 
     if ($SchuelerID=='' || $SatzID=='') {
       return false; 
     }   
 
-    include_once("class.status.php");
-    $status=new Status();      
-    $StatusID= $status->getDefaultID(); 
+    if($StatusID=='') {
+      include_once("class.status.php");
+      $status=new Status();      
+      $StatusID= $status->getDefaultID(); 
+    }
 
     // echo 'Insert: SatzID: '.$this->SatzID; // test 
     $insert = $this->db->prepare("INSERT INTO `schueler_satz` 
@@ -48,9 +50,9 @@ class SchuelerSatz {
                   "
              );
 
-    $insert->bindParam(':SatzID', $SatzID);
-    $insert->bindParam(':SchuelerID', $SchuelerID);  
-    $insert->bindParam(':StatusID', $StatusID);          
+    $insert->bindParam(':SatzID', $SatzID, PDO::PARAM_INT);
+    $insert->bindParam(':SchuelerID', $SchuelerID, PDO::PARAM_INT);  
+    $insert->bindParam(':StatusID', $StatusID, PDO::PARAM_INT);          
 
     try {
       $insert->execute(); 

@@ -11,7 +11,8 @@ class HTML_Select {
     public $titles_list; // String, der die Liste der Titels enthält 
     public $titles_selected_list; // String, der die Liste der ausgewählten Titels enthält
     public $autofocus=false; // true, wenn Auswahlbox beim Öffnen eines Formulars den Focus erhalten soll
-    
+    public $required=false; // required="required" 
+
     public $caption=''; // 
 
     // config. multi-select 
@@ -28,15 +29,19 @@ class HTML_Select {
         if ($this->count_rows < $this->visible_rows ) {
             $this->visible_rows = $this->count_rows; 
         }
+        
     }
     
     function print_select($keyname, $value_selected='', $add_null_option=true) {
+        if ($this->required) {
+                $add_null_option=false; 
+            } 
         $html = '<span class="auswahl">';
         if ($this->caption!='') {
             $html.='<span class="field-caption">'.$this->caption.':</span>'. PHP_EOL;
         }        
         if ($this->count_rows > 0) {
-            $html.= '<select name="'.$keyname.'" oninput="changeBackgroundColor(this);"'.($this->autofocus?' autofocus="autofocus"':'').'>' . PHP_EOL;    
+            $html.= '<select name="'.$keyname.'" oninput="changeBackgroundColor(this);"'.($this->autofocus?' autofocus="autofocus"':'').''.($this->required?' required="required"':'').'>' . PHP_EOL;    
             if($add_null_option) {
                 $html .= '<option value="" '.($value_selected=='' ? 'selected' : ''). '></option>'. PHP_EOL;
             }
