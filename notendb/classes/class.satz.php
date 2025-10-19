@@ -581,9 +581,10 @@ class Satz {
   function copy_schueler($ID_new) {
 
     $sql="insert into schueler_satz
-          (SatzID, SchuelerID) 
+          (SatzID, SchuelerID, StatusID) 
     select :SatzID_new as SatzID
           , SchuelerID
+          , StatusID 
     from schueler_satz 
     where SatzID=:ID";
 
@@ -596,9 +597,9 @@ class Satz {
 
   function print_table_erprobte(){
     $query="SELECT satz_erprobt.ID 
-          , erprobt.Name as Erprobt
-          , satz_erprobt.Jahr
-          , satz_erprobt.Bemerkung  
+            , erprobt.Name as Erprobt
+            , satz_erprobt.Jahr
+            , satz_erprobt.Bemerkung  
           FROM satz_erprobt 
           left join erprobt 
           on  erprobt.ID = satz_erprobt.ErprobtID 
