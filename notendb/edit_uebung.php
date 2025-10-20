@@ -166,8 +166,6 @@ echo '
 
 
 echo '
-
-
   <tr>    
      <td class="form-edit form-edit-col1">Datum:</td>   
      <td class="form-edit form-edit-col2"><input type="date" name="Datum" value="'.$uebung->Datum.'" oninput="changeBackgroundColor(this)"></td>

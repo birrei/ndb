@@ -45,7 +45,7 @@ class status {
     }
   }  
  
-  function print_select($value_selected='', $caption=''){
+  function print_select($value_selected='', $caption='', $required=false, $add_null_option=true){
 
     $query="SELECT ID, Name 
             FROM `status` 
@@ -56,9 +56,9 @@ class status {
     try {
       $stmt->execute(); 
       $html = new HTML_Select($stmt); 
-      $html->required=true; 
-      $html->caption = $caption;       
-      $html->print_select("StatusID", $value_selected, true); 
+      $html->required=$required;        
+      $html->caption = $caption;   
+      $html->print_select("StatusID", $value_selected,$add_null_option ); 
       
     }
     catch (PDOException $e) {

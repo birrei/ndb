@@ -45,7 +45,7 @@ $satz->print_table_schueler_checklist();
 
 echo '<br>Status: '; 
 
-$status->print_select($StatusID);       
+$status->print_select($StatusID, '', true, false);       
 // $html->print_link_edit($status->table_name,$StatusID,true);         
 // $html->print_link_table($status->table_name,'sortcol=Name',$status->Titles,true,'');    
 
