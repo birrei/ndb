@@ -77,7 +77,8 @@ switch($option) {
     $uebung = new Uebung();          
     $uebung->ID=$_REQUEST["ID"]; 
     $uebung->copy();   
-    $uebung->load_row();       
+    $uebung->load_row();   
+    $SchuelerID=$uebung->SchuelerID;             
     // $info->print_info_copy($uebung->Title, $ID_ref, $uebung->ID, 'edit_uebung'); 
   break;     
 }
