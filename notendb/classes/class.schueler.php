@@ -529,7 +529,7 @@ class Schueler {
       SELECT satz.ID
           , CONCAT(
             status.Name
-            , ': '
+            , ' | '
             , CONCAT(
                     sammlung.Name
                     , ' - '
@@ -544,13 +544,12 @@ class Schueler {
               inner join schueler_satz on schueler_satz.SatzID = satz.ID
               inner join status on status.ID=schueler_satz.StatusID
         WHERE 1=1 
-        AND schueler_satz.SchuelerID = :SchuelerID  ";
+        AND schueler_satz.SchuelerID = :SchuelerID  
+        ORDER BY Name ";
 
     $stmt = $this->db->prepare($query);      
     
     $stmt->bindParam(':SchuelerID', $this->ID, PDO::PARAM_INT);
-
-    $query.='ORDER BY `Name`'; 
 
     // echo $query; // test 
 
