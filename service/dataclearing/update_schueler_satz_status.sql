@@ -1,9 +1,15 @@
-UPDATE schueler_satz 
-SET StatusID = 1  -- 01 Idee 
-WHERE StatusID IS NULL 
+/* Schüler x Satz -> Änderung Status */
 
-
---- Update StatusID für einen Satz 
-update schueler_satz set StatusID=1 where SatzID=2843; 
+-- 1) StatusID ermitteln: Anzeige der Tabelle 
 select * from status order by Name; 
-select * from schueler_satz where SatzID=2843;
+
+-- 2) SAtzID ermittlen (-> Formular) 
+
+-- 3) update durchführen 
+UPDATE schueler_satz 
+SET StatusID=7 -- neue Status ID 
+WHERE SatzID=2853 -- SatzID 
+AND StatusID=3 -- alte StatusID 
+
+
+
