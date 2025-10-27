@@ -7,7 +7,7 @@ include_once("class.htmlselect.php");
 class Uebung {
 
   public $ID;
-  public $Name='';
+  public $Name=''; // Anwender Anzeige: "Inhalt" 
   public $Bemerkung=''; 
   public $UebungtypID; 
   public $SchuelerID='';

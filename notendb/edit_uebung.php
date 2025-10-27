@@ -134,7 +134,7 @@ echo '
 echo '
   <tr>    
     <label>
-    <td class="form-edit form-edit-col1">Name:</td>  
+    <td class="form-edit form-edit-col1">Übung Inhalt:</td>  
     <td class="form-edit form-edit-col2"><input type="text" name="Name" value="'.htmlentities($uebung->Name).'" size="40%" autofocus="autofocus" oninput="changeBackgroundColor(this)"></td>
     </label>
   </tr>     
@@ -146,7 +146,7 @@ echo '
 echo '
   <tr>    
   <label>  
-  <td class="form-edit form-edit-col1">Uebungtyp:</td>  
+  <td class="form-edit form-edit-col1">Uebung Typ:</td>  
   <td class="form-edit form-edit-col2">  
         '; 
         $typ=new UebungTyp(); 

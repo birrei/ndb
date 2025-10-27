@@ -3,7 +3,7 @@ SELECT
     uebung.ID
     , schueler.Name as Schueler
     , uebungtyp.Name as Typ    
-    , uebung.Name 
+    , uebung.Name as `Uebung Inhalt`  
     , uebung.Datum
     , uebung.Anzahl
     , uebungtyp.Einheit
