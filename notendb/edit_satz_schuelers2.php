@@ -41,15 +41,16 @@ echo '
 <div style="float:left">
 <form action="#" method="post">'; 
 
+echo 'Status: '; 
+$status->print_select($StatusID, '', true, false);   
+// $html->print_link_edit($status->table_name,$StatusID,true);         
+$html->print_link_table($status->table_name,'sortcol=Name',$status->Titles,true,'');    
+
+echo '<br>';   
+
 $satz->print_table_schueler_checklist(); 
 
-echo '<br>Status: '; 
 
-$status->print_select($StatusID, '', true, false);       
-// $html->print_link_edit($status->table_name,$StatusID,true);         
-// $html->print_link_table($status->table_name,'sortcol=Name',$status->Titles,true,'');    
-
-echo '<br>'; 
 
 echo '<br><input type="submit" class="btnSave" name="senden" value="Speichern">
     <input type="hidden" name="option" value="update">      
