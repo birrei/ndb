@@ -237,19 +237,33 @@ include_once("class.htmltable.php");
 
   function is_deletable() {
     
+    $this->load_row(); 
+
     $select = $this->db->prepare("SELECT * from satz_schwierigkeitsgrad WHERE InstrumentID=:InstrumentID");
     $select->bindValue(':InstrumentID', $this->ID); 
     $select->execute();  
 
+    $select2 = $this->db->prepare("SELECT * from schueler_schwierigkeitsgrad WHERE InstrumentID=:InstrumentID");
+    $select2->bindValue(':InstrumentID', $this->ID); 
+    $select2->execute();      
+
     if ($select->rowCount() > 0 ){
-      $this->load_row(); 
       $this->info->print_warning('Instrument ID '.$this->ID.' "'.$this->Name.'" 
         kann nicht gelöscht werden, da noch eine Zuordnung auf '.$select->rowCount().' 
         Sätze existiert.<br>'); 
       return false;       
-    } else {
-      return true; 
-    }
+    } 
+
+    if ($select2->rowCount() > 0 ){
+      $this->load_row(); 
+      $this->info->print_warning('Instrument ID '.$this->ID.' "'.$this->Name.'" 
+        kann nicht gelöscht werden, da noch eine Zuordnung auf '.$select2->rowCount().' 
+        Schüler existiert.<br>'); 
+      return false;       
+    } 
+
+    return true;
+
   }
 
 
