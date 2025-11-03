@@ -211,8 +211,15 @@ include_once("class.htmltable.php");
     }
   }  
 
+
   function delete(){
 
+    // zuvor: verwaiste Einträge aus instrument_schwierigkeitsgrad löschen 
+
+    include_once("class.instrument_schwierigkeitsgrad.php");
+    $instrument_schwierigkeitsgrad=new InstrumentSchwierigkeitsgrad(); 
+    $instrument_schwierigkeitsgrad->delete_orphaned_rows(); 
+    
     $delete = $this->db->prepare("DELETE FROM `instrument` WHERE ID=:ID"); 
     $delete->bindValue(':ID', $this->ID);  
 

@@ -5,8 +5,14 @@ include_once("class.htmlinfo.php");
 include_once("class.htmlselect.php"); 
 include_once("class.htmltable.php"); 
 
-
 class InstrumentSchwierigkeitsgrad {
+
+  /* Tabelle "instrument_schwierigkeitsgrad" ist eine Hilfstabelle, 
+     in die alle verwendeten Instrument-Schwierigkeitsgrad - Kombinationen geschrieben werden
+     Sie wird nur für die Suche- Seite(n) (Auswahl-Box "Instrument/Schwierigkeitsgrad"). 
+
+     Für die Erfassung bzw. in Erfassungsformularen wird die Tabelle nicht benötigt. 
+  */
 
   public $table_name='instrument_schwierigkeitsgrad'; 
   public $ID;
@@ -77,6 +83,33 @@ class InstrumentSchwierigkeitsgrad {
       $this->info->print_error($stmt, $e); 
     }
   }  
+
+
+  function delete_orphaned_rows(){
+    /* Löschen, falls keine Satz-Refererenz (mehr) vorhandenden ist  */
+
+    $query="DELETE from instrument_schwierigkeitsgrad WHERE ID IN (
+          SELECT instrument_schwierigkeitsgrad.ID
+          from instrument_schwierigkeitsgrad 
+          left join satz_schwierigkeitsgrad 
+          on instrument_schwierigkeitsgrad.SchwierigkeitsgradID = satz_schwierigkeitsgrad.SchwierigkeitsgradID
+          and instrument_schwierigkeitsgrad.InstrumentID = satz_schwierigkeitsgrad.InstrumentID
+          where satz_schwierigkeitsgrad.ID IS NULL 
+        )"; 
+
+    $delete = $this->db->prepare($query); 
+
+    try {
+      $delete->execute(); 
+      return true;         
+    }
+    catch (PDOException $e) {
+      $this->info->print_user_error(); 
+      $this->info->print_error($delete, $e);  
+      return false;  
+    }  
+  } 
+
 
   /// XXX löschen (übernommen nach class.suchabfrage.php)
   // function getSucheFilterSQL($Schwierigkeitsgrade){
