@@ -87,15 +87,13 @@ class InstrumentSchwierigkeitsgrad {
 
   function delete_orphaned_rows(){
     /* Löschen, falls keine Satz-Refererenz (mehr) vorhandenden ist  */
-
-    $query="DELETE from instrument_schwierigkeitsgrad WHERE ID IN (
-          SELECT instrument_schwierigkeitsgrad.ID
-          from instrument_schwierigkeitsgrad 
-          left join satz_schwierigkeitsgrad 
-          on instrument_schwierigkeitsgrad.SchwierigkeitsgradID = satz_schwierigkeitsgrad.SchwierigkeitsgradID
-          and instrument_schwierigkeitsgrad.InstrumentID = satz_schwierigkeitsgrad.InstrumentID
-          where satz_schwierigkeitsgrad.ID IS NULL 
-        )"; 
+    $query="
+      delete instrument_schwierigkeitsgrad
+      from instrument_schwierigkeitsgrad 
+      left join satz_schwierigkeitsgrad 
+      on instrument_schwierigkeitsgrad.SchwierigkeitsgradID = satz_schwierigkeitsgrad.SchwierigkeitsgradID
+      and instrument_schwierigkeitsgrad.InstrumentID = satz_schwierigkeitsgrad.InstrumentID
+      where satz_schwierigkeitsgrad.ID IS NULL "; 
 
     $delete = $this->db->prepare($query); 
 
@@ -109,42 +107,6 @@ class InstrumentSchwierigkeitsgrad {
       return false;  
     }  
   } 
-
-
-  /// XXX löschen (übernommen nach class.suchabfrage.php)
-  // function getSucheFilterSQL($Schwierigkeitsgrade){
-
-  //   $strFilter=''; 
-  //   $query = "SELECT DISTINCT InstrumentID 
-  //                     FROM instrument_schwierigkeitsgrad  
-  //                     WHERE ID IN (".implode(',', $Schwierigkeitsgrade).") 
-  //                     order by ID";
-  //   // echo $query; 
-
-  //   $select = $this->db->prepare($query); 
-  //   $select->execute(); 
-  //   $result = $select->fetchAll(PDO::FETCH_ASSOC);
-
-  //   foreach ($result as $row) {
-  //     $arrTmp=[]; 
-  //     $strFilter.="AND satz.ID IN (SELECT SatzID FROM satz_schwierigkeitsgrad WHERE InstrumentID=".$row["InstrumentID"]." "; 
-  //     $query2 = "SELECT DISTINCT SchwierigkeitsgradID 
-  //               FROM instrument_schwierigkeitsgrad  
-  //               WHERE ID IN (".implode(',', $Schwierigkeitsgrade).") 
-  //               AND InstrumentID=".$row["InstrumentID"]."  
-  //               ORDER by ID";
-  //     // echo $query2; 
-  //     $select2 = $this->db->prepare($query2); 
-  //     $select2->execute(); 
-  //     $result2 = $select2->fetchAll(PDO::FETCH_ASSOC);
-  //     foreach ($result2 as $row2) {
-  //       $arrTmp[]=$row2["SchwierigkeitsgradID"]; 
-  //     }
-  //     $strFilter.="AND SchwierigkeitsgradID IN (".implode(',', $arrTmp)."))".PHP_EOL; 
-  //   }
-  //   return  $strFilter; 
-  // }
-
 
 }
 
