@@ -1,6 +1,4 @@
-
 <?php 
-include_once('head_raw.php');
 include_once('classes/class.linktype.php');
 include_once("classes/class.link.php"); 
 include_once("classes/class.htmlinfo.php"); 
@@ -8,39 +6,61 @@ include_once("classes/class.htmlinfo.php");
 $link = new Link();
 $info= new HTML_Info(); 
 
-$show_data=false; 
+$show_data=true; 
+
+$option=isset($_REQUEST["option"])?$_REQUEST["option"]:'edit';
+
+switch($option) {
+  case 'edit': // über "Bearbeiten"-Link
+    $link->ID=$_GET["ID"];
+    $link->load_row(); 
+    if ($link->load_row()) {
+      $show_data=true;       
+    }
+    break; 
+
+  case 'insert': 
+    $link->SammlungID = $_GET["SammlungID"];         
+    $show_data=true; 
+    break; 
+  
+  case 'update': 
+    $link->ID = $_POST["ID"];
+    $link->SammlungID = $_POST["SammlungID"];          
+    $link->update_row(
+      $_POST["LinktypeID"],
+      $_POST["Bezeichnung"], 
+      $_POST["URL"]
+    ); 
+
+    header('Location: edit_sammlung_links.php?SammlungID='.$link->SammlungID );
+    exit;     
+    break; 
 
 
-if (isset($_REQUEST["option"])) {
-  switch($_REQUEST["option"]) {
-    case 'edit': // über "Bearbeiten"-Link
-      $link->ID=$_GET["ID"];
-      $link->load_row(); 
-      if ($link->load_row()) {
-        $show_data=true;       
-      }
-      break; 
+  case 'delete_1': 
+    $link->ID = $_REQUEST["ID"];  
+    $link->load_row(); 
+    if($link->is_deletable()) {
+      $info->print_form_delete_confirm(basename(__FILE__), $link->Title, $link->ID, $link->Name);   
+    }       
+    $show_data=true;      
+    break; 
 
-    case 'insert': 
-      $link->SammlungID = $_GET["SammlungID"];         
-      // $link->insert_row();
-      $show_data=true; 
-      break; 
+  case 'delete_2': 
+    $link->ID=$_REQUEST["ID"]; 
+    $link->delete(); 
+    $show_data=false; 
+    break; 
     
-    case 'update': 
-      // $link=new Link();     
-      $link->ID = $_POST["ID"];
-      $link->SammlungID = $_POST["SammlungID"];          
-      $link->update_row(
-        $_POST["LinktypeID"],
-        $_POST["Bezeichnung"], 
-        $_POST["URL"]
-      ); 
+  default: 
+    $show_data=false;    
 
-      $show_data=false; // statt Formular Liste anzeigen           
-      break; 
-  }
 }
+
+include_once('head_raw.php');
+
+if (!$show_data) {goto pagefoot;}
 
 ?> 
 <form action="" method="post">
@@ -57,7 +77,6 @@ if (isset($_REQUEST["option"])) {
       <?php
       $info->print_link_edit($linktyp->table_name, $link->LinktypeID, $linktyp->Title, true); 
       $info->print_link_table($linktyp->table_name,'sortcol=Name',$linktyp->Titles,true,'');    
-      $info->print_link_insert($linktyp->table_name,$linktyp->Title,true);        
       ?>
       </td>
    </label>
@@ -87,34 +106,33 @@ if (isset($_REQUEST["option"])) {
   </td>
   </tr>
 
+  
+ <input type="hidden" name="SammlungID" value="<?php echo $link->SammlungID; ?>"> 
+ <input type="hidden" name="ID" value="<?php echo $link->ID; ?>">  
+ <input type="hidden" name="option" value="update">
+
+ </form>
 
 
-  <tr>    
-  <td class="eingabe2 eingabe2_1"></td>  
+  <tr> 
+  <td class="eingabe2 eingabe2_1">
+  </td>
   <td class="eingabe2 eingabe2_2">
-    <?php 
-
-    $info->print_link_backToList('edit_sammlung_links.php?SammlungID='.$link->SammlungID);         
-    ?>
-    </td>
-  </label>
-  </tr> 
+      <?php
+        $info->print_form_inline('delete_1',$link->ID,$link->Title, 'löschen'); 
+      ?>
+  </td>
+  </tr>
 
 
 
  </table> 
 
- <input type="hidden" name="SammlungID" value="<?php echo $link->SammlungID; ?>"> 
- <input type="hidden" name="ID" value="<?php echo $link->ID; ?>">  
- <input type="hidden" name="option" value="update">
-
-</form>
-
 
 <?php 
 
 
-
+pagefoot:
 include_once('foot_raw.php');
 
 ?>
