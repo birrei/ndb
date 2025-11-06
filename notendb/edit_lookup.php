@@ -62,13 +62,14 @@ if ($source=='table') {
   $info->print_screen_header($lookup->Title.' bearbeiten'); 
 }
 
+
+if ($source=='table') {
+  $info->print_link_table('v_lookup', 'sortcol=Name', $lookup->Titles,false);
+}
+
 if (!$show_data) {goto pagefoot;}
 
-  if ($source=='table') {
-    $info->print_link_table('v_lookup', 'sortcol=Name', $lookup->Titles,false);
-  }
 
-  
   echo '
   <form action="edit_lookup.php" method="post">
   <table class="form-edit"> 
@@ -95,34 +96,23 @@ if (!$show_data) {goto pagefoot;}
               '; 
               $lookup_type = new Lookuptype();
               $lookup_type->print_select($lookup->LookupTypeID); 
-              
-              // XXX löschen: echo ' <a href="edit_lookup_type.php?ID='.$lookup->LookupTypeID.'&title=Typ&option=edit" tabindex="-1" class="form-link">Gehe zu Typ</a>'; 
 
         echo '
         </label>  &nbsp;';
-
-
         if ($source=='table') {
           $info->print_link_edit($lookup_type->table_name, $lookup->LookupTypeID,$lookup_type->Title, true); 
-          // $info->print_link_table($lookup_type->table_name,'sortcol=Name',$lookup_type->Titles,true,'');  
           $info->print_link_table('v_besonderheiten','sortcol=Name',$lookup_type->Titles,true,'');    
           $info->print_link_insert($lookup_type->table_name,$lookup_type->Title,true); 
         }
-
-
-        echo  '
-
+      echo  '
       </td>
       </tr>
-
-
     <tr> 
       <td class="form-edit form-edit-col1"></td> 
       <td class="form-edit form-edit-col2"><input class="btnSave" type="submit" name="senden" value="Speichern">
 
       </td>
     </tr> 
-
 
   <input type="hidden" name="option" value="update">  
   <input type="hidden" name="title" value="Besonderheit">       
