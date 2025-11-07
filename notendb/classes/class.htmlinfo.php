@@ -181,8 +181,12 @@ class HTML_Info {
     }
 
     function print_form_delete_confirm($filename, $Bezeichnung, $ID, $Name) {
+
+        $tmpText='Soll '.$Bezeichnung.' ID '.$ID.' '; 
+        $tmpText.=($Name!=''?', "'.$Name.'" ':' ');
+        $tmpText.='wirklich gelöscht werden?'; 
         
-        echo '<p style="color: red;">Soll '.$Bezeichnung.' ID '.$ID.', "'.$Name.'" wirklich gelöscht werden? <br>
+        echo '<p style="color: red;">'.$tmpText.'<br>
         <form action="'.$filename.'" method="post">
         <input type="hidden" name="ID" value="' . $ID. '">
         <input type="hidden" name="option" value="delete_2">      
