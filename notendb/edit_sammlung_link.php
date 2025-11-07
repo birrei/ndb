@@ -14,9 +14,6 @@ switch($option) {
   case 'edit': // über "Bearbeiten"-Link
     $link->ID=$_GET["ID"];
     $link->load_row(); 
-    if ($link->load_row()) {
-      $show_data=true;       
-    }
     break; 
 
   case 'insert': 
@@ -32,7 +29,6 @@ switch($option) {
       $_POST["Bezeichnung"], 
       $_POST["URL"]
     ); 
-
     header('Location: edit_sammlung_links.php?SammlungID='.$link->SammlungID );
     exit;     
     break; 
@@ -42,7 +38,7 @@ switch($option) {
     $link->ID = $_REQUEST["ID"];  
     $link->load_row(); 
     if($link->is_deletable()) {
-      $info->print_form_delete_confirm(basename(__FILE__), $link->Title, $link->ID, $link->Name);   
+      $info->print_form_delete_confirm(basename(__FILE__), $link->Title, $link->ID, $link->Bezeichnung);   
     }       
     $show_data=true;      
     break; 
@@ -50,7 +46,8 @@ switch($option) {
   case 'delete_2': 
     $link->ID=$_REQUEST["ID"]; 
     $link->delete(); 
-    $show_data=false; 
+    header('Location: edit_sammlung_links.php?SammlungID='.$link->SammlungID );
+    exit;     
     break; 
     
   default: 

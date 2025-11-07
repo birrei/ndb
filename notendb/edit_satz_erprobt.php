@@ -1,56 +1,63 @@
-
 <?php 
-include_once('head_raw.php');
 include_once('classes/class.satz_erprobt.php');
 include_once('classes/class.erprobt.php');
 include_once("classes/class.satz.php"); 
 include_once("classes/class.htmlinfo.php"); 
 
-
 $satzErprobt = new SatzErprobt();
-// $satzErprobt->SatzID = $_GET["SatzID"]; 
 
 $info= new HTML_Info(); 
 
-$show_data=false; 
+$option=isset($_REQUEST["option"])?$_REQUEST["option"]:'edit';
 
-if (isset($_REQUEST["option"])) {
-  switch($_REQUEST["option"]) {
-    case 'edit': // über "Bearbeiten"-Link
-      $satzErprobt->ID=$_GET["ID"];
-      if ($satzErprobt->load_row()) {
-        $show_data=true;       
-      }
-      break; 
+$show_data=true; 
 
-    case 'insert':       
-      $satzErprobt->SatzID = $_GET["SatzID"];         
-      // $satzErprobt->insert_row();
-      break; 
+switch($option) {
+  case 'edit': // über "Bearbeiten"-Link
+    $satzErprobt->ID=$_GET["ID"];
+    $satzErprobt->load_row(); 
+    break; 
+
+  case 'insert':       
+    $satzErprobt->SatzID = $_GET["SatzID"];         
+    break; 
+  
+  case 'update': 
+    $satzErprobt->ID = $_POST["ID"];
+    $satzErprobt->SatzID = $_REQUEST["SatzID"];         
+    $satzErprobt->update_row(
+      $_POST["SatzID"],        
+      $_POST["ErprobtID"],
+      $_POST["Jahr"], 
+      $_POST["Bemerkung"]
+    );    
+    header('Location: edit_satz_erprobte.php?SatzID='.$satzErprobt->SatzID );
+    exit;      
+    break; 
+
+  case 'delete_1': 
+    $satzErprobt->ID = $_REQUEST["ID"];  
+    $satzErprobt->load_row(); 
+    $info->print_form_delete_confirm(basename(__FILE__), 'Erprobt-Eintrag', $satzErprobt->ID, '');   
+    $show_data=true;      
+    break; 
+
+  case 'delete_2': 
+    $satzErprobt->ID=$_REQUEST["ID"];
+    $satzErprobt->load_row();      
+    $satzErprobt->delete(); 
+    header('Location: edit_satz_erprobte.php?SatzID='.$satzErprobt->SatzID );
+    exit;  
+    break; 
     
-    case 'update': 
-      if ($_POST["ID"]=='') {
-        $satzErprobt->SatzID = $_REQUEST["SatzID"];         
-        $satzErprobt->insert_row();   
-        $satzErprobt->update_row(
-          $_POST["SatzID"],        
-          $_POST["ErprobtID"],
-          $_POST["Jahr"], 
-          $_POST["Bemerkung"]
-        );          
+  default: 
+    $show_data=false;    
 
-      } else {
-        $satzErprobt->ID = $_REQUEST["ID"];  
-        $satzErprobt->update_row(
-          $_POST["SatzID"],        
-          $_POST["ErprobtID"],
-          $_POST["Jahr"], 
-          $_POST["Bemerkung"]
-        );         
-      }         
-      break; 
-  }
 }
+
+include_once('head_raw.php');
+
+if (!$show_data) {goto pagefoot;}
 
 ?> 
 
@@ -97,18 +104,6 @@ if (isset($_REQUEST["option"])) {
   <td class="eingabe2 eingabe2_2"><input class="btnSave" type="submit" value="Speichern"></td>  
   <td class="eingabe2 eingabe2_3"></td>    
 </tr>
-<tr>
-  <td class="eingabe2 eingabe2_1"> </td>
-  <td class="eingabe2 eingabe2_2">
-    <?php
-      $info->print_link_backToList('edit_satz_erprobte.php?SatzID='.$satzErprobt->SatzID); 
-    ?>
-  </td>  
-  <td class="eingabe2 eingabe2_3"></td>    
-</tr>
-</table>
-
- </table> 
 
  <input type="hidden" name="SatzID" value="<?php echo $satzErprobt->SatzID; ?>"> 
  <input type="hidden" name="ID" value="<?php echo $satzErprobt->ID; ?>">  
@@ -116,10 +111,21 @@ if (isset($_REQUEST["option"])) {
 
 </form>
 
+<tr> 
+  <td class="eingabe2 eingabe2_1">
+  </td>
+  <td class="eingabe2 eingabe2_2">
+      <?php
+        $info->print_form_inline('delete_1',$satzErprobt->ID,'Erprobt-Eintrag', 'löschen'); 
+      ?>
+  </td>
+  </tr>
+
+</table>
+
 
 
 <?php 
-
+pagefoot: 
 include_once('foot_raw.php');
-
 ?>

@@ -56,6 +56,10 @@ class SatzErprobt {
     // echo 'Bemerkung: '.$Bemerkung.'<br />';     
     // echo 'Neue ID: '.$this->ID.'<br />';         
     // echo '</p>';       
+
+    if ($this->ID=='') {
+      $this->insert_row(); 
+    }     
     
     $update = $this->db->prepare("UPDATE `satz_erprobt` 
               SET 
