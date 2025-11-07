@@ -430,18 +430,21 @@ include_once("classes/class.suchabfrage.php");
 
 
 /************* Gruppe Noten, Filter Erprobt  ***********/
-  // if ($AnsichtGruppe=='Noten') {
-  //   $Erprobt=[];  // im Suchfilter ausgewählte Erprobt-Einträge  (IDs) 
-  //   if (isset($_REQUEST['Erprobt'])) {
-  //     $Erprobt = $_REQUEST['Erprobt'];   
-  //     $query_WHERE.='AND satz.ID IN (SELECT SatzID FROM satz_erprobt WHERE ErprobtID IN ('.implode(',', $Erprobt).')) '.PHP_EOL; 
-  //     $filter=true;
-  //      $Suchabfrage->AnzahlFilter1+=1;      
-  //   } 
-  //   $erprobt = new Erprobt();
-  //   $erprobt->print_select_multi($Erprobt);  
-  //   $Suchabfrage->Beschreibung.=(count($Erprobt)>0?$erprobt->titles_selected_list.PHP_EOL:'');            
-  // }
+  if ($AnsichtGruppe=='Noten') {
+   
+    // $Erprobt=[];  // im Suchfilter ausgewählte Erprobt-Einträge  (IDs) 
+    if (isset($_REQUEST['Erprobt'])) {
+      $filter=true;      
+      $Suchabfrage->Erprobte = $_REQUEST['Erprobt'];   
+      
+
+    } 
+    $erprobt = new Erprobt(); 
+    $erprobt->print_select_multi($Suchabfrage->Erprobte);  
+    // $Suchabfrage->Beschreibung.=(count($Erprobt)>0?$erprobt->titles_selected_list.PHP_EOL:''); 
+    $Suchabfrage->Beschreibung.=(count($Suchabfrage->Erprobte)>0?$erprobt->titles_selected_list.'<br>':'');  
+
+  }
 
         // XXX NICHT /************* Erprobt Jahr // vermutlich nicht benötigt ***********/
         // $ErprobtJahr_von=''; 

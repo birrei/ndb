@@ -47,6 +47,7 @@ class Suchabfrage {
   public $besetzung_check_exclude=false; // Ausschluss-Suche aktiviert 
 
   public $Verwendungszwecke=[]; 
+  public $Erprobte=[]; 
 
   public $InstrumentSchwierigkeitsgrade=[]; // zu Filter Satz  
 
@@ -191,13 +192,14 @@ class Suchabfrage {
             -- , musikstueck.Nummer as MNr
             , musikstueck.Name as Musikstueck
             , komponist.Name as Komponist    
-        , v_musikstueck_besetzungen.Besetzungen                           
+            , v_musikstueck_besetzungen.Besetzungen                           
             , satz.Nr as Nr
             , satz.Name as Satz 
             , satz.Tempobezeichnung            
             , v_satz_instrumente_schwierigkeitsgrade.Schwierigkeitsgrade           
             , v_satz_lookuptypes.LookupList2 as `Satz Besonderheiten`                   
-            , satz.Orchesterbesetzung 
+            , satz.Orchesterbesetzung
+            , v_satz_erprobte.ErprobtList as Erprobt  
             , satz.Bemerkung ".PHP_EOL;   
 
           break;   
@@ -264,7 +266,8 @@ class Suchabfrage {
           LEFT JOIN gattung on gattung.ID = musikstueck.GattungID  
           LEFT JOIN epoche on epoche.ID = musikstueck.EpocheID  
           LEFT JOIN satz on satz.MusikstueckID = musikstueck.ID 
-          LEFT JOIN satz_erprobt on satz.ID = satz_erprobt.SatzID
+          LEFT JOIN v_satz_erprobte on satz.ID = v_satz_erprobte.SatzID
+          -- LEFT JOIN satz_erprobt on satz.ID = satz_erprobt.SatzID
           LEFT JOIN v_satz_instrumente_schwierigkeitsgrade ON v_satz_instrumente_schwierigkeitsgrade.SatzID = satz.ID 
           LEFT JOIN materialtyp on materialtyp.ID = musikstueck.MaterialtypID         
           ".PHP_EOL;
@@ -318,7 +321,6 @@ class Suchabfrage {
 
   /** WHERE  */
     $strTmp.="WHERE 1=1 ".PHP_EOL;
-
 
     switch($this->AnsichtEbene) {
       case 'Musikstueck': 
@@ -404,7 +406,10 @@ class Suchabfrage {
             
           if ($this->InstrumentID_Satz!='') {
             $strTmp.="AND satz.ID IN (SELECT SatzID FROM satz_schwierigkeitsgrad WHERE InstrumentID=".$this->InstrumentID_Satz.") ".PHP_EOL; 
-          }                  
+          }  
+          if (count($this->Erprobte) > 0) {
+            $strTmp.="AND satz.ID IN (SELECT SatzID FROM satz_erprobt WHERE ErprobtID IN (".implode(',', $this->Erprobte).")) ".PHP_EOL; 
+          }                          
           if (count($this->AllLookupTypes) > 0) {
             $strTmp.=$this->getSQL_FilterLookups('sammlung'); 
             // $strTmp.=$this->getSQL_FilterLookups('musikstueck');       // XXXX
