@@ -194,7 +194,7 @@ echo '
   
   echo '<p>
     <a href=dataclearing.php?SammlungID='.$sammlung->ID.' target="_blank">Sammel-Updates</a> | 
-    <a href=edit_sammlung_musikstuecke_uebersicht.php?SammlungID='.$sammlung->ID.' target="_blank">Musikstücke sortieren</a> 
+    <a href=edit_sammlung_musikstuecke_uebersicht.php?SammlungID='.$sammlung->ID.' target="_blank">Musikstücke Übersicht</a> 
 
   <p>'; 
 

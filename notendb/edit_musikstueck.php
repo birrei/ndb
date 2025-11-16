@@ -261,7 +261,7 @@ echo '
     
   echo '<p>
 
-    <a href=edit_musikstueck_saetze_uebersicht.php?MusikstueckID='.$musikstueck->ID.' target="_blank">Sätze sortieren</a> 
+    <a href=edit_musikstueck_saetze_uebersicht.php?MusikstueckID='.$musikstueck->ID.' target="_blank">Übersicht Sätze</a> 
 
     <p> 
     </td>
