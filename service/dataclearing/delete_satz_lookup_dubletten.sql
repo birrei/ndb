@@ -1,3 +1,33 @@
+
+-- Dublette C-Dur 
+-- Falsch: ID 608	C-Dur (unter Taktart reingerutscht)
+-- Korrekt: ID 651 C-Dur 
+-- Finden und löschen: Zeilen in satz_lookup, wo es für eine SatzID beide Zuordnungen gibt 
+
+
+SELECT * 
+-- delete satz_lookup 
+FROM satz_lookup 
+inner join 
+(
+select distinct ID 
+from satz_lookup
+WHERE 1=1 
+AND SatzID IN (SELECT SatzID from satz_lookup WHERE LookupID IN (651)) 
+AND SatzID IN (SELECT SatzID from satz_lookup WHERE LookupID IN (608)) 
+) satz_lookup_ref 
+on satz_lookup_ref.ID = satz_lookup.ID 
+WHERE satz_lookup.LookupID = 608 
+
+
+-- Update für den Rest 
+update satz_lookup set LookupID=651 WHERE LookupID = 608
+
+
+---------------------------------------------------------------------
+
+
+
 -- Korrektur Dublette "Betonungen"
 
 -- Lösche alle Verknüpfung von Sätzen mit ID 30 (Betonungen) für die SatzIDs, die bereits eine 
