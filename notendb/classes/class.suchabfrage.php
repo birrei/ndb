@@ -58,7 +58,7 @@ class Suchabfrage {
   public $InstrumentID_Schueler='';  
   public $Schwierigkeitsgrade_Schueler=[];
   
-  public $AllLookupTypes=[]; 
+  public $LookupTypesSelected=[]; // Alle Besonderheit-Typen mit gesetzter Such-Auswahl 
 
   // ------------------------------------------
 
@@ -267,7 +267,7 @@ class Suchabfrage {
           LEFT JOIN epoche on epoche.ID = musikstueck.EpocheID  
           LEFT JOIN satz on satz.MusikstueckID = musikstueck.ID 
           LEFT JOIN v_satz_erprobte on satz.ID = v_satz_erprobte.SatzID
-          -- LEFT JOIN satz_erprobt on satz.ID = satz_erprobt.SatzID
+          LEFT JOIN satz_erprobt on satz.ID = satz_erprobt.SatzID
           LEFT JOIN v_satz_instrumente_schwierigkeitsgrade ON v_satz_instrumente_schwierigkeitsgrade.SatzID = satz.ID 
           LEFT JOIN materialtyp on materialtyp.ID = musikstueck.MaterialtypID         
           ".PHP_EOL;
@@ -410,7 +410,7 @@ class Suchabfrage {
           if (count($this->Erprobte) > 0) {
             $strTmp.="AND satz.ID IN (SELECT SatzID FROM satz_erprobt WHERE ErprobtID IN (".implode(',', $this->Erprobte).")) ".PHP_EOL; 
           }                          
-          if (count($this->AllLookupTypes) > 0) {
+          if (count($this->LookupTypesSelected) > 0) {
             $strTmp.=$this->getSQL_FilterLookups('sammlung'); 
             // $strTmp.=$this->getSQL_FilterLookups('musikstueck');       // XXXX
             $strTmp.=$this->getSQL_FilterLookups('satz');           
@@ -446,8 +446,10 @@ class Suchabfrage {
         if (count($this->Schwierigkeitsgrade_Schueler) > 0) {
             $strTmp.="AND schueler.ID IN (SELECT SchuelerID FROM schueler_schwierigkeitsgrad WHERE SchwierigkeitsgradID IN (".implode(',', $this->Schwierigkeitsgrade_Schueler).")) ".PHP_EOL; 
         }                   
-        if (count($this->AllLookupTypes) > 0) {
-          $strTmp.=$this->getSQL_FilterLookups('satz'); // nur Satz, da           
+        if (count($this->LookupTypesSelected) > 0) {
+          $strTmp.=$this->getSQL_FilterLookups('satz'); // nur Satz, da      
+          
+          
         }  
 
         break;  
@@ -524,10 +526,11 @@ class Suchabfrage {
     return  $strFilter; 
   }
 
+  
   private function getSQL_FilterLookups($table) {
-    // XXXX Unterscheidung Ein/Ausschluss-Suche 
     
-    $this->txtTest.='getSQL_FilterLookups $ table: '.$table.'<br'; 
+    $this->txtTest.='getSQL_FilterLookups table: '.$table.'<br'; 
+
     $relations=[]; 
     $lookup_values_selected=[]; 
     $lookup_values_not_selected=[];    
@@ -536,31 +539,30 @@ class Suchabfrage {
 
     $strTmp=''; 
 
-    foreach($this->AllLookupTypes as $lookuptype=>$lookups) {
-      $relations=$lookups["lookuptype_relations"]; 
-      $lookup_values_selected= $lookups["lookup_values_selected"]; 
-      $lookup_values_not_selected= $lookups["lookup_values_not_selected"]; 
-      $lookuptype_check_include= $lookups["lookuptype_check_include"]; 
-      $lookuptype_check_exclude= $lookups["lookuptype_check_exclude"]; 
-      
-      for ($r = 0; $r < count($relations); $r++) {
-        $relation=$relations[$r]; 
-        if($relation==$table) {
-            // $this->txtTest.='relation == table <br'; 
-          if($lookuptype_check_include) {
-            for ($ls = 0; $ls < count($lookup_values_selected); $ls++) { 
-              $strTmp.='AND '.$table.'.ID IN (SELECT '.ucfirst($table).'ID from '.$table.'_lookup WHERE LookupID='.$lookup_values_selected[$ls].') '. PHP_EOL; 
-            }
-          } else {
-            $strTmp.='AND '.$table.'.ID IN (SELECT '.ucfirst($table).'ID from '.$table.'_lookup WHERE LookupID IN ('.implode(',', $lookup_values_selected).')) '. PHP_EOL; 
+    $lookup_types_selected = $this->LookupTypesSelected; 
+
+    foreach($lookup_types_selected as $lookup_type) {      
+      $lookup_values_selected =$lookup_type["lookup_values_selected"]; 
+      $lookup_values_not_selected =$lookup_type["lookup_values_not_selected"]; 
+      $relations = $lookup_type["lookuptype_relations"]; 
+      $lookuptype_check_include= $lookup_type["lookuptype_check_include"]; 
+      $lookuptype_check_exclude= $lookup_type["lookuptype_check_exclude"];
+
+      if(in_array($table, $relations)) {
+        if($lookuptype_check_include) {
+          for ($ls = 0; $ls < count($lookup_values_selected); $ls++) { 
+            $strTmp.='AND '.$table.'.ID IN (SELECT '.ucfirst($table).'ID from '.$table.'_lookup WHERE LookupID='.$lookup_values_selected[$ls].') '. PHP_EOL; 
           }
-          if($lookuptype_check_exclude) {
-            $strTmp.='AND '.$table.'.ID NOT IN (SELECT '.ucfirst($table).'ID from '.$table.'_lookup WHERE LookupID IN ('.implode(',', $lookup_values_not_selected).')) '. PHP_EOL; 
-          }
+        } else {
+          $strTmp.='AND '.$table.'.ID IN (SELECT '.ucfirst($table).'ID from '.$table.'_lookup WHERE LookupID IN ('.implode(',', $lookup_values_selected).')) '. PHP_EOL; 
         }
-      }
-      return $strTmp; 
+        if($lookuptype_check_exclude) {
+          $strTmp.='AND '.$table.'.ID NOT IN (SELECT '.ucfirst($table).'ID from '.$table.'_lookup WHERE LookupID IN ('.implode(',', $lookup_values_not_selected).')) '. PHP_EOL; 
+        }
+      } 
+
     }
+    return $strTmp; 
   }
 
   public function printTable() {
@@ -604,7 +606,7 @@ class Suchabfrage {
     $relations=[]; 
     $count_relations=0; 
 
-    foreach($this->AllLookupTypes as $lookuptype=>$lookups) {
+    foreach($this->LookupTypesSelected as $lookuptype=>$lookups) {
 
       $relations=$lookups["lookuptype_relations"]; 
       $count_relations = count($relations); 
@@ -635,7 +637,7 @@ class Suchabfrage {
     echo '<hr>'; 
 
     // echo '<pre>'; 
-    // print_r($this->AllLookupTypes); 
+    // print_r($this->LookupTypesSelected); 
     // echo '</pre>'; 
 
 

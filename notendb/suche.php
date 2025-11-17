@@ -588,7 +588,7 @@ include_once("classes/class.suchabfrage.php");
       $lookuptype_check_include=(isset($_REQUEST['include_'.$lookup_type_key])?true:false);   //  "Einschluss-Suche" aktiviert        
       $lookuptype_check_exclude=(isset($_REQUEST['exclude_'.$lookup_type_key])?true:false);   //  "Ausschluss-Suche" aktiviert        
 
-      $Suchabfrage->AllLookupTypes[$lookup_type_key] = Array(
+      $Suchabfrage->LookupTypesSelected[$lookup_type_key] = Array(
         'lookuptype_ID'=>$arrLookupTypes[$i]["ID"],
         'lookuptype_name'=>$arrLookupTypes[$i]["Name"],          
         'lookuptype_key'=>$arrLookupTypes[$i]["type_key"],
@@ -621,7 +621,6 @@ include_once("classes/class.suchabfrage.php");
 
   // echo 'Anzahl Filter 1: '.$Suchabfrage->AnzahlFilter1.'<br>'; // TEST
   // echo 'Anzahl Filter 2: '.$Suchabfrage->AnzahlFilter2.'<br>'; // TEST
-
 
 /************* Falls kein Filter ausgewählt wurde **********/  
   if(!$filter) {
