@@ -4,14 +4,14 @@ include_once("dbconn/class.db.php");
 include_once("class.htmlinfo.php"); 
 include_once("class.htmlselect.php"); 
 
-class Uebung {
+class Uebung_ {
 
   public $ID;
   public $Name=''; // Anwender Anzeige: "Inhalt" 
   public $Bemerkung=''; 
   public $UebungtypID; 
   public $SchuelerID='';
-  public $SatzID=''; 
+  public $UebungID=''; 
   public $Datum=''; 
   public $Anzahl=''; 
   
@@ -64,7 +64,7 @@ class Uebung {
                             , uebung.SchuelerID
                             , uebung.Datum
                             , uebung.Anzahl 
-                            , uebung.SatzID 
+                            , uebung.UebungID 
                           FROM  uebung left join uebungtyp on uebung.UebungtypID = uebungtyp.ID 
                           WHERE uebung.ID = :ID");
 
@@ -78,7 +78,7 @@ class Uebung {
       $this->Name=$row_data["Name"];       
       $this->UebungtypID=$row_data["UebungtypID"];      
       $this->SchuelerID=$row_data["SchuelerID"];        
-      $this->SatzID=$row_data["SatzID"];       
+      $this->UebungID=$row_data["UebungID"];       
       $this->Bemerkung=$row_data["Bemerkung"]; 
       $this->Datum=$row_data["Datum"];      
       $this->Anzahl=$row_data["Anzahl"];           
@@ -97,7 +97,7 @@ class Uebung {
                     , $SchuelerID                                                            
                     , $Datum
                     , $Anzahl
-                    , $SatzID 
+                    , $UebungID 
                     ) {
 
     $update = $this->db->prepare("UPDATE uebung  
@@ -107,7 +107,7 @@ class Uebung {
                 , SchuelerID=:SchuelerID 
                 , Datum=:Datum               
                 , Anzahl=:Anzahl
-                , SatzID=:SatzID
+                , UebungID=:UebungID
               WHERE ID=:ID"           
            );
 
@@ -118,7 +118,7 @@ class Uebung {
     $update->bindParam(':Bemerkung', $Bemerkung);
     $update->bindParam(':Datum', $Datum);      
     $update->bindParam(':Anzahl', $Anzahl);
-    $update->bindParam(':SatzID', $SatzID, ($SatzID=='' ? PDO::PARAM_NULL : PDO::PARAM_INT));
+    $update->bindParam(':UebungID', $UebungID, ($UebungID=='' ? PDO::PARAM_NULL : PDO::PARAM_INT));
   
 
     try {
@@ -162,7 +162,7 @@ class Uebung {
                             , SchuelerID
                             , Datum
                             , Anzahl
-                            , SatzID
+                            , UebungID
                             )
           SELECT CONCAT(Name, ' (Kopie)') as Name 
                             , Bemerkung
@@ -170,7 +170,7 @@ class Uebung {
                             , SchuelerID
                             , DATE_FORMAT(CURDATE(), '%Y-%m-%d') as Datum
                             , Anzahl
-                            , SatzID
+                            , UebungID
           FROM uebung  
           WHERE ID=:ID 
 
@@ -182,10 +182,11 @@ class Uebung {
 
     try {
       $insert->execute(); 
-      $ID_New = $this->db->lastInsertId();    
-      $this->copy_lookups($ID_New); 
+      $ID_New = $this->db->lastInsertId();   
+      $this->copy_lookups($ID_New ); 
+             
       $this->ID =  $ID_New; // Stabübergabe (Objekt-Instanz übernimmt neue ID-Kopie )
-      $this->infotext='Der Datensatz wurde kopiert.';
+      $this->infotext='Der Datenuebung wurde kopiert.';
       $this->info->print_info($this->infotext);        
     }
     catch (PDOException $e) {     
@@ -195,7 +196,7 @@ class Uebung {
   }  
 
 
-  
+
   function print_table_lookups($target_file, $LookupTypeID=0){
     $query="SELECT lookup.ID
              , lookup_type.Name as Typ     
@@ -301,6 +302,7 @@ class Uebung {
     $insert->execute();  
 
   }
+
 
 }
 

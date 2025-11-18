@@ -98,9 +98,11 @@ switch($option) {
 
 $info->print_screen_header($uebung->Title.' bearbeiten'); 
 
-$info->print_link_table('v_uebung', 'sortcol=Datum&sortorder=DESC', $uebung->Titles,false);
+// XXX folgende 2 Zeilen löschen (Übung wird immer vom Schüler aus angelegt)     
 
-$info->print_link_insert($uebung->table_name, $uebung->Title, false); 
+// $info->print_link_table('v_uebung', 'sortcol=Datum&sortorder=DESC', $uebung->Titles,false);
+
+// $info->print_link_insert($uebung->table_name, $uebung->Title, false); 
 
 if (!$show_data) {goto pagefoot;}
 
@@ -117,17 +119,13 @@ echo '</p>
   
 echo '
   <tr>    
-  <label>  
-  <td class="form-edit form-edit-col1">Schüler:</td>  
-  <td class="form-edit form-edit-col2">  '; 
+  <td class="form-edit form-edit-col1">Schüler Name:</td>  
+  <td class="form-edit form-edit-col2"><b>'; 
       $schueler = new Schueler(); 
-      $schueler->print_select($uebung->SchuelerID); 
-       echo ' </label> ';             
-      $info->print_link_edit('schueler',$uebung->SchuelerID,true);   
-      $info->print_link_table('v_schueler','sortcol=Name',$schueler->Titles,true,'');    
-     // $info->print_link_insert($schueler->table_name,$schueler->Title,true);
-
-   echo '</td>
+      $schueler->ID = $uebung->SchuelerID; 
+      $schueler->load_row(); 
+      echo $schueler->Name; 
+   echo '</b></td>
     </tr> 
 '; 
 
@@ -154,10 +152,8 @@ echo '
 
     echo ' </label>  
       '; 
-    // XXX 
       $info->print_link_edit($typ->table_name, $uebung->UebungtypID,$typ->Title, true); 
       $info->print_link_table($typ->table_name,'sortcol=Name',$typ->Titles,true,'');    
-      // $info->print_link_insert($uebungtypen->table_name,$uebungtypen->Title,true); 
 
 
   echo '</td>
@@ -175,7 +171,9 @@ echo '
   <tr>    
     <td class="form-edit form-edit-col1">Anzahl: </td>  
       <td class="form-edit form-edit-col2"><input type="number" name="Anzahl" value="'.$uebung->Anzahl.'" oninput="changeBackgroundColor(this)"> '.$Einheit.'</td>
-  </tr>'; 
+  </tr>
+  
+  '; 
 
 
   echo '
@@ -191,31 +189,38 @@ echo '
         $info->print_link_edit('satz',$uebung->SatzID,true);   
 
     echo '</td>
-      </tr>'; 
+      </tr>
+
+      '; 
+
+  ?>
 
 
+  <tr> 
+    <td class="form-edit form-edit-col1">Besonderheiten:</td>  
+  <td class="form-edit form-edit-col2">
+    <iframe src="edit_uebung_lookups.php?UebungID=<?php echo $uebung->ID; ?>&source=iframe" height="100" id="subform1" name="Info" class="form-iframe-var2"></iframe>
+  </td>
+  </tr> 
 
-
-  echo '<tr>    
+  <tr>    
     <label>
     <td class="form-edit form-edit-col1">Bemerkung:</td>  
     <td class="form-edit form-edit-col2">
-      <textarea name="Bemerkung" rows=3 cols=50 oninput="changeBackgroundColor(this)">'.htmlentities($uebung->Bemerkung).'</textarea> 
+      <textarea name="Bemerkung" rows=2 cols=100 oninput="changeBackgroundColor(this)"><?php echo htmlentities($uebung->Bemerkung) ;?></textarea> 
     </td>
     </label>
-  </tr>     '; 
+  </tr>     
 
-    echo '
+  <input type="hidden" name="option" value="update">
+  <input type="hidden" name="ID" value="<?php echo $uebung->ID; ?>">
+
       <tr> 
         <td class="form-edit form-edit-col1"></td> 
         <td class="form-edit form-edit-col2"><input class="btnSave" type="submit" name="senden" value="Speichern">  
         </td>
-      </tr> '; 
-
-  ?>
-
-  <input type="hidden" name="option" value="update">
-  <input type="hidden" name="ID" value="<?php echo $uebung->ID; ?>">
+      </tr> 
+        
   </form>
 
   <?php 

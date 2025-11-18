@@ -583,12 +583,14 @@ class Schueler {
                       -- musikstueck.Nummer, ' - ', 
                       musikstueck.Name, ' - Satz Nr. ',  
                       satz.Nr
-                      ) Noten   
+                      ) Noten
+              , v_uebung_lookuptypes.LookupList2 as Besonderheiten    
           FROM  uebung 
               left join uebungtyp on uebung.UebungtypID=uebungtyp.ID 
               left join satz  on satz.ID=uebung.SatzID 
               left join musikstueck on satz.MusikstueckID = musikstueck.ID
-              left JOIN sammlung on sammlung.ID = musikstueck.SammlungID      
+              left JOIN sammlung on sammlung.ID = musikstueck.SammlungID  
+              left JOIN v_uebung_lookuptypes on v_uebung_lookuptypes.UebungID = uebung.ID 
           WHERE uebung.SchuelerID = :ID 
           ORDER BY uebung.Datum DESC              
         "; 
