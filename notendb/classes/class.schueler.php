@@ -68,7 +68,7 @@ class Schueler {
 
     if ($SatzID!=''){
       // echo 'ParentID'; // test 
-      $stmt->bindParam(':SatzID', $ParentID, PDO::PARAM_INT);
+      $stmt->bindParam(':SatzID', $SatzID, PDO::PARAM_INT);
 
       if ($selected_SchuelerID!=''){
         // echo 'selected_SchuelerID';       
