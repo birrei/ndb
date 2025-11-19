@@ -616,9 +616,9 @@ class Schueler {
     }
   }    
 
-  function print_table_auswertung_uebungen($type=1){
+  function print_table_auswertung_uebungen($AuswertungNr=1){
     // XXXX 
-    switch($type) {
+    switch($AuswertungNr) {
       case 1: 
         $query="
             SELECT 
@@ -649,6 +649,27 @@ class Schueler {
       break; 
 
       case 2: 
+        $query="
+            SELECT 
+                lookup_type.Name as `Besonderheit Typ`                         
+                , lookup.Name as Besonderheit      
+               --  , SUM(uebung.Anzahl) as Anzahl 
+                , MIN(uebung.Datum) as `Datum Start`
+                , MAX(uebung.Datum) as `Datum Zuletzt`         
+                , COUNT(DISTINCT uebung.Datum) as Tage     
+                -- , uebung.SchuelerID
+            FROM  uebung 
+                  LEFT JOIN uebungtyp on uebung.UebungtypID=uebungtyp.ID 
+                  LEFT JOIN uebung_lookup ON  uebung_lookup.UebungID=uebung.ID
+                  LEFT JOIN lookup ON lookup.ID=uebung_lookup.LookupID
+                  LEFT JOIN lookup_type ON lookup_type.ID = lookup.LookupTypeID 
+            WHERE uebung.SchuelerID = :ID 
+            AND uebung_lookup.ID  is not null 
+            GROUP by uebung.SchuelerID
+                 , uebung_lookup.LookupID
+            ORDER BY `Datum Zuletzt` DESC              
+            ";  
+
       break; 
       
       case 3: 

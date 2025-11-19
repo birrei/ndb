@@ -7,7 +7,10 @@ echo '<div style="display: grid; grid-template-columns: auto auto;">';
 
 $schueler=new Schueler();
 $schueler->ID=$_GET["SchuelerID"]; 
-$schueler->print_table_auswertung_uebungen(); 
+$AuswertungNr=$_GET["AuswertungNr"];
+
+
+$schueler->print_table_auswertung_uebungen($AuswertungNr); 
 
 echo '</div>'; 
     
