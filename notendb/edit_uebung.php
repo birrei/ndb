@@ -214,6 +214,7 @@ echo '
 
   <input type="hidden" name="option" value="update">
   <input type="hidden" name="ID" value="<?php echo $uebung->ID; ?>">
+  <input type="hidden" name="SchuelerID" value="<?php echo $uebung->SchuelerID; ?>">  
 
       <tr> 
         <td class="form-edit form-edit-col1"></td> 
