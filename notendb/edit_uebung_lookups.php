@@ -28,7 +28,7 @@ $uebung->print_table_lookups(basename(__FILE__));
 echo '</div>'; 
 
 echo '&nbsp;<a href="edit_uebung_lookup.php?UebungID='.$uebung->ID.'" class="form-link">Hinzufügen</a>'; 
-
+echo '&nbsp;<a href="edit_uebung_lookups_select.php?ID='.$uebung->ID.'" class="form-link">Auswahl aus Satz</a>'; 
 
 include_once('foot_raw.php');
 

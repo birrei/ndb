@@ -197,7 +197,8 @@ echo '
 
 
   <tr> 
-    <td class="form-edit form-edit-col1">Besonderheiten:</td>  
+    <!-- <td class="form-edit form-edit-col1">Besonderheiten:</td>   -->
+    <td class="form-edit form-edit-col1"><a href="edit_uebung_lookups.php?UebungID=<?php echo $uebung->ID; ?>" target="Info">Besonderheiten:</a></td>  
   <td class="form-edit form-edit-col2">
     <iframe src="edit_uebung_lookups.php?UebungID=<?php echo $uebung->ID; ?>&source=iframe" height="100" id="subform1" name="Info" class="form-iframe-var2"></iframe>
   </td>

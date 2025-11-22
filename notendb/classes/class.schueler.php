@@ -623,26 +623,18 @@ class Schueler {
         $query="
             SELECT 
                 -- uebung.ID
-                uebungtyp.Name as Typ    
-                -- , YEAR(uebung.Datum) as Jahr
-                -- , MONTH(uebung.Datum) as Monat          
-                , SUM(uebung.Anzahl) as Anzahl 
-                , uebungtyp.Einheit            
+                uebungtyp.Name as Typ          
                 , MIN(uebung.Datum) as `Datum Start`
                 , MAX(uebung.Datum) as `Datum Zuletzt`         
-                , COUNT(DISTINCT uebung.Datum) as Tage     
-                -- , uebung.SchuelerID
-                -- , uebung.UebungtypID
+                , COUNT(DISTINCT uebung.Datum) as `Anzahl Tage`      
+                , CONCAT(SUM(uebung.Anzahl), ' ', uebungtyp.Einheit) as `Menge / Dauer`                      
             FROM  uebung 
                   left join uebungtyp on uebung.UebungtypID=uebungtyp.ID 
                   left join satz  on satz.ID=uebung.SatzID     
             WHERE uebung.SchuelerID = :ID 
             AND UebungtypID  is not null 
             GROUP by uebung.SchuelerID
-              , uebung.UebungtypID
-              , uebungtyp.Einheit
-              -- , YEAR(uebung.Datum)
-              -- , MONTH(uebung.Datum) 
+                 , uebung.UebungtypID 
             ORDER BY `Datum Zuletzt` DESC              
             "; 
 
@@ -656,7 +648,8 @@ class Schueler {
                --  , SUM(uebung.Anzahl) as Anzahl 
                 , MIN(uebung.Datum) as `Datum Start`
                 , MAX(uebung.Datum) as `Datum Zuletzt`         
-                , COUNT(DISTINCT uebung.Datum) as Tage     
+                , COUNT(DISTINCT uebung.Datum) as `Anzahl Tage`  
+                -- , CONCAT(SUM(uebung.Anzahl), ' ', uebungtyp.Einheit) as `Menge / Dauer`                      
                 -- , uebung.SchuelerID
             FROM  uebung 
                   LEFT JOIN uebungtyp on uebung.UebungtypID=uebungtyp.ID 
@@ -670,12 +663,6 @@ class Schueler {
             ORDER BY `Datum Zuletzt` DESC              
             ";  
 
-      break; 
-      
-      case 3: 
-      break; 
-      
-      case 4: 
       break; 
 
     
@@ -704,6 +691,7 @@ class Schueler {
 
 
   function print_table_saetze_checklist($MaterialtypID='', $checkSchwierigkeitsgrad=false){
+
     $query="SELECT DISTINCT satz.ID
             , CONCAT(sammlung.Name, '; ', musikstueck.Nummer, ': ', COALESCE(musikstueck.Name, ''), '; ', satz.Nr, ': ', COALESCE(satz.Name, '')) as Name  
             FROM sammlung 
@@ -716,17 +704,16 @@ class Schueler {
             AND schueler_satz.ID is null "; 
 
     if($checkSchwierigkeitsgrad) {
-          
-    $query.="
-        AND satz.ID IN (
-                  SELECT DISTINCT satz_schwierigkeitsgrad.SatzID 
-                  FROM schueler_schwierigkeitsgrad 
-                  INNER JOIN  satz_schwierigkeitsgrad 
-                  ON schueler_schwierigkeitsgrad.InstrumentID  = satz_schwierigkeitsgrad.InstrumentID 
-                  AND schueler_schwierigkeitsgrad.SchwierigkeitsgradID = satz_schwierigkeitsgrad.SchwierigkeitsgradID
-                  WHERE schueler_schwierigkeitsgrad.SchuelerID = :SchuelerID
-                )    
-        "; 
+      $query.="
+          AND satz.ID IN (
+                    SELECT DISTINCT satz_schwierigkeitsgrad.SatzID 
+                    FROM schueler_schwierigkeitsgrad 
+                    INNER JOIN  satz_schwierigkeitsgrad 
+                    ON schueler_schwierigkeitsgrad.InstrumentID  = satz_schwierigkeitsgrad.InstrumentID 
+                    AND schueler_schwierigkeitsgrad.SchwierigkeitsgradID = satz_schwierigkeitsgrad.SchwierigkeitsgradID
+                    WHERE schueler_schwierigkeitsgrad.SchuelerID = :SchuelerID
+                  )    
+          "; 
     }
     $query.="ORDER BY sammlung.Name, musikstueck.Nummer, satz.Nr  "; 
     // echo '<pre>'.$query.'</pre>'; 

@@ -122,25 +122,21 @@ echo '
   <a href="edit_uebung.php?SchuelerID=<?php echo $schueler->ID; ?>&option=insert" target="_blank" class="form-link form-link-switch">Übung hinzufügen</a>
   </p>
 
-  <p>Auswertung Übungen:<br /> 
+  <p>Übersichten:<br /> 
   
 <!-- Auswertung 1: Übungen Typ/Jahr/Monat/ -->
   <input type="radio" id="opt_Auswertung1" name="target_form" value="Uebungen" onclick="changeIframeSrc('subform1', 'edit_schueler_auswertung.php?AuswertungNr=1&SchuelerID=<?php echo $schueler->ID; ?>');">
-  <label for="opt_Auswertung1">Pro Übung Typ</label><br>
+  <label for="opt_Auswertung1">Auswertung Übungen / Typ</label><br>
 
 <!-- Auswertung 2: Übungen Besonderheit/Jahr/Monat/ -->
   <input type="radio" id="opt_Auswertung2" name="target_form" value="Uebungen" onclick="changeIframeSrc('subform1', 'edit_schueler_auswertung.php?AuswertungNr=2&SchuelerID=<?php echo $schueler->ID; ?>');">
-  <label for="opt_Auswertung2">Pro Übung Besonderheit</label><br>
-
-  <p>Informationen:<br /> 
-
-
+  <label for="opt_Auswertung2">Auswertung Übungen / Besonderheit</label><br>
 
   <input type="radio" id="opt_Saetze_Lookups" name="target_form" value="Saetze_Lookups" onclick="changeIframeSrc('subform1', 'edit_schueler_saetze_lookups.php?SchuelerID=<?php echo $schueler->ID; ?>');">
-  <label for="opt_Saetze_Lookups">Verknüpfte Noten mit Besonderheiten</label><br>
+  <label for="opt_Saetze_Lookups">Verknüpfte Noten + Besonderheiten</label><br>
 
     <input type="radio" id="opt_Lookups" name="target_form" value="Lookups" onclick="changeIframeSrc('subform1', 'edit_schueler_lookups.php?SchuelerID=<?php echo $schueler->ID; ?>');">
-  <label for="opt_Lookups">Übersicht Besonderheiten aus Noten</label><br>
+  <label for="opt_Lookups">Besonderheiten aus verknüpften Noten</label><br>
 
 
 

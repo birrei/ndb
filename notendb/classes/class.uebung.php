@@ -236,7 +236,7 @@ class Uebung {
   }    
 
   function add_lookup($LookupID){
-
+    // echo 'Zuordnung LookupID: '.$LookupID.'<br>'; 
     $insert = $this->db->prepare("INSERT IGNORE INTO `uebung_lookup` SET
         `UebungID`     = :UebungID,  
         `LookupID`     = :LookupID");
@@ -300,6 +300,37 @@ class Uebung {
     $insert->bindValue(':UebungID_new', $ID_new);  
     $insert->execute();  
 
+  }
+
+
+  function print_table_satz_lookups_checklist(){
+    // lookups aus dem der Übung zugeordneten Satz 
+
+    $query="select lookup.ID
+          , CONCAT(lookup_type.Name, ': ', lookup.Name) as Name 
+          FROM satz_lookup 
+          INNER join lookup on lookup.ID = satz_lookup.LookupID 
+          INNER JOIN lookup_type ON lookup_type.ID = lookup.LookupTypeID 
+          INNER JOIN uebung on uebung.SatzID=satz_lookup.SatzID 
+          LEFT JOIN uebung_lookup on uebung_lookup.UebungID = uebung.ID 
+              AND uebung_lookup.LookupID = satz_lookup.LookupID 
+          WHERE uebung.ID =  :ID
+          AND uebung_lookup.ID IS NULL 
+          order by Name"; 
+
+    $stmt = $this->db->prepare($query); 
+    $stmt->bindParam(':ID', $this->ID, PDO::PARAM_INT); 
+
+    try {
+      $stmt->execute(); 
+            
+      $html = new HTML_Table($stmt); 
+      $html->print_table_checklist('lookups'); 
+    }
+    catch (PDOException $e) {
+      $this->info->print_user_error(); 
+      $this->info->print_error($stmt, $e); 
+    }
   }
 
 }
