@@ -68,6 +68,8 @@ class SQLPart {
         $tmpSQL="
               CONCAT(
                     sammlung.Name
+                    , ' / Standort: '
+                    , standort.Name  
                     , COALESCE(
                       IF(
                       length(musikstueck.Name) > 0
