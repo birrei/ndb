@@ -936,7 +936,24 @@ include_once('class.link.php');
   }
   
   function is_deletable() {
-    return true; // aktuell keine Abängigkeiten berücksichtigt. 
+
+    $select = $this->db->prepare("SELECT uebung.SatzID 
+                                  FROM uebung 
+                                  INNER JOIN satz ON uebung.SatzID =satz.ID 
+                                  INNER JOIN musikstueck ON musikstueck.ID = satz.MusikstueckID 
+                                  WHERE musikstueck.SammlungID=:SammlungID"
+                                  );
+    $select->bindValue(':SammlungID', $this->ID); 
+    $select->execute();  
+
+    if ($select->rowCount() > 0 ){
+      $this->load_row(); 
+      $this->info->print_warning('Die Sammlung ID '.$this->ID.', Name: "'.$this->Name.'" kann nicht gelöscht werden. 
+                                 Es existieren '.$select->rowCount().' zugeordnete Übungen.<br>'); 
+      return false;       
+    } else {
+      return true; 
+    }        
   }
 
   function print_table_musikstuecke3($filename_order_link){

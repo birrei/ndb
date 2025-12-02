@@ -924,7 +924,23 @@ function move_order(int $offset=1 ) {
   }
 
   function is_deletable() {
-    return true; // aktuell keine Abängigkeiten berücksichtigt. 
+    
+    $select = $this->db->prepare("SELECT uebung.SatzID 
+                                  FROM uebung 
+                                  INNER JOIN satz ON uebung.SatzID =satz.ID 
+                                  WHERE satz.MusikstueckID=:MusikstueckID"
+                                  );
+    $select->bindValue(':MusikstueckID', $this->ID); 
+    $select->execute();  
+
+    if ($select->rowCount() > 0 ){
+      $this->load_row(); 
+      $this->info->print_warning('Das Musikstück ID '.$this->ID.', Name: "'.$this->Name.'" kann nicht gelöscht werden. 
+                                 Es existieren '.$select->rowCount().' zugeordnete Übungen.<br>'); 
+      return false;       
+    } else {
+      return true; 
+    }    
    
   }  
 

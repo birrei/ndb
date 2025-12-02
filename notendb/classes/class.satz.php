@@ -849,7 +849,22 @@ class Satz {
   }  
 
   function is_deletable() {
-    return true; // aktuell keine Abängigkeiten berücksichtigt. 
+    // verknüpfte Schüler? -> ignorieren
+    // verknüpfte Übungen? -> nicht löschbar
+    
+    $select = $this->db->prepare("SELECT * from uebung WHERE SatzID=:SatzID");
+    $select->bindValue(':SatzID', $this->ID); 
+    $select->execute();  
+
+    if ($select->rowCount() > 0 ){
+      $this->load_row(); 
+      $this->info->print_warning('Der Satz ID '.$this->ID.', Name: "'.$this->Name.'" kann nicht gelöscht werden. 
+                                 Es existieren '.$select->rowCount().' zugeordnete Übungen.<br>'); 
+      return false;       
+    } else {
+      return true; 
+    }
+
   }
 
 function move_order(int $offset=1 ) {
