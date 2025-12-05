@@ -72,10 +72,12 @@ a:hover {
     <a href="show_table2.php?table=v2_info_Tempobezeichnungen&sortcol=Tempobezeichnung">Verwendete Tempobezeichnungen</a> <br>
     <a href="show_table2.php?table=v2_info_Spieldauern&sortcol=Spieldauer">Verwendete Spieldauern</a> <br>
     <a href="tests.php?title=Tests">Vordefinierte Tests</a>   <br>
-    <a href="show_table2.php?table=v_abfrage&sortcol=Name&add_link_show">Gespeicherte Abfragen</a> <i>(z.B. Abfragen aus Suche)</i><br>
+    <a href="show_table2.php?table=v_abfrage&sortcol=Name&add_link_show">Gespeicherte Abfragen</a> <br>
   </td>
 </tr>
-<tr>
+
+
+<!-- <tr>
   <td class="start"> <h3>Repository</h3> </td>
   <td class="start">
     <a href="https://github.com/birrei/ndb/tree/main" tabindex="-1" target="_blank">GitHub Startseite</a><br>
@@ -83,7 +85,7 @@ a:hover {
     <a href="https://github.com/birrei/ndb/commits/main/" tabindex="-1" target="_blank">Commits</a> <i>(vollständige techn. Änderungs-Historie)</i> <br>
     <a href="https://github.com/birrei/ndb/blob/main/notes.md" tabindex="-1" target="_blank">Notizen</a> <i>(Sammlung von Erklärungen, die (noch) nicht auf der Hilfe-Seite zu finden sind) </i><br>
   </td>
-</tr>
+</tr> -->
 
 
 </table>
