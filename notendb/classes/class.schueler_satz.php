@@ -112,6 +112,26 @@ class SchuelerSatz {
     }  
   }  
 
+  function is_deletable() {
+    // nicht löschbar, wenn eine Übung des Schülers mit dem Satz verknüpft ist 
+    $select = $this->db->prepare("SELECT * FROM uebung 
+                                  WHERE SatzID=:SatzID 
+                                  AND SchuelerID=:SchuelerID");
+    $select->bindValue(':SatzID', $this->SatzID); 
+    $select->bindValue(':SchuelerID', $this->SchuelerID); 
+
+    $select->execute();  
+
+    if ($select->rowCount() > 0 ){
+      $this->load_row(); 
+      $this->info->print_warning('Die Verknüpfung kann nicht gelöscht werden, 
+                                  da bereits '.$select->rowCount().' Übungen zum Satz mit dem Schüler verknüpft sind.<br>'); 
+      return false;       
+    } else {
+      return true; 
+    }
+  }
+
  
   function update_row($SchuelerID, $SatzID, $DatumVon, $DatumBis, $Bemerkung, $StatusID) {
     // echo 'TEST: ID: '.$this->ID; 

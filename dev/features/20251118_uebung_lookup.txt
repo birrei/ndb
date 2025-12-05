@@ -29,10 +29,12 @@ class.schueler.php -> print_table_uebungen() (Ergänzung Spalte Besonderheiten)
 
 -------------------------
 
-Funktion "Löschen" (Sammlung, Musikstück, Satz): 
-Löschung verweigern, wenn mit Satz verknüpfte Übungen vorhanden sind
 
+Funktion "Löschen": Sammlung, Musikstück, Satz: Löschung verweigern, wenn mit Satz verknüpfte Übungen vorhanden sind
 class.sammlung.php, class.musikstueck.php, class.satz.php: is_deletable() 
+
+Schüler x Satz: Kombi darf nicht löschbar sein, wenn schon Schüler x Übung x Satz-Verknüpfung vorhanden ist. 
+  
 
 
 

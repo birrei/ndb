@@ -50,8 +50,11 @@ switch($option) {
     $DatumVon=$schueler_satz->DatumVon; 
     $DatumBis=$schueler_satz->DatumBis;  
     $Bemerkung=$schueler_satz->Bemerkung;   
-    $option='delete_2'; 
-
+    if($schueler_satz->is_deletable()) {
+      $html->print_form_delete_confirm(basename(__FILE__), 'Verknüpfung', $schueler_satz->ID, '');   
+    }     
+      
+        
      break; 
 
   case 'delete_2': // after confirm 
@@ -86,10 +89,6 @@ switch($option) {
 }
 
 include_once('head_raw.php');
-
-if ($option=='delete_2') {
-  $html->print_form_confirm('edit_schueler_satz.php', $ID,$option,'Löschung'); 
-}
 
 ?> 
 
