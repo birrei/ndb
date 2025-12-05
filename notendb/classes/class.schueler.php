@@ -302,6 +302,7 @@ class Schueler {
     LEFT JOIN satz ON satz.ID = schueler_satz.SatzID  
     LEFT JOIN musikstueck ON musikstueck.ID = satz.MusikstueckID
     LEFT JOIN sammlung ON sammlung.ID = musikstueck.SammlungID
+    LEFT JOIN standort ON standort.ID = sammlung.StandortID  
     LEFT JOIN v_satz_lookuptypes on v_satz_lookuptypes.SatzID = satz.ID    
     LEFT JOIN status ON status.ID = schueler_satz.StatusID                                
     WHERE schueler_satz.SchuelerID = :ID
