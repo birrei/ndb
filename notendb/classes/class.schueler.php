@@ -574,9 +574,9 @@ class Schueler {
 
     $query="SELECT 
               uebung.ID
+              , uebung.Datum              
               , uebungtyp.Name as `Uebung Typ`     
               , uebung.Name as `Uebung Inhalt`
-              , uebung.Datum
               , uebung.Anzahl
               , uebungtyp.Einheit
               , uebung.Bemerkung
