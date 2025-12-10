@@ -240,7 +240,7 @@ class Schueler {
       $sql = new SQLPart(); 
       $query="SELECT schueler_satz.ID,  "; 
       // $query.=$sql->select_concat_noten_namen; 
-      $query.=$sql->getSQL_COL_CONCAT_Noten(1);       
+      $query.=$sql->getSQL_COL_CONCAT_Noten(100);       
       $query.="
       , status.Name as `Status`
       -- , schueler_satz.DatumVon as `Datum von` 
@@ -572,20 +572,21 @@ class Schueler {
 
   function print_table_uebungen(){
 
+    $sql = new SQLPart(); 
+     
+
     $query="SELECT 
               uebung.ID
               , uebung.Datum              
-              , uebungtyp.Name as `Uebung Typ`     
-              , uebung.Name as `Uebung Inhalt`
-              , uebung.Anzahl
-              , uebungtyp.Einheit
-              , uebung.Bemerkung
-              , CONCAT(
-                    sammlung.Name, ' - ', 
-                      -- musikstueck.Nummer, ' - ', 
-                      musikstueck.Name, ' - Satz Nr. ',  
-                      satz.Nr
-                      ) Noten
+              , uebungtyp.Name as `Uebung Typ`      
+              , uebung.Name as `Uebung Inhalt` 
+              , uebung.Anzahl 
+              , uebungtyp.Einheit 
+              , uebung.Bemerkung, "; 
+    
+    $query.=$sql->getSQL_COL_CONCAT_Noten(100);  
+
+    $query.="
               , v_uebung_lookuptypes.LookupList2 as Besonderheiten    
           FROM  uebung 
               left join uebungtyp on uebung.UebungtypID=uebungtyp.ID 
@@ -620,8 +621,9 @@ class Schueler {
 
   function print_table_auswertung_uebungen($AuswertungNr=1){
     // XXXX 
+    $query=''; 
     switch($AuswertungNr) {
-      case 1: 
+      case 1:  // Auswertung pro Übung- Typ  
         $query="
             SELECT 
                 -- uebung.ID
@@ -642,7 +644,7 @@ class Schueler {
 
       break; 
 
-      case 2: 
+      case 2:  // Auswertung pro Besonderheit 
         $query="
             SELECT 
                 lookup_type.Name as `Besonderheit Typ`                         
@@ -667,8 +669,27 @@ class Schueler {
 
       break; 
 
+      case 3:  // Auswertung pro Satz 
+        $sql = new SQLPart(); 
+        $query="SELECT uebung.SatzID As ID ,"; 
+        $query.=$sql->getSQL_COL_CONCAT_Noten(100);       
+        $query.=", MIN(uebung.Datum) as `Datum Start`
+                , MAX(uebung.Datum) as `Datum Zuletzt`         
+                , COUNT(DISTINCT uebung.Datum) as `Anzahl Tage`                      
+                -- , uebung.SchuelerID
+            FROM  uebung 
+                  INNER JOIN satz  on satz.ID=uebung.SatzID 
+                  INNER JOIN musikstueck on musikstueck.ID = satz.MusikstueckID 
+                  INNER JOIN sammlung on sammlung.ID= musikstueck.SammlungID      
+            WHERE uebung.SchuelerID = :ID 
+            GROUP by uebung.SchuelerID, satz.ID 
+            ORDER BY `Datum Zuletzt` DESC              
+            ";  
+      break;       
     
     }
+
+    // echo $query; 
 
     $stmt = $this->db->prepare($query); 
     $stmt->bindParam(':ID', $this->ID, PDO::PARAM_INT); 
@@ -691,11 +712,10 @@ class Schueler {
     }
   }    
 
-
   function print_table_saetze_checklist($MaterialtypID='', $checkSchwierigkeitsgrad=false){
 
     $query="SELECT DISTINCT satz.ID
-            , CONCAT(sammlung.Name, '; ', musikstueck.Nummer, ': ', COALESCE(musikstueck.Name, ''), '; ', satz.Nr, ': ', COALESCE(satz.Name, '')) as Name  
+              , CONCAT(sammlung.Name, '; ', musikstueck.Nummer, ': ', COALESCE(musikstueck.Name, ''), '; ', satz.Nr, ': ', COALESCE(satz.Name, '')) as Name  
             FROM sammlung 
             INNER JOIN musikstueck on musikstueck.SammlungID = sammlung.ID 
             INNER JOIN satz on satz.MusikstueckID = musikstueck.ID  
@@ -708,15 +728,16 @@ class Schueler {
     if($checkSchwierigkeitsgrad) {
       $query.="
           AND satz.ID IN (
-                    SELECT DISTINCT satz_schwierigkeitsgrad.SatzID 
-                    FROM schueler_schwierigkeitsgrad 
-                    INNER JOIN  satz_schwierigkeitsgrad 
-                    ON schueler_schwierigkeitsgrad.InstrumentID  = satz_schwierigkeitsgrad.InstrumentID 
-                    AND schueler_schwierigkeitsgrad.SchwierigkeitsgradID = satz_schwierigkeitsgrad.SchwierigkeitsgradID
-                    WHERE schueler_schwierigkeitsgrad.SchuelerID = :SchuelerID
-                  )    
+              SELECT DISTINCT satz_schwierigkeitsgrad.SatzID 
+              FROM schueler_schwierigkeitsgrad 
+              INNER JOIN  satz_schwierigkeitsgrad 
+              ON schueler_schwierigkeitsgrad.InstrumentID  = satz_schwierigkeitsgrad.InstrumentID 
+              AND schueler_schwierigkeitsgrad.SchwierigkeitsgradID = satz_schwierigkeitsgrad.SchwierigkeitsgradID
+              WHERE schueler_schwierigkeitsgrad.SchuelerID = :SchuelerID
+            )    
           "; 
     }
+
     $query.="ORDER BY sammlung.Name, musikstueck.Nummer, satz.Nr  "; 
     // echo '<pre>'.$query.'</pre>'; 
     $stmt = $this->db->prepare($query); 

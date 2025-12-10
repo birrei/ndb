@@ -52,19 +52,18 @@ class SQLPart {
   //           ) ) as Noten                       
   //         "; 
   //       break; 
-
-
   //     }
-
   //     $this->SQL=$tmpSQL; 
-
-
   // }
 
   public function getSQL_COL_CONCAT_Noten($type=1, $add_linkebreak=false) {
+
+    // types 1 - 99: Test-Ballons XXXX
+    // types ab 100: Abschießend zu verwendendete Standardversionen
+
     $tmpSQL=''; 
     switch($type) {
-      case 1: 
+      case 1: // Sammlung, Musikstück, Satz 
         $tmpSQL="
               CONCAT(
                     sammlung.Name
@@ -84,9 +83,7 @@ class SQLPart {
                       ), '')            	
                       ) as Noten  
                   "; 
-
         break; 
-
 
       case 2: 
         $tmpSQL="CONCAT(
@@ -104,6 +101,25 @@ class SQLPart {
             "; 
         break; 
 
+      /************************/
+      case 100: // Sammlung, Musikstück + Satz
+                // Bedingung für Verwendung: Satz Ebene, existierende satz.ID
+                // ggf. GROUP BY auf satz.ID   
+                // Nicht befüllte Felder werden nicht ausgegeben
+                // Musikstück- bzw. Satz Nummer werden nicht angezeigt  (auch dann, wenn die Namen leer sind) 
+                // => Info: Es ist also denkbar, dass nur der Sammlung Name ausgegeben wird
+                   // obwohl auch Musikstück und Satz (z.B. als Pro Forma-Gerüste) angelegt sind 
+
+        $tmpSQL="CONCAT(
+              sammlung.Name
+            , IF(
+                length(musikstueck.Name) > 0
+                , CONCAT(' / ".($add_linkebreak?"<br>":"")."', musikstueck.Name), '' )
+            , IF(length(satz.Name) > 0
+                , CONCAT(' / ".($add_linkebreak?"<br>":"")."', satz.Name), '' ) ) 
+               as Noten                       
+            "; 
+        break;         
 
     }
 
