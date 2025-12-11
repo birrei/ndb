@@ -55,8 +55,7 @@ class Standort {
       $stmt->execute(); 
       $html = new HTML_Select($stmt); 
       $html->caption = $caption;       
-      $html->print_select("StandortID", $value_selected, true); 
-      
+      $html->print_select("StandortID", $value_selected,true);       
     }
     catch (PDOException $e) {
       $this->info->print_user_error(); 
@@ -67,7 +66,6 @@ class Standort {
   function print_table(){
 
     $query="SELECT * from standort ORDER by Name"; 
-
     $select = $this->db->prepare($query); 
 
     try {

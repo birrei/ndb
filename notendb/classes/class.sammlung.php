@@ -1029,6 +1029,73 @@ include_once('class.link.php');
   }  
 
 
+  function add_standort($StandortID){
+
+    $insert = $this->db->prepare("INSERT INTO `sammlung_standort` SET
+        `SammlungID`     = :SammlungID,  
+        `StandortID`     = :StandortID");
+
+    $insert->bindValue(':SammlungID', $this->ID);  
+    $insert->bindValue(':StandortID', $StandortID);  
+
+    try {
+      $insert->execute(); 
+    }
+    catch (PDOException $e) {
+      $this->info->print_user_error(); 
+      $this->info->print_error($insert, $e);  
+    }  
+  } 
+
+  function delete_standort($StandortID){
+
+    $delete = $this->db->prepare("DELETE FROM `sammlung_standort` 
+                            WHERE SammlungID=:SammlungID 
+                            AND StandortID=:StandortID"); 
+    $delete->bindValue(':SammlungID', $this->ID);  
+    $delete->bindValue(':StandortID', $StandortID);  
+
+    try {
+      $delete->execute(); 
+    }
+    catch (PDOException $e) {
+      $this->info->print_user_error(); 
+      $this->info->print_error($delete, $e);  
+    }  
+  }  
+
+  function print_table_standorte(){
+
+    $query="select standort.ID, standort.Name 
+          FROM sammlung_standort 
+          LEFT JOIN standort 
+          ON standort.ID=sammlung_standort.StandortID 
+          WHERE sammlung_standort.SammlungID=:ID
+      "; 
+                      
+    $stmt = $this->db->prepare($query); 
+    $stmt->bindParam(':ID', $this->ID, PDO::PARAM_INT); 
+      
+    try {
+      $stmt->execute(); 
+      $html = new HTML_Table($stmt); 
+      $html->edit_link_filename='edit_sammlung_standort.php'; 
+      $html->edit_link_title='Standort'; 
+      $html->edit_link_open_newpage=false; 
+      $html->show_missing_data_message=false; 
+      // $html->add_link_delete=true; 
+      // $html->del_link_filename='edit_sammlung_links.php'; 
+      // $html->del_link_parent_key='SammlungID'; 
+      // $html->del_link_parent_id= $this->ID;       
+      $html->print_table2(); 
+
+      
+    }
+    catch (PDOException $e) {
+      $this->info->print_user_error(); 
+      $this->info->print_error($stmt, $e); 
+    }
+  }
 }
 
 
