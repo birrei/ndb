@@ -3,13 +3,13 @@
 -- 1) StatusID ermitteln: Anzeige der Tabelle 
 select * from status order by Name; 
 
--- 2) SAtzID ermittlen (-> Formular) 
+-- 2) SatzID ermittlen (-> Formular) 
 
 -- 3) update durchführen 
 UPDATE schueler_satz 
-SET StatusID=7 -- neue Status ID 
-WHERE SatzID=2853 -- SatzID 
-AND StatusID=3 -- alte StatusID 
+SET StatusID=7 
+WHERE SatzID=2853
+AND StatusID=3 
 
 
 
