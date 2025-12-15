@@ -28,8 +28,35 @@
 --     ;
 
 
+-------------------------
+
+
+insert into sammlung_standort (SammlungID,StandortID)
+select sammlung.ID as SammlungID
+	  , sammlung.StandortID 
+from sammlung inner join standort on standort.ID = sammlung.StandortID 
+left join sammlung_standort on sammlung.ID = sammlung_standort.SammlungID 
+		  and standort.ID = sammlung_standort.StandortID 
+where sammlung_standort.ID IS NULL 
+
+		  
+
+
+
+
 /*
 -------------------------
+
+
+
+
+
+
+
+
+
+
+
 class.uebung.php: 
     - print_table_lookups()
     - add_lookup()

@@ -47,6 +47,7 @@ class Suchabfrage {
   public $besetzung_check_exclude=false; // Ausschluss-Suche aktiviert 
 
   public $Verwendungszwecke=[]; 
+  public $Standorte=[];   
   public $Erprobte=[]; 
 
   public $InstrumentSchwierigkeitsgrade=[]; // zu Filter Satz  

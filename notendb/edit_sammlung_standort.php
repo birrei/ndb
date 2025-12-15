@@ -7,7 +7,7 @@ include_once("classes/class.standort.php");
 $info=new HTML_Info(); 
 ?> 
 
-<form action="edit_musikstueck_standorte.php" method="get">
+<form action="edit_sammlung_standorte.php" method="get">
 <table class="eingabe2">
 <tr>
   <td class="eingabe2 eingabe2_1">Standort: </td>
@@ -34,24 +34,7 @@ $info=new HTML_Info();
   </td>    
 </tr>
 
-<tr>
-  <td class="eingabe2 eingabe2_1"> </td>
-  <td class="eingabe2 eingabe2_2">
-  <?php 
-    $info->print_link_reload(); 
-    ?>
-  </td>  
-  <td class="eingabe2 eingabe2_3"></td>    
-</tr>
-<tr>
-  <td class="eingabe2 eingabe2_1"> </td>
-  <td class="eingabe2 eingabe2_2">
-  <?php 
-    $info->print_link_backToList('edit_musikstueck_standorte.php?SammlungID='.$_GET["SammlungID"]); 
-    ?>
-  </td>  
-  <td class="eingabe2 eingabe2_3"></td>    
-</tr>
+
 
 </table>
 
