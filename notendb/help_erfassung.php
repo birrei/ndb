@@ -8,7 +8,7 @@ include_once('head.php');
 <div id="inhaltsverzeichnis"></div>
 
 <div class="body-doc"> 
-	<h2 class="chapter-title chapter-title-h2" id="erfassung_sammlung">Sammlung</h2>  
+	<h2 class="chapter-title chapter-title-h2" id="erfassung_sammlung">Screen "Sammlung"</h2>  
         <h3 class="chapter-title chapter-title-h3" id="erfassung_sammlung_info">Was ist eine "Sammlung?"</h3>    
 
             <p> Eine Sammlung kann sein: Ein Heft mit Musikstücken, ein Buch (Lehrwerk), ein Ordner im Dateisystem ... XXX </p>
@@ -27,18 +27,23 @@ include_once('head.php');
 
         <h3 class="chapter-title chapter-title-h3" id="erfassung_sammlung_bemerkung">Sammlung: Bemerkung XXX</h3>
 
-        <h3 class="chapter-title chapter-title-h3" id="erfassung_sammlung_musikstuecke">Sammlung, Daten anzeigen: Musikstücke XXX </h3>
+        <h3 class="chapter-title chapter-title-h3" id="erfassung_sammlung_musikstuecke">Sammlung: Daten anzeigen: Musikstücke</h3>
+            <p> Die untergeordneten Musikstücke werden angezeigt. 
+                Per Klick auf "Bearbeiten" öffnet sich das Musikstück im neuen Register. 
+            </p>
+                            
         
-        <h3 class="chapter-title chapter-title-h3" id="erfassung_sammlung_saetze">Sammlung, Daten anzeigen: Sätze </h3>
+        <h3 class="chapter-title chapter-title-h3" id="erfassung_sammlung_saetze">Sammlung: Daten anzeigen: Sätze </h3>
         
             <p> Die untergeordneten Musikstücke und Sätze werden angezeigt. Es werden nur die Musikstücke angezeigt, für die Sätze angelegt wurden. 
-                Vom Musikstück werden nur Nummer und Name angezeigt, ansonsten sind die Daten des Satzes sichtbar. 
-                Per Klick auf "Bearbeiten" öffnet sich das zugehörige Formular "Satz" in neuem Fenster   </p>
+                Per Klick auf "Bearbeiten" öffnet sich der "Satz" in neuem Fenster.   </p>
                     
-        <h3 class="chapter-title chapter-title-h3" id="erfassung_sammlung_material">Sammlung: Material</h3>
-            <p>Beschreibung Material zu Sammlung XXX ... </p> 
-            <p>Ein Material kann auch unabhängig von einer Sammlung angelegt werden, siehe dazu Kapitel <a href="#erfassung_material">Material</a></p> 
-
+        <h3 class="chapter-title chapter-title-h3" id="erfassung_sammlung_saetze_schueler">Sammlung: Daten anzeigen: Sätze + Schüler </h3>
+        
+            <p> Die untergeordneten Musikstücke und Sätze mit Schülerverknüpfungen werden angezeigt. 
+                Es werden nur die Musikstücke angezeigt, für die Sätze inklusive Schülerverknüpfungen angelegt wurden. 
+                Per Klick auf "Bearbeiten" öffnet sich der "Satz" in neuem Fenster.   </p>
+                    
 
         <h3 class="chapter-title chapter-title-h3" id="erfassung_sammlung_kopieren">Sammlung: kopieren</h3>
             <p>Button "Sammlung kopieren": Die Sammlung inklusive  aller Eigenschaften und Untereinheiten 
@@ -55,7 +60,7 @@ include_once('head.php');
                 Der Wert wird bei Neuanlage eines Musikstücks automatisch vergeben (hochgezählt), kann danach aber manuell angepasst werden.
                 Es können nur ganzzahlige Werte verwendet werden (nicht möglich sind z.B: 1.1 oder 1b etc) 
         
-        <h3 class="chapter-title chapter-title-h3" id="erfassung_musikstueck_besetzung">Musikstück: Besetzung(en)</h3>
+        <h3 class="chapter-title chapter-title-h3" id="erfassung_musikstueck_besetzung">Musikstück: Daten anzeigen: Besetzung(en)</h3>
         <p>Die Einträge für die Zuordnung stammen aus der Stammdaten-Tabelle <a href="#erfassung_stammdaten_besetzung">"Besetzung"</a> </p>
             
         <p>Für feste Besetzungen (z.B. Violine, Viola und Klavier = "Klaviertrio"), bei der keines der Instrument weggelassen werden kann, 
@@ -64,10 +69,17 @@ include_once('head.php');
                 - z.B. wenn ein Sammelhelft mit gleichen 
                 Musikstücken für verschiedene Instrumenten besetzt werden kann (kommt z.B. bei Lehr-Werken vor)
             </p>
-
-            <p>Die Art der Zuordnung wirkt auf das Vorgehen bei der Suche aus (XXX Verweis hier später einfügen) </p>
-            <p>XXX </p>
-
+ 
+        <h3 class="chapter-title chapter-title-h3" id="erfassung_musikstueck_saetze">Musikstück: Daten anzeigen: Sätze </h3>
+        
+            <p> Die untergeordneten Sätze werden angezeigt. Per Klick auf "Bearbeiten" öffnet sich der Satz in neuem Fenster.   </p>
+                    
+        <h3 class="chapter-title chapter-title-h3" id="erfassung_musikstueck_saetze_schueler">Musikstück: Daten anzeigen: Sätze + Schüler </h3>
+        
+            <p> Die untergeordneten Sätze mit Schülerverknüpfungen werden angezeigt. 
+                Per Klick auf "Bearbeiten" öffnet sich der "Satz" in neuem Fenster.   </p>
+                
+                
 
         <h3 class="chapter-title chapter-title-h3" id="erfassung_musikstueck_kopieren">Musikstück: kopieren</h3>
 

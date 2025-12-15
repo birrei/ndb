@@ -378,10 +378,7 @@ function move_order(int $offset=1 ) {
 
     $query="SELECT satz.ID
               , satz.Nr
-              , satz.Name                
-              -- , GROUP_CONCAT(DISTINCT concat(instrument.Name, ': ', schwierigkeitsgrad.Name)  order by schwierigkeitsgrad.Name SEPARATOR ', ') `Schwierigkeitsgrade`  
-              -- , v_satz_lookuptypes.LookupList as Besonderheiten              
-              -- , satz.Bemerkung
+              , satz.Name as `Satz Name`              
               , GROUP_CONCAT(DISTINCT concat(schueler.Name, ' (Status: ', COALESCE(status.Name,''), ')')  ORDER BY schueler.Name SEPARATOR '<br > ') Schueler                               
             FROM satz 
               LEFT JOIN satz_erprobt on satz.ID = satz_erprobt.SatzID 
@@ -392,10 +389,11 @@ function move_order(int $offset=1 ) {
               LEFT JOIN schueler_satz ON schueler_satz.SatzID = satz.ID 
               LEFT JOIN schueler on schueler.ID = schueler_satz.SchuelerID
               LEFT JOIN status ON status.ID = schueler_satz.StatusID 
-                            
             WHERE satz.MusikstueckID = :MusikstueckID 
+            AND schueler.ID IS NOT NULL 
+            AND schueler.Aktiv=1 
             GROUP by satz.ID 
-            ORDER by Nr"; 
+            ORDER by satz.Nr"; 
 
     $stmt = $this->db->prepare($query); 
     $stmt->bindParam(':MusikstueckID', $this->ID, PDO::PARAM_INT); 

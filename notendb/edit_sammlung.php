@@ -181,7 +181,7 @@ echo '
     </td>
     <td class="form-edit form-edit-col2">
 
-      <iframe src="edit_sammlung_musikstuecke.php?SammlungID=<?php echo $sammlung->ID; ?>" height="450" name="subform1" id="subform1" class="form-iframe-var2"></iframe>
+      <iframe src="edit_sammlung_standorte.php?SammlungID=<?php echo $sammlung->ID; ?>" height="450" name="subform1" id="subform1" class="form-iframe-var2"></iframe>
     </td>
   </tr> 
 
