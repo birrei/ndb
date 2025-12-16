@@ -30,7 +30,6 @@ switch($option) {
     $sammlung->update_row(
       $_POST["Name"]
       , $_POST["VerlagID"]
-      , $_POST["StandortID"]
       , $_POST["Bemerkung"]
       , $Erfasst
     );     
@@ -113,22 +112,6 @@ echo '
 echo '
   </tr>
 
-  <tr>    
-  <label>
-  <td class="form-edit form-edit-col1">Standort:</td>  
-  <td class="form-edit form-edit-col2">   
-        '; 
-        $standorte = new Standort();
-        $standorte->print_select($sammlung->StandortID); 
-
-  echo '</label>  &nbsp;';
-
-  $info->print_link_edit($standorte->table_name, $sammlung->StandortID,$standorte->Title, true); 
-  $info->print_link_table($standorte->table_name,'sortcol=Name',$standorte->Titles,true,'');    
-  $info->print_link_insert($standorte->table_name,$standorte->Title,true); 
-
-  echo '
-  </tr>
 
   <tr>    
     <label>

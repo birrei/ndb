@@ -47,7 +47,7 @@ class Suchabfrage {
   public $besetzung_check_exclude=false; // Ausschluss-Suche aktiviert 
 
   public $Verwendungszwecke=[]; 
-  public $Standorte=[];   
+  // public $Standorte=[];   // Mehrfachauswahl verworfen
   public $Erprobte=[]; 
 
   public $InstrumentSchwierigkeitsgrade=[]; // zu Filter Satz  
@@ -158,17 +158,19 @@ class Suchabfrage {
 
       case 'Sammlung': 
         $strTmp.="SELECT sammlung.ID
-                        , sammlung.Name as Sammlung
-                        , standort.Name as Standort                  
-                        , verlag.Name as Verlag
-                        , sammlung.Bemerkung 
-                        , v_sammlung_lookuptypes.LookupList as `Besonderheiten` ".PHP_EOL;
+                , sammlung.Name as Sammlung
+                -- , standort.Name as Standort  
+                , v_sammlung_standorte.Standorte                    
+                , verlag.Name as Verlag
+                , sammlung.Bemerkung 
+                , v_sammlung_lookuptypes.LookupList as `Besonderheiten` ".PHP_EOL;
         break; 
 
       case 'Sammlung2': // Ebene Sammlung / Musikstück   
 
         $strTmp.="SELECT musikstueck.ID
-        , standort.Name as Standort        
+        -- , standort.Name as Standort    
+        , v_sammlung_standorte.Standorte                     
         , sammlung.Name as Sammlung
         , musikstueck.Nummer as Nr
         , musikstueck.Name as Musikstueck
@@ -188,7 +190,8 @@ class Suchabfrage {
 
       case 'Sammlung3':  // Ebene Sammlung / Musikstück / Satz 
         $strTmp.="SELECT satz.ID
-            , standort.Name as Standort        
+            -- , standort.Name as Standort
+            , v_sammlung_standorte.Standorte                     
             , sammlung.Name as Sammlung
             -- , musikstueck.Nummer as MNr
             , musikstueck.Name as Musikstueck
@@ -209,7 +212,8 @@ class Suchabfrage {
       case 'Sammlung4': // Ebene Sammlung / Musikstück / Satz + Schüler 
 
         $strTmp.="SELECT satz.ID
-            , standort.Name as Standort
+            -- , standort.Name as Standort
+            , v_sammlung_standorte.Standorte 
             , komponist.Name as Komponist  
             , CONCAT(
                 'Sammlung: ',sammlung.Name, 
@@ -256,7 +260,8 @@ class Suchabfrage {
       case 'Noten': // AnsichtGruppe  
         $strTmp.="FROM
           sammlung 
-          LEFT JOIN standort on sammlung.StandortID = standort.ID    
+          -- LEFT JOIN standort on sammlung.StandortID = standort.ID
+          LEFT JOIN v_sammlung_standorte ON v_sammlung_standorte.SammlungID=sammlung.ID  
           LEFT JOIN verlag on sammlung.VerlagID = verlag.ID
           LEFT JOIN v_links as links on links.SammlungID = sammlung.ID
           LEFT JOIN v_sammlung_lookuptypes as v_sammlung_lookuptypes on v_sammlung_lookuptypes.SammlungID = sammlung.ID 
@@ -368,7 +373,8 @@ class Suchabfrage {
             $strTmp.="AND satz.ID IN (SELECT SatzID FROM schueler_satz WHERE StatusID=".$this->StatusID.") ".PHP_EOL; 
           }        
           if ($this->StandortID!='') {
-            $strTmp.="AND sammlung.StandortID=".$this->StandortID." ". PHP_EOL; 
+            // $strTmp.="AND sammlung.StandortID=".$this->StandortID." ". PHP_EOL; 
+            $strTmp.="AND sammlung.ID IN (SELECT SammlungID FROM sammlung_standort WHERE StandortID=".$this->StandortID.") ". PHP_EOL; 
           }
           if ($this->VerlagID!='') {
             $strTmp.="AND sammlung.VerlagID=".$this->VerlagID." ". PHP_EOL; 

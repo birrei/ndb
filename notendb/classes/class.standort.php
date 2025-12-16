@@ -43,13 +43,23 @@ class Standort {
     }
   }  
  
-  function print_select($value_selected='', $caption=''){
+  function print_select($value_selected='', $caption='', $referenced_SammlungID=''){
 
-    $query="SELECT ID, Name 
-            FROM `standort` 
-            order by `Name`"; 
+    $query='SELECT ID, Name 
+            FROM `standort` ';
+
+    if ($referenced_SammlungID!=''){
+      $query.='WHERE ID NOT IN 
+              (SELECT StandortID FROM sammlung_standort   
+              WHERE SammlungID=:SammlungID) ';
+    }
+    $query.='ORDER BY `Name`'; 
 
     $stmt = $this->db->prepare($query); 
+
+    if ($referenced_SammlungID!=''){
+      $stmt->bindParam(':SammlungID', $referenced_SammlungID);
+    }       
 
     try {
       $stmt->execute(); 
@@ -121,25 +131,25 @@ class Standort {
     
   }
 
-  function print_select_multi($options_selected=[]){
+  // function print_select_multi($options_selected=[]){
+  //   // nicht eingesetzt 
+  //   $query="SELECT ID, Name 
+  //           FROM `standort` 
+  //           order by `Name`"; 
 
-    $query="SELECT ID, Name 
-            FROM `standort` 
-            order by `Name`"; 
+  //   $stmt = $this->db->prepare($query); 
 
-    $stmt = $this->db->prepare($query); 
-
-    try {
-      $stmt->execute(); 
-      $html = new HTML_Select($stmt); 
-      $html->print_select_multi('Standort', 'Standorte[]', $options_selected, 'Standort(e):'); 
-      $this->titles_selected_list = $html->titles_selected_list;       
-    }
-    catch (PDOException $e) {
-      $this->info->print_user_error(); 
-      $this->info->print_error($stmt, $e); 
-    }
-  }  
+  //   try {
+  //     $stmt->execute(); 
+  //     $html = new HTML_Select($stmt); 
+  //     $html->print_select_multi('Standort', 'Standorte[]', $options_selected, 'Standort(e):'); 
+  //     $this->titles_selected_list = $html->titles_selected_list;       
+  //   }
+  //   catch (PDOException $e) {
+  //     $this->info->print_user_error(); 
+  //     $this->info->print_error($stmt, $e); 
+  //   }
+  // }  
 
   function delete(){
 

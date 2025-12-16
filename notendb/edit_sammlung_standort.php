@@ -14,7 +14,7 @@ $info=new HTML_Info();
   <td class="eingabe2 eingabe2_2">
     <?php 
       $standort = new Standort(); 
-      $standort->print_select(); 
+      $standort->print_select('','', $_GET["SammlungID"]); 
     ?>
 </td>  
   <td class="eingabe2 eingabe2_3">
@@ -27,17 +27,10 @@ $info=new HTML_Info();
 <tr>
   <td class="eingabe2 eingabe2_1"> </td>
   <td class="eingabe2 eingabe2_2"> <input class="btnSave" type="submit" value="Speichern"></td>  
-  <td class="eingabe2 eingabe2_3">
-    <?php 
-      $info->print_link_insert('standort','Standort', true);  
-      ?>
-  </td>    
+  <td class="eingabe2 eingabe2_3"> </td>    
 </tr>
 
-
-
 </table>
-
 
 <input type="hidden" name="option" value="insert"> 
 <input type="hidden" name="SammlungID" value="<?php echo $_GET["SammlungID"]; ?>"> 

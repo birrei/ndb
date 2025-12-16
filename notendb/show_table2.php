@@ -175,7 +175,8 @@ switch ($table) {
     echo 'Standort: '.PHP_EOL; 
     $standort->print_preselect($StandortID); 
     // echo '<label><input type="checkbox" name="Erfasst" onchange="this.form.submit()" '.($Erfasst==1?'checked':'').'>Vollständig erfasst</label>'; 
-    $query.=($StandortID!=''?'AND StandortID='.$StandortID.' '.PHP_EOL:''); 
+    // $query.=($StandortID!=''?'AND StandortID='.$StandortID.' '.PHP_EOL:''); 
+    $query.=($StandortID!=''?'AND ID IN (SELECT SammlungID FROM sammlung_standort WHERE StandortID='.$StandortID.') '.PHP_EOL:''); 
     // $query.='AND Erfasst='.$Erfasst; 
     echo '<input type="hidden" name="table" value="'.$table.'">
           <input type="hidden" name="sortcol" value="'.$sortcol.'">

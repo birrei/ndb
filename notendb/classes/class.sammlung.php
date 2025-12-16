@@ -14,8 +14,6 @@ include_once('class.link.php');
   public $Name;
   public $VerlagID;
   public $Bestellnummer; 
-  // public $Standort; 
-  public $StandortID; 
   public $Bemerkung;
   public int $Erfasst=0; // true/false, tinyint 1/0 for mysql 
 
@@ -81,8 +79,6 @@ include_once('class.link.php');
   function update_row(
           $Name
           , $VerlagID
-          , $StandortID
-         //  , $Bestellnummer
           , $Bemerkung
           , $Erfasst
          ) 
@@ -92,7 +88,6 @@ include_once('class.link.php');
             SET
             `Name`     = :Name,
             `VerlagID`     = :VerlagID,   
-            `StandortID`     = :StandortID,                              
             `Bemerkung`     = :Bemerkung,
              Erfasst=:Erfasst                               
             WHERE `ID` = :ID");           
@@ -100,8 +95,6 @@ include_once('class.link.php');
       $update->bindParam(':ID', $this->ID);
       $update->bindParam(':Name', $Name);
       $update->bindParam(':VerlagID', $VerlagID,($VerlagID=='' ? PDO::PARAM_NULL : PDO::PARAM_INT));
-      $update->bindParam(':StandortID', $StandortID,($StandortID=='' ? PDO::PARAM_NULL : PDO::PARAM_INT));      
-      // $update->bindParam(':Bestellnummer', $Bestellnummer);
       $update->bindParam(':Bemerkung', $Bemerkung);
       $update->bindParam(':Erfasst', $Erfasst);
 
@@ -147,7 +140,6 @@ include_once('class.link.php');
                           Name, 
                           VerlagID, 
                           Bestellnummer , 
-                          StandortID, 
                           COALESCE(Bemerkung, '') as Bemerkung, 
                           Erfasst 
                         FROM `sammlung`
@@ -161,7 +153,6 @@ include_once('class.link.php');
       $this->Name=$row_data["Name"];
       $this->VerlagID=$row_data["VerlagID"];
       $this->Bestellnummer=$row_data["Bestellnummer"];
-      $this->StandortID=$row_data["StandortID"];
       $this->Bemerkung=$row_data["Bemerkung"]; 
       $this->Erfasst=$row_data["Erfasst"];
       return true; 
@@ -245,8 +236,8 @@ include_once('class.link.php');
     include_once('classes/class.musikstueck.php'); 
     include_once('classes/class.material.php');     
 
-    $sql="INSERT INTO sammlung (Name, VerlagID, StandortID, Bemerkung)
-          SELECT CONCAT(Name, ' (Kopie)') as Name , VerlagID, StandortID, Bemerkung
+    $sql="INSERT INTO sammlung (Name, VerlagID, Bemerkung)
+          SELECT CONCAT(Name, ' (Kopie)') as Name , VerlagID, Bemerkung
           FROM sammlung 
           WHERE ID=:ID ";
 
@@ -272,20 +263,8 @@ include_once('class.link.php');
         $musikstueck->copy($ID_New );  
       }
 
-      /*** Materialien kopieren ***/
-      $select = $this->db->prepare("SELECT ID  FROM `material` WHERE SammlungID=:ID"); 
-
-      $select->bindValue(':ID', $this->ID);  
-
-      $select->execute(); 
-
-      $res = $select->fetchAll(PDO::FETCH_ASSOC);
-
-      foreach ($res as $row=>$value) {
-        $material = new Material(); 
-        $material->ID = $value["ID"]; 
-        $material->copy($ID_New );  
-      }
+      /*** Standorte kopieren ***/
+      $this->copy_standorte($ID_New); 
 
       /*** Besonderheiten kopieren ***/
       $this->copy_lookups($ID_New); 
@@ -313,6 +292,23 @@ include_once('class.link.php');
     $insert->execute();  
 
   }
+
+  function copy_standorte($ID_new) {
+
+    $sql="insert into sammlung_standort 
+          (SammlungID, StandortID) 
+    select :SammlungID as SammlungID
+          , StandortID
+    from sammlung_standort 
+    where SammlungID=:ID";
+
+    $insert = $this->db->prepare($sql); 
+    $insert->bindValue(':ID', $this->ID);  
+    $insert->bindValue(':SammlungID', $ID_new);  
+    $insert->execute();  
+
+  }
+
 
   function add_besetzung($BesetzungID){
     // dataclearing: Besetzung bei allen Musikstücken ergänzen  
@@ -695,42 +691,41 @@ include_once('class.link.php');
   }
 
   function print($Ansicht){
+    return false; 
+    // XXXX Nicht verwendbar, Überarbeitung geplant 
 
-    // XXX Auswertung $Ansicht 
+    // $query="
+    //   SELECT sammlung.ID 
+    //       , CONCAT('Sammlung ID: ', sammlung.ID, '<br>'
+    //               , 'Sammlung Name: ', sammlung.Name, '<br>'
+    //               , 'Standort: ', standort.Name, '<br>'                  
+    //               , 'Verlag: ', verlag.Name, '<br>'               
+    //               , IF(COALESCE(sammlung.Bemerkung,'') <> '', concat('Bemerkung: ', sammlung.Bemerkung), '')                  
+    //       )  as RowDesc   
+    //   FROM sammlung 
+    //       LEFT JOIN standort  on sammlung.StandortID = standort.ID    
+    //       LEFT JOIN verlag  on sammlung.VerlagID = verlag.ID
+    //       LEFT JOIN v_sammlung_lookuptypes as lookups on lookups.SammlungID = sammlung.ID 
+    //   WHERE sammlung.ID = :ID   
+    //   ORDER by sammlung.Name
+    // "
+    // ; 
 
-    $query="
-      SELECT sammlung.ID 
-          , CONCAT('Sammlung ID: ', sammlung.ID, '<br>'
-                  , 'Sammlung Name: ', sammlung.Name, '<br>'
-                  , 'Standort: ', standort.Name, '<br>'                  
-                  , 'Verlag: ', verlag.Name, '<br>'               
-                  , IF(COALESCE(sammlung.Bemerkung,'') <> '', concat('Bemerkung: ', sammlung.Bemerkung), '')                  
-          )  as RowDesc   
-      FROM sammlung 
-          LEFT JOIN standort  on sammlung.StandortID = standort.ID    
-          LEFT JOIN verlag  on sammlung.VerlagID = verlag.ID
-          LEFT JOIN v_sammlung_lookuptypes as lookups on lookups.SammlungID = sammlung.ID 
-      WHERE sammlung.ID = :ID   
-      ORDER by sammlung.Name
-    "
-    ; 
+    // $select = $this->db->prepare($query); 
 
-    $select = $this->db->prepare($query); 
-
-    $select->bindValue(':ID', $this->ID);  
+    // $select->bindValue(':ID', $this->ID);  
       
-    try {
-      $select->execute(); 
-      $result = $select->fetch(PDO::FETCH_ASSOC);
-      echo '<p class="print-sammlung">'.$result["RowDesc"].'</p>'. PHP_EOL; 
-      $this->print_musikstuecke(); 
-    }
-    catch (PDOException $e) {
-      $this->info->print_user_error(); 
-      $this->info->print_error($select, $e);
-    }
+    // try {
+    //   $select->execute(); 
+    //   $result = $select->fetch(PDO::FETCH_ASSOC);
+    //   echo '<p class="print-sammlung">'.$result["RowDesc"].'</p>'. PHP_EOL; 
+    //   $this->print_musikstuecke(); 
+    // }
+    // catch (PDOException $e) {
+    //   $this->info->print_user_error(); 
+    //   $this->info->print_error($select, $e);
+    // }
   }
-
 
   function is_deletable() {
 
@@ -803,14 +798,11 @@ include_once('class.link.php');
     try {
       $stmt->execute(); 
       $html = new HTML_Table($stmt); 
-      $html->edit_link_filename='edit_sammlung_standort.php'; 
-      $html->edit_link_title='Standort'; 
-      $html->edit_link_open_newpage=false; 
-      $html->show_missing_data_message=false; 
-      // $html->add_link_delete=true; 
-      // $html->del_link_filename='edit_sammlung_links.php'; 
-      // $html->del_link_parent_key='SammlungID'; 
-      // $html->del_link_parent_id= $this->ID;       
+      $html->add_link_edit=false; 
+      $html->add_link_delete=true; 
+      $html->del_link_filename='edit_sammlung_standorte.php'; 
+      $html->del_link_parent_key='SammlungID'; 
+      $html->del_link_parent_id= $this->ID;       
       $html->print_table2(); 
 
       
