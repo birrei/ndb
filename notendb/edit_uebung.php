@@ -195,15 +195,6 @@ echo '
 
   ?>
 
-
-  <tr> 
-    <!-- <td class="form-edit form-edit-col1">Besonderheiten:</td>   -->
-    <td class="form-edit form-edit-col1"><a href="edit_uebung_lookups.php?UebungID=<?php echo $uebung->ID; ?>" target="Info">Besonderheiten:</a></td>  
-  <td class="form-edit form-edit-col2">
-    <iframe src="edit_uebung_lookups.php?UebungID=<?php echo $uebung->ID; ?>&source=iframe" height="100" id="subform1" name="Info" class="form-iframe-var2"></iframe>
-  </td>
-  </tr> 
-
   <tr>    
     <label>
     <td class="form-edit form-edit-col1">Bemerkung:</td>  
@@ -211,17 +202,28 @@ echo '
       <textarea name="Bemerkung" rows=2 cols=100 oninput="changeBackgroundColor(this)"><?php echo htmlentities($uebung->Bemerkung) ;?></textarea> 
     </td>
     </label>
-  </tr>     
+  </tr>    
+
+  <tr> 
+    <td class="form-edit form-edit-col1"></td> 
+    <td class="form-edit form-edit-col2"><input class="btnSave" type="submit" name="senden" value="Speichern">  
+    </td>
+  </tr> 
+
+  <tr> 
+    <!-- <td class="form-edit form-edit-col1">Besonderheiten:</td>   -->
+    <td class="form-edit form-edit-col1"><a href="edit_uebung_lookups.php?UebungID=<?php echo $uebung->ID; ?>" target="Info">Besonderheiten:</a></td>  
+  <td class="form-edit form-edit-col2">
+    <iframe src="edit_uebung_lookups.php?UebungID=<?php echo $uebung->ID; ?>&source=iframe" height="200" id="subform1" name="Info" class="form-iframe-var2"></iframe>
+  </td>
+  </tr> 
+
+ 
 
   <input type="hidden" name="option" value="update">
   <input type="hidden" name="ID" value="<?php echo $uebung->ID; ?>">
   <input type="hidden" name="SchuelerID" value="<?php echo $uebung->SchuelerID; ?>">  
 
-      <tr> 
-        <td class="form-edit form-edit-col1"></td> 
-        <td class="form-edit form-edit-col2"><input class="btnSave" type="submit" name="senden" value="Speichern">  
-        </td>
-      </tr> 
         
   </form>
 
