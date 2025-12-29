@@ -1,6 +1,12 @@
 /* 
 Ergänzung Musikstück > Besetzungen aus Satz > Schwierigkeitsgrad- Instrumenten 
-Hinweis: u.a. Abfragen funktionieren nur für Musikstücke, bei denen noch kein Besetzungs-Eintrag zugeordnet wurde 
+
+Hinweise: 
+ * SQL ist von Daten eines Kunden abhängig und daher nicht allgemein anwendbar 
+ * Abfragen funktionieren nur für Musikstücke, bei denen noch kein Besetzungs-Eintrag zugeordnet wurde 
+ 
+To do: SammlungID Anpassen bei XXX - Positionen 
+
 */
 
 /* Violine */
@@ -22,7 +28,7 @@ inner join instrument on instrument.ID = satz_schwierigkeitsgrad.InstrumentID
 left join musikstueck_besetzung on musikstueck_besetzung.MusikstueckID=musikstueck.ID 
 where 1=1 
 and musikstueck_besetzung.ID IS NULL 
-and musikstueck.SammlungID=1253   
+and musikstueck.SammlungID=567    -- XXX 
 group by musikstueck.ID 
 order by musikstueck.ID 
 ) as update_base 
@@ -49,7 +55,7 @@ inner join instrument on instrument.ID = satz_schwierigkeitsgrad.InstrumentID
 left join musikstueck_besetzung on musikstueck_besetzung.MusikstueckID=musikstueck.ID 
 where 1=1 
 and musikstueck_besetzung.ID IS NULL 
-and musikstueck.SammlungID=1253   
+and musikstueck.SammlungID=567    -- XXX 
 group by musikstueck.ID 
 order by musikstueck.ID 
 ) as update_base 
@@ -77,7 +83,7 @@ inner join instrument on instrument.ID = satz_schwierigkeitsgrad.InstrumentID
 left join musikstueck_besetzung on musikstueck_besetzung.MusikstueckID=musikstueck.ID 
 where 1=1 
 and musikstueck_besetzung.ID IS NULL 
-and musikstueck.SammlungID=1253
+and musikstueck.SammlungID=567 -- XXX 
 group by musikstueck.ID 
 order by musikstueck.ID 
 ) as update_base 
