@@ -11,7 +11,7 @@ class DBConnection {
     ini_set('display_errors', true);
   
     $DB_HOST = "localhost"; // Host-Adresse
-    $DB_NAME = "test"; // Datenbankname
+    $DB_NAME = "notendb"; // Datenbankname
     $DB_BENUTZER = "root"; // Benutzername
     $DB_PASSWORT = ""; // Passwort
     
