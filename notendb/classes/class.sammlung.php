@@ -360,32 +360,38 @@ include_once('class.link.php');
     }    
   } 
   
-  function add_verwendungszweck($VerwendungszweckID){
-      // dataclearing: Verwendungszweck bei allen Musikstücken ergänzen  
-   
-      $select = $this->db->prepare("SELECT ID  
-      FROM `musikstueck` 
-      WHERE SammlungID=:ID"); 
-   
-      $select->bindValue(':ID', $this->ID);  
-   
-      $select->execute(); 
-   
-      $res = $select->fetchAll(PDO::FETCH_ASSOC);
-   
-      echo '<p>Anzahl Musikstücke: '.count($res); 
-   
-      foreach ($res as $row=>$value) {
-        $musikstueck = new Musikstueck(); 
-        $musikstueck->ID = $value["ID"]; 
-        $musikstueck->add_verwendungszweck($VerwendungszweckID);
-       }    
-   
+  function add_verwendungszweck($VerwendungszweckID, $MaterialtypID=''){
+    // dataclearing: Verwendungszweck bei allen Musikstücken ergänzen 
+
+    $query="SELECT ID  FROM `musikstueck` WHERE SammlungID=:ID "; 
+
+    if ($MaterialtypID!='') {
+      $query.="AND MaterialtypID= :MaterialtypID "; 
+    }
+  
+    $select = $this->db->prepare($query); 
+
+    $select->bindValue(':ID', $this->ID, PDO::PARAM_INT);  
+
+    if ($MaterialtypID!='') {
+      $select->bindValue(':MaterialtypID', $MaterialtypID, PDO::PARAM_INT);  
+    }    
+  
+    $select->execute(); 
+  
+    $res = $select->fetchAll(PDO::FETCH_ASSOC);
+  
+    echo '<p>Anzahl Musikstücke: '.count($res); 
+  
+    foreach ($res as $row=>$value) {
+      $musikstueck = new Musikstueck(); 
+      $musikstueck->ID = $value["ID"]; 
+      $musikstueck->add_verwendungszweck($VerwendungszweckID);      
+    }    
   } 
 
   function delete_verwendungszweck($VerwendungszweckID){
     // dataclearing: einen Verwendungszeck bei allen Musikstücken entfernen 
-
     $select = $this->db->prepare("SELECT ID  
     FROM `musikstueck` 
     WHERE SammlungID=:ID"); 

@@ -93,7 +93,8 @@ if (isset($_POST["form-sended"])){
         if (!empty($_POST["SammlungID"]) & !empty($_POST["VerwendungszweckID"])) {
             include_once('classes/class.sammlung.php');                     
             $SammlungID=$_POST["SammlungID"]; 
-            $VerwendungszweckID=$_POST["VerwendungszweckID"];                 
+            $VerwendungszweckID=$_POST["VerwendungszweckID"];     
+            $MaterialtypID=$_POST["MaterialtypID"];                           
             $sammlung = new Sammlung(); 
             $sammlung->ID=$SammlungID; 
             // $sammlung->add_verwendungszweck($VerwendungszweckID);
@@ -101,7 +102,7 @@ if (isset($_POST["form-sended"])){
                 $sammlung->delete_verwendungszweck($VerwendungszweckID);
             }
             else {                                
-                $sammlung->add_verwendungszweck($VerwendungszweckID);
+                $sammlung->add_verwendungszweck($VerwendungszweckID, $MaterialtypID);
             }
                     
         }
@@ -293,7 +294,15 @@ if ($form_selected!='') {
         include_once('classes/class.verwendungszweck.php'); 
         $auswahl = new Verwendungszweck(); 
         $auswahl->print_select('','', $auswahl->Title);  // XXX Beschriftung  
+
+        include_once('classes/class.materialtyp.php'); 
+        $materialtyp = new Materialtyp(); 
+        echo ' nur anwenden auf: '; 
+        $materialtyp->print_select('', $materialtyp->Title);  // XXX Beschriftung  
+
         ?>
+
+
         <input type="checkbox" name="sammlung_delete_verwendungszweck"><label for="sammlung_delete_verwendungszweck">entfernen</label> 
 
         <input class="btnSave" type="submit" name="submit" value="ausführen">    
