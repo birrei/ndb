@@ -52,7 +52,9 @@ switch ($table) {
           , IF(COUNT(distinct uebung.Datum) > 0, COUNT(distinct uebung.Datum), NULL) as `Uebung Tage`  
           , MAX(uebung.Datum) as `Uebung zuletzt` "; 
 
-      $query.=', '.$sqlpart->getSQL_COL_CONCAT_Noten(200); 
+      if ($StatusID!='') {
+        $query.=', '.$sqlpart->getSQL_COL_CONCAT_Noten(200); 
+      }
 
       $query.="
           FROM schueler 
@@ -60,8 +62,6 @@ switch ($table) {
             LEFT JOIN uebung ON schueler.ID = uebung.SchuelerID
             LEFT JOIN schueler_satz on  schueler_satz.SchuelerID= schueler.ID 
         ";
-
-
 
       $query.="
 
