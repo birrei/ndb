@@ -205,6 +205,24 @@ class status {
     return $col;  
   }  
 
+  function print_preselect($value_selected=''){
+
+    $query="SELECT ID, Name 
+                  FROM status 
+                  ORDER BY Name";
+    
+    $stmt = $this->db->prepare($query); 
+
+    try {
+      $stmt->execute(); 
+      $html = new HTML_Select($stmt); 
+      $html->print_preselect("StatusID", $value_selected, true); 
+    }
+    catch (PDOException $e) {
+      $this->info->print_user_error(); 
+      $this->info->print_error($stmt, $e); 
+    }
+  }  
 
 }
 
