@@ -3,11 +3,11 @@ $PageTitle='Hilfe Erfassung';
 include_once('head.php');
 ?>
 
-<p class="doc"><b>Kapitel:</b> </p>
+<p class="doc-header"><b>Kapitel:</b> </p>
 
-<div id="inhaltsverzeichnis"></div>
+<div class="doc-toc" id="inhaltsverzeichnis"></div>
 
-<div class="body-doc"> 
+<div class="doc-body"> 
 	<h2 class="chapter-title chapter-title-h2" id="erfassung_sammlung">Screen "Sammlung"</h2>  
         <h3 class="chapter-title chapter-title-h3" id="erfassung_sammlung_info">Was ist eine "Sammlung?"</h3>    
 
@@ -276,9 +276,10 @@ include_once('head.php');
                 Schülern zu Materialen 
                 verwendet werden </p>
 
+</div>
 
          
-		<script src="js_toc.js"></script>
+<script src="js_toc.js"></script>
 
 
 <?php 

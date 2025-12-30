@@ -3,11 +3,11 @@ $PageTitle='Hilfe Suche';
 include_once('head.php');
 ?>
 
-<p class="doc"><b>Kapitel:</b> </p>
+<p class="doc-header"><b>Kapitel:</b> </p>
 
-<div id="inhaltsverzeichnis"></div>
+<div class="doc-toc" id="inhaltsverzeichnis"></div>
 
-<div class="body-doc"> 
+<div class="doc-body"> 
 
 <h1 class="chapter-title chapter-title-h1" id="suche_ansichten">Ansichten</h1>
 
@@ -173,7 +173,7 @@ include_once('head.php');
             <li>Satz Tempobezeichnung  </li>          
             <li>Satz Orchesterbesetzung  </li>          
             <li>Satz Erprobt Bemerkung  </li>          
-        </ul>  
+    </ul>  
 
     <p>Bei Aktivierung einer Ansicht aus der Gruppe "Schüler" werden folgende Felder durchsucht </p>
 
@@ -301,9 +301,7 @@ include_once('head.php');
 
 </div> 
 
-
-
-		<script src="js_toc.js"></script>
+<script src="js_toc.js"></script>
 
 
 <?php 
