@@ -172,15 +172,14 @@ p.warning {
     }
 
 /***** Hilfe  ****************/
-    .body-doc {
+    .doc-body .doc-header {
         width: 60%; 
         margin-left:30px;  
     }
 
-    /* XXXX ?  */
-    .body-doc-toc {
+    .doc-toc {
         width: 60%; 
-        margin-left:0px;  
+        margin-left:30px;  
     }
 
 /***** Sammlung Druck (print_sammlung.php) XXXBETA ****************/

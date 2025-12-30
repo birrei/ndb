@@ -47,6 +47,13 @@ function erstelleInhaltsverzeichnis(zielId) {
     });
   
     zielElement.appendChild(inhaltsverzeichnisListe);
+    
+    // zielElement.style.backgroundColor = 'yellow';    
+    // zielElement.style.paddingLeft = '0px';   
+
+    // zielElement.style.backgroundColor = 'yellow'; 
+    inhaltsverzeichnisListe.style.paddingLeft = '0px'; 
+    // inhaltsverzeichnisListe.style.marginLeft = '0px'; 
   }
   
   // Aufruf der Funktion, sobald das DOM vollständig geladen ist
