@@ -595,7 +595,7 @@ class Schueler {
               left JOIN sammlung on sammlung.ID = musikstueck.SammlungID  
               left JOIN v_uebung_lookuptypes on v_uebung_lookuptypes.UebungID = uebung.ID 
           WHERE uebung.SchuelerID = :ID 
-          ORDER BY uebung.Datum DESC              
+          ORDER BY uebung.Datum DESC, uebung.Name DESC               
         "; 
 
     $stmt = $this->db->prepare($query); 
