@@ -119,7 +119,22 @@ class SQLPart {
                 , CONCAT(' / ".($add_linkebreak?"<br>":"")."', satz.Name), '' ) ) 
                as Noten                       
             "; 
-        break;         
+        break;       
+        
+              /********** ab 200: Gruppierung Schüler **************/
+      case 200: // Auflistung Sammlung, Musikstück + Satz pro Schüler 
+  
+        $tmpSQL.="GROUP_CONCAT(
+                  DISTINCT concat('* ', sammlung.Name, ' / ', musikstueck.Name, 
+                          IF(satz.Name <> '', CONCAT(' / ', satz.Name), ''), 
+                          IF(schueler_satz.StatusID is not null, CONCAT(' / Status: ', status.Name), ''),
+                          IF(schueler_satz.Bemerkung <> '', CONCAT(' / ', schueler_satz.Bemerkung), '')
+              )  
+              order by sammlung.Name, musikstueck.Nummer 
+              SEPARATOR '<br />') as `Noten / Status `  ".PHP_EOL;       
+
+        break;   
+
 
     }
 
