@@ -50,7 +50,7 @@ switch ($table) {
           , schueler.Bemerkung       
           , v_schueler_instrumente.Instrumente         
           , IF(COUNT(distinct uebung.Datum) > 0, COUNT(distinct uebung.Datum), NULL) as `Uebung Tage`  
-          , MAX(uebung.Datum) as `Uebung zuletzt` "; 
+          , MAX(uebung.Datum) as `Datum letzte Übung` "; 
 
       if ($StatusID!='') {
         $query.=', '.$sqlpart->getSQL_COL_CONCAT_Noten(200); 
