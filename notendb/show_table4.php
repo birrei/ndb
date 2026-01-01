@@ -25,7 +25,6 @@ switch ($table) {
     include_once("classes/class.status.php");
     $StatusID=(isset($_REQUEST["StatusID"])?$_REQUEST["StatusID"]:'');
     $Status_Umkehr=(isset($_REQUEST["Status_Umkehr"])?true:false);    
-    
     $Datum=(isset($_REQUEST["Datum"])?$_REQUEST["Datum"]:'');
 
     $status = new Status(); 
@@ -34,13 +33,18 @@ switch ($table) {
 
     echo '<label><input type="checkbox" name="Status_Umkehr" onchange="this.form.submit()" '.($Status_Umkehr?'checked':'').'>Umkehrsuche</label>'; 
 
-    echo ' ||  Datum: <input type="date" name="Datum" value="'.$Datum.'" onchange="this.form.submit()">'; 
+    echo '&#9475;'; 
+    echo 'Übung Datum: <input type="date" name="Datum" value="'.$Datum.'" onchange="this.form.submit()">'; 
 
     echo '<input type="hidden" name="table" value="'.$table.'">'; 
 
     echo '</form><br>';           
 
-    echo $Datum; 
+    // if (empty($Datum)) {
+    //   echo 'Datum ist leer '; 
+    // } else {
+    //   echo $Datum; 
+    // }
 
     $sqlpart = new SQLPart(); 
 
@@ -56,23 +60,22 @@ switch ($table) {
         $query.=', '.$sqlpart->getSQL_COL_CONCAT_Noten(200); 
       }
 
-      $query.="
-          FROM schueler 
-            LEFT JOIN  v_schueler_instrumente ON v_schueler_instrumente.SchuelerID = schueler.ID 
-            LEFT JOIN uebung ON schueler.ID = uebung.SchuelerID
-            LEFT JOIN schueler_satz on  schueler_satz.SchuelerID= schueler.ID 
-        ";
+    $query.="
+        FROM schueler 
+          LEFT JOIN  v_schueler_instrumente ON v_schueler_instrumente.SchuelerID = schueler.ID 
+          LEFT JOIN uebung ON schueler.ID = uebung.SchuelerID
+          LEFT JOIN schueler_satz on  schueler_satz.SchuelerID= schueler.ID 
+      ";
 
-      $query.="
+    $query.="
 
-            LEFT JOIN status on schueler_satz.StatusID= status.ID             
-            LEFT join satz on satz.ID = schueler_satz.SatzID 
-            LEFT join musikstueck on musikstueck.ID = satz.MusikstueckID 
-            LEFT JOIN sammlung on sammlung.ID = musikstueck.SammlungID
-        WHERE 1=1 
-        AND schueler.Aktiv=1 
-        ";
-
+          LEFT JOIN status on schueler_satz.StatusID= status.ID             
+          LEFT join satz on satz.ID = schueler_satz.SatzID 
+          LEFT join musikstueck on musikstueck.ID = satz.MusikstueckID 
+          LEFT JOIN sammlung on sammlung.ID = musikstueck.SammlungID
+      WHERE 1=1 
+      AND schueler.Aktiv=1 
+      ";
 
       // if ($Status_Umkehr) {
       //   $query.=($StatusID!=''?'AND schueler.ID NOT IN (SELECT SchuelerID FROM schueler_satz WHERE StatusID='.$StatusID.')  '.PHP_EOL:' ');
@@ -81,24 +84,23 @@ switch ($table) {
       // }
     
 
-      if ($Status_Umkehr) {
-        $query.=($StatusID!=''?'AND schueler_satz.StatusID!='.$StatusID.' '.PHP_EOL:' ');
-      } else {
-       $query.=($StatusID!=''?'AND schueler_satz.StatusID='.$StatusID.' '.PHP_EOL:' ');      
-      }
+    if ($Status_Umkehr) {
+      $query.=($StatusID!=''?'AND schueler_satz.StatusID!='.$StatusID.' '.PHP_EOL:' ');
+    } else {
+      $query.=($StatusID!=''?'AND schueler_satz.StatusID='.$StatusID.' '.PHP_EOL:' ');      
+    }
 
-  $query.="GROUP By schueler.ID 
-           ORDER BY schueler.Name "; 
+    if (!empty($Datum)) {
+      $query.="AND uebung.Datum='".$Datum."' ";  
+    }
 
-
+    $query.="GROUP By schueler.ID 
+            ORDER BY schueler.Name "; 
 
   break; 
  
 }
 
-
-
-// Link für Neu-Erfassung anzeigen? 
 if ($show_insert_link) {
   echo '<a href="edit_'.$table.'.php?option=insert">Neu erfassen</a><br><br>';
 }
