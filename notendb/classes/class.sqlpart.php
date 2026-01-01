@@ -122,15 +122,28 @@ class SQLPart {
         break;       
         
               /********** ab 200: Gruppierung Schüler **************/
-      case 200: // Auflistung Sammlung, Musikstück + Satz pro Schüler 
+      case 200: // Auflistung Sammlung, Musikstück + Satz
   
         $tmpSQL.="GROUP_CONCAT(
-                  DISTINCT concat('* ', sammlung.Name, ' / ', musikstueck.Name, 
+                  DISTINCT CONCAT('* '
+                                , sammlung.Name
+                                , IF(COALESCE(musikstueck.Name,'') <> '', CONCAT(' / ', musikstueck.Name), '')
+                                , IF(COALESCE(satz.Name,'') <> '', CONCAT(' / ', satz.Name), '')              )  
+                  ORDER BY sammlung.Name, musikstueck.Nummer, satz.Nr  
+                  SEPARATOR '<br />') as `Noten / Status `  ".PHP_EOL;       
+
+        break;   
+
+      case 201: // Auflistung Sammlung, Musikstück + Satz + Status pro Schüler 
+                // XXX hier Concats noch analog zu type 200 anpassen 
+  
+        $tmpSQL.="GROUP_CONCAT(
+                  DISTINCT CONCAT('* ', sammlung.Name, ' / ', musikstueck.Name, 
                           IF(satz.Name <> '', CONCAT(' / ', satz.Name), ''), 
                           IF(schueler_satz.StatusID is not null, CONCAT(' / Status: ', status.Name), ''),
                           IF(schueler_satz.Bemerkung <> '', CONCAT(' / ', schueler_satz.Bemerkung), '')
               )  
-              order by sammlung.Name, musikstueck.Nummer 
+              order by sammlung.Name, musikstueck.Nummer, satz.Nr 
               SEPARATOR '<br />') as `Noten / Status `  ".PHP_EOL;       
 
         break;   
