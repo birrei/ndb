@@ -608,6 +608,7 @@ include_once('class.link.php');
     $this->delete_musikstuecke();  
     $this->delete_materials(); 
     $this->delete_lookups();          
+    $this->delete_standorte();          
  
     $delete = $this->db->prepare("DELETE FROM `sammlung` WHERE ID=:ID"); 
     $delete->bindValue(':ID', $this->ID);  
@@ -638,6 +639,20 @@ include_once('class.link.php');
       $this->info->print_error($delete, $e);  
     }  
   }
+
+  function delete_standorte(){
+
+    $delete = $this->db->prepare("DELETE FROM sammlung_standort WHERE SammlungID=:SammlungID "); 
+    $delete->bindValue(':SammlungID', $this->ID);  
+
+    try {
+      $delete->execute(); 
+    }
+    catch (PDOException $e) {
+      $this->info->print_user_error(); 
+      $this->info->print_error($delete, $e);  
+    }  
+  }  
 
   function delete_materials(){
 
@@ -674,6 +689,8 @@ include_once('class.link.php');
       $link->delete();  
     }
   }
+
+
 
   function delete_musikstuecke(){
 
