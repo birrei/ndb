@@ -5,16 +5,49 @@ include_once('classes/class.htmlinfo.php');
 
 // ---------------------------------------------------------------
 
+
+/* Gruppierte Datenausgabe (Javascript)  */
+
+?>
+
+
+
+<script type="text/javascript">  
+
+    console.log("Hallo");
+
+    const daten = [
+    { kategorie: 'Frucht', name: 'Apfel' },
+    { kategorie: 'Gemüse', name: 'Karotte' },
+    { kategorie: 'Frucht', name: 'Banane' },
+    { kategorie: 'Gemüse', name: 'Brokkoli' }
+    ];
+
+    const gruppierteDaten = Object.groupBy(daten, item => item.kategorie);
+
+    console.log(gruppierteDaten);
+    /* Ausgabe:
+    {
+    Frucht: [ { kategorie: 'Frucht', name: 'Apfel' }, { kategorie: 'Frucht', name: 'Banane' } ],
+    Gemüse: [ { kategorie: 'Gemüse', name: 'Karotte' }, { kategorie: 'Gemüse', name: 'Brokkoli' } ]
+    }
+    */
+
+</script>
+
+
+<?php 
+
 /* Test Ergänzung Ausgabe Besonderheit-Typen  */
 
-    include_once('classes/class.lookuptype.php');
+    // include_once('classes/class.lookuptype.php');
 
-    $lookuptypes=new Lookuptype(); 
-    $arrLookupTypes=$lookuptypes->getArrData2(); 
+    // $lookuptypes=new Lookuptype(); 
+    // $arrLookupTypes=$lookuptypes->getArrData2(); 
 
-    echo '<pre>'; 
-    print_r($arrLookupTypes); 
-    echo '</pre>';      
+    // echo '<pre>'; 
+    // print_r($arrLookupTypes); 
+    // echo '</pre>';      
 
 
 

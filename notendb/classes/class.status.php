@@ -6,7 +6,7 @@ include_once("class.htmlselect.php");
 include_once("class.htmltable.php"); 
 
 class status {
-
+  // XXX Name -> Upper case! 
   public $table_name='status'; 
   public $ID;
   public $Name;

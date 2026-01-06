@@ -2,30 +2,35 @@
 include_once('classes/class.htmlinfo.php');
 include_once('classes/class.sqlpart.php');
 
-$table=$_REQUEST["table"]; 
+$Ansicht=$_REQUEST["Ansicht"]; 
 
 $show_data=true; 
 $add_link_edit=true; 
 $show_insert_link=false; // "Neu einfügen" - Link anzeigen ja / nein - default: nein 
 $add_link_show=false; 
-$table_edit = $table; 
 
 /*********** Filter  ********************/
 
-switch ($table) {
+switch ($Ansicht) {
 
-  case 'schueler': 
+  case 'schueler2': 
     $PageTitle='Übersicht Schüler';  
     include_once('head.php');   
+    include_once("classes/class.status.php");
+    include_once("classes/class.wochentage.php");
 
+    $table='schueler'; 
+    $table_edit = $table; 
 
     echo '<h3>'.$PageTitle.'</h3>'.PHP_EOL; 
 
-    echo '<form action="" method="get">'.PHP_EOL;       
-    include_once("classes/class.status.php");
     $StatusID=(isset($_REQUEST["StatusID"])?$_REQUEST["StatusID"]:'');
     $Status_Umkehr=(isset($_REQUEST["Status_Umkehr"])?true:false);    
     $Datum=(isset($_REQUEST["Datum"])?$_REQUEST["Datum"]:'');
+ 
+    $Unterricht_Wochentag =(isset($_REQUEST["wochentag_nr"])?$_REQUEST["wochentag_nr"]:0);
+
+    echo '<form action="" method="get">'.PHP_EOL;       
 
     $status = new Status(); 
     echo 'Status Satz Verknüpfung: '.PHP_EOL; 
@@ -36,23 +41,23 @@ switch ($table) {
     echo '&#9475;'; 
     echo 'Übung Datum: <input type="date" name="Datum" value="'.$Datum.'" onchange="this.form.submit()">'; 
 
-    echo '<input type="hidden" name="table" value="'.$table.'">'; 
+        echo ' &#9475; Wochentag: '; 
+    $wochentage = new Wochentage(); 
+    $wochentage->print_preselect($Unterricht_Wochentag); 
+        
+    echo '<input type="hidden" name="Ansicht" value="'.$Ansicht.'">'; 
 
     echo '</form><br>';           
 
-    // if (empty($Datum)) {
-    //   echo 'Datum ist leer '; 
-    // } else {
-    //   echo $Datum; 
-    // }
-
     $sqlpart = new SQLPart(); 
-
 
     $query="SELECT schueler.ID 
           , schueler.Name
           , schueler.Bemerkung       
-          , v_schueler_instrumente.Instrumente         
+          , v_schueler_instrumente.Instrumente
+          -- , wochentage.wochentag_name
+          , IF(schueler.Unterricht_Wochentag=0, '', wochentage.wochentag_name) as   `Unterricht Wochentag` 
+          , IF(schueler.Unterricht_Reihenfolge=0, '', schueler.Unterricht_Reihenfolge) as `Unterricht Tag Reihenfolge` 
           , IF(COUNT(distinct uebung.Datum) > 0, COUNT(distinct uebung.Datum), NULL) as `Uebung Tage`  
           , MAX(uebung.Datum) as `Datum letzte Übung` "; 
 
@@ -65,6 +70,7 @@ switch ($table) {
           LEFT JOIN  v_schueler_instrumente ON v_schueler_instrumente.SchuelerID = schueler.ID 
           LEFT JOIN uebung ON schueler.ID = uebung.SchuelerID
           LEFT JOIN schueler_satz on  schueler_satz.SchuelerID= schueler.ID 
+          LEFT JOIN wochentage ON wochentage.wochentag_nr = schueler.Unterricht_Wochentag 
       ";
 
     $query.="
@@ -90,12 +96,75 @@ switch ($table) {
       $query.=($StatusID!=''?'AND schueler_satz.StatusID='.$StatusID.' '.PHP_EOL:' ');      
     }
 
+    if ($Unterricht_Wochentag > 0 ) {
+      $query.="AND schueler.Unterricht_Wochentag=".$Unterricht_Wochentag." ";  
+    }
+
     if (!empty($Datum)) {
       $query.="AND uebung.Datum='".$Datum."' ";  
     }
 
     $query.="GROUP By schueler.ID 
             ORDER BY schueler.Name "; 
+
+    break; 
+
+
+  case 'uebungen1': 
+    $PageTitle='Übersicht Übungen';  
+    include_once('head.php');   
+
+    $table='uebung'; 
+    $table_edit = $table; 
+
+    echo '<h3>'.$PageTitle.'</h3>'.PHP_EOL; 
+
+    
+    $Datum=(isset($_REQUEST["Datum"])?$_REQUEST["Datum"]:'');
+
+
+    echo '<form action="" method="get">'.PHP_EOL;       
+
+    echo 'Übung Datum: <input type="date" name="Datum" value="'.$Datum.'" onchange="this.form.submit()">'; 
+
+    echo '<input type="hidden" name="Ansicht" value="'.$Ansicht.'">'; 
+
+    echo '</form><br>';           
+
+    $sqlpart = new SQLPart(); 
+
+    $query="SELECT 
+                  uebung.ID
+                  , schueler.Name as Schueler
+                  , schueler.Unterricht_Reihenfolge as `Reihenfolge`
+                  , uebungtyp.Name as `Uebung Typ`     
+                  , uebung.Name as `Uebung Inhalt`  
+                  , uebung.Datum as `Datum` 
+                  , CONCAT(uebung.Anzahl, ' ', uebungtyp.Einheit) Menge  
+                  , uebung.Bemerkung 
+                  , v_uebung_lookuptypes.LookupList2 as Besonderheiten                   
+                  "; 
+
+    $query.=", ".$sqlpart->getSQL_COL_CONCAT_Noten(300); 
+
+
+    $query.="FROM uebung 
+                  INNER join schueler on schueler.ID=uebung.SchuelerID
+                                and schueler.Aktiv=1
+                  left join uebungtyp on uebung.UebungtypID=uebungtyp.ID 
+                  left join satz  on satz.ID=uebung.SatzID 
+                  left join musikstueck on satz.MusikstueckID = musikstueck.ID
+                  left JOIN sammlung on sammlung.ID = musikstueck.SammlungID
+                  left join v_uebung_lookuptypes on v_uebung_lookuptypes.UebungID=uebung.ID 
+
+    
+                WHERE 1=1 "; 
+
+    if (!empty($Datum)) {
+      $query.="AND uebung.Datum='".$Datum."' ";  
+    }
+
+    $query.="ORDER BY uebung.Datum DESC, schueler.Unterricht_Reihenfolge, uebung.Name "; 
 
   break; 
  

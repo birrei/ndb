@@ -16,6 +16,9 @@ class Schueler {
   public $Titles='Schüler';  
   public string $infotext=''; 
   public int $Aktiv=1; // true/false, tinyint 1/0 for mysql 
+  public int $Unterricht_Wochentag=0; 
+  public int $Unterricht_Reihenfolge=0; 
+
   
   private $db; 
   private $info; 
@@ -91,18 +94,22 @@ class Schueler {
     }
   }
 
-  function update_row($Name, $Bemerkung, $Aktiv) {
+  function update_row($Name, $Bemerkung, $Aktiv, $Unterricht_Wochentag, $Unterricht_Reihenfolge) {
 
     $update = $this->db->prepare("UPDATE `schueler` 
                             SET`Name`     = :Name,
-                            Bemerkung = :Bemerkung, 
-                            Aktiv = :Aktiv
+                              Bemerkung = :Bemerkung, 
+                              Aktiv = :Aktiv, 
+                              Unterricht_Wochentag = :Unterricht_Wochentag, 
+                              Unterricht_Reihenfolge = :Unterricht_Reihenfolge
                             WHERE `ID` = :ID"); 
 
     $update->bindParam(':ID', $this->ID, PDO::PARAM_INT);
     $update->bindParam(':Name', $Name);
     $update->bindParam(':Bemerkung', $Bemerkung);    
     $update->bindParam(':Aktiv', $Aktiv);   
+    $update->bindParam(':Unterricht_Wochentag', $Unterricht_Wochentag, PDO::PARAM_INT);    
+    $update->bindParam(':Unterricht_Reihenfolge', $Unterricht_Reihenfolge, PDO::PARAM_INT);    
 
     try {
       $update->execute(); 
@@ -120,6 +127,8 @@ class Schueler {
                           , `Name`
                           , COALESCE(Bemerkung, '') as Bemerkung
                           , Aktiv  
+                          , Unterricht_Wochentag  
+                          , Unterricht_Reihenfolge  
                           FROM `schueler`
                           WHERE `ID` = :ID");
 
@@ -130,6 +139,8 @@ class Schueler {
       $this->Name=$row_data["Name"];    
       $this->Bemerkung=$row_data["Bemerkung"];       
       $this->Aktiv=$row_data["Aktiv"];             
+      $this->Unterricht_Wochentag=$row_data["Unterricht_Wochentag"];             
+      $this->Unterricht_Reihenfolge=$row_data["Unterricht_Reihenfolge"];             
       return true; 
     } 
     else {
@@ -398,7 +409,6 @@ class Schueler {
     }  
   }
 
-
   function delete_schwierigkeitsgrade(){
 
     $delete = $this->db->prepare("DELETE FROM `schueler_schwierigkeitsgrad` WHERE SchuelerID=:ID"); 
@@ -464,11 +474,10 @@ class Schueler {
     }
   }
 
-
   function copy(){
 
-    $sql="INSERT INTO schueler (Name, Bemerkung)
-          SELECT CONCAT(Name, ' (Kopie)') as Name , Bemerkung
+    $sql="INSERT INTO schueler (Name, Bemerkung, Unterricht_Wochentag, Unterricht_Reihenfolge)
+          SELECT CONCAT(Name, ' (Kopie)') as Name , Bemerkung, Unterricht_Wochentag, Unterricht_Reihenfolge 
           FROM schueler 
           WHERE ID=:ID ";
     // Aktiv nicht kopieren, da default = 1
@@ -524,8 +533,8 @@ class Schueler {
 
   }   
 
-
   function print_select_saetze($selected_SatzID=''){
+    // XXXX verbessern 
 
     $query="
       SELECT satz.ID

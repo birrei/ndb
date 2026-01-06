@@ -3,6 +3,7 @@
 $PageTitle='Schüler'; 
 include_once('head.php');
 include_once("classes/class.schueler.php");
+include_once("classes/class.wochentage.php");
 include_once("classes/class.htmlinfo.php");
 
 $schueler = new Schueler();
@@ -24,7 +25,7 @@ switch($option) {
   case 'update': 
     $Aktiv=(isset($_POST["Aktiv"])?1:0);       
     $schueler->ID = $_POST["ID"];    
-    $schueler->update_row($_POST["Name"],$_POST["Bemerkung"], $Aktiv);        
+    $schueler->update_row($_POST["Name"],$_POST["Bemerkung"], $Aktiv, $_POST["wochentag_nr"],$_POST["Unterricht_Reihenfolge"]);        
     break; 
 
   case 'delete_1': 
@@ -74,8 +75,22 @@ echo '
   <tr>    
     <label>
     <td class="form-edit form-edit-col1">Name:</td>  
-    <td class="form-edit form-edit-col2"><input type="text" name="Name" value="'.$schueler->Name.'" size="80" autofocus="autofocus" oninput="changeBackgroundColor(this)"required></td>
-    </label>
+    <td class="form-edit form-edit-col2">
+      <input type="text" name="Name" value="'.$schueler->Name.'" size="50" autofocus="autofocus" oninput="changeBackgroundColor(this)" required>
+    </label>';  
+
+    $wochentage = new Wochentage(); 
+    $wochentage->print_select($schueler->Unterricht_Wochentag); 
+
+    echo ' <label>Reihenfolge: 
+          <input type="text" name="Unterricht_Reihenfolge" value="'.$schueler->Unterricht_Reihenfolge.'" size="10" oninput="changeBackgroundColor(this)">
+          </label>
+    
+    '; 
+
+echo '
+    </td>
+
   </tr> 
 
   <tr>    

@@ -155,45 +155,24 @@ include_once('head.php');
             </p>     
 
 
-          
-	<h2 class="chapter-title chapter-title-h2" id="erfassung_material">Material</h2>
-		<h3 class="chapter-title chapter-title-h3" id="erfassung_material_sammlung">Material: Sammlung</h3>
-			<p>Materialien können zu einer Sammlung, aber auch unabhängig von einer Sammlung angelegt werden</p>
-			<p>Die Erfassung eines Materials zu einer Sammlung wird <a href="#erfassung_sammlung_kopieren">von der Sammlung aus</a> durchgeführt</p>
-			<p>Falls ein Material separat angelegte wird, wird das Feld "Sammlung" nicht angezeigt und bleibt intern leer. </p>
-
-		<h3 class="chapter-title chapter-title-h3" id="erfassung_material_materialtyp">Material: Materialtyp</h3>
-			<p>XXX
-		<h3 class="chapter-title chapter-title-h3" id="erfassung_material_schueler">Material: Schüler</h3>		
-
-			<p>Im Unterformular werden die mit dem Material verknüpften Schüler angezeigt.</p>
-
-			<p>Über "hinzufügen" kann eine neue Verknüpfung zu einem Schüler erstellt werden, 
-				über "Schnell-Zuordnung" können mehrere Schüler in einem Arbeitsgang zugeordnet werden.</p>
-				
-			<p>Die erstellten Verknüpfungen sind auch im <a href="#erfassung_schueler_material">Schüler-Formular, Unterformular "Verknüpfte Materalien"</a> sichtbar. </p>
-
-			<p>Eigenschaften der Schüler-Material - Verknüpfung: 
-				<ul>    
-						<li>Status (Auswahl aus den unter <a href="#erfassung_status">Stammdaten: Status</a> erfassten Einträgen). 
-								Bei der "Schnell-Zuordnung" wird automatisch der Status mit der niedrigsten ID als Vorgabe gespeichert. 
-						</li>
-						<li>Datum von</li>
-						<li>Datum bis</li>
-						<li>Bemerkung</li>
-				</ul>
-				</p>
+      
 											
 
     <h2 class="chapter-title chapter-title-h2" id="erfassung_schueler">Schüler</h2>
+
         <h3 class="chapter-title chapter-title-h3" id="erfassung_schueler_aktiv">Schüler: Aktiv</h3>
             <p> Schnellinfo: Über das Feld "Aktiv" kann der Schüler durch entfernen des Hakens auf inaktiv gesetzt werden. 
                 Übersicht: Zeigt Filter "Aktiv", sodass standardmäßig nur aktive Schüler gezeigt werden. Durch entfernen des Hakens schaltet der 
                 Filter um und zeigt dann nur inaktive Schüler. 
                 Bei der Anlage eines neuen Schülers ist das Feld standardmäßig auf Aktiv gesetzt. 
                 Unter "Suche": Das Auswahlfeld "Schüler" zeigt nur aktive Schüler an.  
-
             </p>    
+
+        <h3 class="chapter-title chapter-title-h3" id="erfassung_schueler_wochentag">Schüler: Unterricht Wochentag / Unterricht Reihenfolge</h3>
+            <p> Unterricht Wochentag: Wochentag, an dem ein Schüler normalierweise Unterricht hat. </p>    
+            <p> Unterricht Reihenfolge: Übliche Reihenfolge am Tag (wirkt sich auf die auf die Anzeigereihenfolge Tagesübersicht aus) </p>    
+
+
         <h3 class="chapter-title chapter-title-h3" id="erfassung_schueler_schwierigkeitsgrade">Schüler: Instrumente und Schwierigkeitsgrade</h3>
             <p>Optionen: </p>
             <ul>
@@ -207,17 +186,16 @@ include_once('head.php');
                         über <a href="#erfassung_satz_schueler">das "Satz"-Formular / Unterformular "Schüler"</a> erfolgen 
                         (weitere Informationen zu Eigenschaften einer Verknüpfung siehe dort)</p>
 
-        <h3 class="chapter-title chapter-title-h3" id="erfassung_schueler_material">Schüler: Verknüpfte Materialien</h3>
 
-                <p> Im Unterformular werden die mit dem Schüler verknüpften Materialien angezeigt. </p> 
+        <h3 class="chapter-title chapter-title-h3" id="erfassung_schueler_material">Schüler: Verknüpfte Noten</h3>
+
+                <p> Im Unterformular werden die mit dem Schüler verknüpften Noten angezeigt. </p> 
                     <p> Die Verknüpfungen können im Unterformular bearbeitet werden, das hinzufügen neuer Verknüpfungen muss jedoch über 
                         über <a href="#erfassung_material_schueler">das "Material"-Formular / Unterformular "Schüler"</a> erfolgen 
                         (weitere Informationen zu Eigenschaften einer Verknüpfung siehe dort)</p>
 
         <h3 class="chapter-title chapter-title-h3" id="erfassung_schueler_kopieren">Schüler kopieren</h3>
             <p>Die Daten eines Schüler werden inklusive Instrumente/Schwierigkeitsgrade sowie aller Material- und Satzverknüpfungen kopiert. </p>
-
-
 
 
 	<h2 class="chapter-title chapter-title-h3" id="erfassung_stammdaten_besetzung">Stammdaten: Besetzung</h2>
