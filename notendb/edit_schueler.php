@@ -56,7 +56,8 @@ switch($option) {
 }
 
 $info->print_screen_header($schueler->Title.' bearbeiten'); 
-$info->print_link_table('v_schueler', 'sortcol=Name', $schueler->Titles); 
+$info->print_link_table2('schueler'); 
+
 
 if (!$show_data) {goto pagefoot;}
   

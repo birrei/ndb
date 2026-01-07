@@ -35,9 +35,8 @@ a:hover {
     <td class="start"><h3>Daten</h3></td>
     <td class="start">
       <a href="show_table2.php?table=v_sammlung&sortcol=ID&sortorder=DESC">Übersicht Sammlungen</a><br>
-      <a href="show_table2.php?table=v_schueler&sortcol=Name">Übersicht Schüler 1</a> | 
-      <a href="show_table4.php?Ansicht=schueler2">Übersicht Schüler 2</a><br>
-      <a href="show_table4.php?Ansicht=uebungen1">Übersicht Übungen</a>
+      <a href="show_table4.php?Ansicht=schueler">Übersicht Schüler</a><br>
+      <a href="show_table4.php?Ansicht=uebungen">Übersicht Übungen</a>
       <br>
       <!-- <a href="show_table2.php?table=v_uebung&sortcol=ID&sortorder=DESC">Übungen</a> <br>  Übersicht nicht verwenden, Übungen werden über Schüler-Formular verwaltet   -->
   </td>

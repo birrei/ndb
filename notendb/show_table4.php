@@ -13,7 +13,7 @@ $add_link_show=false;
 
 switch ($Ansicht) {
 
-  case 'schueler2': 
+  case 'schueler': 
     $PageTitle='Übersicht Schüler';  
     include_once('head.php');   
     include_once("classes/class.status.php");
@@ -21,32 +21,39 @@ switch ($Ansicht) {
 
     $table='schueler'; 
     $table_edit = $table; 
+    $show_insert_link=true;     
 
     echo '<h3>'.$PageTitle.'</h3>'.PHP_EOL; 
 
     $StatusID=(isset($_REQUEST["StatusID"])?$_REQUEST["StatusID"]:'');
     $Status_Umkehr=(isset($_REQUEST["Status_Umkehr"])?true:false);    
     $Datum=(isset($_REQUEST["Datum"])?$_REQUEST["Datum"]:'');
- 
     $Unterricht_Wochentag =(isset($_REQUEST["wochentag_nr"])?$_REQUEST["wochentag_nr"]:0);
 
-    echo '<form action="" method="get">'.PHP_EOL;       
+    $Aktiv=1; 
+    if(isset($_REQUEST["Filter"])) {
+      $Aktiv=(isset($_REQUEST["Aktiv"])?1:0); 
+    }
+
+
+
+    echo '<form action="" method="get">'.PHP_EOL;  
+    echo '<label><input type="checkbox" name="Aktiv" onchange="this.form.submit()" '.($Aktiv==1?'checked':'').'>Aktiv</label>'; 
+    echo ' &#9475;';
 
     $status = new Status(); 
     echo 'Status Satz Verknüpfung: '.PHP_EOL; 
     $status->print_preselect($StatusID); 
 
     echo '<label><input type="checkbox" name="Status_Umkehr" onchange="this.form.submit()" '.($Status_Umkehr?'checked':'').'>Umkehrsuche</label>'; 
-
-    echo '&#9475;'; 
+    echo ' &#9475;'; 
     echo 'Übung Datum: <input type="date" name="Datum" value="'.$Datum.'" onchange="this.form.submit()">'; 
-
-        echo ' &#9475; Wochentag: '; 
+    echo ' &#9475; Wochentag: '; 
     $wochentage = new Wochentage(); 
     $wochentage->print_preselect($Unterricht_Wochentag); 
         
     echo '<input type="hidden" name="Ansicht" value="'.$Ansicht.'">'; 
-
+    echo '<input type="hidden" name="Filter" value="gesetzt">'; // Nur beim Erstaufruf der Seite nicht gesetzt 
     echo '</form><br>';           
 
     $sqlpart = new SQLPart(); 
@@ -80,7 +87,6 @@ switch ($Ansicht) {
           LEFT join musikstueck on musikstueck.ID = satz.MusikstueckID 
           LEFT JOIN sammlung on sammlung.ID = musikstueck.SammlungID
       WHERE 1=1 
-      AND schueler.Aktiv=1 
       ";
 
       // if ($Status_Umkehr) {
@@ -89,6 +95,7 @@ switch ($Ansicht) {
       //   $query.=($StatusID!=''?'AND schueler.ID IN (SELECT SchuelerID FROM schueler_satz WHERE StatusID='.$StatusID.')  '.PHP_EOL:' ');
       // }
     
+    $query.=($Aktiv==1?"AND schueler.Aktiv=1 ".PHP_EOL:"AND schueler.Aktiv=0 "); 
 
     if ($Status_Umkehr) {
       $query.=($StatusID!=''?'AND schueler_satz.StatusID!='.$StatusID.' '.PHP_EOL:' ');
@@ -110,7 +117,7 @@ switch ($Ansicht) {
     break; 
 
 
-  case 'uebungen1': 
+  case 'uebungen': 
     $PageTitle='Übersicht Übungen';  
     include_once('head.php');   
 

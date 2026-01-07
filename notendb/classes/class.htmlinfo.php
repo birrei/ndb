@@ -16,20 +16,11 @@ class HTML_Info {
 
 
     function print_link_table($target_table, $sortinfo, $target_title, $show_newtab=false, $additional_params='', $suffix='') {
-        /** Link auf Seite show_table2.php */
         echo '<a href="show_table2.php?table='.$target_table.'&'.$sortinfo.'&title='.$target_title.($additional_params!=''?$additional_params:'').'"'.($show_newtab?' target="_blank"':'').' tabindex="-1" class="form-link">Daten anzeigen</a>'.($suffix!=''?$suffix:'').($this->use_paragraph?'</p>':'');
-        // break; 
-        // XXX Parameter option_linktext auflösen 
-        // switch($this->option_linktext) {
- 
-        //     case 0:
-        //         echo '<a href="show_table2.php?table='.$target_table.'&'.$sortinfo.'&title='.$target_title.($additional_params!=''?$additional_params:'').'"'.($show_newtab?' target="_blank"':'').' tabindex="-1" class="form-link">Daten</a>'.($suffix!=''?$suffix:'').($this->use_paragraph?'</p>':'');
-        //         break; 
+    }
 
-        //     case 1: 
-        //         echo '<a href="show_table2.php?table='.$target_table.'&'.$sortinfo.'&title='.$target_title.($additional_params!=''?$additional_params:'').'"'.($show_newtab?' target="_blank"':'').' tabindex="-1" class="form-link">'.$target_title.' anzeigen</a>'.($suffix!=''?$suffix:'').($this->use_paragraph?'</p>':'');
-        //         break; 
-        // }
+    function print_link_table2($Ansicht, $show_newtab=false, $additional_params='', $suffix='') {
+        echo '<a href="show_table4.php?Ansicht='.$Ansicht.'" '.($show_newtab?' target="_blank"':'').' tabindex="-1" class="form-link">Daten anzeigen</a>'.($suffix!=''?$suffix:'').($this->use_paragraph?'</p>':'');
     }
 
     function print_link($link_url, $link_text) {
