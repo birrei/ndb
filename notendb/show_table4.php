@@ -125,10 +125,8 @@ switch ($Ansicht) {
     $table_edit = $table; 
 
     echo '<h3>'.$PageTitle.'</h3>'.PHP_EOL; 
-
     
-    $Datum=(isset($_REQUEST["Datum"])?$_REQUEST["Datum"]:'');
-
+    $Datum=(isset($_REQUEST["Datum"])?$_REQUEST["Datum"]:date('Y-m-d')); 
 
     echo '<form action="" method="get">'.PHP_EOL;       
 
@@ -194,7 +192,7 @@ try {
   $select->execute(); 
   include_once("classes/class.htmltable.php");      
   $html = new HTML_Table($select); 
-  $html->add_link_show=$add_link_show; 
+  // $html->add_link_show=$add_link_show; 
   $html->add_link_edit= $add_link_edit; 
   $html->edit_link_table=$table_edit; 
   $html->edit_link_open_newpage = true; 
