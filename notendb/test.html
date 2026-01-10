@@ -1,0 +1,34 @@
+<head>
+  <title>Test Javascript gruppierte Darstellung von Tabellen</title>
+</head>
+<body>
+  <p>Test Javascript gruppierte Darstellung von Tabellen</p>
+
+  <script>
+    console.log('Skript am Ende des Body ausgeführt!');
+    // Ihr Code hier...
+
+    // console.log("Hallo");
+
+    const daten = [
+    { kategorie: 'Frucht', name: 'Apfel' },
+    { kategorie: 'Gemüse', name: 'Karotte' },
+    { kategorie: 'Frucht', name: 'Banane' },
+    { kategorie: 'Gemüse', name: 'Brokkoli' }
+    ];
+
+    const gruppierteDaten = Object.groupBy(daten, item => item.kategorie);
+
+    console.log(gruppierteDaten);
+    /* Ausgabe:
+    {
+    Frucht: [ { kategorie: 'Frucht', name: 'Apfel' }, { kategorie: 'Frucht', name: 'Banane' } ],
+    Gemüse: [ { kategorie: 'Gemüse', name: 'Karotte' }, { kategorie: 'Gemüse', name: 'Brokkoli' } ]
+    }
+    */
+
+
+
+  </script>
+</body>
+</html>
