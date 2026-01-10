@@ -77,7 +77,7 @@ echo '
     <label>
     <td class="form-edit form-edit-col1">Name:</td>  
     <td class="form-edit form-edit-col2">
-      <input type="text" name="Name" value="'.$schueler->Name.'" size="50" autofocus="autofocus" oninput="changeBackgroundColor(this)" required>
+      <input type="text" name="Name" value="'.$schueler->Name.'" size="100" autofocus="autofocus" oninput="changeBackgroundColor(this)" required>
     </label>';  
 
     $wochentage = new Wochentage(); 
