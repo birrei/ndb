@@ -673,7 +673,8 @@ class Schueler {
             AND uebung_lookup.ID  is not null 
             GROUP by uebung.SchuelerID
                  , uebung_lookup.LookupID
-            ORDER BY `Datum Zuletzt` DESC              
+            -- ORDER BY `Datum Zuletzt` DESC
+            ORDER BY  lookup_type.Name, lookup.Name              
             ";  
 
       break; 
