@@ -112,7 +112,9 @@ switch ($Ansicht) {
     }
 
     $query.="GROUP By schueler.ID 
-            ORDER BY schueler.Name "; 
+            -- ORDER BY schueler.Name 
+            ORDER BY schueler.Unterricht_Reihenfolge 
+            "; 
 
     break; 
 
