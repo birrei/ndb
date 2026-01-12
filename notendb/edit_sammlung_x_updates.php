@@ -31,6 +31,7 @@ echo '<pre>';
 if (isset($_POST["form-sended"])){
     // print_r($_POST); 
     switch($_POST["form-sended"]) {
+
       case 'sammlung-musikstueck-order': 
         if (!empty($_POST["SammlungID"]) & !empty($_POST["ab_musikstueck_nr"])) 
             {
@@ -40,7 +41,6 @@ if (isset($_POST["form-sended"])){
             $sammlung = new Sammlung(); 
             $sammlung->ID=$SammlungID; 
             $sammlung->musikstuecke_move_order($ab_musikstueck_nr); 
-
         }
 
       break; 
@@ -72,29 +72,32 @@ if (isset($_POST["form-sended"])){
             $sammlung->add_schwierigkeitsgrad($InstrumentID,$SchwierigkeitsgradID); 
      
         }
-        break;       
+        break;    
+
       case 'sammlung-besetzung': 
-            if (!empty($_POST["SammlungID"]) & !empty($_POST["BesetzungID"])) {
-                include_once('classes/class.sammlung.php');                     
-                $SammlungID=$_POST["SammlungID"]; 
-                $BesetzungID=$_POST["BesetzungID"];                 
-                $sammlung = new Sammlung(); 
-                $sammlung->ID=$SammlungID; 
-                
-                if (isset($_POST["sammlung_delete_besetzung"])) {
-                    $sammlung->delete_besetzung($BesetzungID);
-                }
-                else {                                
-                    $sammlung->add_besetzung($BesetzungID);
-                }
+        if (!empty($_POST["SammlungID"]) & !empty($_POST["BesetzungID"])) {
+            include_once('classes/class.sammlung.php');                     
+            $SammlungID=$_POST["SammlungID"]; 
+            $BesetzungID=$_POST["BesetzungID"];                 
+            $sammlung = new Sammlung(); 
+            $sammlung->ID=$SammlungID; 
+            $MaterialtypID=isset($_POST["MaterialtypID"])?$_POST["MaterialtypID"]:'';     
+
+            if (isset($_POST["sammlung_delete_besetzung"])) {
+                $sammlung->delete_besetzung($BesetzungID);
             }
-            break; 
+            else {                                
+                $sammlung->add_besetzung($BesetzungID, $MaterialtypID);
+            }
+        }
+        break; 
+
       case 'sammlung-verwendungszweck': 
         if (!empty($_POST["SammlungID"]) & !empty($_POST["VerwendungszweckID"])) {
             include_once('classes/class.sammlung.php');                     
             $SammlungID=$_POST["SammlungID"]; 
             $VerwendungszweckID=$_POST["VerwendungszweckID"];     
-            $MaterialtypID=$_POST["MaterialtypID"];                           
+            $MaterialtypID=isset($_POST["MaterialtypID"])?$_POST["MaterialtypID"]:'';                             
             $sammlung = new Sammlung(); 
             $sammlung->ID=$SammlungID; 
             // $sammlung->add_verwendungszweck($VerwendungszweckID);
@@ -103,8 +106,7 @@ if (isset($_POST["form-sended"])){
             }
             else {                                
                 $sammlung->add_verwendungszweck($VerwendungszweckID, $MaterialtypID);
-            }
-                    
+            }       
         }
         break; 
  
@@ -112,10 +114,11 @@ if (isset($_POST["form-sended"])){
         if (!empty($_POST["SammlungID"]) & !empty($_POST["KomponistID"])) {
             include_once('classes/class.sammlung.php');                     
             $SammlungID=$_POST["SammlungID"]; 
-            $KomponistID=$_POST["KomponistID"];                 
+            $KomponistID=$_POST["KomponistID"];    
+            $MaterialtypID=isset($_POST["MaterialtypID"])?$_POST["MaterialtypID"]:'';                                 
             $sammlung = new Sammlung(); 
             $sammlung->ID=$SammlungID; 
-            $sammlung->add_komponist($KomponistID);                     
+            $sammlung->add_komponist($KomponistID, $MaterialtypID);                     
         }
         break;
 
@@ -253,6 +256,13 @@ if ($form_selected!='') {
         include_once('classes/class.komponist.php'); 
         $auswahl = new Komponist(); 
         $auswahl->print_select('', $auswahl->Title); 
+
+        include_once('classes/class.materialtyp.php'); 
+        $materialtyp = new Materialtyp(); 
+        echo ' nur anwenden auf: '; 
+        $materialtyp->print_select('', $materialtyp->Title);  // XXX Beschriftung  
+
+
         ?>
       <input class="btnSave" type="submit" name="submit" value="ausführen">    
       <input type="hidden" name="form-sended" value="sammlung-komponist">  
@@ -273,6 +283,12 @@ if ($form_selected!='') {
         include_once('classes/class.besetzung.php'); 
         $auswahl = new Besetzung(); 
         $auswahl->print_select('', '',$auswahl->Title);  // XXX Beschriftung  
+
+        include_once('classes/class.materialtyp.php'); 
+        $materialtyp = new Materialtyp(); 
+        echo ' nur anwenden auf: '; 
+        $materialtyp->print_select('', $materialtyp->Title);  // XXX Beschriftung  
+
         ?>
         <input type="checkbox" name="sammlung_delete_besetzung"><label for="sammlung_delete_besetzung">entfernen</label> 
         <input class="btnSave" type="submit" name="submit" value="ausführen">    

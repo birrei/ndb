@@ -310,33 +310,37 @@ include_once('class.link.php');
   }
 
 
-  function add_besetzung($BesetzungID){
+  function add_besetzung($BesetzungID, $MaterialtypID){
     // dataclearing: Besetzung bei allen Musikstücken ergänzen  
 
-   include_once("class.musikstueck.php");    
+    include_once("class.musikstueck.php");    // XXX? (hier nötig?)
 
+    $query="SELECT ID FROM `musikstueck` WHERE SammlungID=:ID ";
 
-   $select = $this->db->prepare("SELECT ID  
-   FROM `musikstueck` 
-   WHERE SammlungID=:ID"); 
+    $query.=$MaterialtypID!=""?"AND MaterialtypID=:MaterialtypID ":""; 
+    
+    $select = $this->db->prepare($query); 
+ 
+    $select->bindValue(':ID', $this->ID);  
 
-   $select->bindValue(':ID', $this->ID);  
+    if ($MaterialtypID!='') {
+      $select->bindValue(':MaterialtypID', $MaterialtypID, PDO::PARAM_INT);  
+    }  
+ 
+    $select->execute(); 
 
-   $select->execute(); 
+    $res = $select->fetchAll(PDO::FETCH_ASSOC);
 
-   $res = $select->fetchAll(PDO::FETCH_ASSOC);
-
-   echo '<p>Anzahl Musikstücke: '.count($res); 
-
-   foreach ($res as $row=>$value) {
-     $musikstueck = new Musikstueck(); 
-     $musikstueck->ID = $value["ID"]; 
-     $musikstueck->add_besetzung($BesetzungID);
+    foreach ($res as $row=>$value) {
+      $musikstueck = new Musikstueck(); 
+      $musikstueck->ID = $value["ID"]; 
+      $musikstueck->add_besetzung($BesetzungID);
     }    
+    echo '<p>'.count($res). ' Musikstücke wurden geändert. </p>';      
 
   } 
 
-  function delete_besetzung($BesetzungID){
+  function delete_besetzung($BesetzungID, $MaterialtypID=''){
     // dataclearing: eine Besetzung bei allen Musikstücken entfernen 
 
     include_once("class.musikstueck.php");    
@@ -455,26 +459,31 @@ include_once('class.link.php');
 
   } 
 
-  function add_komponist($KomponistID){
-    // dataclearing: Verwendungszweck bei allen Musikstücken ergänzen  
+  function add_komponist($KomponistID, $MaterialtypID=''){
 
-    $select = $this->db->prepare("SELECT ID  
-    FROM `musikstueck` 
-    WHERE SammlungID=:ID"); 
+    $query="SELECT ID FROM `musikstueck` WHERE SammlungID=:ID ";
+
+    $query.=$MaterialtypID!=""?"AND MaterialtypID=:MaterialtypID ":""; 
+    
+    $select = $this->db->prepare($query); 
  
     $select->bindValue(':ID', $this->ID);  
+
+    if ($MaterialtypID!='') {
+      $select->bindValue(':MaterialtypID', $MaterialtypID, PDO::PARAM_INT);  
+    }  
  
     $select->execute(); 
  
     $res = $select->fetchAll(PDO::FETCH_ASSOC);
- 
-    echo '<p>Anzahl Musikstücke: '.count($res); 
- 
+
     foreach ($res as $row=>$value) {
       $musikstueck = new Musikstueck(); 
       $musikstueck->ID = $value["ID"]; 
       $musikstueck->update_komponist($KomponistID);
-     }    
+    }
+     
+    echo '<p>'.count($res). ' Musikstücke wurden geändert. </p>';  
      
   } 
 
