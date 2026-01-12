@@ -126,7 +126,7 @@ echo '
       $schueler->load_row(); 
       echo $schueler->Name; 
    echo '</b></td>
-    </tr> 100
+    </tr> 
 '; 
 
 echo '
@@ -180,8 +180,8 @@ echo '
   <tr>    
     <label>  
     <td class="form-edit form-edit-col1">Satz:</td>  
-    <td class="form-edit form-edit-col2">  
-          '; 
+    <td class="form-edit form-edit-col2">  '; 
+    
         $schueler = new Schueler(); 
         $schueler->ID = $SchuelerID; 
         $schueler->print_select_saetze($uebung->SatzID); 
