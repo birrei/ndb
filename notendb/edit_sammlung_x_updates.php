@@ -15,7 +15,7 @@ if (isset($_REQUEST["SammlungID"])) {
   goto end; 
 }
 
-echo '<h3>SammlungID: '.$SammlungID.'</h3>'; 
+echo '<h3>Sammel-Updates zu Sammlung ID: '.$SammlungID.'</h3>'; 
 
 if (isset($_POST["form-selected"])) {
   $form_selected=$_POST["form-selected"]; 

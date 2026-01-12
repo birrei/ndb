@@ -178,11 +178,8 @@ echo '
   $info->print_form_inline('delete_1',$sammlung->ID,$sammlung->Title, 'löschen'); 
   $info->print_form_inline('copy',$sammlung->ID,$sammlung->Title, 'kopieren');   
   
-  echo '<p>
-    <a href=dataclearing.php?SammlungID='.$sammlung->ID.' target="_blank">Sammel-Updates</a> | 
-    <a href=edit_sammlung_musikstuecke_uebersicht.php?SammlungID='.$sammlung->ID.' target="_blank">Musikstücke Übersicht</a> 
-
-  <p>'; 
+  echo '<a href=edit_sammlung_x_updates.php?SammlungID='.$sammlung->ID.' target="_blank" class="form-link">Sammel-Updates</a> ';  
+  echo '<a href=edit_sammlung_x_musikstuecke_uebersicht.php?SammlungID='.$sammlung->ID.' target="_blank" class="form-link">Musikstücke Übersicht</a>'; 
 
   echo '     
   </td>
