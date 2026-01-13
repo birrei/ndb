@@ -198,6 +198,26 @@ include_once('head.php');
             <p>Die Daten eines Schüler werden inklusive Instrumente/Schwierigkeitsgrade sowie aller Material- und Satzverknüpfungen kopiert. </p>
 
 
+
+        <h3 class="chapter-title chapter-title-h3" id="erfassung_schueler_loeschen">Schüler kopieren</h3>
+            <p>Die Daten eines Schüler werden inklusive Instrumente/Schwierigkeitsgrade sowie aller Material- und Satzverknüpfungen gelöscht. </p>
+
+        <h3 class="chapter-title chapter-title-h3" id="erfassung_schueler_noten_schnellzuordnung">Notenmaterial Schnellzuordnung</h3>
+
+            <p>Das Formular öffnet sich in einem neuen Fenster. Filter: </p>
+        <ul>    
+            <li>Materialtyp (Auswahl startet Suchvorgang) </li>
+            <li>Suchtext (Eingabetaste startet Suchvorgang) (*) </li>
+            <li>Instrument / Schwierigkeitsgrad berücksichtigen (Checkbox aktivieren, um nur zum Schwierigkeitsgrad/Instrument des Schülers passende Noten zu finden)</li>    
+
+        </ul>
+
+            <p>(*) Sucht in Feldern Sammlung Name, Sammlung Bemerkung, Musikstück Name, Musikstück Bemerkung, Komponist Vorname, Komponist Nachname, Satz Name, Satz Bemerkung  </p>
+
+
+
+
+
 	<h2 class="chapter-title chapter-title-h3" id="erfassung_stammdaten_besetzung">Stammdaten: Besetzung</h2>
 
         <p> Unter Besetzungen können sowohl Ensembles als auch Einzelinstrumente (auch parallel) hinterlegt werden. 

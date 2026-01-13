@@ -18,6 +18,8 @@ $schueler->ID=$SchuelerID;
 $MaterialtypID=''; 
 $checkSchwierigkeitsgrad=0; 
 
+$Suchtext=''; 
+
 if (isset($_REQUEST["MaterialtypID"])) {
     $MaterialtypID=$_REQUEST["MaterialtypID"]; 
     $filter=($MaterialtypID!=''?true:false); 
@@ -26,7 +28,10 @@ if (isset($_REQUEST["checkSchwierigkeitsgrad"])) {
     $checkSchwierigkeitsgrad=1;   
     $filter=true;      
 }
-
+if (isset($_REQUEST["Suchtext"])) {
+    $Suchtext=$_REQUEST["Suchtext"];   
+    $filter=true;      
+}
 
 $Aktiv=(isset($_POST["Aktiv"])?1:0);  
 
@@ -40,6 +45,11 @@ echo '<form action="" method="get">'.PHP_EOL;
 $materialtyp = new Materialtyp(); 
 echo 'Materialtyp: '.PHP_EOL; 
 $materialtyp->print_preselect($MaterialtypID); 
+
+?>
+&nbsp; &nbsp; Suchtext: <input type="text" id="Suchtext" name="Suchtext" size="30px" value="<?php echo $Suchtext; ?>" autofocus> 
+<?php  
+
 echo '
 <label><input type="checkbox" name="checkSchwierigkeitsgrad" '.($checkSchwierigkeitsgrad==1?'checked':'').' onchange="this.form.submit()">Instrument / Schwierigkeitsgrad berücksichtigen</label>
 <input type="hidden" name="ID" value="'.$SchuelerID.'">
@@ -71,7 +81,7 @@ if (!$filter) {goto pagefoot;}
 echo '<div style="float:left">
      <form action="#" method="post">'; 
 
-$schueler->print_table_saetze_checklist($MaterialtypID, $checkSchwierigkeitsgrad);
+$schueler->print_table_saetze_checklist($MaterialtypID, $checkSchwierigkeitsgrad, $Suchtext);
 
 echo '<br><input type="submit" class="btnSave" name="senden" value="Speichern">
     <input type="hidden" name="option" value="update">      

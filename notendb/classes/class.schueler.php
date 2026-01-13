@@ -718,12 +718,13 @@ class Schueler {
     }
   }    
 
-  function print_table_saetze_checklist($MaterialtypID='', $checkSchwierigkeitsgrad=false){
+  function print_table_saetze_checklist($MaterialtypID='', $checkSchwierigkeitsgrad=false, $Suchtext=''){
 
     $query="SELECT DISTINCT satz.ID
               , CONCAT(sammlung.Name, '; ', musikstueck.Nummer, ': ', COALESCE(musikstueck.Name, ''), '; ', satz.Nr, ': ', COALESCE(satz.Name, '')) as Name  
             FROM sammlung 
             INNER JOIN musikstueck on musikstueck.SammlungID = sammlung.ID 
+            LEFT JOIN komponist on komponist.ID = musikstueck.KomponistID 
             INNER JOIN satz on satz.MusikstueckID = musikstueck.ID  
             LEFT JOIN schueler_satz on satz.ID = schueler_satz.SatzID  
                         AND schueler_satz.SchuelerID = :SchuelerID 
@@ -742,6 +743,19 @@ class Schueler {
               WHERE schueler_schwierigkeitsgrad.SchuelerID = :SchuelerID
             )    
           "; 
+    }
+
+    if($Suchtext!='') {
+          $query.="AND ( 
+                        sammlung.Name LIKE '%".$Suchtext."%' OR 
+                        sammlung.Bemerkung LIKE '%".$Suchtext."%' OR 
+                        musikstueck.Name LIKE '%".$Suchtext."%' OR 
+                        musikstueck.Bemerkung LIKE '%".$Suchtext."%' OR 
+                        komponist.Vorname LIKE '%".$Suchtext."%' OR 
+                        komponist.Nachname LIKE '%".$Suchtext."%' OR 
+                        satz.Name LIKE '%".$Suchtext."%' OR 
+                        satz.Bemerkung LIKE '%".$Suchtext."%') 
+                        "; 
     }
 
     $query.="ORDER BY sammlung.Name, musikstueck.Nummer, satz.Nr  "; 
