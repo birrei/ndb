@@ -534,20 +534,16 @@ class Schueler {
   }   
 
   function print_select_saetze($selected_SatzID=''){
-    // XXXX verbessern 
 
     $query="
       SELECT satz.ID
           , CONCAT(
             status.Name
             , ' | '
-            , CONCAT(
-                    sammlung.Name
-                    , ' - '
-                    , musikstueck.Name
-                    , ' - Satz Nr: '
-                    , satz.Nr
-                    )            
+            , CONCAT(sammlung.Name, 
+                          IF(musikstueck.Name <> '', CONCAT(' / ', musikstueck.Name), ''), 
+                          IF(satz.Name <> '', CONCAT(' / ', satz.Name), '') 
+              )          
            ) as Name 
         FROM satz  
               inner join musikstueck on satz.MusikstueckID = musikstueck.ID
