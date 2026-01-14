@@ -120,12 +120,18 @@ echo '</p>
 echo '
   <tr>    
   <td class="form-edit form-edit-col1">Schüler Name:</td>  
-  <td class="form-edit form-edit-col2"><b>'; 
+  <td class="form-edit form-edit-col2">
+    <b>'; 
       $schueler = new Schueler(); 
       $schueler->ID = $uebung->SchuelerID; 
       $schueler->load_row(); 
       echo $schueler->Name; 
-   echo '</b></td>
+   echo '</b> &nbsp; '; 
+
+   $info->print_link_edit($schueler->table_name, $schueler->ID,$schueler->Title, true);    
+
+   echo '
+   </td>
     </tr> 
 '; 
 
