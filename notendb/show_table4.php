@@ -141,19 +141,21 @@ switch ($Ansicht) {
     $sqlpart = new SQLPart(); 
 
     $query="SELECT 
-                  uebung.ID
-                  , schueler.Name as Schueler
+                  schueler.Name as Schueler
+                  , uebung.Datum as `Datum`                   
                   , schueler.Unterricht_Reihenfolge as `Reihenfolge`
-                  , uebungtyp.Name as `Uebung Typ`     
                   , uebung.Name as `Uebung Inhalt`  
-                  , uebung.Datum as `Datum` 
-                  , CONCAT(uebung.Anzahl, ' ', uebungtyp.Einheit) Menge  
-                  , uebung.Bemerkung 
-                  , v_uebung_lookuptypes.LookupList2 as Besonderheiten                   
                   "; 
 
     $query.=", ".$sqlpart->getSQL_COL_CONCAT_Noten(300); 
-
+    $query.="      
+                  , v_uebung_lookuptypes.LookupList2 as Besonderheiten   
+                  , uebung.Bemerkung 
+                  , CONCAT(uebung.Anzahl, ' ', uebungtyp.Einheit) Menge  
+                  , uebungtyp.Name as `Uebung Typ`
+                  , uebung.ID
+    
+    "; 
 
     $query.="FROM uebung 
                   INNER join schueler on schueler.ID=uebung.SchuelerID
