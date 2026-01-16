@@ -143,7 +143,7 @@ switch ($Ansicht) {
     $query="SELECT 
                   schueler.Name as Schueler
                   , uebung.Datum as `Datum`                   
-                  , schueler.Unterricht_Reihenfolge as `Reihenfolge`
+                  , schueler.Unterricht_Reihenfolge as `Reihen-folge`
                   , uebung.Name as `Uebung Inhalt`  
                   "; 
 
