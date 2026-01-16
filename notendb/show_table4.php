@@ -149,13 +149,17 @@ switch ($Ansicht) {
 
     $query.=", ".$sqlpart->getSQL_COL_CONCAT_Noten(300); 
     $query.="      
+                  , CASE 
+                      WHEN (musikstueck.Bemerkung !='' AND satz.Bemerkung !='') THEN CONCAT(musikstueck.Bemerkung, ' / ', satz.Bemerkung) 
+                      WHEN (musikstueck.Bemerkung !='' AND satz.Bemerkung = '')  then musikstueck.Bemerkung 
+                      WHEN musikstueck.Bemerkung = '' AND satz.Bemerkung !='' then satz.Bemerkung 
+                    END as `Noten Bemerkung`    
                   , v_uebung_lookuptypes.LookupList2 as Besonderheiten   
-                  , uebung.Bemerkung 
-                  , CONCAT(uebung.Anzahl, ' ', uebungtyp.Einheit) Menge  
+                  , uebung.Bemerkung  as `Übung Bemerkung`   
+                  , CONCAT(uebung.Anzahl, ' ', uebungtyp.Einheit) Dauer   
                   , uebungtyp.Name as `Uebung Typ`
                   , uebung.ID
-    
-    "; 
+                "; 
 
     $query.="FROM uebung 
                   INNER join schueler on schueler.ID=uebung.SchuelerID
