@@ -579,19 +579,23 @@ class Schueler {
 
     $sql = new SQLPart(); 
      
-    $query="SELECT 
-              uebung.ID
-              , uebung.Datum              
-              , uebungtyp.Name as `Uebung Typ`      
-              , uebung.Name as `Uebung Inhalt` 
-              , uebung.Anzahl 
-              , uebungtyp.Einheit 
-              , uebung.Bemerkung, "; 
-    
-    $query.=$sql->getSQL_COL_CONCAT_Noten(100);  
+    $query="SELECT uebung.Datum as `Datum`                   
+                  , uebung.Name as `Uebung Inhalt`  
+                  "; 
 
-    $query.="
-              , v_uebung_lookuptypes.LookupList2 as Besonderheiten    
+    $query.=", ".$sql->getSQL_COL_CONCAT_Noten(300); 
+    $query.=", CASE 
+                      WHEN (musikstueck.Bemerkung !='' AND satz.Bemerkung !='') THEN CONCAT(musikstueck.Bemerkung, ' / ', satz.Bemerkung) 
+                      WHEN (musikstueck.Bemerkung !='' AND satz.Bemerkung = '')  then musikstueck.Bemerkung 
+                      WHEN musikstueck.Bemerkung = '' AND satz.Bemerkung !='' then satz.Bemerkung 
+                    END as `Noten Bemerkung`    
+                  , v_uebung_lookuptypes.LookupList2 as Besonderheiten   
+                  , uebung.Bemerkung  as `Übung Bemerkung`   
+                  , CONCAT(uebung.Anzahl, ' ', uebungtyp.Einheit) Dauer   
+                  , uebungtyp.Name as `Uebung Typ`
+                  , uebung.ID
+                "; 
+    $query.="  
           FROM  uebung 
               left join uebungtyp on uebung.UebungtypID=uebungtyp.ID 
               left join satz  on satz.ID=uebung.SatzID 
@@ -602,6 +606,7 @@ class Schueler {
           ORDER BY uebung.Datum DESC, uebung.Name DESC               
         "; 
 
+    // echo '<pre>'.$query.'</pre>';
     $stmt = $this->db->prepare($query); 
     $stmt->bindParam(':ID', $this->ID, PDO::PARAM_INT); 
 
