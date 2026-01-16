@@ -119,7 +119,7 @@ class UebungTyp {
     }
   }
 
-  function print_select($value_selected=''){
+  function print_select($value_selected='', $print_caption=false){
 
     $query="SELECT ID, Name FROM `uebungtyp` order by `Name`"; 
 
@@ -127,8 +127,8 @@ class UebungTyp {
 
     try {
       $stmt->execute(); 
-      // $html->caption = $caption;       
       $select=new HTML_Select($stmt); 
+      $select->caption = $print_caption?$this->Title:'';           
       $select->print_select('UebungtypID',$value_selected); 
     }
     catch (PDOException $e) {  

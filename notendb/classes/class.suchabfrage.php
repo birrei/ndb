@@ -39,6 +39,8 @@ class Suchabfrage {
 
   public $SchuelerID=''; 
   public $StatusID=''; 
+  public $UebungtypID=''; 
+  public $Datum=''; // Übungen 
 
   public $Besetzungen_all=[]; 
   public $Besetzungen_selected=[]; 
@@ -84,18 +86,11 @@ class Suchabfrage {
   }
 
   public function setAnsicht($Ansicht) {
-    /**
-     * Sammlung: Sammlung 
-     * Sammlung2: Sammlung, Musikstück 
-     * Sammlung3: Sammlung, Musikstück, Satz 
-     * Sammlung4: Sammlung, Musikstück, Satz + Schüler 
-     */
-  
+
     $this->Ansicht=$Ansicht;    
 
-
     switch ($this->Ansicht){
-
+          
       case 'Sammlung':        
         $this->AnsichtGruppe='Noten';    
         $this->AnsichtBezeichnung='Sammlung'; 
@@ -141,6 +136,14 @@ class Suchabfrage {
         $this->edit_table='schueler';          
         break;   
 
+      case 'Uebung1':
+        $this->AnsichtGruppe='Uebungen'; 
+        $this->AnsichtBezeichnung='Übungen'; 
+        $this->AnsichtEbene='Uebung'; 
+        $this->edit_table='uebung';          
+        break;   
+
+
       }
 
       
@@ -150,7 +153,7 @@ class Suchabfrage {
   }
  
   private function getSQL_AbfrageKomplett() {
-
+    include_once('classes/class.sqlpart.php');
     $strTmp=''; 
 
   /** SELECT  */
@@ -252,6 +255,28 @@ class Suchabfrage {
             SEPARATOR '<br />') as `Noten / Status `  ".PHP_EOL;        
         break;    
 
+      case 'Uebung1':         
+
+        $sqlpart = new SQLPart(); 
+
+        $strTmp="SELECT 
+                      schueler.Name as Schueler
+                      , uebung.Datum as `Datum`                   
+                      , schueler.Unterricht_Reihenfolge as `Reihen-folge`
+                      , uebung.Name as `Uebung Inhalt`  
+                      "; 
+
+        $strTmp.=", ".$sqlpart->getSQL_COL_CONCAT_Noten(300); 
+        $strTmp.="      
+                      , v_uebung_lookuptypes.LookupList2 as Besonderheiten   
+                      , uebung.Bemerkung 
+                      , CONCAT(uebung.Anzahl, ' ', uebungtyp.Einheit) Menge  
+                      , uebungtyp.Name as `Uebung Typ`
+                      , uebung.ID
+        
+        "; 
+
+        break;            
     }
 
   /** FROM, JOINS  | Pro AnsichtGruppe */
@@ -323,6 +348,17 @@ class Suchabfrage {
         
         break; 
 
+      case 'Uebungen': // AnsichtGruppe  
+
+        $strTmp.="FROM uebung 
+                      INNER join schueler on schueler.ID=uebung.SchuelerID
+                                    and schueler.Aktiv=1
+                      left join uebungtyp on uebung.UebungtypID=uebungtyp.ID 
+                      left join satz  on satz.ID=uebung.SatzID 
+                      left join musikstueck on satz.MusikstueckID = musikstueck.ID
+                      left JOIN sammlung on sammlung.ID = musikstueck.SammlungID
+                      left join v_uebung_lookuptypes on v_uebung_lookuptypes.UebungID=uebung.ID ".PHP_EOL;
+        break; 
     }      
 
   /** WHERE  */
@@ -454,13 +490,40 @@ class Suchabfrage {
             $strTmp.="AND schueler.ID IN (SELECT SchuelerID FROM schueler_schwierigkeitsgrad WHERE SchwierigkeitsgradID IN (".implode(',', $this->Schwierigkeitsgrade_Schueler).")) ".PHP_EOL; 
         }                   
         if (count($this->LookupTypesSelected) > 0) {
-          $strTmp.=$this->getSQL_FilterLookups('satz'); // nur Satz, da      
-          
-          
+          $strTmp.=$this->getSQL_FilterLookups('satz'); //    
         }  
 
         break;  
+      case 'Uebungen': // AnsichtGruppe 
 
+        if ($this->Suchtext!='') {
+          $strTmp.="AND (
+                      uebung.Name LIKE '%".$this->Suchtext."%' OR                              
+                      uebung.Bemerkung LIKE '%".$this->Suchtext."%' OR                             
+                      satz.Name LIKE '%".$this->Suchtext."%' OR                                       
+                      musikstueck.Name LIKE '%".$this->Suchtext."%' OR                                       
+                      sammlung.Name LIKE '%".$this->Suchtext."%'                      
+                          
+                                            ) ". PHP_EOL;        
+        }  
+        
+        if (count($this->LookupTypesSelected) > 0) {
+          $strTmp.=$this->getSQL_FilterLookups('uebung'); //    
+        }
+
+        if($this->SchuelerID!='') { 
+          $strTmp.="AND schueler.ID=".$this->SchuelerID." " . PHP_EOL;        
+        }
+
+        if($this->UebungtypID!='') { 
+          $strTmp.="AND uebung.UebungtypID=".$this->UebungtypID." " . PHP_EOL;        
+        }     
+                
+        if($this->Datum!='') { 
+          $strTmp.="AND uebung.Datum='".$this->Datum."' " . PHP_EOL;        
+        }     
+ 
+        break;  
     }
 
 
@@ -480,7 +543,7 @@ class Suchabfrage {
         break;                                  
     }
 
-    // ORDER BY 
+  // ORDER BY 
     switch ($this->AnsichtEbene){
       case 'Sammlung':
         $strTmp.="ORDER BY sammlung.Name ".PHP_EOL;                     
@@ -493,7 +556,10 @@ class Suchabfrage {
         break;                           
       case 'Schueler':
         $strTmp.="ORDER BY schueler.Name ".PHP_EOL;                    
-        break;                  
+        break;           
+      case 'Uebung':
+        $strTmp.="ORDER BY uebung.Datum DESC, schueler.Unterricht_Reihenfolge, uebung.Name ".PHP_EOL; 
+        break;                
     }
 
     return $strTmp; 

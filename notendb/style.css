@@ -172,7 +172,12 @@ p.warning {
     }
 
 /***** Hilfe  ****************/
-    .doc-body .doc-header {
+    .doc-header {
+        width: 60%; 
+        margin-left:30px;  
+    }
+
+    .doc-body {
         width: 60%; 
         margin-left:30px;  
     }

@@ -579,7 +579,6 @@ class Schueler {
 
     $sql = new SQLPart(); 
      
-
     $query="SELECT 
               uebung.ID
               , uebung.Datum              

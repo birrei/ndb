@@ -24,6 +24,7 @@ include_once("classes/class.abfrage.php");
 include_once("classes/class.schueler.php");
 include_once("classes/class.status.php");
 include_once("classes/class.materialtyp.php");
+include_once("classes/class.uebungtyp.php");
 include_once("classes/class.suchabfrage.php");
 
 
@@ -91,7 +92,7 @@ include_once("classes/class.suchabfrage.php");
             }
         }  
   </script> 
-
+    &nbsp; <a href="help_suche.php" target="_blank">Hilfe</a>
 <form id="Suche" action="" method="GET">
 
   <br><b>Ansicht: </b>
@@ -104,9 +105,11 @@ include_once("classes/class.suchabfrage.php");
       <option value="Schueler1" <?php echo ($Ansicht=='Schueler1'?'selected':'')?>>Schüler</option> 
       <option value="Schueler2" <?php echo ($Ansicht=='Schueler2'?'selected':'')?>>Schüler erweitert</option>                                        
   
+      <option value="Uebung1" <?php echo ($Ansicht=='Uebung1'?'selected':'')?>>Übungen</option> 
+
     </select>
 
-    &nbsp; <a href="help_suche.php#suche_ansichten" target="_blank">Hilfe</a>
+
 
 <?php 
 
@@ -148,29 +151,32 @@ include_once("classes/class.suchabfrage.php");
       $Suchabfrage->AnzahlFilter1+=1; 
       $Suchabfrage->AnzahlFilter2+=1;  
   }
-
   $schueler->print_select($SchuelerID,'',$schueler->Title, true );  
+
 
 /************* Gruppe Schüler, Filter Status -> immer sichtbar   ***********/ 
 
-  $StatusID=isset($_REQUEST['StatusID'])?$_REQUEST['StatusID']:''; 
+  if ($AnsichtGruppe=='Schueler' || $AnsichtGruppe=='Noten' ) {
 
-  $status = new Status();
+    $StatusID=isset($_REQUEST['StatusID'])?$_REQUEST['StatusID']:''; 
 
-  if ($StatusID!='') {
-    $filter=true;        
-    $Suchabfrage->StatusID = $StatusID;        
-    $status->ID= $StatusID; 
-    $status->load_row(); 
-    $Suchabfrage->Beschreibung.='* Status Schüler/Noten: '.$status->Name.'<br>';
-    $Suchabfrage->AnzahlFilter1+=1;
-    $Suchabfrage->AnzahlFilter2+=1;              
+    $status = new Status();
+
+    if ($StatusID!='') {
+      $filter=true;        
+      $Suchabfrage->StatusID = $StatusID;        
+      $status->ID= $StatusID; 
+      $status->load_row(); 
+      $Suchabfrage->Beschreibung.='* Status Schüler/Noten: '.$status->Name.'<br>';
+      $Suchabfrage->AnzahlFilter1+=1;
+      $Suchabfrage->AnzahlFilter2+=1;              
+    }
+
+    echo '<p>';
+    $status->print_select($StatusID, 'Status Noten');
+    echo '</p>';
   }
 
-
-  echo '<p>';
-  $status->print_select($StatusID, 'Status Noten');
-  echo '</p>';
 
 /************* Gruppe Schüler, Filter Instrument  ***********/  
   if ($AnsichtGruppe=='Schueler') {
@@ -202,6 +208,39 @@ include_once("classes/class.suchabfrage.php");
     $schwierigkeitsgrad_schueler->Parent='Schueler';     
     $schwierigkeitsgrad_schueler->print_select_multi($Suchabfrage->Schwierigkeitsgrade_Schueler);    
     $Suchabfrage->Beschreibung.=(count($Suchabfrage->Schwierigkeitsgrade_Schueler)>0?$schwierigkeitsgrad_schueler->titles_selected_list.'<br>':'');  
+  }
+
+ /*** Navi-Block Gruppe Uebungen */
+  if($AnsichtGruppe=='Uebungen') {
+    ?>
+    <p class="navi-trenner">Übungen</p> 
+    <?php
+  }
+
+  if ($AnsichtGruppe=='Uebungen' ) {
+
+    $UebungtypID=isset($_REQUEST['UebungtypID'])?$_REQUEST['UebungtypID']:'';
+
+    $uebungtyp = new UebungTyp();
+
+    if ($UebungtypID!='') {
+        $filter=true;
+        $Suchabfrage->UebungtypID = $UebungtypID;         
+        $uebungtyp->ID=$UebungtypID; 
+        $uebungtyp->load_row(); 
+        $Suchabfrage->Beschreibung.='* Übung Typ: '.$uebungtyp->Name.'<br>';      
+    }
+    $uebungtyp->print_select($UebungtypID,true);  
+
+    $Datum=(isset($_REQUEST["Datum"])?$_REQUEST["Datum"]:'');     
+        
+    echo '<br><br> Übung Datum: <input type="date" name="Datum" value="'.$Datum.'" >'; 
+    
+    if ($Datum!='') {
+        $filter=true; 
+        $Suchabfrage->Datum = $Datum; 
+    }
+
   }
 
 /*** Navi-Block Gruppe Noten, "Sammlung */

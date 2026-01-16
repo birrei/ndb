@@ -10,6 +10,8 @@ include_once('head.php');
 
 <p> <a href="help_suche.php">Hilfe zur Suche</a></p>
 
+<p> <a href="help_suche_logik.php">Hilfe zur Suche: Erklärung Suchlogiken</a></p>
+
 <!-- <p> <a href="help_suche_beispiele.php">Hilfe zur Suche: Tips & Tricks, Beispiele, Übungen</a></p> -->
 
 <?php 
