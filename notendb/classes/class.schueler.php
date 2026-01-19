@@ -249,7 +249,8 @@ class Schueler {
   
   function print_table_saetze(){
       $sql = new SQLPart(); 
-      $query="SELECT schueler_satz.ID,  "; 
+      $query="SELECT schueler_satz.ID
+        , standort.Name as Standort,  "; 
       // $query.=$sql->select_concat_noten_namen; 
       $query.=$sql->getSQL_COL_CONCAT_Noten(100);       
       $query.="
@@ -261,10 +262,11 @@ class Schueler {
     LEFT JOIN satz ON satz.ID = schueler_satz.SatzID  
     LEFT JOIN musikstueck ON musikstueck.ID = satz.MusikstueckID
     LEFT JOIN sammlung ON sammlung.ID = musikstueck.SammlungID
-    LEFT JOIN standort ON standort.ID = sammlung.StandortID 
+    LEFT JOIN sammlung_standort on sammlung_standort.SammlungID=sammlung.ID 
+    LEFT JOIN standort ON standort.ID = sammlung_standort.StandortID
     LEFT JOIN status ON status.ID = schueler_satz.StatusID                                
     WHERE schueler_satz.SchuelerID = :ID
-    order by status.Name, Noten "; 
+    order by status.Name, Noten, standort.Name "; 
 
     $stmt = $this->db->prepare($query); 
     $stmt->bindParam(':ID', $this->ID, PDO::PARAM_INT); 
