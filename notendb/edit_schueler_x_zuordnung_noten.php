@@ -1,5 +1,6 @@
 
 <?php 
+$PageTitle='Schueler Notenmaterial Schnellzuordnung'; 
 include_once('head.php');
 include_once("classes/class.schueler.php");
 include_once("classes/class.materialtyp.php");
@@ -7,8 +8,6 @@ include_once("classes/class.schueler_satz.php");
 include_once('classes/class.status.php');
 include_once('classes/class.htmlinfo.php');
 
-$PageTitle='Schueler Notenmaterial Schnellzuordnung'; 
-echo '<h3>'.$PageTitle.' (BETA) </h3>'; 
 
 $filter=false; // mind. 1 Filter gesetzt ja / nein 
 
@@ -16,6 +15,7 @@ $SchuelerID=$_REQUEST["ID"];
 
 $schueler=new Schueler(); 
 $schueler->ID=$SchuelerID; 
+$schueler->load_row(); 
 
 $info=new HTML_Info(); 
 
@@ -52,6 +52,9 @@ $saetze_selected=[];
 
 $status = new Status(); 
 $StatusID=(isset($_REQUEST["StatusID"])?$_REQUEST["StatusID"]:'');
+
+echo '<h3>'.$PageTitle.' für '.$schueler->Name.'</h3>'; 
+
 
 /** Formular Filter  */
 
