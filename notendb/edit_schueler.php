@@ -171,7 +171,7 @@ echo '
     '; 
     $info->print_form_inline('delete_1',$schueler->ID,$schueler->Title, 'löschen'); 
     $info->print_form_inline('copy',$schueler->ID,$schueler->Title, 'kopieren');   
-    $info->print_link_overview('edit_schueler_uebersicht_zuordnung.php','ID='.$schueler->ID, 'Notenmaterial Schnellzuordnung'); 
+    $info->print_link_overview('edit_schueler_x_zuordnung_noten.php','ID='.$schueler->ID, 'Notenmaterial Schnellzuordnung'); 
     echo '     
     </td>
   </tr> 
