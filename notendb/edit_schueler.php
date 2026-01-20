@@ -126,6 +126,11 @@ echo '
   <input type="radio" id="opt_Uebung" name="target_form" value="Uebungen" onclick="changeIframeSrc('subform1', 'edit_schueler_uebungen.php?SchuelerID=<?php echo $schueler->ID; ?>');" checked>
   <label for="opt_Uebung">Übungen</label><br>
 
+
+  <input type="radio" id="opt_Uebung2" name="target_form" value="Uebungen2" onclick="changeIframeSrc('subform1', 'edit_schueler_uebungen2.php?SchuelerID=<?php echo $schueler->ID; ?>');">
+  <label for="opt_Uebung2">Übungen / Datum</label><br>
+
+
   <input type="radio" id="opt_Schwierigkeitsgrad" name="target_form" value="Schwierigkeitsgrad" onclick="changeIframeSrc('subform1', 'edit_schueler_schwierigkeitsgrade.php?SchuelerID=<?php echo $schueler->ID; ?>');">
   <label for="opt_Schwierigkeitsgrad">Instrumente, Schwierigkeitsgrade</label><br>
 

@@ -577,6 +577,7 @@ class Schueler {
     }
   }
 
+  
   function print_table_uebungen(){
 
     $sql = new SQLPart(); 
@@ -620,6 +621,46 @@ class Schueler {
       $html->edit_link_table='uebung'; 
       $html->edit_link_title='Übung'; 
       $html->edit_link_open_newpage=true; 
+      $html->show_missing_data_message=false;      
+      $html->print_table2(); 
+
+    }
+    catch (PDOException $e) {
+      $this->info->print_user_error(); 
+      $this->info->print_error($stmt, $e); 
+    }
+  }    
+
+  function print_table_uebungen_datum(){
+
+    $query="SELECT uebung.Datum 
+                  , COUNT(distinct uebung.ID) as `Anzahl Einheiten` 
+                  , SUM(uebung.Anzahl ) as `Summe Minuten` 
+                  -- , GROUP_CONCAT(uebungtyp.Name, ': ', uebung.Name order by uebung.Name separator '<br>') Inhalte 
+                  , GROUP_CONCAT(uebung.Name, ' (', uebungtyp.Name, ')'  order by uebung.Name separator '<br>') Inhalte 
+            FROM  uebung 
+                  left join uebungtyp on uebung.UebungtypID=uebungtyp.ID 
+                  left join satz  on satz.ID=uebung.SatzID 
+                  left join musikstueck on satz.MusikstueckID = musikstueck.ID
+                  left JOIN sammlung on sammlung.ID = musikstueck.SammlungID  
+                  left JOIN v_uebung_lookuptypes on v_uebung_lookuptypes.UebungID = uebung.ID 
+            WHERE uebung.SchuelerID = :ID
+            GROUP BY uebung.SchuelerID, uebung.Datum  
+            ORDER BY uebung.Datum DESC                 
+        "; 
+
+    // echo '<pre>'.$query.'</pre>';
+    $stmt = $this->db->prepare($query); 
+    $stmt->bindParam(':ID', $this->ID, PDO::PARAM_INT); 
+
+    try {
+      $stmt->execute(); 
+            
+      $html = new HTML_Table($stmt); 
+      $html->add_link_edit=false;      
+      $html->edit_link_table='uebung'; 
+      $html->edit_link_title='Übung'; 
+      // $html->edit_link_open_newpage=true; 
       $html->show_missing_data_message=false;      
       $html->print_table2(); 
 
