@@ -9,16 +9,18 @@ class Schueler {
 
   public $table_name='schueler'; 
   public $ID;
-  public $Name;
+  public $Name; // Praxis: nur Vorname, aus Datenschutzgründen kein Nachname 
   public $Bemerkung;
+  public int $Aktiv=1; // Aktiv=0 für abgemeldete Schüler. //   true/false, tinyint 1/0 for mysql 
+  public int $Unterricht_Wochentag=0; // 1 - 7 (Montag - Sonntag)
+  public int $Unterricht_Reihenfolge=0; // Reihenfolge im Ablauf eines Unterrichtstages 
+  public int $Unterricht_Minuten=0; // Wie lange (in Minuten) hat Schüler normalerweise Unterricht 
+  public $Geburtsdatum; // Ermöglicht Altersberechnung für Wettbewerbe 
+
   public $titles_selected_list; 
   public $Title='Schüler';
   public $Titles='Schüler';  
   public string $infotext=''; 
-  public int $Aktiv=1; // true/false, tinyint 1/0 for mysql 
-  public int $Unterricht_Wochentag=0; 
-  public int $Unterricht_Reihenfolge=0; 
-
   
   private $db; 
   private $info; 
@@ -536,7 +538,7 @@ class Schueler {
   }   
 
   function print_select_saetze($selected_SatzID=''){
-
+    
     $query="
       SELECT satz.ID
           , CONCAT(
