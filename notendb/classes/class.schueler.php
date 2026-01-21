@@ -538,16 +538,16 @@ class Schueler {
   }   
 
   function print_select_saetze($selected_SatzID=''){
-    
+
     $query="
       SELECT satz.ID
           , CONCAT(
             status.Name
             , ' | '
-            , CONCAT(sammlung.Name, 
-                          IF(musikstueck.Name <> '', CONCAT(' / ', musikstueck.Name), ''), 
-                          IF(satz.Name <> '', CONCAT(' / ', satz.Name), '') 
-              )          
+            , CONCAT(IF(length(sammlung.Name) > 70, CONCAT(left(sammlung.Name, 70), ' (...)'), sammlung.Name), 
+                          IF(musikstueck.Name <> '', CONCAT(' / ', IF(length(musikstueck.Name) > 70, CONCAT(left(musikstueck.Name, 70), ' (...)'), musikstueck.Name)), ''), 
+                          IF(satz.Name <> '', CONCAT(' / ', IF(length(satz.Name) > 70, CONCAT(left(satz.Name, 70), ' (...)'), satz.Name)), '') 
+              )         
            ) as Name 
         FROM satz  
               inner join musikstueck on satz.MusikstueckID = musikstueck.ID

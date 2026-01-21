@@ -215,8 +215,24 @@ include_once('head.php');
             <p>(*) Sucht in Feldern Sammlung Name, Sammlung Bemerkung, Musikstück Name, Musikstück Bemerkung, Komponist Vorname, Komponist Nachname, Satz Name, Satz Bemerkung  </p>
 
 
+        <h3 class="chapter-title chapter-title-h3" id="erfassung_schueler_noten_schnellzuorndung">Notenmaterial Schnellzuordnung XXXX</h3>
+            <p>XXXX</p>
 
 
+    <h2 class="chapter-title chapter-title-h3" id="erfassung_uebung">Übungen</h2>
+        <h3 class="chapter-title chapter-title-h3" id="erfassung_uebung_inhalt">Übung Inhalt XXX</h3>
+        <h3 class="chapter-title chapter-title-h3" id="erfassung_uebung_typ">Übung Typ XXX</h3>
+        <h3 class="chapter-title chapter-title-h3" id="erfassung_uebung_datum">Übung Datum XXX</h3>
+        <h3 class="chapter-title chapter-title-h3" id="erfassung_uebung_anzahl">Übung Anzahl XXXX</h3>
+            <p>Anzahl in Minuten (weitere Einheiten bitte nicht nutzen, werden zurückgebaut!) </p>
+
+        <h3 class="chapter-title chapter-title-h3" id="erfassung_uebung_anzahl">Übung Satz</h3>
+            <p>Auswahl eines Musikstückes (Sammlung / Musikstück / Satz). Angezeigt werden alle mit dem Schüler verknüpften Notenmaterialien sortiert nach Status.</p>
+            <p>Hinweis: Die Namens-Bestandteile (Sammlung Name, Musikstückname (sofern gepflegt), Satz Name (sofern gepflegt) 
+                sind gekürzt, sofern sie mehr 70 Zeichen enthalten. Die Kürzung wird durch die Zeichenkette "(...)" sichtbar gemacht. 
+
+
+            </p>
 
 	<h2 class="chapter-title chapter-title-h3" id="erfassung_stammdaten_besetzung">Stammdaten: Besetzung</h2>
 
