@@ -123,7 +123,8 @@ class HTML_Table {
                         if ($key=="URL") {
                             $html .= '<td class="resultset"><a href="'.$cell.'" target="_blank">'.$cell.'</a></td>'. PHP_EOL; 
                         }
-                        elseif( substr($key, 0,5)=='Datum'){
+                        // elseif( substr($key, 0,5)=='Datum'){
+                        elseif( stripos($key, 'datum')!==false){
                             $html .= '<td class="resultset">'.$this->getFormattedDate($cell).'</td>'. PHP_EOL; 
                         } else {                     
                             $html .= '<td class="resultset">'.$cell.'</td>'. PHP_EOL; 
