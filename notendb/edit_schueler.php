@@ -3,7 +3,7 @@
 $PageTitle='Schüler'; 
 include_once('head.php');
 include_once("classes/class.schueler.php");
-include_once("classes/class.wochentage.php");
+include_once("classes/class.wochentage.php"); 
 include_once("classes/class.htmlinfo.php");
 
 $schueler = new Schueler();
@@ -23,9 +23,18 @@ switch($option) {
     break; 
   
   case 'update': 
+    // echo  'Geburtsdatum:'.$_POST["Geburtsdatum"]  ; // TEST 
     $Aktiv=(isset($_POST["Aktiv"])?1:0);       
     $schueler->ID = $_POST["ID"];    
-    $schueler->update_row($_POST["Name"],$_POST["Bemerkung"], $Aktiv, $_POST["wochentag_nr"],$_POST["Unterricht_Reihenfolge"]);        
+    $schueler->update_row($_POST["Name"]
+          , $_POST["Bemerkung"]
+          , $Aktiv
+          , $_POST["wochentag_nr"]
+          , $_POST["Unterricht_Reihenfolge"]
+          , $_POST["Unterricht_Dauer"]   
+          , $_POST["Geburtsdatum"]   
+
+          );        
     break; 
 
   case 'delete_1': 
@@ -77,21 +86,39 @@ echo '
     <label>
     <td class="form-edit form-edit-col1">Name:</td>  
     <td class="form-edit form-edit-col2">
-      <input type="text" name="Name" value="'.$schueler->Name.'" size="100" autofocus="autofocus" oninput="changeBackgroundColor(this)" required>
-    </label>';  
-
-    $wochentage = new Wochentage(); 
-    $wochentage->print_select($schueler->Unterricht_Wochentag); 
-
-    echo ' <label>Reihenfolge: 
-          <input type="text" name="Unterricht_Reihenfolge" value="'.$schueler->Unterricht_Reihenfolge.'" size="10" oninput="changeBackgroundColor(this)">
-          </label>
-    
+     <input type="text" name="Name" value="'.$schueler->Name.'" size="30" autofocus="autofocus" oninput="changeBackgroundColor(this)" required>
+    </label> 
     '; 
 
 echo '
     </td>
 
+  </tr> 
+
+  <tr>    
+    <label>
+    <td class="form-edit form-edit-col1">Unterricht:</td>  
+    <td class="form-edit form-edit-col2">';  
+
+    $wochentage = new Wochentage(); 
+    $wochentage->print_select($schueler->Unterricht_Wochentag); 
+
+    echo '<label><b>Reihenfolge: </b> 
+          <input type="text" name="Unterricht_Reihenfolge" value="'.$schueler->Unterricht_Reihenfolge.'" size="5" oninput="changeBackgroundColor(this)">
+          </label>
+
+          <label><b>Dauer (min): </b> 
+          <input type="text" name="Unterricht_Dauer" value="'.$schueler->Unterricht_Dauer.'" size="5" oninput="changeBackgroundColor(this)">
+          </label>          
+    
+          <label><b>Geburtsdatum: </b> 
+          <input type="date" name="Geburtsdatum" value="'.$schueler->Geburtsdatum.'" size="5" oninput="changeBackgroundColor(this)">
+          </label>          
+
+
+
+    </td>    
+    </label>
   </tr> 
 
   <tr>    

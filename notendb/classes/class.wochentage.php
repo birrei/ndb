@@ -26,7 +26,7 @@ class Wochentage {
     $this->info=new HTML_Info(); 
   }
  
-  function print_select($value_selected='', $caption='Unterricht Wochentag', $required=false, $add_null_option=true){
+  function print_select($value_selected='', $caption='Wochentag', $required=false, $add_null_option=true){
 
     $query="SELECT wochentag_nr, wochentag_name  
             FROM `wochentage` 

@@ -14,7 +14,7 @@ class Schueler {
   public int $Aktiv=1; // Aktiv=0 für abgemeldete Schüler. //   true/false, tinyint 1/0 for mysql 
   public int $Unterricht_Wochentag=0; // 1 - 7 (Montag - Sonntag)
   public int $Unterricht_Reihenfolge=0; // Reihenfolge im Ablauf eines Unterrichtstages 
-  public int $Unterricht_Minuten=0; // Wie lange (in Minuten) hat Schüler normalerweise Unterricht 
+  public int $Unterricht_Dauer=0; // Wie lange (in Minuten) hat Schüler normalerweise Unterricht 
   public $Geburtsdatum; // Ermöglicht Altersberechnung für Wettbewerbe 
 
   public $titles_selected_list; 
@@ -96,14 +96,22 @@ class Schueler {
     }
   }
 
-  function update_row($Name, $Bemerkung, $Aktiv, $Unterricht_Wochentag, $Unterricht_Reihenfolge) {
+  function update_row($Name, $Bemerkung, $Aktiv, $Unterricht_Wochentag, $Unterricht_Reihenfolge, $Unterricht_Dauer, $Geburtsdatum) {
+
+    // $Geburtsdatum = $Geburtsdatum ?? null; 
+
+    echo empty($Geburtsdatum); 
+
+    // echo 'GEburtsdatum: -'.$Geburtsdatum.'-<br>'; 
 
     $update = $this->db->prepare("UPDATE `schueler` 
                             SET`Name`     = :Name,
                               Bemerkung = :Bemerkung, 
                               Aktiv = :Aktiv, 
                               Unterricht_Wochentag = :Unterricht_Wochentag, 
-                              Unterricht_Reihenfolge = :Unterricht_Reihenfolge
+                              Unterricht_Reihenfolge = :Unterricht_Reihenfolge, 
+                              Unterricht_Dauer = :Unterricht_Dauer, 
+                              Geburtsdatum = :Geburtsdatum
                             WHERE `ID` = :ID"); 
 
     $update->bindParam(':ID', $this->ID, PDO::PARAM_INT);
@@ -112,6 +120,8 @@ class Schueler {
     $update->bindParam(':Aktiv', $Aktiv);   
     $update->bindParam(':Unterricht_Wochentag', $Unterricht_Wochentag, PDO::PARAM_INT);    
     $update->bindParam(':Unterricht_Reihenfolge', $Unterricht_Reihenfolge, PDO::PARAM_INT);    
+    $update->bindParam(':Unterricht_Dauer', $Unterricht_Dauer);    
+    $update->bindParam(':Geburtsdatum', $Geburtsdatum, (empty($Geburtsdatum)? PDO::PARAM_NULL : PDO::PARAM_STR));
 
     try {
       $update->execute(); 
@@ -131,6 +141,8 @@ class Schueler {
                           , Aktiv  
                           , Unterricht_Wochentag  
                           , Unterricht_Reihenfolge  
+                          , Unterricht_Dauer  
+                          , Geburtsdatum  
                           FROM `schueler`
                           WHERE `ID` = :ID");
 
@@ -143,6 +155,8 @@ class Schueler {
       $this->Aktiv=$row_data["Aktiv"];             
       $this->Unterricht_Wochentag=$row_data["Unterricht_Wochentag"];             
       $this->Unterricht_Reihenfolge=$row_data["Unterricht_Reihenfolge"];             
+      $this->Unterricht_Dauer=$row_data["Unterricht_Dauer"];             
+      $this->Geburtsdatum=$row_data["Geburtsdatum"];             
       return true; 
     } 
     else {
@@ -480,11 +494,22 @@ class Schueler {
 
   function copy(){
 
-    $sql="INSERT INTO schueler (Name, Bemerkung, Unterricht_Wochentag, Unterricht_Reihenfolge)
-          SELECT CONCAT(Name, ' (Kopie)') as Name , Bemerkung, Unterricht_Wochentag, Unterricht_Reihenfolge 
+    $sql="INSERT INTO schueler (Name
+                              , Bemerkung
+                              , Unterricht_Wochentag
+                              , Unterricht_Reihenfolge
+                              , Unterricht_Dauer
+                              , Geburtsdatum 
+                              )
+          SELECT CONCAT(Name, ' (Kopie)') as Name 
+                              , Bemerkung
+                              , Unterricht_Wochentag
+                              , Unterricht_Reihenfolge 
+                              , Unterricht_Dauer
+                              , Geburtsdatum                               
           FROM schueler 
           WHERE ID=:ID ";
-    // Aktiv nicht kopieren, da default = 1
+    // Spalte Aktiv nicht kopieren
 
     $insert = $this->db->prepare($sql); 
     $insert->bindValue(':ID', $this->ID);  
@@ -579,7 +604,6 @@ class Schueler {
     }
   }
 
-  
   function print_table_uebungen(){
 
     $sql = new SQLPart(); 

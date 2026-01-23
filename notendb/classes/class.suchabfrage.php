@@ -234,7 +234,11 @@ class Suchabfrage {
       case 'Schueler1': 
         $strTmp.="SELECT schueler.ID 
         , schueler.Name as `Schueler Name`        
-        , schueler.Bemerkung       
+        , schueler.Bemerkung      
+        , IF(schueler.Unterricht_Wochentag=0, '', wochentage.wochentag_name) as   `Unterricht Wochentag` 
+        , IF(schueler.Unterricht_Reihenfolge=0, '', schueler.Unterricht_Reihenfolge) as `Unterricht Tag Reihenfolge` 
+        , IF(schueler.Unterricht_Dauer=0, '', schueler.Unterricht_Dauer) as `Unterricht Dauer`                
+        , schueler.Geburtsdatum           
         , v_schueler_instrumente.Instrumente as `Instrumente / Schwierigkeitsgrade`".PHP_EOL; 
         
         break; 
@@ -242,7 +246,11 @@ class Suchabfrage {
       case 'Schueler2':         
         $strTmp.="SELECT schueler.ID 
         , schueler.Name as `Schueler Name`        
-        , schueler.Bemerkung `Schueler Bemerkung`       
+        , schueler.Bemerkung `Schueler Bemerkung`
+        -- , IF(schueler.Unterricht_Wochentag=0, '', wochentage.wochentag_name) as   `Unterricht Wochentag` 
+        -- , IF(schueler.Unterricht_Reihenfolge=0, '', schueler.Unterricht_Reihenfolge) as `Unterricht Tag Reihenfolge` 
+        -- , IF(schueler.Unterricht_Dauer=0, '', schueler.Unterricht_Dauer) as `Unterricht Dauer`                
+        -- , schueler.Geburtsdatum  
         , v_schueler_instrumente.Instrumente as `Instrumente / Schwierigkeitsgrade`
         -- , IF(schueler.Aktiv=1, 'Ja', 'Nein') as Aktiv   
         , GROUP_CONCAT(
@@ -340,6 +348,7 @@ class Suchabfrage {
         $strTmp.="FROM schueler    
         LEFT join schueler_satz on schueler_satz.SchuelerID  = schueler.ID 
         LEFT join status as status_s on status_s.ID = schueler_satz.StatusID
+        LEFT JOIN wochentage ON wochentage.wochentag_nr = schueler.Unterricht_Wochentag
         LEFT join satz on satz.ID = schueler_satz.SatzID 
         LEFT join musikstueck on musikstueck.ID = satz.MusikstueckID
         LEFT join sammlung on sammlung.ID = musikstueck.SammlungID    

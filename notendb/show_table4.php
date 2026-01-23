@@ -62,12 +62,14 @@ switch ($Ansicht) {
           , schueler.Name
           , schueler.Bemerkung       
           , v_schueler_instrumente.Instrumente
-          -- , wochentage.wochentag_name
           , IF(schueler.Unterricht_Wochentag=0, '', wochentage.wochentag_name) as   `Unterricht Wochentag` 
           , IF(schueler.Unterricht_Reihenfolge=0, '', schueler.Unterricht_Reihenfolge) as `Unterricht Tag Reihenfolge` 
-          , IF(COUNT(distinct uebung.Datum) > 0, COUNT(distinct uebung.Datum), NULL) as `Uebung Tage`  
-          , MAX(uebung.Datum) as `Datum letzte Übung` "; 
-
+          , IF(schueler.Unterricht_Dauer=0, '', schueler.Unterricht_Dauer) as `Unterricht Dauer` 
+          , schueler.Geburtsdatum 
+          , IF(COUNT(distinct uebung.Datum) > 0, COUNT(distinct uebung.Datum), NULL) as `Übung Anzahl Tage`  
+          , MAX(uebung.Datum) as `Datum letzte Übung`           
+          "; 
+                   
       if ($StatusID!='') {
         $query.=', '.$sqlpart->getSQL_COL_CONCAT_Noten(200); 
       }
@@ -112,7 +114,6 @@ switch ($Ansicht) {
     }
 
     $query.="GROUP By schueler.ID 
-            -- ORDER BY schueler.Name 
             ORDER BY schueler.Unterricht_Reihenfolge 
             "; 
 
