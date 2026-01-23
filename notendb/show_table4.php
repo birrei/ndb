@@ -114,7 +114,7 @@ switch ($Ansicht) {
     }
 
     $query.="GROUP By schueler.ID 
-            ORDER BY schueler.Unterricht_Reihenfolge 
+            ORDER BY schueler.Unterricht_Wochentag, schueler.Unterricht_Reihenfolge 
             "; 
 
     break; 
