@@ -13,7 +13,7 @@ include_once('head.php');
 
             <p> Eine Sammlung kann sein: Ein Heft mit Musikstücken, ein Buch (Lehrwerk), ein Ordner im Dateisystem ... XXX </p>
 
-        <h3 class="chapter-title chapter-title-h3" id="erfassung_sammlung_standort">Sammlung: Name XXX</h3>    
+        <h3 class="chapter-title chapter-title-h3" id="erfassung_sammlung_name">Sammlung: Name XXX</h3>    
 
         <h3 class="chapter-title chapter-title-h3" id="erfassung_sammlung_erfasst">Sammlung: Erfasst</h3>
 
@@ -23,13 +23,11 @@ include_once('head.php');
 
         <h3 class="chapter-title chapter-title-h3" id="erfassung_sammlung_verlag">Sammlung: Verlag XXX</h3>        
 
-        <h3 class="chapter-title chapter-title-h3" id="erfassung_sammlung_standort">Sammlung: Standort XXX</h3>
-
         <h3 class="chapter-title chapter-title-h3" id="erfassung_sammlung_bemerkung">Sammlung: Bemerkung XXX</h3>
 
-        <h3 class="chapter-title chapter-title-h3" id="erfassung_sammlung_musikstuecke">Sammlung: Untertabelle "Standorte"</h3>
+        <h3 class="chapter-title chapter-title-h3" id="erfassung_sammlung_musikstuecke">Sammlung: Standorte</h3>
             <p> Die zugeordneten Standorte werden angezeigt. 
-             (XXX). Hinweis: Die angezeigte Zahl unter "ID" ist nicht die ID aus der Standort-Tabelle, sondern die ID der Verknüpfungstabelle. 
+             <!-- (XXX). Hinweis: Die angezeigte Zahl unter "ID" ist nicht die ID aus der Standort-Tabelle, sondern die ID der Verknüpfungstabelle.  -->
             </p>
         <h3 class="chapter-title chapter-title-h3" id="erfassung_sammlung_musikstuecke">Sammlung: Untertabelle "Musikstücke"</h3>
             <p> Die untergeordneten Musikstücke werden angezeigt. 
@@ -168,10 +166,17 @@ include_once('head.php');
                 Unter "Suche": Das Auswahlfeld "Schüler" zeigt nur aktive Schüler an.  
             </p>    
 
-        <h3 class="chapter-title chapter-title-h3" id="erfassung_schueler_wochentag">Schüler: Unterricht Wochentag / Unterricht Reihenfolge</h3>
-            <p> Unterricht Wochentag: Wochentag, an dem ein Schüler normalierweise Unterricht hat. </p>    
-            <p> Unterricht Reihenfolge: Übliche Reihenfolge am Tag (wirkt sich auf die auf die Anzeigereihenfolge Tagesübersicht aus) </p>    
 
+        <h3 class="chapter-title chapter-title-h3" id="erfassung_schueler_wochentag">Schüler: Unterricht Wochentag</h3>
+                    <p> Unterricht Wochentag: Wochentag, an dem ein Schüler normalierweise Unterricht hat. </p>    
+        <h3 class="chapter-title chapter-title-h3" id="erfassung_schueler_reihenfolge">Schüler: Unterricht Reihenfolge</h3>
+                    <p> Unterricht Reihenfolge: Übliche Reihenfolge am Tag (wirkt sich auf die auf die Anzeigereihenfolge Tagesübersicht aus) </p>    
+
+        <h3 class="chapter-title chapter-title-h3" id="erfassung_schueler_dauer">Schüler: Unterricht Dauer</h3>
+            <p> Unterricht Dauer: Übliche Unterrichtsdauer in Minuten  </p>    
+
+        <h3 class="chapter-title chapter-title-h3" id="erfassung_schueler_geburtsdatum">Schüler: Geburtsdatum</h3>
+            <p>Geburtdatum (Hintergrund: Altersklasse Wettbewerbe) </p>    
 
         <h3 class="chapter-title chapter-title-h3" id="erfassung_schueler_schwierigkeitsgrade">Schüler: Instrumente und Schwierigkeitsgrade</h3>
             <p>Optionen: </p>
@@ -186,20 +191,12 @@ include_once('head.php');
                         über <a href="#erfassung_satz_schueler">das "Satz"-Formular / Unterformular "Schüler"</a> erfolgen 
                         (weitere Informationen zu Eigenschaften einer Verknüpfung siehe dort)</p>
 
-
-        <h3 class="chapter-title chapter-title-h3" id="erfassung_schueler_material">Schüler: Verknüpfte Noten</h3>
-
-                <p> Im Unterformular werden die mit dem Schüler verknüpften Noten angezeigt. </p> 
-                    <p> Die Verknüpfungen können im Unterformular bearbeitet werden, das hinzufügen neuer Verknüpfungen muss jedoch über 
-                        über <a href="#erfassung_material_schueler">das "Material"-Formular / Unterformular "Schüler"</a> erfolgen 
-                        (weitere Informationen zu Eigenschaften einer Verknüpfung siehe dort)</p>
-
         <h3 class="chapter-title chapter-title-h3" id="erfassung_schueler_kopieren">Schüler kopieren</h3>
             <p>Die Daten eines Schüler werden inklusive Instrumente/Schwierigkeitsgrade sowie aller Material- und Satzverknüpfungen kopiert. </p>
 
 
 
-        <h3 class="chapter-title chapter-title-h3" id="erfassung_schueler_loeschen">Schüler kopieren</h3>
+        <h3 class="chapter-title chapter-title-h3" id="erfassung_schueler_loeschen">Schüler löschen</h3>
             <p>Die Daten eines Schüler werden inklusive Instrumente/Schwierigkeitsgrade sowie aller Material- und Satzverknüpfungen gelöscht. </p>
 
         <h3 class="chapter-title chapter-title-h3" id="erfassung_schueler_noten_schnellzuordnung">Notenmaterial Schnellzuordnung</h3>
@@ -213,10 +210,6 @@ include_once('head.php');
         </ul>
 
             <p>(*) Sucht in Feldern Sammlung Name, Sammlung Bemerkung, Musikstück Name, Musikstück Bemerkung, Komponist Vorname, Komponist Nachname, Satz Name, Satz Bemerkung  </p>
-
-
-        <h3 class="chapter-title chapter-title-h3" id="erfassung_schueler_noten_schnellzuorndung">Notenmaterial Schnellzuordnung XXXX</h3>
-            <p>XXXX</p>
 
 
     <h2 class="chapter-title chapter-title-h3" id="erfassung_uebung">Übungen</h2>

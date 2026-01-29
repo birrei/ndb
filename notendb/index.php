@@ -34,9 +34,9 @@ a:hover {
 <tr>
     <td class="start"><h3>Daten</h3></td>
     <td class="start">
-      <a href="show_table2.php?table=v_sammlung&sortcol=ID&sortorder=DESC">Übersicht Sammlungen</a><br>
-      <a href="show_table4.php?Ansicht=schueler">Übersicht Schüler</a><br>
-      <a href="show_table4.php?Ansicht=uebungen&Datum=<?php echo date('Y-m-d');  ?>">Übersicht Übungen</a>
+      <a href="show_table4.php?ansicht=sammlungen">Übersicht Sammlungen</a><br>
+      <a href="show_table4.php?ansicht=schueler">Übersicht Schüler</a><br>
+      <a href="show_table4.php?ansicht=uebungen&Datum=<?php echo date('Y-m-d');  ?>">Übersicht Übungen</a>
       <br>
       <!-- <a href="show_table2.php?table=v_uebung&sortcol=ID&sortorder=DESC">Übungen</a> <br>  Übersicht nicht verwenden, Übungen werden über Schüler-Formular verwaltet   -->
   </td>
@@ -47,17 +47,22 @@ a:hover {
   <td class="start">
     <a href="show_table2.php?table=v_standort&sortcol=Name">Standorte</a> <br>
     <a href="show_table2.php?table=v_verlag&sortcol=Name">Verlage</a> <br>
+    <hr> 
     <a href="show_table2.php?table=v_komponist&sortcol=Name">Komponisten</a> <br>
     <a href="show_table2.php?table=v_besetzung&sortcol=Name">Besetzungen</a> <br>
     <a href="show_table2.php?table=v_verwendungszweck&sortcol=Name">Verwendungszwecke</a> <br>
     <a href="show_table2.php?table=v_gattung&sortcol=Name">Gattungen</a> <br>
     <a href="show_table2.php?table=v_epoche&sortcol=Name">Epochen</a> <br>
+    <a href="show_table2.php?table=v_materialtyp&sortcol=Name">Materialtypen</a>  <br>    
+    <hr> 
 
-    <a href="show_table2.php?table=v_erprobt&sortcol=Name">Erprobt-Eigenschaften</a> <br>
     <a href="show_table2.php?table=v_schwierigkeitsgrad&sortcol=Name">Schwierigkeitsgrade</a>, 
     <a href="show_table2.php?table=v_instrument&sortcol=Name">Instrumente</a> <br>
+    <a href="show_table2.php?table=v_erprobt&sortcol=Name">Erprobt-Eigenschaften</a> <br>
+
+    <hr> 
+        
     <a href="show_table2.php?table=v_lookup&sortcol=LookupTypeName,Name">Besonderheiten</a>, <a href="show_table2.php?table=v_lookup_type&sortcol=Name">Besonderheit Typen</a> <br>
-    <a href="show_table2.php?table=v_materialtyp&sortcol=Name">Materialtypen</a>  <br>
 
     <a href="show_table2.php?table=v_status&sortcol=Name">Status Ausprägungen</a> <i>(Status Schüler Satz/Material-Zuordnung)</i><br>
 

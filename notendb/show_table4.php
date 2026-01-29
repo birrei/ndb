@@ -2,16 +2,86 @@
 include_once('classes/class.htmlinfo.php');
 include_once('classes/class.sqlpart.php');
 
-$Ansicht=$_REQUEST["Ansicht"]; 
+$ansicht=$_REQUEST["ansicht"]; 
 
 $show_data=true; 
 $add_link_edit=true; 
 $show_insert_link=false; // "Neu einfügen" - Link anzeigen ja / nein - default: nein 
-$add_link_show=false; 
 
 /*********** Filter  ********************/
 
-switch ($Ansicht) {
+switch ($ansicht) {
+
+  case 'sammlungen': 
+    $PageTitle='Übersicht Sammlungen';  
+    include_once('head.php'); 
+    include_once("classes/class.standort.php");
+    $show_insert_link=true;     
+
+    $table_edit = 'sammlung'; 
+
+    echo '<h3>'.$PageTitle.'</h3>'.PHP_EOL; 
+
+    $StandortID=(isset($_REQUEST["StandortID"])?$_REQUEST["StandortID"]:'');
+
+    $Suchtext=(isset($_REQUEST["Suchtext"])?$_REQUEST["Suchtext"]:'');    
+
+    $Erfasst=-1; 
+
+    if(isset($_REQUEST["VollstaendigErfasstNein"])) {
+      $Erfasst=0; 
+    }
+    
+
+    echo '<form action="" method="get">'.PHP_EOL;  
+    $standort = new Standort(); 
+    echo 'Standort: '.PHP_EOL; 
+    $standort->print_preselect($StandortID); 
+        echo ' &#9475;';
+    echo '<label><input type="checkbox" name="VollstaendigErfasstNein" '.($Erfasst==0?'checked':'').'>Unvollständig erfasst</label>'; 
+            echo ' &#9475;';
+    echo 'Suchtext: <input type="text" id="Suchtext" name="Suchtext" size="30px" value="'.$Suchtext.'"> '; 
+    echo '<input type="submit" class="btnSave" name="senden" value="Suchen">';
+    echo '<input type="hidden" name="ansicht" value="'.$ansicht.'">
+          </form><br>';    
+          
+          
+    $query="SELECT sammlung.ID
+                  , sammlung.Name
+                  , v_sammlung_standorte.Standorte     
+                  , verlag.Name as Verlag
+                  , sammlung.Bemerkung
+                  , v_sammlung_lookuptypes.LookupList as Besonderheiten       
+                  , IF(Erfasst=1, 'X' , '') as `vollständig erfasst`  
+            FROM sammlung 
+                LEFT join verlag  on sammlung.VerlagID = verlag.ID 
+                LEFT JOIN v_sammlung_standorte ON v_sammlung_standorte.SammlungID=sammlung.ID 
+                LEFT JOIN sammlung_lookup on sammlung_lookup.SammlungID = sammlung.ID       
+                LEFT JOIN v_sammlung_lookuptypes on v_sammlung_lookuptypes.SammlungID = sammlung.ID         
+           WHERE 1=1 
+    "; 
+
+
+    $query.=($Erfasst > -1?'AND Erfasst='.$Erfasst.' '.PHP_EOL:''); 
+
+    $query.=($StandortID!=''?'AND sammlung.ID IN (SELECT SammlungID FROM sammlung_standort WHERE StandortID='.$StandortID.') '.PHP_EOL:''); 
+    
+    if($Suchtext!='') {
+      $query.="AND ( sammlung.Name LIKE '%".$Suchtext."%' 
+                  OR sammlung.Bemerkung LIKE '%".$Suchtext."%' 
+                  OR verlag.Name LIKE '%".$Suchtext."%' 
+                  OR v_sammlung_lookuptypes.LookupList LIKE '%".$Suchtext."%' 
+                            ) "; 
+
+    }
+    $query.="GROUP by sammlung.ID 
+             ORDER BY sammlung.ID DESC 
+            "; 
+
+
+          
+          
+    break; 
 
   case 'schueler': 
     $PageTitle='Übersicht Schüler';  
@@ -19,8 +89,7 @@ switch ($Ansicht) {
     include_once("classes/class.status.php");
     include_once("classes/class.wochentage.php");
 
-    $table='schueler'; 
-    $table_edit = $table; 
+    $table_edit='schueler'; 
     $show_insert_link=true;     
 
     echo '<h3>'.$PageTitle.'</h3>'.PHP_EOL; 
@@ -34,8 +103,6 @@ switch ($Ansicht) {
     if(isset($_REQUEST["Filter"])) {
       $Aktiv=(isset($_REQUEST["Aktiv"])?1:0); 
     }
-
-
 
     echo '<form action="" method="get">'.PHP_EOL;  
     echo '<label><input type="checkbox" name="Aktiv" onchange="this.form.submit()" '.($Aktiv==1?'checked':'').'>Aktiv</label>'; 
@@ -52,7 +119,7 @@ switch ($Ansicht) {
     $wochentage = new Wochentage(); 
     $wochentage->print_preselect($Unterricht_Wochentag); 
         
-    echo '<input type="hidden" name="Ansicht" value="'.$Ansicht.'">'; 
+    echo '<input type="hidden" name="ansicht" value="'.$ansicht.'">'; 
     echo '<input type="hidden" name="Filter" value="gesetzt">'; // Nur beim Erstaufruf der Seite nicht gesetzt 
     echo '</form><br>';           
 
@@ -65,14 +132,15 @@ switch ($Ansicht) {
           , IF(schueler.Unterricht_Wochentag=0, '', wochentage.wochentag_name) as   `Unterricht Wochentag` 
           , IF(schueler.Unterricht_Reihenfolge=0, '', schueler.Unterricht_Reihenfolge) as `Unterricht Tag Reihenfolge` 
           , IF(schueler.Unterricht_Dauer=0, '', schueler.Unterricht_Dauer) as `Unterricht Dauer` 
-          , schueler.Geburtsdatum 
-          , IF(COUNT(distinct uebung.Datum) > 0, COUNT(distinct uebung.Datum), NULL) as `Übung Anzahl Tage`  
+          , schueler.Geburtsdatum "; 
+    if ($StatusID!='') {
+        $query.=', '.$sqlpart->getSQL_COL_CONCAT_Noten(200); 
+    }
+    $query.=", IF(COUNT(distinct uebung.Datum) > 0, COUNT(distinct uebung.Datum), NULL) as `Übung Anzahl Tage`  
           , MAX(uebung.Datum) as `Datum letzte Übung`           
           "; 
                    
-      if ($StatusID!='') {
-        $query.=', '.$sqlpart->getSQL_COL_CONCAT_Noten(200); 
-      }
+
 
     $query.="
         FROM schueler 
@@ -114,7 +182,7 @@ switch ($Ansicht) {
     }
 
     $query.="GROUP By schueler.ID 
-            ORDER BY schueler.Unterricht_Wochentag, schueler.Unterricht_Reihenfolge 
+             ORDER BY schueler.Unterricht_Wochentag, schueler.Unterricht_Reihenfolge 
             "; 
 
     break; 
@@ -124,18 +192,21 @@ switch ($Ansicht) {
     $PageTitle='Übersicht Übungen';  
     include_once('head.php');   
 
-    $table='uebung'; 
-    $table_edit = $table; 
+    $table_edit='uebung'; 
 
     echo '<h3>'.$PageTitle.'</h3>'.PHP_EOL; 
     
     $Datum=(isset($_REQUEST["Datum"])?$_REQUEST["Datum"]:date('Y-m-d')); 
+    $Suchtext=(isset($_REQUEST["Suchtext"])?$_REQUEST["Suchtext"]:'');   
 
     echo '<form action="" method="get">'.PHP_EOL;       
-
     echo 'Übung Datum: <input type="date" name="Datum" value="'.$Datum.'" onchange="this.form.submit()">'; 
 
-    echo '<input type="hidden" name="Ansicht" value="'.$Ansicht.'">'; 
+    echo ' Suchtext: <input type="text" id="Suchtext" name="Suchtext" size="30px" value="'.$Suchtext.'"> '; 
+
+    echo '<input type="submit" class="btnSave" name="senden" value="Suchen">';
+
+    echo '<input type="hidden" name="ansicht" value="'.$ansicht.'">'; 
 
     echo '</form><br>';           
 
@@ -149,8 +220,7 @@ switch ($Ansicht) {
                   "; 
 
     $query.=", ".$sqlpart->getSQL_COL_CONCAT_Noten(300); 
-    $query.="      
-                  , CASE 
+    $query.=", CASE 
                       WHEN (musikstueck.Bemerkung !='' AND satz.Bemerkung !='') THEN CONCAT(musikstueck.Bemerkung, ' / ', satz.Bemerkung) 
                       WHEN (musikstueck.Bemerkung !='' AND satz.Bemerkung = '')  then musikstueck.Bemerkung 
                       WHEN musikstueck.Bemerkung = '' AND satz.Bemerkung !='' then satz.Bemerkung 
@@ -177,15 +247,31 @@ switch ($Ansicht) {
     if (!empty($Datum)) {
       $query.="AND uebung.Datum='".$Datum."' ";  
     }
+    if($Suchtext!='') {
+      $query.="AND ( uebung.Name LIKE '%".$Suchtext."%' 
+                  OR uebung.Bemerkung LIKE '%".$Suchtext."%' 
+                  OR uebungtyp.Name LIKE '%".$Suchtext."%' 
+                  OR v_uebung_lookuptypes.LookupList LIKE '%".$Suchtext."%' 
+                  OR satz.Name LIKE '%".$Suchtext."%' 
+                  OR satz.Bemerkung LIKE '%".$Suchtext."%' 
+                  OR musikstueck.Name LIKE '%".$Suchtext."%' 
+                  OR musikstueck.Bemerkung LIKE '%".$Suchtext."%' 
+                  OR sammlung.Name LIKE '%".$Suchtext."%' 
+                  OR sammlung.Bemerkung LIKE '%".$Suchtext."%' 
+                            ) "; 
+
+    }    
 
     $query.="ORDER BY uebung.Datum DESC, schueler.Unterricht_Reihenfolge, uebung.Name "; 
 
   break; 
  
 }
-
+echo '<a href="help_uebersichten.php?#uebersichten_'.$ansicht.'" target="_blank">Hilfe</a>';
+echo '<br><br>'; 
 if ($show_insert_link) {
-  echo '<a href="edit_'.$table.'.php?option=insert">Neu erfassen</a><br><br>';
+  echo '<a href="edit_'.$table_edit.'.php?option=insert">Neu erfassen</a>';
+  echo '<br><br>';   
 }
 
 /******************************* */
@@ -201,15 +287,12 @@ try {
   $select->execute(); 
   include_once("classes/class.htmltable.php");      
   $html = new HTML_Table($select); 
-  // $html->add_link_show=$add_link_show; 
   $html->add_link_edit= $add_link_edit; 
   $html->edit_link_table=$table_edit; 
   $html->edit_link_open_newpage = true; 
-  // $html->edit_link_title= $table_edit_title; 
   $html->print_table2(); 
 }
 catch (PDOException $e) {
-  // include_once("classes/class.htmlinfo.php"); 
   $info = new HTML_Info();      
   $info->print_user_error(); 
   $info->print_error($select, $e); 
