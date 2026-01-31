@@ -3,7 +3,6 @@ $PageTitle='Hilfe Übersichten';
 include_once('head.php');
 ?>
 
-
 <p class="doc-header"><b>Kapitel:</b> </p>
 
 <div class="doc-toc" id="inhaltsverzeichnis"></div>
@@ -73,9 +72,6 @@ include_once('head.php');
                 <li>Übung Dauer</li>
                 <li>Uebung Typ</li>
                 <li>ID</li>
-
-
-
              
             </ul>  
 
@@ -83,7 +79,7 @@ include_once('head.php');
         
             <ul>
                 <li>Datum (Vorgabe beim öffnen der Seite: Heutiges Datum)</li>
-                <li>Suchtext. Sucht in folgenden Feldern:
+                <li>Suchtext. Durchsucht werden folgende Felder: 
                     <br>Übung Name 
                     <br>Übung Bemerkung 
                     <br>Übung Typ Name 
@@ -95,6 +91,21 @@ include_once('head.php');
             </ul> 
 
 
+	<h2 class="chapter-title chapter-title-h1" id="uebersichten_verwendungszwecke">Verwendungszwecke</h2>
+
+        <p>Spalten: </p>
+            <ul>       
+                <li>ID</li>
+                <li>Name</li>
+            </ul>  
+
+        <p>Zusatzspalten (Option "Berechnungen anzeigen" aktiviert) </p>
+          <ul>       
+                <li>Anzahl Sammlungen</li>
+                <li>Anzahl Musikstücke</li>
+                <li>Anzahl Sätze</li>
+                <li>Summe Spieldauer </li>
+            </ul>  
 
 <hr />
 

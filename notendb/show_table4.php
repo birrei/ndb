@@ -1,26 +1,42 @@
 <?php
 include_once('classes/class.htmlinfo.php');
 include_once('classes/class.sqlpart.php');
+include_once("classes/dbconn/class.db.php");
 
 $ansicht=$_REQUEST["ansicht"]; 
+
+switch ($ansicht) {
+  case 'sammlungen'; 
+    $PageTitle='Übersicht Sammlungen'; 
+    $table_edit = 'sammlung'; 
+    break; 
+  case 'schueler'; 
+    $PageTitle='Übersicht Schüler';  
+    $table_edit='schueler';     
+    break; 
+  case 'uebungen'; 
+    $PageTitle='Übersicht Übungen ';  
+    $table_edit='uebung';     
+    break; 
+  case 'verwendungszwecke'; 
+    $PageTitle='Übersicht Verwendungszwecke ';  
+    $table_edit='verwendungszweck';     
+    break; 
+}
+
+include_once('head.php'); 
+
+echo '<h3>'.$PageTitle.'</h3>'.PHP_EOL; 
 
 $show_data=true; 
 $add_link_edit=true; 
 $show_insert_link=false; // "Neu einfügen" - Link anzeigen ja / nein - default: nein 
 
-/*********** Filter  ********************/
-
 switch ($ansicht) {
 
   case 'sammlungen': 
-    $PageTitle='Übersicht Sammlungen';  
-    include_once('head.php'); 
     include_once("classes/class.standort.php");
     $show_insert_link=true;     
-
-    $table_edit = 'sammlung'; 
-
-    echo '<h3>'.$PageTitle.'</h3>'.PHP_EOL; 
 
     $StandortID=(isset($_REQUEST["StandortID"])?$_REQUEST["StandortID"]:'');
 
@@ -31,7 +47,6 @@ switch ($ansicht) {
     if(isset($_REQUEST["VollstaendigErfasstNein"])) {
       $Erfasst=0; 
     }
-    
 
     echo '<form action="" method="get">'.PHP_EOL;  
     $standort = new Standort(); 
@@ -44,8 +59,7 @@ switch ($ansicht) {
     echo '<input type="submit" class="btnSave" name="senden" value="Suchen">';
     echo '<input type="hidden" name="ansicht" value="'.$ansicht.'">
           </form><br>';    
-          
-          
+
     $query="SELECT sammlung.ID
                   , sammlung.Name
                   , v_sammlung_standorte.Standorte     
@@ -72,27 +86,18 @@ switch ($ansicht) {
                   OR verlag.Name LIKE '%".$Suchtext."%' 
                   OR v_sammlung_lookuptypes.LookupList LIKE '%".$Suchtext."%' 
                             ) "; 
-
     }
     $query.="GROUP by sammlung.ID 
              ORDER BY sammlung.ID DESC 
             "; 
-
-
-          
           
     break; 
 
-  case 'schueler': 
-    $PageTitle='Übersicht Schüler';  
-    include_once('head.php');   
+  case 'schueler':  
     include_once("classes/class.status.php");
     include_once("classes/class.wochentage.php");
 
-    $table_edit='schueler'; 
     $show_insert_link=true;     
-
-    echo '<h3>'.$PageTitle.'</h3>'.PHP_EOL; 
 
     $StatusID=(isset($_REQUEST["StatusID"])?$_REQUEST["StatusID"]:'');
     $Status_Umkehr=(isset($_REQUEST["Status_Umkehr"])?true:false);    
@@ -189,25 +194,17 @@ switch ($ansicht) {
 
 
   case 'uebungen': 
-    $PageTitle='Übersicht Übungen';  
-    include_once('head.php');   
 
-    $table_edit='uebung'; 
-
-    echo '<h3>'.$PageTitle.'</h3>'.PHP_EOL; 
-    
+ 
     $Datum=(isset($_REQUEST["Datum"])?$_REQUEST["Datum"]:date('Y-m-d')); 
+
     $Suchtext=(isset($_REQUEST["Suchtext"])?$_REQUEST["Suchtext"]:'');   
 
     echo '<form action="" method="get">'.PHP_EOL;       
     echo 'Übung Datum: <input type="date" name="Datum" value="'.$Datum.'" onchange="this.form.submit()">'; 
-
     echo ' Suchtext: <input type="text" id="Suchtext" name="Suchtext" size="30px" value="'.$Suchtext.'"> '; 
-
     echo '<input type="submit" class="btnSave" name="senden" value="Suchen">';
-
     echo '<input type="hidden" name="ansicht" value="'.$ansicht.'">'; 
-
     echo '</form><br>';           
 
     $sqlpart = new SQLPart(); 
@@ -264,7 +261,58 @@ switch ($ansicht) {
 
     $query.="ORDER BY uebung.Datum DESC, schueler.Unterricht_Reihenfolge, uebung.Name "; 
 
-  break; 
+    break; 
+
+  case 'verwendungszwecke': 
+
+    $show_insert_link=true;  
+
+    $Suchtext=(isset($_REQUEST["Suchtext"])?$_REQUEST["Suchtext"]:'');   
+
+    $BerechnungAnzeigen=(isset($_REQUEST["BerechnungAnzeigen"])?true:false);    
+
+    echo '<form action="" method="get">'.PHP_EOL;  
+
+    echo '<label><input type="checkbox" name="BerechnungAnzeigen" onchange="this.form.submit()" '.($BerechnungAnzeigen?'checked':'').'>Berechnungen anzeigen</label> | ' ; 
+    
+    echo ' Suchtext: <input type="text" id="Suchtext" name="Suchtext" size="30px" value="'.$Suchtext.'"> '; 
+    echo '<input type="submit" class="btnSave" name="senden" value="Suchen">';
+
+    echo '<input type="hidden" name="ansicht" value="'.$ansicht.'">'; 
+    echo '</form><br>';       
+
+    if(!$BerechnungAnzeigen) {
+      $query="SELECT ID, Name FROM verwendungszweck WHERE 1=1 "; 
+      if($Suchtext!='') {
+        $query.="AND verwendungszweck.Name LIKE '%".$Suchtext."%'  ";          
+      }
+
+    } else {
+      $query="SELECT verwendungszweck.ID
+                          , verwendungszweck.Name    
+                          , COUNT(DISTINCT musikstueck.SammlungID) as   `Anzahl Sammlungen`
+                          , COUNT(DISTINCT musikstueck.ID) as   `Anzahl Musikstücke` 
+                          , COUNT(DISTINCT satz.ID) as   `Anzahl Sätze` 
+                          , SEC_TO_TIME(SUM(satz.Spieldauer)) as `Summe Spieldauer`
+              FROM musikstueck inner join satz on satz.MusikstueckID = musikstueck.ID 
+              INNER JOIN musikstueck_verwendungszweck on musikstueck.ID = musikstueck_verwendungszweck.MusikstueckID 
+              INNER JOIN verwendungszweck on verwendungszweck.ID = musikstueck_verwendungszweck.VerwendungszweckID 
+              WHERE 1=1 "; 
+      if($Suchtext!='') {
+        $query.="AND verwendungszweck.Name LIKE '%".$Suchtext."%'  ";          
+      }
+
+      $query.="GROUP BY verwendungszweck.ID "        ; 
+
+    }
+    $query.="ORDER BY verwendungszweck.Name "; 
+
+
+
+
+
+    break; 
+
  
 }
 echo '<a href="help_uebersichten.php?#uebersichten_'.$ansicht.'" target="_blank">Hilfe</a>';
@@ -275,9 +323,9 @@ if ($show_insert_link) {
 }
 
 /******************************* */
-    // echo '<pre>'.$query.'</pre>'; // Test 
+// echo '<pre>'.$query.'</pre>'; // Test 
 
-include_once("classes/dbconn/class.db.php");
+
 $conn = new DBConnection(); 
 $db=$conn->db; 
 

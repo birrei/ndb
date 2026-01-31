@@ -50,7 +50,7 @@ a:hover {
     <hr> 
     <a href="show_table2.php?table=v_komponist&sortcol=Name">Komponisten</a> <br>
     <a href="show_table2.php?table=v_besetzung&sortcol=Name">Besetzungen</a> <br>
-    <a href="show_table2.php?table=v_verwendungszweck&sortcol=Name">Verwendungszwecke</a> <br>
+    <a href="show_table4.php?ansicht=verwendungszwecke">Verwendungszwecke</a> <br>
     <a href="show_table2.php?table=v_gattung&sortcol=Name">Gattungen</a> <br>
     <a href="show_table2.php?table=v_epoche&sortcol=Name">Epochen</a> <br>
     <a href="show_table2.php?table=v_materialtyp&sortcol=Name">Materialtypen</a>  <br>    
