@@ -603,7 +603,7 @@ class Schueler {
     }
   }
 
-  function print_table_uebungen(){
+  function print_table_uebungen($Datum=''){
 
     $sql = new SQLPart(); 
      
@@ -612,17 +612,19 @@ class Schueler {
                   "; 
 
     $query.=", ".$sql->getSQL_COL_CONCAT_Noten(300); 
-    $query.=", CASE 
-                      WHEN (musikstueck.Bemerkung !='' AND satz.Bemerkung !='') THEN CONCAT(musikstueck.Bemerkung, ' / ', satz.Bemerkung) 
-                      WHEN (musikstueck.Bemerkung !='' AND satz.Bemerkung = '')  then musikstueck.Bemerkung 
-                      WHEN musikstueck.Bemerkung = '' AND satz.Bemerkung !='' then satz.Bemerkung 
-                    END as `Noten Bemerkung`    
-                  , v_uebung_lookuptypes.LookupList2 as Besonderheiten   
+    // verworfen 
+    // $query.=", CASE 
+    //                   WHEN (musikstueck.Bemerkung !='' AND satz.Bemerkung !='') THEN CONCAT(musikstueck.Bemerkung, ' / ', satz.Bemerkung) 
+    //                   WHEN (musikstueck.Bemerkung !='' AND satz.Bemerkung = '')  then musikstueck.Bemerkung 
+    //                   WHEN musikstueck.Bemerkung = '' AND satz.Bemerkung !='' then satz.Bemerkung 
+    //                 END as `Noten Bemerkung`    
+
+    $query.="   , v_uebung_lookuptypes.LookupList2 as Besonderheiten   
                   , uebung.Bemerkung  as `Übung Bemerkung`   
                   , CONCAT(uebung.Anzahl, ' ', uebungtyp.Einheit) Dauer   
                   , uebungtyp.Name as `Uebung Typ`
                   , uebung.ID
-                "; 
+                ";                 
     $query.="  
           FROM  uebung 
               left join uebungtyp on uebung.UebungtypID=uebungtyp.ID 
@@ -630,13 +632,18 @@ class Schueler {
               left join musikstueck on satz.MusikstueckID = musikstueck.ID
               left JOIN sammlung on sammlung.ID = musikstueck.SammlungID  
               left JOIN v_uebung_lookuptypes on v_uebung_lookuptypes.UebungID = uebung.ID 
-          WHERE uebung.SchuelerID = :ID 
+          WHERE uebung.SchuelerID = :ID "; 
+
+    if (!empty($Datum)) {
+      $query.="AND uebung.Datum='".$Datum."'";  
+    }
+    $query.="  
           ORDER BY uebung.Datum DESC, uebung.Name DESC               
         "; 
 
     // echo '<pre>'.$query.'</pre>';
     $stmt = $this->db->prepare($query); 
-    $stmt->bindParam(':ID', $this->ID, PDO::PARAM_INT); 
+    $stmt->bindParam(':ID', $this->ID, PDO::PARAM_INT);   
 
     try {
       $stmt->execute(); 
