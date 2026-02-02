@@ -20,7 +20,7 @@ class HTML_Info {
     }
 
     function print_link_table2($Ansicht, $show_newtab=false, $additional_params='', $suffix='') {
-        echo '<a href="show_table4.php?Ansicht='.$Ansicht.'" '.($show_newtab?' target="_blank"':'').' tabindex="-1" class="form-link">Daten anzeigen</a>'.($suffix!=''?$suffix:'').($this->use_paragraph?'</p>':'');
+        echo '<a href="show_table4.php?ansicht='.$Ansicht.'" '.($show_newtab?' target="_blank"':'').' tabindex="-1" class="form-link">Daten anzeigen</a>'.($suffix!=''?$suffix:'').($this->use_paragraph?'</p>':'');
     }
 
     function print_link($link_url, $link_text) {
