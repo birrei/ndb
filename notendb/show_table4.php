@@ -137,7 +137,10 @@ switch ($ansicht) {
           , IF(schueler.Unterricht_Wochentag=0, '', wochentage.wochentag_name) as   `Unterricht Wochentag` 
           , IF(schueler.Unterricht_Reihenfolge=0, '', schueler.Unterricht_Reihenfolge) as `Unterricht Tag Reihenfolge` 
           , IF(schueler.Unterricht_Dauer=0, '', schueler.Unterricht_Dauer) as `Unterricht Dauer` 
-          , schueler.Geburtsdatum "; 
+          , schueler.Geburtsdatum 
+          , TIMESTAMPDIFF(YEAR, schueler.Geburtsdatum, CURDATE()) as `Alter` 
+          "         
+          ; 
     if ($StatusID!='') {
         $query.=', '.$sqlpart->getSQL_COL_CONCAT_Noten(200); 
     }
