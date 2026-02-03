@@ -47,7 +47,8 @@ switch($option) {
 }
 
 $info->print_screen_header($verwendungszweck->Title.' bearbeiten'); 
-$info->print_link_table($verwendungszweck->table_name, 'sortcol=Name', $verwendungszweck->Titles); 
+$info->print_link_table2('verwendungszwecke'); 
+
 
 if (!$show_data) {goto pagefoot;}
     
