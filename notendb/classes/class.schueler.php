@@ -669,7 +669,7 @@ class Schueler {
                   , COUNT(distinct uebung.ID) as `Anzahl Einheiten` 
                   , SUM(uebung.Anzahl ) as `Summe Minuten` 
                   -- , GROUP_CONCAT(uebungtyp.Name, ': ', uebung.Name order by uebung.Name separator '<br>') Inhalte 
-                  , GROUP_CONCAT(uebung.Name, ' (', uebungtyp.Name, ')'  order by uebung.Name separator '<br>') Inhalte 
+                  , GROUP_CONCAT(uebung.Name, ' (', coalesce(uebungtyp.Name, ''), ')'  order by uebung.Name separator '<br>') Inhalte 
             FROM  uebung 
                   left join uebungtyp on uebung.UebungtypID=uebungtyp.ID 
                   left join satz  on satz.ID=uebung.SatzID 
