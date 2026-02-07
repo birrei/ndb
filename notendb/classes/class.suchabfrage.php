@@ -206,6 +206,13 @@ class Suchabfrage {
             , v_satz_instrumente_schwierigkeitsgrade.Schwierigkeitsgrade           
             , v_satz_lookuptypes.LookupList2 as `Satz Besonderheiten`                   
             , satz.Orchesterbesetzung
+              , concat(
+                  satz.Spieldauer DIV 60
+                  ,''''
+                  , 
+                  satz.Spieldauer MOD 60
+                  , ''''''
+                ) as Spieldauer                 
             , v_satz_erprobte.ErprobtList as Erprobt  
             , satz.Bemerkung ".PHP_EOL;   
 
