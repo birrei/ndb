@@ -18,6 +18,10 @@ switch ($ansicht) {
     $PageTitle='Übersicht Übungen ';  
     $table_edit='uebung';     
     break; 
+  case 'uebungen-datum'; 
+    $PageTitle='Übersicht Übungen / Datum';  
+    $table_edit='';     
+    break; 
   case 'verwendungszwecke'; 
     $PageTitle='Übersicht Verwendungszwecke ';  
     $table_edit='verwendungszweck';     
@@ -197,7 +201,6 @@ switch ($ansicht) {
 
 
   case 'uebungen': 
-
  
     $Datum=(isset($_REQUEST["Datum"])?$_REQUEST["Datum"]:date('Y-m-d')); 
 
@@ -265,6 +268,48 @@ switch ($ansicht) {
     $query.="ORDER BY uebung.Datum DESC, schueler.Unterricht_Reihenfolge, uebung.Name "; 
 
     break; 
+
+ case 'uebungen-datum': 
+
+    $add_link_edit=false; 
+ 
+    $Datum=(isset($_REQUEST["Datum"])?$_REQUEST["Datum"]:date('Y-m-d')); 
+
+    $Suchtext=(isset($_REQUEST["Suchtext"])?$_REQUEST["Suchtext"]:'');   
+
+    echo '<form action="" method="get">'.PHP_EOL;       
+    echo 'Übung Datum: <input type="date" name="Datum" value="'.$Datum.'" onchange="this.form.submit()">'; 
+    echo '<input type="hidden" name="ansicht" value="'.$ansicht.'">'; 
+    echo '</form><br>';           
+
+    $query="SELECT schueler.Name
+                  , uebung.Datum 
+                  , schueler.Unterricht_Reihenfolge as `Unterricht Reihenfolge` 
+                  , COUNT(distinct uebung.ID) as `Anzahl Übungen` 
+                  , SUM(uebung.Anzahl ) as `Summe Minuten` 
+                  , (SUM(uebung.Anzahl ) - schueler.Unterricht_Dauer ) as `Abweichung Dauer` 
+                  , GROUP_CONCAT(uebung.Name, ' (', coalesce(uebungtyp.Name, '') , ')'  order by uebung.Name separator '<br>') Inhalte 
+            FROM  uebung 
+                  LEFT JOIN schueler ON schueler.ID = uebung.SchuelerID 
+                  left join uebungtyp on uebung.UebungtypID=uebungtyp.ID 
+                  left join satz  on satz.ID=uebung.SatzID 
+                  left join musikstueck on satz.MusikstueckID = musikstueck.ID
+                  left JOIN sammlung on sammlung.ID = musikstueck.SammlungID  
+                  left JOIN v_uebung_lookuptypes on v_uebung_lookuptypes.UebungID = uebung.ID 
+            WHERE 1=1 
+                           
+        "; 
+ 
+
+
+    if (!empty($Datum)) {
+      $query.="AND uebung.Datum='".$Datum."' ";  
+    }
+ 
+    $query.="GROUP BY uebung.SchuelerID, uebung.Datum  
+            ORDER BY uebung.Datum DESC, schueler.Unterricht_Reihenfolge, uebung.Name  "; 
+
+    break;     
 
   case 'verwendungszwecke': 
 

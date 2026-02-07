@@ -3,14 +3,14 @@ $PageTitle='Hilfe Übersichten';
 include_once('head.php');
 ?>
 
-<p class="doc-header"><b>Kapitel:</b> </p>
+<p class="doc-header"><b>Übersichten Kapitel:</b> </p>
 
 <div class="doc-toc" id="inhaltsverzeichnis"></div>
 
 <div class="doc-body"> 
-<h1>Übersichten </h1> 
 
-	<h2 class="chapter-title chapter-title-h1" id="uebersichten_sammlungen">Sammlungen</h2>  
+
+	<h2 class="chapter-title chapter-title-h1" id="uebersichten_sammlungen">Übersicht Sammlungen</h2>  
 
         <p>Spalten: </p>
             <ul>
@@ -31,7 +31,7 @@ include_once('head.php');
                 <li>Suchtext (Suche in Sammlung Name, Sammlung Bemerkung, Verlag, Sammlung Besonderheiten) </li>
             </ul> 
 
-	<h2 class="chapter-title chapter-title-h1" id="uebersichten_schueler">Schüler</h2>
+	<h2 class="chapter-title chapter-title-h1" id="uebersichten_schueler">Übersicht Schüler</h2>
 
         <p>Spalten: </p>
             <ul>
@@ -57,7 +57,7 @@ include_once('head.php');
                 <li>Suchtext (Suche in Sammlung Name, Sammlung Bemerkung, Verlag, Sammlung Besonderheiten) </li>
             </ul> 
 
-	<h2 class="chapter-title chapter-title-h1" id="uebersichten_uebungen">Übungen</h2>
+	<h2 class="chapter-title chapter-title-h1" id="uebersichten_uebungen">Übersicht Übungen</h2>
 
         <p>Spalten: </p>
             <ul>
@@ -91,7 +91,35 @@ include_once('head.php');
             </ul> 
 
 
-	<h2 class="chapter-title chapter-title-h1" id="uebersichten_verwendungszwecke">Verwendungszwecke</h2>
+
+	<h2 class="chapter-title chapter-title-h1" id="uebersichten_uebungen-datum">Übersicht Übungen / Datum</h2>
+
+    <!-- 			Inhalte -->
+        <p>Spalten: </p>
+            <ul>
+                <li>Schueler Name</li>
+                <li>Übung Datum</li>
+                <li>Untericht Reihenfolge </li>
+                <li>Anzahl Übungen </li>
+                <li>Summe Minuten </li>
+                <li>Abweichung Dauer (= Abweichung  Summe  Minuten - Schüler Unterrichtsdauer. 
+                    <br>Negativer Betrag: Übungen Summe Minuten zu gering. 
+                    <br>Positiver Betrag: Übungen Summe Minuten zu hoch) </li>
+                <li>Inhalte </li>
+             
+            </ul>  
+
+        <p>Suche / Filter: </p>
+        
+            <ul>
+                <li>Datum (Vorgabe beim öffnen der Seite: Heutiges Datum)</li>
+            </li>
+
+            </ul> 
+
+
+
+	<h2 class="chapter-title chapter-title-h1" id="uebersichten_verwendungszwecke">Übersicht Verwendungszwecke</h2>
 
         <p>Spalten: </p>
             <ul>       

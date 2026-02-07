@@ -36,7 +36,9 @@ a:hover {
     <td class="start">
       <a href="show_table4.php?ansicht=sammlungen">Übersicht Sammlungen</a><br>
       <a href="show_table4.php?ansicht=schueler">Übersicht Schüler</a><br>
-      <a href="show_table4.php?ansicht=uebungen&Datum=<?php echo date('Y-m-d');  ?>">Übersicht Übungen</a>
+      <!-- <a href="show_table4.php?ansicht=uebungen&Datum=<?php echo date('Y-m-d');  ?>">Übersicht Übungen</a> -->
+      <a href="show_table4.php?ansicht=uebungen">Übersicht Übungen</a><br>
+      <a href="show_table4.php?ansicht=uebungen-datum">Übersicht Übungen Datum</a>
       <br>
       <!-- <a href="show_table2.php?table=v_uebung&sortcol=ID&sortorder=DESC">Übungen</a> <br>  Übersicht nicht verwenden, Übungen werden über Schüler-Formular verwaltet   -->
   </td>
