@@ -1,7 +1,7 @@
 
 <?php 
-$PageTitle='Schüler'; 
-include_once('head.php');
+
+
 include_once("classes/class.schueler.php");
 include_once("classes/class.wochentage.php"); 
 include_once("classes/class.htmlinfo.php");
@@ -63,9 +63,13 @@ switch($option) {
     $show_data=false;     
 
 }
+// $PageTitle='Schüler'; 
+$PageTitle=$schueler->Name.' | Schüler'; 
+include_once('head.php');
 
 $info->print_screen_header($schueler->Title.' bearbeiten'); 
 $info->print_link_table2('schueler'); 
+
 
 
 if (!$show_data) {goto pagefoot;}
