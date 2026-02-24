@@ -607,7 +607,8 @@ class Schueler {
 
     $sql = new SQLPart(); 
      
-    $query="SELECT uebung.Datum as `Datum`                   
+    $query="SELECT uebung.Datum as `Datum`
+                  , uebung.Reihenfolge as `Reihen-folge`                   
                   , uebung.Name as `Uebung Inhalt`  
                   "; 
 
@@ -638,7 +639,7 @@ class Schueler {
       $query.="AND uebung.Datum='".$Datum."'";  
     }
     $query.="  
-          ORDER BY uebung.Datum DESC, uebung.Name DESC               
+          ORDER BY uebung.Datum DESC, uebung.Reihenfolge DESC, uebung.Name DESC               
         "; 
 
     // echo '<pre>'.$query.'</pre>';
@@ -669,7 +670,7 @@ class Schueler {
                   , COUNT(distinct uebung.ID) as `Anzahl Einheiten` 
                   , SUM(uebung.Anzahl ) as `Summe Minuten` 
                   -- , GROUP_CONCAT(uebungtyp.Name, ': ', uebung.Name order by uebung.Name separator '<br>') Inhalte 
-                  , GROUP_CONCAT(uebung.Name, ' (', coalesce(uebungtyp.Name, ''), ')'  order by uebung.Name separator '<br>') Inhalte 
+                  , GROUP_CONCAT(uebung.Reihenfolge, '. ', uebung.Name, ' (', coalesce(uebungtyp.Name, ''), ')'  order by uebung.Name separator '<br>') `Übungen Inhalte`  
             FROM  uebung 
                   left join uebungtyp on uebung.UebungtypID=uebungtyp.ID 
                   left join satz  on satz.ID=uebung.SatzID 

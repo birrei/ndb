@@ -63,7 +63,8 @@ include_once('head.php');
             <ul>
                 <li>Schueler Name</li>
                 <li>Übung Datum</li>
-                <li>Reihenfolge (= Schüler Unterrichtstag Reihenfolge) </li>
+                <li>Schüler Reihenfolge </li>
+                <li>Übung Reihenfolge </li>
                 <li>Uebung Inhalt</li>
                 <li>Noten (Sammlung / Musikstück / Satz Name)</li>
                 <li>Noten Bemerkung (Inhalte aus Musikstück / Satz Bemerkung) </li>

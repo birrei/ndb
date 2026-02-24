@@ -14,6 +14,8 @@ class Uebung {
   public $SatzID=''; 
   public $Datum=''; 
   public $Anzahl=''; 
+  public $Reihenfolge=0; // Sortierung innerhalb SchuelerID / Datum 
+
   
   public $Typ=''; 
 
@@ -33,19 +35,29 @@ class Uebung {
     $this->info=new HTML_Info(); 
   }
 
-  function insert_row ($SchuelerID) {
+  function insert_row ($SchuelerID, $Datum='') {
+
+    if($SchuelerID=='') {
+      $this->info->print_user_error('Es wurde kein Schüler ausgewählt!');
+      return false;  
+    }
+    $Datum = ($Datum!=''?$Datum:date('Y-m-d')); 
+          
     $insert = $this->db->prepare("INSERT INTO `uebung` 
               SET `SchuelerID`     = :SchuelerID, 
-                   Datum           = DATE_FORMAT(CURDATE(), '%Y-%m-%d')
+                   Datum           = :Datum 
               " 
            );
           
-    $insert->bindParam(':SchuelerID', $SchuelerID);
+    $insert->bindParam(':SchuelerID', $SchuelerID,PDO::PARAM_INT);
+    $insert->bindParam(':Datum', $Datum);
 
     try {
       $insert->execute(); 
-      $this->ID=$this->db->lastInsertId();
-      $this->load_row();   
+      // $insert->debugDumpParams(); 
+      $this->ID=$this->db->lastInsertId(); 
+      $this->update_Order($Datum); 
+      $this->load_row();        
     }
       catch (PDOException $e) {
       $this->info->print_user_error(); 
@@ -64,7 +76,8 @@ class Uebung {
                             , uebung.SchuelerID
                             , uebung.Datum
                             , uebung.Anzahl 
-                            , uebung.SatzID 
+                            , uebung.SatzID
+                            , uebung.Reihenfolge  
                           FROM  uebung left join uebungtyp on uebung.UebungtypID = uebungtyp.ID 
                           WHERE uebung.ID = :ID");
 
@@ -83,12 +96,51 @@ class Uebung {
       $this->Datum=$row_data["Datum"];      
       $this->Anzahl=$row_data["Anzahl"];           
       $this->Typ=$row_data["Typ"];       
+      $this->Reihenfolge=$row_data["Reihenfolge"];       
       return true; 
     } 
     else {
       return false; 
       $this->info->print_error('Die Anzeige ist nicht möglich'); 
     }  
+  }  
+  
+  function update_Order($Datum) {
+
+    $Reihenfolge = $this->get_Order($Datum); 
+       
+    $update = $this->db->prepare("UPDATE `uebung` 
+                        SET Reihenfolge = :Reihenfolge 
+                        WHERE ID=:ID " );
+          
+    $update->bindParam(':ID', $this->ID);
+    $update->bindParam(':Reihenfolge', $Reihenfolge);
+
+    try {
+      $update->execute(); 
+    }
+      catch (PDOException $e) {
+      $this->info->print_user_error(); 
+      $this->info->print_error($update, $e);  ; 
+    }    
+  }
+
+  function get_Order ($Datum) {
+    // nächste Reihenfolge innerhalb Schüler / Datum ermitteln (nur bei insert, copy)
+    // echo 'Datum: '.$Datum.'<br>'; // TEST  
+    $this->load_row(); 
+    $sql="SELECT (coalesce(MAX(Reihenfolge),0)) + 1 as Reihenfolge_Neu from `uebung` 
+             WHERE SchuelerID=:SchuelerID 
+             AND Datum=:Datum 
+             AND ID != :ID"; // akt. ID ausklammern, sonst wird bei jedem Update weiter hochgezählt 
+    $stmt = $this->db->prepare($sql); 
+    $stmt->bindParam(':SchuelerID', $this->SchuelerID, PDO::PARAM_INT); 
+    $stmt->bindParam(':ID', $this->ID, PDO::PARAM_INT); 
+    $stmt->bindParam(':Datum', $this->Datum); 
+    $stmt->execute(); 
+    // $stmt->debugDumpParams(); 
+    $col=$stmt->fetchColumn(); 
+    return $col;  
   }  
 
   function update_row ($Name
@@ -97,8 +149,17 @@ class Uebung {
                     , $SchuelerID                                                            
                     , $Datum
                     , $Anzahl
-                    , $SatzID 
+                    , $SatzID
+                    , $Reihenfolge  
                     ) {
+
+    // TEST
+    // $params = func_get_args(); 
+    // print_r($params);
+
+    if($Reihenfolge==0) {
+      $Reihenfolge = $this->get_Order($Datum); 
+    }
 
     $update = $this->db->prepare("UPDATE uebung  
               SET UebungtypID= :UebungtypID
@@ -108,6 +169,7 @@ class Uebung {
                 , Datum=:Datum               
                 , Anzahl=:Anzahl
                 , SatzID=:SatzID
+                , Reihenfolge=:Reihenfolge 
               WHERE ID=:ID"           
            );
 
@@ -118,6 +180,7 @@ class Uebung {
     $update->bindParam(':Bemerkung', $Bemerkung);
     $update->bindParam(':Datum', $Datum);      
     $update->bindParam(':Anzahl', $Anzahl);
+    $update->bindParam(':Reihenfolge', $Reihenfolge);
     $update->bindParam(':SatzID', $SatzID, ($SatzID=='' ? PDO::PARAM_NULL : PDO::PARAM_INT));
   
 
@@ -154,7 +217,9 @@ class Uebung {
     return true; 
   }
 
-  function copy(){
+  function copy($Datum=''){
+
+    $Datum = ($Datum!=''?$Datum:date('Y-m-d')); 
 
     $sql="INSERT INTO uebung (Name
                             , Bemerkung
@@ -168,7 +233,8 @@ class Uebung {
                             , Bemerkung
                             , UebungtypID
                             , SchuelerID
-                            , DATE_FORMAT(CURDATE(), '%Y-%m-%d') as Datum
+                            -- , DATE_FORMAT(CURDATE(), '%Y-%m-%d') as Datum
+                            , :Datum 
                             , Anzahl
                             , SatzID
           FROM uebung  
@@ -179,12 +245,14 @@ class Uebung {
 
     $insert = $this->db->prepare($sql); 
     $insert->bindValue(':ID', $this->ID);  
+    $insert->bindParam(':Datum', $Datum);
 
     try {
       $insert->execute(); 
       $ID_New = $this->db->lastInsertId();    
       $this->copy_lookups($ID_New); 
       $this->ID =  $ID_New; // Stabübergabe (Objekt-Instanz übernimmt neue ID-Kopie )
+      $this->update_Order($Datum);       
       $this->infotext='Der Datensatz wurde kopiert.';
       $this->info->print_info($this->infotext);        
     }
@@ -193,8 +261,6 @@ class Uebung {
       $this->info->print_error($insert, $e);  
     }  
   }  
-
-
   
   function print_table_lookups($target_file, $LookupTypeID=0){
     $query="SELECT lookup.ID

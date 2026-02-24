@@ -2,6 +2,8 @@
 include_once('classes/class.htmlinfo.php');
 include_once('classes/class.sqlpart.php');
 include_once("classes/dbconn/class.db.php");
+include_once("classes/class.schueler.php");
+
 
 $ansicht=$_REQUEST["ansicht"]; 
 
@@ -204,11 +206,21 @@ switch ($ansicht) {
  
     $Datum=(isset($_REQUEST["Datum"])?$_REQUEST["Datum"]:date('Y-m-d')); 
 
+    $SchuelerID=(isset($_REQUEST["SchuelerID"])?$_REQUEST["SchuelerID"]:'');    
+
     $Suchtext=(isset($_REQUEST["Suchtext"])?$_REQUEST["Suchtext"]:'');   
 
     echo '<form action="" method="get">'.PHP_EOL;       
     echo 'Übung Datum: <input type="date" name="Datum" value="'.$Datum.'" onchange="this.form.submit()">'; 
+
+    $schueler = new Schueler(); 
+        echo ' &#9475;';    
+    echo ' Schüler: '.PHP_EOL; 
+    $schueler->print_select($SchuelerID,'','',true); 
+        echo ' &#9475;';
     echo ' Suchtext: <input type="text" id="Suchtext" name="Suchtext" size="30px" value="'.$Suchtext.'"> '; 
+
+
     echo '<input type="submit" class="btnSave" name="senden" value="Suchen">';
     echo '<input type="hidden" name="ansicht" value="'.$ansicht.'">'; 
     echo '</form><br>';           
@@ -218,17 +230,13 @@ switch ($ansicht) {
     $query="SELECT 
                   schueler.Name as Schueler
                   , uebung.Datum as `Datum`                   
-                  , schueler.Unterricht_Reihenfolge as `Reihen-folge`
+                  , schueler.Unterricht_Reihenfolge as `Schüler Reihen-folge`
+                  , uebung.Reihenfolge as `Übung Reihen-folge`
                   , uebung.Name as `Uebung Inhalt`  
                   "; 
 
     $query.=", ".$sqlpart->getSQL_COL_CONCAT_Noten(300); 
-    $query.=", CASE 
-                      WHEN (musikstueck.Bemerkung !='' AND satz.Bemerkung !='') THEN CONCAT(musikstueck.Bemerkung, ' / ', satz.Bemerkung) 
-                      WHEN (musikstueck.Bemerkung !='' AND satz.Bemerkung = '')  then musikstueck.Bemerkung 
-                      WHEN musikstueck.Bemerkung = '' AND satz.Bemerkung !='' then satz.Bemerkung 
-                    END as `Noten Bemerkung`    
-                  , v_uebung_lookuptypes.LookupList2 as Besonderheiten   
+    $query.=", v_uebung_lookuptypes.LookupList2 as Besonderheiten   
                   , uebung.Bemerkung  as `Übung Bemerkung`   
                   , CONCAT(uebung.Anzahl, ' ', uebungtyp.Einheit) Dauer   
                   , uebungtyp.Name as `Uebung Typ`
@@ -250,6 +258,9 @@ switch ($ansicht) {
     if (!empty($Datum)) {
       $query.="AND uebung.Datum='".$Datum."' ";  
     }
+    if ($SchuelerID!='') {
+      $query.="AND uebung.SchuelerID=".$SchuelerID." ";  
+    }
     if($Suchtext!='') {
       $query.="AND ( uebung.Name LIKE '%".$Suchtext."%' 
                   OR uebung.Bemerkung LIKE '%".$Suchtext."%' 
@@ -265,7 +276,9 @@ switch ($ansicht) {
 
     }    
 
-    $query.="ORDER BY uebung.Datum DESC, schueler.Unterricht_Reihenfolge, uebung.Name "; 
+    $query.="ORDER BY uebung.Datum DESC, schueler.Unterricht_Reihenfolge, uebung.Reihenfolge, uebung.Name "; 
+
+    echo '<a href="edit_'.$table_edit.'.php?option=insert&SchuelerID='.$SchuelerID.'&Datum='.$Datum.'" target="_blank">Neu erfassen</a><br>';
 
     break; 
 
@@ -288,7 +301,9 @@ switch ($ansicht) {
                   , COUNT(distinct uebung.ID) as `Anzahl Übungen` 
                   , SUM(uebung.Anzahl ) as `Summe Minuten` 
                   , (SUM(uebung.Anzahl ) - schueler.Unterricht_Dauer ) as `Abweichung Dauer` 
-                  , GROUP_CONCAT(uebung.Name, ' (', coalesce(uebungtyp.Name, '') , ')'  order by uebung.Name separator '<br>') Inhalte 
+                  -- , GROUP_CONCAT(uebung.Name, ' (', coalesce(uebungtyp.Name, '') , ')'  order by uebung.Name separator '<br>') Inhalte 
+                  , GROUP_CONCAT(uebung.Reihenfolge, '. ', uebung.Name, ' (', coalesce(uebungtyp.Name, ''), ')'  order by uebung.Name separator '<br>') `Übungen Inhalte`  
+
             FROM  uebung 
                   LEFT JOIN schueler ON schueler.ID = uebung.SchuelerID 
                   left join uebungtyp on uebung.UebungtypID=uebungtyp.ID 

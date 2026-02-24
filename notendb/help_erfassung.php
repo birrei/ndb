@@ -213,9 +213,30 @@ include_once('head.php');
 
 
     <h2 class="chapter-title chapter-title-h3" id="erfassung_uebung">Übungen</h2>
+
+    
+            <p>Hinweis: Die Neuanlage einer Übung kann sowohl über das Schüler-Formular (Button "Neue Übung einfügen") als 
+                auch über die "Übersicht Übungen" erfolgen.  
+            </p>
+        
+
         <h3 class="chapter-title chapter-title-h3" id="erfassung_uebung_inhalt">Übung Inhalt XXX</h3>
         <h3 class="chapter-title chapter-title-h3" id="erfassung_uebung_typ">Übung Typ XXX</h3>
         <h3 class="chapter-title chapter-title-h3" id="erfassung_uebung_datum">Übung Datum XXX</h3>
+        <h3 class="chapter-title chapter-title-h3" id="erfassung_uebung_reihenfolge">Übung Reihenfolge</h3>
+            <p>Reihenfolge einer Übung innerhalb eines Schülers / Datums <br >
+            </p>
+
+        
+        <ul>    
+            <li>Neue Übung, Datum ist das aktuelle Datum oder (bei Auswahl eines Datums über "Übungen Übersicht") ein ausgewähltes Datum.  
+                Die Werte in "Reihenfolge" werden innerhalb des Datums hochgezählt. 
+                Ist es die erste Übung am Tag, wird Reihenfolge= 1 vergeben, bei der zweiten Übung am Tag Reihenfolge = 2 u.s.w.</li>
+            <li>Bearbeitung eines vorhandenen Reihenfolge-Wertes: Der WErt kann beliebig angepasst werden. 
+                Möchte man, dass der Wert sich an eine bestehende Reihenfolge anfügt, kann eine "0" eingegeben und anschließend gespeichert werden. 
+            </li>
+        </ul>
+
         <h3 class="chapter-title chapter-title-h3" id="erfassung_uebung_anzahl">Übung Anzahl XXXX</h3>
             <p>Anzahl in Minuten (weitere Einheiten bitte nicht nutzen, werden zurückgebaut!) </p>
 

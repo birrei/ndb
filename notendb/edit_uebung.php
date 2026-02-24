@@ -15,6 +15,8 @@ $show_data=true;
 
 $SchuelerID=''; 
 $UebungtypID=''; 
+$Reihenfolge=0; 
+
 $Einheit=''; 
 
 if (isset($_REQUEST["SchuelerID"])) {
@@ -34,7 +36,16 @@ if (isset($_REQUEST["UebungtypID"])) {
 switch($option) {
 
   case 'insert': 
-    $uebung->insert_row($SchuelerID);
+
+    $Datum=(isset($_REQUEST["Datum"])?$_REQUEST["Datum"]:date('Y-m-d'));
+
+    $uebung->insert_row($SchuelerID, $Datum);
+
+    $show_data = $uebung->load_row();  
+
+    // if ($uebung->ID==0) {
+    //   $show_data=false; 
+    // }
     break; 
 
   case 'edit': // über "Bearbeiten"-Link    
@@ -53,7 +64,8 @@ switch($option) {
       $_POST["SchuelerID"], 
       $_POST["Datum"], 
       $_POST["Anzahl"], 
-      $_POST["SatzID"]    );  
+      $_POST["SatzID"], 
+      $_POST["Reihenfolge"]    );  
     $SchuelerID=$uebung->SchuelerID;     
     break; 
 
@@ -72,11 +84,21 @@ switch($option) {
     $show_data=false; 
     break; 
 
-  case 'copy': 
+  case 'copy': // Kopie mit aktuellem Datum (heute)
     unset($_GET); 
     $uebung = new Uebung();          
     $uebung->ID=$_REQUEST["ID"]; 
     $uebung->copy();   
+    $uebung->load_row();   
+    $SchuelerID=$uebung->SchuelerID;             
+    break; 
+
+  case 'copy2': // Kopie mit Datum Übernahme vom Original 
+    unset($_GET); 
+    $uebung = new Uebung();          
+    $uebung->ID=$_REQUEST["ID"]; 
+    $uebung->load_row(); 
+    $uebung->copy($uebung->Datum);   
     $uebung->load_row();   
     $SchuelerID=$uebung->SchuelerID;             
     // $info->print_info_copy($uebung->Title, $ID_ref, $uebung->ID, 'edit_uebung'); 
@@ -113,7 +135,7 @@ echo '</p>
   <tr>    
     <label>
     <td class="form-edit form-edit-col1">ID:</td>  
-    <td class="form-edit form-edit-col2">'.$uebung->ID.'</td>
+    <td class="form-edit form-edit-col2">'.$uebung->ID.'<br></td>
     </label>
   </tr> '; 
   
@@ -134,6 +156,22 @@ echo '
    </td>
     </tr> 
 '; 
+
+echo '
+  <tr>    
+    <label>
+    <td class="form-edit form-edit-col1"><br>Übung Reihenfolge:</td>  
+
+    <td class="form-edit form-edit-col2"><br>
+    <input type="number" name="Reihenfolge" value="'.$uebung->Reihenfolge.'" oninput="changeBackgroundColor(this)"> 
+      <i> (Reihenfolge innerhalb Schüler / Datum) </i> 
+    </td>
+ 
+    </label>
+  </tr>     
+
+'; 
+
 
 echo '
   <tr>    
@@ -166,8 +204,6 @@ echo '
     </tr>'; 
 
 
-
-
 echo '
   <tr>    
      <td class="form-edit form-edit-col1">Datum:</td>   
@@ -176,7 +212,8 @@ echo '
 
   <tr>    
     <td class="form-edit form-edit-col1">Anzahl: </td>  
-      <td class="form-edit form-edit-col2"><input type="number" name="Anzahl" value="'.$uebung->Anzahl.'" oninput="changeBackgroundColor(this)"> '.$Einheit.'</td>
+      <td class="form-edit form-edit-col2"><input type="number" name="Anzahl" value="'.$uebung->Anzahl.'" oninput="changeBackgroundColor(this)"> 
+      </td>
   </tr>
   
   '; 
@@ -241,6 +278,7 @@ echo '
         <br>'; 
         $info->print_form_inline('delete_1',$uebung->ID,$uebung->Title, 'löschen'); 
         $info->print_form_inline('copy',$uebung->ID,$uebung->Title, 'kopieren'); 
+        $info->print_form_inline('copy2',$uebung->ID,$uebung->Title, 'mit Datum kopieren'); 
         echo '
         </td>
       </tr> '; 
