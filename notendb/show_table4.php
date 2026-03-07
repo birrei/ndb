@@ -3,6 +3,7 @@ include_once('classes/class.htmlinfo.php');
 include_once('classes/class.sqlpart.php');
 include_once("classes/dbconn/class.db.php");
 include_once("classes/class.schueler.php");
+include_once("classes/class.uebungtyp.php");
 
 
 $ansicht=$_REQUEST["ansicht"]; 
@@ -207,6 +208,7 @@ switch ($ansicht) {
     $Datum=(isset($_REQUEST["Datum"])?$_REQUEST["Datum"]:date('Y-m-d')); 
 
     $SchuelerID=(isset($_REQUEST["SchuelerID"])?$_REQUEST["SchuelerID"]:'');    
+    $UebungtypID=(isset($_REQUEST["UebungtypID"])?$_REQUEST["UebungtypID"]:'');    
 
     $Suchtext=(isset($_REQUEST["Suchtext"])?$_REQUEST["Suchtext"]:'');   
 
@@ -218,7 +220,19 @@ switch ($ansicht) {
     echo ' Schüler: '.PHP_EOL; 
     $schueler->print_select($SchuelerID,'','',true); 
         echo ' &#9475;';
+
+
+    $uebung_typ = new UebungTyp(); 
+        echo ' &#9475;';    
+    echo ' Übungtyp: '.PHP_EOL; 
+    $uebung_typ->print_select($UebungtypID); 
+        echo ' &#9475;';
+
+
     echo ' Suchtext: <input type="text" id="Suchtext" name="Suchtext" size="30px" value="'.$Suchtext.'"> '; 
+
+
+
 
 
     echo '<input type="submit" class="btnSave" name="senden" value="Suchen">';
@@ -260,6 +274,9 @@ switch ($ansicht) {
     }
     if ($SchuelerID!='') {
       $query.="AND uebung.SchuelerID=".$SchuelerID." ";  
+    }
+    if ($UebungtypID!='') {
+      $query.="AND uebung.UebungtypID=".$UebungtypID." ";  
     }
     if($Suchtext!='') {
       $query.="AND ( uebung.Name LIKE '%".$Suchtext."%' 
