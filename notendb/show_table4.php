@@ -219,8 +219,6 @@ switch ($ansicht) {
         echo ' &#9475;';    
     echo ' Schüler: '.PHP_EOL; 
     $schueler->print_select($SchuelerID,'','',true); 
-        echo ' &#9475;';
-
 
     $uebung_typ = new UebungTyp(); 
         echo ' &#9475;';    

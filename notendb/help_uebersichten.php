@@ -79,14 +79,16 @@ include_once('head.php');
         <p>Suche / Filter: </p>
         
             <ul>
-                <li>Datum (Vorgabe beim öffnen der Seite: Heutiges Datum)</li>
+                <li>Datum (Standard-Einstellung: Heutiges Datum)</li>
+                <li>Schüler</li>
+                <li>Übung Typ</li>
                 <li>Suchtext. Durchsucht werden folgende Felder: 
-                    <br>Übung Name 
-                    <br>Übung Bemerkung 
-                    <br>Übung Typ Name 
-                    <br>Sammlung Name / Bemerkung
-                    <br>Musikstück Name / Bemerkung
-                    <br>Satz Name / Bemerkung
+                    <br>* Übung Name 
+                    <br>* Übung Bemerkung 
+                    <br>* Übung Typ Name 
+                    <br>* Sammlung Name / Bemerkung
+                    <br>* Musikstück Name / Bemerkung
+                    <br>* Satz Name / Bemerkung
             </li>
 
             </ul> 
@@ -95,7 +97,7 @@ include_once('head.php');
 
 	<h2 class="chapter-title chapter-title-h1" id="uebersichten_uebungen-datum">Übersicht Übungen / Datum</h2>
 
-    <!-- 			Inhalte -->
+        <!-- 			Inhalte -->
         <p>Spalten: </p>
             <ul>
                 <li>Schueler Name</li>
