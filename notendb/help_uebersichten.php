@@ -41,7 +41,6 @@ include_once('head.php');
                 <li>Instrumente	(Instrumente mit Schwierigkeitsgraden) </li>
                 <li>Unterricht Wochentag</li>
                 <li>Unterricht Tag Reihenfolge</li>
-                <li>Unterricht Tag Reihenfolge</li>
                 <li>Unterricht Dauer</li>
                 <li>Geburtsdatum</li>
                 <li>Verknüpfte Noten (Falls im Filter ein passender Status ausgewählt ist)</li>
@@ -52,9 +51,12 @@ include_once('head.php');
         <p>Suche / Filter: </p>
         
             <ul>
-                <li>Standort</li>
-                <li>Unvollständig erfasst (Sammlungen ohne Eigenschaft "Vollständig erfasst") </li>
-                <li>Suchtext (Suche in Sammlung Name, Sammlung Bemerkung, Verlag, Sammlung Besonderheiten) </li>
+                <li>Aktiv</li>
+                <li>Status Satz Verknüpfung (+ Umkehrsuche)</li>
+                <li>Übung Datum</li>
+                <li>Unterricht Wochentag</li>
+    
+
             </ul> 
 
 	<h2 class="chapter-title chapter-title-h1" id="uebersichten_uebungen">Übersicht Übungen</h2>
@@ -115,7 +117,9 @@ include_once('head.php');
         <p>Suche / Filter: </p>
         
             <ul>
-                <li>Datum (Vorgabe beim öffnen der Seite: Heutiges Datum)</li>
+                <li>Übung Datum (Vorgabe beim öffnen der Seite: Heutiges Datum)</li>
+                <li>Schüler</li>
+                <li>Unterricht Wochentag</li>
             </li>
 
             </ul> 

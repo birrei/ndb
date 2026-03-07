@@ -4,6 +4,7 @@ include_once('classes/class.sqlpart.php');
 include_once("classes/dbconn/class.db.php");
 include_once("classes/class.schueler.php");
 include_once("classes/class.uebungtyp.php");
+include_once("classes/class.wochentage.php");
 
 
 $ansicht=$_REQUEST["ansicht"]; 
@@ -102,7 +103,7 @@ switch ($ansicht) {
 
   case 'schueler':  
     include_once("classes/class.status.php");
-    include_once("classes/class.wochentage.php");
+
 
     $show_insert_link=true;     
 
@@ -127,7 +128,7 @@ switch ($ansicht) {
     echo '<label><input type="checkbox" name="Status_Umkehr" onchange="this.form.submit()" '.($Status_Umkehr?'checked':'').'>Umkehrsuche</label>'; 
     echo ' &#9475;'; 
     echo 'Übung Datum: <input type="date" name="Datum" value="'.$Datum.'" onchange="this.form.submit()">'; 
-    echo ' &#9475; Wochentag: '; 
+    echo ' &#9475; Unterricht Wochentag: '; 
     $wochentage = new Wochentage(); 
     $wochentage->print_preselect($Unterricht_Wochentag); 
         
@@ -229,10 +230,6 @@ switch ($ansicht) {
 
     echo ' Suchtext: <input type="text" id="Suchtext" name="Suchtext" size="30px" value="'.$Suchtext.'"> '; 
 
-
-
-
-
     echo '<input type="submit" class="btnSave" name="senden" value="Suchen">';
     echo '<input type="hidden" name="ansicht" value="'.$ansicht.'">'; 
     echo '</form><br>';           
@@ -302,15 +299,31 @@ switch ($ansicht) {
     $add_link_edit=false; 
  
     $Datum=(isset($_REQUEST["Datum"])?$_REQUEST["Datum"]:date('Y-m-d')); 
+    $SchuelerID=(isset($_REQUEST["SchuelerID"])?$_REQUEST["SchuelerID"]:'');    
+    $Unterricht_Wochentag =(isset($_REQUEST["wochentag_nr"])?$_REQUEST["wochentag_nr"]:0);
+
 
     $Suchtext=(isset($_REQUEST["Suchtext"])?$_REQUEST["Suchtext"]:'');   
 
     echo '<form action="" method="get">'.PHP_EOL;       
     echo 'Übung Datum: <input type="date" name="Datum" value="'.$Datum.'" onchange="this.form.submit()">'; 
+
+    $schueler = new Schueler(); 
+        echo ' &#9475;';    
+    echo ' Schüler: '.PHP_EOL; 
+    $schueler->print_select($SchuelerID,'','',true); 
+
+    echo ' &#9475; Unterricht Wochentag: '; 
+    $wochentage = new Wochentage(); 
+    $wochentage->print_preselect($Unterricht_Wochentag);     
+          echo ' &#9475;';  
+
+    echo '<input type="submit" class="btnSave" name="senden" value="Suchen">';
     echo '<input type="hidden" name="ansicht" value="'.$ansicht.'">'; 
     echo '</form><br>';           
 
     $query="SELECT schueler.Name
+                  , IF(schueler.Unterricht_Wochentag=0, '', wochentage.wochentag_name) as   `Unterricht Wochentag`     
                   , uebung.Datum 
                   , schueler.Unterricht_Reihenfolge as `Unterricht Reihenfolge` 
                   , COUNT(distinct uebung.ID) as `Anzahl Übungen` 
@@ -321,6 +334,7 @@ switch ($ansicht) {
 
             FROM  uebung 
                   LEFT JOIN schueler ON schueler.ID = uebung.SchuelerID 
+                  LEFT JOIN wochentage ON wochentage.wochentag_nr = schueler.Unterricht_Wochentag                   
                   left join uebungtyp on uebung.UebungtypID=uebungtyp.ID 
                   left join satz  on satz.ID=uebung.SatzID 
                   left join musikstueck on satz.MusikstueckID = musikstueck.ID
@@ -335,9 +349,17 @@ switch ($ansicht) {
     if (!empty($Datum)) {
       $query.="AND uebung.Datum='".$Datum."' ";  
     }
- 
+     if ($SchuelerID!='') {
+      $query.="AND uebung.SchuelerID=".$SchuelerID." ";  
+    }
+
+    if ($Unterricht_Wochentag > 0 ) {
+      $query.="AND schueler.Unterricht_Wochentag=".$Unterricht_Wochentag." ";  
+    }
+    
+
     $query.="GROUP BY uebung.SchuelerID, uebung.Datum  
-            ORDER BY uebung.Datum DESC, schueler.Unterricht_Reihenfolge, uebung.Name  "; 
+             ORDER BY uebung.Datum DESC, schueler.Unterricht_Reihenfolge, uebung.Name  "; 
 
     break;     
 
