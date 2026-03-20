@@ -99,30 +99,51 @@ include_once('head.php');
 
 	<h2 class="chapter-title chapter-title-h1" id="uebersichten_uebungen-datum">Übersicht Übungen / Datum</h2>
 
-        <!-- 			Inhalte -->
+        <!-- 
+        // -- kalender wochentag = schüler wochentag 
+        // -- kalender datum nicht gleich übung datum (übung/Unterricht Datum kann gelegentlich abweichen)
+        // -- schueler mit ausweich- wochentag ("variabel" etc.) sind nicht abgebildet 
+
+        -->
         <p>Spalten: </p>
-            <ul>
-                <li>Schueler Name</li>
-                <li>Übung Datum</li>
-                <li>Untericht Reihenfolge </li>
-                <li>Anzahl Übungen </li>
-                <li>Summe Minuten </li>
-                <li>Abweichung Dauer (= Abweichung  Summe  Minuten - Schüler Unterrichtsdauer. 
-                    <br>Negativer Betrag: Übungen Summe Minuten zu gering. 
-                    <br>Positiver Betrag: Übungen Summe Minuten zu hoch) </li>
-                <li>Inhalte </li>
+        <ul>
+         <li>Unterricht Plandatum</li>                
+            <li>Schueler Name</li>
+            <li>Unterricht Reihenfolge</li>
+            <li>Anzahl Übungen </li>
+            <li>Summe Minuten </li>
+            <li>Abweichung Dauer (= Abweichung  Summe  Minuten - Schüler Unterrichtsdauer. 
+                <br>Negativer Betrag: Übungen Summe Minuten zu gering. 
+                <br>Positiver Betrag: Übungen Summe Minuten zu hoch) </li>
+            <li>Inhalte </li>
              
-            </ul>  
+        </ul>  
+
+       <p>Sortierung: 1. Unterricht Plandatum (abwärts), 2. Unterricht Reihenfolge (aufwärts)</p>            
 
         <p>Suche / Filter: </p>
         
             <ul>
-                <li>Übung Datum (Vorgabe beim öffnen der Seite: Heutiges Datum)</li>
+                <li>(*) Datum (= Kalender-Datum; Vorgabe beim öffnen der Seite: Heutiges Datum)</li>
+                <li>(*) Datum bis (= Kalender-Datum; Vorgabe beim öffnen der Seite: leer)</li>
                 <li>Schüler</li>
                 <li>Unterricht Wochentag</li>
             </li>
 
             </ul> 
+
+        <p> 
+            (*) Filter Varianten:
+                <br>* Ein bestimmtes Datum auswählen: Auswahl "Datum"
+                <br>* Einem bestimmten Zeitraum auswählen: Auswahl "Datum" (= Datum von) und "Datum bis"
+                <br>* Zeitraum von 6 Monaten bis zu einem bestimmten Datum auswählen: Auswahl "Datum bis"
+            <br>
+                <br>Hinweis: Es ist nicht möglich beide Datum-Filter zu leeren, 
+                    um den Aufruf des kompletten hinterlegten Kalenderzeitraums zu erreichen. 
+                    Werden beide Filter gelöscht, springt die Anzeige auf die Vorgabe-Einstellung (aktuelles Datum) zurück. 
+        
+            </p>
+
 
 
 

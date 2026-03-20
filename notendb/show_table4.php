@@ -8,6 +8,7 @@ include_once("classes/class.wochentage.php");
 
 
 $ansicht=$_REQUEST["ansicht"]; 
+$show_data=true; 
 
 switch ($ansicht) {
   case 'sammlungen'; 
@@ -26,6 +27,10 @@ switch ($ansicht) {
     $PageTitle='Übersicht Übungen / Datum';  
     $table_edit='';     
     break; 
+  case 'uebungen-datum-alt'; // XXXX löschen 
+    $PageTitle='Übersicht Übungen / Datum';  
+    $table_edit='';     
+    break;     
   case 'verwendungszwecke'; 
     $PageTitle='Übersicht Verwendungszwecke ';  
     $table_edit='verwendungszweck';     
@@ -294,7 +299,90 @@ switch ($ansicht) {
 
     break; 
 
- case 'uebungen-datum': 
+  
+  case 'uebungen-datum': 
+
+    $add_link_edit=false; 
+ 
+    $Datum=(isset($_REQUEST["Datum"])?$_REQUEST["Datum"]:date('Y-m-d')); 
+    $Datum_Bis=(isset($_REQUEST["Datum_Bis"])?$_REQUEST["Datum_Bis"]:''); 
+
+    if (empty($Datum) & empty($Datum_Bis)) {
+      $Datum=date('Y-m-d'); 
+      $Datum_Bis=''; 
+    }    
+
+    $SchuelerID=(isset($_REQUEST["SchuelerID"])?$_REQUEST["SchuelerID"]:'');    
+    $Unterricht_Wochentag =(isset($_REQUEST["wochentag_nr"])?$_REQUEST["wochentag_nr"]:0);
+    $Zeitraum=(isset($_REQUEST["Zeitraum"])?$_REQUEST["Zeitraum"]:'');
+
+    $Suchtext=(isset($_REQUEST["Suchtext"])?$_REQUEST["Suchtext"]:'');   
+
+    echo '<form action="" method="get">'.PHP_EOL;       
+    echo 'Datum: <input type="date" name="Datum" value="'.$Datum.'" onchange="this.form.submit()">'; 
+    echo ' Datum bis: <input type="date" name="Datum_Bis" value="'.$Datum_Bis.'" onchange="this.form.submit()">'; 
+
+    $schueler = new Schueler(); 
+        echo ' &#9475;';    
+    echo ' Schüler: '.PHP_EOL; 
+    $schueler->print_select($SchuelerID,'','',true); 
+
+    echo ' &#9475; Unterricht Wochentag: '; 
+    $wochentage = new Wochentage(); 
+    $wochentage->print_preselect($Unterricht_Wochentag);     
+          echo ' &#9475;';  
+
+    echo '<input type="submit" class="btnSave" name="senden" value="Suchen">';
+    echo '<input type="hidden" name="ansicht" value="'.$ansicht.'">'; 
+
+    echo '</form><br>';           
+    
+    $query="
+
+      SELECT  kalender.datum as `Unterricht Plandatum` 
+          , kalender.wochentag_name as Wochentag 
+          , schueler.Name as `Schüler Name` 
+            , schueler.Unterricht_Reihenfolge as `Unterricht Reihenfolge` 
+            , COUNT(distinct uebung.ID) as `Anzahl Übungen` 
+            , SUM(uebung.Anzahl ) as `Summe Minuten` 
+            , (SUM(uebung.Anzahl ) - schueler.Unterricht_Dauer ) as `Abweichung Dauer` 
+            , GROUP_CONCAT( uebung.Reihenfolge, '. ', uebung.Name, ' (', coalesce(uebungtyp.Name, ''), ')'  order by uebung.Name separator '<br>') `Übungen Inhalte`  
+      from  
+        kalender 
+        LEFT JOIN schueler ON schueler.Unterricht_Wochentag = kalender.wochentag_nr and schueler.Aktiv=1 
+        LEFT join uebung on kalender.datum = uebung.Datum  AND uebung.SchuelerID= schueler.ID               
+        LEFT join uebungtyp on uebung.UebungtypID=uebungtyp.ID 
+      WHERE 1=1 
+      and schueler.ID is not null 
+    
+
+        "; 
+ 
+    if (!empty($Datum) & empty($Datum_Bis)) {
+      $query.="AND kalender.datum='".$Datum."' ".PHP_EOL;  
+    }
+    elseif (!empty($Datum) & !empty($Datum_Bis)) {
+      $query.="AND kalender.datum BETWEEN '".$Datum."' AND  '".$Datum_Bis."' ".PHP_EOL;  
+    }
+    elseif (empty($Datum) & !empty($Datum_Bis)) {
+      $query.="AND kalender.datum BETWEEN '".$Datum_Bis."' - INTERVAL 6 MONTH AND '".$Datum_Bis."' ".PHP_EOL; 
+    }    
+
+    if ($SchuelerID!='') {
+      $query.="AND schueler.ID=".$SchuelerID." ";  
+    }
+
+    if ($Unterricht_Wochentag > 0 ) {
+      $query.="AND schueler.Unterricht_Wochentag=".$Unterricht_Wochentag." ";  
+    }
+    
+
+    $query.="GROUP BY kalender.Datum, schueler.ID 
+             ORDER BY kalender.Datum DESC, schueler.Unterricht_Reihenfolge, uebung.Name "; 
+
+    break;     
+
+  case 'uebungen-datum-alt': // XXXX löschen 2026-04 
 
     $add_link_edit=false; 
  
@@ -322,7 +410,8 @@ switch ($ansicht) {
     echo '<input type="hidden" name="ansicht" value="'.$ansicht.'">'; 
     echo '</form><br>';           
 
-    $query="SELECT schueler.Name
+    $query="
+              SELECT schueler.Name
                   , IF(schueler.Unterricht_Wochentag=0, '', wochentage.wochentag_name) as   `Unterricht Wochentag`     
                   , uebung.Datum 
                   , schueler.Unterricht_Reihenfolge as `Unterricht Reihenfolge` 
@@ -416,6 +505,8 @@ switch ($ansicht) {
  
 }
 echo '<a href="help_uebersichten.php?#uebersichten_'.$ansicht.'" target="_blank">Hilfe</a>';
+
+
 echo '<br><br>'; 
 if ($show_insert_link) {
   echo '<a href="edit_'.$table_edit.'.php?option=insert">Neu erfassen</a>';
@@ -446,7 +537,7 @@ catch (PDOException $e) {
   $info->print_error($select, $e); 
 }
 
-
 pagefoot: 
+
 include_once('foot.php');
 ?>
