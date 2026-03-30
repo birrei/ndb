@@ -300,7 +300,7 @@ switch ($ansicht) {
     break; 
 
   
-  case 'uebungen-datum': 
+  case 'uebungen-datum-neu-test': // verworfen ! 
 
     $add_link_edit=false; 
  
@@ -382,7 +382,7 @@ switch ($ansicht) {
 
     break;     
 
-  case 'uebungen-datum-alt': // XXXX löschen 2026-04 
+  case 'uebungen-datum': 
 
     $add_link_edit=false; 
  
