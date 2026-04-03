@@ -13,34 +13,19 @@ from kalender k
 	 left join schueler on k.wochentag_nr = schueler.Unterricht_Wochentag 
 	 			and schueler.ID=32
 where 1=1 
-and k.wochentag_nr  = (select Unterricht_Wochentag from schueler where ID=32)	
-and k.wochentag_nr = 4
+-- and k.wochentag_nr  = (select Unterricht_Wochentag from schueler where ID=32)	
+-- and k.wochentag_nr = 4
 and year(k.datum ) in (2025, 2026)
 group by k.datum 
 order by k.datum desc 
-
-
--- Entwürfe für "Übersicht Übungen / Datum "
-
-select kalender.datum
-	, kalender.wochentag_name as Wochentag 
-	, group_concat(schueler.Name order by schueler.Unterricht_Reihenfolge separator ', ') as Schueler
-	, DATE_FORMAT(SEC_TO_TIME(sum(schueler.Unterricht_Dauer ) * 60), '%H:%i') summe_dauer -- format minuten -> hh:mm 
-from kalender 
-left join schueler on kalender.wochentag_nr = schueler.Unterricht_Wochentag 
-where 1=1 
--- and kalender.datum between '2025-12-01' and '2026-01-31' 
--- and datum  = CURDATE() 
--- and datum  = DATEADD(curdate() interval -7 day) 
-and datum  between curdate() - interval 90 day  and   curdate() + interval 90 day
-group by kalender.datum 
-order by kalender.datum 
 
 
 
 -- kalender wochentag = schüler wochentag 
 -- kalender datum nicht gleich übung datum (übung/Unterricht Datum kann gelegentlich abweichen)
 -- schueler mit ausweich- wochentag ("variabel" etc.) sind nicht abgebildet 
+-- Verworfen! 
+
 
 SELECT  kalender.datum as `Unterricht Plandatum` 
 		, kalender.wochentag_name as Wochentag 
