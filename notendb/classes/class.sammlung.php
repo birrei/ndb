@@ -461,7 +461,7 @@ include_once('class.link.php');
 
   function add_komponist($KomponistID, $MaterialtypID=''){
 
-    $query="SELECT ID FROM `musikstueck` WHERE SammlungID=:ID ";
+    $query="SELECT ID FROM `musikstueck` WHERE SammlungID=:ID AND COALESCE(KomponistID,'')='' "; 
 
     $query.=$MaterialtypID!=""?"AND MaterialtypID=:MaterialtypID ":""; 
     
@@ -480,6 +480,7 @@ include_once('class.link.php');
     foreach ($res as $row=>$value) {
       $musikstueck = new Musikstueck(); 
       $musikstueck->ID = $value["ID"]; 
+
       $musikstueck->update_komponist($KomponistID);
     }
      
