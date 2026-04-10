@@ -150,6 +150,7 @@ switch ($ansicht) {
           , IF(schueler.Unterricht_Wochentag=0, '', wochentage.wochentag_name) as   `Unterricht Wochentag` 
           , IF(schueler.Unterricht_Reihenfolge=0, '', schueler.Unterricht_Reihenfolge) as `Unterricht Tag Reihenfolge` 
           , IF(schueler.Unterricht_Dauer=0, '', schueler.Unterricht_Dauer) as `Unterricht Dauer` 
+          , schueler.Unterricht_Seit  as `Datum Unterricht Seit`  
           , schueler.Geburtsdatum 
           , TIMESTAMPDIFF(YEAR, schueler.Geburtsdatum, CURDATE()) as `Alter` 
           "         

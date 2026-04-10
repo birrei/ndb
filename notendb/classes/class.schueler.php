@@ -16,6 +16,7 @@ class Schueler {
   public int $Unterricht_Reihenfolge=0; // Reihenfolge im Ablauf eines Unterrichtstages 
   public int $Unterricht_Dauer=0; // Wie lange (in Minuten) hat Schüler normalerweise Unterricht 
   public $Geburtsdatum; // Ermöglicht Altersberechnung für Wettbewerbe 
+  public $Unterricht_Seit; // Seit wann ist die Person Schüler bei der Musikschule  
 
   public $titles_selected_list; 
   public $Title='Schüler';
@@ -96,13 +97,11 @@ class Schueler {
     }
   }
 
-  function update_row($Name, $Bemerkung, $Aktiv, $Unterricht_Wochentag, $Unterricht_Reihenfolge, $Unterricht_Dauer, $Geburtsdatum) {
+  function update_row($Name, $Bemerkung, $Aktiv, $Unterricht_Wochentag, $Unterricht_Reihenfolge, $Unterricht_Dauer, $Geburtsdatum, $Unterricht_Seit) {
 
     // $Geburtsdatum = $Geburtsdatum ?? null; 
-
-    echo empty($Geburtsdatum); 
-
-    // echo 'GEburtsdatum: -'.$Geburtsdatum.'-<br>'; 
+    // echo empty($Geburtsdatum); 
+    // echo 'Geburtsdatum: -'.$Geburtsdatum.'-<br>'; 
 
     $update = $this->db->prepare("UPDATE `schueler` 
                             SET`Name`     = :Name,
@@ -111,7 +110,8 @@ class Schueler {
                               Unterricht_Wochentag = :Unterricht_Wochentag, 
                               Unterricht_Reihenfolge = :Unterricht_Reihenfolge, 
                               Unterricht_Dauer = :Unterricht_Dauer, 
-                              Geburtsdatum = :Geburtsdatum
+                              Geburtsdatum = :Geburtsdatum, 
+                              Unterricht_Seit = :Unterricht_Seit 
                             WHERE `ID` = :ID"); 
 
     $update->bindParam(':ID', $this->ID, PDO::PARAM_INT);
@@ -122,6 +122,7 @@ class Schueler {
     $update->bindParam(':Unterricht_Reihenfolge', $Unterricht_Reihenfolge, PDO::PARAM_INT);    
     $update->bindParam(':Unterricht_Dauer', $Unterricht_Dauer);    
     $update->bindParam(':Geburtsdatum', $Geburtsdatum, (empty($Geburtsdatum)? PDO::PARAM_NULL : PDO::PARAM_STR));
+    $update->bindParam(':Unterricht_Seit', $Unterricht_Seit, (empty($Unterricht_Seit)? PDO::PARAM_NULL : PDO::PARAM_STR));
 
     try {
       $update->execute(); 
@@ -143,6 +144,7 @@ class Schueler {
                           , Unterricht_Reihenfolge  
                           , Unterricht_Dauer  
                           , Geburtsdatum  
+                          , Unterricht_Seit   
                           FROM `schueler`
                           WHERE `ID` = :ID");
 
@@ -157,6 +159,7 @@ class Schueler {
       $this->Unterricht_Reihenfolge=$row_data["Unterricht_Reihenfolge"];             
       $this->Unterricht_Dauer=$row_data["Unterricht_Dauer"];             
       $this->Geburtsdatum=$row_data["Geburtsdatum"];             
+      $this->Unterricht_Seit=$row_data["Unterricht_Seit"];             
       return true; 
     } 
     else {
@@ -499,13 +502,15 @@ class Schueler {
                               , Unterricht_Reihenfolge
                               , Unterricht_Dauer
                               , Geburtsdatum 
+                              , Unterricht_Seit 
                               )
           SELECT CONCAT(Name, ' (Kopie)') as Name 
                               , Bemerkung
                               , Unterricht_Wochentag
                               , Unterricht_Reihenfolge 
                               , Unterricht_Dauer
-                              , Geburtsdatum                               
+                              , Geburtsdatum   
+                              , Unterricht_Seit                                                            
           FROM schueler 
           WHERE ID=:ID ";
     // Spalte Aktiv nicht kopieren

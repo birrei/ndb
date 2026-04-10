@@ -33,7 +33,7 @@ switch($option) {
           , $_POST["Unterricht_Reihenfolge"]
           , $_POST["Unterricht_Dauer"]   
           , $_POST["Geburtsdatum"]   
-
+          , $_POST["Unterricht_Seit"]   
           );        
     break; 
 
@@ -119,6 +119,9 @@ echo '
           <input type="date" name="Geburtsdatum" value="'.$schueler->Geburtsdatum.'" size="5" oninput="changeBackgroundColor(this)">
           </label>          
 
+          <label><b>Unterricht seit: </b> 
+          <input type="date" name="Unterricht_Seit" value="'.$schueler->Unterricht_Seit.'" size="5" oninput="changeBackgroundColor(this)">
+          </label>          
 
 
     </td>    
