@@ -6,11 +6,23 @@ include_once("classes/class.schueler.php");
 include_once("classes/class.uebungtyp.php");
 include_once("classes/class.wochentage.php");
 
+$info=new HTML_Info(); 
 
-$ansicht=$_REQUEST["ansicht"]; 
-$show_data=true; 
+$show_data=false; 
+$ansicht=''; 
+$PageTitle=''; 
+$fehlertext=''; 
 
-switch ($ansicht) {
+if (isset($_REQUEST["ansicht"])) {
+  $ansicht=$_REQUEST["ansicht"]; 
+  $show_data=true; 
+} 
+
+$add_link_edit=true; 
+$show_insert_link=false; // "Neu einfügen" - Link anzeigen ja / nein - default: nein 
+
+switch ($ansicht) // $PageTitle, $table_edit 
+{
   case 'sammlungen'; 
     $PageTitle='Übersicht Sammlungen'; 
     $table_edit = 'sammlung'; 
@@ -27,26 +39,24 @@ switch ($ansicht) {
     $PageTitle='Übersicht Übungen / Datum';  
     $table_edit='';     
     break; 
-  case 'uebungen-datum-alt'; // XXXX löschen 
-    $PageTitle='Übersicht Übungen / Datum';  
-    $table_edit='';     
-    break;     
   case 'verwendungszwecke'; 
-    $PageTitle='Übersicht Verwendungszwecke ';  
+    $PageTitle='Übersicht Verwendungszwecke';  
     $table_edit='verwendungszweck';     
     break; 
+
 }
 
 include_once('head.php'); 
 
+if ($ansicht=='') {
+    $info->print_user_error('Es wurde keine Ansicht definiert.'); 
+    goto pagefoot;
+}
+
 echo '<h3>'.$PageTitle.'</h3>'.PHP_EOL; 
 
-$show_data=true; 
-$add_link_edit=true; 
-$show_insert_link=false; // "Neu einfügen" - Link anzeigen ja / nein - default: nein 
-
-switch ($ansicht) {
-
+switch ($ansicht)  // setzen: $PageTitle, $table_edit 
+{
   case 'sammlungen': 
     include_once("classes/class.standort.php");
     $show_insert_link=true;     
@@ -506,7 +516,6 @@ switch ($ansicht) {
  
 }
 echo '<a href="help_uebersichten.php?#uebersichten_'.$ansicht.'" target="_blank">Hilfe</a>';
-
 
 echo '<br><br>'; 
 if ($show_insert_link) {
