@@ -551,11 +551,16 @@ function move_order(int $offset=1 ) {
     }  
   }
 
-  function copy($SammlungID_New=0){
+  function copy($SammlungID_New=0, $copy_schueler=false, $copy_lookups=false){
 
     /*  SammlungID_New > 0 : Musikstück an neuer Sammlung (Sammlung wird auch kopiert)
         SammlungID_New= 0: Musikstück Kopie an gleicher Sammlung
+
+        $copy_schueler = true: Die evt. an Sätzen zugeordneten Schüler werden nicht mitkopiert 
+        $copy_lookups = true: Die  evt. an Sätzen zugeordneten Lookups (Besonderheiten) werden nicht mitkopiert 
+
      */
+
 
     $sql="INSERT INTO musikstueck (
             `Name`
@@ -603,7 +608,7 @@ function move_order(int $offset=1 ) {
       $insert->execute(); 
       $ID_New = $this->db->lastInsertId();    
      
-      $this->copy_saetze($ID_New); 
+      $this->copy_saetze($ID_New, $copy_schueler, $copy_lookups); 
       $this->copy_verwendungszwecke($ID_New); 
       $this->copy_besetzungen($ID_New); 
       $this->copy_lookups($ID_New); 
@@ -617,7 +622,7 @@ function move_order(int $offset=1 ) {
     }  
   }  
 
-  function copy_saetze($ID_New) {
+  function copy_saetze($ID_New, $copy_schueler=false, $copy_lookups=false) {
    
     $select = $this->db->prepare("SELECT ID  
                   FROM `satz` 
@@ -634,7 +639,7 @@ function move_order(int $offset=1 ) {
     foreach ($res as $row=>$value) {
       $satz = new Satz(); 
       $satz->ID = $value["ID"]; 
-      $satz->copy($ID_New);  
+      $satz->copy($ID_New, $copy_schueler, $copy_lookups);  
     }  
   }
 

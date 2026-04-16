@@ -42,10 +42,13 @@ switch($option) {
           ); 
     break; 
 
-  case 'copy': 
-    $ID_ref=$_REQUEST["ID"]; 
+  case 'copy':  
+    $ID_ref=$_REQUEST["ID"];
+    $copy_schueler=Isset($_REQUEST["copy_schueler"])?true:false; 
+    $copy_lookups=Isset($_REQUEST["copy_lookups"])?true:false; 
+
     $musikstueck->ID=$ID_ref; 
-    $musikstueck->copy();   
+    $musikstueck->copy(0, $copy_schueler, $copy_lookups);   
     $musikstueck->load_row();       
     $info->print_info_copy($musikstueck->Title, $ID_ref, $musikstueck->ID, 'edit_satz'); 
     break;     
@@ -257,7 +260,16 @@ echo '
     <td class="form-edit form-edit-col2"><br>
     '; 
     $info->print_form_inline('delete_1',$musikstueck->ID,$musikstueck->Title, 'löschen'); 
-    $info->print_form_inline('copy',$musikstueck->ID,$musikstueck->Title, 'kopieren');    
+    // $info->print_form_inline('copy',$musikstueck->ID,$musikstueck->Title, 'kopieren');    
+    echo '<form action="#" method="post" style="display:inline;">
+            <input type="hidden" name="ID" value="'.$musikstueck->ID.'">
+            <input type="hidden" name="option" value="copy">      
+            <input type="submit" name="senden" value="Musikstück kopieren"> 
+            <label><input type="checkbox" name="copy_schueler">Schüler mitkopieren</label>
+            <label><input type="checkbox" name="copy_lookups">Besonderheiten mitkopieren</label>   
+            </form>
+    '; 
+
     
   echo '<p>
 

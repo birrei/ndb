@@ -23,7 +23,6 @@ class Satz {
   public $Musikstueck=''; 
   
   public $Sammlung=''; 
-  
 
   public $Title='Satz';
   public $Titles='Sätze';  
@@ -464,7 +463,7 @@ class Satz {
     }  
   }
 
-  function copy($MusikstueckID_New=0){
+  function copy($MusikstueckID_New=0, $copy_schueler=false, $copy_lookups=false){
     /* MusikstueckID_New= 0: Kopie von Satz an vorhandenem Musikstück 
        MusikstueckID_New> 0: Kopie von Satz an Kopie von Musikstück 
      */
@@ -511,12 +510,16 @@ class Satz {
       
       $this->copy_schwierigkeitsgrade($ID_New ); 
 
-      $this->copy_lookups($ID_New ); 
+      if($copy_lookups) {
+        $this->copy_lookups($ID_New ); 
+      }
 
       $this->copy_erprobte($ID_New );       
       
-      $this->copy_schueler($ID_New );      
-
+      if($copy_schueler) {
+        $this->copy_schueler($ID_New );      
+      }
+      
       $this->ID = $ID_New; 
 
     }
