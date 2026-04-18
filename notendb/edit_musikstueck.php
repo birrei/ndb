@@ -49,6 +49,8 @@ switch($option) {
 
     $musikstueck->ID=$ID_ref; 
     $musikstueck->copy(0, $copy_schueler, $copy_lookups);   
+        // copy_lookups Bezug = Lookups der untergeordneten Sätze, nicht diejenigen des Musikstücks 
+        // XXXX das muss in den Checkboxen noch kenntlich gemacht werden!!! 
     $musikstueck->load_row();       
     $info->print_info_copy($musikstueck->Title, $ID_ref, $musikstueck->ID, 'edit_satz'); 
     break;     

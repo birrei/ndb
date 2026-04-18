@@ -36,9 +36,12 @@ switch($option) {
     break; 
 
   case 'copy': 
+    $copy_schueler=Isset($_REQUEST["copy_schueler"])?true:false; 
+    $copy_lookups=Isset($_REQUEST["copy_lookups"])?true:false; 
+
     $ID_ref=$_REQUEST["ID"]; 
     $sammlung->ID=$ID_ref; 
-    $sammlung->copy();   
+    $sammlung->copy($copy_schueler, $copy_lookups);   
     $show_data = $sammlung->load_row();       
     $info->print_info_copy($sammlung->Title, $ID_ref, $sammlung->ID, 'edit_sammlung'); 
   break; 
@@ -179,7 +182,16 @@ echo '
   <td class="form-edit form-edit-col2"><br>
   '; 
   $info->print_form_inline('delete_1',$sammlung->ID,$sammlung->Title, 'löschen'); 
-  $info->print_form_inline('copy',$sammlung->ID,$sammlung->Title, 'kopieren');   
+  // $info->print_form_inline('copy',$sammlung->ID,$sammlung->Title, 'kopieren');   
+
+     echo '<form action="#" method="post" style="display:inline;">
+            <input type="hidden" name="ID" value="'.$sammlung->ID.'">
+            <input type="hidden" name="option" value="copy">      
+            <input type="submit" name="senden" value="Sammlung kopieren"> 
+            <label><input type="checkbox" name="copy_schueler">Schüler mitkopieren</label>
+            <label><input type="checkbox" name="copy_lookups">Besonderheiten mitkopieren</label>   
+            </form>
+    ';  
   
   echo '<a href=edit_sammlung_x_updates.php?SammlungID='.$sammlung->ID.' target="_blank" class="form-link">Sammel-Updates</a> ';  
   echo '<a href=edit_sammlung_x_musikstuecke_uebersicht.php?SammlungID='.$sammlung->ID.' target="_blank" class="form-link">Musikstücke Übersicht</a>'; 

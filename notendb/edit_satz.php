@@ -40,9 +40,11 @@ switch($option) {
     break; 
 
   case 'copy': 
+    $copy_schueler=Isset($_REQUEST["copy_schueler"])?true:false; 
+    $copy_lookups=Isset($_REQUEST["copy_lookups"])?true:false;     
     $ID_ref=$_REQUEST["ID"]; 
     $satz->ID=$ID_ref; 
-    $satz->copy();   
+    $satz->copy(0, $copy_schueler, $copy_lookups);   
     $satz->load_row();       
     $info->print_info_copy($satz->Title, $ID_ref, $satz->ID, 'edit_satz'); 
     break; 
@@ -197,7 +199,15 @@ echo '
   <td class="form-edit form-edit-col2"><br>
   '; 
   $info->print_form_inline('delete_1',$satz->ID,$satz->Title, 'löschen'); 
-  $info->print_form_inline('copy',$satz->ID,$satz->Title, 'kopieren'); 
+  // $info->print_form_inline('copy',$satz->ID,$satz->Title, 'kopieren'); 
+  echo '<form action="#" method="post" style="display:inline;">
+          <input type="hidden" name="ID" value="'.$satz->ID.'">
+          <input type="hidden" name="option" value="copy">      
+          <input type="submit" name="senden" value="Satz kopieren"> 
+          <label><input type="checkbox" name="copy_schueler">Schüler mitkopieren</label>
+          <label><input type="checkbox" name="copy_lookups">Besonderheiten mitkopieren</label>   
+          </form>
+  '; 
 
   echo '     
   </td>

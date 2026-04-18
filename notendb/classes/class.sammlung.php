@@ -231,7 +231,7 @@ include_once('class.link.php');
   }
 
 
-  function copy(){
+  function copy( $copy_schueler=false, $copy_lookups=false){
 
     include_once('classes/class.musikstueck.php'); 
     include_once('classes/class.material.php');     
@@ -260,7 +260,7 @@ include_once('class.link.php');
       foreach ($res as $row=>$value) {
         $musikstueck = new Musikstueck(); 
         $musikstueck->ID = $value["ID"]; 
-        $musikstueck->copy($ID_New );  
+        $musikstueck->copy($ID_New, $copy_schueler, $copy_lookups);  
       }
 
       /*** Standorte kopieren ***/
