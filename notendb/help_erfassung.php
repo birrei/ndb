@@ -47,11 +47,11 @@ include_once('head.php');
                     
 
         <h3 class="chapter-title chapter-title-h3" id="erfassung_sammlung_kopieren">Sammlung: kopieren</h3>
-            <p>Button "Sammlung kopieren": Die Sammlung inklusive  aller Eigenschaften und Untereinheiten 
-                wird kopiert. Die Kopie wird im aktuellen Formular geöffnet. Am Zusatz  
-                " (Kopie)" im Feld "Name" ist die Kopie erkennbar. 
-                Im Seitenkopf erscheint ein Hinweis auf den Kopiervorgang (Neue ID, alte ID mit Link).
-                Über den Link kann bei Bedarf die Quelle in neuem Fenster geöffnet werden.  
+            <p>Button "Sammlung kopieren": Die Sammlung inklusive  aller Eigenschaften und Untereinheiten wird kopiert. 
+            Ausnahme: Schüler und Besonderheiten (in untergeordneten Sätzen) werden nur mitkopiert, wenn die entsprechenden Checkboxen aktiviert sind.     
+            Die Kopie wird im aktuellen Formular geöffnet. Am Zusatz  "(Kopie)" im Feld "Name" ist die Kopie erkennbar. 
+            Im Seitenkopf erscheint ein Hinweis auf den Kopiervorgang (Neue ID, alte ID mit Link).
+            Über den Link kann bei Bedarf die Quelle in neuem Fenster geöffnet werden.  
             </p>
 
 
@@ -84,9 +84,9 @@ include_once('head.php');
 
         <h3 class="chapter-title chapter-title-h3" id="erfassung_musikstueck_kopieren">Musikstück: kopieren</h3>
 
-            <p>Button "Musikstück kopieren": Die Sammlung inklusive  aller Eigenschaften und Untereinheiten 
-                wird kopiert. Die Kopie wird im aktuellen Formular geöffnet. Am Zusatz  
-                " (Kopie)" im Feld "Name" ist die Kopie erkennbar. 
+            <p>Button "Musikstück kopieren": Die Sammlung inklusive  aller Eigenschaften und Untereinheiten wird kopiert. 
+                Ausnahme: Schüler und Besonderheiten (in untergeordneten Sätzen) werden nur mitkopiert, wenn die entsprechenden Checkboxen aktiviert sind.   
+                Die Kopie wird im aktuellen Formular geöffnet. Am Zusatz  "(Kopie)" im Feld "Name" ist die Kopie erkennbar. 
                 Im Seitenkopf erscheint ein Hinweis auf den Kopiervorgang (Neue ID, alte ID mit Link).
                 Über den Link kann bei Bedarf die Quelle in neuem Fenster geöffnet werden.  
                 
@@ -145,9 +145,9 @@ include_once('head.php');
                                 
         <h3 class="chapter-title chapter-title-h3" id="erfassung_satz_kopieren">Satz kopieren</h3>
 
-            <p>Button "Satz kopieren": Die Sammlung inklusive  aller Eigenschaften und Untereinheiten 
-                wird kopiert. Die Kopie wird im aktuellen Formular geöffnet. Am Zusatz  
-                " (Kopie)" im Feld "Name" ist die Kopie erkennbar. 
+            <p>Button "Satz kopieren": Der Satz inklusive Eigenschaften und Untereinheiten wird kopiert. 
+                Ausnahme: Schüler und Besonderheiten werden nur mitkopiert, wenn die entsprechenden Checkboxen aktiviert sind. 
+                Die Kopie wird im aktuellen Formular geöffnet. Am Zusatz "(Kopie)" im Feld "Name" ist die Kopie erkennbar. 
                 Im Seitenkopf erscheint ein Hinweis auf den Kopiervorgang (Neue ID, alte ID mit Link).
                 Über den Link kann bei Bedarf die Quelle in neuem Fenster geöffnet werden.  
             </p>     
