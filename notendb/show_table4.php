@@ -43,6 +43,10 @@ switch ($ansicht) // $PageTitle, $table_edit
     $PageTitle='Übersicht Verwendungszwecke';  
     $table_edit='verwendungszweck';     
     break; 
+  case 'standorte'; 
+    $PageTitle='Übersicht Standorte';  
+    $table_edit='standort';     
+    break; 
 
 }
 
@@ -506,14 +510,57 @@ switch ($ansicht)  // setzen: $PageTitle, $table_edit
 
     }
     $query.="ORDER BY verwendungszweck.Name "; 
+    break; 
+
+  case 'standorte': 
+    $show_insert_link=true;  
+
+    $Suchtext=(isset($_REQUEST["Suchtext"])?$_REQUEST["Suchtext"]:'');   
+
+    echo '<form action="" method="get">'.PHP_EOL;  
+    echo ' Suchtext: <input type="text" id="Suchtext" name="Suchtext" size="30px" value="'.$Suchtext.'"> '; 
+    echo '<input type="submit" class="btnSave" name="senden" value="Suchen">';
+    echo '<input type="hidden" name="ansicht" value="'.$ansicht.'">'; 
+    echo '</form><br>';       
 
 
+    $query="SELECT ID, Name 
+            FROM standort 
+            WHERE 1=1 
+            "; 
+
+    if($Suchtext!='') {
+      $query.="AND standort.Name LIKE '%".$Suchtext."%'  ";          
+    }
 
 
+    $query.="ORDER BY standort.Name "; 
 
     break; 
 
- 
+  case 'XXXX': 
+    break; 
+
+
+  /**
+  
+    Verlage
+    Komponisten
+    Besetzungen
+    Verwendungszwecke
+    Gattungen
+    Epochen
+    Materialtypen
+    Schwierigkeitsgrade, Instrumente
+    Erprobt-Eigenschaften
+    Besonderheiten, Besonderheit Typen
+    Status Ausprägungen (Status Schüler Satz/Material-Zuordnung)
+    Übung Typen
+    Link-Typen
+    Abfrage-Typen
+   **/ 
+
+
 }
 echo '<a href="help_uebersichten.php?#uebersichten_'.$ansicht.'" target="_blank">Hilfe</a>';
 

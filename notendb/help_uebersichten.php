@@ -162,6 +162,16 @@ include_once('head.php');
                 <li>Anzahl Sätze</li>
                 <li>Summe Spieldauer </li>
             </ul>  
+	
+            <h2 class="chapter-title chapter-title-h1" id="uebersichten_standorte">Übersicht Standorte</h2>
+
+        <p>Spalten: </p>
+            <ul>       
+                <li>ID</li>
+                <li>Name</li>
+            </ul>  
+
+
 
 <hr />
 

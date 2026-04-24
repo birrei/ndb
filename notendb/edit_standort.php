@@ -48,7 +48,8 @@ switch($option) {
 }
 
 $info->print_screen_header($standort->Title.' bearbeiten'); 
-$info->print_link_table($standort->table_name, 'sortcol=Name', $standort->Titles); 
+$info->print_link_table2('standorte'); 
+
 
 if (!$show_data) {goto pagefoot;}
 

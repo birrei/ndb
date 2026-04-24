@@ -47,7 +47,7 @@ a:hover {
 <tr> 
   <td class="start"> <h3>Stammdaten</h3></td>
   <td class="start">
-    <a href="show_table2.php?table=v_standort&sortcol=Name">Standorte</a> <br>
+    <a href="show_table4.php?ansicht=standorte">Standorte</a> <br>
     <a href="show_table2.php?table=v_verlag&sortcol=Name">Verlage</a> <br>
     <hr> 
     <a href="show_table2.php?table=v_komponist&sortcol=Name">Komponisten</a> <br>

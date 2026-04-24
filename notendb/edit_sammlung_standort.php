@@ -19,7 +19,7 @@ $info=new HTML_Info();
 </td>  
   <td class="eingabe2 eingabe2_3">
     <?php      
-      $info->print_link_table('standort','sortcol=Name','Standorte',true,'');       
+      $info->print_link_table2('standorte', true );        
     ?>
   </td>    
 </tr>
