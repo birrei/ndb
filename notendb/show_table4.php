@@ -47,6 +47,10 @@ switch ($ansicht) // $PageTitle, $table_edit
     $PageTitle='Übersicht Standorte';  
     $table_edit='standort';     
     break; 
+  case 'verlage'; 
+    $PageTitle='Übersicht Verlage';  
+    $table_edit='verlag';     
+    break; 
 
 }
 
@@ -58,6 +62,8 @@ if ($ansicht=='') {
 }
 
 echo '<h3>'.$PageTitle.'</h3>'.PHP_EOL; 
+
+// XXXX Filter einschränken ermöglichen (es sollen nicht automatisch alle Zeilen einer Tabelle auf einmal angezeigt werden)
 
 switch ($ansicht)  // setzen: $PageTitle, $table_edit 
 {
@@ -165,6 +171,7 @@ switch ($ansicht)  // setzen: $PageTitle, $table_edit
           , IF(schueler.Unterricht_Reihenfolge=0, '', schueler.Unterricht_Reihenfolge) as `Unterricht Tag Reihenfolge` 
           , IF(schueler.Unterricht_Dauer=0, '', schueler.Unterricht_Dauer) as `Unterricht Dauer` 
           , schueler.Unterricht_Seit  as `Datum Unterricht Seit`  
+          , TIMESTAMPDIFF(YEAR, schueler.Unterricht_Seit, CURDATE()) as `Unterricht seit Jahre`           
           , schueler.Geburtsdatum 
           , TIMESTAMPDIFF(YEAR, schueler.Geburtsdatum, CURDATE()) as `Alter` 
           "         
@@ -427,6 +434,7 @@ switch ($ansicht)  // setzen: $PageTitle, $table_edit
 
     $query="
               SELECT schueler.Name
+                  , schueler.Bemerkung 
                   , IF(schueler.Unterricht_Wochentag=0, '', wochentage.wochentag_name) as   `Unterricht Wochentag`     
                   , uebung.Datum 
                   , schueler.Unterricht_Reihenfolge as `Unterricht Reihenfolge` 
@@ -434,7 +442,7 @@ switch ($ansicht)  // setzen: $PageTitle, $table_edit
                   , SUM(uebung.Anzahl ) as `Summe Minuten` 
                   , (SUM(uebung.Anzahl ) - schueler.Unterricht_Dauer ) as `Abweichung Dauer` 
                   -- , GROUP_CONCAT(uebung.Name, ' (', coalesce(uebungtyp.Name, '') , ')'  order by uebung.Name separator '<br>') Inhalte 
-                  , GROUP_CONCAT(uebung.Reihenfolge, '. ', uebung.Name, ' (', coalesce(uebungtyp.Name, ''), ')'  order by uebung.Name separator '<br>') `Übungen Inhalte`  
+                  , GROUP_CONCAT(uebung.Reihenfolge, '. ', uebung.Name, ' (', coalesce(uebungtyp.Name, ''), ')'  order by uebung.Reihenfolge separator '<br>') `Übungen Inhalte`  
 
             FROM  uebung 
                   LEFT JOIN schueler ON schueler.ID = uebung.SchuelerID 
@@ -537,6 +545,32 @@ switch ($ansicht)  // setzen: $PageTitle, $table_edit
     $query.="ORDER BY standort.Name "; 
 
     break; 
+
+  case 'verlage': 
+
+    $show_insert_link=true;  
+
+    $Suchtext=(isset($_REQUEST["Suchtext"])?$_REQUEST["Suchtext"]:'');   
+
+    echo '<form action="" method="get">'.PHP_EOL;  
+    echo ' Suchtext: <input type="text" id="Suchtext" name="Suchtext" size="30px" value="'.$Suchtext.'"> '; 
+    echo '<input type="submit" class="btnSave" name="senden" value="Suchen">';
+    echo '<input type="hidden" name="ansicht" value="'.$ansicht.'">'; 
+    echo '</form><br>';       
+
+    $query="SELECT ID, Name 
+            FROM verlag  
+            WHERE 1=1 
+            "; 
+
+    if($Suchtext!='') {
+      $query.="AND verlag.Name LIKE '%".$Suchtext."%'  ";          
+    }
+
+
+    $query.="ORDER BY verlag.Name "; 
+
+    break;     
 
   case 'XXXX': 
     break; 

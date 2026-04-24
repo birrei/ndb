@@ -67,7 +67,6 @@ switch($option) {
 }
 
 $info->print_screen_header($sammlung->Title.' bearbeiten'); 
-// $info->print_link_table('v_sammlung', 'sortcol=ID&sortorder=DESC', $sammlung->Titles,false,'&show_filter'); 
 $info->print_link_table2('sammlungen'); 
 
 
@@ -112,8 +111,8 @@ echo '
       '; 
 
   $info->print_link_edit($verlage->table_name, $sammlung->VerlagID,$verlage->Title, true); 
-  $info->print_link_table($verlage->table_name,'sortcol=Name',$verlage->Titles,true,'');    
-  $info->print_link_insert($verlage->table_name,$verlage->Title,true); 
+  $info->print_link_table2('verlage',true);    
+  // $info->print_link_insert($verlage->table_name,$verlage->Title,true); 
 
 echo '
   </tr>

@@ -46,7 +46,7 @@ switch($option) {
 }
 
 $info->print_screen_header($verlag->Title.' bearbeiten'); 
-$info->print_link_table($verlag->table_name, 'sortcol=Name', $verlag->Titles); 
+$info->print_link_table2('verlage'); 
 
 if (!$show_data) {goto pagefoot;}
 
