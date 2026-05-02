@@ -1,15 +1,16 @@
 
-DROP TABLE kalender; 
 
-CREATE TABLE kalender (
-    datum DATE PRIMARY KEY,
-    wochentag_nr TINYINT NOT NULL, -- 1 (So) bis 7 (Sa) oder 0-6
-    wochentag_name VARCHAR(12) NOT NULL, 
-    kalenderwoche VARCHAR(10) NOT NULL
-)
+-- DROP TABLE kalender; 
+
+-- CREATE TABLE kalender (
+--     datum DATE PRIMARY KEY,
+--     wochentag_nr TINYINT NOT NULL, -- 1 (So) bis 7 (Sa) oder 0-6
+--     wochentag_name VARCHAR(12) NOT NULL, 
+--     kalenderwoche VARCHAR(10) NOT NULL
+-- )
 
 
-select * from kalender order by datum DESC 
+-- select * from kalender order by datum DESC 
 
 
 -- CREATE TABLE kalender (

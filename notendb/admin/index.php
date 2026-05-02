@@ -13,7 +13,7 @@ include_once('head.php');
 
 <p><a href="install/exec.php">Datenbank-Objekte installieren</a> </p>
 
-<p><a href="sqlexec2.php?tabelle=kalender">Kalender-Tabelle befüllen</a> </p>
+<p><a href="sqlexec2.php?tabelle=kalender">Kalender-Tabelle Initialbefüllung</a> </p>
 
 <?php 
 include_once('foot.php');
