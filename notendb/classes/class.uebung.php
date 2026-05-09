@@ -16,7 +16,6 @@ class Uebung {
   public $Anzahl=''; 
   public $Reihenfolge=0; // Sortierung innerhalb SchuelerID / Datum 
 
-  
   public $Typ=''; 
 
   public $titles_selected_list; 
@@ -56,7 +55,7 @@ class Uebung {
       $insert->execute(); 
       // $insert->debugDumpParams(); 
       $this->ID=$this->db->lastInsertId(); 
-      $this->update_Order($Datum); 
+      // $this->update_Order($Datum); // Anwenderfeedback, nicht brauchbar
       $this->load_row();        
     }
       catch (PDOException $e) {
@@ -157,9 +156,10 @@ class Uebung {
     // $params = func_get_args(); 
     // print_r($params);
 
-    if($Reihenfolge==0) {
-      $Reihenfolge = $this->get_Order($Datum); 
-    }
+    // Anwenderfeedback, nicht brauchbar 
+    // if($Reihenfolge==0) {
+    //   $Reihenfolge = $this->get_Order($Datum); 
+    // }
 
     $update = $this->db->prepare("UPDATE uebung  
               SET UebungtypID= :UebungtypID
