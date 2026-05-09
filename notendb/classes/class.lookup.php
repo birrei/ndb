@@ -82,8 +82,8 @@ class Lookup {
           $query.='AND lookup.ID NOT IN (SELECT LookupID FROM satz_lookup WHERE SatzID=:SatzID) '.PHP_EOL;  
           break; 
 
-        case 'material': 
-          $query.='AND lookup.ID NOT IN (SELECT LookupID FROM material_lookup WHERE MaterialID=:MaterialID) '.PHP_EOL;  
+        case 'uebung': 
+          $query.='AND lookup.ID NOT IN (SELECT LookupID FROM uebung_lookup WHERE UebungID=:UebungID) '.PHP_EOL;  
           break;           
 
         }
@@ -110,8 +110,8 @@ class Lookup {
           $stmt->bindParam(':SatzID', $ReferenceID, PDO::PARAM_INT);
           break; 
 
-        case 'material': 
-          $stmt->bindParam(':MaterialID', $ReferenceID, PDO::PARAM_INT);
+        case 'uebung': 
+          $stmt->bindParam(':UebungID', $ReferenceID, PDO::PARAM_INT);
           break;           
         }     
     }  
