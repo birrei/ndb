@@ -51,7 +51,10 @@ switch ($ansicht) // $PageTitle, $table_edit
     $PageTitle='Übersicht Verlage';  
     $table_edit='verlag';     
     break; 
-
+  case 'kalender'; 
+    $PageTitle='Kalender';  
+    $table_edit='kalender';     
+    break; 
 }
 
 include_once('head.php'); 
@@ -237,7 +240,7 @@ switch ($ansicht)  // setzen: $PageTitle, $table_edit
 
     $SchuelerID=(isset($_REQUEST["SchuelerID"])?$_REQUEST["SchuelerID"]:'');    
     $UebungtypID=(isset($_REQUEST["UebungtypID"])?$_REQUEST["UebungtypID"]:'');    
-
+    $Unterricht_Geplant=(isset($_REQUEST["Unterricht_Geplant"])?$_REQUEST["Unterricht_Geplant"]:'');  
     $Suchtext=(isset($_REQUEST["Suchtext"])?$_REQUEST["Suchtext"]:'');   
 
     echo '<form action="" method="get">'.PHP_EOL;       
@@ -254,8 +257,13 @@ switch ($ansicht)  // setzen: $PageTitle, $table_edit
     $uebung_typ->print_select($UebungtypID); 
         echo ' &#9475;';
 
-
     echo ' Suchtext: <input type="text" id="Suchtext" name="Suchtext" size="30px" value="'.$Suchtext.'"> '; 
+    echo ' &#9475;';
+    echo ' Tag Planung abgeschlossen <select id="Unterricht_Geplant" name="Unterricht_Geplant" onchange="this.form.submit()" >
+              <option value="" '.($Unterricht_Geplant==''?'selected':'').'></option>
+              <option value="0" '.($Unterricht_Geplant=='0'?'selected':'').'>Nein</option>
+              <option value="1" '.($Unterricht_Geplant=='1'?'selected':'').'>Ja</option>
+          </select> '; 
 
     echo '<input type="submit" class="btnSave" name="senden" value="Suchen">';
     echo '<input type="hidden" name="ansicht" value="'.$ansicht.'">'; 
@@ -263,8 +271,7 @@ switch ($ansicht)  // setzen: $PageTitle, $table_edit
 
     $sqlpart = new SQLPart(); 
 
-    $query="SELECT 
-                  schueler.Name as Schueler
+    $query="SELECT  schueler.Name as Schueler
                   , uebung.Datum as `Datum`                   
                   , schueler.Unterricht_Reihenfolge as `Schüler Reihen-folge`
                   , uebung.Reihenfolge as `Übung Reihen-folge`
@@ -286,13 +293,20 @@ switch ($ansicht)  // setzen: $PageTitle, $table_edit
                   left join satz  on satz.ID=uebung.SatzID 
                   left join musikstueck on satz.MusikstueckID = musikstueck.ID
                   left JOIN sammlung on sammlung.ID = musikstueck.SammlungID
-                  left join v_uebung_lookuptypes on v_uebung_lookuptypes.UebungID=uebung.ID 
+                  left join v_uebung_lookuptypes on v_uebung_lookuptypes.UebungID=uebung.ID
+                  LEFT JOIN kalender ON uebung.Datum = kalender.Datum  "; 
 
-    
-                WHERE 1=1 "; 
+    $query.="      WHERE 1=1 "; 
+
+
+    if ($Unterricht_Geplant!='') {
+      $query.="AND kalender.Unterricht_Geplant=".$Unterricht_Geplant." ".PHP_EOL;  
+    }            
+
+
 
     if (!empty($Datum)) {
-      $query.="AND uebung.Datum='".$Datum."' ";  
+      $query.="AND uebung.Datum='".$Datum."' ".PHP_EOL;  
     }
     if ($SchuelerID!='') {
       $query.="AND uebung.SchuelerID=".$SchuelerID." ";  
