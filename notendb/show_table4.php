@@ -567,10 +567,41 @@ switch ($ansicht)  // setzen: $PageTitle, $table_edit
       $query.="AND verlag.Name LIKE '%".$Suchtext."%'  ";          
     }
 
-
     $query.="ORDER BY verlag.Name "; 
 
     break;     
+
+  case 'kalender': 
+
+    $date_start=(isset($_REQUEST["date_start"])?$_REQUEST["date_start"]:''); 
+    $date_end=(isset($_REQUEST["date_end"])?$_REQUEST["date_end"]:'');     
+
+    echo '<form action="" method="get">'.PHP_EOL;  
+    echo 'Start: <input type="date" name="date_start" value="'.$date_start.'" onchange="this.form.submit()">'; 
+    echo 'Ende: <input type="date" name="date_end" value="'.$date_end.'" onchange="this.form.submit()">'; 
+    echo '<input type="submit" class="btnSave" name="senden" value="Start">';
+    echo '<input type="hidden" name="ansicht" value="'.$ansicht.'">'; 
+    echo '</form><br>';       
+
+
+    $add_link_edit=true; 
+    $table_edit='kalender'; 
+
+    $query="SELECT ID, Name as `Datum Name`, Wochentag_Name, Kalenderwoche
+              , IF(Unterricht_Geplant=1, 'X' , '') as `Unterricht Geplant`    
+            FROM kalender 
+            WHERE 1=1 
+            ";     
+    if($date_start!='') {
+      $query.="AND Datum >= '".$date_start."' "; 
+    }
+    if($date_start!='') {
+      $query.="AND Datum <= '".$date_end."' "; 
+    }
+
+    $query.="ORDER BY Datum DESC "; 
+
+    break; 
 
   case 'XXXX': 
     break; 

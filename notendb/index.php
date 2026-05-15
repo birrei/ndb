@@ -47,6 +47,8 @@ a:hover {
 <tr> 
   <td class="start"> <h3>Stammdaten</h3></td>
   <td class="start">
+      <a href="show_table4.php?ansicht=kalender">Kalender</a><br>
+    <hr>
     <a href="show_table4.php?ansicht=standorte">Standorte</a> <br>
     <a href="show_table4.php?ansicht=verlage">Verlage</a> <br>
     <hr> 
