@@ -74,6 +74,7 @@ include_once('head.php');
                 <li>Übung Bemerkung</li>
                 <li>Übung Dauer</li>
                 <li>Uebung Typ</li>
+                <li>Unterrichtstag Geplant (Nein=Leer, Ja = X) </li>
                 <li>ID</li>
              
             </ul>  
@@ -81,16 +82,13 @@ include_once('head.php');
         <p>Suche / Filter: </p>
         
             <ul>
-                <li>Datum (Standard-Einstellung: Heutiges Datum)</li>
+                <li>Datum (Standard-Einstellung: Heutiges Datum) (Hinweis: über den Beschriftungslink kann das Datum geöffnet werden)</li>
                 <li>Schüler</li>
                 <li>Übung Typ</li>
                 <li>Suchtext. Durchsucht werden folgende Felder: 
-                    <br>* Übung Name 
-                    <br>* Übung Bemerkung 
-                    <br>* Übung Typ Name 
-                    <br>* Sammlung Name / Bemerkung
-                    <br>* Musikstück Name / Bemerkung
-                    <br>* Satz Name / Bemerkung
+                        Übung Name, Übung Bemerkung, Übung Typ Name, Sammlung Name / Bemerkung, 
+                        Musikstück Name / Bemerkung, Satz Name / Bemerkung
+                <li>Geplant (Unterrichtsplanung für den Tag abgeschlossen: ja / nein)</li>    
             </li>
 
             </ul> 
@@ -99,12 +97,6 @@ include_once('head.php');
 
 	<h2 class="chapter-title chapter-title-h1" id="uebersichten_uebungen-datum">Übersicht Übungen / Datum</h2>
 
-        <!-- 
-        // -- kalender wochentag = schüler wochentag 
-        // -- kalender datum nicht gleich übung datum (übung/Unterricht Datum kann gelegentlich abweichen)
-        // -- schueler mit ausweich- wochentag ("variabel" etc.) sind nicht abgebildet 
-
-        -->
         <p>Spalten: </p>
         <ul>
          <li>Unterricht Plandatum</li>                
@@ -116,6 +108,7 @@ include_once('head.php');
                 <br>Negativer Betrag: Übungen Summe Minuten zu gering. 
                 <br>Positiver Betrag: Übungen Summe Minuten zu hoch) </li>
             <li>Inhalte </li>
+            <li>Unterrichtstag Geplant (Nein=Leer, Ja = X) </li>           
              
         </ul>  
 
@@ -128,6 +121,7 @@ include_once('head.php');
                 <li>(*) Datum bis (= Kalender-Datum; Vorgabe beim öffnen der Seite: leer)</li>
                 <li>Schüler</li>
                 <li>Unterricht Wochentag</li>
+                <li>Geplant (Unterrichtsplanung für den Tag abgeschlossen: ja / nein)</li>                  
             </li>
 
             </ul> 

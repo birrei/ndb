@@ -10,7 +10,7 @@ class Kalender {
 
   public $table_name='kalender'; 
 
-  public $Title='Kalender';
+  public $Title='Kalender Datum';
   public $Titles='Kalender';  
 
   public string $Datum; // schreibgeschützt
@@ -178,6 +178,14 @@ class Kalender {
   
   public function getLastdate () {
     $sql="SELECT MAX(datum) from kalender "; 
+    $stmt = $this->db->prepare($sql); 
+    $stmt->execute(); 
+    $col=$stmt->fetchColumn(); 
+    return $col;  
+  }  
+  
+  public function getID (string $strDate) {
+    $sql="SELECT MAX(ID) from kalender WHERE Datum='".$strDate."'" ; 
     $stmt = $this->db->prepare($sql); 
     $stmt->execute(); 
     $col=$stmt->fetchColumn(); 

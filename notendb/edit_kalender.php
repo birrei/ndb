@@ -1,6 +1,6 @@
 
 <?php 
-$PageTitle='Kalender'; 
+$PageTitle='Kalender Datum'; 
 include_once('head.php');
 include_once("classes/class.kalender.php");
 include_once("classes/class.htmlinfo.php");
@@ -11,11 +11,15 @@ $info= new HTML_Info();
 $option=isset($_REQUEST["option"])?$_REQUEST["option"]:'edit';
 $show_data=true; 
 
-switch($option) {
-  case 'edit': // über "Bearbeiten"-Link
-    $kalender->ID=$_GET["ID"];
-    $show_data = $kalender->load_row();   
 
+switch($option) {
+  case 'edit':
+    if(isset($_REQUEST["ID"])) {
+      $kalender->ID=$_GET["ID"];
+    } elseif(isset($_REQUEST["Datum"])) {
+      $kalender->ID = $kalender->getID($_REQUEST["Datum"]); 
+    }
+    $show_data = $kalender->load_row();  
     break; 
 
   case 'update': 
