@@ -15,3 +15,13 @@ CREATE TABLE kalender (
 
 
 select * from kalender order by datum DESC 
+
+
+------------------------------------------------------
+
+UPDATE kalender 
+set Wochentag_Nr = ( WEEKDAY(Datum) + 1 )
+, Wochentag_Name = DAYNAME(Datum) 
+, Kalenderwoche = WEEKOFYEAR(Datum)
+; 
+

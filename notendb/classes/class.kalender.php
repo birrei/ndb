@@ -30,9 +30,6 @@ class Kalender {
       7 => 'Sonntag'
   ];
     
-
-
-
   public function __construct(){
     $conn=new DBConnection(); 
     $this->db=$conn->db; 
@@ -40,7 +37,6 @@ class Kalender {
   }
    
   function load_row() {
-
 
     $select = $this->db->prepare("SELECT `ID`
                                         , `Datum` 
@@ -89,22 +85,39 @@ class Kalender {
     }
   }
 
+  public function insert_new_date(DateTime $date) {
 
-  public function insert_new_date(string $str_date) {
+    $Datum = $date->format('Y-m-d'); 
 
-    $new_date_exists = $this->date_exists($str_date); 
+    $new_date_exists = $this->date_exists($Datum); 
 
     if ($new_date_exists) {
-      $this->info->print_warning('Das Datum '.$str_date.' ist schon vorhanden!'); 
+      $this->info->print_warning('Das Datum '.$Datum.' ist schon vorhanden!'); 
 
     } else {
+      // $date = new DateTimeImmutable($str_date);
 
-      $date = new DateTimeImmutable($str_date);
-      $Name = $date->format('d.m.Y');
-
-      $insert = $this->db->prepare("INSERT INTO kalender SET `Name` = :Name, Datum = :Datum");
+      $Name = $date->format('d.m.Y');      
+      $Wochentag_Nr= $date->format('N'); // Wochentage 1-7 (1= Montag) 
+      $Wochentag_Name = $this->wochentageDeutsch[$Wochentag_Nr]; 
+      $Kalenderwoche= $date->format('o-W'); // YYYY-WW
+      $insert = $this->db->prepare("INSERT INTO kalender 
+              SET `Name` = :Name, 
+                   Datum = :Datum, 
+                   Wochentag_Nr     = :Wochentag_Nr, 
+                   Wochentag_Name     = :Wochentag_Name,  
+                   Kalenderwoche     = :Kalenderwoche                    
+              
+              ");
+      
+      
       $insert->bindParam(':Name', $Name);
-      $insert->bindParam(':Datum', $str_date);
+      $insert->bindParam(':Datum', $Datum);
+      $insert->bindParam(':Wochentag_Nr', $Wochentag_Nr);
+      $insert->bindParam(':Wochentag_Name', $Wochentag_Name);
+      $insert->bindParam(':Kalenderwoche', $Kalenderwoche);
+
+
 
       try {
         $insert->execute(); 
@@ -119,6 +132,7 @@ class Kalender {
     }
   }  
 
+
   public function date_exists(string $str_date) {
     $select = $this->db->prepare("SELECT * FROM kalender WHERE Datum = :Datum");
     $select->bindParam(':Datum', $str_date);
@@ -131,7 +145,6 @@ class Kalender {
     }
   }
 
-
   function insert_data($str_date_start='', $str_date_end='', $print=false){
 
     $date_start = new DateTime($str_date_start);
@@ -139,22 +152,8 @@ class Kalender {
     $intervall = new DateInterval('P1D'); // "Period 1 Day"
     $zeitraum  = new DatePeriod($date_start, $intervall, $date_end->modify('+1 day'));
 
-    // $sql_delete = "DELETE FROM kalender"; 
-    // $delete = $this->db->prepare($sql_delete);     
-    // $delete->execute();               
-
     foreach ($zeitraum as $datum) {
-
-        $str_date= $datum->format('Y-m-d'); 
-        $wochentag_nr= $datum->format('N'); // Wochentage 1-7 (1= Montag) 
-        $wochentag_name = $this->wochentageDeutsch[$wochentag_nr]; 
-        // $kalenderwoche= $datum->format('W'); 
-        $kalenderwoche= $datum->format('o-W'); // YYYY-WW
-
-        
-        $this->insert_new_date($str_date); 
-
-            
+        $this->insert_new_date($datum); 
     }
 
     if($print) {
