@@ -8,6 +8,7 @@ include_once("classes/class.wochentage.php");
 
 $info=new HTML_Info(); 
 
+$query=''; 
 $show_data=false; 
 $ansicht=''; 
 $PageTitle=''; 
@@ -59,9 +60,9 @@ switch ($ansicht) // $PageTitle, $table_edit
 
 include_once('head.php'); 
 
-if ($ansicht=='') {
-    $info->print_user_error('Es wurde keine Ansicht definiert.'); 
-    goto pagefoot;
+if ($ansicht=='' OR $query='') {
+  $info->print_user_error('Es wurde keine Ansicht definiert.'); 
+  goto pagefoot;
 }
 
 echo '<h3>'.$PageTitle.'</h3>'.PHP_EOL; 
@@ -651,6 +652,12 @@ switch ($ansicht)  // setzen: $PageTitle, $table_edit
 
 
 }
+
+if($query=='') {
+  $info->print_user_error('Es wurde keine Ansicht definiert.');   
+  goto pagefoot;
+}
+
 echo '<a href="help_uebersichten.php?#uebersichten_'.$ansicht.'" target="_blank">Hilfe</a>';
 
 echo '<br><br>'; 
@@ -658,6 +665,7 @@ if ($show_insert_link) {
   echo '<a href="edit_'.$table_edit.'.php?option=insert">Neu erfassen</a>';
   echo '<br><br>';   
 }
+
 
 /******************************* */
 // echo '<pre>'.$query.'</pre>'; // Test 
