@@ -10,10 +10,10 @@ class HTML_Select {
     public $option_titles_selected=[]; // alle ausgewählten titles  
     public $titles_list; // String, der die Liste der Titels enthält 
     public $titles_selected_list; // String, der die Liste der ausgewählten Titels enthält
-    public $autofocus=false; // true, wenn Auswahlbox beim Öffnen eines Formulars den Focus erhalten soll
-    public $required=false; // required="required" 
+    public bool $autofocus=false; // true, wenn Auswahlbox beim Öffnen eines Formulars den Focus erhalten soll
+    public bool $required=false; // true: print required="required" 
 
-    public $caption=''; // 
+    public string $caption=''; // 
 
     // config. multi-select 
     protected $visible_rows_default=3; // Anzahl Sichtbare Zeilen, Standard
@@ -32,7 +32,7 @@ class HTML_Select {
         
     }
     
-    function print_select($keyname, $value_selected='', $add_null_option=true) {
+    function print_select(string $keyname, $value_selected='', $add_null_option=true) {
         if ($this->required) {
                 $add_null_option=false; 
             } 
@@ -41,7 +41,9 @@ class HTML_Select {
             $html.='<span class="field-caption">'.$this->caption.':</span>'. PHP_EOL;
         }        
         if ($this->count_rows > 0) {
-            $html.= '<select name="'.$keyname.'" oninput="changeBackgroundColor(this);"'.($this->autofocus?' autofocus="autofocus"':'').''.($this->required?' required="required"':'').'>' . PHP_EOL;    
+            $html.= '<select name="'.$keyname.'" '.($this->type==1 ? 'oninput="changeBackgroundColor(this);"' : '').' '.($this->autofocus?' autofocus="autofocus"':'').''.($this->required?' required="required"':'').'>' . PHP_EOL;    
+            $html.= '<select name="'.$keyname.'" '.($this->autofocus?' autofocus="autofocus"':'').''.($this->required?' required="required"':'').'>' . PHP_EOL;    
+
             if($add_null_option) {
                 $html .= '<option value="" '.($value_selected=='' ? 'selected' : ''). '></option>'. PHP_EOL;
             }
@@ -101,7 +103,8 @@ class HTML_Select {
         $this->titles_selected_list='* '.$caption.' '.implode('; ', $this->option_titles_selected); 
     }    
 
-    function print_preselect($keyname, $value_selected='', $add_null_option=true) {
+    function print_preselect(string $keyname, $value_selected='', $add_null_option=true) {
+        // Vorauswahl-Filter (nicht für Datenfelderfassung verwenden! )
         $html = '';
         if ($this->count_rows > 0) {
             $html = '<select name="'.$keyname.'" onchange="this.form.submit()" tabindex="-1">' . PHP_EOL;  

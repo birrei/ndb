@@ -56,6 +56,12 @@ switch ($ansicht) // $PageTitle, $table_edit
     $PageTitle='Kalender';  
     $table_edit='kalender';     
     break; 
+  case 'schuljahre'; 
+    $PageTitle='Übersicht Schuljahre';   
+    break; 
+  case 'ferien'; 
+    $PageTitle='Übersicht Ferienzeiten';   
+    break; 
 }
 
 include_once('head.php'); 
@@ -514,15 +520,41 @@ switch ($ansicht)  // setzen: $PageTitle, $table_edit
     $query.="ORDER BY verlag.Name "; 
 
     break;     
+  case 'schuljahre': 
+
+    $show_insert_link=false;  
+    $add_link_edit=false; 
+    $table_edit='schuljahr';   
+
+    $query="SELECT ID, 
+                    Bezeichnung, 
+                    Datum_Start as `Datum von`, 
+                    Datum_Ende as `Datum bis`
+            FROM schuljahr  
+            WHERE 1=1 
+            "; 
+
+    $query.="ORDER BY schuljahr.Datum_Start "; 
+
+    break;     
 
   case 'kalender': 
 
     $date_start=(isset($_REQUEST["date_start"])?$_REQUEST["date_start"]:''); 
-    $date_end=(isset($_REQUEST["date_end"])?$_REQUEST["date_end"]:'');     
+    $date_end=(isset($_REQUEST["date_end"])?$_REQUEST["date_end"]:'');   
+    $date_current = date('Y-m-d');  
+
+    if($date_start=='') {
+      // $date_start=date($date_current,strtotime('-30 days'));
+      $date_start=date('Y-m-d', strtotime($date_current. ' - 30 days'));  
+    }
+    if($date_end=='') {
+      $date_end=date('Y-m-d', strtotime($date_current. ' + 30 days'));  
+    }
 
     echo '<form action="" method="get">'.PHP_EOL;  
     echo 'Start: <input type="date" name="date_start" value="'.$date_start.'" onchange="this.form.submit()">'; 
-    echo 'Ende: <input type="date" name="date_end" value="'.$date_end.'" onchange="this.form.submit()">'; 
+    echo ' Ende: <input type="date" name="date_end" value="'.$date_end.'" onchange="this.form.submit()">'; 
     echo '<input type="submit" class="btnSave" name="senden" value="Start">';
     echo '<input type="hidden" name="ansicht" value="'.$ansicht.'">'; 
     echo '</form><br>';       
@@ -546,6 +578,53 @@ switch ($ansicht)  // setzen: $PageTitle, $table_edit
     $query.="ORDER BY Datum DESC "; 
 
     break; 
+
+  case 'ferien': 
+    include_once("classes/class.schuljahr.php");
+    include_once("classes/class.schuljahre.php");
+
+    $show_insert_link=false;  
+    $add_link_edit=false; 
+    $table_edit='ferien';      
+
+    $SchuljahrID=(isset($_REQUEST["SchuljahrID"])?$_REQUEST["SchuljahrID"]:'');
+
+    if($SchuljahrID=='') {
+      $schuljahr= new Schuljahr(); 
+      $SchuljahrID= $schuljahr->getCurrentID(); 
+    }
+
+    echo '<form action="" method="get">'.PHP_EOL;  
+    $schuljahre = new Schuljahre(); 
+    echo 'Schuljahr: '.PHP_EOL; 
+    $schuljahre->print_preselect($SchuljahrID, '', false); 
+        // echo ' &#9475;';
+    // echo '<input type="submit" class="btnSave" name="senden" value="Suchen">';
+    echo '<input type="hidden" name="ansicht" value="'.$ansicht.'">
+          </form><br>';    
+
+
+    $query="SELECT s.ID 
+          , f.Bezeichnung 
+          , f.Datum_Start  AS `Datum Ferien von` 
+          , f.Datum_Ende  AS `Datum Ferien bis` 
+          , s.Bezeichnung AS Schuljahr 
+          -- , s.Datum_Start  as `Datum Schuljahr von` 
+          -- , s.Datum_Ende  as `Datum Schuljahr bis` 
+        FROM schuljahr s 
+          INNER JOIN  ferien f on f.SchuljahrID = s.ID 
+        WHERE 1=1 ".PHP_EOL; 
+    
+    if($SchuljahrID!='') {
+      $query.="AND s.ID='".$SchuljahrID."' ";  
+    }
+
+    $query.="ORDER BY s.Datum_Start, f.Datum_Start";     
+
+    break; 
+  case 'XXXX': 
+    break; 
+
   case 'uebungen-datum-neu-test': // verworfen ! 
 
     $add_link_edit=false; 
@@ -628,13 +707,10 @@ switch ($ansicht)  // setzen: $PageTitle, $table_edit
 
     break;     
 
-  case 'XXXX': 
-    break; 
 
 
   /**
   
-    Verlage
     Komponisten
     Besetzungen
     Verwendungszwecke
