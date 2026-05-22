@@ -50,6 +50,7 @@ a:hover {
       <a href="show_table4.php?ansicht=kalender">Kalender</a><br>
       <a href="show_table4.php?ansicht=schuljahre">Schuljahre</a><br>
       <a href="show_table4.php?ansicht=ferien">Ferien</a><br>
+      <a href="show_table4.php?ansicht=feiertage">Feiertage</a><br>
     <hr>
     <a href="show_table4.php?ansicht=standorte">Standorte</a> <br>
     <a href="show_table4.php?ansicht=verlage">Verlage</a> <br>

@@ -62,6 +62,9 @@ switch ($ansicht) // $PageTitle, $table_edit
   case 'ferien'; 
     $PageTitle='Übersicht Ferienzeiten';   
     break; 
+  case 'feiertage'; 
+    $PageTitle='Übersicht Feiertage';   
+    break; 
 }
 
 include_once('head.php'); 
@@ -563,7 +566,12 @@ switch ($ansicht)  // setzen: $PageTitle, $table_edit
     $add_link_edit=true; 
     $table_edit='kalender'; 
 
-    $query="SELECT ID, Name as `Datum Name`, Wochentag_Name, Kalenderwoche
+    $query="SELECT 
+                  ID, 
+                  -- Name as `Datum`, 
+                  Datum, 
+                  Wochentag_Name as `Wochentag`, 
+                  Kalenderwoche
               , IF(Unterricht_Geplant=1, 'X' , '') as `Unterricht Geplant`    
             FROM kalender 
             WHERE 1=1 
@@ -606,9 +614,10 @@ switch ($ansicht)  // setzen: $PageTitle, $table_edit
 
     $query="SELECT s.ID 
           , f.Bezeichnung 
-          , f.Datum_Start  AS `Datum Ferien von` 
-          , f.Datum_Ende  AS `Datum Ferien bis` 
+          , f.Datum_Start  AS `Datum von` 
+          , f.Datum_Ende  AS `Datum bis` 
           , s.Bezeichnung AS Schuljahr 
+          , f.Bundesland 
           -- , s.Datum_Start  as `Datum Schuljahr von` 
           -- , s.Datum_Ende  as `Datum Schuljahr bis` 
         FROM schuljahr s 
@@ -622,6 +631,46 @@ switch ($ansicht)  // setzen: $PageTitle, $table_edit
     $query.="ORDER BY s.Datum_Start, f.Datum_Start";     
 
     break; 
+  case 'feiertage': 
+    include_once("classes/class.schuljahr.php");
+    include_once("classes/class.schuljahre.php");
+
+    $show_insert_link=false;  
+    $add_link_edit=false; 
+    $table_edit='ferien';      
+
+    $SchuljahrID=(isset($_REQUEST["SchuljahrID"])?$_REQUEST["SchuljahrID"]:'');
+
+    if($SchuljahrID=='') {
+      $schuljahr= new Schuljahr(); 
+      $SchuljahrID= $schuljahr->getCurrentID(); 
+    }
+
+    echo '<form action="" method="get">'.PHP_EOL;  
+    $schuljahre = new Schuljahre(); 
+    echo 'Schuljahr: '.PHP_EOL; 
+    $schuljahre->print_preselect($SchuljahrID, '', false); 
+        // echo ' &#9475;';
+    // echo '<input type="submit" class="btnSave" name="senden" value="Suchen">';
+    echo '<input type="hidden" name="ansicht" value="'.$ansicht.'">
+          </form><br>';    
+
+    $query="SELECT s.ID 
+          , f.Bezeichnung 
+          , f.Datum 
+          , s.Bezeichnung AS Schuljahr 
+          , f.Bundesland           
+        FROM schuljahr s 
+          INNER JOIN feiertag f on f.SchuljahrID = s.ID 
+        WHERE 1=1 ".PHP_EOL; 
+    
+    if($SchuljahrID!='') {
+      $query.="AND s.ID='".$SchuljahrID."' ";  
+    }
+
+    $query.="ORDER BY f.Datum";      
+    break; 
+
   case 'XXXX': 
     break; 
 

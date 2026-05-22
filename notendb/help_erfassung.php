@@ -296,13 +296,18 @@ include_once('head.php');
 
 	<h2 class="chapter-title chapter-title-h2" id="erfassung_status">Stammdaten: Status</h2>
         <!-- XXXX  -->
-
-
         <p>Die Status-Einträge können bei Zuordnung von 
                 Schülern zu Sätzen 
                 bzw. 
                 Schülern zu Materialen 
                 verwendet werden </p>
+	<h2 class="chapter-title chapter-title-h2" id="erfassung_kalender">Stammdaten: Kalender</h2>
+        <p>Editierbares Feld: "Unterricht geplant". Es kann verwendet werden,
+             um einen Unterrichts-Tag als abschließend geplant zu kennzeichnen.
+            </p>
+
+
+
 
 </div>
 

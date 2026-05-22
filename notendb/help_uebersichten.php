@@ -173,6 +173,63 @@ include_once('head.php');
                 <li>ID</li>
                 <li>Name</li>
             </ul>  
+    <h2 class="chapter-title chapter-title-h1" id="uebersichten_kalender">Übersicht Kalender</h2>
+            <p>Spalten: </p>
+            <ul>       
+                <li>ID</li>
+                <li>Datum</li>
+                <li>Wochentag</li>
+                <li>Kalenderwoche</li>
+                <li>Unterrichtstag Geplant (Nein=Leer, Ja = X) </li>
+            </ul>  
+
+            <p>XXX Hinweis: die Basisdaten wurden automatisch befüllt ... </p>
+
+
+    <h2 class="chapter-title chapter-title-h1" id="uebersichten_schuljahre">Übersicht Schuljahre</h2>
+            <p>Spalten: </p>
+            <ul>       
+                <li>ID</li>
+                <li>Bezeichnung</li>
+                <li>Datum von</li>
+                <li>Datum bis</li>
+            </ul>  
+            <p>XXX Hinweis: die Basisdaten wurden automatisch befüllt ... </p>
+
+    <h2 class="chapter-title chapter-title-h1" id="uebersichten_ferien">Übersicht Ferientage</h2>
+            <p>Spalten: </p>
+            <ul>       
+                <li>ID</li>
+                <li>Bezeichnung</li>
+                <li>Datum von</li>
+                <li>Datum bis</li>
+                <li>Schuljahr</li>
+                <li>Bundesland</li>
+            </ul>  
+
+           <p>Filter: </p>
+            <ul>       
+                <li>Schuljahr (Standardeinstellung: Aktuelles Schuljahr)</li>
+            </ul> 
+            
+            <p>XXX Hinweis: die Basisdaten wurden automatisch befüllt ... </p>            
+
+    <h2 class="chapter-title chapter-title-h1" id="uebersichten_feiertage">Übersicht Feiertage</h2>
+            <p>Spalten: </p>
+            <ul>       
+                <li>ID</li>
+                <li>Bezeichnung</li>
+                <li>Datum</li>
+                <li>Schuljahr</li>
+                <li>Bundesland</li>                
+            </ul>  
+
+           <p>Filter: </p>
+            <ul>       
+                <li>Schuljahr (Standardeinstellung: Aktuelles Schuljahr)</li>
+            </ul> 
+          
+            <p>XXX Hinweis: die Basisdaten wurden automatisch befüllt ... </p>    
 
 <hr />
 
