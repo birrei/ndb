@@ -566,24 +566,31 @@ switch ($ansicht)  // setzen: $PageTitle, $table_edit
     $add_link_edit=true; 
     $table_edit='kalender'; 
 
-    $query="SELECT 
-                  ID, 
-                  -- Name as `Datum`, 
-                  Datum, 
-                  Wochentag_Name as `Wochentag`, 
-                  Kalenderwoche
-              , IF(Unterricht_Geplant=1, 'X' , '') as `Unterricht Geplant`    
-            FROM kalender 
-            WHERE 1=1 
-            ";     
+    $query="SELECT kalender.ID
+            , kalender.Datum
+            , kalender.Wochentag_Name AS Wochentag 
+            , kalender.Kalenderwoche 
+            , COALESCE(ferien.Bezeichnung, '') AS Ferien 
+            , COALESCE(feiertag.Bezeichnung, '') AS Feiertag 
+            , COALESCE(schuljahr.Bezeichnung, '') AS Schuljahr      
+          , IF(Unterricht_Geplant=1, 'X' , '') as `Unterricht Geplant`    	  
+        FROM kalender 
+          LEFT JOIN schuljahr 
+            ON kalender.Datum  BETWEEN schuljahr.Datum_Start AND schuljahr.Datum_Ende 
+          LEFT JOIN ferien 
+            ON kalender.Datum BETWEEN ferien.Datum_Start AND ferien.Datum_Ende 
+          LEFT JOIN feiertag 
+            ON kalender.Datum = feiertag.Datum 
+        WHERE 1=1" .PHP_EOL;     
+
     if($date_start!='') {
-      $query.="AND Datum >= '".$date_start."' "; 
+      $query.="AND kalender.Datum >= '".$date_start."' "; 
     }
     if($date_start!='') {
-      $query.="AND Datum <= '".$date_end."' "; 
+      $query.="AND kalender.Datum <= '".$date_end."' "; 
     }
 
-    $query.="ORDER BY Datum DESC "; 
+    $query.="ORDER BY kalender.Datum  "; 
 
     break; 
 
