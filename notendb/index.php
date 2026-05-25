@@ -38,7 +38,8 @@ a:hover {
       <a href="show_table4.php?ansicht=schueler">Übersicht Schüler</a><br>
       <!-- <a href="show_table4.php?ansicht=uebungen&Datum=<?php echo date('Y-m-d');  ?>">Übersicht Übungen</a> -->
       <a href="show_table4.php?ansicht=uebungen">Übersicht Übungen</a><br>
-      <a href="show_table4.php?ansicht=uebungen-datum">Übersicht Übungen / Datum</a>
+      <a href="show_table4.php?ansicht=uebungen-datum">Übersicht Übungen / Datum</a><br>
+      <a href="show_table4.php?ansicht=uebungen-datum2">Übersicht Übungen / Datum - Neue Version</a>
       <br>
       <!-- <a href="show_table2.php?table=v_uebung&sortcol=ID&sortorder=DESC">Übungen</a> <br>  Übersicht nicht verwenden, Übungen werden über Schüler-Formular verwaltet   -->
   </td>
@@ -51,6 +52,12 @@ a:hover {
       <a href="show_table4.php?ansicht=schuljahre">Schuljahre</a><br>
       <a href="show_table4.php?ansicht=ferien">Ferien</a><br>
       <a href="show_table4.php?ansicht=feiertage">Feiertage</a><br>
+      <a href="show_table4.php?ansicht=schueler-kalender-vorlage">Schüler-Kalender Vorlage</a><br>
+      
+      
+      
+
+
     <hr>
     <a href="show_table4.php?ansicht=standorte">Standorte</a> <br>
     <a href="show_table4.php?ansicht=verlage">Verlage</a> <br>

@@ -191,18 +191,34 @@ class Kalender {
     return $col;  
   }  
   
+}
+
+class SchuelerKalender extends Kalender {
+  
+  public int $SchuelerID; 
+  public string $SchuelerName=''; 
+  
+  public function date_exists(string $str_date) {
+    $select = $this->db->prepare("SELECT * FROM schueler_kalender 
+                WHERE Datum = :Datum 
+                AND SchuelerID = :SchuelerID " 
+                );
+    $select->bindParam(':Datum', $str_date);
+    $select->bindParam(':SchuelerID', $str_date);
+    $select->execute(); 
+    $result = $select->fetchAll(PDO::FETCH_ASSOC);
+    if (count($result) > 0) {
+       return true; 
+    } else {
+      return false; 
+    }
+  }
+
+
+}  
 
 
 
-
-
-
-
-  }  
-
-
-
- 
 
 
 

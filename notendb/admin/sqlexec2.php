@@ -30,6 +30,9 @@ switch($tabelle) {
             echo '<p>Bitte Start- und Enddatum auswählen. </p>'; 
         }
         break; 
+    case 'schueler_kalender':
+        
+        break; 
 }
 
 include_once('foot.php');

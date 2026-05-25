@@ -230,6 +230,53 @@ include_once('head.php');
             </ul> 
           
             <p>XXX Hinweis: die Basisdaten wurden automatisch befüllt ... </p>    
+    <h2 class="chapter-title chapter-title-h1" id="uebersichten_schueler-kalender-vorlage">Vorlage Schüler-Kalender (Abfrage)</h2>
+        <p>Die Abfrage verbindet die Tabellen "Schüler", "Kalender", "Schuljahre"", "Ferientage" und "Feiertage". 
+            Sie dient als Quelle zur intialen Befüllung des "SChülerkalenders" (XXXX Hinweis einfügen): Hierfür werden die Zeilem mit Eintrag = 1 verwendet. 
+        </p>
+        <p>Spalten: </p>
+            <ul>       
+                <li>Schueler ID</li>
+                <li>Schueler Name</li>
+                <li>Datum</li>
+                <li>Wochentag</li>
+                <li>Ferientag</li>
+                <li>Feiertag</li>
+                <li>Schuljahr</li>
+                <li>Unterrichtstag Geplant (Nein=Leer, Ja = X)</li>
+                <li>Eintrag (1=Ja, 0 = nein) (*)   </li>
+                <li>Quelle (**) </li>
+
+            </ul>  
+            <p>(*) Eintrag in Schülerkalender geplant, Datum verwendbar. Regeln: 
+                <br>Datum wird übernommen, wenn schon "Übungen" erfasst wurden. 
+                <br>Falls keine Übungen erfasst wurden: Datum wird übernommen, wenn kein Ferientag und kein Feiertag vorliegt.   
+
+            </p>
+            <p>(**) Es gibt 2 mögliche Quellen: 
+                <br>1) "Plankalender aus Schüler-Wochentag". Verknüpfung: Kalender Wochentag = Schüler Wochentag).  
+                <br>2) "Erfasste Unterrichte (Übungen, Verknüpfung: Kalender Datum = Übung Datum), sofern diese ausserhalb 
+                  des für den Schüler üblichen Wochentags erfasst wurden.  
+            </p>
+            <!-- 
+            	
+
+             	
+             	
+             
+             	
+             	
+             	
+             
+             Anzahl_Uebungen	Info -->
+
+
+            <p>
+
+
+            </p>
+
+
 
 <hr />
 

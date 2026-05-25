@@ -8,23 +8,23 @@ include_once("class.sqlpart.php");
 class Schueler {
 
   public $table_name='schueler'; 
-  public $ID;
-  public $Name; // Praxis: nur Vorname, aus Datenschutzgründen kein Nachname 
-  public $Bemerkung;
+  public int $ID;
+  public string $Name; // Praxis: nur Vorname, aus Datenschutzgründen kein Nachname 
+  public string $Bemerkung;
   public int $Aktiv=1; // Aktiv=0 für abgemeldete Schüler. //   true/false, tinyint 1/0 for mysql 
   public int $Unterricht_Wochentag=0; // 1 - 7 (Montag - Sonntag)
   public int $Unterricht_Reihenfolge=0; // Reihenfolge im Ablauf eines Unterrichtstages 
   public int $Unterricht_Dauer=0; // Wie lange (in Minuten) hat Schüler normalerweise Unterricht 
-  public $Geburtsdatum; // Ermöglicht Altersberechnung für Wettbewerbe 
+  public string $Geburtsdatum; // Ermöglicht Altersberechnung für Wettbewerbe 
   public $Unterricht_Seit; // Seit wann ist die Person Schüler bei der Musikschule  
 
-  public $titles_selected_list; 
-  public $Title='Schüler';
-  public $Titles='Schüler';  
+  public string $titles_selected_list; 
+  public string $Title='Schüler';
+  public string $Titles='Schüler';  
   public string $infotext=''; 
   
-  private $db; 
-  private $info; 
+  // private $db; 
+  // private $info; 
 
   public function __construct(){
     $conn=new DBConnection(); 
@@ -669,36 +669,69 @@ class Schueler {
     }
   }    
 
-  function print_table_uebungen_datum(){
+  function print_table_uebungen_datum(string $SchuljahrID){
 
-    $query="SELECT uebung.Datum 
-                  , COUNT(distinct uebung.ID) as `Anzahl Einheiten` 
-                  , SUM(uebung.Anzahl ) as `Summe Minuten` 
-                  -- , GROUP_CONCAT(uebungtyp.Name, ': ', uebung.Name order by uebung.Name separator '<br>') Inhalte 
-                  , GROUP_CONCAT(uebung.Reihenfolge, '. ', uebung.Name, ' (', coalesce(uebungtyp.Name, ''), ')'  order by uebung.Reihenfolge separator '<br>') `Übungen Inhalte`  
-            FROM  uebung 
-                  left join uebungtyp on uebung.UebungtypID=uebungtyp.ID 
-                  left join satz  on satz.ID=uebung.SatzID 
-                  left join musikstueck on satz.MusikstueckID = musikstueck.ID
-                  left JOIN sammlung on sammlung.ID = musikstueck.SammlungID  
-                  left JOIN v_uebung_lookuptypes on v_uebung_lookuptypes.UebungID = uebung.ID 
-            WHERE uebung.SchuelerID = :ID
-            GROUP BY uebung.SchuelerID, uebung.Datum  
-            ORDER BY uebung.Datum DESC                 
+    $query="
+      SELECT 
+          schueler_kalender.Datum 
+          , schueler_kalender.Bemerkung       
+          , kalender.Wochentag_Name as Wochentag     
+          , COUNT(distinct uebung.ID) as `Anzahl Übungen` 
+          , SUM(uebung.Anzahl ) as `Summe Minuten` 
+          , (SUM(uebung.Anzahl ) - schueler.Unterricht_Dauer ) as `Abweichung Dauer` 
+          , GROUP_CONCAT(uebung.Reihenfolge, '. ', uebung.Name, ' (', coalesce(uebungtyp.Name, ''), ')'  order by uebung.Reihenfolge separator '<br>') `Übungen Inhalte`  
+          , IF(kalender.Unterricht_Geplant=1, 'X' , '') as `Unterrichtstag Geplant`   
+          , ferien.Bezeichnung AS Ferientag 
+          , feiertag.Bezeichnung AS Feiertag 
+          , schuljahr.Bezeichnung AS Schuljahr
+          , schueler_kalender.ID                           
+    FROM  schueler_kalender
+    		INNER JOIN 
+    		kalender 
+            ON schueler_kalender.Datum = kalender.Datum         
+        INNER JOIN schueler 
+            ON schueler.ID= schueler_kalender.SchuelerID 
+        LEFT JOIN schuljahr 
+          ON kalender.Datum  BETWEEN schuljahr.Datum_Start AND schuljahr.Datum_Ende 
+        LEFT JOIN ferien 
+          ON kalender.Datum BETWEEN ferien.Datum_Start AND ferien.Datum_Ende 
+        LEFT JOIN feiertag 
+          ON kalender.Datum = feiertag.Datum             
+        LEFT JOIN uebung 
+            ON schueler.ID = uebung.SchuelerID 
+            AND schueler_kalender.Datum = uebung.Datum                  
+        LEFT join uebungtyp 
+            ON uebung.UebungtypID=uebungtyp.ID 
+        WHERE schueler.ID = :ID
         "; 
+        
+    
+        if($SchuljahrID!='') {
+          $query.="AND schuljahr.ID = :SchuljahrID";  
+        }
+
+        $query.="
+        GROUP BY schueler.ID, schueler_kalender.Datum  
+        ORDER BY schueler_kalender.Datum DESC, schueler.Unterricht_Reihenfolge, uebung.Name            
+        "; 
+
+
 
     // echo '<pre>'.$query.'</pre>';
     $stmt = $this->db->prepare($query); 
-    $stmt->bindParam(':ID', $this->ID, PDO::PARAM_INT); 
+    $stmt->bindParam(':ID', $this->ID, PDO::PARAM_INT);
+    if($SchuljahrID!='') {
+      $stmt->bindParam(':SchuljahrID', $SchuljahrID, PDO::PARAM_INT); 
+    } 
 
     try {
       $stmt->execute(); 
             
       $html = new HTML_Table($stmt); 
-      $html->add_link_edit=false;      
-      $html->edit_link_table='uebung'; 
-      $html->edit_link_title='Übung'; 
-      // $html->edit_link_open_newpage=true; 
+      $html->add_link_edit=true;      
+      $html->edit_link_table='schueler_kalender'; 
+      // $html->edit_link_title='Übung'; 
+      $html->edit_link_open_newpage=true; 
       $html->show_missing_data_message=false;      
       $html->print_table2(); 
 
@@ -863,7 +896,22 @@ class Schueler {
       $this->info->print_user_error(); 
       $this->info->print_error($stmt, $e); 
     }
-  }  
+  } 
+  
+  public function getQuery(string $version) {
+      $strSQL=''; 
+      switch($version) {
+        case 'kalender_vorlage': 
+          /// XXXX
+          $strSQL="SELECT * FROM v_schueler_kalender_vorlage WHERE SchuelerID=".$this->ID." ORDER BY Datum "; 
+    
+          break; 
+        
+
+      }
+      return $strSQL; 
+
+  }
 
 }
 

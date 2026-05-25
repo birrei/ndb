@@ -15,7 +15,6 @@ CREATE TABLE feiertag (
 ;
 
 
-
 Ich benötige ein SQL Insert Statement für meine Tabelle "feiertag". 
 Sie soll die Feiertage des Bundeslandes Baden-Württemberg für die Schuljahre, die in Tabelle "Schuljahr" (*) enthalten sind, vollständig umfassen. 
  
