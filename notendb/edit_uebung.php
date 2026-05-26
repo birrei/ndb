@@ -35,7 +35,6 @@ if (isset($_REQUEST["UebungtypID"])) {
 
 $Datum=(isset($_REQUEST["Datum"])?$_REQUEST["Datum"]:date('Y-m-d'));
 
-
 switch($option) {
 
   case 'insert': 
