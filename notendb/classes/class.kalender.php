@@ -92,7 +92,7 @@ class Kalender {
     $new_date_exists = $this->date_exists($Datum); 
 
     if ($new_date_exists) {
-      $this->info->print_warning('Das Datum '.$Datum.' ist schon vorhanden!'); 
+      $this->info->user_error('Das Datum '.$Datum.' ist schon vorhanden!'); 
 
     } else {
       // $date = new DateTimeImmutable($str_date);
@@ -116,8 +116,6 @@ class Kalender {
       $insert->bindParam(':Wochentag_Nr', $Wochentag_Nr);
       $insert->bindParam(':Wochentag_Name', $Wochentag_Name);
       $insert->bindParam(':Kalenderwoche', $Kalenderwoche);
-
-
 
       try {
         $insert->execute(); 
@@ -194,17 +192,18 @@ class Kalender {
 }
 
 class SchuelerKalender extends Kalender {
-  
+
   public int $SchuelerID; 
   public string $SchuelerName=''; 
   
+
   public function date_exists(string $str_date) {
     $select = $this->db->prepare("SELECT * FROM schueler_kalender 
                 WHERE Datum = :Datum 
                 AND SchuelerID = :SchuelerID " 
                 );
     $select->bindParam(':Datum', $str_date);
-    $select->bindParam(':SchuelerID', $str_date);
+    $select->bindParam(':SchuelerID', $this->SchuelerID, PDO::PARAM_INT);
     $select->execute(); 
     $result = $select->fetchAll(PDO::FETCH_ASSOC);
     if (count($result) > 0) {
@@ -214,6 +213,21 @@ class SchuelerKalender extends Kalender {
     }
   }
 
+  public function getLastdate () {
+
+    $current_str_date=date('Y-m-d'); 
+
+    $sql="SELECT MAX(datum) FROM schueler_kalender 
+          WHERE SchuelerID=:SchuelerID 
+                AND Datum <= :LetztesDatumUebungskalender 
+          "; 
+    $stmt = $this->db->prepare($sql); 
+    $stmt->bindParam(':SchuelerID', $this->SchuelerID);
+    $stmt->bindParam(':LetztesDatumUebungskalender', $current_str_date);
+    $stmt->execute(); 
+    $col=$stmt->fetchColumn(); 
+    return $col;  
+  } 
 
 }  
 

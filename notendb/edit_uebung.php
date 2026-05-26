@@ -33,19 +33,16 @@ if (isset($_REQUEST["UebungtypID"])) {
   }  
 }
 
+$Datum=(isset($_REQUEST["Datum"])?$_REQUEST["Datum"]:date('Y-m-d'));
+
+
 switch($option) {
 
   case 'insert': 
 
-    $Datum=(isset($_REQUEST["Datum"])?$_REQUEST["Datum"]:date('Y-m-d'));
-
-    $uebung->insert_row($SchuelerID, $Datum);
-
+    $uebung->insert_row($SchuelerID);
     $show_data = $uebung->load_row();  
 
-    // if ($uebung->ID==0) {
-    //   $show_data=false; 
-    // }
     break; 
 
   case 'edit': // über "Bearbeiten"-Link    
@@ -207,7 +204,7 @@ echo '
 echo '
   <tr>    
      <td class="form-edit form-edit-col1">Datum:</td>   
-     <td class="form-edit form-edit-col2"><input type="date" name="Datum" value="'.$uebung->Datum.'" oninput="changeBackgroundColor(this)"></td>
+     <td class="form-edit form-edit-col2"><input type="date" name="Datum" value="'.$Datum.'" oninput="changeBackgroundColor(this)"></td>
   </tr> 
 
   <tr>    

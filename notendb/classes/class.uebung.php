@@ -3,6 +3,8 @@
 include_once("dbconn/class.db.php"); 
 include_once("class.htmlinfo.php"); 
 include_once("class.htmlselect.php"); 
+include_once("class.kalender.php"); 
+include_once("class.kalendertag.php"); 
 
 class Uebung {
 
@@ -34,22 +36,18 @@ class Uebung {
     $this->info=new HTML_Info(); 
   }
 
-  function insert_row ($SchuelerID, $Datum='') {
+  function insert_row (string $SchuelerID) {
 
     if($SchuelerID=='') {
       $this->info->print_user_error('Es wurde kein Schüler ausgewählt!');
       return false;  
     }
-    $Datum = ($Datum!=''?$Datum:date('Y-m-d')); 
-          
+      
     $insert = $this->db->prepare("INSERT INTO `uebung` 
-              SET `SchuelerID`     = :SchuelerID, 
-                   Datum           = :Datum 
-              " 
+              SET `SchuelerID`     = :SchuelerID" 
            );
           
     $insert->bindParam(':SchuelerID', $SchuelerID,PDO::PARAM_INT);
-    $insert->bindParam(':Datum', $Datum);
 
     try {
       $insert->execute(); 
@@ -160,6 +158,17 @@ class Uebung {
     // if($Reihenfolge==0) {
     //   $Reihenfolge = $this->get_Order($Datum); 
     // }
+
+
+    $uebungskalender = new SchuelerKalender(); 
+    $uebungskalender->SchuelerID= $SchuelerID; 
+
+    if (!$uebungskalender->date_exists($Datum)) {
+        $uebungstag = new SchuelerKalendertag(); 
+        $uebungstag->SchuelerID = $SchuelerID; 
+        $uebungstag->insert($Datum); 
+        $this->info->print_info('Hinweis: Das Datum "'.$uebungstag->Datum_DE.'" wurde im Schülerkalender neu eingefügt.'); 
+    } 
 
     $update = $this->db->prepare("UPDATE uebung  
               SET UebungtypID= :UebungtypID

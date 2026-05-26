@@ -143,7 +143,7 @@ class Schueler {
                           , Unterricht_Wochentag  
                           , Unterricht_Reihenfolge  
                           , Unterricht_Dauer  
-                          , Geburtsdatum  
+                          , COALESCE(Geburtsdatum, '')   Geburtsdatum
                           , Unterricht_Seit   
                           FROM `schueler`
                           WHERE `ID` = :ID");

@@ -37,10 +37,9 @@ class SchuelerKalendertag extends Kalendertag {
 
   public int $SchuelerID; 
   public string $SchuelerName=''; 
-  
+
   public string $Title='Schüler-Kalendertag'; 
   public string $Bemerkung=''; 
-
 
   public function load_row() {
     $select = $this->db->prepare(
@@ -91,6 +90,27 @@ class SchuelerKalendertag extends Kalendertag {
     }
     
   }   
+
+  function insert(string $str_date) {
+      
+    $insert = $this->db->prepare("INSERT INTO schueler_kalender  
+              SET `SchuelerID` = :SchuelerID
+                  , Datum      =  :Datum "
+           );
+          
+    $insert->bindParam(':SchuelerID', $this->SchuelerID,PDO::PARAM_INT);
+    $insert->bindParam(':Datum', $str_date);
+
+    try {
+      $insert->execute(); 
+      $this->ID=$this->db->lastInsertId(); 
+      $this->load_row();        
+    }
+      catch (PDOException $e) {
+      $this->info->print_user_error(); 
+      $this->info->print_error($insert, $e);  ; 
+    }
+  }  
 
   public function update_row(string $Bemerkung) {
 

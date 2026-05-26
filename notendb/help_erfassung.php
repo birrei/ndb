@@ -223,6 +223,8 @@ include_once('head.php');
         <h3 class="chapter-title chapter-title-h3" id="erfassung_uebung_inhalt">Übung Inhalt XXX</h3>
         <h3 class="chapter-title chapter-title-h3" id="erfassung_uebung_typ">Übung Typ XXX</h3>
         <h3 class="chapter-title chapter-title-h3" id="erfassung_uebung_datum">Übung Datum XXX</h3>
+
+
         <h3 class="chapter-title chapter-title-h3" id="erfassung_uebung_reihenfolge">Übung Reihenfolge</h3>
             <p>Reihenfolge einer Übung innerhalb eines Schülers / Datums <br >
             </p>

@@ -11,6 +11,8 @@ $info= new HTML_Info();
 $option=isset($_REQUEST["option"])?$_REQUEST["option"]:'edit';
 $show_data=true; 
 
+
+
 switch($option) {
   case 'edit': // über "Bearbeiten"-Link
     $schuelerdatum->ID=$_GET["ID"];
@@ -83,7 +85,14 @@ echo '
     <tr>    
   <label>
   <td class="form-edit form-edit-col1">Schuljahr:</td>  
-  <td class="form-edit form-edit-col2">'.$schuelerdatum->Schuljahr.' '.$schuelerdatum->Ferien.' '.$schuelerdatum->Feiertag.'</td>
+  <td class="form-edit form-edit-col2">'.$schuelerdatum->Schuljahr.'</td>
+  </label>
+    </tr> 
+
+    <tr>    
+  <label>
+  <td class="form-edit form-edit-col1">Hinweise:</td>  
+  <td class="form-edit form-edit-col2">'.$schuelerdatum->Ferien.' '.$schuelerdatum->Feiertag.'</td>
   </label>
     </tr> 
 

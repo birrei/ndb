@@ -41,7 +41,7 @@ switch ($ansicht) // $PageTitle, $table_edit
     $table_edit='';     
     break; 
   case 'uebungen-datum2'; 
-    $PageTitle='Übersicht Übungen / Datum NEU -- BETA: Schuljahr 2025/2026';  
+    $PageTitle='Übersicht Übungen / Datum';  
     $table_edit='';     
     break;     
   case 'verwendungszwecke'; 
