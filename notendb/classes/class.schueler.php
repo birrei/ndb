@@ -8,7 +8,7 @@ include_once("class.sqlpart.php");
 class Schueler {
 
   public $table_name='schueler'; 
-  public int $ID;
+  public $ID;
   public string $Name; // Praxis: nur Vorname, aus Datenschutzgründen kein Nachname 
   public string $Bemerkung;
   public int $Aktiv=1; // Aktiv=0 für abgemeldete Schüler. //   true/false, tinyint 1/0 for mysql 

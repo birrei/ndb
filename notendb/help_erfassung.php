@@ -213,10 +213,9 @@ include_once('head.php');
 
 
     <h2 class="chapter-title chapter-title-h3" id="erfassung_uebung">Übungen</h2>
-
     
             <p>Hinweis: Die Neuanlage einer Übung kann sowohl über das Schüler-Formular (Button "Neue Übung einfügen") als 
-                auch über die "Übersicht Übungen" erfolgen.  
+                auch über "Übersicht Übungen" erfolgen.  
             </p>
         
 

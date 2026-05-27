@@ -355,7 +355,7 @@ switch ($ansicht)  // setzen: $PageTitle, $table_edit
 
   
  
-  case 'uebungen-datum': 
+  case 'uebungen-datum': // ALT XXXX löschen 
 
     $add_link_edit=false; 
  

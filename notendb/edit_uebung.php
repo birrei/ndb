@@ -13,6 +13,8 @@ $info= new HTML_Info();
 $option=isset($_REQUEST["option"])?$_REQUEST["option"]:'edit';
 $show_data=true; 
 
+
+
 $SchuelerID=''; 
 $UebungtypID=''; 
 $Reihenfolge=0; 
@@ -33,12 +35,21 @@ if (isset($_REQUEST["UebungtypID"])) {
   }  
 }
 
-$Datum=(isset($_REQUEST["Datum"])?$_REQUEST["Datum"]:date('Y-m-d'));
 
 switch($option) {
 
   case 'insert': 
-
+    if(isset($_REQUEST["Datum"])) { 
+        // über "Übersicht Übungen", Einfügen-Link
+       $Datum=$_REQUEST["Datum"]; 
+       if($Datum=='') { // kein Datum ausgewählt 
+          $Datum= date('Y-m-d'); 
+       }
+    }
+    else {
+      $Datum= date('Y-m-d'); 
+    }
+    
     $uebung->insert_row($SchuelerID);
     $show_data = $uebung->load_row();  
 
@@ -46,12 +57,13 @@ switch($option) {
 
   case 'edit': // über "Bearbeiten"-Link    
     $uebung->ID=$_REQUEST["ID"];
-   // $uebung->load_row();  
     $show_data = $uebung->load_row();      
     $SchuelerID=$uebung->SchuelerID; 
+    $Datum = $uebung->Datum; 
     break; 
   
-  case 'update':     
+  case 'update':    
+    $Datum=$_POST["Datum"]; 
     $uebung->ID=$_POST["ID"]; 
     $uebung->update_row(
       $_POST["Name"], 
@@ -63,12 +75,14 @@ switch($option) {
       $_POST["SatzID"], 
       $_POST["Reihenfolge"]    );  
     $SchuelerID=$uebung->SchuelerID;     
+
     break; 
 
   case 'delete_1':        
     $uebung->ID = $_POST["ID"];  
     $uebung->load_row(); 
     $Name=$uebung->Name; 
+    $Datum = $uebung->Datum; 
     if($uebung->is_deletable()) {
       $info->print_form_delete_confirm(basename(__FILE__), $uebung->Title, $uebung->ID, $uebung->Name);   
     }     
@@ -86,7 +100,8 @@ switch($option) {
     $uebung->ID=$_REQUEST["ID"]; 
     $uebung->copy();   
     $uebung->load_row();   
-    $SchuelerID=$uebung->SchuelerID;             
+    $SchuelerID=$uebung->SchuelerID;
+    $Datum = $uebung->Datum;                  
     break; 
 
   case 'copy2': // Kopie mit Datum Übernahme vom Original 
@@ -203,7 +218,7 @@ echo '
 echo '
   <tr>    
      <td class="form-edit form-edit-col1">Datum:</td>   
-     <td class="form-edit form-edit-col2"><input type="date" name="Datum" value="'.$Datum.'" oninput="changeBackgroundColor(this)"></td>
+     <td class="form-edit form-edit-col2"><input type="date" name="Datum" value="'.$Datum.'" '.($option=='insert'?'style="background-color:#fad0e0"':'').' oninput="changeBackgroundColor(this)" requested></td>
   </tr> 
 
   <tr>    
