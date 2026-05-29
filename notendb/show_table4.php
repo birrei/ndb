@@ -438,6 +438,8 @@ switch ($ansicht)  // setzen: $PageTitle, $table_edit
     break;     
 
   case 'uebungen-datum2': // aka "Übungstage" ************************************
+    include_once("classes/class.schuljahr.php");
+    include_once("classes/class.schuljahre.php");    
     // XXXX noch filter Schuljahr ergänzen 
 
     $table_edit='schueler_kalender'; 
@@ -449,6 +451,13 @@ switch ($ansicht)  // setzen: $PageTitle, $table_edit
     $Unterricht_Geplant=(isset($_REQUEST["Unterricht_Geplant"])?$_REQUEST["Unterricht_Geplant"]:''); 
     $Suchtext=(isset($_REQUEST["Suchtext"])?$_REQUEST["Suchtext"]:'');   
 
+    $SchuljahrID=(isset($_REQUEST["SchuljahrID"])?$_REQUEST["SchuljahrID"]:'');
+
+    if($SchuljahrID=='') {
+      $schuljahr= new Schuljahr(); 
+      $SchuljahrID= $schuljahr->getCurrentID(); 
+    }
+
     echo '<form action="" method="get">'.PHP_EOL;       
     // echo 'Übung Datum: <input type="date" name="Datum" value="'.$Datum.'" onchange="this.form.submit()">'; 
     echo '<a href="edit_kalender.php?Datum='.$Datum.'&option=edit" target="_blank" title="Datum bearbeiten">Übung Datum</a>: <input type="date" name="Datum" value="'.$Datum.'" onchange="this.form.submit()">'; 
@@ -457,6 +466,11 @@ switch ($ansicht)  // setzen: $PageTitle, $table_edit
         echo ' &#9475;';    
     echo ' Schüler: '.PHP_EOL; 
     $schueler->print_preselect($SchuelerID); 
+
+    $schuljahre = new Schuljahre(); 
+        echo ' &#9475;';        
+    echo 'Schuljahr: '.PHP_EOL; 
+    $schuljahre->print_preselect($SchuljahrID, '', false); 
 
     echo ' &#9475;';
     echo ' Geplant <select id="Unterricht_Geplant" name="Unterricht_Geplant" onchange="this.form.submit()" >
@@ -517,6 +531,10 @@ switch ($ansicht)  // setzen: $PageTitle, $table_edit
      if ($SchuelerID!='') {
       $query.="AND schueler.ID=".$SchuelerID." ".PHP_EOL;  
     }
+     if ($SchuljahrID!='') {
+      $query.="AND schuljahr.ID=".$SchuljahrID." ".PHP_EOL;  
+    }
+
 
     // if ($Unterricht_Wochentag > 0 ) {
     //   $query.="AND schueler.Unterricht_Wochentag=".$Unterricht_Wochentag." ".PHP_EOL;  
