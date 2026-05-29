@@ -440,7 +440,6 @@ switch ($ansicht)  // setzen: $PageTitle, $table_edit
   case 'uebungen-datum2': // aka "Übungstage" ************************************
     include_once("classes/class.schuljahr.php");
     include_once("classes/class.schuljahre.php");    
-    // XXXX noch filter Schuljahr ergänzen 
 
     $table_edit='schueler_kalender'; 
     $add_link_edit=true; 
@@ -664,23 +663,37 @@ switch ($ansicht)  // setzen: $PageTitle, $table_edit
     break;     
 
   case 'kalender': 
+    include_once("classes/class.schuljahr.php");
+    include_once("classes/class.schuljahre.php");    
 
-    $date_start=(isset($_REQUEST["date_start"])?$_REQUEST["date_start"]:''); 
-    $date_end=(isset($_REQUEST["date_end"])?$_REQUEST["date_end"]:'');   
-    $date_current = date('Y-m-d');  
+    $SchuljahrID=(isset($_REQUEST["SchuljahrID"])?$_REQUEST["SchuljahrID"]:'');
 
-    if($date_start=='') {
-      // $date_start=date($date_current,strtotime('-30 days'));
-      $date_start=date('Y-m-d', strtotime($date_current. ' - 30 days'));  
+    if($SchuljahrID=='') {
+      $schuljahr= new Schuljahr(); 
+      $SchuljahrID= $schuljahr->getCurrentID(); 
     }
-    if($date_end=='') {
-      $date_end=date('Y-m-d', strtotime($date_current. ' + 30 days'));  
-    }
+
+    // $date_start=(isset($_REQUEST["date_start"])?$_REQUEST["date_start"]:''); 
+    // $date_end=(isset($_REQUEST["date_end"])?$_REQUEST["date_end"]:'');   
+    // $date_current = date('Y-m-d');  
+
+    // if($date_start=='') {
+    //   // $date_start=date($date_current,strtotime('-30 days'));
+    //   $date_start=date('Y-m-d', strtotime($date_current. ' - 30 days'));  
+    // }
+    // if($date_end=='') {
+    //   $date_end=date('Y-m-d', strtotime($date_current. ' + 30 days'));  
+    // }
 
     echo '<form action="" method="get">'.PHP_EOL;  
-    echo 'Start: <input type="date" name="date_start" value="'.$date_start.'" onchange="this.form.submit()">'; 
-    echo ' Ende: <input type="date" name="date_end" value="'.$date_end.'" onchange="this.form.submit()">'; 
-    echo '<input type="submit" class="btnSave" name="senden" value="Start">';
+    // echo 'Start: <input type="date" name="date_start" value="'.$date_start.'" onchange="this.form.submit()">'; 
+    // echo ' Ende: <input type="date" name="date_end" value="'.$date_end.'" onchange="this.form.submit()">'; 
+    $schuljahre = new Schuljahre(); 
+        echo ' &#9475;';        
+    echo 'Schuljahr: '.PHP_EOL; 
+    $schuljahre->print_preselect($SchuljahrID, '', false); 
+
+    // echo '<input type="submit" class="btnSave" name="senden" value="Start">';
     echo '<input type="hidden" name="ansicht" value="'.$ansicht.'">'; 
     echo '</form><br>';       
 
@@ -697,7 +710,7 @@ switch ($ansicht)  // setzen: $PageTitle, $table_edit
             , COALESCE(schuljahr.Bezeichnung, '') AS Schuljahr      
           , IF(Unterricht_Geplant=1, 'X' , '') as `Unterricht Geplant`    	  
         FROM kalender 
-          LEFT JOIN schuljahr 
+          INNER JOIN schuljahr 
             ON kalender.Datum  BETWEEN schuljahr.Datum_Start AND schuljahr.Datum_Ende 
           LEFT JOIN ferien 
             ON kalender.Datum BETWEEN ferien.Datum_Start AND ferien.Datum_Ende 
@@ -705,11 +718,15 @@ switch ($ansicht)  // setzen: $PageTitle, $table_edit
             ON kalender.Datum = feiertag.Datum 
         WHERE 1=1" .PHP_EOL;     
 
-    if($date_start!='') {
-      $query.="AND kalender.Datum >= '".$date_start."' "; 
-    }
-    if($date_start!='') {
-      $query.="AND kalender.Datum <= '".$date_end."' "; 
+      // if($date_start!='') {
+      //   $query.="AND kalender.Datum >= '".$date_start."' "; 
+      // }
+      // if($date_start!='') {
+      //   $query.="AND kalender.Datum <= '".$date_end."' "; 
+      // }
+
+    if ($SchuljahrID!='') {
+      $query.="AND schuljahr.ID=".$SchuljahrID." ".PHP_EOL;  
     }
 
     $query.="ORDER BY kalender.Datum  "; 
