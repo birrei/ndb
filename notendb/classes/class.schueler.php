@@ -302,7 +302,9 @@ class Schueler {
     LEFT JOIN v_sammlung_standorte ON v_sammlung_standorte.SammlungID=sammlung.ID 
     LEFT JOIN status ON status.ID = schueler_satz.StatusID                                
     WHERE schueler_satz.SchuelerID = :ID
-    order by status.Name, Noten"; 
+    -- order by status.Name, Noten
+    order by status.Name, sammlung.Name,  musikstueck.Nummer, satz.Nr 
+    "; 
 
     $stmt = $this->db->prepare($query); 
     $stmt->bindParam(':ID', $this->ID, PDO::PARAM_INT); 
