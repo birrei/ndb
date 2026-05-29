@@ -36,18 +36,27 @@ class Uebung {
     $this->info=new HTML_Info(); 
   }
 
-  function insert_row (string $SchuelerID) {
+  function insert_row (string $SchuelerID, string $Datum='') {
 
     if($SchuelerID=='') {
       $this->info->print_user_error('Es wurde kein Schüler ausgewählt!');
       return false;  
     }
-      
-    $insert = $this->db->prepare("INSERT INTO `uebung` 
-              SET `SchuelerID`     = :SchuelerID" 
-           );
-          
-    $insert->bindParam(':SchuelerID', $SchuelerID,PDO::PARAM_INT);
+    
+    if($Datum!=='') {
+      $insert = $this->db->prepare("INSERT INTO `uebung` 
+                SET `SchuelerID`     = :SchuelerID" 
+            );
+      $insert->bindParam(':SchuelerID', $SchuelerID,PDO::PARAM_INT);
+
+    } else {
+      $insert = $this->db->prepare("INSERT INTO `uebung` 
+                SET `SchuelerID`= :SchuelerID, Datum = :Datum " 
+            );
+            
+      $insert->bindParam(':SchuelerID', $SchuelerID,PDO::PARAM_INT);
+      $insert->bindParam(':Datum', $Datum);
+    }
 
     try {
       $insert->execute(); 

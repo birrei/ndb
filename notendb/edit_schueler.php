@@ -162,7 +162,7 @@ echo '
 
 
   <input type="radio" id="opt_Uebung2" name="target_form" value="Uebungen2" onclick="changeIframeSrc('subform1', 'edit_schueler_uebungen2.php?SchuelerID=<?php echo $schueler->ID; ?>');">
-  <label for="opt_Uebung2">Übungen / Datum</label><br>
+  <label for="opt_Uebung2">Übungstage</label><br>
 
 
   <input type="radio" id="opt_Schwierigkeitsgrad" name="target_form" value="Schwierigkeitsgrad" onclick="changeIframeSrc('subform1', 'edit_schueler_schwierigkeitsgrade.php?SchuelerID=<?php echo $schueler->ID; ?>');">

@@ -97,6 +97,24 @@ class Schueler {
     }
   }
 
+  public function print_preselect(string $selected_SchuelerID=''){
+
+    $query='SELECT ID, Name FROM schueler WHERE Aktiv=1 ORDER BY Name '; 
+    $stmt = $this->db->prepare($query); 
+
+    try {
+      $stmt->execute(); 
+      $html = new HTML_Select($stmt); 
+      $html->print_preselect("SchuelerID", $selected_SchuelerID,true); 
+    }
+    catch (PDOException $e) {
+      $this->info->print_user_error(); 
+      $this->info->print_error($stmt, $e); 
+    }
+  }
+ 
+
+
   function update_row($Name, $Bemerkung, $Aktiv, $Unterricht_Wochentag, $Unterricht_Reihenfolge, $Unterricht_Dauer, $Geburtsdatum, $Unterricht_Seit) {
 
     // $Geburtsdatum = $Geburtsdatum ?? null; 

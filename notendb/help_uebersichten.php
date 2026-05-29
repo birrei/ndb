@@ -93,14 +93,13 @@ include_once('head.php');
 
             </ul> 
 
-        <p>Link "Neu einfügen": Einfügen einer neuen Übung für den im Filter ausgewählten Schüler. 
-            Ist im Filter ein Datum ausgewählt, wird dieseses Für die neue Übung als Vorgabe übernommen. 
- 
-            
-    </p>
+        <p>Link "Neu einfügen": 
+            <br> Einfügen einer neuen Übung für den im Filter ausgewählten Schüler.
+            <br> Falls im Filter ein Datum ausgewählt ist, wird dieses Datum als Vorgabe für die neue Übung übernommen. 
+                </p>
                 
 
-	<h2 class="chapter-title chapter-title-h1" id="uebersichten_uebungen-datum">Übersicht Übungen / Datum</h2>
+	<h2 class="chapter-title chapter-title-h1" id="uebersichten_uebungen-datum">Übersicht Übungstage</h2>
 
         <p>Spalten: </p>
         <ul>

@@ -56,21 +56,39 @@ $info->print_screen_header($schuelerdatum->Title.' bearbeiten');
 
 if (!$show_data) {goto pagefoot;}
 
-echo '
+?>
+
+
 <form action="edit_schueler_kalender.php" method="post">
 <table class="form-edit"> 
 
   <tr>    
   <label>
   <td class="form-edit form-edit-col1">Schüler:</td>  
-  <td class="form-edit form-edit-col2"><b>'.$schuelerdatum->SchuelerName.'</b></td>
+  <td class="form-edit form-edit-col2"><b><?php echo $schuelerdatum->SchuelerName; ?> </b></td>
   </label>
     </tr> 
 
   <tr>    
   <label>
   <td class="form-edit form-edit-col1">Datum:</td>  
-  <td class="form-edit form-edit-col2"><b>'.$schuelerdatum->Datum_DE.'</b> </td>
+  <td class="form-edit form-edit-col2"><b><?php echo $schuelerdatum->Datum_DE; ?></b> </td>
+  </label>
+    </tr> 
+
+
+    <tr>    
+  <label>
+  <td class="form-edit form-edit-col1">Schuljahr:</td>  
+  <td class="form-edit form-edit-col2"><?php echo $schuelerdatum->Schuljahr; ?></td>
+  </label>
+    </tr> 
+
+    <tr>    
+  <label>
+  <td class="form-edit form-edit-col1">Hinweise:</td>  
+  <td class="form-edit form-edit-col2"><?php echo $schuelerdatum->Ferien.' '.$schuelerdatum->Feiertag; ?>
+  </td>
   </label>
     </tr> 
 
@@ -78,23 +96,10 @@ echo '
   <tr>    
     <label>
     <td class="form-edit form-edit-col1">Bemerkung:</td>  
-    <td class="form-edit form-edit-col2"><input type="text" name="Bemerkung" value="'.$schuelerdatum->Bemerkung.'" size="45" maxlength="80" required="required" autofocus="autofocus" oninput="changeBackgroundColor(this)"></td>
+    <td class="form-edit form-edit-col2"><input type="text" name="Bemerkung" value="<?php echo $schuelerdatum->Bemerkung; ?>" size="100" maxleng="250" autofocus="autofocus" oninput="changeBackgroundColor(this)"></td>
     </label>
   </tr> 
 
-    <tr>    
-  <label>
-  <td class="form-edit form-edit-col1">Schuljahr:</td>  
-  <td class="form-edit form-edit-col2">'.$schuelerdatum->Schuljahr.'</td>
-  </label>
-    </tr> 
-
-    <tr>    
-  <label>
-  <td class="form-edit form-edit-col1">Hinweise:</td>  
-  <td class="form-edit form-edit-col2">'.$schuelerdatum->Ferien.' '.$schuelerdatum->Feiertag.'</td>
-  </label>
-    </tr> 
 
 
 
@@ -107,23 +112,50 @@ echo '
 
 
 <input type="hidden" name="option" value="update">        
-<input type="hidden" name="ID" value="' . $schuelerdatum->ID. '">
+<input type="hidden" name="ID" value="<?php echo $schuelerdatum->ID; ?>">
 
 </form>
+
+
+<tr> 
+  <td class="form-edit form-edit-col1">
+    
+<a href="edit_schueler_kalender_uebungen.php?SchuelerID=<?php echo $schuelerdatum->SchuelerID.'&Datum='.$schuelerdatum->Datum_EN; ?>" target="iframe_Uebungen">Übungen: </a>
+
+
+    <p> 
+<a href="edit_uebung.php?SchuelerID=<?php echo $schuelerdatum->SchuelerID.'&Datum='.$schuelerdatum->Datum_EN.'&option=insert2"'; ?> target="_blank" class="form-link form-link-switch">Übung hinzufügen</a>
+
+        
+
+
+</p>
+
+
+  </td> 
+  <td class="form-edit form-edit-col2">
+  
+      <iframe src="edit_schueler_kalender_uebungen.php?SchuelerID=<?php echo $schuelerdatum->SchuelerID.'&Datum='.$schuelerdatum->Datum_EN; ?>&source=iframe" height="300" id="subform1" name="iframe_Uebungen" class="form-iframe-var1"></iframe>
+
+
+  </td>
+</tr> 
+
+
 
 <tr> 
   <td class="form-edit form-edit-col1"></td> 
   <td class="form-edit form-edit-col2"><br>
-  '; 
-  $info->print_form_inline('delete_1',$schuelerdatum->ID,$schuelerdatum->Title, 'löschen'); 
-  echo '     
+    <?php 
+    $info->print_form_inline('delete_1',$schuelerdatum->ID,$schuelerdatum->Title, 'löschen'); 
+    ?>      
   </td>
 </tr> 
 
 
 </table> 
 
-'; 
+<?php 
 
 pagefoot: 
 include_once('foot.php');

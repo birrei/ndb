@@ -36,12 +36,12 @@ switch ($ansicht) // $PageTitle, $table_edit
     $PageTitle='Übersicht Übungen ';  
     $table_edit='uebung';     
     break; 
-  case 'uebungen-datum'; 
-    $PageTitle='Übersicht Übungen / Datum';  
-    $table_edit='';     
+  case 'uebungen-datum'; // XXXX Löschen 
+    // $PageTitle='Übersicht Übungen / Datum';  
+    // $table_edit='';     
     break; 
-  case 'uebungen-datum2'; 
-    $PageTitle='Übersicht Übungen / Datum';  
+  case 'uebungen-datum2'; // aka "Übungstage / alt: Übungen / Datum 
+    $PageTitle='Übersicht Übungstage';  
     $table_edit='';     
     break;     
   case 'verwendungszwecke'; 
@@ -268,7 +268,8 @@ switch ($ansicht)  // setzen: $PageTitle, $table_edit
     $schueler = new Schueler(); 
         echo ' &#9475;';    
     echo ' Schüler: '.PHP_EOL; 
-    $schueler->print_select($SchuelerID,'','',true); 
+    // $schueler->print_select($SchuelerID,'','',true); 
+    $schueler->print_preselect($SchuelerID); 
 
     $uebung_typ = new UebungTyp(); 
         echo ' &#9475;';    
@@ -436,7 +437,7 @@ switch ($ansicht)  // setzen: $PageTitle, $table_edit
 
     break;     
 
-  case 'uebungen-datum2': // ************************************
+  case 'uebungen-datum2': // aka "Übungstage" ************************************
     // XXXX noch filter Schuljahr ergänzen 
 
     $table_edit='schueler_kalender'; 
@@ -455,12 +456,7 @@ switch ($ansicht)  // setzen: $PageTitle, $table_edit
     $schueler = new Schueler(); 
         echo ' &#9475;';    
     echo ' Schüler: '.PHP_EOL; 
-    $schueler->print_select($SchuelerID,'','',true); 
-
-    // echo ' &#9475; Unterricht Wochentag: '; 
-    // $wochentage = new Wochentage(); 
-    // $wochentage->print_preselect($Unterricht_Wochentag);     
-
+    $schueler->print_preselect($SchuelerID); 
 
     echo ' &#9475;';
     echo ' Geplant <select id="Unterricht_Geplant" name="Unterricht_Geplant" onchange="this.form.submit()" >
@@ -536,7 +532,7 @@ switch ($ansicht)  // setzen: $PageTitle, $table_edit
 
     break;   
 
-  case 'verwendungszwecke': // ------------------------------------------
+  case 'verwendungszwecke': // ************************************
 
     $show_insert_link=true;  
 

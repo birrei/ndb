@@ -55,6 +55,14 @@ switch($option) {
 
     break; 
 
+  case 'insert2': // über Formualar "Schüler Übungstag" -> Datum oblig. vordefiniert
+    
+    $Datum=$_REQUEST["Datum"]; 
+    $uebung->insert_row($SchuelerID, $Datum);
+    $show_data = $uebung->load_row();  
+
+    break;     
+
   case 'edit': // über "Bearbeiten"-Link    
     $uebung->ID=$_REQUEST["ID"];
     $show_data = $uebung->load_row();      
@@ -73,7 +81,8 @@ switch($option) {
       $_POST["Datum"], 
       $_POST["Anzahl"], 
       $_POST["SatzID"], 
-      $_POST["Reihenfolge"]    );  
+      $_POST["Reihenfolge"]    ); 
+
     $SchuelerID=$uebung->SchuelerID;     
 
     break; 
@@ -266,7 +275,9 @@ echo '
 
   <tr> 
     <!-- <td class="form-edit form-edit-col1">Besonderheiten:</td>   -->
-    <td class="form-edit form-edit-col1"><a href="edit_uebung_lookups.php?UebungID=<?php echo $uebung->ID; ?>" target="Info">Besonderheiten:</a></td>  
+    <td class="form-edit form-edit-col1">
+        <a href="edit_uebung_lookups.php?UebungID=<?php echo $uebung->ID; ?>" target="Info">Besonderheiten:</a>
+      </td>  
   <td class="form-edit form-edit-col2">
     <iframe src="edit_uebung_lookups.php?UebungID=<?php echo $uebung->ID; ?>&source=iframe" height="200" id="subform1" name="Info" class="form-iframe-var2"></iframe>
   </td>

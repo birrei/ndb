@@ -38,7 +38,7 @@ class SchuelerKalendertag extends Kalendertag {
   public int $SchuelerID; 
   public string $SchuelerName=''; 
 
-  public string $Title='Schüler-Kalendertag'; 
+  public string $Title='Schüler Übungstag'; 
   public string $Bemerkung=''; 
 
   public function load_row() {
