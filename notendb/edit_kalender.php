@@ -3,31 +3,43 @@
 $PageTitle='Kalender Datum'; 
 include_once('head.php');
 include_once("classes/class.kalender.php");
+include_once("classes/class.kalendertag.php");
 include_once("classes/class.htmlinfo.php");
 
 $kalender = new Kalender();
+$kalendertag = new Kalendertag();
 $info= new HTML_Info(); 
 
 $option=isset($_REQUEST["option"])?$_REQUEST["option"]:'edit';
 $show_data=true; 
+$fehler=''; 
 
 
 switch($option) {
   case 'edit':
-    if(isset($_REQUEST["ID"])) {
-      $kalender->ID=$_GET["ID"];
-    } elseif(isset($_REQUEST["Datum"])) {
-      $kalender->ID = $kalender->getID($_REQUEST["Datum"]); 
+    $ID=isset($_REQUEST["ID"])?$_REQUEST["ID"]:'';     
+    $Datum=isset($_REQUEST["Datum"])?$_REQUEST["Datum"]:'';
+
+    if($Datum=='' & $ID=='') {
+      $fehler='Kein Datum ausgewählt!';  
+      $info->print_user_error($fehler); 
+      goto pagefoot;
+    }  
+
+    if($ID!='') {
+      $kalendertag->ID=$_GET["ID"];
+    } elseif($Datum!='') {
+      $kalendertag->ID = $kalender->getID($_REQUEST["Datum"]); 
     }
-    $show_data = $kalender->load_row();  
+    $show_data = $kalendertag->load_row();  
     break; 
 
   case 'update': 
     $Unterricht_Geplant=(isset($_POST["Unterricht_Geplant"])?1:0); 
-    $kalender->ID = $_POST["ID"];    
-    $kalender->update_row($Unterricht_Geplant);           
+    $Unterricht_Protokolliert=(isset($_POST["Unterricht_Protokolliert"])?1:0); 
+    $kalendertag->ID = $_POST["ID"];    
+    $kalendertag->update($Unterricht_Geplant, $Unterricht_Protokolliert);           
     break; 
-
 
   default: 
     $show_data=false;       
@@ -45,14 +57,50 @@ echo '
   <tr>    
     <label>
     <td class="form-edit form-edit-col1">Datum:</td>  
-    <td class="form-edit form-edit-col2"><input type="text" name="Name" value="'.$kalender->Name.'" size="45" maxlength="80" readonly></td>
+    <td class="form-edit form-edit-col2"><b>'.$kalendertag->Datum_DE.'</b></td>
     </label>
   </tr> 
-    
+  <tr>    
+    <label>
+    <td class="form-edit form-edit-col1">Wochentag:</td>  
+    <td class="form-edit form-edit-col2">'.$kalendertag->Wochentag_Name.'</td>
+    </label>
+  </tr>     
+  <tr>    
+    <label>
+    <td class="form-edit form-edit-col1">Kalenderwoche:</td>  
+    <td class="form-edit form-edit-col2">'.$kalendertag->Kalenderwoche.'</td>
+    </label>
+  </tr>     
+  <tr>    
+    <label>
+    <td class="form-edit form-edit-col1">Schuljahr:</td>  
+    <td class="form-edit form-edit-col2">'.$kalendertag->Schuljahr.'</td>
+    </label>
+  </tr>      
+  <tr>    
+    <label>
+    <td class="form-edit form-edit-col1">Feiertag:</td>  
+    <td class="form-edit form-edit-col2">'.$kalendertag->Feiertag.'</td>
+    </label>
+  </tr>     
+  <tr>    
+    <label>
+    <td class="form-edit form-edit-col1">Ferien:</td>  
+    <td class="form-edit form-edit-col2">'.$kalendertag->Ferien.'</td>
+    </label>
+  </tr>     
   <tr>    
     <label>
     <td class="form-edit form-edit-col1">Unterricht geplant:</td>  
-    <td class="form-edit form-edit-col2"><input type="checkbox" name="Unterricht_Geplant" '.($kalender->Unterricht_Geplant==1?'checked':'').'></td>
+    <td class="form-edit form-edit-col2"><input type="checkbox" name="Unterricht_Geplant" '.($kalendertag->Unterricht_Geplant==1?'checked':'').'></td>
+    </label>
+  </tr> 
+
+  <tr>    
+    <label>
+    <td class="form-edit form-edit-col1">Unterricht protokolliert:</td>  
+    <td class="form-edit form-edit-col2"><input type="checkbox" name="Unterricht_Protokolliert" '.($kalendertag->Unterricht_Protokolliert==1?'checked':'').'></td>
     </label>
   </tr> 
 
@@ -65,7 +113,7 @@ echo '
   </tr> 
 
   <input type="hidden" name="option" value="update">        
-  <input type="hidden" name="ID" value="' . $kalender->ID. '">
+  <input type="hidden" name="ID" value="' . $kalendertag->ID. '">
 
   </form>
 

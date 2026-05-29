@@ -19,6 +19,7 @@ class Kalender {
   public string $Wochentag_Name; // schreibgeschützt
   public string $Kalenderwoche; // schreibgeschützt
   public int $Unterricht_Geplant; 
+  public int $Unterricht_Protokolliert; 
   
   private $wochentageDeutsch = [
       1 => 'Montag',
@@ -36,54 +37,6 @@ class Kalender {
     $this->info=new HTML_Info(); 
   }
    
-  function load_row() {
-
-    $select = $this->db->prepare("SELECT `ID`
-                                        , `Datum` 
-                                        , `Name` 
-                                        , `Wochentag_Nr` 
-                                        , `Wochentag_Name`
-                                        , Kalenderwoche 
-                                        ,  Unterricht_Geplant 
-                          FROM `kalender`
-                          WHERE `ID` = :ID");
-
-    $select->bindParam(':ID', $this->ID, PDO::PARAM_INT);
-    $select->execute(); 
-    if ($select->rowCount()==1) {
-      $row_data=$select->fetch();      
-      $this->Name=$row_data["Name"];    
-      $this->Datum=$row_data["Datum"];    
-      $this->Wochentag_Nr=$row_data["Wochentag_Nr"];    
-      $this->Wochentag_Name=$row_data["Wochentag_Name"];    
-      $this->Kalenderwoche=$row_data["Kalenderwoche"];    
-      $this->Unterricht_Geplant=$row_data["Unterricht_Geplant"];    
-      return true; 
-    } 
-    else {
-      return false; 
-    }
-  }  
-
-  function update_row(int $Unterricht_Geplant) {
-
-    $update = $this->db->prepare("UPDATE `kalender` 
-                            SET
-                            `Unterricht_Geplant`     = :Unterricht_Geplant
-                            WHERE `ID` = :ID"); 
-
-    $update->bindParam(':ID', $this->ID, PDO::PARAM_INT);
-    $update->bindParam(':Unterricht_Geplant', $Unterricht_Geplant);
-
-    try {
-      $update->execute();
-      $this->load_row();  
-    }
-    catch (PDOException $e) {
-      $this->info->print_user_error(); 
-      $this->info->print_error($update, $e);  
-    }
-  }
 
   public function insert_new_date(DateTime $date) {
 

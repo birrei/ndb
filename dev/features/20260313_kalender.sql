@@ -9,7 +9,8 @@ CREATE TABLE kalender (
     Wochentag_Nr TINYINT NOT NULL, -- 1 (Mo) bis 7 (So)
     Wochentag_Name VARCHAR(12) NOT NULL, 
     Kalenderwoche VARCHAR(10) NOT NULL, 
-    Unterricht_Geplant tinyint(1) DEFAULT 0,    
+    Unterricht_Geplant tinyint(1) DEFAULT 0,  
+    Unterricht_Protkolliert tinyint(1) DEFAULT 0,         
     PRIMARY KEY (`ID`)       
 )
 

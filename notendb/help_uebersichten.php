@@ -184,10 +184,9 @@ include_once('head.php');
                 <li>Datum</li>
                 <li>Wochentag</li>
                 <li>Kalenderwoche</li>
-                <li>Unterrichtstag Geplant (Nein=Leer, Ja = X) </li>
+                <li>Unterrichtstag geplant (Nein=Leer, Ja = X) </li>
+                <li>Unterrichtstag protokolliert (Nein=Leer, Ja = X) </li>
             </ul>  
-
-            <p>XXX Hinweis: die Basisdaten wurden automatisch befüllt ... </p>
 
 
     <h2 class="chapter-title chapter-title-h1" id="uebersichten_schuljahre">Übersicht Schuljahre</h2>

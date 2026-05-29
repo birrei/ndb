@@ -22,6 +22,7 @@ class Kalendertag {
   public string $Ferien;  
   public string $Feiertag; 
   public string $Schuljahr; 
+  public string $Kalenderwoche; 
 
   public string $Title='Kalendertag'; 
 
@@ -30,6 +31,77 @@ class Kalendertag {
     $this->db=$conn->db; 
     $this->info=new HTML_Info(); 
   }
+
+  public function update(int $Unterricht_Geplant, int $Unterricht_Protokolliert) {
+
+    $update = $this->db->prepare("UPDATE `kalender` 
+                            SET
+                            `Unterricht_Geplant`     = :Unterricht_Geplant, 
+                            `Unterricht_Protokolliert`     = :Unterricht_Protokolliert
+                            WHERE `ID` = :ID"); 
+
+    $update->bindParam(':ID', $this->ID, PDO::PARAM_INT);
+    $update->bindParam(':Unterricht_Geplant', $Unterricht_Geplant);
+    $update->bindParam(':Unterricht_Protokolliert', $Unterricht_Protokolliert);
+
+    try {
+      $update->execute();
+      $this->load_row();  
+    }
+    catch (PDOException $e) {
+      $this->info->print_user_error(); 
+      $this->info->print_error($update, $e);  
+    }
+  }  
+
+
+  function load_row() {
+
+    $select = $this->db->prepare(
+                    "SELECT kalender.ID
+                      , kalender.Datum
+                      , kalender.Name 
+                      , kalender.Wochentag_Name 
+                      , kalender.Wochentag_Nr
+                      , kalender.Kalenderwoche 
+                      , kalender.Unterricht_Geplant 
+                      , kalender.Unterricht_Protokolliert                      
+                      , COALESCE(ferien.Bezeichnung,'') AS Ferien 
+                      , COALESCE(feiertag.Bezeichnung, '') AS Feiertag 
+                      , COALESCE(schuljahr.Bezeichnung, '') AS Schuljahr   
+                FROM kalender  
+                    LEFT JOIN schuljahr 
+                      ON kalender.Datum  BETWEEN schuljahr.Datum_Start AND schuljahr.Datum_Ende 
+                    LEFT JOIN ferien 
+                      ON kalender.Datum BETWEEN ferien.Datum_Start AND ferien.Datum_Ende 
+                    LEFT JOIN feiertag 
+                      ON kalender.Datum = feiertag.Datum 
+                WHERE kalender.ID = :ID");
+
+    $select->bindParam(':ID', $this->ID, PDO::PARAM_INT);
+    $select->execute(); 
+    if ($select->rowCount()==1) {
+      $row_data=$select->fetch();      
+      $this->Name=$row_data["Name"];    
+      $this->Datum = new Datetime($row_data["Datum"]);
+      $this->Datum_DE = $this->Datum->format('d.m.Y');  
+      $this->Datum_EN = $this->Datum->format('Y-m-d');  
+      $this->Wochentag_Nr=$row_data["Wochentag_Nr"];    
+      $this->Wochentag_Name=$row_data["Wochentag_Name"];    
+      $this->Kalenderwoche=$row_data["Kalenderwoche"];    
+      $this->Unterricht_Geplant=$row_data["Unterricht_Geplant"];    
+      $this->Unterricht_Protokolliert=$row_data["Unterricht_Protokolliert"];
+      $this->Ferien=$row_data["Ferien"];
+      $this->Feiertag=$row_data["Feiertag"];
+      $this->Schuljahr=$row_data["Schuljahr"];
+
+      return true; 
+    } 
+    else {
+      return false; 
+    }
+  }  
+
    
 }
 

@@ -173,7 +173,7 @@ switch ($ansicht)  // setzen: $PageTitle, $table_edit
 
     echo '<label><input type="checkbox" name="Status_Umkehr" onchange="this.form.submit()" '.($Status_Umkehr?'checked':'').'>Umkehrsuche</label>'; 
     echo ' &#9475;'; 
-    echo 'Übung Datum: <input type="date" name="Datum" value="'.$Datum.'" onchange="this.form.submit()">'; 
+    echo 'Datum: <input type="date" name="Datum" value="'.$Datum.'" onchange="this.form.submit()">'; 
     echo ' &#9475; Unterricht Wochentag: '; 
     $wochentage = new Wochentage(); 
     $wochentage->print_preselect($Unterricht_Wochentag); 
@@ -262,8 +262,7 @@ switch ($ansicht)  // setzen: $PageTitle, $table_edit
     $Suchtext=(isset($_REQUEST["Suchtext"])?$_REQUEST["Suchtext"]:'');   
 
     echo '<form action="" method="get">'.PHP_EOL;       
-    // echo 'Übung Datum: <input type="date" name="Datum" value="'.$Datum.'" onchange="this.form.submit()">'; 
-    echo '<a href="edit_kalender.php?Datum='.$Datum.'&option=edit" target="_blank" title="Datum bearbeiten">Übung Datum</a>: <input type="date" name="Datum" value="'.$Datum.'" onchange="this.form.submit()">'; 
+    echo '<a href="edit_kalender.php?Datum='.$Datum.'&option=edit" target="_blank" title="Datum bearbeiten">Datum</a>: <input type="date" name="Datum" value="'.$Datum.'" onchange="this.form.submit()">'; 
 
     $schueler = new Schueler(); 
         echo ' &#9475;';    
@@ -367,8 +366,7 @@ switch ($ansicht)  // setzen: $PageTitle, $table_edit
     $Suchtext=(isset($_REQUEST["Suchtext"])?$_REQUEST["Suchtext"]:'');   
 
     echo '<form action="" method="get">'.PHP_EOL;       
-    // echo 'Übung Datum: <input type="date" name="Datum" value="'.$Datum.'" onchange="this.form.submit()">'; 
-    echo '<a href="edit_kalender.php?Datum='.$Datum.'&option=edit" target="_blank" title="Datum bearbeiten">Übung Datum</a>: <input type="date" name="Datum" value="'.$Datum.'" onchange="this.form.submit()">'; 
+    echo '<a href="edit_kalender.php?Datum='.$Datum.'&option=edit" target="_blank" title="Datum bearbeiten">Datum</a>: <input type="date" name="Datum" value="'.$Datum.'" onchange="this.form.submit()">'; 
 
     $schueler = new Schueler(); 
         echo ' &#9475;';    
@@ -448,6 +446,7 @@ switch ($ansicht)  // setzen: $PageTitle, $table_edit
     $SchuelerID=(isset($_REQUEST["SchuelerID"])?$_REQUEST["SchuelerID"]:'');    
     $Unterricht_Wochentag =(isset($_REQUEST["wochentag_nr"])?$_REQUEST["wochentag_nr"]:0);
     $Unterricht_Geplant=(isset($_REQUEST["Unterricht_Geplant"])?$_REQUEST["Unterricht_Geplant"]:''); 
+    $Unterricht_Protokolliert=(isset($_REQUEST["Unterricht_Protokolliert"])?$_REQUEST["Unterricht_Protokolliert"]:''); 
     $Suchtext=(isset($_REQUEST["Suchtext"])?$_REQUEST["Suchtext"]:'');   
 
     $SchuljahrID=(isset($_REQUEST["SchuljahrID"])?$_REQUEST["SchuljahrID"]:'');
@@ -458,8 +457,7 @@ switch ($ansicht)  // setzen: $PageTitle, $table_edit
     }
 
     echo '<form action="" method="get">'.PHP_EOL;       
-    // echo 'Übung Datum: <input type="date" name="Datum" value="'.$Datum.'" onchange="this.form.submit()">'; 
-    echo '<a href="edit_kalender.php?Datum='.$Datum.'&option=edit" target="_blank" title="Datum bearbeiten">Übung Datum</a>: <input type="date" name="Datum" value="'.$Datum.'" onchange="this.form.submit()">'; 
+    echo '<a href="edit_kalender.php?Datum='.$Datum.'&option=edit" target="_blank" title="Datum bearbeiten">Datum</a>: <input type="date" name="Datum" value="'.$Datum.'" onchange="this.form.submit()">'; 
 
     $schueler = new Schueler(); 
         echo ' &#9475;';    
@@ -478,6 +476,12 @@ switch ($ansicht)  // setzen: $PageTitle, $table_edit
               <option value="1" '.($Unterricht_Geplant=='1'?'selected':'').'>Ja</option>
           </select> '; 
 
+    echo ' &#9475;';
+    echo ' Protokolliert <select id="Unterricht_Protokolliert" name="Unterricht_Protokolliert" onchange="this.form.submit()" >
+              <option value="" '.($Unterricht_Protokolliert==''?'selected':'').'></option>
+              <option value="0" '.($Unterricht_Protokolliert=='0'?'selected':'').'>Nein</option>
+              <option value="1" '.($Unterricht_Protokolliert=='1'?'selected':'').'>Ja</option>
+          </select> '; 
 
     echo '<input type="submit" class="btnSave" name="senden" value="Suchen">';
     echo '<input type="hidden" name="ansicht" value="'.$ansicht.'">'; 
@@ -494,7 +498,8 @@ switch ($ansicht)  // setzen: $PageTitle, $table_edit
           , SUM(uebung.Anzahl ) as `Summe Minuten` 
           , (SUM(uebung.Anzahl ) - schueler.Unterricht_Dauer ) as `Abweichung Dauer` 
           , GROUP_CONCAT(uebung.Reihenfolge, '. ', uebung.Name, ' (', coalesce(uebungtyp.Name, ''), ')'  order by uebung.Reihenfolge separator '<br>') `Übungen Inhalte`  
-          , IF(kalender.Unterricht_Geplant=1, 'X' , '') as `Unterrichtstag Geplant`   
+          , IF(kalender.Unterricht_Geplant=1, 'X' , '') as `Unterricht geplant`   
+          , IF(kalender.Unterricht_Protokolliert=1, 'X' , '') as `Unterricht protokolliert`   
           , ferien.Bezeichnung AS Ferientag 
           , feiertag.Bezeichnung AS Feiertag 
           , schuljahr.Bezeichnung AS Schuljahr
@@ -523,6 +528,9 @@ switch ($ansicht)  // setzen: $PageTitle, $table_edit
     if ($Unterricht_Geplant!='') {
       $query.="AND kalender.Unterricht_Geplant=".$Unterricht_Geplant." ".PHP_EOL;  
     }       
+    if ($Unterricht_Protokolliert!='') {
+      $query.="AND kalender.Unterricht_Protokolliert=".$Unterricht_Protokolliert." ".PHP_EOL;  
+    }       
 
     if (!empty($Datum)) {
       $query.="AND schueler_kalender.Datum='".$Datum."' ".PHP_EOL;  
@@ -534,11 +542,9 @@ switch ($ansicht)  // setzen: $PageTitle, $table_edit
       $query.="AND schuljahr.ID=".$SchuljahrID." ".PHP_EOL;  
     }
 
-
     // if ($Unterricht_Wochentag > 0 ) {
     //   $query.="AND schueler.Unterricht_Wochentag=".$Unterricht_Wochentag." ".PHP_EOL;  
     // }
-
 
     $query.="
         GROUP BY schueler.ID, schueler_kalender.Datum  
@@ -662,7 +668,7 @@ switch ($ansicht)  // setzen: $PageTitle, $table_edit
 
     break;     
 
-  case 'kalender': 
+  case 'kalender': /*********************************************** */
     include_once("classes/class.schuljahr.php");
     include_once("classes/class.schuljahre.php");    
 
@@ -688,15 +694,13 @@ switch ($ansicht)  // setzen: $PageTitle, $table_edit
     echo '<form action="" method="get">'.PHP_EOL;  
     // echo 'Start: <input type="date" name="date_start" value="'.$date_start.'" onchange="this.form.submit()">'; 
     // echo ' Ende: <input type="date" name="date_end" value="'.$date_end.'" onchange="this.form.submit()">'; 
-    $schuljahre = new Schuljahre(); 
-        echo ' &#9475;';        
+    $schuljahre = new Schuljahre();      
     echo 'Schuljahr: '.PHP_EOL; 
     $schuljahre->print_preselect($SchuljahrID, '', false); 
 
     // echo '<input type="submit" class="btnSave" name="senden" value="Start">';
     echo '<input type="hidden" name="ansicht" value="'.$ansicht.'">'; 
     echo '</form><br>';       
-
 
     $add_link_edit=true; 
     $table_edit='kalender'; 
@@ -708,7 +712,8 @@ switch ($ansicht)  // setzen: $PageTitle, $table_edit
             , COALESCE(ferien.Bezeichnung, '') AS Ferien 
             , COALESCE(feiertag.Bezeichnung, '') AS Feiertag 
             , COALESCE(schuljahr.Bezeichnung, '') AS Schuljahr      
-          , IF(Unterricht_Geplant=1, 'X' , '') as `Unterricht Geplant`    	  
+            , IF(Unterricht_Geplant=1, 'X' , '') as `Unterricht geplant`    	  
+            , IF(Unterricht_Protokolliert=1, 'X' , '') as `Unterricht protokolliert`    	  
         FROM kalender 
           INNER JOIN schuljahr 
             ON kalender.Datum  BETWEEN schuljahr.Datum_Start AND schuljahr.Datum_Ende 
