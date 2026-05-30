@@ -146,7 +146,7 @@ class Kalender {
 
 class SchuelerKalender extends Kalender {
 
-  public int $SchuelerID; 
+  public string $SchuelerID; 
   public string $SchuelerName=''; 
   
 

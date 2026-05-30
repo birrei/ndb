@@ -6,6 +6,7 @@ include_once("classes/class.htmlinfo.php");
 include_once("classes/class.uebung.php");
 include_once("classes/class.uebungtyp.php");
 include_once("classes/class.schueler.php");
+include_once("classes/class.kalender.php");
 
 $uebung = new Uebung(); 
 $info= new HTML_Info(); 
@@ -13,11 +14,20 @@ $info= new HTML_Info();
 $option=isset($_REQUEST["option"])?$_REQUEST["option"]:'edit';
 $show_data=true; 
 
-
+// echo 'option: '.$option.'<br>'; // test  
 
 $SchuelerID=''; 
+$SchuelerName=''; 
 $UebungtypID=''; 
 $Reihenfolge=0; 
+$ID=''; 
+$Name=''; 
+$Bemerkung = ''; 
+$UebungtypID = ''; 
+$Datum = ''; 
+$Anzahl=0; 
+$SatzID ='';  
+$Reihenfolge =0; 
 
 $Einheit=''; 
 
@@ -35,23 +45,49 @@ if (isset($_REQUEST["UebungtypID"])) {
   }  
 }
 
-
 switch($option) {
+  case 'insert': // über "Übersicht Übungen"
 
-  case 'insert': 
-    if(isset($_REQUEST["Datum"])) { 
-        // über "Übersicht Übungen", Einfügen-Link
-       $Datum=$_REQUEST["Datum"]; 
-       if($Datum=='') { // kein Datum ausgewählt 
-          $Datum= date('Y-m-d'); 
-       }
-    }
-    else {
-      $Datum= date('Y-m-d'); 
-    }
+    $Datum=isset($_REQUEST["Datum"])?$_REQUEST["Datum"]:date('Y-m-d');
+
+    //  // über "Übersicht Übungen", Einfügen-Link - entweder mit oder ohne Datum- Vorauswahl
+    // if(isset($_REQUEST["Datum"])) { 
+    //    $Datum=$_REQUEST["Datum"]; 
+    //    if($Datum=='') { // kein Datum ausgewählt 
+    //       $Datum= date('Y-m-d'); 
+    //    }
+    // }
+    // else {
+    //   $Datum= date('Y-m-d'); 
+    // }
     
     $uebung->insert_row($SchuelerID);
     $show_data = $uebung->load_row();  
+    $ID=$uebung->ID; 
+    $SchuelerName = $uebung->SchuelerName;     
+
+    // if($show_data) {
+    //       $ID=$uebung->ID; 
+    //       $Name = $uebung->Name; 
+    //       $Bemerkung = $uebung->Bemerkung; 
+    //       $UebungtypID = $uebung->UebungtypID;
+    //       $SchuelerID = $uebung->SchuelerID ;
+    //       // $Datum = $uebung->Datum; 
+    //       $Anzahl = $uebung->Anzahl; 
+    //       $SatzID = $uebung->SatzID; 
+    //       $Reihenfolge = $uebung->Reihenfolge; 
+    //   }
+
+    // $uebung->ID=$_REQUEST["ID"];
+    // $Name = $_REQUEST["Name"]; 
+    // $Bemerkung = $_REQUEST["Bemerkung"];
+    // $UebungtypID = $_REQUEST["UebungtypID"] ;
+    // $SchuelerID = $_REQUEST["SchuelerID"] ;
+    // $Datum = $_REQUEST["Datum"];
+    // $Anzahl = $_REQUEST["Anzahl"];
+    // $SatzID = $_REQUEST["SatzID"]; 
+    // $Reihenfolge = $_REQUEST["Reihenfolge"];
+
 
     break; 
 
@@ -60,30 +96,109 @@ switch($option) {
     $Datum=$_REQUEST["Datum"]; 
     $uebung->insert_row($SchuelerID, $Datum);
     $show_data = $uebung->load_row();  
+    $ID=$uebung->ID; 
+    $SchuelerName = $uebung->SchuelerName; 
+
+    // if($show_data) {
+
+    //     // $Name = $uebung->Name; 
+    //     // $Bemerkung = $uebung->Bemerkung; 
+    //     // $UebungtypID = $uebung->UebungtypID;
+    //     // $SchuelerID = $uebung->SchuelerID ;
+    //     // $Datum = $uebung->Datum; 
+    //     // $Anzahl = $uebung->Anzahl; 
+    //     // $SatzID = $uebung->SatzID; 
+    //     // $Reihenfolge = $uebung->Reihenfolge; 
+    // }
+
+    // echo 'ID: '.$ID.'<br>'; // test  
+    // echo 'Name: '.$Name.'<br>'; // test  
+    // echo 'Bemerkung: '.$Bemerkung.'<br>'; // test  
+    // echo 'UebungtypID: '.$UebungtypID.'<br>'; // test  
+    // echo 'Datum: '.$Datum.'<br>'; // test  
+    // echo 'Anzahl: '.$Anzahl.'<br>'; // test  
+    // echo 'SatzID: '.$SatzID.'<br>'; // test  
+    // echo 'Reihenfolge: '.$Reihenfolge.'<br>'; // test  
+  
 
     break;     
 
   case 'edit': // über "Bearbeiten"-Link    
     $uebung->ID=$_REQUEST["ID"];
-    $show_data = $uebung->load_row();      
-    $SchuelerID=$uebung->SchuelerID; 
-    $Datum = $uebung->Datum; 
+    $show_data = $uebung->load_row();   
+    
+    if($show_data) {
+        $ID=$uebung->ID; 
+        $Name = $uebung->Name; 
+        $Bemerkung = $uebung->Bemerkung; 
+        $UebungtypID = $uebung->UebungtypID;
+        $SchuelerID = $uebung->SchuelerID ;
+        $SchuelerName = $uebung->SchuelerName; 
+        $Datum = $uebung->Datum; 
+        $Anzahl = $uebung->Anzahl; 
+        $SatzID = $uebung->SatzID; 
+        $Reihenfolge = $uebung->Reihenfolge; 
+    }
     break; 
   
-  case 'update':    
-    $Datum=$_POST["Datum"]; 
-    $uebung->ID=$_POST["ID"]; 
-    $uebung->update_row(
-      $_POST["Name"], 
-      $_POST["Bemerkung"], 
-      $_POST["UebungtypID"], 
-      $_POST["SchuelerID"], 
-      $_POST["Datum"], 
-      $_POST["Anzahl"], 
-      $_POST["SatzID"], 
-      $_POST["Reihenfolge"]    ); 
+  case 'update':  
 
-    $SchuelerID=$uebung->SchuelerID;     
+    $ID=$_REQUEST["ID"];
+    $Name = $_REQUEST["Name"]; 
+    $Bemerkung = $_REQUEST["Bemerkung"];
+    $UebungtypID = $_REQUEST["UebungtypID"] ;
+    $SchuelerID = $_REQUEST["SchuelerID"] ;
+    $SchuelerName = $_REQUEST["SchuelerName"] ;
+    $Datum = $_REQUEST["Datum"];
+    $Anzahl = $_REQUEST["Anzahl"];
+    $SatzID = $_REQUEST["SatzID"]; 
+    $Reihenfolge = $_REQUEST["Reihenfolge"];
+   
+   
+    // echo 'ID: '.$ID.'<br>'; // test  
+    // echo 'SchuelerID: '.$SchuelerID.'<br>'; // test      
+    // echo 'SchuelerID: '.$SchuelerID.'<br>'; // test      
+    // echo 'SchuelerName: '.$SchuelerName.'<br>'; // test  
+    // echo 'Bemerkung: '.$Bemerkung.'<br>'; // test  
+    // echo 'UebungtypID: '.$UebungtypID.'<br>'; // test  
+    // echo 'Datum: '.$Datum.'<br>'; // test  
+    // echo 'Anzahl: '.$Anzahl.'<br>'; // test  
+    // echo 'SatzID: '.$SatzID.'<br>'; // test  
+    // echo 'Reihenfolge: '.$Reihenfolge.'<br>'; // test  
+   
+
+    $uebung->ID = $ID; 
+    $uebung->update_row(
+        $Name , 
+        $Bemerkung, 
+        $UebungtypID,
+        $SchuelerID, 
+        $Datum,
+        $Anzahl,
+        $SatzID,
+        $Reihenfolge
+      ); 
+
+    if($uebung->Fehler) {
+      // gespeichertes holen  
+      $uebung->load_row(); 
+      $Datum=$uebung->Datum; 
+    }
+    else  {
+      $Name = $uebung->Name; 
+      $Bemerkung = $uebung->Bemerkung; 
+      $UebungtypID = $uebung->UebungtypID;
+      $SchuelerID = $uebung->SchuelerID ;
+      $Datum = $uebung->Datum; 
+      $Anzahl = $uebung->Anzahl; 
+      $SatzID = $uebung->SatzID; 
+      $Reihenfolge = $uebung->Reihenfolge; 
+
+    }
+
+     
+
+
 
     break; 
 
@@ -155,7 +270,7 @@ echo '</p>
   <tr>    
     <label>
     <td class="form-edit form-edit-col1">ID:</td>  
-    <td class="form-edit form-edit-col2">'.$uebung->ID.'<br></td>
+    <td class="form-edit form-edit-col2">'.$ID.'<br></td>
     </label>
   </tr> '; 
   
@@ -164,13 +279,14 @@ echo '
   <td class="form-edit form-edit-col1">Schüler Name:</td>  
   <td class="form-edit form-edit-col2">
     <b>'; 
-      $schueler = new Schueler(); 
-      $schueler->ID = $uebung->SchuelerID; 
-      $schueler->load_row(); 
-      echo $schueler->Name; 
+      echo $SchuelerName; 
+      // $schueler = new Schueler(); 
+      // $schueler->ID = $SchuelerID; 
+      // $schueler->load_row(); 
+      // echo $schueler->Name; 
    echo '</b> &nbsp; '; 
 
-   $info->print_link_edit($schueler->table_name, $schueler->ID,$schueler->Title, true);    
+   $info->print_link_edit('schueler', $SchuelerID, 'Schueler', true);    
 
    echo '
    </td>
@@ -183,7 +299,7 @@ echo '
     <td class="form-edit form-edit-col1"><br>Übung Reihenfolge:</td>  
 
     <td class="form-edit form-edit-col2"><br>
-    <input type="number" name="Reihenfolge" value="'.$uebung->Reihenfolge.'" oninput="changeBackgroundColor(this)"> 
+    <input type="number" name="Reihenfolge" value="'.$Reihenfolge.'" oninput="changeBackgroundColor(this)"> 
       <i> (Reihenfolge innerhalb Schüler / Datum) </i> 
     </td>
  
@@ -197,7 +313,7 @@ echo '
   <tr>    
     <label>
     <td class="form-edit form-edit-col1">Übung Inhalt:</td>  
-    <td class="form-edit form-edit-col2"><input type="text" name="Name" value="'.htmlentities($uebung->Name).'" size="100" autofocus="autofocus" oninput="changeBackgroundColor(this)"></td>
+    <td class="form-edit form-edit-col2"><input type="text" name="Name" value="'.htmlentities($Name ?? '').'" size="100" autofocus="autofocus" oninput="changeBackgroundColor(this)"></td>
     </label>
   </tr>     
 
@@ -210,13 +326,13 @@ echo '
   <label>  
   <td class="form-edit form-edit-col1">Uebung Typ:</td>  
   <td class="form-edit form-edit-col2">  
-        '; 
+        ';  
         $typ=new UebungTyp(); 
-        $typ->print_select($uebung->UebungtypID); 
+        $typ->print_select($UebungtypID); 
 
     echo ' </label>  
       '; 
-      $info->print_link_edit($typ->table_name, $uebung->UebungtypID,$typ->Title, true); 
+      $info->print_link_edit($typ->table_name, $UebungtypID,$typ->Title, true); 
       $info->print_link_table($typ->table_name,'sortcol=Name',$typ->Titles,true,'');    
 
 
@@ -232,7 +348,7 @@ echo '
 
   <tr>    
     <td class="form-edit form-edit-col1">Anzahl: </td>  
-      <td class="form-edit form-edit-col2"><input type="number" name="Anzahl" value="'.$uebung->Anzahl.'" oninput="changeBackgroundColor(this)"> 
+      <td class="form-edit form-edit-col2"><input type="number" name="Anzahl" value="'.$Anzahl.'" oninput="changeBackgroundColor(this)"> 
       </td>
   </tr>
   
@@ -247,9 +363,9 @@ echo '
     
         $schueler = new Schueler(); 
         $schueler->ID = $SchuelerID; 
-        $schueler->print_select_saetze($uebung->SatzID); 
+        $schueler->print_select_saetze($SatzID); 
         echo ' </label> ';             
-        $info->print_link_edit('satz',$uebung->SatzID,true);   
+        $info->print_link_edit('satz',$SatzID,true);   
 
     echo '</td>
       </tr>
@@ -262,7 +378,7 @@ echo '
     <label>
     <td class="form-edit form-edit-col1">Bemerkung:</td>  
     <td class="form-edit form-edit-col2">
-      <textarea name="Bemerkung" rows=2 cols=100 oninput="changeBackgroundColor(this)"><?php echo htmlentities($uebung->Bemerkung) ;?></textarea> 
+      <textarea name="Bemerkung" rows=2 cols=100 oninput="changeBackgroundColor(this)"><?php echo htmlentities($Bemerkung ?? '') ;?></textarea> 
     </td>
     </label>
   </tr>    
@@ -276,18 +392,19 @@ echo '
   <tr> 
     <!-- <td class="form-edit form-edit-col1">Besonderheiten:</td>   -->
     <td class="form-edit form-edit-col1">
-        <a href="edit_uebung_lookups.php?UebungID=<?php echo $uebung->ID; ?>" target="Info">Besonderheiten:</a>
+        <a href="edit_uebung_lookups.php?UebungID=<?php echo $ID; ?>" target="Info">Besonderheiten:</a>
       </td>  
   <td class="form-edit form-edit-col2">
-    <iframe src="edit_uebung_lookups.php?UebungID=<?php echo $uebung->ID; ?>&source=iframe" height="200" id="subform1" name="Info" class="form-iframe-var2"></iframe>
+    <iframe src="edit_uebung_lookups.php?UebungID=<?php echo $ID; ?>&source=iframe" height="200" id="subform1" name="Info" class="form-iframe-var2"></iframe>
   </td>
   </tr> 
 
  
 
   <input type="hidden" name="option" value="update">
-  <input type="hidden" name="ID" value="<?php echo $uebung->ID; ?>">
-  <input type="hidden" name="SchuelerID" value="<?php echo $uebung->SchuelerID; ?>">  
+  <input type="hidden" name="ID" value="<?php echo $ID; ?>">
+  <input type="hidden" name="SchuelerID" value="<?php echo $SchuelerID; ?>">  
+  <input type="hidden" name="SchuelerName" value="<?php echo $SchuelerName; ?>">  
 
         
   </form>
@@ -298,9 +415,9 @@ echo '
         <td class="form-edit form-edit-col1"></td> 
         <td class="form-edit form-edit-col2">
         <br>'; 
-        $info->print_form_inline('delete_1',$uebung->ID,$uebung->Title, 'löschen'); 
-        $info->print_form_inline('copy',$uebung->ID,$uebung->Title, 'kopieren'); 
-        $info->print_form_inline('copy2',$uebung->ID,$uebung->Title, 'mit Datum kopieren'); 
+        $info->print_form_inline('delete_1',$ID,$uebung->Title, 'löschen'); 
+        $info->print_form_inline('copy',$ID,$uebung->Title, 'kopieren'); 
+        $info->print_form_inline('copy2',$ID,$uebung->Title, 'mit Datum kopieren'); 
         echo '
         </td>
       </tr> '; 

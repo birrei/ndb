@@ -184,14 +184,16 @@ class SchuelerKalendertag extends Kalendertag {
     }
   }  
 
-  public function update_row(string $Bemerkung) {
+  public function update_row(string $Bemerkung, string $Datum) {
 
     $update = $this->db->prepare("UPDATE schueler_kalender  
-                                  SET Bemerkung    = :Bemerkung 
+                                  SET Bemerkung    = :Bemerkung, 
+                                      Datum        = :Datum 
                                   WHERE `ID` = :ID"); 
 
     $update->bindParam(':ID', $this->ID, PDO::PARAM_INT);
     $update->bindParam(':Bemerkung', $Bemerkung);
+    $update->bindParam(':Datum', $Datum);
 
     try {
       $update->execute(); 

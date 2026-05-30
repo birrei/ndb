@@ -9,10 +9,11 @@ include_once("class.kalendertag.php");
 class Uebung {
 
   public $ID;
-  public $Name=''; // Anwender Anzeige: "Inhalt" 
+  public string $Name=''; // Anwender Anzeige: "Inhalt" 
   public $Bemerkung=''; 
   public $UebungtypID; 
   public $SchuelerID='';
+  public string $SchuelerName=''; 
   public $SatzID=''; 
   public $Datum=''; 
   public $Anzahl=''; 
@@ -24,11 +25,13 @@ class Uebung {
   public $Title='Übung';
   public $Titles='Übungen';  
   public $table_name='uebung'; 
+  public bool $Fehler=false; 
 
   public string $infotext=''; 
 
   private $db; 
   private $info; 
+
 
   public function __construct(){
     $conn=new DBConnection(); 
@@ -37,13 +40,14 @@ class Uebung {
   }
 
   function insert_row (string $SchuelerID, string $Datum='') {
+    // echo 'Datum: '.$Datum; 
 
     if($SchuelerID=='') {
       $this->info->print_user_error('Es wurde kein Schüler ausgewählt!');
       return false;  
     }
     
-    if($Datum!=='') {
+    if($Datum=='') {
       $insert = $this->db->prepare("INSERT INTO `uebung` 
                 SET `SchuelerID`     = :SchuelerID" 
             );
@@ -62,7 +66,6 @@ class Uebung {
       $insert->execute(); 
       // $insert->debugDumpParams(); 
       $this->ID=$this->db->lastInsertId(); 
-      // $this->update_Order($Datum); // Anwenderfeedback, nicht brauchbar
       $this->load_row();        
     }
       catch (PDOException $e) {
@@ -83,8 +86,11 @@ class Uebung {
                             , uebung.Datum
                             , uebung.Anzahl 
                             , uebung.SatzID
-                            , uebung.Reihenfolge  
-                          FROM  uebung left join uebungtyp on uebung.UebungtypID = uebungtyp.ID 
+                            , uebung.Reihenfolge
+                            , schueler.Name as SchuelerName   
+                          FROM  uebung 
+                                left join uebungtyp on uebung.UebungtypID = uebungtyp.ID 
+                                left join schueler on uebung.SchuelerID = schueler.ID 
                           WHERE uebung.ID = :ID");
 
     $select->bindParam(':ID', $this->ID, PDO::PARAM_INT);
@@ -95,6 +101,7 @@ class Uebung {
     if ($select->rowCount()==1) {
       $row_data=$select->fetch();
       $this->Name=$row_data["Name"];       
+      $this->SchuelerName=$row_data["SchuelerName"];       
       $this->UebungtypID=$row_data["UebungtypID"];      
       $this->SchuelerID=$row_data["SchuelerID"];        
       $this->SatzID=$row_data["SatzID"];       
@@ -163,20 +170,22 @@ class Uebung {
     // $params = func_get_args(); 
     // print_r($params);
 
-    // Anwenderfeedback, nicht brauchbar 
-    // if($Reihenfolge==0) {
-    //   $Reihenfolge = $this->get_Order($Datum); 
-    // }
+    if ($Datum=='') {
+        $this->info->print_user_error('Das Datum darf nicht leer sein, der Wert wird nicht gespeichert.'); 
+        $this->Fehler=true; 
+        return false; 
+    }
 
+    $datum_date = new Datetime($Datum);
+    $Datum_DE= $datum_date->format('d.m.Y');   
 
     $uebungskalender = new SchuelerKalender(); 
     $uebungskalender->SchuelerID= $SchuelerID; 
 
     if (!$uebungskalender->date_exists($Datum)) {
-        $uebungstag = new SchuelerKalendertag(); 
-        $uebungstag->SchuelerID = $SchuelerID; 
-        $uebungstag->insert($Datum); 
-        $this->info->print_info('Hinweis: Das Datum "'.$uebungstag->Datum_DE.'" wurde im Schülerkalender neu eingefügt.'); 
+      $this->info->print_user_error('Das Datum "'.$Datum_DE.'" ist kein gültiger Übungstag für den Schüler, der Wert wird nicht gespeichert.'); 
+      $this->Fehler=true;       
+      return false;       
     } 
 
     $update = $this->db->prepare("UPDATE uebung  

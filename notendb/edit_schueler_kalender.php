@@ -27,7 +27,7 @@ switch($option) {
   
   case 'update': 
     $schuelerdatum->ID = $_POST["ID"];    
-    $schuelerdatum->update_row($_POST["Bemerkung"]); 
+    $schuelerdatum->update_row($_POST["Bemerkung"], $_POST["Datum"]); 
     $show_data=true;           
     break; 
 
@@ -69,12 +69,16 @@ if (!$show_data) {goto pagefoot;}
   </label>
     </tr> 
 
+
   <tr>    
   <label>
   <td class="form-edit form-edit-col1">Datum:</td>  
-  <td class="form-edit form-edit-col2"><b><?php echo $schuelerdatum->Datum_DE; ?></b> </td>
+  <td class="form-edit form-edit-col2"> <input type="date" name="Datum" value="<?php echo $schuelerdatum->Datum_EN; ?>" oninput="changeBackgroundColor(this)" requested></td>
   </label>
     </tr> 
+
+
+   
 
 
     <tr>    
