@@ -2,10 +2,13 @@
 $PageTitle='Sammelupdates'; 
 
 include_once('head.php');
+include_once("classes/class.htmlinfo.php");
+
 // echo '<p><a href="dataclearing.php">Seite neu laden</a>'; 
 
 $form_selected=''; 
 $form_sended=''; 
+$info=new HTML_Info(); 
 
 if (isset($_REQUEST["SammlungID"])) {
   $SammlungID=$_REQUEST["SammlungID"]; 
@@ -157,6 +160,9 @@ if (isset($_POST["form-sended"])){
               echo '<p>Updates wurden abgeschlossen.</p>';                    
           }
           break; 
+
+
+
     }
 }
 echo '</pre>';  
@@ -172,10 +178,11 @@ echo '</pre>';
   <option value="sammlung-epoche" <?php echo ($form_selected=='sammlung-epoche'?'selected':''); ?>>Sammlung: Epoche hinzufügen</option>   
   <option value="sammlung-bearbeiter" <?php echo ($form_selected=='sammlung-bearbeiter'?'selected':''); ?>>Sammlung: Bearbeiter hinzufügen</option>   
   <option value="sammlung-erprobt" <?php echo ($form_selected=='sammlung-erprobt'?'selected':''); ?>>Sammlung: Erprobt-Eintrag hinzufügen</option>   
-  <option value="sammlung-satz-besonderheit" <?php echo ($form_selected=='sammlung-satz-besonderheit'?'selected':''); ?>>Sammlung: Besonderheit (zu Satz) hinzufügen</option>   
   <option value="sammlung-epoche" <?php echo ($form_selected=='sammlung-epoche'?'selected':''); ?>>Sammlung: Epoche hinzufügen</option>   
   <option value="sammlung-musikstueck-order" <?php echo ($form_selected=='sammlung-musikstueck-order'?'selected':''); ?>>Sammlung: Reihenfolge Musikstücke schieben</option>   
-  
+  <option value="sammlung-satz-besonderheit" <?php echo ($form_selected=='sammlung-satz-besonderheit'?'selected':''); ?>>Sammlung: Besonderheit zu allen Sätzen hinzufügen</option>   
+  <option value="sammlung-saetze-besonderheit" <?php echo ($form_selected=='sammlung-saetze-besonderheit'?'selected':''); ?>>Sammlung: Besonderheit zu ausgewählten Sätzen hinzufügen</option>   
+    
   
   <input type="hidden" name="SammlungID" value="<?php echo $SammlungID; ?>">  
 </select>
@@ -388,6 +395,59 @@ if ($form_selected!='') {
 
       <?php       
       break;   
+
+    case 'sammlung-saetze-besonderheit':
+      include_once('classes/class.lookup.php'); 
+      include_once('classes/class.sammlung.php'); 
+      include_once('classes/class.satz.php');  
+
+      $LookupID=isset($_REQUEST["LookupID"])?$_REQUEST["LookupID"]:'';
+      $saetze_selected=isset($_REQUEST["satz"])?$_REQUEST["satz"]:[];
+
+      // echo 'LookupID: '.$LookupID.'<br>'; // Test 
+      // echo 'Anzahl ausgewählte Sätze: '.count($saetze_selected); // test 
+
+      if($LookupID!='' & count($saetze_selected) > 0) {
+          $satz=new Satz();               
+          for ($i = 0; $i < count($saetze_selected); $i++) {
+            $satz->ID = $saetze_selected[$i]; 
+            $satz->add_lookup($LookupID);
+          }      
+      }
+      if($LookupID=='') { 
+          $info->print_info('Wähle eine Besonderheit aus<br> Es werden anschließend alle Sätze angezeigt, denen die Besonderheit nicht zugeordnet ist.'); 
+      }
+      if ($LookupID!='' & count($saetze_selected)==0) {
+          $info->print_info('Wähle mindestens 1 Satz aus und klicke auf "ausführen".'); 
+
+      }
+
+      echo '<h3>Sammlung: Besonderheit zu ausgewählten Sätzen hinzufügen</h3>'; 
+      
+      echo '<form action="" method="post" name="sammlung-saetze-besonderheit">'; 
+      echo '<p> <b>Besonderheit:</b> ';     
+      $lookup = new Lookup(); 
+      $lookup->LookupTypeRelation='satz'; 
+      $lookup->print_preselect($LookupID); 
+      echo '</p>'; 
+      ?>
+      <input type="hidden" name="SammlungID" value="<?php echo $SammlungID; ?>">      
+      <input class="btnSave" type="submit" value="ausführen">    
+      <input type="hidden" name="form-sended" value="sammlung-saetze-besonderheit">    
+      <input type="hidden" name="form-selected" value="<?php echo $form_selected; ?>">                    
+      
+      <?php 
+  
+      if($LookupID!='') {
+        echo '<p> <b>Sätze:</b> ';             
+        $sammlung = new Sammlung(); 
+        $sammlung->ID = $SammlungID; 
+        $sammlung->print_table_saetze_checklist($LookupID); 
+        echo '</p>'; 
+       } 
+
+      echo '</form>'; 
+      break; 
 
   }
   

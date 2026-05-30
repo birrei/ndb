@@ -1129,6 +1129,47 @@ include_once('class.link.php');
     }
   }
 
+  function print_table_saetze_checklist(string $LookupID=''){
+
+      $query="SELECT DISTINCT satz.ID
+              , CONCAT(sammlung.Name, '; ', musikstueck.Nummer, ': ', COALESCE(musikstueck.Name, ''), '; ', satz.Nr, ': ', COALESCE(satz.Name, '')) as Name  
+            FROM sammlung 
+            INNER JOIN musikstueck on musikstueck.SammlungID = sammlung.ID 
+            LEFT JOIN komponist on komponist.ID = musikstueck.KomponistID 
+            INNER JOIN satz on satz.MusikstueckID = musikstueck.ID  
+            LEFT JOIN satz_lookup on satz.ID = satz_lookup.SatzID "; 
+
+      if ($LookupID!='') { 
+          $query.="AND satz_lookup.LookupID = :LookupID "; 
+      }
+      $query.="WHERE sammlung.ID= :SammlungID 
+            AND satz_lookup.ID is null 
+            ORDER BY musikstueck.Nummer, satz.Nr  
+             "; 
+
+    // echo '<pre>'.$query.'</pre>'; // test  
+    $stmt = $this->db->prepare($query); 
+    $stmt->bindParam(':SammlungID', $this->ID, PDO::PARAM_INT); 
+
+    if ($LookupID!='') { 
+      $stmt->bindParam(':LookupID', $LookupID, PDO::PARAM_INT); 
+    }
+
+    try {
+      $stmt->execute(); 
+      // $stmt->debugDumpParams(); 
+      $html = new HTML_Table($stmt); 
+      $html->add_link_edit=true; 
+      $html->edit_link_table='satz'; 
+      $html->print_table_checklist('satz'); 
+    }
+    catch (PDOException $e) {
+      $this->info->print_user_error(); 
+      $this->info->print_error($stmt, $e); 
+    }
+  } 
+  
+
 }
 
 

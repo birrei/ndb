@@ -188,6 +188,46 @@ class Lookup {
     }
   }
 
+ function print_preselect(string $value_selected){
+
+    $Relation = $this->LookupTypeRelation; 
+    // $ReferenceID = $this->ReferenceID;
+    // $LookupTypeID=$this->LookupTypeID;  
+
+    $query="SELECT lookup.ID
+              -- , lookup.Name as Besonderheit
+              , concat(lookup.Name, ' (', lookup_type.Name, ')') as Besonderheit
+            FROM lookup 
+            INNER JOIN lookup_type ON lookup_type.ID=lookup.LookupTypeID 
+            INNER JOIN lookuptype_relation ON lookup_type.ID=lookuptype_relation.LookuptypeID 
+            INNER JOIN relation ON relation.ID = lookuptype_relation.RelationID  
+            WHERE relation.Name=:Relation 
+            ORDER BY Besonderheit ".PHP_EOL;
+
+
+   // echo '<pre>'.$query.'</pre>';     // test 
+
+    $stmt = $this->db->prepare($query); 
+    $stmt->bindParam(':Relation', $Relation);
+
+
+    try {
+      $stmt->execute(); 
+      // echo '<pre>'; 
+      // $stmt->debugDumpParams(); // TEST 
+      // echo '</pre>';      
+      $html = new HTML_Select($stmt); 
+      $html->autofocus=true; 
+      $html->print_preselect("LookupID", $value_selected); 
+      
+    }
+    catch (PDOException $e) {
+      $this->info->print_user_error(); 
+      $this->info->print_error($stmt, $e); 
+    }
+  }  
+
+
   function print_table($LookupTypeID='', $edit_link_open_newpage=true){
 
     $query="SELECT * from v_lookup WHERE 1=1 "; 
