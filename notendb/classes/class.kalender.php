@@ -134,6 +134,7 @@ class Kalender {
     return $col;  
   }  
   
+  
   public function getID (string $strDate) {
     $sql="SELECT MAX(ID) from kalender WHERE Datum='".$strDate."'" ; 
     $stmt = $this->db->prepare($sql); 
@@ -166,18 +167,20 @@ class SchuelerKalender extends Kalender {
     }
   }
 
-  public function getLastdate () {
+  public function getLastdate (string $strDate='') {
+    // letzter Übungstag vor Heute bzw. letzter Übungstag vor einem bestimmten Datum 
 
-    $current_str_date=date('Y-m-d'); 
+    $refDate=$strDate!=''?$strDate:date('Y-m-d'); 
 
     $sql="SELECT MAX(datum) FROM schueler_kalender 
           WHERE SchuelerID=:SchuelerID 
                 AND Datum <= :LetztesDatumUebungskalender 
           "; 
     $stmt = $this->db->prepare($sql); 
-    $stmt->bindParam(':SchuelerID', $this->SchuelerID);
-    $stmt->bindParam(':LetztesDatumUebungskalender', $current_str_date);
+    $stmt->bindParam(':SchuelerID', $this->SchuelerID, PDO::PARAM_INT);
+    $stmt->bindParam(':LetztesDatumUebungskalender', $refDate);
     $stmt->execute(); 
+    // $stmt->debugDumpParams(); 
     $col=$stmt->fetchColumn(); 
     return $col;  
   } 

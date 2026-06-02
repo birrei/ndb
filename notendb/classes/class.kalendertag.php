@@ -23,6 +23,7 @@ class Kalendertag {
   public string $Feiertag; 
   public string $Schuljahr; 
   public string $Kalenderwoche; 
+  public string $Hinweise=''; 
 
   public string $Title='Kalendertag'; 
 
@@ -95,6 +96,12 @@ class Kalendertag {
       $this->Feiertag=$row_data["Feiertag"];
       $this->Schuljahr=$row_data["Schuljahr"];
 
+      // echo 'Schuljahr: '.$this->Schuljahr; 
+      // echo 'Ferien: '.$this->Ferien; 
+      $this->Hinweise=($this->Ferien!='' & $this->Feiertag!=''?$this->Ferien.', '.$this->Feiertag:''); 
+      $this->Hinweise=($this->Ferien!='' & $this->Feiertag==''?$this->Ferien:''); 
+      $this->Hinweise=($this->Ferien=='' & $this->Feiertag!=''?$this->Feiertag:''); 
+
       return true; 
     } 
     else {
@@ -120,7 +127,7 @@ class SchuelerKalendertag extends Kalendertag {
                       , COALESCE(schueler_kalender.Bemerkung, '') as Bemerkung
                       , schueler_kalender.SchuelerID
                       , kalender.Wochentag_Name as Wochentag 
-                      , COALESCE(ferien.Bezeichnung,'') AS Ferientag 
+                      , COALESCE(ferien.Bezeichnung,'') AS Ferien 
                       , COALESCE(feiertag.Bezeichnung, '') AS Feiertag 
                       , COALESCE(schuljahr.Bezeichnung, '') AS Schuljahr
                       , schueler.Name as SchuelerName   
@@ -149,11 +156,15 @@ class SchuelerKalendertag extends Kalendertag {
       $this->Name=$row_data["Datum"]; 
       $this->Bemerkung=$row_data["Bemerkung"]; 
       $this->Wochentag=$row_data["Wochentag"]; 
-      $this->Ferien=$row_data["Ferientag"]; 
+      $this->Ferien=$row_data["Ferien"]; 
       $this->Feiertag=$row_data["Feiertag"]; 
       $this->Schuljahr=$row_data["Schuljahr"]; 
       $this->SchuelerID=$row_data["SchuelerID"]; 
       $this->SchuelerName=$row_data["SchuelerName"]; 
+
+      $this->Hinweise=($this->Ferien!='' & $this->Feiertag!=''?$this->Ferien.', '.$this->Feiertag:''); 
+      $this->Hinweise=($this->Ferien!='' & $this->Feiertag==''?$this->Ferien:''); 
+      $this->Hinweise=($this->Ferien=='' & $this->Feiertag!=''?$this->Feiertag:''); 
 
       return true; 
     } 

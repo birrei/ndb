@@ -39,29 +39,33 @@ class Uebung {
     $this->info=new HTML_Info(); 
   }
 
-  function insert_row (string $SchuelerID, string $Datum='') {
-    // echo 'Datum: '.$Datum; 
+  function insert_row (string $SchuelerID, string $Datum) {
 
-    if($SchuelerID=='') {
-      $this->info->print_user_error('Es wurde kein Schüler ausgewählt!');
-      return false;  
-    }
-    
     if($Datum=='') {
-      $insert = $this->db->prepare("INSERT INTO `uebung` 
-                SET `SchuelerID`     = :SchuelerID" 
-            );
-      $insert->bindParam(':SchuelerID', $SchuelerID,PDO::PARAM_INT);
-
-    } else {
-      $insert = $this->db->prepare("INSERT INTO `uebung` 
-                SET `SchuelerID`= :SchuelerID, Datum = :Datum " 
-            );
-            
-      $insert->bindParam(':SchuelerID', $SchuelerID,PDO::PARAM_INT);
-      $insert->bindParam(':Datum', $Datum);
+      $this->Fehler=true;       
+      $this->info->print_user_error('Das Datum darf nicht leer sein! Das Datum wird auf den letzten gültigen Übungstag gesetzt.'); 
+      $Datum = $this->lastUebungsdatum($SchuelerID, $Datum); 
     }
 
+    if($Datum!='') {
+      $datum_date = new Datetime($Datum);
+      $Datum_DE= $datum_date->format('d.m.Y');   
+      if (!$this->UebungsdatumExists($SchuelerID, $Datum)) {
+        $this->Fehler=true;    
+        $this->info->print_user_error('Das Datum "'.$Datum_DE.'" ist kein gültiger Übungstag für den Schüler. 
+                                      Es wird auf den letzten gültigen Übungstag gesetzt.');            
+        $Datum = $this->lastUebungsdatum($SchuelerID, $Datum);     
+      }
+    } 
+    
+    
+    $insert = $this->db->prepare("INSERT INTO `uebung` 
+              SET `SchuelerID`= :SchuelerID, Datum = :Datum " 
+          );
+          
+    $insert->bindParam(':SchuelerID', $SchuelerID,PDO::PARAM_INT);
+    $insert->bindParam(':Datum', $Datum);
+  
     try {
       $insert->execute(); 
       // $insert->debugDumpParams(); 
@@ -117,76 +121,90 @@ class Uebung {
       $this->info->print_error('Die Anzeige ist nicht möglich'); 
     }  
   }  
-  
-  function update_Order($Datum) {
 
-    $Reihenfolge = $this->get_Order($Datum); 
-       
-    $update = $this->db->prepare("UPDATE `uebung` 
-                        SET Reihenfolge = :Reihenfolge 
-                        WHERE ID=:ID " );
-          
-    $update->bindParam(':ID', $this->ID);
-    $update->bindParam(':Reihenfolge', $Reihenfolge);
+  function load_row_Datum() {  
 
-    try {
-      $update->execute(); 
-    }
-      catch (PDOException $e) {
-      $this->info->print_user_error(); 
-      $this->info->print_error($update, $e);  ; 
-    }    
-  }
+    $select = $this->db->prepare("SELECT uebung.Datum
+                          FROM  uebung 
+                          WHERE uebung.ID = :ID");
 
-  function get_Order ($Datum) {
-    // nächste Reihenfolge innerhalb Schüler / Datum ermitteln (nur bei insert, copy)
-    // echo 'Datum: '.$Datum.'<br>'; // TEST  
-    $this->load_row(); 
-    $sql="SELECT (coalesce(MAX(Reihenfolge),0)) + 1 as Reihenfolge_Neu from `uebung` 
-             WHERE SchuelerID=:SchuelerID 
-             AND Datum=:Datum 
-             AND ID != :ID"; // akt. ID ausklammern, sonst wird bei jedem Update weiter hochgezählt 
-    $stmt = $this->db->prepare($sql); 
-    $stmt->bindParam(':SchuelerID', $this->SchuelerID, PDO::PARAM_INT); 
-    $stmt->bindParam(':ID', $this->ID, PDO::PARAM_INT); 
-    $stmt->bindParam(':Datum', $this->Datum); 
-    $stmt->execute(); 
-    // $stmt->debugDumpParams(); 
-    $col=$stmt->fetchColumn(); 
-    return $col;  
+    $select->bindParam(':ID', $this->ID, PDO::PARAM_INT);
+    $select->execute(); 
+
+    // echo $select->rowCount(); 
+
+    if ($select->rowCount()==1) {
+      $row_data=$select->fetch();
+      $this->Datum=$row_data["Datum"];            
+      return true; 
+    } 
+    else {
+      return false; 
+    }  
   }  
 
-  function update_row ($Name
-                    , $Bemerkung
-                    , $UebungtypID
-                    , $SchuelerID                                                            
-                    , $Datum
-                    , $Anzahl
-                    , $SatzID
-                    , $Reihenfolge  
-                    ) {
-
-    // TEST
-    // $params = func_get_args(); 
-    // print_r($params);
-
-    if ($Datum=='') {
-        $this->info->print_user_error('Das Datum darf nicht leer sein, der Wert wird nicht gespeichert.'); 
-        $this->Fehler=true; 
-        return false; 
-    }
-
-    $datum_date = new Datetime($Datum);
-    $Datum_DE= $datum_date->format('d.m.Y');   
+  private function UebungsdatumExists(int $SchuelerID, string $Datum):bool {
 
     $uebungskalender = new SchuelerKalender(); 
     $uebungskalender->SchuelerID= $SchuelerID; 
 
     if (!$uebungskalender->date_exists($Datum)) {
-      $this->info->print_user_error('Das Datum "'.$Datum_DE.'" ist kein gültiger Übungstag für den Schüler, der Wert wird nicht gespeichert.'); 
+      // echo 'UebungsdatumExists: Datum '.$Datum.' existiert nicht <br>' ; // test
+      return false; 
+    } else {
+      // echo 'UebungsdatumExists: Datum '.$Datum.' existiert <br>' ; // test
+      return true; 
+    }
+  }
+
+  private function lastUebungsdatum(int $SchuelerID, string $Datum) {
+
+    $uebungskalender = new SchuelerKalender(); 
+    $uebungskalender->SchuelerID= $SchuelerID; 
+
+    $retDate = $uebungskalender->getLastdate($Datum); 
+    
+    return $retDate; 
+
+  }
+
+  function update_row ( $SchuelerID  
+                      , $Datum
+                      , $Name
+                      , $Bemerkung
+                      , $UebungtypID                                                      
+                      , $Anzahl
+                      , $SatzID
+                      , $Reihenfolge  
+                    ) {
+
+    // $params = func_get_args(); // test 
+    // print_r($params); // test 
+
+    $this->SchuelerID = $SchuelerID; 
+
+    if($Datum=='') {
       $this->Fehler=true;       
-      return false;       
+      $this->info->print_user_error('Das Datum darf nicht leer sein! Das Datum wird auf den zuvor gespeicherten Wert zurückgesetzt.'); 
+      $Datum = $this->lastUebungsdatum($SchuelerID, $Datum); 
+      $this->load_row_Datum(); // falschen WErt ignorieren, gespeicherten Wert holen 
+      $Datum=$this->Datum;       
+    }
+
+    if($Datum!='') {
+      $datum_date = new Datetime($Datum);
+      $Datum_DE= $datum_date->format('d.m.Y');   
+
+      if (!$this->UebungsdatumExists($SchuelerID, $Datum)) {
+        $this->Fehler=true;    
+        $this->info->print_user_error('Das Datum "'.$Datum_DE.'" ist kein gültiger Übungstag für den Schüler. 
+                                      Das Datum wird auf den zuvor gespeicherten Wert zurückgesetzt.');            
+        $this->load_row_Datum(); // falschen WErt ignorieren, gespeicherten Wert holen 
+        $Datum=$this->Datum;      
+      }
     } 
+
+    // echo 'Datum: '.$Datum.'<br>'; // test  
 
     $update = $this->db->prepare("UPDATE uebung  
               SET UebungtypID= :UebungtypID
@@ -213,7 +231,7 @@ class Uebung {
 
     try {
       $update->execute(); 
-      $this->load_row();   
+      // $this->load_row();   
     }
       catch (PDOException $e) {  
       $this->info->print_user_error(); 
@@ -244,9 +262,7 @@ class Uebung {
     return true; 
   }
 
-  function copy($Datum=''){
-
-    $Datum = ($Datum!=''?$Datum:date('Y-m-d')); 
+  function copy(){
 
     $sql="INSERT INTO uebung (Name
                             , Bemerkung
@@ -260,8 +276,7 @@ class Uebung {
                             , Bemerkung
                             , UebungtypID
                             , SchuelerID
-                            -- , DATE_FORMAT(CURDATE(), '%Y-%m-%d') as Datum
-                            , :Datum 
+                            , Datum 
                             , Anzahl
                             , SatzID
           FROM uebung  
@@ -272,14 +287,12 @@ class Uebung {
 
     $insert = $this->db->prepare($sql); 
     $insert->bindValue(':ID', $this->ID);  
-    $insert->bindParam(':Datum', $Datum);
 
     try {
       $insert->execute(); 
       $ID_New = $this->db->lastInsertId();    
       $this->copy_lookups($ID_New); 
       $this->ID =  $ID_New; // Stabübergabe (Objekt-Instanz übernimmt neue ID-Kopie )
-      $this->update_Order($Datum);       
       $this->infotext='Der Datensatz wurde kopiert.';
       $this->info->print_info($this->infotext);        
     }
@@ -378,7 +391,6 @@ class Uebung {
     }  
   }  
 
-
   function copy_lookups($ID_new) {
 
     $sql="insert into uebung_lookup
@@ -425,7 +437,44 @@ class Uebung {
       $this->info->print_error($stmt, $e); 
     }
   }
+  
+  function update_Order($Datum) {
 
+    $Reihenfolge = $this->get_Order($Datum); 
+       
+    $update = $this->db->prepare("UPDATE `uebung` 
+                        SET Reihenfolge = :Reihenfolge 
+                        WHERE ID=:ID " );
+          
+    $update->bindParam(':ID', $this->ID);
+    $update->bindParam(':Reihenfolge', $Reihenfolge);
+
+    try {
+      $update->execute(); 
+    }
+      catch (PDOException $e) {
+      $this->info->print_user_error(); 
+      $this->info->print_error($update, $e);  ; 
+    }    
+  }
+
+  function get_Order ($Datum) {
+    // nächste Reihenfolge innerhalb Schüler / Datum ermitteln (nur bei insert, copy)
+    // echo 'Datum: '.$Datum.'<br>'; // TEST  
+    $this->load_row(); 
+    $sql="SELECT (coalesce(MAX(Reihenfolge),0)) + 1 as Reihenfolge_Neu from `uebung` 
+             WHERE SchuelerID=:SchuelerID 
+             AND Datum=:Datum 
+             AND ID != :ID"; // akt. ID ausklammern, sonst wird bei jedem Update weiter hochgezählt 
+    $stmt = $this->db->prepare($sql); 
+    $stmt->bindParam(':SchuelerID', $this->SchuelerID, PDO::PARAM_INT); 
+    $stmt->bindParam(':ID', $this->ID, PDO::PARAM_INT); 
+    $stmt->bindParam(':Datum', $this->Datum); 
+    $stmt->execute(); 
+    // $stmt->debugDumpParams(); 
+    $col=$stmt->fetchColumn(); 
+    return $col;  
+  } 
 }
 
  

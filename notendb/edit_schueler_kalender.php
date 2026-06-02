@@ -5,7 +5,7 @@ include_once('head.php');
 include_once("classes/class.schueler.php");
 include_once("classes/class.kalender.php");
 
-$schuelerdatum = new SchuelerKalendertag();
+$uebungstag = new SchuelerKalendertag();
 $info= new HTML_Info(); 
 
 $option=isset($_REQUEST["option"])?$_REQUEST["option"]:'edit';
@@ -15,34 +15,34 @@ $show_data=true;
 
 switch($option) {
   case 'edit': // über "Bearbeiten"-Link
-    $schuelerdatum->ID=$_GET["ID"];
-    $schuelerdatum->load_row(); 
+    $uebungstag->ID=$_GET["ID"];
+    $uebungstag->load_row(); 
     break; 
 
 
   // case 'insert': // XXXX   
-  //   $schuelerdatum->insert_row('');
+  //   $uebungstag->insert_row('');
   //   $show_data=true; 
   //   break; 
   
   case 'update': 
-    $schuelerdatum->ID = $_POST["ID"];    
-    $schuelerdatum->update_row($_POST["Bemerkung"], $_POST["Datum"]); 
+    $uebungstag->ID = $_POST["ID"];    
+    $uebungstag->update_row($_POST["Bemerkung"], $_POST["Datum"]); 
     $show_data=true;           
     break; 
 
   case 'delete_1': 
-    $schuelerdatum->ID = $_REQUEST["ID"];  
-    $schuelerdatum->load_row(); 
-    if($schuelerdatum->is_deletable()) {
-      $info->print_form_delete_confirm(basename(__FILE__), $schuelerdatum->Title, $schuelerdatum->ID, $schuelerdatum->Datum_DE);   
+    $uebungstag->ID = $_REQUEST["ID"];  
+    $uebungstag->load_row(); 
+    if($uebungstag->is_deletable()) {
+      $info->print_form_delete_confirm(basename(__FILE__), $uebungstag->Title, $uebungstag->ID, $uebungstag->Datum_DE);   
     }     
     $show_data=true;      
     break; 
 
   case 'delete_2': 
-    $schuelerdatum->ID=$_REQUEST["ID"]; 
-    $schuelerdatum->delete(); 
+    $uebungstag->ID=$_REQUEST["ID"]; 
+    $uebungstag->delete(); 
     $show_data=false; 
     break; 
      
@@ -50,8 +50,8 @@ switch($option) {
     $show_data=false;   
 }
 
-$info->print_screen_header($schuelerdatum->Title.' bearbeiten'); 
-// $info->print_link_table($schuelerdatum->table_name, 'sortcol=Name', $schuelerdatum->Titles); 
+$info->print_screen_header($uebungstag->Title.' bearbeiten'); 
+// $info->print_link_table($uebungstag->table_name, 'sortcol=Name', $uebungstag->Titles); 
 
 
 if (!$show_data) {goto pagefoot;}
@@ -65,45 +65,29 @@ if (!$show_data) {goto pagefoot;}
   <tr>    
   <label>
   <td class="form-edit form-edit-col1">Schüler:</td>  
-  <td class="form-edit form-edit-col2"><b><?php echo $schuelerdatum->SchuelerName; ?> </b></td>
+  <td class="form-edit form-edit-col2"><b><?php echo $uebungstag->SchuelerName; ?> </b></td>
   </label>
     </tr> 
-
 
   <tr>    
   <label>
   <td class="form-edit form-edit-col1">Datum:</td>  
-  <td class="form-edit form-edit-col2"> <input type="date" name="Datum" value="<?php echo $schuelerdatum->Datum_EN; ?>" oninput="changeBackgroundColor(this)" requested></td>
+  <td class="form-edit form-edit-col2"> <input type="date" name="Datum" value="<?php echo $uebungstag->Datum_EN; ?>" oninput="changeBackgroundColor(this)" requested> 
+            <b>Schuljahr:</b> <?php echo $uebungstag->Schuljahr; ?>
+            <b>Wochentag:</b> <?php echo $uebungstag->Wochentag; ?>
+            <b>Ferien:</b> <?php echo $uebungstag->Ferien; ?>
+            <b>Feiertag:</b> <?php echo $uebungstag->Ferien; ?>
+  
+          </td>
   </label>
     </tr> 
-
-
-   
-
-
-    <tr>    
-  <label>
-  <td class="form-edit form-edit-col1">Schuljahr:</td>  
-  <td class="form-edit form-edit-col2"><?php echo $schuelerdatum->Schuljahr; ?></td>
-  </label>
-    </tr> 
-
-    <tr>    
-  <label>
-  <td class="form-edit form-edit-col1">Hinweise:</td>  
-  <td class="form-edit form-edit-col2"><?php echo $schuelerdatum->Ferien.' '.$schuelerdatum->Feiertag; ?>
-  </td>
-  </label>
-    </tr> 
-
 
   <tr>    
     <label>
     <td class="form-edit form-edit-col1">Bemerkung:</td>  
-    <td class="form-edit form-edit-col2"><input type="text" name="Bemerkung" value="<?php echo $schuelerdatum->Bemerkung; ?>" size="100" maxleng="250" autofocus="autofocus" oninput="changeBackgroundColor(this)"></td>
+    <td class="form-edit form-edit-col2"><input type="text" name="Bemerkung" value="<?php echo $uebungstag->Bemerkung; ?>" size="100" maxleng="250" autofocus="autofocus" oninput="changeBackgroundColor(this)"></td>
     </label>
   </tr> 
-
 
 
 
@@ -116,32 +100,20 @@ if (!$show_data) {goto pagefoot;}
 
 
 <input type="hidden" name="option" value="update">        
-<input type="hidden" name="ID" value="<?php echo $schuelerdatum->ID; ?>">
+<input type="hidden" name="ID" value="<?php echo $uebungstag->ID; ?>">
 
 </form>
 
 
 <tr> 
   <td class="form-edit form-edit-col1">
-    
-<a href="edit_schueler_kalender_uebungen.php?SchuelerID=<?php echo $schuelerdatum->SchuelerID.'&Datum='.$schuelerdatum->Datum_EN; ?>" target="iframe_Uebungen">Übungen: </a>
-
-
-    <p> 
-<a href="edit_uebung.php?SchuelerID=<?php echo $schuelerdatum->SchuelerID.'&Datum='.$schuelerdatum->Datum_EN.'&option=insert2"'; ?> target="_blank" class="form-link form-link-switch">Übung hinzufügen</a>
-
-        
-
-
-</p>
-
-
+    <a href="edit_schueler_kalender_uebungen.php?SchuelerID=<?php echo $uebungstag->SchuelerID.'&Datum='.$uebungstag->Datum_EN; ?>" target="iframe_Uebungen">Übungen: </a>
+    <p>
+        <br><a href="edit_uebung.php?SchuelerID=<?php echo $uebungstag->SchuelerID.'&Datum='.$uebungstag->Datum_EN.'&option=insert"'; ?> target="_blank" class="form-link form-link-switch">Übung hinzufügen</a>
+    </p>
   </td> 
   <td class="form-edit form-edit-col2">
-  
-      <iframe src="edit_schueler_kalender_uebungen.php?SchuelerID=<?php echo $schuelerdatum->SchuelerID.'&Datum='.$schuelerdatum->Datum_EN; ?>&source=iframe" height="300" id="subform1" name="iframe_Uebungen" class="form-iframe-var1"></iframe>
-
-
+      <iframe src="edit_schueler_kalender_uebungen.php?SchuelerID=<?php echo $uebungstag->SchuelerID.'&Datum='.$uebungstag->Datum_EN; ?>&source=iframe" height="300" id="subform1" name="iframe_Uebungen" class="form-iframe-var1"></iframe>
   </td>
 </tr> 
 
@@ -151,7 +123,7 @@ if (!$show_data) {goto pagefoot;}
   <td class="form-edit form-edit-col1"></td> 
   <td class="form-edit form-edit-col2"><br>
     <?php 
-    $info->print_form_inline('delete_1',$schuelerdatum->ID,$schuelerdatum->Title, 'löschen'); 
+    $info->print_form_inline('delete_1',$uebungstag->ID,$uebungstag->Title, 'löschen'); 
     ?>      
   </td>
 </tr> 
