@@ -5,28 +5,30 @@ include_once('head.php');
 include_once("classes/class.schueler.php");
 include_once("classes/class.kalender.php");
 
-$uebungstag = new SchuelerKalendertag();
-$info= new HTML_Info(); 
-
 $option=isset($_REQUEST["option"])?$_REQUEST["option"]:'edit';
 $show_data=true; 
 
-
+$uebungstag = new SchuelerKalendertag();
+$info= new HTML_Info(); 
 
 switch($option) {
   case 'edit': // über "Bearbeiten"-Link
-    $uebungstag->ID=$_GET["ID"];
-    $uebungstag->load_row(); 
+    $uebungstag->ID=$_REQUEST["ID"];
+    $show_data = $uebungstag->load_row(); 
     break; 
 
 
-  // case 'insert': // XXXX   
-  //   $uebungstag->insert_row('');
-  //   $show_data=true; 
-  //   break; 
+
+case 'insert': // XXXX   
+    $info->print_user_error('Funktion aktuell nicht definiert, da Vorbelegung des Kalenders pro Schuljahr geplant ist.');
+    $show_data=false; 
+    goto pagefoot;  
+
+
+    break; 
   
   case 'update': 
-    $uebungstag->ID = $_POST["ID"];    
+    $uebungstag->ID = $_REQUEST["ID"];    
     $uebungstag->update_row($_POST["Bemerkung"], $_POST["Datum"]); 
     $show_data=true;           
     break; 
@@ -72,15 +74,25 @@ if (!$show_data) {goto pagefoot;}
   <tr>    
   <label>
   <td class="form-edit form-edit-col1">Datum:</td>  
-  <td class="form-edit form-edit-col2"> <input type="date" name="Datum" value="<?php echo $uebungstag->Datum_EN; ?>" oninput="changeBackgroundColor(this)" requested> 
-            <b>Schuljahr:</b> <?php echo $uebungstag->Schuljahr; ?>
-            <b>Wochentag:</b> <?php echo $uebungstag->Wochentag; ?>
-            <b>Ferien:</b> <?php echo $uebungstag->Ferien; ?>
-            <b>Feiertag:</b> <?php echo $uebungstag->Ferien; ?>
-  
+  <td class="form-edit form-edit-col2"> 
+    <input type="date" name="Datum" value="<?php echo $uebungstag->Datum_EN; ?>" oninput="changeBackgroundColor(this)" requested> 
+            <b> <?php echo $uebungstag->Wochentag; ?></b>
           </td>
   </label>
     </tr> 
+
+  <tr>    
+    <label>
+    <td class="form-edit form-edit-col1">Info:</td>  
+    <td class="form-edit form-edit-col2">
+
+      <b>Schuljahr:</b> <?php echo $uebungstag->Schuljahr; ?>
+          <?php echo $uebungstag->Ferien!=''?' / Ferien: '.$uebungstag->Ferien:''; ?>
+          <?php echo $uebungstag->Feiertag!=''?' / Feiertag '.$uebungstag->Feiertag:''; ?>
+  </td>
+    </label>
+  </tr> 
+
 
   <tr>    
     <label>
@@ -88,8 +100,6 @@ if (!$show_data) {goto pagefoot;}
     <td class="form-edit form-edit-col2"><input type="text" name="Bemerkung" value="<?php echo $uebungstag->Bemerkung; ?>" size="100" maxleng="250" autofocus="autofocus" oninput="changeBackgroundColor(this)"></td>
     </label>
   </tr> 
-
-
 
   <tr> 
     <td class="form-edit form-edit-col1"></td> 

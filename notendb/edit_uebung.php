@@ -6,16 +6,16 @@ include_once("classes/class.htmlinfo.php");
 include_once("classes/class.uebung.php");
 include_once("classes/class.uebungtyp.php");
 include_once("classes/class.schueler.php");
-// include_once("classes/class.kalender.php");
-
-$uebung = new Uebung(); 
-$info= new HTML_Info(); 
 
 $option=isset($_REQUEST["option"])?$_REQUEST["option"]:'edit';
 $show_data=true; 
 
-switch($option) {
+$uebung = new Uebung(); 
+$info= new HTML_Info(); 
 
+
+switch($option) {
+  
   case 'edit': // über "Bearbeiten"-Link    
     $uebung->ID=$_REQUEST["ID"];
     $show_data = $uebung->load_row();   
@@ -27,11 +27,11 @@ switch($option) {
     $SchuelerID=isset($_REQUEST["SchuelerID"])?$_REQUEST["SchuelerID"]:'';
 
     if($SchuelerID=='') {
+      // ggf. aus "Übersicht Übungen", falls Schüler-Filter nicht gesetzt 
       $info->print_user_error('Es wurde kein Schüler ausgewählt!');
       $show_data=false; 
       goto pagefoot;  
     }
-    // echo 'Datum: '.$Datum.'<br>'; 
     $Datum=$_REQUEST["Datum"];  // immer gesetzt, kann ggf. aber leer sein 
     $uebung->insert_row($SchuelerID, $Datum); 
     $show_data = $uebung->load_row();  
@@ -76,16 +76,19 @@ switch($option) {
     $uebung->copy();   
     $uebung->load_row();   
     break; 
-    
 }
-
-$info->print_screen_header($uebung->Title.' bearbeiten'); 
 
 if (!$show_data) {goto pagefoot;}
 
-echo '</p>
-<form action="edit_uebung.php" method="post">
-<table class="form-edit" width="100%"> 
+$info->print_screen_header($uebung->Title.' bearbeiten'); 
+
+$info->print_form_inline('delete_1',$uebung->ID,$uebung->Title, 'löschen'); 
+$info->print_form_inline('copy',$uebung->ID,$uebung->Title, 'kopieren'); 
+
+
+echo '<form action="edit_uebung.php" method="post">
+  <table class="form-edit" width="100%"> 
+  <tr>
     <td class="form-edit form-edit-col1">ID:</td>  
     <td class="form-edit form-edit-col2">'.$uebung->ID.'<br></td>
   </tr> '; 
@@ -105,7 +108,6 @@ echo '<tr>
     <label>
      <td class="form-edit form-edit-col1"><br>Datum:</td>   
      <td class="form-edit form-edit-col2">
-        <!-- XXXX Farbzuweisung an CSS-Regel anpassen -->            
         <br><input type="date" name="Datum" value="'.$uebung->Datum.'" oninput="changeBackgroundColor(this)" requested>
     </td>
      </label>    
@@ -126,7 +128,6 @@ echo '
 
 '; 
 
-
 echo '
   <tr>    
     <label>
@@ -137,8 +138,6 @@ echo '
 
 '; 
 
-
-
 echo '
   <tr>    
   <label>  
@@ -148,28 +147,23 @@ echo '
         $typ=new UebungTyp(); 
         $typ->print_select($uebung->UebungtypID); 
 
-    echo ' </label>  
+echo ' </label>  
       '; 
       $info->print_link_edit($typ->table_name, $uebung->UebungtypID,$typ->Title, true); 
       $info->print_link_table($typ->table_name,'sortcol=Name',$typ->Titles,true,'');    
-
-
-  echo '</td>
+echo '</td>
     </tr>'; 
 
 
 echo '
-
   <tr>    
     <td class="form-edit form-edit-col1">Anzahl: </td>  
       <td class="form-edit form-edit-col2"><input type="number" name="Anzahl" value="'.$uebung->Anzahl.'" oninput="changeBackgroundColor(this)"> 
       </td>
-  </tr>
-  
+  </tr>  
   '; 
 
-
-  echo '
+echo '
   <tr>    
     <label>  
     <td class="form-edit form-edit-col1">Satz:</td>  
@@ -181,11 +175,9 @@ echo '
         echo ' </label> ';             
         $info->print_link_edit('satz',$uebung->SatzID,true);   
 
-    echo '</td>
-      </tr>
-      '; 
-  ?>
-
+echo '</td>
+      </tr>'; 
+      ?>
   <tr>    
     <label>
     <td class="form-edit form-edit-col1">Bemerkung:</td>  
@@ -202,11 +194,10 @@ echo '
   </tr> 
 
   <tr> 
-    <!-- <td class="form-edit form-edit-col1">Besonderheiten:</td>   -->
     <td class="form-edit form-edit-col1">
         <a href="edit_uebung_lookups.php?UebungID=<?php echo $uebung->ID; ?>" target="Info">Besonderheiten:</a>
       </td>  
-  <td class="form-edit form-edit-col2">
+    <td class="form-edit form-edit-col2">
     <iframe src="edit_uebung_lookups.php?UebungID=<?php echo $uebung->ID; ?>&source=iframe" height="200" id="subform1" name="Info" class="form-iframe-var2"></iframe>
   </td>
   </tr> 

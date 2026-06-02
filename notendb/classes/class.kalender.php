@@ -152,6 +152,8 @@ class SchuelerKalender extends Kalender {
   
 
   public function date_exists(string $str_date) {
+    // print_r(func_get_args()); // Test 
+
     $select = $this->db->prepare("SELECT * FROM schueler_kalender 
                 WHERE Datum = :Datum 
                 AND SchuelerID = :SchuelerID " 

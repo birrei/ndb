@@ -20,6 +20,16 @@ p.warning {
     color: darkred; 
 }
 
+/***** Überschriften (header h3)  ****************/
+
+h3.header-with-help-link {
+    display:inline; /* soll ermöglichen, dass der Hilfe-Link rechts neben der Überschrift steht */
+}
+
+.help-link {
+    background-color: red;
+}
+
 /***** Start  ****************/
     div.start {
         /* background-color: aquamarine; */

@@ -239,16 +239,13 @@ include_once('head.php');
             <p> Das Datum einer Übung muss einem vorgegebenen Übungstag entsprechen.  </p>
             <p> Sollte beim Anlegen einer neuen Übung das Datum nicht definiert sein, wird es auf den letzten bekannten Übungstag gesetzt. </p>
             <p> Ein Datum, welches keinem Übungstag entspricht, kann nicht gespeichert werden. 
-                <!-- Wird dies versucht, wird das Datum ebenfalls auf den letzten bekannten Übungstag gesetzt. -->
-                Wird versucht, ein bestehendes Datum in einen nicht vorgegebenen Übungstag zu ändern, 
-                wird das Datum auf den zuvor gespeicherten Wert zurückgesetzt. 
+                Wird versucht, ein bestehendes Datum in einen nicht vorgegebenen Übungstag zu ändern, wird das Datum auf den zuvor gespeicherten Wert zurückgesetzt. 
             </p>
 
         
         <h3 class="chapter-title chapter-title-h3" id="erfassung_uebung_reihenfolge">Übung Reihenfolge</h3>
             <p>Reihenfolge einer Übung innerhalb eines Schülers / Datums <br >
             </p>
-
  
 
         <h3 class="chapter-title chapter-title-h3" id="erfassung_uebung_anzahl">Übung Anzahl XXX</h3>

@@ -20,7 +20,6 @@ if (isset($_REQUEST["ansicht"])) {
 } 
 
 $add_link_edit=true; 
-$show_insert_link=false; // "Neu einfügen" - Link anzeigen ja / nein - default: nein 
 
 switch ($ansicht) // $PageTitle, $table_edit 
 {
@@ -36,13 +35,9 @@ switch ($ansicht) // $PageTitle, $table_edit
     $PageTitle='Übersicht Übungen ';  
     $table_edit='uebung';     
     break; 
-  case 'uebungen-datum'; // XXXX Löschen 
-    // $PageTitle='Übersicht Übungen / Datum';  
-    // $table_edit='';     
-    break; 
   case 'uebungen-datum2'; // aka "Übungstage / alt: Übungen / Datum 
     $PageTitle='Übersicht Übungstage';  
-    $table_edit='';     
+    // $table_edit='';     
     break;     
   case 'verwendungszwecke'; 
     $PageTitle='Übersicht Verwendungszwecke';  
@@ -83,15 +78,16 @@ if ($ansicht=='' OR $query='') {
   goto pagefoot;
 }
 
-echo '<h3>'.$PageTitle.'</h3>'.PHP_EOL; 
+echo '<h3 class="header-with-help-link">'.$PageTitle.'</h3>'.PHP_EOL; 
+echo '<a href="help_uebersichten.php?#uebersichten_'.$ansicht.'" target="_blank">Hilfe</a>';
 
+echo '<p></p>'; 
 // XXXX Filter einschränken ermöglichen (es sollen nicht automatisch alle Zeilen einer Tabelle auf einmal angezeigt werden)
 
 switch ($ansicht)  // setzen: $PageTitle, $table_edit 
 {
   case 'sammlungen': 
     include_once("classes/class.standort.php");
-    $show_insert_link=true;     
 
     $StandortID=(isset($_REQUEST["StandortID"])?$_REQUEST["StandortID"]:'');
 
@@ -113,7 +109,7 @@ switch ($ansicht)  // setzen: $PageTitle, $table_edit
     echo 'Suchtext: <input type="text" id="Suchtext" name="Suchtext" size="30px" value="'.$Suchtext.'"> '; 
     echo '<input type="submit" class="btnSave" name="senden" value="Suchen">';
     echo '<input type="hidden" name="ansicht" value="'.$ansicht.'">
-          </form><br>';    
+          </form>';    
 
     $query="SELECT sammlung.ID
                   , sammlung.Name
@@ -151,8 +147,6 @@ switch ($ansicht)  // setzen: $PageTitle, $table_edit
   case 'schueler':  
     include_once("classes/class.status.php");
 
-    $show_insert_link=true;     
-
     $StatusID=(isset($_REQUEST["StatusID"])?$_REQUEST["StatusID"]:'');
     $Status_Umkehr=(isset($_REQUEST["Status_Umkehr"])?true:false);    
     $Datum=(isset($_REQUEST["Datum"])?$_REQUEST["Datum"]:'');
@@ -180,7 +174,7 @@ switch ($ansicht)  // setzen: $PageTitle, $table_edit
         
     echo '<input type="hidden" name="ansicht" value="'.$ansicht.'">'; 
     echo '<input type="hidden" name="Filter" value="gesetzt">'; // Nur beim Erstaufruf der Seite nicht gesetzt 
-    echo '</form><br>';           
+    echo '</form>';           
 
     $sqlpart = new SQLPart(); 
 
@@ -286,7 +280,7 @@ switch ($ansicht)  // setzen: $PageTitle, $table_edit
 
     echo '<input type="submit" class="btnSave" name="senden" value="Suchen">';
     echo '<input type="hidden" name="ansicht" value="'.$ansicht.'">'; 
-    echo '</form><br>';           
+    echo '</form>';           
 
     $sqlpart = new SQLPart(); 
 
@@ -349,7 +343,7 @@ switch ($ansicht)  // setzen: $PageTitle, $table_edit
 
     $query.="ORDER BY uebung.Datum DESC, schueler.Unterricht_Reihenfolge, uebung.Reihenfolge, uebung.Name "; 
 
-    echo '<a href="edit_'.$table_edit.'.php?option=insert&SchuelerID='.$SchuelerID.'&Datum='.$Datum.'" target="_blank">Neu erfassen</a><br>';
+    echo '<p><a href="edit_'.$table_edit.'.php?option=insert&SchuelerID='.$SchuelerID.'&Datum='.$Datum.'" target="_blank">Neu erfassen</a></p>';
 
     break; 
 
@@ -387,7 +381,7 @@ switch ($ansicht)  // setzen: $PageTitle, $table_edit
 
     echo '<input type="submit" class="btnSave" name="senden" value="Suchen">';
     echo '<input type="hidden" name="ansicht" value="'.$ansicht.'">'; 
-    echo '</form><br>';           
+    echo '</form>';           
 
     $query="
               SELECT schueler.Name
@@ -485,7 +479,7 @@ switch ($ansicht)  // setzen: $PageTitle, $table_edit
 
     echo '<input type="submit" class="btnSave" name="senden" value="Suchen">';
     echo '<input type="hidden" name="ansicht" value="'.$ansicht.'">'; 
-    echo '</form><br>';           
+    echo '</form>';           
 
     $query="
       SELECT schueler.Name AS `Schüler Name`
@@ -549,15 +543,12 @@ switch ($ansicht)  // setzen: $PageTitle, $table_edit
     $query.="
         GROUP BY schueler.ID, schueler_kalender.Datum  
         ORDER BY schueler_kalender.Datum DESC, schueler.Unterricht_Reihenfolge, uebung.Name                     
-      
              "; 
-
+    echo '<p><a href="edit_'.$table_edit.'.php?option=insert&SchuelerID='.$SchuelerID.'" target="_blank">Neu erfassen</a></p>';
 
     break;   
 
   case 'verwendungszwecke': // ************************************
-
-    $show_insert_link=true;  
 
     $Suchtext=(isset($_REQUEST["Suchtext"])?$_REQUEST["Suchtext"]:'');   
 
@@ -571,7 +562,7 @@ switch ($ansicht)  // setzen: $PageTitle, $table_edit
     echo '<input type="submit" class="btnSave" name="senden" value="Suchen">';
 
     echo '<input type="hidden" name="ansicht" value="'.$ansicht.'">'; 
-    echo '</form><br>';       
+    echo '</form>';       
 
     if(!$BerechnungAnzeigen) {
       $query="SELECT ID, Name FROM verwendungszweck WHERE 1=1 "; 
@@ -601,7 +592,6 @@ switch ($ansicht)  // setzen: $PageTitle, $table_edit
     break; 
 
   case 'standorte': 
-    $show_insert_link=true;  
 
     $Suchtext=(isset($_REQUEST["Suchtext"])?$_REQUEST["Suchtext"]:'');   
 
@@ -609,7 +599,7 @@ switch ($ansicht)  // setzen: $PageTitle, $table_edit
     echo ' Suchtext: <input type="text" id="Suchtext" name="Suchtext" size="30px" value="'.$Suchtext.'"> '; 
     echo '<input type="submit" class="btnSave" name="senden" value="Suchen">';
     echo '<input type="hidden" name="ansicht" value="'.$ansicht.'">'; 
-    echo '</form><br>';       
+    echo '</form>';       
 
 
     $query="SELECT ID, Name 
@@ -628,15 +618,13 @@ switch ($ansicht)  // setzen: $PageTitle, $table_edit
 
   case 'verlage': 
 
-    $show_insert_link=true;  
-
     $Suchtext=(isset($_REQUEST["Suchtext"])?$_REQUEST["Suchtext"]:'');   
 
     echo '<form action="" method="get">'.PHP_EOL;  
     echo ' Suchtext: <input type="text" id="Suchtext" name="Suchtext" size="30px" value="'.$Suchtext.'"> '; 
     echo '<input type="submit" class="btnSave" name="senden" value="Suchen">';
     echo '<input type="hidden" name="ansicht" value="'.$ansicht.'">'; 
-    echo '</form><br>';       
+    echo '</form>';       
 
     $query="SELECT ID, Name 
             FROM verlag  
@@ -652,7 +640,6 @@ switch ($ansicht)  // setzen: $PageTitle, $table_edit
     break;     
   case 'schuljahre': 
 
-    $show_insert_link=false;  
     $add_link_edit=false; 
     $table_edit='schuljahr';   
 
@@ -700,7 +687,7 @@ switch ($ansicht)  // setzen: $PageTitle, $table_edit
 
     // echo '<input type="submit" class="btnSave" name="senden" value="Start">';
     echo '<input type="hidden" name="ansicht" value="'.$ansicht.'">'; 
-    echo '</form><br>';       
+    echo '</form>';       
 
     $add_link_edit=true; 
     $table_edit='kalender'; 
@@ -742,7 +729,6 @@ switch ($ansicht)  // setzen: $PageTitle, $table_edit
     include_once("classes/class.schuljahr.php");
     include_once("classes/class.schuljahre.php");
 
-    $show_insert_link=false;  
     $add_link_edit=false; 
     $table_edit='ferien';      
 
@@ -760,7 +746,7 @@ switch ($ansicht)  // setzen: $PageTitle, $table_edit
         // echo ' &#9475;';
     // echo '<input type="submit" class="btnSave" name="senden" value="Suchen">';
     echo '<input type="hidden" name="ansicht" value="'.$ansicht.'">
-          </form><br>';    
+          </form>';    
 
 
     $query="SELECT s.ID 
@@ -786,7 +772,6 @@ switch ($ansicht)  // setzen: $PageTitle, $table_edit
     include_once("classes/class.schuljahr.php");
     include_once("classes/class.schuljahre.php");
 
-    $show_insert_link=false;  
     $add_link_edit=false; 
     $table_edit='ferien';      
 
@@ -804,7 +789,7 @@ switch ($ansicht)  // setzen: $PageTitle, $table_edit
         // echo ' &#9475;';
     // echo '<input type="submit" class="btnSave" name="senden" value="Suchen">';
     echo '<input type="hidden" name="ansicht" value="'.$ansicht.'">
-          </form><br>';    
+          </form>';    
 
     $query="SELECT s.ID 
           , f.Bezeichnung 
@@ -847,7 +832,7 @@ switch ($ansicht)  // setzen: $PageTitle, $table_edit
     echo '<input type="submit" class="btnSave" name="senden" value="Suchen">';
     echo '<input type="hidden" name="ansicht" value="'.$ansicht.'">'; 
 
-    echo '</form><br>';         
+    echo '</form>';         
     
     if ($SchuelerID=='') {
       echo 'Bitte einen Schüler auswählen!'; 
@@ -888,13 +873,7 @@ if($query=='') {
   goto pagefoot;
 }
 
-echo '<a href="help_uebersichten.php?#uebersichten_'.$ansicht.'" target="_blank">Hilfe</a>';
 
-echo '<br><br>'; 
-if ($show_insert_link) {
-  echo '<a href="edit_'.$table_edit.'.php?option=insert">Neu erfassen</a>';
-  echo '<br><br>';   
-}
 
 
 /******************************* */

@@ -81,12 +81,46 @@ SELECT * FROM schueler_kalender
 SELECT * FROM schueler_kalender WHERE SchuelerID=32 ORDER BY Datum DESC 
 
 
+/******************************************/
+
+-- Constraint löschen. "Datum" muss (temp. ) NULL - Wert erlauben
+ 
+ALTER TABLE schueler_kalender DROP CONSTRAINT uk_SchuelerID_Datum
+
+/*
+ * SQL Error [1553] [HY000]: (conn=3637) Cannot drop index 'uk_SchuelerID_Datum': needed in a foreign key constraint
+ * 
+ * */
+
+--- Anpassung: 
+
+ALTER TABLE schueler_kalender DROP CONSTRAINT fk_SchuelerID
+
+ALTER TABLE schueler_kalender DROP CONSTRAINT uk_SchuelerID_Datum
+
+ALTER TABLE schueler_kalender ADD CONSTRAINT fk_SchuelerID FOREIGN KEY (SchuelerID) REFERENCES schueler(ID)
+
+-- SQL Error [1292] [22007]: (conn=3637) Incorrect date value: '0000-00-00' for column `notendb`.`schueler_kalender`.`Datum` at row 1752
 
 
 
 
+ ALTER TABLE schueler_kalender CHANGE `Datum` Datum date NULL
+ 
 
-
+-- SQL Error [1292] [22007]: (conn=3637) Incorrect date value: '0000-00-00' for column `notendb`.`schueler_kalender`.`Datum` at row 1752
+ 
+ -- ? 
+ 
+ SELECT * FROM schueler_kalender ORDER BY ID DESC 
+ 
+ DELETE FROM schueler_kalender WHERE Datum='0000-00-00'; 
+ 
+ 
+     SHOW CREATE TABLE schueler_kalender 
+     
+/******************************************/ 
+ 
 SELECT schueler.Name AS `Schüler Name`
           , schueler.Bemerkung `Schueler Bemerkung` 
           , kalender.Wochentag_Name 
@@ -113,5 +147,10 @@ SELECT schueler.Name AS `Schüler Name`
             WHERE 1=1 
             AND uebung.SchuelerID=32
     GROUP BY schueler.ID, schueler_kalender.Datum  
-    ORDER BY uebung.Datum DESC, schueler.Unterricht_Reihenfolge, uebung.Name                     
+    ORDER BY uebung.Datum DESC, schueler.Unterricht_Reihenfolge, uebung.Name       
+    
+    SELECT * 
+    FROM v_schueler_kalender_vorlage 
+	WHERE vskv.SchuelerID = 9     
+
 

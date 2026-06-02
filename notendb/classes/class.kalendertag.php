@@ -121,6 +121,7 @@ class SchuelerKalendertag extends Kalendertag {
   public string $Bemerkung=''; 
 
   public function load_row() {
+  
     $select = $this->db->prepare(
                       "SELECT schueler_kalender.ID
                       , schueler_kalender.Datum
@@ -162,9 +163,9 @@ class SchuelerKalendertag extends Kalendertag {
       $this->SchuelerID=$row_data["SchuelerID"]; 
       $this->SchuelerName=$row_data["SchuelerName"]; 
 
-      $this->Hinweise=($this->Ferien!='' & $this->Feiertag!=''?$this->Ferien.', '.$this->Feiertag:''); 
-      $this->Hinweise=($this->Ferien!='' & $this->Feiertag==''?$this->Ferien:''); 
-      $this->Hinweise=($this->Ferien=='' & $this->Feiertag!=''?$this->Feiertag:''); 
+      // $this->Hinweise=($this->Ferien!='' & $this->Feiertag!=''?$this->Ferien.', '.$this->Feiertag:''); 
+      // $this->Hinweise=($this->Ferien!='' & $this->Feiertag==''?$this->Ferien:''); 
+      // $this->Hinweise=($this->Ferien=='' & $this->Feiertag!=''?$this->Feiertag:''); 
 
       return true; 
     } 
@@ -174,15 +175,14 @@ class SchuelerKalendertag extends Kalendertag {
     
   }   
 
-  function insert(string $str_date) {
-      
+  public function insert_row(int $SchuelerID) {
+
+    // print_r(func_get_args()); 
+
     $insert = $this->db->prepare("INSERT INTO schueler_kalender  
-              SET `SchuelerID` = :SchuelerID
-                  , Datum      =  :Datum "
-           );
+                                  SET `SchuelerID` = :SchuelerID ");
           
-    $insert->bindParam(':SchuelerID', $this->SchuelerID,PDO::PARAM_INT);
-    $insert->bindParam(':Datum', $str_date);
+    $insert->bindParam(':SchuelerID', $SchuelerID,PDO::PARAM_INT);
 
     try {
       $insert->execute(); 
@@ -196,6 +196,37 @@ class SchuelerKalendertag extends Kalendertag {
   }  
 
   public function update_row(string $Bemerkung, string $Datum) {
+
+    // Datum ändern nicht möglich wenn: 
+    // 1. das neue Datum im Schüler-Kalender schon existiert
+    // 2. es bereits Übungen mit dem bisherigen Datum gibt  
+
+    // print_r(func_get_args()); // Test 
+
+    $Datum_Neu = new Datetime($Datum);
+    $Datum_Neu_DE = $Datum_Neu->format('d.m.Y');  
+    $Datum_Neu_EN = $Datum_Neu->format('Y-m-d');  
+
+    $this->load_row(); 
+
+    if ($this->Datum_EN != $Datum) {
+      $uebungskalender = new SchuelerKalender(); 
+      $uebungskalender->SchuelerID= $this->SchuelerID; 
+
+      if ($uebungskalender->date_exists($Datum)) {
+        $this->info->print_user_error('Das erfasste Datum '.$Datum_Neu_DE.' existiert bereits im Schülerkalender. 
+                                    Das Datum wird auf den vorherigen Wert '.$this->Datum_DE.' zurückgesetzt.   <br>'); 
+        $Datum=$this->Datum_EN;
+      } 
+
+      $AnzahlUebungen = $this->AnzahlUebungen();  
+
+      if($AnzahlUebungen > 0 ) {
+        $this->info->print_user_error('Es sind noch '.$AnzahlUebungen.' Übungen mit Datum '.$this->Datum_DE.' vorhanden.
+                                  Das erfasste Datum '.$Datum_Neu_DE.' kann nicht gespeichert werden und wird auf '.$this->Datum_DE.' zurückgesetzt.<br>'); 
+        $Datum=$this->Datum_EN;; 
+      }
+    }
 
     $update = $this->db->prepare("UPDATE schueler_kalender  
                                   SET Bemerkung    = :Bemerkung, 
@@ -218,28 +249,18 @@ class SchuelerKalendertag extends Kalendertag {
 
   function is_deletable() {
     
+    $AnzahlUebungen = $this->AnzahlUebungen(); 
+    
     $this->load_row(); 
 
-    $select = $this->db->prepare("SELECT * 
-              FROM uebung 
-              WHERE SchuelerID=:SchuelerID 
-              AND Datum = :Datum 
-              "
-              );
-    $select->bindValue(':SchuelerID', $this->SchuelerID); 
-    $select->bindValue(':Datum', $this->Datum_EN); 
-    $select->execute();  
-    
-    // $select->debugDumpParams(); 
-
-    if ($select->rowCount() > 0 ){
+    If ($AnzahlUebungen > 0)  { 
       $this->info->print_warning('Das Datum '.$this->Datum_DE.' für Schüler "'.$this->SchuelerName.'" 
-        kann nicht gelöscht werden, da noch eine Zuordnung auf '.$select->rowCount().' 
-        Übungen existiert.<br>'); 
-      return false;       
+        kann nicht gelöscht werden, da noch  '.$AnzahlUebungen.' Übungen vorhanden sind.<br>'); 
+      return false; 
+    }
+    else { 
+        return true; 
     } 
-
-    return true;
 
   }
 
@@ -260,6 +281,32 @@ class SchuelerKalendertag extends Kalendertag {
     }  
   }   
 
+  public function AnzahlUebungen() {
+
+    $tmpAnzahl = 0; 
+
+    $select = $this->db->prepare("SELECT * 
+              FROM uebung 
+              WHERE SchuelerID=:SchuelerID 
+              AND Datum = :Datum 
+              "
+              );
+    $select->bindValue(':SchuelerID', $this->SchuelerID); 
+    $select->bindValue(':Datum', $this->Datum_EN); 
+    $select->execute();  
+    
+    // if ($select->rowCount() > 0 ){
+    //   $this->info->print_warning('Das Datum '.$this->Datum_DE.' für Schüler "'.$this->SchuelerName.'" 
+    //     kann nicht gelöscht werden, da noch eine Zuordnung auf '.$select->rowCount().' 
+    //     Übungen existiert.<br>'); 
+    //   return false;       
+    // } 
+
+    $tmpAnzahl = $select->rowCount(); 
+
+    return $tmpAnzahl; 
+
+  }
 
 
 

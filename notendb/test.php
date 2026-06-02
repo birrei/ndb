@@ -3,37 +3,19 @@ $PageTitle='TEST';
 include_once('head.php');
 include_once('classes/class.htmlinfo.php');
 
-// ---------------------------------------------------------------
+
+$strDatum='2026-05-15'; 
+$Datum = new Datetime($strDatum);
+$Datum_DE = $Datum->format('d.m.Y');  
 
 
-/* Gruppierte Datenausgabe (Javascript)  */
+echo 'strDatum: '.$strDatum.'<br>'; 
+echo 'Datum_DE: '.$Datum_DE.'<br>'; 
+
+
 
 ?>
 
-
-
-<script type="text/javascript">  
-
-    console.log("Hallo");
-
-    const daten = [
-    { kategorie: 'Frucht', name: 'Apfel' },
-    { kategorie: 'Gemüse', name: 'Karotte' },
-    { kategorie: 'Frucht', name: 'Banane' },
-    { kategorie: 'Gemüse', name: 'Brokkoli' }
-    ];
-
-    const gruppierteDaten = Object.groupBy(daten, item => item.kategorie);
-
-    console.log(gruppierteDaten);
-    /* Ausgabe:
-    {
-    Frucht: [ { kategorie: 'Frucht', name: 'Apfel' }, { kategorie: 'Frucht', name: 'Banane' } ],
-    Gemüse: [ { kategorie: 'Gemüse', name: 'Karotte' }, { kategorie: 'Gemüse', name: 'Brokkoli' } ]
-    }
-    */
-
-</script>
 
 
 <?php 

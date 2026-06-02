@@ -58,7 +58,6 @@ class Uebung {
       }
     } 
     
-    
     $insert = $this->db->prepare("INSERT INTO `uebung` 
               SET `SchuelerID`= :SchuelerID, Datum = :Datum " 
           );
