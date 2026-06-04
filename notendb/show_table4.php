@@ -141,7 +141,10 @@ switch ($ansicht)  // setzen: $PageTitle, $table_edit
     $query.="GROUP by sammlung.ID 
              ORDER BY sammlung.ID DESC 
             "; 
-          
+    echo '<p><a href="edit_'.$table_edit.'.php?option=insert" target="_blank">Neu erfassen</a></p>';
+    
+    
+    
     break; 
 
   case 'schueler':  
