@@ -589,6 +589,10 @@ switch ($ansicht)  // setzen: $PageTitle, $table_edit
 
     }
     $query.="ORDER BY verwendungszweck.Name "; 
+
+    echo '<p><a href="edit_'.$table_edit.'.php?option=insert" target="_blank">Neu erfassen</a></p>';
+    
+    
     break; 
 
   case 'standorte': 
@@ -614,6 +618,9 @@ switch ($ansicht)  // setzen: $PageTitle, $table_edit
 
     $query.="ORDER BY standort.Name "; 
 
+    echo '<p><a href="edit_'.$table_edit.'.php?option=insert" target="_blank">Neu erfassen</a></p>';
+    
+    
     break; 
 
   case 'verlage': 
@@ -636,6 +643,10 @@ switch ($ansicht)  // setzen: $PageTitle, $table_edit
     }
 
     $query.="ORDER BY verlag.Name "; 
+
+
+    echo '<p><a href="edit_'.$table_edit.'.php?option=insert" target="_blank">Neu erfassen</a></p>';
+        
 
     break;     
   case 'schuljahre': 
