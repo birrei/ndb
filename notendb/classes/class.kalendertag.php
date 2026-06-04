@@ -121,40 +121,51 @@ class SchuelerKalendertag extends Kalendertag {
   public string $Bemerkung=''; 
 
   public function load_row() {
-  
-    $select = $this->db->prepare(
-                      "SELECT schueler_kalender.ID
-                      , schueler_kalender.Datum
-                      , COALESCE(schueler_kalender.Bemerkung, '') as Bemerkung
-                      , schueler_kalender.SchuelerID
-                      , kalender.Wochentag_Name as Wochentag 
-                      , COALESCE(ferien.Bezeichnung,'') AS Ferien 
-                      , COALESCE(feiertag.Bezeichnung, '') AS Feiertag 
-                      , COALESCE(schuljahr.Bezeichnung, '') AS Schuljahr
-                      , schueler.Name as SchuelerName   
-                FROM schueler_kalender 
-                    INNER JOIN 
-                    kalender 
-                        ON schueler_kalender.Datum = kalender.Datum         
-                    INNER JOIN schueler 
-                        ON schueler.ID= schueler_kalender.SchuelerID 
-                    LEFT JOIN schuljahr 
-                      ON kalender.Datum  BETWEEN schuljahr.Datum_Start AND schuljahr.Datum_Ende 
-                    LEFT JOIN ferien 
-                      ON kalender.Datum BETWEEN ferien.Datum_Start AND ferien.Datum_Ende 
-                    LEFT JOIN feiertag 
-                      ON kalender.Datum = feiertag.Datum    
-                WHERE schueler_kalender.ID = :ID");
 
+    $query="SELECT schueler_kalender.ID
+          , COALESCE(schueler_kalender.Datum, '') as Datum 
+          -- , schueler_kalender.Datum
+          , COALESCE(schueler_kalender.Bemerkung, '') as Bemerkung
+          , schueler_kalender.SchuelerID
+          , COALESCE(kalender.Wochentag_Name, '') as Wochentag 
+          , COALESCE(ferien.Bezeichnung,'') AS Ferien 
+          , COALESCE(feiertag.Bezeichnung, '') AS Feiertag 
+          , COALESCE(schuljahr.Bezeichnung, '') AS Schuljahr
+          , schueler.Name as SchuelerName   
+    FROM schueler_kalender 
+          INNER JOIN schueler 
+            ON schueler.ID= schueler_kalender.SchuelerID           
+        LEFT JOIN  kalender 
+            ON schueler_kalender.Datum = kalender.Datum         
+        LEFT JOIN schuljahr 
+          ON kalender.Datum  BETWEEN schuljahr.Datum_Start AND schuljahr.Datum_Ende 
+        LEFT JOIN ferien 
+          ON kalender.Datum BETWEEN ferien.Datum_Start AND ferien.Datum_Ende 
+        LEFT JOIN feiertag 
+          ON kalender.Datum = feiertag.Datum    
+    WHERE schueler_kalender.ID = :ID"; 
+          
+
+
+    $select = $this->db->prepare($query);
 
     $select->bindParam(':ID', $this->ID, PDO::PARAM_INT);
     $select->execute(); 
     if ($select->rowCount()==1) {
-      $row_data=$select->fetch();         
-      $this->Datum = new Datetime($row_data["Datum"]);
-      $this->Datum_DE = $this->Datum->format('d.m.Y');  
-      $this->Datum_EN = $this->Datum->format('Y-m-d');  
-      $this->Name=$row_data["Datum"]; 
+      $row_data=$select->fetch(); 
+      // echo '<pre>'; 
+      // print_r($row_data); // test    
+      // echo '</pre>';
+
+      if(!empty($row_data["Datum"])) {
+        $this->Datum = new Datetime($row_data["Datum"]);        
+        $this->Datum_DE = $this->Datum->format('d.m.Y');  
+        $this->Datum_EN = $this->Datum->format('Y-m-d');  
+      } else {
+        $this->Datum_DE = ''; 
+        $this->Datum_EN = ''; 
+      }
+      // $this->Name=$row_data["Datum"]; 
       $this->Bemerkung=$row_data["Bemerkung"]; 
       $this->Wochentag=$row_data["Wochentag"]; 
       $this->Ferien=$row_data["Ferien"]; 
@@ -162,10 +173,6 @@ class SchuelerKalendertag extends Kalendertag {
       $this->Schuljahr=$row_data["Schuljahr"]; 
       $this->SchuelerID=$row_data["SchuelerID"]; 
       $this->SchuelerName=$row_data["SchuelerName"]; 
-
-      // $this->Hinweise=($this->Ferien!='' & $this->Feiertag!=''?$this->Ferien.', '.$this->Feiertag:''); 
-      // $this->Hinweise=($this->Ferien!='' & $this->Feiertag==''?$this->Ferien:''); 
-      // $this->Hinweise=($this->Ferien=='' & $this->Feiertag!=''?$this->Feiertag:''); 
 
       return true; 
     } 
@@ -187,7 +194,7 @@ class SchuelerKalendertag extends Kalendertag {
     try {
       $insert->execute(); 
       $this->ID=$this->db->lastInsertId(); 
-      $this->load_row();        
+      
     }
       catch (PDOException $e) {
       $this->info->print_user_error(); 
@@ -209,24 +216,28 @@ class SchuelerKalendertag extends Kalendertag {
 
     $this->load_row(); 
 
-    if ($this->Datum_EN != $Datum) {
-      $uebungskalender = new SchuelerKalender(); 
-      $uebungskalender->SchuelerID= $this->SchuelerID; 
+    /** prüfung auf Dublette  */
 
-      if ($uebungskalender->date_exists($Datum)) {
-        $this->info->print_user_error('Das erfasste Datum '.$Datum_Neu_DE.' existiert bereits im Schülerkalender. 
-                                    Das Datum wird auf den vorherigen Wert '.$this->Datum_DE.' zurückgesetzt.   <br>'); 
-        $Datum=$this->Datum_EN;
-      } 
+    $uebungskalender = new SchuelerKalender(); 
+    $uebungskalender->SchuelerID= $this->SchuelerID; 
 
-      $AnzahlUebungen = $this->AnzahlUebungen();  
+    if ($uebungskalender->date_exists($Datum)) {
+      $this->info->print_user_error('Das erfasste Datum '.$Datum_Neu_DE.' existiert bereits im Schülerkalender. 
+                                  Das Datum wird auf den vorherigen Wert '.$this->Datum_DE.' zurückgesetzt.   <br>'); 
+      $Datum=$this->Datum_EN;
 
-      if($AnzahlUebungen > 0 ) {
+    } 
+
+    /** prüfung auf Dublette  */
+
+    $AnzahlUebungen = $this->AnzahlUebungen();  
+
+    if($AnzahlUebungen > 0 ) {
         $this->info->print_user_error('Es sind noch '.$AnzahlUebungen.' Übungen mit Datum '.$this->Datum_DE.' vorhanden.
                                   Das erfasste Datum '.$Datum_Neu_DE.' kann nicht gespeichert werden und wird auf '.$this->Datum_DE.' zurückgesetzt.<br>'); 
         $Datum=$this->Datum_EN;; 
       }
-    }
+
 
     $update = $this->db->prepare("UPDATE schueler_kalender  
                                   SET Bemerkung    = :Bemerkung, 

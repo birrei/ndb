@@ -11,26 +11,41 @@ $show_data=true;
 $uebungstag = new SchuelerKalendertag();
 $info= new HTML_Info(); 
 
+// print_r($_REQUEST); 
+
+echo 'option: '.$option.'<br>'; 
+
 switch($option) {
+
   case 'edit': // über "Bearbeiten"-Link
     $uebungstag->ID=$_REQUEST["ID"];
     $show_data = $uebungstag->load_row(); 
     break; 
 
-
-
 case 'insert': // XXXX   
-    $info->print_user_error('Funktion aktuell nicht definiert, da Vorbelegung des Kalenders pro Schuljahr geplant ist.');
-    $show_data=false; 
-    goto pagefoot;  
 
+  if(empty($_REQUEST["SchuelerID"])) {
+      // ggf. aus "Übersicht Übungen", falls Schüler-Filter nicht gesetzt 
+      $info->print_user_error('Es wurde kein Schüler ausgewählt!');
+      $show_data=false; 
+      goto pagefoot;  
+    }
+
+    $uebungstag->insert_row($_REQUEST["SchuelerID"]); 
+    $uebungstag->load_row();      
+    // echo 'Datum_EN: '.$uebungstag->Datum_EN; 
 
     break; 
   
   case 'update': 
-    $uebungstag->ID = $_REQUEST["ID"];    
+    $uebungstag->ID = $_REQUEST["ID"];  
+    if(empty($_REQUEST["Datum"])) {
+      $info->print_user_error('Das Datum darf nicht leer sein!'); 
+      $uebungstag->load_row(); 
+    }
+  
     $uebungstag->update_row($_POST["Bemerkung"], $_POST["Datum"]); 
-    $show_data=true;           
+           
     break; 
 
   case 'delete_1': 

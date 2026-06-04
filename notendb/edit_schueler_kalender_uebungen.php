@@ -9,9 +9,13 @@ echo '<div style="display: grid; grid-template-columns: auto auto;">';
 // $Datum=(isset($_REQUEST["Datum"])?$_REQUEST["Datum"]:date('Y-m-d')); 
 $Datum=(isset($_REQUEST["Datum"])?$_REQUEST["Datum"]:''); 
 
-$schueler=new Schueler();
-$schueler->ID=$_GET["SchuelerID"]; 
-$schueler->print_table_uebungen($Datum); 
+if(!empty($Datum)) {
+    $schueler=new Schueler();
+    $schueler->ID=$_GET["SchuelerID"]; 
+    $schueler->print_table_uebungen($Datum); 
+
+} 
+
 
 echo '</div>'; 
     
