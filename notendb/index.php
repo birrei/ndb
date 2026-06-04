@@ -86,13 +86,15 @@ a:hover {
 </tr>
 
 
-<tr> <td class="start"> <h3>Abfragen, Auswertungen</h3> </td>
+<tr> <td class="start"> <h3>Abfragen, Auswertungen, Sammel-Updates</h3> </td>
   <td class="start">
+    <a href="updates.php">Sammel-Updates</a> <br>    
     <a href="show_table3.php">Verwendungszweck Planung</a> <i>(Anzeige Gesamt - Spieldauer) </i> <br>
     <a href="show_table2.php?table=v2_info_Tempobezeichnungen&sortcol=Tempobezeichnung">Verwendete Tempobezeichnungen</a> <br>
     <a href="show_table2.php?table=v2_info_Spieldauern&sortcol=Spieldauer">Verwendete Spieldauern</a> <br>
     <a href="tests.php?title=Tests">Vordefinierte Tests</a>   <br>
     <a href="show_table2.php?table=v_abfrage&sortcol=Name&add_link_show">Gespeicherte Abfragen</a> <br>
+
   </td>
 </tr>
 

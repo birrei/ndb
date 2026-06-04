@@ -113,7 +113,7 @@ class SchuelerSatz {
   }  
 
   function is_deletable() {
-    // nicht löschbar, wenn eine Übung des Schülers mit dem Satz verknüpft ist 
+    // nicht löschbar, wenn keine Übung des Schülers mit dem Satz verknüpft ist 
     $select = $this->db->prepare("SELECT * FROM uebung 
                                   WHERE SatzID=:SatzID 
                                   AND SchuelerID=:SchuelerID");
@@ -132,7 +132,6 @@ class SchuelerSatz {
     }
   }
 
- 
   function update_row($SchuelerID, $SatzID, $DatumVon, $DatumBis, $Bemerkung, $StatusID) {
     // echo 'TEST: ID: '.$this->ID; 
     // echo '<br>SchuelerID: '.$SchuelerID; 
@@ -172,6 +171,27 @@ class SchuelerSatz {
     }
   }
 
+
+  function changeStatusAll(int $StatusID_src, int $StatusID_tgt ) {
+    
+    $update = $this->db->prepare("UPDATE schueler_satz 
+                            SET   StatusID =  :StatusID_tgt
+                            WHERE StatusID =  :StatusID_src
+                            "); 
+ 
+    $update->bindParam(':StatusID_tgt', $StatusID_tgt, PDO::PARAM_INT);
+    $update->bindParam(':StatusID_src', $StatusID_src, PDO::PARAM_INT);
+
+    try {
+      $update->execute();
+      $count_changed= $update->rowCount(); 
+      $this->info->print_info('Es wurden '.$count_changed.' Verknüpfungen geändert'); 
+    }
+    catch (PDOException $e) {
+      $this->info->print_user_error(); 
+      $this->info->print_error($update, $e);  
+    }    
+  }  
 
 
 }

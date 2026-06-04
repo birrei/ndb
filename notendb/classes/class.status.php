@@ -67,6 +67,30 @@ class status {
     }
   }
 
+
+  function print_select2(string $item_name, string $value_selected){
+    // unterschied zu print_select: Name des Select-Elements ist über $item_name definierbar  
+    $query="SELECT ID, Name 
+            FROM `status` 
+            order by `Name`"; 
+
+    $stmt = $this->db->prepare($query); 
+
+    try {
+      $stmt->execute(); 
+      $html = new HTML_Select($stmt); 
+      $html->required=false;        
+      $html->caption = ''; 
+      $html->print_select($item_name, $value_selected); 
+      
+    }
+    catch (PDOException $e) {
+      $this->info->print_user_error(); 
+      $this->info->print_error($stmt, $e); 
+    }
+  }
+
+
   function print_table(){
 
     $query="SELECT * from status ORDER by Name"; 
