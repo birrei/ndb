@@ -51,8 +51,8 @@ $info->print_screen_header($kalender->Title.' bearbeiten');
 if (!$show_data) {goto pagefoot;}
 
 echo '
-<form action="edit_kalender.php" method="post">
-<table class="form-edit"> 
+  <form action="edit_kalender.php" method="post">
+  <table class="form-edit"> 
 
   <tr>    
     <label>

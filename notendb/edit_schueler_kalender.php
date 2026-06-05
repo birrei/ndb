@@ -11,40 +11,78 @@ $show_data=true;
 $uebungstag = new SchuelerKalendertag();
 $info= new HTML_Info(); 
 
-// print_r($_REQUEST); 
-
-echo 'option: '.$option.'<br>'; 
+// print_r($_REQUEST); // test 
 
 switch($option) {
 
   case 'edit': // über "Bearbeiten"-Link
     $uebungstag->ID=$_REQUEST["ID"];
     $show_data = $uebungstag->load_row(); 
+    $Datum = $uebungstag->Datum_EN; 
+    $Datum_DE = $uebungstag->Datum_DE; 
     break; 
 
-case 'insert': // XXXX   
+case 'insert': 
 
   if(empty($_REQUEST["SchuelerID"])) {
-      // ggf. aus "Übersicht Übungen", falls Schüler-Filter nicht gesetzt 
       $info->print_user_error('Es wurde kein Schüler ausgewählt!');
       $show_data=false; 
       goto pagefoot;  
     }
 
     $uebungstag->insert_row($_REQUEST["SchuelerID"]); 
-    $uebungstag->load_row();      
-    // echo 'Datum_EN: '.$uebungstag->Datum_EN; 
+    $uebungstag->load_row();    
+    $Datum = $uebungstag->Datum_EN;   
+    $Datum_DE = $uebungstag->Datum_DE;     
 
     break; 
   
   case 'update': 
+
     $uebungstag->ID = $_REQUEST["ID"];  
-    if(empty($_REQUEST["Datum"])) {
+    $uebungstag->load_row(); // bereits gespeicherte Werte zum Vergleich holen 
+    
+    $Datum_gespeichert_DE = $uebungstag->Datum_DE; 
+    $Datum_gespeichert_EN = $uebungstag->Datum_EN; 
+
+    $Datum = $_REQUEST["Datum"]; // 
+
+    $update_mode=1; // 1 Datum + Bemerkung speichern, 2 nur Bemerkung speichern, Datum bleibt leer 
+
+    if(empty($Datum)) { 
       $info->print_user_error('Das Datum darf nicht leer sein!'); 
-      $uebungstag->load_row(); 
-    }
+      $Datum = $Datum_gespeichert_EN!=''?$Datum_gespeichert_EN:'';
+      $update_mode=2; 
+      goto exec_update; 
+    } 
   
-    $uebungstag->update_row($_POST["Bemerkung"], $_POST["Datum"]); 
+    if(!empty($Datum)) {
+
+      $Datum_Date = new Datetime($Datum); 
+      $Datum_DE = $Datum_Date->format('d.m.Y');   
+
+      /** existiert das in Form gesetzte Datum bereits an einer anderen schueler_kalender.ID ?  */
+      $datum_vorhanden = $uebungstag->date_exists($Datum); 
+      if($datum_vorhanden) {
+        $info->print_user_error('Fehler: Das Datum '.$Datum_DE.' existiert bereits an einem anderen Übungstag!');
+        $Datum=$Datum_gespeichert_EN ;  
+        $Datum_DE=$Datum_gespeichert_EN;  
+        $update_mode=2; 
+        goto exec_update; 
+      }
+    }
+
+    exec_update: 
+    switch($update_mode) {
+      case 1: 
+        $uebungstag->update_row($_POST["Datum"], $_POST["Bemerkung"]); 
+      break; 
+      case 2: 
+        $uebungstag->update_row2($_POST["Bemerkung"]); 
+      break;       
+    }
+    
+    $uebungstag->load_row();   
            
     break; 
 
@@ -78,7 +116,10 @@ if (!$show_data) {goto pagefoot;}
 
 <form action="edit_schueler_kalender.php" method="post">
 <table class="form-edit"> 
-
+  <tr>
+    <td class="form-edit form-edit-col1">ID:</td>  
+    <td class="form-edit form-edit-col2"><?php echo $uebungstag->ID; ?> <br></td>
+  </tr> 
   <tr>    
   <label>
   <td class="form-edit form-edit-col1">Schüler:</td>  
@@ -90,7 +131,7 @@ if (!$show_data) {goto pagefoot;}
   <label>
   <td class="form-edit form-edit-col1">Datum:</td>  
   <td class="form-edit form-edit-col2"> 
-    <input type="date" name="Datum" value="<?php echo $uebungstag->Datum_EN; ?>" oninput="changeBackgroundColor(this)" requested> 
+    <input type="date" name="Datum" value="<?php echo $Datum ; ?>" oninput="changeBackgroundColor(this)" requested> 
             <b> <?php echo $uebungstag->Wochentag; ?></b>
           </td>
   </label>
@@ -126,21 +167,33 @@ if (!$show_data) {goto pagefoot;}
 
 <input type="hidden" name="option" value="update">        
 <input type="hidden" name="ID" value="<?php echo $uebungstag->ID; ?>">
+<input type="hidden" name="SchuelerID" value="<?php echo $uebungstag->SchuelerID; ?>">
+
 
 </form>
 
+<?php 
 
+if(!empty($Datum)) {
+
+  ?>
 <tr> 
   <td class="form-edit form-edit-col1">
-    <a href="edit_schueler_kalender_uebungen.php?SchuelerID=<?php echo $uebungstag->SchuelerID.'&Datum='.$uebungstag->Datum_EN; ?>" target="iframe_Uebungen">Übungen: </a>
+    <a href="edit_schueler_kalender_uebungen.php?SchuelerID=<?php echo $uebungstag->SchuelerID.'&Datum='.$Datum; ?>" target="iframe_Uebungen">Übungen: </a>
     <p>
         <br><a href="edit_uebung.php?SchuelerID=<?php echo $uebungstag->SchuelerID.'&Datum='.$uebungstag->Datum_EN.'&option=insert"'; ?> target="_blank" class="form-link form-link-switch">Übung hinzufügen</a>
     </p>
   </td> 
   <td class="form-edit form-edit-col2">
-      <iframe src="edit_schueler_kalender_uebungen.php?SchuelerID=<?php echo $uebungstag->SchuelerID.'&Datum='.$uebungstag->Datum_EN; ?>&source=iframe" height="300" id="subform1" name="iframe_Uebungen" class="form-iframe-var1"></iframe>
+      <iframe src="edit_schueler_kalender_uebungen.php?SchuelerID=<?php echo $uebungstag->SchuelerID.'&Datum='.$Datum; ?>&source=iframe" height="300" id="subform1" name="iframe_Uebungen" class="form-iframe-var1"></iframe>
   </td>
 </tr> 
+
+  <?php 
+}
+
+?>
+
 
 
 

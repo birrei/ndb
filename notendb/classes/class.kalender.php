@@ -149,7 +149,6 @@ class SchuelerKalender extends Kalender {
 
   public string $SchuelerID; 
   public string $SchuelerName=''; 
-  
 
   public function date_exists(string $str_date) {
     // print_r(func_get_args()); // Test 

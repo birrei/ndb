@@ -55,7 +55,6 @@ class Kalendertag {
     }
   }  
 
-
   function load_row() {
 
     $select = $this->db->prepare(
@@ -109,7 +108,6 @@ class Kalendertag {
     }
   }  
 
-   
 }
 
 class SchuelerKalendertag extends Kalendertag {
@@ -201,43 +199,31 @@ class SchuelerKalendertag extends Kalendertag {
       $this->info->print_error($insert, $e);  ; 
     }
   }  
+  
+  public function update_row2(string $Bemerkung) {
+    // Update ohne Datum
 
-  public function update_row(string $Bemerkung, string $Datum) {
+    $update = $this->db->prepare("UPDATE schueler_kalender  
+                                  SET Bemerkung    = :Bemerkung 
+                                  WHERE `ID` = :ID"); 
 
-    // Datum ändern nicht möglich wenn: 
-    // 1. das neue Datum im Schüler-Kalender schon existiert
-    // 2. es bereits Übungen mit dem bisherigen Datum gibt  
+    $update->bindParam(':ID', $this->ID, PDO::PARAM_INT);
+    $update->bindParam(':Bemerkung', $Bemerkung);
+
+    try {
+      $update->execute(); 
+      // $this->load_row();  
+    }
+    catch (PDOException $e) {
+      $this->info->print_user_error(); 
+      $this->info->print_error($update, $e);  
+    }
+  }
+
+  public function update_row(string $Datum, string $Bemerkung ) {
 
     // print_r(func_get_args()); // Test 
-
-    $Datum_Neu = new Datetime($Datum);
-    $Datum_Neu_DE = $Datum_Neu->format('d.m.Y');  
-    $Datum_Neu_EN = $Datum_Neu->format('Y-m-d');  
-
-    $this->load_row(); 
-
-    /** prüfung auf Dublette  */
-
-    $uebungskalender = new SchuelerKalender(); 
-    $uebungskalender->SchuelerID= $this->SchuelerID; 
-
-    if ($uebungskalender->date_exists($Datum)) {
-      $this->info->print_user_error('Das erfasste Datum '.$Datum_Neu_DE.' existiert bereits im Schülerkalender. 
-                                  Das Datum wird auf den vorherigen Wert '.$this->Datum_DE.' zurückgesetzt.   <br>'); 
-      $Datum=$this->Datum_EN;
-
-    } 
-
-    /** prüfung auf Dublette  */
-
-    $AnzahlUebungen = $this->AnzahlUebungen();  
-
-    if($AnzahlUebungen > 0 ) {
-        $this->info->print_user_error('Es sind noch '.$AnzahlUebungen.' Übungen mit Datum '.$this->Datum_DE.' vorhanden.
-                                  Das erfasste Datum '.$Datum_Neu_DE.' kann nicht gespeichert werden und wird auf '.$this->Datum_DE.' zurückgesetzt.<br>'); 
-        $Datum=$this->Datum_EN;; 
-      }
-
+    $this->updateUebungen($Datum); 
 
     $update = $this->db->prepare("UPDATE schueler_kalender  
                                   SET Bemerkung    = :Bemerkung, 
@@ -250,7 +236,7 @@ class SchuelerKalendertag extends Kalendertag {
 
     try {
       $update->execute(); 
-      $this->load_row();  
+      // $this->load_row();  
     }
     catch (PDOException $e) {
       $this->info->print_user_error(); 
@@ -305,13 +291,6 @@ class SchuelerKalendertag extends Kalendertag {
     $select->bindValue(':SchuelerID', $this->SchuelerID); 
     $select->bindValue(':Datum', $this->Datum_EN); 
     $select->execute();  
-    
-    // if ($select->rowCount() > 0 ){
-    //   $this->info->print_warning('Das Datum '.$this->Datum_DE.' für Schüler "'.$this->SchuelerName.'" 
-    //     kann nicht gelöscht werden, da noch eine Zuordnung auf '.$select->rowCount().' 
-    //     Übungen existiert.<br>'); 
-    //   return false;       
-    // } 
 
     $tmpAnzahl = $select->rowCount(); 
 
@@ -319,12 +298,61 @@ class SchuelerKalendertag extends Kalendertag {
 
   }
 
+  public function date_exists(string $Datum) {
+    // print_r(func_get_args()); // Test 
+    // Datum schon vorhanden? (ausserhalb der aktuellen ID!)
 
+    $select = $this->db->prepare("SELECT * FROM schueler_kalender 
+                WHERE Datum = :Datum 
+                AND SchuelerID = :SchuelerID 
+                AND ID !=:ID" 
+                );
+    $select->bindParam(':ID', $this->ID, PDO::PARAM_INT);
+    $select->bindParam(':SchuelerID', $this->SchuelerID, PDO::PARAM_INT);
+    $select->bindParam(':Datum', $Datum);
+    $select->execute(); 
+    $result = $select->fetchAll(PDO::FETCH_ASSOC);
+    if (count($result) > 0) {
+        return true; 
+    } else {
+      return false; 
+    }
+
+  }
+
+  private function updateUebungen(string $Datum_NEU) {
+    
+    $update = $this->db->prepare("UPDATE uebung SET Datum = :Datum_NEU 
+                                  WHERE SchuelerID = :SchuelerID 
+                                  AND Datum= :Datum 
+                                  "); 
+
+    $update->bindParam(':SchuelerID', $this->SchuelerID, PDO::PARAM_INT);
+    $update->bindParam(':Datum', $this->Datum_EN);
+    $update->bindParam(':Datum_NEU', $Datum_NEU);
+
+    try {
+      $update->execute(); 
+      // $this->load_row();  
+    }
+    catch (PDOException $e) {
+      $this->info->print_user_error(); 
+      $this->info->print_error($update, $e);  
+    }
+  }
+
+  private function getDatum() {
+
+    $sql="SELECT MAX(Datum) FROM schueler_kalender WHERE ID = :ID "; 
+    $stmt = $this->db->prepare($sql); 
+    $stmt->bindParam(':SchuelerID', $this->ID, PDO::PARAM_INT);
+    $stmt->execute(); 
+    // $stmt->debugDumpParams(); 
+    $col=$stmt->fetchColumn(); 
+    return $col;  
+  }
 
 }
-
-
-
 
  
 

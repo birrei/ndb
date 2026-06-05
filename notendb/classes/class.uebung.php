@@ -41,22 +41,22 @@ class Uebung {
 
   function insert_row (string $SchuelerID, string $Datum) {
 
-    if($Datum=='') {
-      $this->Fehler=true;       
-      $this->info->print_user_error('Das Datum darf nicht leer sein! Das Datum wird auf den letzten gültigen Übungstag gesetzt.'); 
-      $Datum = $this->lastUebungsdatum($SchuelerID, $Datum); 
-    }
+    // if($Datum=='') {
+    //   $this->Fehler=true;       
+    //   $this->info->print_user_error('Das Datum darf nicht leer sein! Das Datum wird auf den letzten gültigen Übungstag gesetzt.'); 
+    //   $Datum = $this->lastUebungsdatum($SchuelerID, $Datum); 
+    // }
 
-    if($Datum!='') {
-      $datum_date = new Datetime($Datum);
-      $Datum_DE= $datum_date->format('d.m.Y');   
-      if (!$this->UebungsdatumExists($SchuelerID, $Datum)) {
-        $this->Fehler=true;    
-        $this->info->print_user_error('Das Datum "'.$Datum_DE.'" ist kein gültiger Übungstag für den Schüler. 
-                                      Es wird auf den letzten gültigen Übungstag gesetzt.');            
-        $Datum = $this->lastUebungsdatum($SchuelerID, $Datum);     
-      }
-    } 
+    // if($Datum!='') {
+    //   $datum_date = new Datetime($Datum);
+    //   $Datum_DE= $datum_date->format('d.m.Y');   
+    //   if (!$this->UebungsdatumExists($SchuelerID, $Datum)) {
+    //     $this->Fehler=true;    
+    //     $this->info->print_user_error('Das Datum "'.$Datum_DE.'" ist kein gültiger Übungstag für den Schüler. 
+    //                                   Es wird auf den letzten gültigen Übungstag gesetzt.');            
+    //     $Datum = $this->lastUebungsdatum($SchuelerID, $Datum);     
+    //   }
+    // } 
     
     $insert = $this->db->prepare("INSERT INTO `uebung` 
               SET `SchuelerID`= :SchuelerID, Datum = :Datum " 
@@ -176,34 +176,6 @@ class Uebung {
                       , $SatzID
                       , $Reihenfolge  
                     ) {
-
-    // $params = func_get_args(); // test 
-    // print_r($params); // test 
-
-    $this->SchuelerID = $SchuelerID; 
-
-    if($Datum=='') {
-      $this->Fehler=true;       
-      $this->info->print_user_error('Das Datum darf nicht leer sein! Das Datum wird auf den zuvor gespeicherten Wert zurückgesetzt.'); 
-      $Datum = $this->lastUebungsdatum($SchuelerID, $Datum); 
-      $this->load_row_Datum(); // falschen WErt ignorieren, gespeicherten Wert holen 
-      $Datum=$this->Datum;       
-    }
-
-    if($Datum!='') {
-      $datum_date = new Datetime($Datum);
-      $Datum_DE= $datum_date->format('d.m.Y');   
-
-      if (!$this->UebungsdatumExists($SchuelerID, $Datum)) {
-        $this->Fehler=true;    
-        $this->info->print_user_error('Das Datum "'.$Datum_DE.'" ist kein gültiger Übungstag für den Schüler. 
-                                      Das Datum wird auf den zuvor gespeicherten Wert zurückgesetzt.');            
-        $this->load_row_Datum(); // falschen WErt ignorieren, gespeicherten Wert holen 
-        $Datum=$this->Datum;      
-      }
-    } 
-
-    // echo 'Datum: '.$Datum.'<br>'; // test  
 
     $update = $this->db->prepare("UPDATE uebung  
               SET UebungtypID= :UebungtypID

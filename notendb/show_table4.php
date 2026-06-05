@@ -448,10 +448,17 @@ switch ($ansicht)  // setzen: $PageTitle, $table_edit
 
     $SchuljahrID=(isset($_REQUEST["SchuljahrID"])?$_REQUEST["SchuljahrID"]:'');
 
-    if($SchuljahrID=='') {
+    if(!isset($_REQUEST["SchuljahrID"])) {
       $schuljahr= new Schuljahr(); 
       $SchuljahrID= $schuljahr->getCurrentID(); 
     }
+
+    // if($SchuljahrID=='') {
+    //   $schuljahr= new Schuljahr(); 
+    //   $SchuljahrID= $schuljahr->getCurrentID(); 
+    // }
+
+
 
     echo '<form action="" method="get">'.PHP_EOL;       
     echo '<a href="edit_kalender.php?Datum='.$Datum.'&option=edit" target="_blank" title="Datum bearbeiten">Datum</a>: <input type="date" name="Datum" value="'.$Datum.'" onchange="this.form.submit()">'; 
@@ -464,7 +471,7 @@ switch ($ansicht)  // setzen: $PageTitle, $table_edit
     $schuljahre = new Schuljahre(); 
         echo ' &#9475;';        
     echo 'Schuljahr: '.PHP_EOL; 
-    $schuljahre->print_preselect($SchuljahrID, '', false); 
+    $schuljahre->print_preselect($SchuljahrID, '', true); 
 
     echo ' &#9475;';
     echo ' Geplant <select id="Unterricht_Geplant" name="Unterricht_Geplant" onchange="this.form.submit()" >
@@ -502,11 +509,11 @@ switch ($ansicht)  // setzen: $PageTitle, $table_edit
           , schuljahr.Bezeichnung AS Schuljahr
           , schueler_kalender.ID              
     FROM  schueler_kalender
-    		INNER JOIN 
-    		kalender 
-            ON schueler_kalender.Datum = kalender.Datum         
         INNER JOIN schueler 
             ON schueler.ID= schueler_kalender.SchuelerID 
+        LEFT JOIN 
+            kalender 
+                ON schueler_kalender.Datum = kalender.Datum         
         LEFT JOIN schuljahr 
           ON kalender.Datum  BETWEEN schuljahr.Datum_Start AND schuljahr.Datum_Ende 
         LEFT JOIN ferien 

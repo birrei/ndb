@@ -4,6 +4,7 @@ $PageTitle='Übung';
 include_once('head.php');
 include_once("classes/class.htmlinfo.php");
 include_once("classes/class.uebung.php");
+include_once("classes/class.kalendertag.php");
 include_once("classes/class.uebungtyp.php");
 include_once("classes/class.schueler.php");
 
@@ -26,31 +27,59 @@ switch($option) {
 
     $SchuelerID=isset($_REQUEST["SchuelerID"])?$_REQUEST["SchuelerID"]:'';
 
-    if($SchuelerID=='') {
+  if(empty($_REQUEST["SchuelerID"])) {
       // ggf. aus "Übersicht Übungen", falls Schüler-Filter nicht gesetzt 
       $info->print_user_error('Es wurde kein Schüler ausgewählt!');
       $show_data=false; 
       goto pagefoot;  
     }
+    $SchuelerID=$_REQUEST["SchuelerID"];  
     $Datum=$_REQUEST["Datum"];  // immer gesetzt, kann ggf. aber leer sein 
     $uebung->insert_row($SchuelerID, $Datum); 
     $show_data = $uebung->load_row();  
+    $Datum = $uebung->Datum;   
 
     break; 
 
   case 'update':  
 
     $uebung->ID =$_REQUEST["ID"]; 
-    $uebung->update_row(
+    $uebung->load_row(); // bereits gespeicherte Werte zum Vergleich holen 
+    $Datum_gespeichert = $uebung->Datum; 
+    $Datum = $_REQUEST["Datum"]; 
+
+    if(empty($Datum)) { 
+      $info->print_user_error('Das Datum darf nicht leer sein!'); 
+      $Datum = $Datum_gespeichert;
+      // $update_mode=2; 
+      // goto exec_update; 
+    } 
+  
+   if(!empty($Datum)) { 
+
+      $Datum_Date = new Datetime($Datum); 
+      $Datum_DE = $Datum_Date->format('d.m.Y');   
+
+      $kalender = new SchuelerKalender(); 
+      $kalender -> SchuelerID = $_REQUEST["SchuelerID"]; 
+
+      if (!$kalender->date_exists($Datum) ) {
+        $info->print_user_error('Das Datum "'.$Datum_DE.'" ist kein gültiger Übungstag für den Schüler. 
+                                      Das Datum wird auf den zuvor gespeicherten Wert zurückgesetzt.');            
+        $Datum = $Datum_gespeichert;  
+      }
+    }
+
+  $uebung->update_row(
       $_REQUEST["SchuelerID"],
-      $_REQUEST["Datum"], 
+      $Datum, 
       $_REQUEST["Name"], 
       $_REQUEST["Bemerkung"], 
       $_REQUEST["UebungtypID"], 
       $_REQUEST["Anzahl"], 
       $_REQUEST["SatzID"], 
       $_REQUEST["Reihenfolge"]
-      ); 
+    ); 
     $show_data = $uebung->load_row(); 
 
     break; 
@@ -108,8 +137,9 @@ echo '<tr>
     <label>
      <td class="form-edit form-edit-col1"><br>Datum:</td>   
      <td class="form-edit form-edit-col2">
-        <br><input type="date" name="Datum" value="'.$uebung->Datum.'" oninput="changeBackgroundColor(this)" requested>
-    </td>
+        <br><input type="date" name="Datum" value="'.$uebung->Datum.'" oninput="changeBackgroundColor(this)" requested> 
+         <a href="edit_kalender.php?Datum='.$uebung->Datum.'" target="_blank">Kalenderdatum öffnen</a> 
+        </td>
      </label>    
   </tr> '; 
 
@@ -209,19 +239,6 @@ echo '</td>
         
   </form>
 
-  <?php 
-    echo '
-      <tr> 
-        <td class="form-edit form-edit-col1"></td> 
-        <td class="form-edit form-edit-col2">
-        <br>'; 
-        $info->print_form_inline('delete_1',$uebung->ID,$uebung->Title, 'löschen'); 
-        $info->print_form_inline('copy',$uebung->ID,$uebung->Title, 'kopieren'); 
-        echo '
-        </td>
-      </tr> '; 
-
-  ?>
   </table> 
 
 <?php 

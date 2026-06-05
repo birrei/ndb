@@ -154,3 +154,8 @@ SELECT schueler.Name AS `Schüler Name`
 	WHERE vskv.SchuelerID = 9     
 
 
+
+
+ALTER TABLE schueler_kalender  ADD ts_update datetime ON UPDATE CURRENT_TIMESTAMP; 
+
+ALTER TABLE schueler_kalender  ADD ts_insert datetime DEFAULT CURRENT_TIMESTAMP; 
