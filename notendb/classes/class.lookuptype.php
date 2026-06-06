@@ -272,7 +272,21 @@ class Lookuptype {
   }   
 
   function print_table_lookups($target_file){
-    $query="SELECT ID, Name FROM v_lookup where LookupTypeID=:LookupTypeID"; 
+
+      $query="SELECT lookup.ID
+        , lookup.Name 
+        -- , lookup_type.Name as LookupTypeName
+        -- , lookup_type.type_key as LookupTypeKey         
+        -- , lookup.LookupTypeID 
+        -- , lookup_type.Relation  
+        FROM lookup 
+        LEFT JOIN lookup_type
+          on lookup_type.ID = lookup.LookupTypeID
+        WHERE lookup.LookupTypeID=:LookupTypeID
+        ORDER by Name 
+        "; 
+
+    
 
     $stmt = $this->db->prepare($query); 
     $stmt->bindParam(':LookupTypeID', $this->ID, PDO::PARAM_INT); 

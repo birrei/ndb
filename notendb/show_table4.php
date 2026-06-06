@@ -27,6 +27,9 @@ switch ($ansicht) // $PageTitle, $table_edit
     $PageTitle='Übersicht Sammlungen'; 
     $table_edit = 'sammlung'; 
     break; 
+  case 'besonderheiten'; 
+    $PageTitle='Übersicht Besonderheiten'; 
+    break;     
   case 'schueler'; 
     $PageTitle='Übersicht Schüler';  
     $table_edit='schueler';     
@@ -147,6 +150,52 @@ switch ($ansicht)  // setzen: $PageTitle, $table_edit
     
     break; 
 
+
+/******** Besonderheiten *******************************************/
+
+  case 'besonderheiten': 
+    include_once("classes/class.lookup.php");
+    include_once("classes/class.lookuptype.php");
+
+    $table_edit='lookup'; 
+
+    $LookupTypeID=(isset($_REQUEST["LookupTypeID"])?$_REQUEST["LookupTypeID"]:'');
+
+    $Suchtext=(isset($_REQUEST["Suchtext"])?$_REQUEST["Suchtext"]:'');    
+
+    echo '<form action="" method="get">'.PHP_EOL; 
+
+    $lookuptype = new Lookuptype(); 
+    echo 'Besonderheit Typ: '.PHP_EOL; 
+    $lookuptype->print_preselect($LookupTypeID); 
+    echo ' Suchtext: <input type="text" id="Suchtext" name="Suchtext" size="30px" value="'.$Suchtext.'"> '; 
+    echo '<input type="submit" class="btnSave" name="senden" value="Suchen">';
+    echo '<input type="hidden" name="ansicht" value="'.$ansicht.'">
+          </form>';  
+          
+  
+    $query="
+      SELECT lookup.ID
+          , lookup.Name as Besonderheit 
+          , lookup_type.Name as `Besonderheit Typ` 
+          -- , lookup_type.type_key as LookupTypeKey         
+          -- , lookup.LookupTypeID 
+          -- , lookup_type.Relation  
+          FROM lookup 
+          LEFT JOIN lookup_type
+            on lookup_type.ID = lookup.LookupTypeID
+          WHERE 1=1 "; 
+
+    if($Suchtext!='') {
+      $query.="AND ( lookup.Name LIKE '%".$Suchtext."%' 
+                            ) "; 
+    }
+    $query.=($LookupTypeID!=''?'AND LookupTypeID='.$LookupTypeID.' '.PHP_EOL:''); 
+
+    $query.="ORDER by lookup.Name 
+            "; 
+    echo '<p><a href="edit_'.$table_edit.'.php?option=insert" target="_blank">Neu erfassen</a></p>';
+    break;     
   case 'schueler':  
     include_once("classes/class.status.php");
 
@@ -868,26 +917,27 @@ switch ($ansicht)  // setzen: $PageTitle, $table_edit
 
 
 
-  
-    /**
-  
-    Komponisten
-    Besetzungen
-    Verwendungszwecke
-    Gattungen
-    Epochen
-    Materialtypen
-    Schwierigkeitsgrade, Instrumente
-    Erprobt-Eigenschaften
-    Besonderheiten, Besonderheit Typen
-    Status Ausprägungen (Status Schüler Satz/Material-Zuordnung)
-    Übung Typen
-    Link-Typen
-    Abfrage-Typen
-   **/ 
 
 
 }
+
+
+/**
+
+Komponisten
+Besetzungen
+Gattungen
+Epochen
+Materialtypen
+Schwierigkeitsgrade, Instrumente
+Erprobt-Eigenschaften
+Besonderheiten, Besonderheit Typen
+Status Ausprägungen (Status Schüler Satz/Material-Zuordnung)
+Übung Typen
+Link-Typen
+Abfrage-Typen
+**/ 
+
 
 if($query=='') {
   $info->print_user_error('Es wurde keine Ansicht definiert.');   
@@ -899,6 +949,9 @@ if($query=='') {
 
 /******************************* */
 // echo '<pre>'.$query.'</pre>'; // Test 
+
+ echo '<pre style="font-size: 11px; display: none">'.$query .'</pre>'; // Test  
+    
 
 
 $conn = new DBConnection(); 

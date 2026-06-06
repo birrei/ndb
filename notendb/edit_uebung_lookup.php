@@ -31,7 +31,8 @@ $LookupTypeID=isset($_REQUEST["LookupTypeID"])?$_REQUEST["LookupTypeID"]:'';
 
     <td class="eingabe2 eingabe2_3"> 
     <?php 
-    $info->print_link_table('v_lookup_type','sortcol=Name','Besonderheit-Typen',true,''); ;  
+        $info->print_link_table2('besonderheiten', true); 
+
     ?>    
     </td>
 </tr>

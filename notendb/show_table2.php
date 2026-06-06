@@ -119,19 +119,7 @@ if ($show_insert_link) {
 /*********** Filter  ********************/
 switch ($table) {
 
-    // case 'v_material': 
-    //   echo '<form action="" method="get">'.PHP_EOL;       
-    //   include_once("classes/class.materialtyp.php");
-    //   $MaterialtypID=(isset($_REQUEST["MaterialtypID"])?$_REQUEST["MaterialtypID"]:'');
-    //   $materialtyp = new Materialtyp(); 
-    //   echo 'Materialtyp: '.PHP_EOL; 
-    //   $materialtyp->print_preselect($MaterialtypID); 
-    //   $query.=($MaterialtypID!=''?'AND MaterialtypID='.$MaterialtypID.' '.PHP_EOL:''); 
-    //   echo '<input type="hidden" name="table" value="'.$table.'">
-    //         <input type="hidden" name="sortcol" value="'.$sortcol.'">
-    //         <input type="hidden" name="sortorder" value="'.$sortorder.'">
-    //         </form><br>';           
-    //   break; 
+
 
   case 'v_abfrage': 
     echo '<form action="" method="get">'.PHP_EOL; 
@@ -148,40 +136,7 @@ switch ($table) {
 
     break; 
 
-  case 'v_lookup': // case 'v_lookup': 
-
-    echo '<form action="" method="get">'.PHP_EOL; 
-    include_once("classes/class.lookuptype.php");
-    $LookupTypeID=(isset($_REQUEST["LookupTypeID"])?$_REQUEST["LookupTypeID"]:'');
-    $lookuptype = new Lookuptype(); 
-    echo 'Besonderheit Typ: '.PHP_EOL; 
-    $lookuptype->print_preselect($LookupTypeID); 
-    $query.=($LookupTypeID!=''?'AND LookupTypeID='.$LookupTypeID.' '.PHP_EOL:''); 
-    echo '<input type="hidden" name="table" value="'.$table.'">
-          <input type="hidden" name="sortcol" value="'.$sortcol.'">
-          <input type="hidden" name="sortorder" value="'.$sortorder.'">
-          </form><br>';           
-
-    break; 
-
-      // case 'v_sammlung': 
-      //   echo '<form action="" method="get">'.PHP_EOL; 
-      //   include_once("classes/class.standort.php");
-      //   $StandortID=(isset($_REQUEST["StandortID"])?$_REQUEST["StandortID"]:'');
-      //   $Erfasst=(isset($_REQUEST["Erfasst"])?1:0); 
-      //   $standort = new Standort(); 
-      //   echo 'Standort: '.PHP_EOL; 
-      //   $standort->print_preselect($StandortID); 
-      //   // echo '<label><input type="checkbox" name="Erfasst" onchange="this.form.submit()" '.($Erfasst==1?'checked':'').'>Vollständig erfasst</label>'; 
-      //   // $query.=($StandortID!=''?'AND StandortID='.$StandortID.' '.PHP_EOL:''); 
-      //   $query.=($StandortID!=''?'AND ID IN (SELECT SammlungID FROM sammlung_standort WHERE StandortID='.$StandortID.') '.PHP_EOL:''); 
-      //   // $query.='AND Erfasst='.$Erfasst; 
-      //   echo '<input type="hidden" name="table" value="'.$table.'">
-      //         <input type="hidden" name="sortcol" value="'.$sortcol.'">
-      //         <input type="hidden" name="sortorder" value="'.$sortorder.'">
-      //         </form><br>';           
-
-        // break;      
+        
 }
 
 

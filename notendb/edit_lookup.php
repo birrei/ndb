@@ -64,7 +64,8 @@ if ($source=='table') {
 
 
 if ($source=='table') {
-  $info->print_link_table('v_lookup', 'sortcol=Name', $lookup->Titles,false);
+  $info->print_link_table2('besonderheiten'); 
+
 }
 
 if (!$show_data) {goto pagefoot;}

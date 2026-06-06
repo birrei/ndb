@@ -230,7 +230,7 @@ class Lookup {
 
   function print_table($LookupTypeID='', $edit_link_open_newpage=true){
 
-    $query="SELECT * from v_lookup WHERE 1=1 "; 
+    $query="SELECT * from lookup WHERE 1=1 "; 
     $query.=($LookupTypeID!=''?"AND LookupTypeID = :LookupTypeID ":"");
     $query.="ORDER by Name"; 
 

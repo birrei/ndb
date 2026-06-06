@@ -31,6 +31,23 @@ include_once('head.php');
                 <li>Suchtext (Suche in Sammlung Name, Sammlung Bemerkung, Verlag, Sammlung Besonderheiten) </li>
             </ul> 
 
+	<h2 class="chapter-title chapter-title-h1" id="uebersichten_besonderheiten">Übersicht Besonderheiten</h2>  
+
+        <p>Spalten: </p>
+            <ul>
+                <li>ID	</li>
+                <li>Besonderheit </li>
+                <li>Besonderheit Typ </li>
+
+            </ul>  
+
+        <p>Suche / Filter: </p>
+        
+            <ul>
+                <li>Besonderheit Typ</li>
+                <li>Suchtext (Sucht in Besonderheit Name) (sucht nicht in Lookuptyp-Name!) </li>
+            </ul> 
+
 	<h2 class="chapter-title chapter-title-h1" id="uebersichten_schueler">Übersicht Schüler</h2>
 
         <p>Spalten: </p>
