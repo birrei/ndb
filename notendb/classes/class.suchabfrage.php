@@ -63,6 +63,9 @@ class Suchabfrage {
   
   public $LookupTypesSelected=[]; // Alle Besonderheit-Typen mit gesetzter Such-Auswahl 
 
+  public $Spieldauer_von=''; 
+  public $Spieldauer_bis=''; 
+
   // ------------------------------------------
 
   public $printSammlung=false; // XXXX Parameter entfernen 
@@ -463,13 +466,15 @@ class Suchabfrage {
           if (count($this->InstrumentSchwierigkeitsgrade) > 0) { // Satz InstrumentXSchwierigkeitsgrad 
             $strTmp.=$this->getSQL_FilterInstrumentSchwierigkeitsgrad($this->InstrumentSchwierigkeitsgrade).PHP_EOL;
           }
-            
           if ($this->InstrumentID_Satz!='') {
             $strTmp.="AND satz.ID IN (SELECT SatzID FROM satz_schwierigkeitsgrad WHERE InstrumentID=".$this->InstrumentID_Satz.") ".PHP_EOL; 
           }  
           if (count($this->Erprobte) > 0) {
             $strTmp.="AND satz.ID IN (SELECT SatzID FROM satz_erprobt WHERE ErprobtID IN (".implode(',', $this->Erprobte).")) ".PHP_EOL; 
-          }                          
+          }      
+          if ($this->Spieldauer_von!='' & $this->Spieldauer_bis!='' ) {
+            $strTmp.= "AND satz.Spieldauer BETWEEN ".$this->Spieldauer_von." AND ".$this->Spieldauer_bis." ";           
+            }                        
           if (count($this->LookupTypesSelected) > 0) {
             $strTmp.=$this->getSQL_FilterLookups('sammlung'); 
             // $strTmp.=$this->getSQL_FilterLookups('musikstueck');       // XXXX

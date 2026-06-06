@@ -527,7 +527,8 @@ include_once("classes/class.suchabfrage.php");
         $spieldauer_bis=(is_numeric($_REQUEST['SpieldauerBis'])?$_REQUEST['SpieldauerBis']:''); 
       }
       if($spieldauer_von !='' and $spieldauer_bis !=''){
-        $query_WHERE.=' BETWEEN '.$spieldauer_von.' AND '.$spieldauer_bis; 
+        $Suchabfrage->Spieldauer_von= $spieldauer_von; 
+        $Suchabfrage->Spieldauer_bis= $spieldauer_bis; 
         $Suchabfrage->Beschreibung.='* Spieldauer: zwischen '.$spieldauer_von_min.' Minuten und '.$spieldauer_bis_min.' Minuten'.PHP_EOL;
         $filter=true; 
       }
