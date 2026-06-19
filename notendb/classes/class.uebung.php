@@ -251,7 +251,7 @@ class Uebung {
                             , Datum
                             , Anzahl
                             , SatzID
-                            , BewertungID 
+                            -- , BewertungID -- AG: nicht mitkopieren
                             )
           SELECT CONCAT(Name, ' (Kopie)') as Name 
                             , Bemerkung
@@ -260,7 +260,7 @@ class Uebung {
                             , Datum 
                             , Anzahl
                             , SatzID
-                            , BewertungID 
+                            -- , BewertungID 
           FROM uebung  
           WHERE ID=:ID 
 

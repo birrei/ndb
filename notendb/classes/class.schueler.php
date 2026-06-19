@@ -113,8 +113,6 @@ class Schueler {
     }
   }
  
-
-
   function update_row($Name, $Bemerkung, $Aktiv, $Unterricht_Wochentag, $Unterricht_Reihenfolge, $Unterricht_Dauer, $Geburtsdatum, $Unterricht_Seit) {
 
     // $Geburtsdatum = $Geburtsdatum ?? null; 
@@ -393,7 +391,7 @@ class Schueler {
     }
   }    
 
-   function print_table_lookups(){
+  function print_table_lookups(){
 
     $query="SELECT Status, LookupList2 as `Alle Besonderheiten aus zugeordneten Noten`       
     FROM v_schueler_lookuptypes                                  
@@ -637,22 +635,18 @@ class Schueler {
                   "; 
 
     $query.=", ".$sql->getSQL_COL_CONCAT_Noten(300); 
-    // verworfen 
-    // $query.=", CASE 
-    //                   WHEN (musikstueck.Bemerkung !='' AND satz.Bemerkung !='') THEN CONCAT(musikstueck.Bemerkung, ' / ', satz.Bemerkung) 
-    //                   WHEN (musikstueck.Bemerkung !='' AND satz.Bemerkung = '')  then musikstueck.Bemerkung 
-    //                   WHEN musikstueck.Bemerkung = '' AND satz.Bemerkung !='' then satz.Bemerkung 
-    //                 END as `Noten Bemerkung`    
 
     $query.="   , v_uebung_lookuptypes.LookupList2 as Besonderheiten   
                   , uebung.Bemerkung  as `Übung Bemerkung`   
                   , CONCAT(uebung.Anzahl, ' ', uebungtyp.Einheit) Dauer   
-                  , uebungtyp.Name as `Uebung Typ`
+                  , uebungtyp.Name as `Typ` 
+                  , bewertung.Name as Bewertung                
                   , uebung.ID
                 ";                 
     $query.="  
           FROM  uebung 
               left join uebungtyp on uebung.UebungtypID=uebungtyp.ID 
+              left join bewertung on bewertung.ID = uebung.BewertungID               
               left join satz  on satz.ID=uebung.SatzID 
               left join musikstueck on satz.MusikstueckID = musikstueck.ID
               left JOIN sammlung on sammlung.ID = musikstueck.SammlungID  
@@ -829,7 +823,26 @@ class Schueler {
             ORDER BY `Datum Zuletzt` DESC              
             ";  
       break;       
-    
+
+    case 4:  // Auswertung pro Übung / Bewertung 
+        $query="
+            SELECT 
+                bewertung.Name as Bewertung        
+                , MIN(uebung.Datum) as `Datum Start`
+                , MAX(uebung.Datum) as `Datum Zuletzt`         
+                , COUNT(DISTINCT uebung.Datum) as `Anzahl Tage`      
+                , CONCAT(SUM(uebung.Anzahl), ' ', uebungtyp.Einheit) as `Menge / Dauer`                      
+            FROM  uebung 
+                  left join bewertung on bewertung.ID = uebung.BewertungID 
+                  left join uebungtyp on uebung.UebungtypID=uebungtyp.ID 
+            WHERE uebung.SchuelerID = :ID 
+            AND bewertung.ID  is not null 
+            GROUP by uebung.SchuelerID
+                 , uebung.BewertungID  
+            ORDER BY `Datum Zuletzt` DESC              
+            "; 
+
+      break;     
     }
 
     // echo $query; 

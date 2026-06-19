@@ -91,6 +91,7 @@ include_once('head.php');
                 <li>Übung Bemerkung</li>
                 <li>Übung Dauer</li>
                 <li>Uebung Typ</li>
+                <li>Bewertung</li>
                 <li>Unterrichtstag Geplant (Nein=Leer, Ja = X) </li>
                 <li>ID</li>
              
@@ -102,6 +103,7 @@ include_once('head.php');
                 <li>Datum (Standard-Einstellung: Heutiges Datum) (Hinweis: über den Beschriftungslink kann das Datum geöffnet werden)</li>
                 <li>Schüler</li>
                 <li>Übung Typ</li>
+                <li>Bewertung</li>
                 <li>Suchtext. Durchsucht werden folgende Felder: 
                         Übung Name, Übung Bemerkung, Übung Typ Name, Sammlung Name / Bemerkung, 
                         Musikstück Name / Bemerkung, Satz Name / Bemerkung

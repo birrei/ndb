@@ -178,6 +178,10 @@ echo '
 <p>Übersichten:<br /> 
   
 <!-- Auswertung 1: Übungen Typ/Jahr/Monat/ -->
+
+  <input type="radio" id="opt_Auswertung4" name="target_form" value="Uebungen" onclick="changeIframeSrc('subform1', 'edit_schueler_auswertung.php?AuswertungNr=4&SchuelerID=<?php echo $schueler->ID; ?>');">
+  <label for="opt_Auswertung4">Auswertung Übungen / Bewertung</label><br>
+
   <input type="radio" id="opt_Auswertung1" name="target_form" value="Uebungen" onclick="changeIframeSrc('subform1', 'edit_schueler_auswertung.php?AuswertungNr=1&SchuelerID=<?php echo $schueler->ID; ?>');">
   <label for="opt_Auswertung1">Auswertung Übungen / Typ</label><br>
 

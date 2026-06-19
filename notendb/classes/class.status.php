@@ -5,7 +5,7 @@ include_once("class.htmlinfo.php");
 include_once("class.htmlselect.php"); 
 include_once("class.htmltable.php"); 
 
-class status {
+class Status {
   // XXX Name -> Upper case! 
   public $table_name='status'; 
   public $ID;
@@ -48,7 +48,7 @@ class status {
   function print_select($value_selected='', $caption='', $required=false, $add_null_option=true){
 
     $query="SELECT ID, Name 
-            FROM `status`    
+            FROM `status` 
             order by `Name`"; 
 
     $stmt = $this->db->prepare($query); 
@@ -66,6 +66,30 @@ class status {
       $this->info->print_error($stmt, $e); 
     }
   }
+
+
+  function print_select2(string $item_name, string $value_selected){
+    // unterschied zu print_select: Name des Select-Elements ist über $item_name definierbar  
+    $query="SELECT ID, Name 
+            FROM `status` 
+            order by `Name`"; 
+
+    $stmt = $this->db->prepare($query); 
+
+    try {
+      $stmt->execute(); 
+      $html = new HTML_Select($stmt); 
+      $html->required=false;        
+      $html->caption = ''; 
+      $html->print_select($item_name, $value_selected); 
+      
+    }
+    catch (PDOException $e) {
+      $this->info->print_user_error(); 
+      $this->info->print_error($stmt, $e); 
+    }
+  }
+
 
   function print_table(){
 
@@ -92,7 +116,7 @@ class status {
     
     $update = $this->db->prepare("UPDATE `status` 
                             SET
-                            `Name`     = :Name, Relation=:Relation 
+                            `Name`     = :Name
                             WHERE `ID` = :ID"); 
 
     $update->bindParam(':ID', $this->ID, PDO::PARAM_INT);
@@ -110,7 +134,7 @@ class status {
 
   function load_row() {
 
-    $select = $this->db->prepare("SELECT `ID`, `Name`  
+    $select = $this->db->prepare("SELECT `ID`, `Name` 
                           FROM `status`
                           WHERE `ID` = :ID");
 
