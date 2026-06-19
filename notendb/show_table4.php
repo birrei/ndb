@@ -3,7 +3,6 @@ include_once('classes/class.htmlinfo.php');
 include_once('classes/class.sqlpart.php');
 include_once("classes/dbconn/class.db.php");
 include_once("classes/class.schueler.php");
-include_once("classes/class.uebungtyp.php");
 include_once("classes/class.wochentage.php");
 
 $info=new HTML_Info(); 
@@ -69,6 +68,9 @@ switch ($ansicht) // $PageTitle, $table_edit
     break; 
   case 'schueler-kalender-vorlage'; 
     $PageTitle='Vorlage Schüler-Kalender (Abfrage) - BETA: Schuljahr 2025/2026';   
+    break; 
+  case 'bewertungen'; 
+    $PageTitle='Bewertungen';   
     break; 
 
 
@@ -174,17 +176,17 @@ switch ($ansicht)  // setzen: $PageTitle, $table_edit
           </form>';  
           
   
-    $query="
-      SELECT lookup.ID
-          , lookup.Name as Besonderheit 
-          , lookup_type.Name as `Besonderheit Typ` 
-          -- , lookup_type.type_key as LookupTypeKey         
-          -- , lookup.LookupTypeID 
-          -- , lookup_type.Relation  
-          FROM lookup 
-          LEFT JOIN lookup_type
-            on lookup_type.ID = lookup.LookupTypeID
-          WHERE 1=1 "; 
+        $query="
+        SELECT lookup.ID
+            , lookup.Name as Besonderheit 
+            , lookup_type.Name as `Besonderheit Typ` 
+            -- , lookup_type.type_key as LookupTypeKey         
+            -- , lookup.LookupTypeID 
+            -- , lookup_type.Relation  
+            FROM lookup 
+            LEFT JOIN lookup_type
+              on lookup_type.ID = lookup.LookupTypeID
+            WHERE 1=1 "; 
 
     if($Suchtext!='') {
       $query.="AND ( lookup.Name LIKE '%".$Suchtext."%' 
@@ -299,11 +301,14 @@ switch ($ansicht)  // setzen: $PageTitle, $table_edit
 
 
   case 'uebungen': 
- 
+    include_once("classes/class.uebungtyp.php");
+    include_once("classes/class.bewertung.php");
+
     $Datum=(isset($_REQUEST["Datum"])?$_REQUEST["Datum"]:date('Y-m-d')); 
 
     $SchuelerID=(isset($_REQUEST["SchuelerID"])?$_REQUEST["SchuelerID"]:'');    
     $UebungtypID=(isset($_REQUEST["UebungtypID"])?$_REQUEST["UebungtypID"]:'');    
+    $BewertungID=(isset($_REQUEST["BewertungID"])?$_REQUEST["BewertungID"]:'');    
     $Unterricht_Geplant=(isset($_REQUEST["Unterricht_Geplant"])?$_REQUEST["Unterricht_Geplant"]:'');  
     $Suchtext=(isset($_REQUEST["Suchtext"])?$_REQUEST["Suchtext"]:'');   
 
@@ -319,16 +324,22 @@ switch ($ansicht)  // setzen: $PageTitle, $table_edit
     $uebung_typ = new UebungTyp(); 
         echo ' &#9475;';    
     echo ' Übungtyp: '.PHP_EOL; 
-    $uebung_typ->print_select($UebungtypID); 
-        echo ' &#9475;';
+    $uebung_typ->print_preselect($UebungtypID); 
+
+    $bewertung = new Bewertung(); 
+        echo ' &#9475;';    
+    echo ' Bewertung: '.PHP_EOL; 
+    $bewertung->print_preselect($BewertungID); 
 
     echo ' Suchtext: <input type="text" id="Suchtext" name="Suchtext" size="30px" value="'.$Suchtext.'"> '; 
-    echo ' &#9475;';
-    echo ' Geplant <select id="Unterricht_Geplant" name="Unterricht_Geplant" onchange="this.form.submit()" >
-              <option value="" '.($Unterricht_Geplant==''?'selected':'').'></option>
-              <option value="0" '.($Unterricht_Geplant=='0'?'selected':'').'>Nein</option>
-              <option value="1" '.($Unterricht_Geplant=='1'?'selected':'').'>Ja</option>
-          </select> '; 
+
+    // XXXX löschen 
+    // echo ' &#9475;';
+    // echo ' Geplant <select id="Unterricht_Geplant" name="Unterricht_Geplant" onchange="this.form.submit()" >
+    //           <option value="" '.($Unterricht_Geplant==''?'selected':'').'></option>
+    //           <option value="0" '.($Unterricht_Geplant=='0'?'selected':'').'>Nein</option>
+    //           <option value="1" '.($Unterricht_Geplant=='1'?'selected':'').'>Ja</option>
+    //       </select> '; 
 
     echo '<input type="submit" class="btnSave" name="senden" value="Suchen">';
     echo '<input type="hidden" name="ansicht" value="'.$ansicht.'">'; 
@@ -347,8 +358,8 @@ switch ($ansicht)  // setzen: $PageTitle, $table_edit
     $query.=", v_uebung_lookuptypes.LookupList2 as Besonderheiten   
                   , uebung.Bemerkung  as `Übung Bemerkung`   
                   , CONCAT(uebung.Anzahl, ' ', uebungtyp.Einheit) Dauer   
-                  , uebungtyp.Name as `Uebung Typ`
-                  , IF(kalender.Unterricht_Geplant=1, 'X' , '') as `Unterrichtstag Geplant`                   
+                  , uebungtyp.Name as `Uebung Typ` 
+                  , bewertung.Name as Bewertung                
                   , uebung.ID
                 "; 
 
@@ -356,6 +367,7 @@ switch ($ansicht)  // setzen: $PageTitle, $table_edit
                   INNER join schueler on schueler.ID=uebung.SchuelerID
                                 and schueler.Aktiv=1
                   left join uebungtyp on uebung.UebungtypID=uebungtyp.ID 
+                  left join bewertung on bewertung.ID = uebung.BewertungID 
                   left join satz  on satz.ID=uebung.SatzID 
                   left join musikstueck on satz.MusikstueckID = musikstueck.ID
                   left JOIN sammlung on sammlung.ID = musikstueck.SammlungID
@@ -377,6 +389,9 @@ switch ($ansicht)  // setzen: $PageTitle, $table_edit
     }
     if ($UebungtypID!='') {
       $query.="AND uebung.UebungtypID=".$UebungtypID." ";  
+    }
+    if ($BewertungID!='') {
+      $query.="AND uebung.BewertungID=".$BewertungID." ";  
     }
     if($Suchtext!='') {
       $query.="AND ( uebung.Name LIKE '%".$Suchtext."%' 
@@ -683,6 +698,8 @@ switch ($ansicht)  // setzen: $PageTitle, $table_edit
     break; 
 
   case 'verlage': 
+            
+    $table_edit='verlag'; 
 
     $Suchtext=(isset($_REQUEST["Suchtext"])?$_REQUEST["Suchtext"]:'');   
 
@@ -705,9 +722,38 @@ switch ($ansicht)  // setzen: $PageTitle, $table_edit
 
 
     echo '<p><a href="edit_'.$table_edit.'.php?option=insert" target="_blank">Neu erfassen</a></p>';
+
+
+    break;   
+    
+  case 'bewertungen': 
+
+    $table_edit='bewertung';     
+
+    $Suchtext=(isset($_REQUEST["Suchtext"])?$_REQUEST["Suchtext"]:'');   
+
+    echo '<form action="" method="get">'.PHP_EOL;  
+    echo ' Suchtext: <input type="text" id="Suchtext" name="Suchtext" size="30px" value="'.$Suchtext.'"> '; 
+    echo '<input type="submit" class="btnSave" name="senden" value="Suchen">';
+    echo '<input type="hidden" name="ansicht" value="'.$ansicht.'">'; 
+    echo '</form>';       
+
+    $query="SELECT ID, Name 
+            FROM bewertung   
+            WHERE 1=1 
+            "; 
+
+    if($Suchtext!='') {
+      $query.="AND bewertung.Name LIKE '%".$Suchtext."%'  ";          
+    }
+
+    $query.="ORDER BY bewertung.Name "; 
+
+
+    echo '<p><a href="edit_'.$table_edit.'.php?option=insert" target="_blank">Neu erfassen</a></p>';
         
 
-    break;     
+    break;         
   case 'schuljahre': 
 
     $add_link_edit=false; 

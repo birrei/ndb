@@ -47,30 +47,35 @@ a:hover {
 <tr> 
   <td class="start"> <h3>Stammdaten</h3></td>
   <td class="start">
-      <a href="show_table4.php?ansicht=kalender">Kalender</a><br>
-      <a href="show_table4.php?ansicht=schuljahre">Schuljahre</a><br>
-      <a href="show_table4.php?ansicht=ferien">Ferien</a><br>
-      <a href="show_table4.php?ansicht=feiertage">Feiertage</a><br>
-      <a href="show_table4.php?ansicht=schueler-kalender-vorlage">Schüler-Kalender Vorlage</a><br>
+    Stammdaten zu Übungen: <br>
+    <a href="show_table2.php?table=v_uebungtyp&sortcol=Name">Übung Typen</a>, 
+    <a href="show_table4.php?ansicht=bewertungen">Bewertungen</a>, 
+
+      <a href="show_table4.php?ansicht=kalender">Kalender</a>, 
+      <a href="show_table4.php?ansicht=schuljahre">Schuljahre</a>, 
+      <a href="show_table4.php?ansicht=ferien">Ferien</a>, 
+      <a href="show_table4.php?ansicht=feiertage">Feiertage</a>, 
+      <a href="show_table4.php?ansicht=schueler-kalender-vorlage"><br>BETA: Schüler-Kalender Vorlage</a><br>
       
       
       
 
 
     <hr>
-    <a href="show_table4.php?ansicht=standorte">Standorte</a> <br>
-    <a href="show_table4.php?ansicht=verlage">Verlage</a> <br>
+    Stammdaten zu Sammlungen:<br> <a href="show_table4.php?ansicht=standorte">Standorte</a>, 
+    <a href="show_table4.php?ansicht=verlage">Verlage</a>, 
+    <a href="show_table2.php?table=v_linktype&sortcol=Name">Link-Typen</a> <br>
     <hr> 
-    <a href="show_table2.php?table=v_komponist&sortcol=Name">Komponisten</a> <br>
-    <a href="show_table2.php?table=v_besetzung&sortcol=Name">Besetzungen</a> <br>
-    <a href="show_table4.php?ansicht=verwendungszwecke">Verwendungszwecke</a> <br>
-    <a href="show_table2.php?table=v_gattung&sortcol=Name">Gattungen</a> <br>
-    <a href="show_table2.php?table=v_epoche&sortcol=Name">Epochen</a> <br>
-    <a href="show_table2.php?table=v_materialtyp&sortcol=Name">Materialtypen</a>  <br>    
+    Stammdaten zu Musikstücken: <br><a href="show_table2.php?table=v_komponist&sortcol=Name">Komponisten</a>, 
+    <a href="show_table2.php?table=v_besetzung&sortcol=Name">Besetzungen</a>, 
+    <a href="show_table4.php?ansicht=verwendungszwecke">Verwendungszwecke</a>, 
+    <a href="show_table2.php?table=v_gattung&sortcol=Name">Gattungen</a>, 
+    <a href="show_table2.php?table=v_epoche&sortcol=Name">Epochen</a>, 
+    <a href="show_table2.php?table=v_materialtyp&sortcol=Name">Materialtypen</a>     
     <hr> 
 
-    <a href="show_table2.php?table=v_schwierigkeitsgrad&sortcol=Name">Schwierigkeitsgrade</a>, 
-    <a href="show_table2.php?table=v_instrument&sortcol=Name">Instrumente</a> <br>
+    Stammdaten zu Sätzen: <br><a href="show_table2.php?table=v_schwierigkeitsgrad&sortcol=Name">Schwierigkeitsgrade</a>, 
+    <a href="show_table2.php?table=v_instrument&sortcol=Name">Instrumente</a>, 
     <a href="show_table2.php?table=v_erprobt&sortcol=Name">Erprobt-Eigenschaften</a> <br>
 
     <hr> 
@@ -79,14 +84,14 @@ a:hover {
 
     <a href="show_table2.php?table=v_status&sortcol=Name">Status Ausprägungen</a> <i>(Status Schüler Satz/Material-Zuordnung)</i><br>
 
-    <a href="show_table2.php?table=v_uebungtyp&sortcol=Name">Übung Typen</a> <br>
-    <a href="show_table2.php?table=v_linktype&sortcol=Name">Link-Typen</a> <br>
+    
+    
     <a href="show_table2.php?table=v_abfragetyp&sortcol=Name">Abfrage-Typen</a> <br>
   </td>
 </tr>
 
 
-<tr> <td class="start"> <h3>Abfragen, Auswertungen, Sammel-Updates</h3> </td>
+<tr> <td class="start"> <h3>Sonst</h3> </td>
   <td class="start">
     <a href="updates.php">Sammel-Updates</a> <br>    
     <a href="show_table3.php">Verwendungszweck Planung</a> <i>(Anzeige Gesamt - Spieldauer) </i> <br>

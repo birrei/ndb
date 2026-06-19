@@ -115,6 +115,12 @@ include_once('head.php');
             <br> Falls im Filter ein Datum ausgewählt ist, wird dieses Datum als Vorgabe für die neue Übung übernommen. 
                 </p>
                 
+    <h2 class="chapter-title chapter-title-h1" id="uebersichten_bewertungen">Übersicht Bewertungen</h2>
+            <p>Spalten: </p>
+            <ul>       
+                <li>ID</li>
+                <li>Name</li>
+            </ul>  
 
 	<h2 class="chapter-title chapter-title-h1" id="uebersichten_uebungen-datum">Übersicht Übungstage</h2>
 
@@ -214,7 +220,6 @@ include_once('head.php');
                 <li>Datum von</li>
                 <li>Datum bis</li>
             </ul>  
-            <p>XXX Hinweis: die Basisdaten wurden automatisch befüllt ... </p>
 
     <h2 class="chapter-title chapter-title-h1" id="uebersichten_ferien">Übersicht Ferientage</h2>
             <p>Spalten: </p>

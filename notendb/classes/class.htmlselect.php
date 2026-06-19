@@ -42,7 +42,7 @@ class HTML_Select {
         }        
         if ($this->count_rows > 0) {
             // $html.= '<select name="'.$keyname.'" '.($this->type==1 ? 'oninput="changeBackgroundColor(this);"' : '').' '.($this->autofocus?' autofocus="autofocus"':'').''.($this->required?' required="required"':'').'>' . PHP_EOL;    
-            $html.= '<select name="'.$keyname.'" '.($this->autofocus?' autofocus="autofocus"':'').''.($this->required?' required="required"':'').'>' . PHP_EOL;    
+            $html.= '<select name="'.$keyname.'" '.($this->autofocus?' autofocus="autofocus"':'').''.($this->required?' required="required"':'').' oninput="changeBackgroundColor(this);">' . PHP_EOL;    
 
             if($add_null_option) {
                 $html .= '<option value="" '.($value_selected=='' ? 'selected' : ''). '></option>'. PHP_EOL;

@@ -7,6 +7,7 @@ include_once("classes/class.uebung.php");
 include_once("classes/class.kalendertag.php");
 include_once("classes/class.uebungtyp.php");
 include_once("classes/class.schueler.php");
+include_once("classes/class.bewertung.php");
 
 $option=isset($_REQUEST["option"])?$_REQUEST["option"]:'edit';
 $show_data=true; 
@@ -78,7 +79,8 @@ switch($option) {
       $_REQUEST["UebungtypID"], 
       $_REQUEST["Anzahl"], 
       $_REQUEST["SatzID"], 
-      $_REQUEST["Reihenfolge"]
+      $_REQUEST["Reihenfolge"], 
+      $_REQUEST["BewertungID"]
     ); 
     $show_data = $uebung->load_row(); 
 
@@ -207,6 +209,26 @@ echo '
 
 echo '</td>
       </tr>'; 
+
+
+echo '
+  <tr>    
+  <label>  
+  <td class="form-edit form-edit-col1">Bewertung:</td>  
+  <td class="form-edit form-edit-col2">  
+        ';  
+        $bewertung=new Bewertung(); 
+        $bewertung->print_select($uebung->BewertungID); 
+
+echo ' </label>  
+      '; 
+      $info->print_link_edit($bewertung->table_name, $uebung->BewertungID,$bewertung->Title, true); 
+      $info->print_link_table2('bewertungen'); 
+
+echo '</td>
+    </tr>'; 
+    
+    
       ?>
   <tr>    
     <label>

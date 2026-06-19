@@ -25,6 +25,7 @@ include_once("classes/class.schueler.php");
 include_once("classes/class.status.php");
 include_once("classes/class.materialtyp.php");
 include_once("classes/class.uebungtyp.php");
+include_once("classes/class.bewertung.php");
 include_once("classes/class.suchabfrage.php");
 
 
@@ -210,7 +211,7 @@ include_once("classes/class.suchabfrage.php");
     $Suchabfrage->Beschreibung.=(count($Suchabfrage->Schwierigkeitsgrade_Schueler)>0?$schwierigkeitsgrad_schueler->titles_selected_list.'<br>':'');  
   }
 
- /*** Navi-Block Gruppe Uebungen */
+/************* Gruppe Übungen ***********/  
   if($AnsichtGruppe=='Uebungen') {
     ?>
     <p class="navi-trenner">Übungen</p> 
@@ -219,6 +220,7 @@ include_once("classes/class.suchabfrage.php");
 
   if ($AnsichtGruppe=='Uebungen' ) {
 
+/************* Gruppe Übungen, Filter Übung typ  ***********/  
     $UebungtypID=isset($_REQUEST['UebungtypID'])?$_REQUEST['UebungtypID']:'';
 
     $uebungtyp = new UebungTyp();
@@ -230,7 +232,26 @@ include_once("classes/class.suchabfrage.php");
         $uebungtyp->load_row(); 
         $Suchabfrage->Beschreibung.='* Übung Typ: '.$uebungtyp->Name.'<br>';      
     }
-    $uebungtyp->print_select($UebungtypID,true);  
+    echo 'Übung Typ: ';     
+    $uebungtyp->print_preselect($UebungtypID);  
+
+/************* Gruppe Übungen, Filter Bewertung  ***********/  
+
+    $BewertungID=isset($_REQUEST['BewertungID'])?$_REQUEST['BewertungID']:'';
+
+    $bewertung = new Bewertung();
+
+    if ($BewertungID!='') {
+        $filter=true;
+        $Suchabfrage->BewertungID = $BewertungID;         
+        $bewertung->ID=$BewertungID; 
+        $bewertung->load_row(); 
+        $Suchabfrage->Beschreibung.='* Übung Bewertung: '.$bewertung->Name.'<br>';      
+    }
+    echo '<br><br>Übung Bewertung: ';     
+    $bewertung->print_preselect($BewertungID);  
+
+/************* Gruppe Übungen, Filter Datum  ***********/  
 
     $Datum=(isset($_REQUEST["Datum"])?$_REQUEST["Datum"]:'');     
         
@@ -240,6 +261,8 @@ include_once("classes/class.suchabfrage.php");
         $filter=true; 
         $Suchabfrage->Datum = $Datum; 
     }
+
+/************* XXXX noch: Gruppe Übungstage mit Filter Schuljahr XXXX  ***********/  
 
   }
 

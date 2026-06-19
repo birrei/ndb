@@ -40,6 +40,7 @@ class Suchabfrage {
   public $SchuelerID=''; 
   public $StatusID=''; 
   public $UebungtypID=''; 
+  public $BewertungID=''; 
   public $Datum=''; // Übungen 
 
   public $Besetzungen_all=[]; 
@@ -281,16 +282,16 @@ class Suchabfrage {
         $strTmp="SELECT 
                       schueler.Name as Schueler
                       , uebung.Datum as `Datum`                   
-                      , schueler.Unterricht_Reihenfolge as `Reihen-folge`
                       , uebung.Name as `Uebung Inhalt`  
                       "; 
 
         $strTmp.=", ".$sqlpart->getSQL_COL_CONCAT_Noten(300); 
         $strTmp.="      
                       , v_uebung_lookuptypes.LookupList2 as Besonderheiten   
-                      , uebung.Bemerkung 
+                      , uebung.Bemerkung  as `Uebung Bemerkung`  
                       , CONCAT(uebung.Anzahl, ' ', uebungtyp.Einheit) Menge  
-                      , uebungtyp.Name as `Uebung Typ`
+                      , uebungtyp.Name as `Uebung Typ` 
+                      , bewertung.Name as Bewertung 
                       , uebung.ID
         
         "; 
@@ -374,6 +375,7 @@ class Suchabfrage {
                       INNER join schueler on schueler.ID=uebung.SchuelerID
                                     and schueler.Aktiv=1
                       left join uebungtyp on uebung.UebungtypID=uebungtyp.ID 
+                      left join bewertung on bewertung.ID = uebung.BewertungID
                       left join satz  on satz.ID=uebung.SatzID 
                       left join musikstueck on satz.MusikstueckID = musikstueck.ID
                       left JOIN sammlung on sammlung.ID = musikstueck.SammlungID
@@ -539,6 +541,9 @@ class Suchabfrage {
 
         if($this->UebungtypID!='') { 
           $strTmp.="AND uebung.UebungtypID=".$this->UebungtypID." " . PHP_EOL;        
+        }     
+        if($this->BewertungID!='') { 
+          $strTmp.="AND uebung.BewertungID=".$this->BewertungID." " . PHP_EOL;        
         }     
                 
         if($this->Datum!='') { 

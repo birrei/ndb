@@ -18,7 +18,8 @@ class Uebung {
   public $Datum=''; 
   public $Anzahl=''; 
   public $Reihenfolge=0; // Sortierung innerhalb SchuelerID / Datum 
-
+  public $BewertungID; 
+  public string $Bewertung; 
   public $Typ=''; 
 
   public $titles_selected_list; 
@@ -31,6 +32,7 @@ class Uebung {
 
   private $db; 
   private $info; 
+
 
 
   public function __construct(){
@@ -90,10 +92,13 @@ class Uebung {
                             , uebung.Anzahl 
                             , uebung.SatzID
                             , uebung.Reihenfolge
-                            , schueler.Name as SchuelerName   
+                            , schueler.Name as SchuelerName
+                            , COALESCE(uebung.BewertungID, '') as BewertungID  
+                            , COALESCE(bewertung.Name, '') as Bewertung  
                           FROM  uebung 
                                 left join uebungtyp on uebung.UebungtypID = uebungtyp.ID 
                                 left join schueler on uebung.SchuelerID = schueler.ID 
+                                left join bewertung on bewertung.ID = uebung.BewertungID 
                           WHERE uebung.ID = :ID");
 
     $select->bindParam(':ID', $this->ID, PDO::PARAM_INT);
@@ -113,6 +118,8 @@ class Uebung {
       $this->Anzahl=$row_data["Anzahl"];           
       $this->Typ=$row_data["Typ"];       
       $this->Reihenfolge=$row_data["Reihenfolge"];       
+      $this->BewertungID=$row_data["BewertungID"];       
+      $this->Bewertung=$row_data["Bewertung"];       
       return true; 
     } 
     else {
@@ -174,7 +181,8 @@ class Uebung {
                       , $UebungtypID                                                      
                       , $Anzahl
                       , $SatzID
-                      , $Reihenfolge  
+                      , $Reihenfolge
+                      , $BewertungID   
                     ) {
 
     $update = $this->db->prepare("UPDATE uebung  
@@ -186,6 +194,7 @@ class Uebung {
                 , Anzahl=:Anzahl
                 , SatzID=:SatzID
                 , Reihenfolge=:Reihenfolge 
+                , BewertungID = :BewertungID 
               WHERE ID=:ID"           
            );
 
@@ -198,7 +207,7 @@ class Uebung {
     $update->bindParam(':Anzahl', $Anzahl);
     $update->bindParam(':Reihenfolge', $Reihenfolge);
     $update->bindParam(':SatzID', $SatzID, ($SatzID=='' ? PDO::PARAM_NULL : PDO::PARAM_INT));
-  
+    $update->bindParam(':BewertungID', $BewertungID, ($BewertungID=='' ? PDO::PARAM_NULL : PDO::PARAM_INT));
 
     try {
       $update->execute(); 
@@ -242,6 +251,7 @@ class Uebung {
                             , Datum
                             , Anzahl
                             , SatzID
+                            , BewertungID 
                             )
           SELECT CONCAT(Name, ' (Kopie)') as Name 
                             , Bemerkung
@@ -250,6 +260,7 @@ class Uebung {
                             , Datum 
                             , Anzahl
                             , SatzID
+                            , BewertungID 
           FROM uebung  
           WHERE ID=:ID 
 
