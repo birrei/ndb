@@ -1,20 +1,52 @@
+/* Tabelle "material" ausrangieren */
 
--- erster Testeintrag 
+
+SELECT TABLE_NAME, COLUMN_NAME 
+FROM information_schema.COLUMNS
+WHERE COLUMN_NAME LIKE '%materialID%'
+
+drop table material;
+SELECT TABLE_NAME, COLUMN_NAME 
+FROM information_schema.COLUMNS
+WHERE TABLE_NAME LIKE '%material%'
+
+-- Tabellen mit Spalte "MaterialID "
+
+drop view v_material_instrumente_schwierigkeitsgrade; 
+drop view v_material_lookuptypes; 
+drop view v_material; 
 
 
-delete from material; 
-delete from materialtyp; 
+alter table uebung drop constraint uebung_material
+-- alter table uebung drop foreign key uebung_material; 
 
-insert into materialtyp (Name) VALUES('Testtyp') ; 
-select * from materialtyp ; 
+alter table uebung drop column MaterialID; 
 
-insert into material (Name, MaterialtypID) values ('Testmaterial', 1); 
-select * from material ; 
+drop table material_lookup; 
+drop table material_schwierigkeitsgrad; 
+drop table schueler_material;
 
----------------------------
+drop table material;
 
-select * from materialtyp ; 
-select * from material ; 
+
+
+
+-- -- erster Testeintrag 
+
+
+-- delete from material; 
+-- delete from materialtyp; 
+
+-- insert into materialtyp (Name) VALUES('Testtyp') ; 
+-- select * from materialtyp ; 
+
+-- insert into material (Name, MaterialtypID) values ('Testmaterial', 1); 
+-- select * from material ; 
+
+-- ---------------------------
+
+-- select * from materialtyp ; 
+-- select * from material ; 
 
 
 
