@@ -1,4 +1,6 @@
-/* Automatisches Hinzufügen von Attributen  */
+/* Automatisches Hinzufügen von Attributen 
+  !!! Verworfen, nicht im Einsatz 
+ */
 
 DROP TABLE IF EXISTS auto_update; 
 CREATE TABLE IF NOT EXISTS auto_update (
