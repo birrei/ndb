@@ -268,10 +268,10 @@ function move_order(int $offset=1 ) {
         $update->execute(); 
       }
       catch (PDOException $e) {
-        include_once("class.htmlinfo.php"); 
-        $info = new HTML_Info();      
-        $info->print_user_error(); 
-        $info->print_error($update, $e);  
+        // include_once("class.htmlinfo.php"); 
+        // $info = new HTML_Info();      
+        $this->info->print_user_error(); 
+        $this->info->print_error($update, $e);  
       }  
 
   }

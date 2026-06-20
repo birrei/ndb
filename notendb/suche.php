@@ -125,8 +125,6 @@ include_once("classes/class.suchabfrage.php");
       $Suchabfrage->Suchtext=$Suchtext; 
       $Suchabfrage->Beschreibung.=$Suchtext!=''?'* Suchtext: '.$Suchtext.'<br>':''; 
       $filter=true; 
-      $Suchabfrage->AnzahlFilter1+=1; 
-      $Suchabfrage->AnzahlFilter2+=1; 
     }
   }  
   ?>
@@ -149,8 +147,6 @@ include_once("classes/class.suchabfrage.php");
       $schueler->ID=$SchuelerID; 
       $schueler->load_row(); 
       $Suchabfrage->Beschreibung.='* Schüler: '.$schueler->Name.'<br>';      
-      $Suchabfrage->AnzahlFilter1+=1; 
-      $Suchabfrage->AnzahlFilter2+=1;  
   }
   $schueler->print_select($SchuelerID,'',$schueler->Title, true );  
 
@@ -168,9 +164,7 @@ include_once("classes/class.suchabfrage.php");
       $Suchabfrage->StatusID = $StatusID;        
       $status->ID= $StatusID; 
       $status->load_row(); 
-      $Suchabfrage->Beschreibung.='* Status Schüler/Noten: '.$status->Name.'<br>';
-      $Suchabfrage->AnzahlFilter1+=1;
-      $Suchabfrage->AnzahlFilter2+=1;              
+      $Suchabfrage->Beschreibung.='* Status Schüler/Noten: '.$status->Name.'<br>';           
     }
 
     echo '<p>';
@@ -191,7 +185,6 @@ include_once("classes/class.suchabfrage.php");
         $instrument_schueler->load_row(); 
         $Suchabfrage->Beschreibung.='* Instrument: '.$instrument_schueler->Name.'<br>';     
         $filter=true;
-      $Suchabfrage->AnzahlFilter1+=1;              
       }
     }
     $instrument_schueler->Parent='Schueler'; 
@@ -203,7 +196,6 @@ include_once("classes/class.suchabfrage.php");
     if (isset($_REQUEST['Schwierigkeitsgrad_Schueler'])) {
       $Suchabfrage->Schwierigkeitsgrade_Schueler = $_REQUEST['Schwierigkeitsgrad_Schueler'];   
       $filter=true;     
-      $Suchabfrage->AnzahlFilter1+=1;       
     }  
     $schwierigkeitsgrad_schueler = new Schwierigkeitsgrad();
     $schwierigkeitsgrad_schueler->Parent='Schueler';     
@@ -284,9 +276,7 @@ include_once("classes/class.suchabfrage.php");
         $Suchabfrage->StandortID = $StandortID; 
         $standort->ID=$StandortID; 
         $standort->load_row();   
-        $Suchabfrage->Beschreibung.='* Standort: '.$standort->Name.'<br>';
-        $Suchabfrage->AnzahlFilter1+=1;
-        $Suchabfrage->AnzahlFilter2+=1;      
+        $Suchabfrage->Beschreibung.='* Standort: '.$standort->Name.'<br>';   
       }
     }
     echo '<p>';
@@ -306,8 +296,6 @@ include_once("classes/class.suchabfrage.php");
         $verlag->ID=$VerlagID; 
         $verlag->load_row();      
         $Suchabfrage->Beschreibung.='* Verlag: '.$verlag->Name.'<br>';     
-        $Suchabfrage->AnzahlFilter1+=1;
-        $Suchabfrage->AnzahlFilter2+=1; 
       }   
     }
     echo '<p>';
@@ -323,13 +311,10 @@ include_once("classes/class.suchabfrage.php");
       $Linktypen = $_REQUEST['Linktypen'];
       $Suchabfrage->Linktypen = $Linktypen;  
       $filter=true;    
-      $Suchabfrage->AnzahlFilter1+=1;
-      $Suchabfrage->AnzahlFilter2+=1;    
     }  
     $linktyp->print_select_multi($Linktypen);      
     $Suchabfrage->Beschreibung.=(count($Linktypen)>0?$linktyp->titles_selected_list.PHP_EOL:''); 
   }
-
 
 /*** Navi-Block Gruppe Noten, "Musikstück */
   if($AnsichtGruppe=='Noten') {
@@ -350,8 +335,6 @@ include_once("classes/class.suchabfrage.php");
         $komponist->load_row(); 
         $Suchabfrage->Beschreibung.='* Komponist: '.$komponist->Name.'<br>';     
         $filter=true; 
-        $Suchabfrage->AnzahlFilter1+=1;
-        // $Suchabfrage->AnzahlFilter2+=1;       
       }
     }
     $komponist->print_select($KomponistID,$komponist->Title);
@@ -363,7 +346,6 @@ include_once("classes/class.suchabfrage.php");
     $besetzung = new Besetzung();
     if (isset($_REQUEST['Besetzungen'])) {
       $filter=true; 
-      $Suchabfrage->AnzahlFilter1+=1;       
       $Suchabfrage->Besetzungen_selected = $_REQUEST['Besetzungen']; // Array IDs aus Mehrfachauswahl    
       $Suchabfrage->besetzung_check_include=isset($_REQUEST["include_Besetzung"])?true:false; 
       $Suchabfrage->besetzung_check_exclude=isset($_REQUEST["exclude_Besetzung"])?true:false; 
@@ -381,7 +363,6 @@ include_once("classes/class.suchabfrage.php");
     if (isset($_REQUEST['Verwendungszwecke'])) {
       $Suchabfrage->Verwendungszwecke = $_REQUEST['Verwendungszwecke'];   
       $filter=true;     
-      $Suchabfrage->AnzahlFilter1+=1;       
     }  
     $verwendungszweck = new Verwendungszweck();
     $verwendungszweck->print_select_multi($Suchabfrage->Verwendungszwecke);    
@@ -396,7 +377,6 @@ include_once("classes/class.suchabfrage.php");
         $GattungID = $_REQUEST['GattungID'];       
         if ($GattungID!='') {
           $filter=true;   
-          $Suchabfrage->AnzahlFilter1+=1; 
           $Suchabfrage->GattungID = $GattungID; 
           $gattung->ID=$GattungID; 
           $gattung->load_row();
@@ -416,7 +396,6 @@ include_once("classes/class.suchabfrage.php");
       $EpocheID=$_REQUEST['EpocheID']; 
       if ($EpocheID!='') { 
         $filter=true; 
-        $Suchabfrage->AnzahlFilter1+=1; 
         $Suchabfrage->EpocheID=$EpocheID; 
         $epoche->ID=  $EpocheID; 
         $epoche->load_row(); 
@@ -439,9 +418,7 @@ include_once("classes/class.suchabfrage.php");
         $Suchabfrage->MaterialtypID=$MaterialtypID;
         $materialtyp->load_row(); 
         $Suchabfrage->Beschreibung.=($MaterialtypID!=''?'* Materialtyp: '.$materialtyp->Name.'<br>':'');     
-        $filter=true;
-        $Suchabfrage->AnzahlFilter1+=1;       
-        $Suchabfrage->AnzahlFilter2+=1;       
+        $filter=true;  
       }
     }
     echo '<p>'; 
@@ -465,7 +442,6 @@ include_once("classes/class.suchabfrage.php");
       $InstrumentSchwierigkeitsgrade = $_REQUEST['InstrumentSchwierigkeitsgrad'];   
       $Suchabfrage->InstrumentSchwierigkeitsgrade = $InstrumentSchwierigkeitsgrade; 
       $filter=true; 
-      $Suchabfrage->AnzahlFilter1+=1;       
     }
     $schwierigkeitsgrad->print_select_multi($InstrumentSchwierigkeitsgrade);  
     $Suchabfrage->Beschreibung.=(count($InstrumentSchwierigkeitsgrade)>0?$schwierigkeitsgrad->titles_selected_list.'<br>':'');
@@ -483,7 +459,6 @@ include_once("classes/class.suchabfrage.php");
         $instrument_satz->load_row(); 
         $Suchabfrage->Beschreibung.='* Instrument: '.$instrument_satz->Name.'<br>';     
         $filter=true;
-      $Suchabfrage->AnzahlFilter1+=1;              
       }
     }
     // $instrument_material->Parent='Material'; 
@@ -600,7 +575,6 @@ include_once("classes/class.suchabfrage.php");
     //   $Schwierigkeitsgrade_Material = $_REQUEST['Schwierigkeitsgrad_Material']; 
     //   $Suchabfrage->Schwierigkeitsgrade_Material = $Schwierigkeitsgrade_Material; 
     //   $filter=true; 
-    //   $Suchabfrage->AnzahlFilter2+=1;      
     // }
     // $schwierigkeitsgrad_material->Parent='Material'; 
     // // $schwierigkeitsgrad_material->Parent='Satz';     
@@ -632,25 +606,11 @@ include_once("classes/class.suchabfrage.php");
     $lookup_values_not_selected=[];  // nicht ausgewählte Lookup-Werte 
     // // print_r($lookup_values); // Test 
     if (isset($_REQUEST[$lookup_type_key])) {
-      $filter=true;   
-          // print_r($relations);  // Test 
-      if (in_array("sammlung", $relations)) {
-        $Suchabfrage->AnzahlFilter1+=1;
-        $Suchabfrage->AnzahlFilter2+=1;  
-      }
-      if (in_array("satz", $relations)) {
-        $Suchabfrage->AnzahlFilter1+=1;
-      }
-      if (in_array("musikstueck", $relations)) {
-        // XXXX 
-        $Suchabfrage->AnzahlFilter2+=1;
-      }               
       $lookup_values_selected= $_REQUEST[$lookup_type_key]; 
       $lookup_values = $lookup->getArrLookups();       
       $lookup_values_not_selected = array_diff($lookup_values, $lookup_values_selected); // nicht ausgewählte Werte    
       $lookuptype_check_include=(isset($_REQUEST['include_'.$lookup_type_key])?true:false);   //  "Einschluss-Suche" aktiviert        
       $lookuptype_check_exclude=(isset($_REQUEST['exclude_'.$lookup_type_key])?true:false);   //  "Ausschluss-Suche" aktiviert        
-
       $Suchabfrage->LookupTypesSelected[$lookup_type_key] = Array(
         'lookuptype_ID'=>$arrLookupTypes[$i]["ID"],
         'lookuptype_name'=>$arrLookupTypes[$i]["Name"],          
@@ -681,9 +641,6 @@ include_once("classes/class.suchabfrage.php");
 <!-- ende class search-filter --> 
 <div class="search-result" id="search-result">
 <?php
-
-  // echo 'Anzahl Filter 1: '.$Suchabfrage->AnzahlFilter1.'<br>'; // TEST
-  // echo 'Anzahl Filter 2: '.$Suchabfrage->AnzahlFilter2.'<br>'; // TEST
 
 /************* Falls kein Filter ausgewählt wurde **********/  
   if(!$filter) {

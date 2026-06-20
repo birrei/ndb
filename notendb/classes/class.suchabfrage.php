@@ -76,10 +76,6 @@ class Suchabfrage {
   public $showResultsetSammlungMaterial=false; // XXXX Parameter entfernen 
   public $showResultsetSchuler=false; // XXXX Parameter entfernen 
 
-  public $AnzahlFilter1=0; // XXXX Parameter entfernen 
-  public $AnzahlFilter2=0; // XXXX Parameter entfernen 
-
-
 /** Methoden ********/  
 
   public function __construct(){
