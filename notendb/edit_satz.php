@@ -152,7 +152,7 @@ echo
   <label>
   <td class="form-edit form-edit-col1">Bemerkung:</td>  
   <td class="form-edit form-edit-col2">
-  <textarea name="Bemerkung" rows=2 cols=100 maxlength="500" oninput="changeBackgroundColor(this)">'.htmlentities($satz->Bemerkung).'</textarea> (max. 500 Zeichen)
+  <textarea name="Bemerkung" rows=2 cols=100 maxlength="1000" oninput="changeBackgroundColor(this)">'.htmlentities($satz->Bemerkung).'</textarea> (max. 1000 Zeichen)
   </td>
   </label>
 </tr>
