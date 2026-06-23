@@ -58,6 +58,26 @@ class Lookup {
     $Relation = $this->LookupTypeRelation; 
     $ReferenceID = $this->ReferenceID;
     $LookupTypeID=$this->LookupTypeID;  
+    $ReferenceColName=''; 
+
+    switch($Relation) {
+      case 'sammlung': 
+          $ReferenceColName='SammlungID'; 
+        break; 
+      case 'musikstueck': 
+          $ReferenceColName='MusikstueckID'; 
+        break; 
+      case 'satz': 
+          $ReferenceColName='SatzID'; 
+        break; 
+      case 'uebung': 
+          $ReferenceColName='UebungID'; 
+        break; 
+      case 'schueler': 
+          $ReferenceColName='SchuelerID'; 
+        break; 
+
+    }
 
     $query="SELECT lookup.ID
             , lookup.Name as Besonderheit
@@ -73,20 +93,7 @@ class Lookup {
     }  
 
     if ($ReferenceID!=''){
-      switch ($Relation) {
-        case 'sammlung': 
-          $query.='AND lookup.ID NOT IN (SELECT LookupID FROM sammlung_lookup WHERE SammlungID=:SammlungID) '.PHP_EOL; 
-          break; 
-
-        case 'satz': 
-          $query.='AND lookup.ID NOT IN (SELECT LookupID FROM satz_lookup WHERE SatzID=:SatzID) '.PHP_EOL;  
-          break; 
-
-        case 'uebung': 
-          $query.='AND lookup.ID NOT IN (SELECT LookupID FROM uebung_lookup WHERE UebungID=:UebungID) '.PHP_EOL;  
-          break;           
-
-        }
+          $query.="AND lookup.ID NOT IN (SELECT LookupID FROM ".$Relation."_lookup WHERE ".$ReferenceColName."=:ReferenceID) ".PHP_EOL; 
       }
 
     $query.='ORDER BY Besonderheit'; 
@@ -101,20 +108,8 @@ class Lookup {
     }  
 
     if ($ReferenceID!=''){
-      switch ($this->LookupTypeRelation) {
-        case 'sammlung': 
-          $stmt->bindParam(':SammlungID', $ReferenceID, PDO::PARAM_INT);
-          break; 
-
-        case 'satz': 
-          $stmt->bindParam(':SatzID', $ReferenceID, PDO::PARAM_INT);
-          break; 
-
-        case 'uebung': 
-          $stmt->bindParam(':UebungID', $ReferenceID, PDO::PARAM_INT);
-          break;           
-        }     
-    }  
+        $stmt->bindParam(':ReferenceID', $ReferenceID, PDO::PARAM_INT);       
+    }      
 
     try {
       $stmt->execute(); 
