@@ -113,7 +113,6 @@ class Satz {
                       ,`MusikstueckID`
                       ,`Tempobezeichnung`
                       ,`Spieldauer`
-                      ,`ErprobtID`
                       , COALESCE(Bemerkung,'') as Bemerkung 
                       , COALESCE(Orchesterbesetzung,'') as Orchesterbesetzung                       
     FROM `satz`
@@ -128,7 +127,6 @@ class Satz {
       $this->MusikstueckID=$row_data["MusikstueckID"];
       $this->Tempobezeichnung=$row_data["Tempobezeichnung"];
       $this->Spieldauer=$row_data["Spieldauer"];
-      $this->ErprobtID=$row_data["ErprobtID"];
       $this->Bemerkung=$row_data["Bemerkung"];
       $this->Orchesterbesetzung=$row_data["Orchesterbesetzung"];    
       return true; 
