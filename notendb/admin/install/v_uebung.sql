@@ -13,8 +13,7 @@ SELECT
 	          -- musikstueck.Nummer, ' - ', 
 	          musikstueck.Name, ' - Satz Nr. ',  
 	          satz.Nr
-	          ) Notenstueck  
-    , CONCAT(material.Name, ' (' , materialtyp.Name, ') ', sammlung2.Name) as Material 	          
+	          ) Notenstueck  	          
     , uebung.UebungtypID
 FROM  uebung 
     INNER join schueler on schueler.ID=uebung.SchuelerID
@@ -23,7 +22,4 @@ FROM  uebung
     left join satz  on satz.ID=uebung.SatzID 
     left join musikstueck on satz.MusikstueckID = musikstueck.ID
     left JOIN sammlung on sammlung.ID = musikstueck.SammlungID      
-    left join material  on material.ID=uebung.MaterialID
-    left JOIN materialtyp on materialtyp.ID = material.MaterialtypID      
-    left join sammlung as sammlung2  on sammlung2.ID=material.SammlungID
 

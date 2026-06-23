@@ -3,7 +3,6 @@ select
     sammlung.Name as Sammlung 
     , verlag.Name as Verlag 
     , standort.Name as Standort
-    , sammlung.Bestellnummer
     , sammlung.Bemerkung as Sammlung_Bemerkung 
     , musikstueck.Nummer AS Musikstueck_Nr
     , musikstueck.Name

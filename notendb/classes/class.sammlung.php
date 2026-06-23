@@ -5,7 +5,6 @@ include_once("class.htmlinfo.php");
 include_once("class.htmlselect.php"); 
 include_once("class.htmltable.php"); 
 include_once("class.musikstueck.php");  
-include_once('class.material.php'); 
 include_once('class.link.php'); 
 
  class Sammlung {
@@ -13,7 +12,6 @@ include_once('class.link.php');
   public $ID;
   public $Name;
   public $VerlagID;
-  public $Bestellnummer; 
   public $Bemerkung;
   public int $Erfasst=0; // true/false, tinyint 1/0 for mysql 
 
@@ -22,7 +20,6 @@ include_once('class.link.php');
   public $infotext=''; 
 
   public int $anzahl_musikstuecke=0; 
-  public int $anzahl_materials=0; 
   public int $anzahl_anzahl_links=0; 
 
   private $db; 
@@ -139,7 +136,6 @@ include_once('class.link.php');
                           ID, 
                           Name, 
                           VerlagID, 
-                          Bestellnummer , 
                           COALESCE(Bemerkung, '') as Bemerkung, 
                           Erfasst 
                         FROM `sammlung`
@@ -152,7 +148,6 @@ include_once('class.link.php');
       $row_data=$select->fetch();      
       $this->Name=$row_data["Name"];
       $this->VerlagID=$row_data["VerlagID"];
-      $this->Bestellnummer=$row_data["Bestellnummer"];
       $this->Bemerkung=$row_data["Bemerkung"]; 
       $this->Erfasst=$row_data["Erfasst"];
       return true; 
@@ -234,7 +229,6 @@ include_once('class.link.php');
   function copy( $copy_schueler=false, $copy_lookups=false){
 
     include_once('classes/class.musikstueck.php'); 
-    include_once('classes/class.material.php');     
 
     $sql="INSERT INTO sammlung (Name, VerlagID, Bemerkung)
           SELECT CONCAT(Name, ' (Kopie)') as Name , VerlagID, Bemerkung
@@ -555,43 +549,7 @@ include_once('class.link.php');
      
   } 
 
-  function print_table_material(){
-
-    $query="SELECT material.ID 
-          , material.Name  as Material 
-          , materialtyp.Name  as Materialtyp 
-          , material.Bemerkung as Bemerkung 
-          , GROUP_CONCAT(DISTINCT concat(instrument.Name, ': ', schwierigkeitsgrad.Name)  order by schwierigkeitsgrad.Name SEPARATOR ', ') `Schwierigkeitsgrade`               
-          , v_material_lookuptypes.LookupList as Besonderheiten       
-        FROM material left join materialtyp on material.MaterialtypID = materialtyp.ID 
-          LEFT JOIN material_schwierigkeitsgrad on material_schwierigkeitsgrad.MaterialID = material.ID 
-          LEFT JOIN schwierigkeitsgrad on schwierigkeitsgrad.ID = material_schwierigkeitsgrad.SchwierigkeitsgradID 
-          LEFT JOIN instrument on instrument.ID = material_schwierigkeitsgrad.InstrumentID     
-          LEFT JOIN v_material_lookuptypes on v_material_lookuptypes.MaterialID = material.ID                 
-        WHERE material.SammlungID=:SammlungID 
-        GROUP BY material.ID 
-        ORDER BY material.Name 
-	      "; 
-
-    $stmt = $this->db->prepare($query); 
-    $stmt->bindParam(':SammlungID', $this->ID, PDO::PARAM_INT); 
-      
-    try {
-      $stmt->execute(); 
-            
-      $html = new HTML_Table($stmt); 
-      $html->edit_link_table='material'; 
-      $html->edit_link_title='Material'; 
-      $html->edit_link_open_newpage=true; 
-      $html->print_table2(); 
-
-    }
-    catch (PDOException $e) {
-      $this->info->print_user_error(); 
-      $this->info->print_error($stmt, $e); 
-    }
-  }  
-
+  
   function count_musikstuecke() {
 
     $select = $this->db->prepare("SELECT ID from musikstueck WHERE Sammlung=:ID");
@@ -616,7 +574,6 @@ include_once('class.link.php');
 
     $this->delete_links();
     $this->delete_musikstuecke();  
-    $this->delete_materials(); 
     $this->delete_lookups();          
     $this->delete_standorte();          
  
@@ -664,23 +621,6 @@ include_once('class.link.php');
     }  
   }  
 
-  function delete_materials(){
-
-    $select = $this->db->prepare("SELECT ID  FROM `material` WHERE SammlungID=:ID"); 
-
-    $select->bindValue(':ID', $this->ID);  
-
-    $select->execute(); 
-
-    $res = $select->fetchAll(PDO::FETCH_ASSOC);
-
-    foreach ($res as $row=>$value) {
-      // echo '<p>Lösche Material ID: '.$value["ID"];
-      $material = new Material(); 
-      $material->ID = $value["ID"]; 
-      $material->delete();  
-    }
-  }
 
   function delete_links(){
 
