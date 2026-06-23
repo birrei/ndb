@@ -391,7 +391,7 @@ class Schueler {
     }
   }    
 
-  function print_table_lookups(){
+  function print_table_lookups_noten(){
 
     $query="SELECT Status, LookupList2 as `Alle Besonderheiten aus zugeordneten Noten`       
     FROM v_schueler_lookuptypes                                  
