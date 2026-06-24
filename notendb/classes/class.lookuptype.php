@@ -199,14 +199,14 @@ class Lookuptype {
   }
 
   function getArrData2(){
-    // alle Typen (ohne relation-filter)
+    // alle Typen (ohne relation-filter), stattdessen Relationen als Array 
     $arrTmp=[]; 
     $arrTmp2=[]; // relations 
-    $query1 = 'SELECT ID, Name, type_key, selsize 
-                      FROM lookup_type 
-                      WHERE 1=1 
-                      AND ID IN (SELECT DISTINCT LookupTypeID from lookup) 
-                      order by type_key';
+    $query1 = "SELECT ID, Name, type_key, selsize 
+              FROM lookup_type 
+              WHERE 1=1 
+              AND ID IN (SELECT DISTINCT LookupTypeID from lookup) 
+              order by type_key";
     $select = $this->db->prepare($query1);   
     $select->execute(); 
     $result = $select->fetchAll(PDO::FETCH_ASSOC);
@@ -371,7 +371,6 @@ class Lookuptype {
       return true; 
     }
   }
-
 
   function add_relation ($RelationID){
 

@@ -568,19 +568,7 @@ include_once("classes/class.suchabfrage.php");
 
 
 
-/************* ALT #Material: Filter Schwierigkeitsgrad **********/      
-    // $Schwierigkeitsgrade_Material=[];
-    // $schwierigkeitsgrad_material = new Schwierigkeitsgrad();
-    // if (isset($_REQUEST['Schwierigkeitsgrad_Material'])) {
-    //   $Schwierigkeitsgrade_Material = $_REQUEST['Schwierigkeitsgrad_Material']; 
-    //   $Suchabfrage->Schwierigkeitsgrade_Material = $Schwierigkeitsgrade_Material; 
-    //   $filter=true; 
-    // }
-    // $schwierigkeitsgrad_material->Parent='Material'; 
-    // // $schwierigkeitsgrad_material->Parent='Satz';     
-    // $schwierigkeitsgrad_material->print_select_multi($Schwierigkeitsgrade_Material);  
-    // $Suchabfrage->Beschreibung.=(count($Schwierigkeitsgrade_Material)>0?$schwierigkeitsgrad_material->titles_selected_list.'<br>':'');  
-  
+
   }
 
 
@@ -604,8 +592,9 @@ include_once("classes/class.suchabfrage.php");
     $lookup_values=[]; // alle Lookupwerte eines Typs 
     $lookup_values_selected=[];    // ausgewählte Lookup-Werte 
     $lookup_values_not_selected=[];  // nicht ausgewählte Lookup-Werte 
-    // // print_r($lookup_values); // Test 
+    // print_r($lookup_values); // Test 
     if (isset($_REQUEST[$lookup_type_key])) {
+      $filter=true; 
       $lookup_values_selected= $_REQUEST[$lookup_type_key]; 
       $lookup_values = $lookup->getArrLookups();       
       $lookup_values_not_selected = array_diff($lookup_values, $lookup_values_selected); // nicht ausgewählte Werte    
@@ -657,6 +646,7 @@ include_once("classes/class.suchabfrage.php");
 
   $Suchabfrage->printTable(); 
 
+  // $Suchabfrage->printLookupsTest(); 
   // $Suchabfrage->printTest(); // TEST 
 
   keinFilter: 

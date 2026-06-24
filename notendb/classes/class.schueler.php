@@ -394,7 +394,7 @@ class Schueler {
   function print_table_lookups_noten(){
 
     $query="SELECT Status, LookupList2 as `Alle Besonderheiten aus zugeordneten Noten`       
-    FROM v_schueler_lookuptypes                                  
+    FROM v_schueler_noten_lookuptypes                                   
     WHERE SchuelerID = :ID "; 
   
     $stmt = $this->db->prepare($query); 
@@ -943,6 +943,80 @@ class Schueler {
       }
       return $strSQL; 
 
+  }
+
+  function print_table_lookups($target_file, $LookupTypeID=0){
+    $query="SELECT lookup.ID
+             , lookup_type.Name as Typ     
+             , lookup.Name  
+          FROM schueler_lookup          
+          INNER JOIN lookup 
+            on lookup.ID=schueler_lookup.LookupID
+          INNER JOIN lookup_type
+            on lookup_type.ID = lookup.LookupTypeID
+          WHERE schueler_lookup.SchuelerID = :SchuelerID";
+          $query.=($LookupTypeID>0?" AND lookup.LookupTypeID = :LookupTypeID":""); 
+          $query.=" ORDER by lookup_type.Name, lookup.Name"; 
+
+    // echo $query; 
+
+    $stmt = $this->db->prepare($query); 
+    $stmt->bindParam(':SchuelerID', $this->ID, PDO::PARAM_INT);
+    if ($LookupTypeID>0) {
+      $stmt->bindParam(':LookupTypeID', $LookupTypeID, PDO::PARAM_INT);
+    } 
+
+    try {
+      $stmt->execute(); 
+            
+      $html = new HTML_Table($stmt); 
+      $html->add_link_edit=false;
+      $html->add_link_delete=true;
+      $html->del_link_filename=$target_file; 
+      $html->del_link_parent_key='SchuelerID'; 
+      $html->del_link_parent_id= $this->ID; 
+      $html->show_missing_data_message=false; 
+      $html->print_table2();       
+    }
+    catch (PDOException $e) {
+      $this->info->print_user_error(); 
+      $this->info->print_error($stmt, $e); 
+    }
+  }  
+
+  function add_lookup($LookupID){
+
+    $insert = $this->db->prepare("INSERT IGNORE INTO `schueler_lookup` SET
+        `SchuelerID`     = :SchuelerID,  
+        `LookupID`     = :LookupID");
+
+    $insert->bindValue(':SchuelerID', $this->ID);  
+    $insert->bindValue(':LookupID', $LookupID);  
+
+    try {
+      $insert->execute(); 
+    }
+    catch (PDOException $e) {
+      $this->info->print_user_error(); 
+      $this->info->print_error($insert, $e);  
+    }  
+  }
+
+  function delete_lookup($ID){
+
+    $delete = $this->db->prepare("DELETE FROM `schueler_lookup` 
+          WHERE SchuelerID=:SchuelerID
+          AND LookupID=:LookupID "); 
+    $delete->bindValue(':SchuelerID', $this->ID);            
+    $delete->bindValue(':LookupID', $ID);  
+
+    try {
+      $delete->execute(); 
+    }
+    catch (PDOException $e) {
+      $this->info->print_user_error(); 
+      $this->info->print_error($delete, $e);  
+    }  
   }
 
 }

@@ -76,7 +76,6 @@ class Lookup {
       case 'schueler': 
           $ReferenceColName='SchuelerID'; 
         break; 
-
     }
 
     $query="SELECT lookup.ID

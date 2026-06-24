@@ -243,6 +243,7 @@ switch ($ansicht)  // setzen: $PageTitle, $table_edit
           , TIMESTAMPDIFF(YEAR, schueler.Unterricht_Seit, CURDATE()) as `Unterricht seit Jahre`           
           , schueler.Geburtsdatum 
           , TIMESTAMPDIFF(YEAR, schueler.Geburtsdatum, CURDATE()) as `Alter` 
+          , v_schueler_lookuptypes.LookupList as Besonderheiten 
           "         
           ; 
     if ($StatusID!='') {
@@ -260,6 +261,7 @@ switch ($ansicht)  // setzen: $PageTitle, $table_edit
           LEFT JOIN uebung ON schueler.ID = uebung.SchuelerID
           LEFT JOIN schueler_satz on  schueler_satz.SchuelerID= schueler.ID 
           LEFT JOIN wochentage ON wochentage.wochentag_nr = schueler.Unterricht_Wochentag 
+          LEFT JOIN v_schueler_lookuptypes on v_schueler_lookuptypes.SchuelerID = schueler.ID  
       ";
 
     $query.="
@@ -267,7 +269,8 @@ switch ($ansicht)  // setzen: $PageTitle, $table_edit
           LEFT JOIN status on schueler_satz.StatusID= status.ID             
           LEFT join satz on satz.ID = schueler_satz.SatzID 
           LEFT join musikstueck on musikstueck.ID = satz.MusikstueckID 
-          LEFT JOIN sammlung on sammlung.ID = musikstueck.SammlungID
+          LEFT JOIN sammlung on sammlung.ID = musikstueck.SammlungID 
+          
       WHERE 1=1 
       ";
 

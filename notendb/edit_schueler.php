@@ -168,6 +168,9 @@ echo '
   <input type="radio" id="opt_Schwierigkeitsgrad" name="target_form" value="Schwierigkeitsgrad" onclick="changeIframeSrc('subform1', 'edit_schueler_schwierigkeitsgrade.php?SchuelerID=<?php echo $schueler->ID; ?>');">
   <label for="opt_Schwierigkeitsgrad">Instrumente, Schwierigkeitsgrade</label><br>
 
+  <input type="radio" id="opt_Lookups" name="target_form" value="Lookups" onclick="changeIframeSrc('subform1', 'edit_schueler_lookups.php?SchuelerID=<?php echo $schueler->ID; ?>');">
+  <label for="opt_Lookups">Besonderheiten</label><br>  
+
   <input type="radio" id="opt_Saetze" name="target_form" value="Saetze" onclick="changeIframeSrc('subform1', 'edit_schueler_saetze.php?SchuelerID=<?php echo $schueler->ID; ?>');">
   <label for="opt_Saetze">Verknüpfte Noten</label><br>
 
@@ -196,7 +199,7 @@ echo '
   <input type="radio" id="opt_Saetze_Lookups" name="target_form" value="Saetze_Lookups" onclick="changeIframeSrc('subform1', 'edit_schueler_saetze_lookups.php?SchuelerID=<?php echo $schueler->ID; ?>');">
   <label for="opt_Saetze_Lookups">Verknüpfte Noten + Besonderheiten</label><br>
 
-  <input type="radio" id="opt_Lookups" name="target_form" value="Lookups" onclick="changeIframeSrc('subform1', 'edit_schueler_lookups.php?SchuelerID=<?php echo $schueler->ID; ?>');">
+  <input type="radio" id="opt_Lookups" name="target_form" value="Lookups" onclick="changeIframeSrc('subform1', 'edit_schueler_lookups_noten.php?SchuelerID=<?php echo $schueler->ID; ?>');">
   <label for="opt_Lookups">Besonderheiten aus verknüpften Noten</label><br>
 
   </p>

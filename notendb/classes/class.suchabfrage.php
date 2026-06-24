@@ -69,12 +69,6 @@ class Suchabfrage {
 
   // ------------------------------------------
 
-  public $printSammlung=false; // XXXX Parameter entfernen 
-  public $printMaterial=false; // XXXX Parameter entfernen 
-
-  public $showResultsetSammlungNoten=false; // XXXX Parameter entfernen 
-  public $showResultsetSammlungMaterial=false; // XXXX Parameter entfernen 
-  public $showResultsetSchuler=false; // XXXX Parameter entfernen 
 
 /** Methoden ********/  
 
@@ -510,7 +504,8 @@ class Suchabfrage {
             $strTmp.="AND schueler.ID IN (SELECT SchuelerID FROM schueler_schwierigkeitsgrad WHERE SchwierigkeitsgradID IN (".implode(',', $this->Schwierigkeitsgrade_Schueler).")) ".PHP_EOL; 
         }                   
         if (count($this->LookupTypesSelected) > 0) {
-          $strTmp.=$this->getSQL_FilterLookups('satz'); //    
+          $strTmp.=$this->getSQL_FilterLookups('schueler');  
+          $strTmp.=$this->getSQL_FilterLookups('satz');  
         }  
 
         break;  
@@ -636,7 +631,11 @@ class Suchabfrage {
     $strTmp=''; 
 
     $lookup_types_selected = $this->LookupTypesSelected; 
-
+    
+      // echo '<pre>lookup_types_selected: '; 
+      // print_r($lookup_types_selected); // test 
+      // echo '</pre>'; 
+      
     foreach($lookup_types_selected as $lookup_type) {      
       $lookup_values_selected =$lookup_type["lookup_values_selected"]; 
       $lookup_values_not_selected =$lookup_type["lookup_values_not_selected"]; 
@@ -732,11 +731,6 @@ class Suchabfrage {
 
     echo '<hr>'; 
 
-    // echo '<pre>'; 
-    // print_r($this->LookupTypesSelected); 
-    // echo '</pre>'; 
-
-
 
   }
 
@@ -745,6 +739,8 @@ class Suchabfrage {
     
     echo '<pre>XXXX TEST: '; 
     echo $this->txtTest; 
+    echo 'LookupTypesSelected: '; 
+    // print_r($this->LookupTypesSelected); 
     echo '</pre>'; 
 
 
