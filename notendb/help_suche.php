@@ -11,20 +11,20 @@ include_once('head.php');
 
 <h1 class="chapter-title chapter-title-h1" id="suche_ansichten">Ansichten</h1>
 
-
     <h2 class="chapter-title chapter-title-h3" id="suche_ansichten_hinweise">Hinweise zu Ansichten</h2>
 
         <p>Durch die "Ansichten" wird festgelegt ... </p>
         <ul>
             <li>Welche Filtermöglichkeiten eingeblendet werden </li>
+            <li>Wie die Filter wirksam werden  </li>
             <li>Wie die Ergebnistabelle ausgegeben wird (Gruppierungs-Ebene, angezeigte Spalten)</li>
                     
             </ul>   
-
-
     
     <h2 class="chapter-title chapter-title-h3" id="suche_ansichten_gruppe_noten">Ansichten Gruppe "Noten"</h2>
-            <p> Verfügbare Filterbereiche: Suchtext, Schüler (Name + Noten Status) Sammlung, Musikstück, Satz, Besonderheiten  </p>
+            <p> Verfügbare Filterbereiche: Suchtext, Schüler (Name + Noten Status) Sammlung, Musikstück, Satz, Besonderheiten 
+                (Sammlung- Musikstück- und Satz-bezogene Besonderheiten)
+             </p>
             
         <h3 class="chapter-title chapter-title-h3" id="suche_ansichten_sammlung1">Ansicht "Sammlung"</h3>
             <p>Die Ergebnistabelle zeigt passende Sammlungen an, inklusive Sammlungen ohne Musikstücke / Sätze.</p> 
@@ -42,17 +42,24 @@ include_once('head.php');
             
     
     <h2 class="chapter-title chapter-title-h2" id="suche_ansichten_gruppe_schueler">Ansichten Gruppe "Schüler"</h2>
-            <p> Verfügbare Filterbereiche: Suchtext, Schüler, Besonderheiten  </p>
-            <p> </p>             
-            <p> </p>             
+            <!-- <p> Verfügbare Filterbereiche: Suchtext, Schüler, Besonderheiten  </p> -->
+            <p>Hinweise: Die "Besonderheiten"-Filter beziehen sich auf die zu Schüler und Satz zuordenbaren Besonderheiten. 
+                Filter auf Satz-Besonderheiten beziehen sich auf mit Schülern verknüpfte Sätze. </p>             
+       
         <h3 class="chapter-title chapter-title-h3" id="suche_ansichten_schueler1">Ansicht "Schüler"</h3>
-                <p> XXX</p> 
-        <h3 class="chapter-title chapter-title-h3" id="suche_ansichten_schueler1">Ansicht "Schüler erweitert"</h3>
-                <p> XXX</p> 
+                  <p> Es werden Schüler sowie im Wesentlichen die Schüler-Attribute angezeigt </p> 
+
+        <h3 class="chapter-title chapter-title-h3" id="suche_ansichten_schueler2">Ansicht "Schüler erweitert"</h3>
+                <p> Es werden Schüler sowie verknüpfte Noten angezeigt.  </p> 
+
 
     <h2 class="chapter-title chapter-title-h2" id="suche_ansichten_uebungen">Ansichten Gruppe "Übungen"</h2>
+                <p> Es werden Schüler mit Übungen angezeigt. </p> 
+                <p>Die "Besonderheiten"-Filter beziehen sich auf die an Schüler und Übung zuordenbaren Besonderheiten. </p> 
+<!-- 
         <h3 class="chapter-title chapter-title-h3" id="suche_ansichten_schueler1">Ansicht "Übungen"</h3>
-                <p> XXX</p> 
+                <p> XXX</p>  
+                -->
 
 
 

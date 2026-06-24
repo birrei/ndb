@@ -97,9 +97,7 @@ class Suchabfrage {
         $this->AnsichtBezeichnung='Sammlung, Musikstück'; 
         $this->AnsichtEbene='Musikstueck'; 
         $this->edit_table='musikstueck';                
-
         break;   
-
 
       case 'Sammlung3':
         $this->AnsichtGruppe='Noten'; 
@@ -107,7 +105,6 @@ class Suchabfrage {
         $this->AnsichtEbene='Satz'; 
         $this->edit_table='satz';               
         break;   
-
 
       case 'Sammlung4':
         $this->AnsichtGruppe='Noten'; 
@@ -241,7 +238,9 @@ class Suchabfrage {
         , IF(schueler.Unterricht_Dauer=0, '', schueler.Unterricht_Dauer) as `Unterricht Dauer`                
         , schueler.Unterricht_Seit  as `Datum Unterricht Seit`       
         , schueler.Geburtsdatum           
-        , v_schueler_instrumente.Instrumente as `Instrumente / Schwierigkeitsgrade`".PHP_EOL; 
+        , v_schueler_instrumente.Instrumente as `Instrumente / Schwierigkeitsgrade`
+        , v_schueler_lookuptypes.LookupList as Besonderheiten         
+        ".PHP_EOL; 
         
         break; 
         
@@ -289,13 +288,12 @@ class Suchabfrage {
         break;            
     }
 
-  /** FROM, JOINS  | Pro AnsichtGruppe */
+  /** FROM, JOINS  | Pro AnsichtGruppe und ggf. Ansicht  */
     switch ($this->AnsichtGruppe){ 
       
       case 'Noten': // AnsichtGruppe  
         $strTmp.="FROM
           sammlung 
-          -- LEFT JOIN standort on sammlung.StandortID = standort.ID
           LEFT JOIN v_sammlung_standorte ON v_sammlung_standorte.SammlungID=sammlung.ID  
           LEFT JOIN verlag on sammlung.VerlagID = verlag.ID
           LEFT JOIN v_links as links on links.SammlungID = sammlung.ID
@@ -310,8 +308,7 @@ class Suchabfrage {
           LEFT JOIN v_satz_erprobte on satz.ID = v_satz_erprobte.SatzID
           LEFT JOIN satz_erprobt on satz.ID = satz_erprobt.SatzID
           LEFT JOIN v_satz_instrumente_schwierigkeitsgrade ON v_satz_instrumente_schwierigkeitsgrade.SatzID = satz.ID 
-          LEFT JOIN materialtyp on materialtyp.ID = musikstueck.MaterialtypID         
-          ".PHP_EOL;
+          LEFT JOIN materialtyp on materialtyp.ID = musikstueck.MaterialtypID         ".PHP_EOL;
 
         switch($this->Ansicht) { // additional JOINS 
           case 'Sammlung2': // Musikstück- Ebene 
@@ -354,7 +351,9 @@ class Suchabfrage {
         LEFT join satz on satz.ID = schueler_satz.SatzID 
         LEFT join musikstueck on musikstueck.ID = satz.MusikstueckID
         LEFT join sammlung on sammlung.ID = musikstueck.SammlungID    
-        LEFT join v_schueler_instrumente on v_schueler_instrumente.SchuelerID = schueler.ID ". PHP_EOL;         
+        LEFT join v_schueler_instrumente on v_schueler_instrumente.SchuelerID = schueler.ID 
+        LEFT JOIN v_schueler_lookuptypes on v_schueler_lookuptypes.SchuelerID = schueler.ID          
+        ". PHP_EOL;         
 
         
         break; 
@@ -373,7 +372,7 @@ class Suchabfrage {
         break; 
     }      
 
-  /** WHERE  */
+  /** WHERE (Basis) */
     $strTmp.="WHERE 1=1 ".PHP_EOL;
 
     switch($this->AnsichtEbene) {
@@ -386,9 +385,9 @@ class Suchabfrage {
       break;         
 
     }
-
+  /** WHERE (Filter) */
     switch ($this->AnsichtGruppe){    
-      case 'Noten': // AnsichtGruppe
+      case 'Noten':    // AnsichtGruppe
         if ($this->Suchtext!='') {
           $strTmp.="AND (sammlung.Name LIKE '%".$this->Suchtext."%' OR  
                       sammlung.Bemerkung LIKE '%".$this->Suchtext."%' OR                              
@@ -469,7 +468,7 @@ class Suchabfrage {
             }                        
           if (count($this->LookupTypesSelected) > 0) {
             $strTmp.=$this->getSQL_FilterLookups('sammlung'); 
-            // $strTmp.=$this->getSQL_FilterLookups('musikstueck');       // XXXX
+            $strTmp.=$this->getSQL_FilterLookups('musikstueck');       // XXXX
             $strTmp.=$this->getSQL_FilterLookups('satz');           
           }  
 
@@ -509,6 +508,8 @@ class Suchabfrage {
         }  
 
         break;  
+
+        
       case 'Uebungen': // AnsichtGruppe 
 
         if ($this->Suchtext!='') {
@@ -521,10 +522,6 @@ class Suchabfrage {
                           
                                             ) ". PHP_EOL;        
         }  
-        
-        if (count($this->LookupTypesSelected) > 0) {
-          $strTmp.=$this->getSQL_FilterLookups('uebung'); //    
-        }
 
         if($this->SchuelerID!='') { 
           $strTmp.="AND schueler.ID=".$this->SchuelerID." " . PHP_EOL;        
@@ -533,6 +530,7 @@ class Suchabfrage {
         if($this->UebungtypID!='') { 
           $strTmp.="AND uebung.UebungtypID=".$this->UebungtypID." " . PHP_EOL;        
         }     
+
         if($this->BewertungID!='') { 
           $strTmp.="AND uebung.BewertungID=".$this->BewertungID." " . PHP_EOL;        
         }     
@@ -540,10 +538,16 @@ class Suchabfrage {
         if($this->Datum!='') { 
           $strTmp.="AND uebung.Datum='".$this->Datum."' " . PHP_EOL;        
         }     
- 
+         
+        if (count($this->LookupTypesSelected) > 0) {
+          $strTmp.=$this->getSQL_FilterLookups('schueler'); //    
+          $strTmp.=$this->getSQL_FilterLookups('uebung'); //    
+          // $strTmp.=$this->getSQL_FilterLookups('satz'); //    
+
+        }
+
         break;  
     }
-
 
   /** GROUP BY  */
     switch ($this->AnsichtEbene){
@@ -561,7 +565,7 @@ class Suchabfrage {
         break;                                  
     }
 
-  // ORDER BY 
+  /** ORDER BY  */
     switch ($this->AnsichtEbene){
       case 'Sammlung':
         $strTmp.="ORDER BY sammlung.Name ".PHP_EOL;                     
@@ -617,7 +621,6 @@ class Suchabfrage {
     return  $strFilter; 
   }
 
-  
   private function getSQL_FilterLookups($table) {
     
     $this->txtTest.='getSQL_FilterLookups table: '.$table.'<br'; 
@@ -631,11 +634,7 @@ class Suchabfrage {
     $strTmp=''; 
 
     $lookup_types_selected = $this->LookupTypesSelected; 
-    
-      // echo '<pre>lookup_types_selected: '; 
-      // print_r($lookup_types_selected); // test 
-      // echo '</pre>'; 
-      
+
     foreach($lookup_types_selected as $lookup_type) {      
       $lookup_values_selected =$lookup_type["lookup_values_selected"]; 
       $lookup_values_not_selected =$lookup_type["lookup_values_not_selected"]; 
@@ -643,19 +642,20 @@ class Suchabfrage {
       $lookuptype_check_include= $lookup_type["lookuptype_check_include"]; 
       $lookuptype_check_exclude= $lookup_type["lookuptype_check_exclude"];
 
+      // XXXX wenn möglich: Ausgabe Lookup Name 
+
       if(in_array($table, $relations)) {
         if($lookuptype_check_include) {
           for ($ls = 0; $ls < count($lookup_values_selected); $ls++) { 
-            $strTmp.='AND '.$table.'.ID IN (SELECT '.ucfirst($table).'ID from '.$table.'_lookup WHERE LookupID='.$lookup_values_selected[$ls].') '. PHP_EOL; 
+            $strTmp.='AND '.$table.'.ID IN (SELECT '.ucfirst($table).'ID from '.$table.'_lookup WHERE LookupID='.$lookup_values_selected[$ls].') -- Filter '.$table.' '. PHP_EOL; 
           }
         } else {
-          $strTmp.='AND '.$table.'.ID IN (SELECT '.ucfirst($table).'ID from '.$table.'_lookup WHERE LookupID IN ('.implode(',', $lookup_values_selected).')) '. PHP_EOL; 
+          $strTmp.='AND '.$table.'.ID IN (SELECT '.ucfirst($table).'ID from '.$table.'_lookup WHERE LookupID IN ('.implode(',', $lookup_values_selected).')) -- Filter '.$table.' '. PHP_EOL; 
         }
         if($lookuptype_check_exclude) {
-          $strTmp.='AND '.$table.'.ID NOT IN (SELECT '.ucfirst($table).'ID from '.$table.'_lookup WHERE LookupID IN ('.implode(',', $lookup_values_not_selected).')) '. PHP_EOL; 
+          $strTmp.='AND '.$table.'.ID NOT IN (SELECT '.ucfirst($table).'ID from '.$table.'_lookup WHERE LookupID IN ('.implode(',', $lookup_values_not_selected).')) -- Filter '.$table.' '. PHP_EOL; 
         }
       } 
-
     }
     return $strTmp; 
   }
@@ -687,7 +687,6 @@ class Suchabfrage {
     }   
     
     echo '<pre style="font-size: 11px; '.($this->printSQL?'':'display: none').';">'.$query .'</pre>'; // Test  
-    
 
   }
   
@@ -733,49 +732,14 @@ class Suchabfrage {
 
 
   }
-
   
   public function printTest() {
     
     echo '<pre>XXXX TEST: '; 
     echo $this->txtTest; 
-    echo 'LookupTypesSelected: '; 
-    // print_r($this->LookupTypesSelected); 
     echo '</pre>'; 
 
-
   }
-
-  // private function setAnsichten() {
-    //   // vorerst verworfen 
-    //   // $Ansichten["Sammlung"] = array(  
-    //   //             'name' =>"Sammlung",     
-    //   //             'anzeigename' =>"Sammlung", 
-    //   //             'ebene' =>"sammlung", 
-    //   //             ); 
-
-    //   // $Ansichten["Sammlung2"] = array(  
-    //   //             'name' =>"Sammlung2",     
-    //   //             'anzeigename' =>"Sammlung, Musikstück", 
-    //   //             'ebene' =>"musikstueck", 
-    //   //             ); 
-
-
-    //   // $Ansichten["Sammlung3"] = array(  
-    //   //             'name' =>"Sammlung3",     
-    //   //             'anzeigename' =>"Sammlung, Musikstück, Satz", 
-    //   //             'ebene' =>"satz", 
-    //   //             ); 
-
-    //   // $Ansichten["Sammlung4"] = array(  
-    //   //             'name' =>"Sammlung4",     
-    //   //             'anzeigename' =>"Sammlung, Musikstück, Satz + Schüler", 
-    //   //             'ebene' =>"satz", 
-    //   //             ); 
-                              
-
-  // }
-
 
 }
 ?>

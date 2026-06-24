@@ -576,9 +576,12 @@ include_once("classes/class.suchabfrage.php");
 <p class="navi-trenner">Besonderheiten</p> 
 <?php
 
+// echo 'AnsichtGruppe: '.$AnsichtGruppe; // TEST  
+
 /************* Filter Besonderheiten  XXXX **********/
   $lookuptypes=new Lookuptype(); 
-  $arrLookupTypes=$lookuptypes->getArrData2();
+  // $arrLookupTypes=$lookuptypes->getArrData2();
+  $arrLookupTypes=$lookuptypes->getArrData3($AnsichtGruppe);
   for ($i = 0; $i < count($arrLookupTypes); $i++) {
     $tmpAdditionalInfo='';  
     $lookuptype_check_include=false; // Einschluss-Suche ja/nein 
@@ -646,7 +649,7 @@ include_once("classes/class.suchabfrage.php");
 
   $Suchabfrage->printTable(); 
 
-  // $Suchabfrage->printLookupsTest(); 
+  // $Suchabfrage->printLookupsTest(); // TEST 
   // $Suchabfrage->printTest(); // TEST 
 
   keinFilter: 

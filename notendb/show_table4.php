@@ -336,14 +336,6 @@ switch ($ansicht)  // setzen: $PageTitle, $table_edit
 
     echo ' Suchtext: <input type="text" id="Suchtext" name="Suchtext" size="30px" value="'.$Suchtext.'"> '; 
 
-    // XXXX löschen 
-    // echo ' &#9475;';
-    // echo ' Geplant <select id="Unterricht_Geplant" name="Unterricht_Geplant" onchange="this.form.submit()" >
-    //           <option value="" '.($Unterricht_Geplant==''?'selected':'').'></option>
-    //           <option value="0" '.($Unterricht_Geplant=='0'?'selected':'').'>Nein</option>
-    //           <option value="1" '.($Unterricht_Geplant=='1'?'selected':'').'>Ja</option>
-    //       </select> '; 
-
     echo '<input type="submit" class="btnSave" name="senden" value="Suchen">';
     echo '<input type="hidden" name="ansicht" value="'.$ansicht.'">'; 
     echo '</form>';           

@@ -64,8 +64,6 @@ class Lookuptype {
     if ($select->rowCount()==1) {
       $row_data=$select->fetch();      
       $this->Name=$row_data["Name"];
-      // $this->Relation=$row_data["Relation"];
-      // $this->type_key=$row_data["type_key"];
       $this->type_key=(empty($row_data["type_key"])?'typekey'.strval($this->ID):$row_data["type_key"]); 
       $this->selsize=$row_data["selsize"];
       return true; 
@@ -207,6 +205,83 @@ class Lookuptype {
               WHERE 1=1 
               AND ID IN (SELECT DISTINCT LookupTypeID from lookup) 
               order by type_key";
+    $select = $this->db->prepare($query1);   
+    $select->execute(); 
+    $result = $select->fetchAll(PDO::FETCH_ASSOC);
+
+    foreach ($result as $row) {
+
+      $query2 = 'select lookuptype_relation.LookuptypeID, relation.Name as Relation  
+                        from lookuptype_relation 
+                        inner join relation 
+                        on lookuptype_relation.RelationID = relation.ID 
+                        where lookuptype_relation.LookuptypeID=:LookuptypeID 
+                        order by lookuptype_relation.LookuptypeID 
+                        ';
+      $select2 = $this->db->prepare($query2);   
+      $select2->bindParam(':LookuptypeID', $row["ID"], PDO::PARAM_INT);        
+      $select2->execute(); 
+      
+      // echo '<pre>'; 
+      // $select2->debugDumpParams(); // TEST 
+      // echo '</pre>';      
+     
+      $result2 = $select2->fetchAll(PDO::FETCH_ASSOC);
+     
+      $arrTmp2 = []; 
+      foreach ($result2 as $row2) {
+        // $arrTmp2[] = array('Relation'=>$row2["Relation"]); 
+         $arrTmp2[] = $row2["Relation"]; 
+      }
+
+      // echo '<pre>'; 
+      // echo '------------ LookuptypeID: '.$row["ID"].PHP_EOL; 
+      // print_r($arrTmp2); 
+      // echo '</pre>';         
+
+      $arrTmp[] = array(
+            'ID'=>$row["ID"], 
+            'Name'=>$row["Name"],
+            'type_key'=>$row["type_key"],
+            'selsize'=>$row["selsize"], 
+            'Relation'=> $arrTmp2           
+            ); 
+    }
+
+    return $arrTmp; 
+  }  
+
+function getArrData3(string $AnsichtGruppe){
+   // Neue Version: Wie getArrData2, aber in suche.php soll die Ausgabe der Lookup-Filterelemente 
+   // von der gewählten Ansicht-Gruppe abhängig sein 
+    $arrTmp=[]; 
+    $arrTmp2=[]; // relations 
+    $query1 = "SELECT ID, Name, type_key, selsize 
+              FROM lookup_type 
+              WHERE 1=1 
+              AND ID IN (SELECT DISTINCT LookupTypeID from lookup) 
+              AND ID IN (
+                      SELECT lookuptype_relation.LookuptypeID
+                         -- , relation.Name 
+                      FROM lookuptype_relation 
+                      INNER JOIN relation ON lookuptype_relation.RelationID = relation.ID 
+
+              ";
+
+              switch($AnsichtGruppe) {
+                  case 'Noten': 
+                    $query1.="WHERE relation.Name IN ('sammlung', 'musikstueck', 'satz')) ";  
+                    break;
+                  case 'Schueler': 
+                    $query1.="WHERE relation.Name IN ('schueler', 'satz')) ";  
+                    break;
+                  case 'Uebungen': 
+                    $query1.="WHERE relation.Name IN ('schueler','uebung'))  ";  
+                    break;
+              }
+
+    $query1.="ORDER BY type_key";  
+
     $select = $this->db->prepare($query1);   
     $select->execute(); 
     $result = $select->fetchAll(PDO::FETCH_ASSOC);

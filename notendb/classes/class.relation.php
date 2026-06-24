@@ -12,7 +12,7 @@ class Relation {
   public $Name;
   public $Relation;
   public $type_key;
-  public int $selsize; // Anzahl Zeilen Multi-Select Box (Suche)     
+  public int $selsize; // Suche: Anzahl Zeilen der Multi-Select Box
   public $titles_selected_list; 
   public $Title='Relation';
   public $Titles='Relationen';
@@ -60,6 +60,7 @@ class Relation {
       $this->info->print_error($stmt, $e); 
     }
   }
+
 
 
   // XXX - löschen 
