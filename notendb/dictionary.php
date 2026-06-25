@@ -113,13 +113,6 @@ $objekte["v_lookup"] = array(
                 'printname_plural'    =>"Besonderheiten" 
 ); 
 
-$objekte["v_lookup_type"] = array(  
-                'viewname' =>"v_lookup_type",         
-                'tablename' =>"lookup_type", 
-                'printname' =>"Besonderheit Typ", 
-                'printname_plural'    =>"Besonderheit Typen" 
-); 
-
 $objekte["v_materialtyp"] = array(  
                 'viewname' =>"v_materialtyp",         
                 'tablename' =>"materialtyp", 

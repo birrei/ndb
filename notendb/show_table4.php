@@ -617,6 +617,35 @@ switch ($ansicht)  // setzen: $PageTitle, $table_edit
 
     break;   
 
+  case 'bewertungen': 
+
+    $table_edit='bewertung';     
+
+    $Suchtext=(isset($_REQUEST["Suchtext"])?$_REQUEST["Suchtext"]:'');   
+
+    echo '<form action="" method="get">'.PHP_EOL;  
+    echo ' Suchtext: <input type="text" id="Suchtext" name="Suchtext" size="30px" value="'.$Suchtext.'"> '; 
+    echo '<input type="submit" class="btnSave" name="senden" value="Suchen">';
+    echo '<input type="hidden" name="ansicht" value="'.$ansicht.'">'; 
+    echo '</form>';       
+
+    $query="SELECT ID, Name 
+            FROM bewertung   
+            WHERE 1=1 
+            "; 
+
+    if($Suchtext!='') {
+      $query.="AND bewertung.Name LIKE '%".$Suchtext."%'  ";          
+    }
+
+    $query.="ORDER BY bewertung.Name "; 
+
+
+    echo '<p><a href="edit_'.$table_edit.'.php?option=insert" target="_blank">Neu erfassen</a></p>';
+        
+
+    break;         
+
   case 'verwendungszwecke': // ************************************
 
     $Suchtext=(isset($_REQUEST["Suchtext"])?$_REQUEST["Suchtext"]:'');   
@@ -721,28 +750,48 @@ switch ($ansicht)  // setzen: $PageTitle, $table_edit
 
     break;   
     
-  case 'bewertungen': 
+  case 'lookuptypes': 
+    include_once("classes/class.relation.php");    
 
-    $table_edit='bewertung';     
+    $table_edit='lookup_type';     
 
     $Suchtext=(isset($_REQUEST["Suchtext"])?$_REQUEST["Suchtext"]:'');   
+    $RelationID=(isset($_REQUEST["RelationID"])?$_REQUEST["RelationID"]:'');    
 
     echo '<form action="" method="get">'.PHP_EOL;  
     echo ' Suchtext: <input type="text" id="Suchtext" name="Suchtext" size="30px" value="'.$Suchtext.'"> '; 
-    echo '<input type="submit" class="btnSave" name="senden" value="Suchen">';
+
+    echo ' Relation: ';
+    $relation = new Relation(); 
+    $relation->print_preselect($RelationID); 
+
+    echo ' <input type="submit" class="btnSave" name="senden" value="Suchen">';
     echo '<input type="hidden" name="ansicht" value="'.$ansicht.'">'; 
     echo '</form>';       
 
-    $query="SELECT ID, Name 
-            FROM bewertung   
-            WHERE 1=1 
-            "; 
 
-    if($Suchtext!='') {
-      $query.="AND bewertung.Name LIKE '%".$Suchtext."%'  ";          
+    $query="SELECT lookup_type.ID
+              , lookup_type.Name
+              , lookup_type.type_key 
+              , GROUP_CONCAT(DISTINCT relation.Name ORDER BY relation.Name SEPARATOR ',') as Relationen 
+          from lookup_type 
+              LEFT JOIN lookuptype_relation 
+                  on  lookuptype_relation.LookuptypeID = lookup_type.ID 
+              LEFT JOIN 
+                  relation on relation.ID = lookuptype_relation.RelationID 
+          WHERE 1=1 
+          "; 
+
+    if ($RelationID!='') {
+      $query.="AND lookup_type.ID IN (SELECT LookuptypeID FROM lookuptype_relation WHERE RelationID=".$RelationID.") ";  
     }
 
-    $query.="ORDER BY bewertung.Name "; 
+    if($Suchtext!='') {
+      $query.="AND lookup_type.Name LIKE '%".$Suchtext."%'  ";          
+    }
+
+    $query.=" GROUP BY lookup_type.ID 
+              ORDER BY lookup_type.type_key "; 
 
 
     echo '<p><a href="edit_'.$table_edit.'.php?option=insert" target="_blank">Neu erfassen</a></p>';

@@ -81,7 +81,7 @@ a:hover {
     <hr> 
        <b>Übergreifend: </b>  
       <a href="show_table4.php?ansicht=besonderheiten">Besonderheiten</a>, 
-      <a href="show_table2.php?table=v_lookup_type&sortcol=Name">Besonderheit Typen</a>, 
+      <a href="show_table4.php?ansicht=lookuptypes">Besonderheit-Typen</a>, 
 
     <a href="show_table2.php?table=v_status&sortcol=Name">Status Ausprägungen</a> <i>(Status Schüler Satz/Material-Zuordnung)</i>, 
 

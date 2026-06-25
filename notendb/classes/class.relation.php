@@ -61,50 +61,25 @@ class Relation {
     }
   }
 
+  function print_preselect($value_selected=''){
 
+    $query="SELECT ID, Name 
+                  FROM relation 
+                  ORDER BY Name";
+    
+    $stmt = $this->db->prepare($query); 
 
-  // XXX - löschen 
-  // function insert_row ($Name) {
+    try {
+      $stmt->execute(); 
+      $html = new HTML_Select($stmt); 
+      $html->print_preselect("RelationID", $value_selected, true); 
+    }
+    catch (PDOException $e) {
+      $this->info->print_user_error(); 
+      $this->info->print_error($stmt, $e); 
+    }
+  }
 
-  //   $insert = $this->db->prepare("INSERT INTO `lookup_type` 
-  //             SET `Name`     = :Name"              
-  //          );
-
-  //   $insert->bindParam(':Name', $Name);
-
-  //   try {
-  //     $insert->execute(); 
-  //     $this->ID=$this->db->lastInsertId();
-  //     $this->load_row();   
-  //   }
-  //     catch (PDOException $e) {
-  //     $this->info->print_user_error(); 
-  //     $this->info->print_error($insert, $e);  ; 
-  //   }
-  // }  
-  
-  // function load_row() {
-
-  //   $select = $this->db->prepare("SELECT ID, Name, Relation, type_key, selsize
-  //                         FROM `lookup_type`
-  //                         WHERE `ID` = :ID");
-
-  //   $select->bindParam(':ID', $this->ID, PDO::PARAM_INT);
-  //   $select->execute(); 
-
-  //   if ($select->rowCount()==1) {
-  //     $row_data=$select->fetch();      
-  //     $this->Name=$row_data["Name"];
-  //     // $this->Relation=$row_data["Relation"];
-  //     // $this->type_key=$row_data["type_key"];
-  //     $this->type_key=(empty($row_data["type_key"])?'typekey'.strval($this->ID):$row_data["type_key"]); 
-  //     $this->selsize=$row_data["selsize"];
-  //     return true; 
-  //   } 
-  //   else {
-  //     return false; 
-  //   }   
-  // }  
 
 
 }

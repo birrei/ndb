@@ -50,7 +50,7 @@ switch($option) {
 }
 
 $info->print_screen_header($lookuptype->Title.' bearbeiten'); 
-$info->print_link_table('v_lookup_type', 'sortcol=Name', $lookuptype->Titles); 
+$info->print_link_table2('lookuptypes'); 
 
 if (!$show_data) {goto pagefoot;}
 
