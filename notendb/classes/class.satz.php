@@ -474,7 +474,6 @@ class Satz {
           , Tempobezeichnung
           , Spieldauer
           , Bemerkung
-          , ErprobtID
           , Orchesterbesetzung  
       )
       SELECT ".($MusikstueckID_New>0?"Name":"CONCAT(Name, ' (Kopie)') as Name")." 
@@ -483,7 +482,6 @@ class Satz {
           , Tempobezeichnung
           , Spieldauer
           , Bemerkung
-          , ErprobtID
           , Orchesterbesetzung            
       FROM satz 
       WHERE ID=:ID ";
