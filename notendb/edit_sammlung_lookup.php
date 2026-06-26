@@ -49,20 +49,11 @@ $LookupTypeID=isset($_REQUEST["LookupTypeID"])?$_REQUEST["LookupTypeID"]:'';
       $lookup->ReferenceID=$SammlungID; 
       $lookup->print_select(); 
 
-
-          // $lookup = new Lookup(); 
-          // $lookup->LookupTypeRelation='sammlung';
-          // if ($LookupTypeID!='') {  
-          //   $lookup->print_select2($LookupTypeID, $_GET["SammlungID"]); 
-          // } else {
-          //   $lookup->print_select('',  $_GET["SammlungID"]); 
-          // }
     ?>
   </td>
   
   <td class="eingabe2 eingabe2_3"> 
-    <?php 
-     // $info->option_linktext=1;         
+    <?php         
     $info->print_link_table2('besonderheiten', true);       
     ?>    
     </td>  

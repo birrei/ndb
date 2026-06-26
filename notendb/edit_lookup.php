@@ -102,8 +102,7 @@ if (!$show_data) {goto pagefoot;}
         </label>  &nbsp;';
         if ($source=='table') {
           $info->print_link_edit($lookup_type->table_name, $lookup->LookupTypeID,$lookup_type->Title, true); 
-          $info->print_link_table('v_besonderheiten','sortcol=Name',$lookup_type->Titles,true,'');    
-          $info->print_link_insert($lookup_type->table_name,$lookup_type->Title,true); 
+          $info->print_link_table2('besonderheiten', true);       
         }
       echo  '
       </td>

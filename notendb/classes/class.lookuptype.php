@@ -54,7 +54,7 @@ class Lookuptype {
   
   function load_row() {
 
-    $select = $this->db->prepare("SELECT ID, Name, Relation, type_key, selsize
+    $select = $this->db->prepare("SELECT ID, Name, type_key, selsize
                           FROM `lookup_type`
                           WHERE `ID` = :ID");
 
@@ -251,7 +251,7 @@ class Lookuptype {
     return $arrTmp; 
   }  
 
-function getArrData3(string $AnsichtGruppe){
+  function getArrData3(string $AnsichtGruppe){
    // Neue Version: Wie getArrData2, aber in suche.php soll die Ausgabe der Lookup-Filterelemente 
    // von der gewählten Ansicht-Gruppe abhängig sein 
     $arrTmp=[]; 
