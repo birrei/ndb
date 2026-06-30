@@ -10,12 +10,14 @@ class Schuljahr {
   public $table_name='schuljahr'; 
   public int $ID;
   public string $Name;
+  public int $Eingelesen; // Ferientage und Feiertage sind importiert, das Schuljahr kann verwendet werden 
+
+    
   // public $titles_selected_list; 
   public string $Title='Schuljahr';
   public string $Titles='Schuljahre';  
   public string $infotext=''; 
 
-  
   public function __construct(){
     $conn=new DBConnection(); 
     $this->db=$conn->db; 
@@ -74,9 +76,26 @@ class Schuljahr {
     return $col;      
   }
 
+  public function getIDFromName($strSchuljahr) {
+    // strSchuljahr Format "YYYY/YYYY", z.B. 2026/2027 
+    $sql="SELECT MAX(ID)  
+          FROM schuljahr  
+          WHERE Bezeichnung LIKE '%".$strSchuljahr."%'"; 
+    echo $sql; 
+    $stmt = $this->db->prepare($sql); 
+    // $stmt->bindParam(':SammlungID', $this->SammlungID, PDO::PARAM_INT); 
+    $stmt->execute(); 
+    // $stmt->debuDumpParams(); 
+    $col=$stmt->fetchColumn(); 
+    $this->ID = $col; 
+    return $col;      
+  }
+
+
+
   function load_row() {
 
-    $select = $this->db->prepare("SELECT `ID`, Bezeichnung as `Name` 
+    $select = $this->db->prepare("SELECT `ID`, Bezeichnung as `Name`, Eingelesen 
                           FROM `schuljahr` 
                           WHERE `ID` = :ID");
 
@@ -85,6 +104,7 @@ class Schuljahr {
     if ($select->rowCount()==1) {
       $row_data=$select->fetch();      
       $this->Name=$row_data["Name"];    
+      $this->Name=$row_data["Eingelesen"];    
       return true; 
     } 
     else {

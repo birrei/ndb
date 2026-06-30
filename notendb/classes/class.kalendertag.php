@@ -110,6 +110,34 @@ class Kalendertag {
 
 }
 
+class Feiertag extends Kalendertag {
+
+  public function insert_row($Datum, $Bezeichnung, $SchuljahrID) {
+
+    $insert = $this->db->prepare("INSERT INTO feiertag   
+                                  SET Datum = :Datum,  
+                                    Bezeichnung = :Bezeichnung, 
+                                    SchuljahrID= :SchuljahrID 
+                                  
+                                  ");
+          
+    $insert->bindParam(':SchuljahrID', $SchuljahrID,PDO::PARAM_INT);
+    $insert->bindParam(':Datum', $Datum);
+    $insert->bindParam(':Bezeichnung', $Bezeichnung);
+
+    try {
+      $insert->execute(); 
+      $this->ID=$this->db->lastInsertId(); 
+      
+    }
+      catch (PDOException $e) {
+      $this->info->print_user_error(); 
+      $this->info->print_error($insert, $e);  ; 
+    }
+  }  
+  
+}
+
 class SchuelerKalendertag extends Kalendertag {
 
   public int $SchuelerID; 
@@ -244,7 +272,7 @@ class SchuelerKalendertag extends Kalendertag {
     }
   }
 
-  function is_deletable() {
+  public function is_deletable() {
     
     $AnzahlUebungen = $this->AnzahlUebungen(); 
     
@@ -261,7 +289,7 @@ class SchuelerKalendertag extends Kalendertag {
 
   }
 
-  function delete(){
+  public function delete(){
 
     $delete = $this->db->prepare("DELETE FROM schueler_kalender WHERE ID=:ID"); 
     $delete->bindValue(':ID', $this->ID);  

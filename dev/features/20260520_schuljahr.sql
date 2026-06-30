@@ -23,3 +23,4 @@ INSERT INTO `schuljahr` (`Bezeichnung`, `Datum_Start`, `Datum_Ende`) VALUES
 select * from schuljahr; 
 
 
+ALTER TABLE schuljahr  ADD Eingelesen  BOOLEAN default false; -- real: Tinyint(1)
