@@ -5,15 +5,19 @@ include_once("class.htmlinfo.php");
 include_once("class.htmlselect.php"); 
 include_once("class.htmltable.php"); 
 
-class Epoche {
+class Ferientage {
 
-  public $table_name='schuljahr'; 
+  public $table_name='ferien'; 
   public int $ID;
   public string $Name;
-  // public $titles_selected_list; 
-  public string $Title='Schuljahre';
-  public string $infotext=''; 
+  public string $Datum_Start;
+  public string $Datum_Ende;
+  public int $SchuljahrID; 
 
+
+  // public $titles_selected_list; 
+  public string $Title='Ferientage';
+  public string $infotext=''; 
   
   public function __construct(){
     $conn=new DBConnection(); 
@@ -21,32 +25,9 @@ class Epoche {
     $this->info=new HTML_Info(); 
   }
 
- 
-  function print_select(string $value_selected='', string $caption='', int $type=1){
-
-    $query="SELECT ID, Bezeichnung as Name 
-            FROM `schuljahr` 
-            order by `Name`"; 
-
-    $stmt = $this->db->prepare($query); 
-
-    try {
-      $stmt->execute(); 
-      $html = new HTML_Select($stmt); 
-      $html->type=2; 
-      $html->caption = $caption;       
-      $html->print_select("SchuljahrID", $value_selected); 
-      
-    }
-    catch (PDOException $e) {
-      $this->info->print_user_error(); 
-      $this->info->print_error($stmt, $e); 
-    }
-  }
-
   function print_table(){
 
-    $query="SELECT * from epoche ORDER by Name"; 
+    $query="SELECT * from ferien ORDER by Name"; 
 
     $select = $this->db->prepare($query); 
 
@@ -67,9 +48,9 @@ class Epoche {
 
   function update_row($Name) {
 
-    $update = $this->db->prepare("UPDATE `epoche` 
+    $update = $this->db->prepare("UPDATE `ferien` 
                             SET
-                            `Name`     = :Name
+                            `Bezeichnung`     = :Name
                             WHERE `ID` = :ID"); 
 
     $update->bindParam(':ID', $this->ID, PDO::PARAM_INT);
@@ -87,8 +68,8 @@ class Epoche {
 
   function load_row() {
 
-    $select = $this->db->prepare("SELECT `ID`, `Name` 
-                          FROM `epoche`
+    $select = $this->db->prepare("SELECT ID, Bezeichnung, Datum_Start, Datum_Ende, Bundesland 
+                          FROM `ferien` 
                           WHERE `ID` = :ID");
 
     $select->bindParam(':ID', $this->ID, PDO::PARAM_INT);
@@ -96,6 +77,9 @@ class Epoche {
     if ($select->rowCount()==1) {
       $row_data=$select->fetch();      
       $this->Name=$row_data["Name"];    
+      $this->Name=$row_data["Datum_Start"];    
+      $this->Name=$row_data["Datum_Ende"];    
+      $this->Name=$row_data["Bundesland"];    
       return true; 
     } 
     else {
@@ -103,60 +87,88 @@ class Epoche {
     }
     
   }  
-  
-  function print_select_multi($options_selected=[]){
 
-    $query="SELECT ID, Name 
-            FROM `epoche` 
-            order by `Name`"; 
-
-    $stmt = $this->db->prepare($query); 
-
-    try {
-      $stmt->execute(); 
-      $html = new HTML_Select($stmt); 
-      $html->print_select_multi('Epoche', 'Epochen[]', $options_selected, 'Epoche(n):'); 
-      $this->titles_selected_list = $html->titles_selected_list; 
-    }
-    catch (PDOException $e) {
-      $this->info->print_user_error(); 
-      $this->info->print_error($stmt, $e); 
-    }
-  }  
- 
-  function delete(){
- 
-    $delete = $this->db->prepare("DELETE FROM `epoche` WHERE ID=:ID"); 
-    $delete->bindValue(':ID', $this->ID);  
-
+  function delete_ics_data() {
+    $delete = $this->db->prepare("DELETE FROM ferien_ics"); 
     try {
       $delete->execute(); 
-      $this->info->print_info('Die Epoche wurde gelöscht');     
-      return true;         
     }
     catch (PDOException $e) {
       $this->info->print_user_error(); 
       $this->info->print_error($delete, $e);  
-      return false;  
-    }  
-  }    
+    }      
+  }
 
-  function is_deletable() {
-    
+  function insert_ics_data (array $arr_ics_data) {
 
-    $select = $this->db->prepare("SELECT * from musikstueck WHERE EpocheID=:EpocheID");
-    $select->bindValue(':EpocheID', $this->ID); 
-    $select->execute();  
+      // uasort($arr_ics_data_akt, function ($a, $b) {
+      //     return $a['start'] <=> $b['start'];
+      // });
 
-    if ($select->rowCount() > 0 ){
-      $this->load_row(); 
-      $this->info->print_warning('Epoche ID '.$this->ID.', Name: "'.$this->Name.'" kann nicht gelöscht werden. 
-                                 Es existieren '.$select->rowCount().' zugeordnete Musikstücke.<br>'); 
-      return false;       
-    } else {
-      return true; 
+      foreach ($arr_ics_data as $arr_eintrag) {
+          // echo "<pre>";
+          // print_r($arr_eintrag);
+          // echo "</pre>";
+          $start = $arr_eintrag["start"];  
+          $end = $arr_eintrag["end"];  
+          $title = $arr_eintrag["title"]; 
+          $location = $arr_eintrag["location"]; 
+          $description =  $arr_eintrag["description"]; 
+
+          // echo '<br>start: '.$start.', end: '.$end.', location: '.$location.', description: '.$description; 
+
+          $insert = $this->db->prepare("INSERT INTO ferien_ics 
+                                          SET title = :title
+                                            , start = :start 
+                                            , end = :end 
+                                            , location = :location
+                                            , description = :description 
+                                            ");
+          $insert->bindParam(':title', $title);
+          $insert->bindParam(':start', $start);
+          $insert->bindParam(':end', $end);
+          $insert->bindParam(':location', $location);
+          $insert->bindParam(':description', $description);
+
+          try {
+            $insert->execute(); 
+          }
+            catch (PDOException $e) {
+            $this->info->print_user_error(); 
+            $this->info->print_error($insert, $e);  ; 
+          }          
+
+          // $Datum_Start = DateTime::createFromFormat('Ymd', $start)->format('Y-m-d');
+          // $Datum_Ende = DateTime::createFromFormat('Ymd', $end)->format('Y-m-d');
+
+          // $Bezeichnung = $title;
+
+          // // prüfen, ob location "BW" enthält  
+          // $Bundesland = $location; 
+      }
+  }  
+
+  function print_table_ics_data(){
+
+    $query="SELECT * from ferien_ics ORDER by start "; 
+
+    $select = $this->db->prepare($query); 
+
+    try {
+      $select->execute(); 
+      $html = new HTML_Table($select); 
+      // $html->edit_link_table= $this->table_name;
+      $html->add_link_edit=false; 
+      $html->print_table2();  
+
+    }
+    catch (PDOException $e) {
+      $info = new HTML_Info();      
+      $info->print_user_error(); 
+      $info->print_error($select, $e); 
     }
   }
+
 
 }
 
