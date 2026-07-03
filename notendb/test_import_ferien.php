@@ -3,80 +3,40 @@ $PageTitle='Test Ferientage importieren';
 include_once('head.php');
 include_once('classes/class.htmlinfo.php');
 include_once('classes/class.schuljahr.php');
+include_once('classes/class.ferientage.php');
 
-// $Task=1;  // 'Ferien importieren'; 
-$Task=2;  // 'Feiertage importieren'; 
 
-$strSchuljahr='2026/2027'; 
+/*********** Schuljahr definieren ************** */
+
+$strSchuljahr = '2026/2027'; 
 
 $schuljahr = new Schuljahr(); 
 $SchuljahrID= $schuljahr->getIDFromName($strSchuljahr); 
 
-$ics_file=''; 
 
-/************************************************** */
+echo '<br>Schuljahr: '.$strSchuljahr.', SchuljahrID: '.$SchuljahrID; 
 
-switch($Task) {
-    case 1; // Ferientage 
-        $ics_file='https://www.feiertage-deutschland.de/kalender-download/ics/schulferien-baden-wuerttemberg.ics'; 
-        break; 
-    case 2; // Feiertage 
-        $ics_file='https://www.feiertage-deutschland.de/kalender-download/ics/feiertage-deutschland.ics'; // enthält scheinbar nur Feiertage, die ausserhalb von bundesweiten Ferienzeiten liegen 
-        // $ics_file='https://ics.tools/Feiertage/baden-w%C3%BCrttemberg.ics'; // nur akt. Jahr, nicht brauchbar 
-        break; 
-}
 
-echo 'ICS-Datei: '.$ics_file.'<br>'; 
+/*************** Import ICS Daten  *********************************** */
+/*************** Import Ferientage  *********************************** */
+
+
+$ics_file='https://www.feiertage-deutschland.de/kalender-download/ics/schulferien-baden-wuerttemberg.ics'; 
+//         $ics_file='https://www.feiertage-deutschland.de/kalender-download/ics/feiertage-deutschland.ics'; // enthält scheinbar nur Feiertage, die ausserhalb von bundesweiten Ferienzeiten liegen 
+//         // $ics_file='https://ics.tools/Feiertage/baden-w%C3%BCrttemberg.ics'; // nur akt. Jahr, nicht brauchbar 
+
+echo '<br>ICS-Datei: '.$ics_file; 
 
 $arr_ics_data = parseIcsFile($ics_file); // Datei auslesen. Ergebnis ist ein zweidimensionales Array. 
-
-uasort($arr_ics_data, function ($a, $b) {
-    return $a['start'] <=> $b['start'];
-});
-
-switch($Task) {
-    case 1; 
-        
-        break; 
-    case 2; 
-
-       break; 
-}
-
-
-
-foreach ($arr_ics_data as $arr_eintrag) {
-    // echo "<pre>";
-    // print_r($arr_eintrag);
-    // echo "</pre>";
-    $Datum_ics = $arr_eintrag["start"];  
-    $Datum = DateTime::createFromFormat('Ymd', $Datum_ics)->format('Y-m-d');
-    $Bezeichnung = $arr_eintrag["title"]; 
-    $Bundesland = $arr_eintrag["location"]; 
-
-    echo '<br>Datum: '.$Datum.', Bezeichnung: '.$Bezeichnung.', Bundesland: '.$Bundesland; 
-
-    // foreach ($arr_eintrag as $eintrag=>$info) {
-    //         echo($eintrag.': '.$info.'<br>');    
-       
-    // }  
-}
-
-
 
 // echo "<pre>";
 // print_r($arr_ics_data);
 // echo "</pre>";
 
-
-// uasort($arr_ics_data_akt, function ($a, $b) {
-//     return $a['start'] <=> $b['start'];
-// });
-
-
-// echo "<pre>";
-// print_r($arr_ics_data_akt);
-// echo "</pre>";
+$ferien = new Ferientage(); 
+$ferien->delete_ics_data(); 
+$ferien->insert_ics_data($arr_ics_data); 
+$ferien->print_table_ics_data(); 
 
 
 
@@ -91,9 +51,9 @@ foreach ($arr_ics_data as $arr_eintrag) {
 
 function parseIcsFile($filePath) {
 
-    // https://share.google/aimode/uF1bymW34xL8Xnoso
+    // https://share.google/aimode/uF1bymW34xL8Xnoso 
 
-    // das funktioniert nicht bei Online-Dateien? 
+    // das funktioniert scheinbar nicht bei Online-Dateien
     // if (!file_exists($filePath)) {
     //     return "Datei nicht gefunden.";
     // }
@@ -157,7 +117,7 @@ function parseIcsFile($filePath) {
 //     echo("$key: $val, ");
 // }
 
-
+ende: 
 include_once('foot.php');
 ?>
 
