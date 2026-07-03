@@ -10,7 +10,15 @@ class Schuljahr {
   public $table_name='schuljahr'; 
   public int $ID;
   public string $Name;
-  public int $Eingelesen; // Ferientage und Feiertage sind importiert, das Schuljahr kann verwendet werden 
+  public string $Bezeichnung;
+  public string $Datum_Start_EN; // YYYY-MM-DD
+  public string $Datum_Ende_EN;
+  public string $Datum_Start_DE; // DD.MM.YYYY 
+  public string $Datum_Ende_DE;
+  public string $Datum_Start_ISO_8601; // YYYYMMDD   // ISO 8601
+  public string $Datum_Ende_ISO_8601;
+  
+  public int $Eingelesen; // Schuljahr kann verwendet werden (Ferientage und Feiertage sind importiert / geprüft)
 
     
   // public $titles_selected_list; 
@@ -24,45 +32,46 @@ class Schuljahr {
     $this->info=new HTML_Info(); 
   }
 
-  // function insert_row ($Name) {
-    //   $insert = $this->db->prepare("INSERT INTO `epoche` 
-    //             SET `Name`     = :Name"
-    //          );
 
-    //   $insert->bindParam(':Name', $Name);
 
-    //   try {
-    //     $insert->execute(); 
-    //     $this->ID=$this->db->lastInsertId();
-    //     $this->load_row();   
-    //   }
-    //     catch (PDOException $e) {
-    //     $info = new HTML_Info();      
-    //     $info->print_user_error(); 
-    //     $info->print_error($insert, $e);  ; 
-    //   }
-  // }  
+
+  function load_row() {
+
+    $select = $this->db->prepare("SELECT `ID`
+                                  , Bezeichnung as `Name`
+                                  , Datum_Start
+                                  , Datum_Ende 
+                                  , Eingelesen
+                          FROM `schuljahr` 
+                          WHERE `ID` = :ID");
+
+    $select->bindParam(':ID', $this->ID, PDO::PARAM_INT);
+    $select->execute(); 
+    if ($select->rowCount()==1) {
+      $row_data=$select->fetch();      
+      $this->Name=$row_data["Name"];    
+      $this->Bezeichnung=$row_data["Name"];    
+      $this->Datum_Start_EN=$row_data["Datum_Start"];    
+      $this->Datum_Ende_EN=$row_data["Datum_Ende"];    
+      $this->Name=$row_data["Name"];    
+      $this->Eingelesen=$row_data["Eingelesen"];    
+
+      $Datum_Start = new Datetime($this->Datum_Start_EN); 
+      $Datum_Ende = new Datetime($this->Datum_Ende_EN); 
+        
+      $this->Datum_Start_DE=$Datum_Start->format('d.m.Y');
+      $this->Datum_Ende_DE=$Datum_Ende->format('d.m.Y');
+
+
+
+      return true; 
+    } 
+    else {
+      return false; 
+    }
+  }  
+  
  
-  // function update_row($Name) {
-
-    //   $update = $this->db->prepare("UPDATE `epoche` 
-    //                           SET
-    //                           `Name`     = :Name
-    //                           WHERE `ID` = :ID"); 
-
-    //   $update->bindParam(':ID', $this->ID, PDO::PARAM_INT);
-    //   $update->bindParam(':Name', $Name);
-
-    //   try {
-    //     $update->execute();
-    //     $this->load_row();  
-    //   }
-    //   catch (PDOException $e) {
-    //     $this->info->print_user_error(); 
-    //     $this->info->print_error($update, $e);  
-    //   }
-  // }
-
   public function getCurrentID() {
 
     $sql="SELECT MAX(ID)  
@@ -81,7 +90,7 @@ class Schuljahr {
     $sql="SELECT MAX(ID)  
           FROM schuljahr  
           WHERE Bezeichnung LIKE '%".$strSchuljahr."%'"; 
-    echo $sql; 
+    // echo $sql; 
     $stmt = $this->db->prepare($sql); 
     // $stmt->bindParam(':SammlungID', $this->SammlungID, PDO::PARAM_INT); 
     $stmt->execute(); 
@@ -91,62 +100,7 @@ class Schuljahr {
     return $col;      
   }
 
-
-
-  function load_row() {
-
-    $select = $this->db->prepare("SELECT `ID`, Bezeichnung as `Name`, Eingelesen 
-                          FROM `schuljahr` 
-                          WHERE `ID` = :ID");
-
-    $select->bindParam(':ID', $this->ID, PDO::PARAM_INT);
-    $select->execute(); 
-    if ($select->rowCount()==1) {
-      $row_data=$select->fetch();      
-      $this->Name=$row_data["Name"];    
-      $this->Name=$row_data["Eingelesen"];    
-      return true; 
-    } 
-    else {
-      return false; 
-    }
-    
-  }  
   
- 
-  // function delete(){
- 
-  //   $delete = $this->db->prepare("DELETE FROM `epoche` WHERE ID=:ID"); 
-  //   $delete->bindValue(':ID', $this->ID);  
-
-  //   try {
-  //     $delete->execute(); 
-  //     $this->info->print_info('Die Epoche wurde gelöscht');     
-  //     return true;         
-  //   }
-  //   catch (PDOException $e) {
-  //     $this->info->print_user_error(); 
-  //     $this->info->print_error($delete, $e);  
-  //     return false;  
-  //   }  
-  // }    
-
-  // function is_deletable() {
-    
-
-  //   $select = $this->db->prepare("SELECT * from musikstueck WHERE EpocheID=:EpocheID");
-  //   $select->bindValue(':EpocheID', $this->ID); 
-  //   $select->execute();  
-
-  //   if ($select->rowCount() > 0 ){
-  //     $this->load_row(); 
-  //     $this->info->print_warning('Epoche ID '.$this->ID.', Name: "'.$this->Name.'" kann nicht gelöscht werden. 
-  //                                Es existieren '.$select->rowCount().' zugeordnete Musikstücke.<br>'); 
-  //     return false;       
-  //   } else {
-  //     return true; 
-  //   }
-  // }
 
 }
 
