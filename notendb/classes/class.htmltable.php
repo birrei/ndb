@@ -6,11 +6,11 @@ class HTML_Table {
     public $count_cols; 
     public $count_rows; 
 
-    public $add_link_edit=true; // Spalte mit "Bearbeiten"-Link anzeigen  
+    public $add_link_edit=true; // Spalte mit "Bearbeiten"-Link anzeigen. Nur Für Tabellen mit Spalte "ID" verwenden.   
     public $edit_link_table=''; // Tabelle, die bearbeitet werden soll 
     public $edit_link_title=''; // Anzeige-Titel für die über den Link geöffnete Seite 
     public $edit_link_filename=''; // alternative für Standard- "edit_*.php". $edit_link_table dann leer lassen! 
-    public $edit_link_open_newpage=false; 
+    public $edit_link_open_newpage=false; // Bearbeitungslink in neuer Seite / in neuem Tab öffnen 
     public $edit_link_target_iframe=false; // Bearbeiten-Screen in iframe 
 
     public $add_link_edit2=false; // 
