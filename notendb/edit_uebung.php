@@ -28,7 +28,7 @@ switch($option) {
 
     $SchuelerID=isset($_REQUEST["SchuelerID"])?$_REQUEST["SchuelerID"]:'';
 
-  if(empty($_REQUEST["SchuelerID"])) {
+    if(empty($_REQUEST["SchuelerID"])) {
       // ggf. aus "Übersicht Übungen", falls Schüler-Filter nicht gesetzt 
       $info->print_user_error('Es wurde kein Schüler ausgewählt!');
       $show_data=false; 
