@@ -223,7 +223,7 @@ include_once('head.php');
                 <li>Datum bis</li>
             </ul>  
 
-    <h2 class="chapter-title chapter-title-h1" id="uebersichten_ferien">Übersicht Ferientage</h2>
+    <h2 class="chapter-title chapter-title-h1" id="uebersichten_ferien">Übersicht Ferien</h2>
             <p>Spalten: </p>
             <ul>       
                 <li>ID</li>
@@ -239,7 +239,7 @@ include_once('head.php');
                 <li>Schuljahr (Standardeinstellung: Aktuelles Schuljahr)</li>
             </ul> 
             
-            <p>XXX Hinweis: die Basisdaten wurden automatisch befüllt ... </p>            
+            <!-- <p>XXX Hinweis: die Basisdaten wurden automatisch befüllt ... </p>             -->
 
     <h2 class="chapter-title chapter-title-h1" id="uebersichten_feiertage">Übersicht Feiertage</h2>
             <p>Spalten: </p>
@@ -256,9 +256,10 @@ include_once('head.php');
                 <li>Schuljahr (Standardeinstellung: Aktuelles Schuljahr)</li>
             </ul> 
           
-            <p>XXX Hinweis: die Basisdaten wurden automatisch befüllt ... </p>    
+            <!-- <p>XXX Hinweis: die Basisdaten wurden automatisch befüllt ... </p>    -->
+
     <h2 class="chapter-title chapter-title-h1" id="uebersichten_schueler-kalender-vorlage">Vorlage Schüler-Kalender (Abfrage)</h2>
-        <p>Die Abfrage verbindet die Tabellen "Schüler", "Kalender", "Schuljahre"", "Ferientage" und "Feiertage". 
+        <p>Die Abfrage verbindet die Tabellen "Schüler", "Kalender", "Schuljahre"", "Ferien" und "Feiertage". 
             Sie dient als Quelle zur intialen Befüllung des "SChülerkalenders" (XXXX Hinweis einfügen): Hierfür werden die Zeilem mit Eintrag = 1 verwendet. 
         </p>
         <p>Spalten: </p>

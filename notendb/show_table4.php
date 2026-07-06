@@ -527,10 +527,10 @@ switch ($ansicht)  // setzen: $PageTitle, $table_edit
     echo ' Schüler: '.PHP_EOL; 
     $schueler->print_preselect($SchuelerID); 
 
-    $schuljahre = new Schuljahre(); 
+    $schuljahr = new Schuljahr(); 
         echo ' &#9475;';        
     echo 'Schuljahr: '.PHP_EOL; 
-    $schuljahre->print_preselect($SchuljahrID, '', true); 
+    $schuljahr->print_preselect($SchuljahrID, '', true); 
 
     echo ' &#9475;';
     echo ' Geplant <select id="Unterricht_Geplant" name="Unterricht_Geplant" onchange="this.form.submit()" >
@@ -800,7 +800,7 @@ switch ($ansicht)  // setzen: $PageTitle, $table_edit
     break;         
   case 'schuljahre': 
 
-    $add_link_edit=false; 
+    $add_link_edit=true; 
     $table_edit='schuljahr';   
 
     $query="SELECT ID, 
@@ -813,11 +813,14 @@ switch ($ansicht)  // setzen: $PageTitle, $table_edit
 
     $query.="ORDER BY schuljahr.Datum_Start "; 
 
+
+    echo '<p><a href="edit_'.$table_edit.'.php?option=insert" target="_blank">Neu erfassen</a></p>';
+
+
     break;     
 
   case 'kalender': /*********************************************** */
     include_once("classes/class.schuljahr.php");
-    include_once("classes/class.schuljahre.php");    
 
     $SchuljahrID=(isset($_REQUEST["SchuljahrID"])?$_REQUEST["SchuljahrID"]:'');
 
@@ -841,9 +844,9 @@ switch ($ansicht)  // setzen: $PageTitle, $table_edit
     echo '<form action="" method="get">'.PHP_EOL;  
     // echo 'Start: <input type="date" name="date_start" value="'.$date_start.'" onchange="this.form.submit()">'; 
     // echo ' Ende: <input type="date" name="date_end" value="'.$date_end.'" onchange="this.form.submit()">'; 
-    $schuljahre = new Schuljahre();      
+    $schuljahr = new Schuljahr();      
     echo 'Schuljahr: '.PHP_EOL; 
-    $schuljahre->print_preselect($SchuljahrID, '', false); 
+    $schuljahr->print_preselect($SchuljahrID, '', false); 
 
     // echo '<input type="submit" class="btnSave" name="senden" value="Start">';
     echo '<input type="hidden" name="ansicht" value="'.$ansicht.'">'; 
@@ -887,9 +890,7 @@ switch ($ansicht)  // setzen: $PageTitle, $table_edit
 
   case 'ferien': 
     include_once("classes/class.schuljahr.php");
-    include_once("classes/class.schuljahre.php");
 
-    $add_link_edit=false; 
     $table_edit='ferien';      
 
     $SchuljahrID=(isset($_REQUEST["SchuljahrID"])?$_REQUEST["SchuljahrID"]:'');
@@ -900,16 +901,15 @@ switch ($ansicht)  // setzen: $PageTitle, $table_edit
     }
 
     echo '<form action="" method="get">'.PHP_EOL;  
-    $schuljahre = new Schuljahre(); 
+    $schuljahr = new Schuljahr(); 
     echo 'Schuljahr: '.PHP_EOL; 
-    $schuljahre->print_preselect($SchuljahrID, '', false); 
+    $schuljahr->print_preselect($SchuljahrID, '', false); 
         // echo ' &#9475;';
     // echo '<input type="submit" class="btnSave" name="senden" value="Suchen">';
     echo '<input type="hidden" name="ansicht" value="'.$ansicht.'">
           </form>';    
 
-
-    $query="SELECT s.ID 
+    $query="SELECT f.ID 
           , f.Bezeichnung 
           , f.Datum_Start  AS `Datum von` 
           , f.Datum_Ende  AS `Datum bis` 
@@ -927,13 +927,15 @@ switch ($ansicht)  // setzen: $PageTitle, $table_edit
 
     $query.="ORDER BY s.Datum_Start, f.Datum_Start";     
 
+    echo '<p><a href="edit_'.$table_edit.'.php?option=insert&SchuljahrID='.$SchuljahrID.'" target="_blank">Neu erfassen</a></p>';
+
     break; 
+
   case 'feiertage': 
     include_once("classes/class.schuljahr.php");
-    include_once("classes/class.schuljahre.php");
 
-    $add_link_edit=false; 
-    $table_edit='ferien';      
+    $add_link_edit=true; 
+    $table_edit='feiertag';      
 
     $SchuljahrID=(isset($_REQUEST["SchuljahrID"])?$_REQUEST["SchuljahrID"]:'');
 
@@ -943,15 +945,15 @@ switch ($ansicht)  // setzen: $PageTitle, $table_edit
     }
 
     echo '<form action="" method="get">'.PHP_EOL;  
-    $schuljahre = new Schuljahre(); 
+    $schuljahr = new Schuljahr(); 
     echo 'Schuljahr: '.PHP_EOL; 
-    $schuljahre->print_preselect($SchuljahrID, '', false); 
+    $schuljahr->print_preselect($SchuljahrID, '', false); 
         // echo ' &#9475;';
     // echo '<input type="submit" class="btnSave" name="senden" value="Suchen">';
     echo '<input type="hidden" name="ansicht" value="'.$ansicht.'">
           </form>';    
 
-    $query="SELECT s.ID 
+    $query="SELECT f.ID 
           , f.Bezeichnung 
           , f.Datum 
           , s.Bezeichnung AS Schuljahr 
@@ -965,6 +967,10 @@ switch ($ansicht)  // setzen: $PageTitle, $table_edit
     }
 
     $query.="ORDER BY f.Datum";      
+
+    echo '<p><a href="edit_'.$table_edit.'.php?option=insert&SchuljahrID='.$SchuljahrID.'" target="_blank">Neu erfassen</a></p>';
+
+
     break; 
 
   

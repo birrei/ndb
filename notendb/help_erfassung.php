@@ -158,7 +158,6 @@ include_once('head.php');
 
     <h2 class="chapter-title chapter-title-h2" id="erfassung_schueler">Schüler</h2>
 
-
         <h3 class="chapter-title chapter-title-h3" id="erfassung_schueler_aktiv">Schüler: Aktiv</h3>
             <p> Schnellinfo: Über das Feld "Aktiv" kann der Schüler durch entfernen des Hakens auf inaktiv gesetzt werden. 
                 Übersicht: Zeigt Filter "Aktiv", sodass standardmäßig nur aktive Schüler gezeigt werden. Durch entfernen des Hakens schaltet der 
@@ -216,7 +215,7 @@ include_once('head.php');
 
         <h3 class="chapter-title chapter-title-h3" id="erfassung_uebungstag_neu">Neuen Übungstag anlegen</h3>
 
-    <pre> XXXX 
+          <pre> XXXX 
 
             A) Ein neuer Übungstag soll angelegt werden 
 
@@ -300,7 +299,7 @@ include_once('head.php');
     
 	<h2 class="chapter-title chapter-title-h3" id="erfassung_besonderheiten">Stammdaten: Besonderheiten</h2>
 
-    <p> Besonderheiten sind Kategorien, die vom Anwender eingerichtet werden können. 
+        <p> Besonderheiten sind Kategorien, die vom Anwender eingerichtet werden können. 
 
 
 
@@ -337,6 +336,13 @@ include_once('head.php');
         <p>Editierbares Feld: "Unterricht geplant". Es kann verwendet werden,
              um einen Unterrichts-Tag als abschließend geplant zu kennzeichnen.
             </p>
+
+	<h2 class="chapter-title chapter-title-h2" id="erfassung_ferien">Stammdaten: Ferien</h2>
+        <p>     XXXX      </p>
+ 
+	<h2 class="chapter-title chapter-title-h2" id="erfassung_feiertag">Stammdaten: Feiertage</h2>
+        <p>     XXXX      </p>
+ 
 
 
 
