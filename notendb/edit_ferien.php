@@ -66,7 +66,6 @@ switch($option) {
 }
 
 $info->print_screen_header($ferien->Title.' bearbeiten'); 
-$info->print_link_table($ferien->table_name, 'sortcol=Name', $ferien->Titles); 
 
 if (!$show_data) {goto pagefoot;}
     
@@ -93,7 +92,6 @@ echo '
     echo ' </label>  
           '; 
           // $info->print_link_edit($typ->table_name, $uebung->UebungtypID,$typ->Title, true); XXXX 
-          $info->print_link_table2('schuljahre', true);    
     echo '</td>
         </tr>'; 
 

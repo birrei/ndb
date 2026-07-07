@@ -54,7 +54,7 @@ class Schuljahr {
     }
   }  
 
-    function update_row($Name
+  function update_row($Name
                 , $Datum_Start
                 , $Datum_Ende
     ) 
@@ -118,7 +118,6 @@ class Schuljahr {
       return false; 
     }
   }  
-  
  
   function is_deletable() {
     $tmpDeletable=true; 
@@ -149,7 +148,6 @@ class Schuljahr {
     return $tmpDeletable; 
 
   }
-
 
   function delete(){
  
@@ -260,8 +258,68 @@ class Schuljahr {
     }
   }
 
-   
+  function print_table_ferien(){
 
+    $query="SELECT f.ID 
+          , f.Bezeichnung 
+          , f.Datum_Start  AS `Datum von` 
+          , f.Datum_Ende  AS `Datum bis` 
+          , f.Bundesland 
+
+        FROM ferien f 
+        WHERE f.SchuljahrID=:SchuljahrID  
+        ORDER by f.Datum_Start ".PHP_EOL; 
+        
+    // echo '<pre>'.$query.'</pre>';
+    $stmt = $this->db->prepare($query); 
+    $stmt->bindParam(':SchuljahrID', $this->ID, PDO::PARAM_INT);   
+
+    try {
+      $stmt->execute(); 
+            
+      $html = new HTML_Table($stmt); 
+      $html->add_link_edit=true;      
+      $html->edit_link_open_newpage=true; 
+      $html->edit_link_table='ferien'; 
+      $html->print_table2(); 
+
+    }
+    catch (PDOException $e) {
+      $this->info->print_user_error(); 
+      $this->info->print_error($stmt, $e); 
+    }
+  }    
+   
+  function print_table_feiertage(){
+
+    $query="SELECT f.ID 
+        , f.Bezeichnung 
+          , f.Datum 
+          , f.Bundesland           
+        FROM feiertag f 
+        WHERE f.SchuljahrID=:SchuljahrID  
+        ORDER by f.Datum ".PHP_EOL; 
+        
+    // echo '<pre>'.$query.'</pre>';
+    $stmt = $this->db->prepare($query); 
+    $stmt->bindParam(':SchuljahrID', $this->ID, PDO::PARAM_INT);   
+
+    try {
+      $stmt->execute(); 
+            
+      $html = new HTML_Table($stmt); 
+      $html->add_link_edit=true;      
+      $html->edit_link_open_newpage=true; 
+      $html->edit_link_table='feiertag'; 
+      $html->print_table2(); 
+
+    }
+    catch (PDOException $e) {
+      $this->info->print_user_error(); 
+      $this->info->print_error($stmt, $e); 
+    }
+  }    
+   
 }
 
  

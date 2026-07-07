@@ -3,7 +3,7 @@
 $PageTitle='Feiertag'; 
 include_once('head.php');
 include_once("classes/class.feiertag.php");
-include_once("classes/class.schuljahre.php");
+include_once("classes/class.schuljahr.php");
 include_once("classes/class.htmlinfo.php");
 
 $feiertag = new Feiertag();
@@ -65,7 +65,6 @@ switch($option) {
 }
 
 $info->print_screen_header($feiertag->Title.' bearbeiten'); 
-$info->print_link_table($feiertag->table_name, 'sortcol=Name', $feiertag->Titles); 
 
 if (!$show_data) {goto pagefoot;}
     
@@ -91,8 +90,7 @@ echo '
 
     echo ' </label>  
           '; 
-          // $info->print_link_edit($typ->table_name, $uebung->UebungtypID,$typ->Title, true); XXXX 
-          $info->print_link_table2('schuljahre', true);    
+          // $info->print_link_table2('schuljahre', true);    
     echo '</td>
         </tr>'; 
 

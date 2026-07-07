@@ -52,21 +52,15 @@ a:hover {
     <a href="show_table4.php?ansicht=bewertungen">Bewertungen</a>, 
 
       <a href="show_table4.php?ansicht=kalender">Kalender</a>, 
-      <a href="show_table4.php?ansicht=schuljahre">Schuljahre</a>, 
-      <a href="show_table4.php?ansicht=ferien">Ferien</a>, 
-      <a href="show_table4.php?ansicht=feiertage">Feiertage</a>, 
+      <a href="show_table4.php?ansicht=schuljahre">Schuljahre</a> (inkl. Ferien + Feiertage), 
       <a href="show_table4.php?ansicht=schueler-kalender-vorlage">Schüler-Kalender Vorlage</a> (BETA)<br>
-      
-      
-      
-
 
     <hr>
     <b>Zu Sammlungen:</b> <a href="show_table4.php?ansicht=standorte">Standorte</a>, 
     <a href="show_table4.php?ansicht=verlage">Verlage</a>, 
     <a href="show_table2.php?table=v_linktype&sortcol=Name">Link-Typen</a> <br>
     <hr> 
-        <b>zu Musikstücken:</b> <a href="show_table2.php?table=v_komponist&sortcol=Name">Komponisten</a>, 
+        <b>Zu Musikstücken:</b> <a href="show_table2.php?table=v_komponist&sortcol=Name">Komponisten</a>, 
         <a href="show_table2.php?table=v_besetzung&sortcol=Name">Besetzungen</a>, 
         <a href="show_table4.php?ansicht=verwendungszwecke">Verwendungszwecke</a>, 
         <a href="show_table2.php?table=v_gattung&sortcol=Name">Gattungen</a>, 
@@ -84,9 +78,7 @@ a:hover {
       <a href="show_table4.php?ansicht=lookuptypes">Besonderheit-Typen</a>, 
 
     <a href="show_table2.php?table=v_status&sortcol=Name">Status Ausprägungen</a> <i>(Status Schüler Satz/Material-Zuordnung)</i>, 
-
-    
-    
+ 
     <a href="show_table2.php?table=v_abfragetyp&sortcol=Name">Abfrage-Typen</a> <br>
   </td>
 </tr>

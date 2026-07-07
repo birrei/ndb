@@ -803,16 +803,21 @@ switch ($ansicht)  // setzen: $PageTitle, $table_edit
     $add_link_edit=true; 
     $table_edit='schuljahr';   
 
-    $query="SELECT ID, 
-                    Bezeichnung, 
-                    Datum_Start as `Datum von`, 
-                    Datum_Ende as `Datum bis`
-            FROM schuljahr  
-            WHERE 1=1 
-            "; 
-
-    $query.="ORDER BY schuljahr.Datum_Start "; 
-
+    $query="
+      SELECT 		
+        schuljahr.ID
+          , schuljahr.Bezeichnung 
+          , schuljahr.Datum_Start as `Datum von`
+          , schuljahr.Datum_Ende as `Datum bis`
+          , GROUP_CONCAT(DISTINCT DATE_FORMAT(ferien.Datum_Start, '%d.%m.%Y'), ' - ', DATE_FORMAT(ferien.Datum_Ende, '%d.%m.%Y'),' ', ferien.Bezeichnung ORDER BY ferien.Datum_Start separator '<br>') AS Ferien 
+           , GROUP_CONCAT(DISTINCT DATE_FORMAT(feiertag.Datum, '%d.%m.%Y'), ' ', feiertag.Bezeichnung ORDER BY feiertag.Datum separator '<br>') AS Feiertage  
+        FROM schuljahr 
+        LEFT JOIN ferien ON ferien.SchuljahrID=schuljahr.ID 
+        LEFT JOIN feiertag ON feiertag.SchuljahrID=schuljahr.ID 
+      WHERE 1=1
+      GROUP BY schuljahr.ID 
+      ORDER BY schuljahr.Datum_Start DESC 
+    "; 
 
     echo '<p><a href="edit_'.$table_edit.'.php?option=insert" target="_blank">Neu erfassen</a></p>';
 
@@ -888,7 +893,7 @@ switch ($ansicht)  // setzen: $PageTitle, $table_edit
 
     break; 
 
-  case 'ferien': 
+  case 'ferien': // XXXX löschen 
     include_once("classes/class.schuljahr.php");
 
     $table_edit='ferien';      
@@ -931,7 +936,7 @@ switch ($ansicht)  // setzen: $PageTitle, $table_edit
 
     break; 
 
-  case 'feiertage': 
+  case 'feiertage': // XXXX löschen 
     include_once("classes/class.schuljahr.php");
 
     $add_link_edit=true; 

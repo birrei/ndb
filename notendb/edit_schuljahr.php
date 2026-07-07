@@ -107,6 +107,32 @@ echo '
     </tr> 
 
 
+  '; 
+
+  ?>
+  <tr> 
+    <td class="form-edit form-edit-col1">Daten anzeigen: <br /> <br />
+                
+      <input type="radio" id="Ferien" name="target_form" value="Ferien" onclick="changeIframeSrc('subform1', 'edit_schuljahr_ferien.php?SchuljahrID=<?php echo $schuljahr->ID; ?>');" checked>
+        <label for="Ferien">Ferien</label><br>
+
+      <input type="radio" id="Musikstuecke" name="target_form" value="Feiertage" onclick="changeIframeSrc('subform1', 'edit_schuljahr_feiertage.php?SchuljahrID=<?php echo $schuljahr->ID; ?>');">
+        <label for="Feiertage">Feiertage</label><br>
+
+
+
+    </td>
+    <td class="form-edit form-edit-col2">
+
+      <iframe src="edit_schuljahr_ferien.php?SchuljahrID=<?php echo $schuljahr->ID; ?>" height="450" name="subform1" id="subform1" class="form-iframe-var2"></iframe>
+    </td>
+  </tr> 
+
+  <?php 
+
+
+  echo '
+
   <input type="hidden" name="option" value="update"> 
   <input type="hidden" name="ID" value="' . $schuljahr->ID. '">
 
