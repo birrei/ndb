@@ -37,9 +37,8 @@ switch ($ansicht) // $PageTitle, $table_edit
     $PageTitle='Übersicht Übungen ';  
     $table_edit='uebung';     
     break; 
-  case 'uebungen-datum2'; // aka "Übungstage / alt: Übungen / Datum 
+  case 'uebungstage'; // aka "Übungstage / alt: Übungen / Datum 
     $PageTitle='Übersicht Übungstage';  
-    // $table_edit='';     
     break;     
   case 'verwendungszwecke'; 
     $PageTitle='Übersicht Verwendungszwecke';  
@@ -409,91 +408,9 @@ switch ($ansicht)  // setzen: $PageTitle, $table_edit
 
     break; 
 
-  
- 
-  case 'uebungen-datum': // ALT XXXX löschen 
 
-    $add_link_edit=false; 
- 
-    $Datum=(isset($_REQUEST["Datum"])?$_REQUEST["Datum"]:date('Y-m-d')); 
-    $SchuelerID=(isset($_REQUEST["SchuelerID"])?$_REQUEST["SchuelerID"]:'');    
-    $Unterricht_Wochentag =(isset($_REQUEST["wochentag_nr"])?$_REQUEST["wochentag_nr"]:0);
-    $Unterricht_Geplant=(isset($_REQUEST["Unterricht_Geplant"])?$_REQUEST["Unterricht_Geplant"]:''); 
-    $Suchtext=(isset($_REQUEST["Suchtext"])?$_REQUEST["Suchtext"]:'');   
-
-    echo '<form action="" method="get">'.PHP_EOL;       
-    echo '<a href="edit_kalender.php?Datum='.$Datum.'&option=edit" target="_blank" title="Datum bearbeiten">Datum</a>: <input type="date" name="Datum" value="'.$Datum.'" onchange="this.form.submit()">'; 
-
-    $schueler = new Schueler(); 
-        echo ' &#9475;';    
-    echo ' Schüler: '.PHP_EOL; 
-    $schueler->print_select($SchuelerID,'','',true); 
-
-    echo ' &#9475; Unterricht Wochentag: '; 
-    $wochentage = new Wochentage(); 
-    $wochentage->print_preselect($Unterricht_Wochentag);     
-
-
-    echo ' &#9475;';
-    echo ' Geplant <select id="Unterricht_Geplant" name="Unterricht_Geplant" onchange="this.form.submit()" >
-              <option value="" '.($Unterricht_Geplant==''?'selected':'').'></option>
-              <option value="0" '.($Unterricht_Geplant=='0'?'selected':'').'>Nein</option>
-              <option value="1" '.($Unterricht_Geplant=='1'?'selected':'').'>Ja</option>
-          </select> '; 
-
-    echo '<input type="submit" class="btnSave" name="senden" value="Suchen">';
-    echo '<input type="hidden" name="ansicht" value="'.$ansicht.'">'; 
-    echo '</form>';           
-
-    $query="
-              SELECT schueler.Name
-                  , schueler.Bemerkung 
-                  , IF(schueler.Unterricht_Wochentag=0, '', wochentage.wochentag_name) as   `Unterricht Wochentag`     
-                  , uebung.Datum 
-                  , schueler.Unterricht_Reihenfolge as `Unterricht Reihenfolge` 
-                  , COUNT(distinct uebung.ID) as `Anzahl Übungen` 
-                  , SUM(uebung.Anzahl ) as `Summe Minuten` 
-                  , (SUM(uebung.Anzahl ) - schueler.Unterricht_Dauer ) as `Abweichung Dauer` 
-                  -- , GROUP_CONCAT(uebung.Name, ' (', coalesce(uebungtyp.Name, '') , ')'  order by uebung.Name separator '<br>') Inhalte 
-                  , GROUP_CONCAT(uebung.Reihenfolge, '. ', uebung.Name, ' (', coalesce(uebungtyp.Name, ''), ')'  order by uebung.Reihenfolge separator '<br>') `Übungen Inhalte`  
-                  , IF(kalender.Unterricht_Geplant=1, 'X' , '') as `Unterrichtstag Geplant`                   
-            FROM  uebung 
-                  LEFT JOIN schueler ON schueler.ID = uebung.SchuelerID 
-                  LEFT JOIN wochentage ON wochentage.wochentag_nr = schueler.Unterricht_Wochentag                   
-                  left join uebungtyp on uebung.UebungtypID=uebungtyp.ID 
-                  left join satz  on satz.ID=uebung.SatzID 
-                  left join musikstueck on satz.MusikstueckID = musikstueck.ID
-                  left JOIN sammlung on sammlung.ID = musikstueck.SammlungID  
-                  left JOIN v_uebung_lookuptypes on v_uebung_lookuptypes.UebungID = uebung.ID 
-                  LEFT JOIN kalender ON uebung.Datum = kalender.Datum  
-            WHERE 1=1 
-                           
-        "; 
- 
-    if ($Unterricht_Geplant!='') {
-      $query.="AND kalender.Unterricht_Geplant=".$Unterricht_Geplant." ".PHP_EOL;  
-    }       
-
-    if (!empty($Datum)) {
-      $query.="AND uebung.Datum='".$Datum."' ";  
-    }
-     if ($SchuelerID!='') {
-      $query.="AND uebung.SchuelerID=".$SchuelerID." ";  
-    }
-
-    if ($Unterricht_Wochentag > 0 ) {
-      $query.="AND schueler.Unterricht_Wochentag=".$Unterricht_Wochentag." ";  
-    }
-    
-
-    $query.="GROUP BY uebung.SchuelerID, uebung.Datum  
-             ORDER BY uebung.Datum DESC, schueler.Unterricht_Reihenfolge, uebung.Name  "; 
-
-    break;     
-
-  case 'uebungen-datum2': // aka "Übungstage" ************************************
+  case 'uebungstage': // aka "Übungstage" ************************************
     include_once("classes/class.schuljahr.php");
-    include_once("classes/class.schuljahre.php");    
 
     $table_edit='schueler_kalender'; 
     $add_link_edit=true; 
@@ -511,13 +428,6 @@ switch ($ansicht)  // setzen: $PageTitle, $table_edit
       $schuljahr= new Schuljahr(); 
       $SchuljahrID= $schuljahr->getCurrentID(); 
     }
-
-    // if($SchuljahrID=='') {
-    //   $schuljahr= new Schuljahr(); 
-    //   $SchuljahrID= $schuljahr->getCurrentID(); 
-    // }
-
-
 
     echo '<form action="" method="get">'.PHP_EOL;       
     echo '<a href="edit_kalender.php?Datum='.$Datum.'&option=edit" target="_blank" title="Datum bearbeiten">Datum</a>: <input type="date" name="Datum" value="'.$Datum.'" onchange="this.form.submit()">'; 
@@ -546,6 +456,8 @@ switch ($ansicht)  // setzen: $PageTitle, $table_edit
               <option value="1" '.($Unterricht_Protokolliert=='1'?'selected':'').'>Ja</option>
           </select> '; 
 
+    echo ' Suchtext: <input type="text" id="Suchtext" name="Suchtext" size="30px" value="'.$Suchtext.'"> '; 
+
     echo '<input type="submit" class="btnSave" name="senden" value="Suchen">';
     echo '<input type="hidden" name="ansicht" value="'.$ansicht.'">'; 
     echo '</form>';           
@@ -560,7 +472,7 @@ switch ($ansicht)  // setzen: $PageTitle, $table_edit
           , COUNT(distinct uebung.ID) as `Anzahl Übungen` 
           , SUM(uebung.Anzahl ) as `Summe Minuten` 
           , (SUM(uebung.Anzahl ) - schueler.Unterricht_Dauer ) as `Abweichung Dauer` 
-          , GROUP_CONCAT(uebung.Reihenfolge, '. ', uebung.Name, ' (', coalesce(uebungtyp.Name, ''), ')'  order by uebung.Reihenfolge separator '<br>') `Übungen Inhalte`  
+          , GROUP_CONCAT(DISTINCT uebung.Reihenfolge, '. ', uebung.Name, ' (', coalesce(uebungtyp.Name, ''), ')'  order by uebung.Reihenfolge separator '<br>') `Übungen Inhalte`  
           , IF(kalender.Unterricht_Geplant=1, 'X' , '') as `Unterricht geplant`   
           , IF(kalender.Unterricht_Protokolliert=1, 'X' , '') as `Unterricht protokolliert`   
           , ferien.Bezeichnung AS Ferientag 
@@ -568,24 +480,25 @@ switch ($ansicht)  // setzen: $PageTitle, $table_edit
           , schuljahr.Bezeichnung AS Schuljahr
           , schueler_kalender.ID              
     FROM  schueler_kalender
-        INNER JOIN schueler 
-            ON schueler.ID= schueler_kalender.SchuelerID 
-        LEFT JOIN 
-            kalender 
-                ON schueler_kalender.Datum = kalender.Datum         
-        LEFT JOIN schuljahr 
-          ON kalender.Datum  BETWEEN schuljahr.Datum_Start AND schuljahr.Datum_Ende 
-        LEFT JOIN ferien 
-          ON kalender.Datum BETWEEN ferien.Datum_Start AND ferien.Datum_Ende 
-        LEFT JOIN feiertag 
-          ON kalender.Datum = feiertag.Datum             
-        LEFT JOIN uebung 
-            ON schueler.ID = uebung.SchuelerID 
-            AND schueler_kalender.Datum = uebung.Datum 
-          -- LEFT JOIN wochentage ON wochentage.wochentag_nr = schueler.Unterricht_Wochentag                   
-        LEFT join uebungtyp 
-            ON uebung.UebungtypID=uebungtyp.ID 
-          WHERE schueler.Aktiv=1 
+          INNER JOIN schueler 
+              ON schueler.ID= schueler_kalender.SchuelerID 
+          LEFT JOIN 
+              kalender ON schueler_kalender.Datum = kalender.Datum         
+          LEFT JOIN schuljahr 
+            ON kalender.Datum  BETWEEN schuljahr.Datum_Start AND schuljahr.Datum_Ende 
+          LEFT JOIN ferien 
+            -- ON kalender.Datum BETWEEN ferien.Datum_Start AND ferien.Datum_Ende 
+            ON schuljahr.ID = ferien.SchuljahrID 
+          LEFT JOIN feiertag 
+            -- ON kalender.Datum = feiertag.Datum             
+            ON schuljahr.ID = feiertag.SchuljahrID             
+          LEFT JOIN uebung 
+              ON schueler.ID = uebung.SchuelerID 
+              AND schueler_kalender.Datum = uebung.Datum 
+            -- LEFT JOIN wochentage ON wochentage.wochentag_nr = schueler.Unterricht_Wochentag                   
+          LEFT join uebungtyp 
+              ON uebung.UebungtypID=uebungtyp.ID 
+            WHERE schueler.Aktiv=1 
         "; 
  
     if ($Unterricht_Geplant!='') {
@@ -608,6 +521,12 @@ switch ($ansicht)  // setzen: $PageTitle, $table_edit
     // if ($Unterricht_Wochentag > 0 ) {
     //   $query.="AND schueler.Unterricht_Wochentag=".$Unterricht_Wochentag." ".PHP_EOL;  
     // }
+
+    if($Suchtext!='') {
+      $query.="AND ( schueler.Bemerkung LIKE '%".$Suchtext."%' 
+                  OR schueler_kalender.Bemerkung LIKE '%".$Suchtext."%' 
+                  ) "; 
+    }     
 
     $query.="
         GROUP BY schueler.ID, schueler_kalender.Datum  
@@ -1046,15 +965,11 @@ if($query=='') {
 }
 
 
-
-
 /******************************* */
 // echo '<pre>'.$query.'</pre>'; // Test 
 
- echo '<pre style="font-size: 11px; display: none">'.$query .'</pre>'; // Test  
+echo '<pre style="font-size: 11px; display: none">'.$query .'</pre>'; // Test  
     
-
-
 $conn = new DBConnection(); 
 $db=$conn->db; 
 
@@ -1067,6 +982,7 @@ try {
   $html->add_link_edit= $add_link_edit; 
   $html->edit_link_table=$table_edit; 
   $html->edit_link_open_newpage = true; 
+  $html->show_row_count=true; 
   $html->print_table2(); 
 }
 catch (PDOException $e) {
