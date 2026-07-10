@@ -41,6 +41,7 @@ class Suchabfrage {
   public $StatusID=''; 
   public $UebungtypID=''; 
   public $BewertungID=''; 
+  public $SchuljahrID=''; 
   public $Datum=''; // Übungen 
 
   public $Besetzungen_all=[]; 
@@ -363,6 +364,9 @@ class Suchabfrage {
         $strTmp.="FROM uebung 
                       INNER join schueler on schueler.ID=uebung.SchuelerID
                                     and schueler.Aktiv=1
+                      LEFT jOIN schueler_kalender on schueler_kalender.SchuelerID=schueler.ID 
+                                              AND uebung.Datum=schueler_kalender.Datum 
+                      LEFT JOIN schuljahr ON schueler_kalender.Datum BETWEEN schuljahr.Datum_Start AND schuljahr.Datum_Ende 
                       left join uebungtyp on uebung.UebungtypID=uebungtyp.ID 
                       left join bewertung on bewertung.ID = uebung.BewertungID
                       left join satz  on satz.ID=uebung.SatzID 
@@ -539,6 +543,10 @@ class Suchabfrage {
           $strTmp.="AND uebung.Datum='".$this->Datum."' " . PHP_EOL;        
         }     
          
+        if($this->SchuljahrID!='') { 
+          $strTmp.="AND schuljahr.ID = ".$this->SchuljahrID." " . PHP_EOL;        
+        }     
+
         if (count($this->LookupTypesSelected) > 0) {
           $strTmp.=$this->getSQL_FilterLookups('schueler'); //    
           $strTmp.=$this->getSQL_FilterLookups('uebung'); //    

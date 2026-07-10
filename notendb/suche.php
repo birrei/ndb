@@ -25,6 +25,7 @@ include_once("classes/class.schueler.php");
 include_once("classes/class.status.php");
 include_once("classes/class.materialtyp.php");
 include_once("classes/class.uebungtyp.php");
+include_once("classes/class.schuljahr.php");
 include_once("classes/class.bewertung.php");
 include_once("classes/class.suchabfrage.php");
 
@@ -254,8 +255,24 @@ include_once("classes/class.suchabfrage.php");
         $Suchabfrage->Datum = $Datum; 
     }
 
-/************* XXXX noch: Gruppe Übungstage mit Filter Schuljahr XXXX  ***********/  
 
+/************* Gruppe Übungen, Filter Schuljahr  ***********/  
+
+    $SchuljahrID=(isset($_REQUEST["SchuljahrID"])?$_REQUEST["SchuljahrID"]:'');
+
+    $schuljahr = new Schuljahr();  
+
+    if ($SchuljahrID!='') {
+        $filter=true;
+        $Suchabfrage->SchuljahrID = $SchuljahrID;         
+        $schuljahr->ID=$SchuljahrID; 
+        $schuljahr->load_row(); 
+        $Suchabfrage->Beschreibung.='* Übung Schuljahr: '.$schuljahr->Name.'<br>';      
+    }
+    echo '<br><br>Übung Schuljahr: ';     
+    $schuljahr->print_preselect($SchuljahrID, '',true); 
+
+    /************* Gruppe Übungen Ende ***********/  
   }
 
 /*** Navi-Block Gruppe Noten, "Sammlung */
