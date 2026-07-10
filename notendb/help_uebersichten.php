@@ -9,7 +9,6 @@ include_once('head.php');
 
 <div class="doc-body"> 
 
-
 	<h2 class="chapter-title chapter-title-h1" id="uebersichten_sammlungen">Übersicht Sammlungen</h2>  
 
         <p>Spalten: </p>
@@ -116,59 +115,50 @@ include_once('head.php');
             <br> Einfügen einer neuen Übung für den im Filter ausgewählten Schüler.
             <br> Falls im Filter ein Datum ausgewählt ist, wird dieses Datum als Vorgabe für die neue Übung übernommen. 
                 </p>
-                
+	<h2 class="chapter-title chapter-title-h1" id="uebersichten_uebungstage">Übersicht Übungstage</h2>
+
+        <p>Spalten: </p>
+        <ul>
+        <li>Schüler Name</li>
+        <li>Schueler Bemerkung</li>
+        <li>Datum</li>
+        <li>Kalender Wochentag</li>
+        <li>Übungstag Bemerkung</li>
+        <li>Unterricht Reihenfolge</li>
+        <li>Anzahl Übungen</li>
+        <li>Summe Minuten</li>
+        <li>Abweichung Dauer</li>
+        <li>Übungen Inhalte</li>
+        <li>Unterricht geplant</li>
+        <li>Unterricht protokolliert</li>
+        <li>Ferientag</li>
+        <li>Feiertag</li>
+        <li>Schuljahr</li>
+        <li>Übungstag ID</li>
+        </ul>
+
+        <p>Suche / Filter: </p>
+        
+            <ul>
+                <li>Datum (Standard-Einstellung: Heutiges Datum) (Hinweis: über den Beschriftungslink kann das Datum geöffnet werden)</li>
+                <li>Schüler</li>
+                <li>Schuljahr</li>
+                <li>Geplant </li>
+                <li>Protokolliert </li>
+                <li>Suchtext (Durchsucht werden "Schüler Bemerkung" und "Übungstag Bemerkung") 
+            </li>
+
+            </ul> 
+
+        <p>Link "Neu erfassen": 
+            <br> Einfügen einer neuen Übung für den im Filter ausgewählten Schüler.</p>
+                                
     <h2 class="chapter-title chapter-title-h1" id="uebersichten_bewertungen">Übersicht Bewertungen</h2>
             <p>Spalten: </p>
             <ul>       
                 <li>ID</li>
                 <li>Name</li>
             </ul>  
-
-	<h2 class="chapter-title chapter-title-h1" id="uebersichten_uebungen-datum">Übersicht Übungstage</h2>
-
-        <p>Spalten: </p>
-        <ul>
-         <li>Unterricht Plandatum</li>                
-            <li>Schueler Name</li>
-            <li>Unterricht Reihenfolge</li>
-            <li>Anzahl Übungen </li>
-            <li>Summe Minuten </li>
-            <li>Abweichung Dauer (= Abweichung  Summe  Minuten - Schüler Unterrichtsdauer. 
-                <br>Negativer Betrag: Übungen Summe Minuten zu gering. 
-                <br>Positiver Betrag: Übungen Summe Minuten zu hoch) </li>
-            <li>Inhalte </li>
-            <li>Unterrichtstag Geplant (Nein=Leer, Ja = X) </li>           
-             
-        </ul>  
-
-       <p>Sortierung: 1. Unterricht Plandatum (abwärts), 2. Unterricht Reihenfolge (aufwärts)</p>            
-
-        <p>Suche / Filter: </p>
-        
-            <ul>
-                <li>(*) Datum (= Kalender-Datum; Vorgabe beim öffnen der Seite: Heutiges Datum)</li>
-                <li>(*) Datum bis (= Kalender-Datum; Vorgabe beim öffnen der Seite: leer)</li>
-                <li>Schüler</li>
-                <li>Unterricht Wochentag</li>
-                <li>Geplant (Unterrichtsplanung für den Tag abgeschlossen: ja / nein)</li>                  
-            </li>
-
-            </ul> 
-
-        <p> 
-            (*) Filter Varianten:
-                <br>* Ein bestimmtes Datum auswählen: Auswahl "Datum"
-                <br>* Einem bestimmten Zeitraum auswählen: Auswahl "Datum" (= Datum von) und "Datum bis"
-                <br>* Zeitraum von 6 Monaten bis zu einem bestimmten Datum auswählen: Auswahl "Datum bis"
-            <br>
-                <br>Hinweis: Es ist nicht möglich beide Datum-Filter zu leeren, 
-                    um den Aufruf des kompletten hinterlegten Kalenderzeitraums zu erreichen. 
-                    Werden beide Filter gelöscht, springt die Anzeige auf die Vorgabe-Einstellung (aktuelles Datum) zurück. 
-        
-            </p>
-
-
-
 
 	<h2 class="chapter-title chapter-title-h1" id="uebersichten_verwendungszwecke">Übersicht Verwendungszwecke</h2>
 
@@ -221,42 +211,10 @@ include_once('head.php');
                 <li>Bezeichnung</li>
                 <li>Datum von</li>
                 <li>Datum bis</li>
+                <li>Ferien (Auflistung) </li>
+                <li>Feiertage (Auflistung) </li>
             </ul>  
 
-    <h2 class="chapter-title chapter-title-h1" id="uebersichten_ferien">Übersicht Ferien</h2>
-            <p>Spalten: </p>
-            <ul>       
-                <li>ID</li>
-                <li>Bezeichnung</li>
-                <li>Datum von</li>
-                <li>Datum bis</li>
-                <li>Schuljahr</li>
-                <li>Bundesland</li>
-            </ul>  
-
-           <p>Filter: </p>
-            <ul>       
-                <li>Schuljahr (Standardeinstellung: Aktuelles Schuljahr)</li>
-            </ul> 
-            
-            <!-- <p>XXX Hinweis: die Basisdaten wurden automatisch befüllt ... </p>             -->
-
-    <h2 class="chapter-title chapter-title-h1" id="uebersichten_feiertage">Übersicht Feiertage</h2>
-            <p>Spalten: </p>
-            <ul>       
-                <li>ID</li>
-                <li>Bezeichnung</li>
-                <li>Datum</li>
-                <li>Schuljahr</li>
-                <li>Bundesland</li>                
-            </ul>  
-
-           <p>Filter: </p>
-            <ul>       
-                <li>Schuljahr (Standardeinstellung: Aktuelles Schuljahr)</li>
-            </ul> 
-          
-            <!-- <p>XXX Hinweis: die Basisdaten wurden automatisch befüllt ... </p>    -->
 
     <h2 class="chapter-title chapter-title-h1" id="uebersichten_schueler-kalender-vorlage">Vorlage Schüler-Kalender (Abfrage)</h2>
         <p>Die Abfrage verbindet die Tabellen "Schüler", "Kalender", "Schuljahre"", "Ferien" und "Feiertage". 
