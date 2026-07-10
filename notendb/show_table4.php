@@ -456,6 +456,7 @@ switch ($ansicht)  // setzen: $PageTitle, $table_edit
               <option value="1" '.($Unterricht_Protokolliert=='1'?'selected':'').'>Ja</option>
           </select> '; 
 
+    echo ' &#9475;';            
     echo ' Suchtext: <input type="text" id="Suchtext" name="Suchtext" size="30px" value="'.$Suchtext.'"> '; 
 
     echo '<input type="submit" class="btnSave" name="senden" value="Suchen">';
