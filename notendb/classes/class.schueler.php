@@ -930,20 +930,26 @@ class Schueler {
     }
   } 
   
-  public function getQuery(string $version) {
-      $strSQL=''; 
-      switch($version) {
-        case 'kalender_vorlage': 
-          /// XXXX
-          $strSQL="SELECT * FROM v_schueler_kalender_vorlage WHERE SchuelerID=".$this->ID." ORDER BY Datum "; 
-    
-          break; 
-        
+  // public function getQuery(string $version) {
+    //     $strSQL=''; 
+    //     switch($version) {
+    //       case 'kalender_vorlage': 
+    //         /// XXXX
+    //         $strSQL="
+            
 
-      }
-      return $strSQL; 
+    //         SELECT * FROM v_schueler_kalender_vorlage WHERE SchuelerID=".$this->ID." ORDER BY Datum 
+            
+            
+    //         "; 
+      
+    //         break; 
+          
 
-  }
+    //     }
+    //     return $strSQL; 
+
+  // }
 
   function print_table_lookups($target_file, $LookupTypeID=0){
     $query="SELECT lookup.ID

@@ -66,7 +66,7 @@ switch ($ansicht) // $PageTitle, $table_edit
     $PageTitle='Übersicht Feiertage';   
     break; 
   case 'schueler-kalender-vorlage'; 
-    $PageTitle='Vorlage Schüler-Kalender (Abfrage) - BETA: Schuljahr 2025/2026';   
+    $PageTitle='Vorlage Schüler-Kalender';   
     break; 
   case 'bewertungen'; 
     $PageTitle='Bewertungen';   
@@ -907,32 +907,101 @@ switch ($ansicht)  // setzen: $PageTitle, $table_edit
 
 
   case 'schueler-kalender-vorlage': 
-
+    include_once("classes/class.schuljahr.php");
     $add_link_edit=false; 
     $table_edit='kalender'; // pro forma 
 
     $SchuelerID=(isset($_REQUEST["SchuelerID"])?$_REQUEST["SchuelerID"]:'');   
-    
+    $Datum=(isset($_REQUEST["Datum"])?$_REQUEST["Datum"]:date('Y-m-d')); 
+
+    $SchuljahrID=(isset($_REQUEST["SchuljahrID"])?$_REQUEST["SchuljahrID"]:'');
+    $Eintrag=(isset($_REQUEST["Eintrag"])?$_REQUEST["Eintrag"]:'');
+
+
+    if(!isset($_REQUEST["SchuljahrID"])) {
+      $schuljahr= new Schuljahr(); 
+      $SchuljahrID= $schuljahr->getCurrentID(); 
+    }
+
+
     echo '<form action="" method="get">'.PHP_EOL;       
 
+    $schuljahr = new Schuljahr(); 
+        // echo ' &#9475;';        
+    echo 'Schuljahr: '.PHP_EOL; 
+    $schuljahr->print_preselect($SchuljahrID, '', true); 
+
+        
     $schueler = new Schueler(); 
-        // echo ' &#9475;';    
+        echo ' &#9475;';    
     echo ' Schüler: '.PHP_EOL; 
-    $schueler->print_select($SchuelerID,'','',true); 
+    $schueler->print_preselect($SchuelerID,'','',true); 
+
+    echo ' &#9475;';
+    echo ' Eintrag <select id="Eintrag" name="Eintrag" onchange="this.form.submit()" >
+              <option value="" '.($Eintrag==''?'selected':'').'></option>
+              <option value="1" '.($Eintrag=='1'?'selected':'').'>Ja</option>
+              <option value="0" '.($Eintrag=='0'?'selected':'').'>Nein</option>
+          </select> '; 
+
 
     echo '<input type="submit" class="btnSave" name="senden" value="Suchen">';
     echo '<input type="hidden" name="ansicht" value="'.$ansicht.'">'; 
 
     echo '</form>';         
-    
-    if ($SchuelerID=='') {
-      echo 'Bitte einen Schüler auswählen!'; 
-      goto pagefoot;
-    }    
-    
+
     $schueler->ID = $SchuelerID; 
 
-    $query=$schueler->getQuery('kalender_vorlage'); 
+    $query="
+        SELECT schueler.Name as `Schüler` 
+          , kalender.Datum
+          , kalender.Wochentag_Name as Wochentag
+          , CASE 
+            WHEN ( ferien.ID IS NOT NULL OR feiertag.ID IS NOT NULL)  		-- Entweder Ferientag oder Feiertag 
+              THEN 0
+            WHEN (ferien.ID IS NULL AND feiertag.ID IS  NULL) 		-- Weder Ferientag noch Feiertag 
+              THEN 1  
+            ELSE 
+              -1 -- Fehler, sollte nicht vorkommen 
+            END AS Eintrag
+          , GROUP_CONCAT(COALESCE(feiertag.Bezeichnung, ''), ' ', COALESCE(ferien.Bezeichnung, '')  SEPARATOR ',') 
+              AS `Nicht-Eintrag Ausschlussgrund` 
+                    
+          , schuljahr.Bezeichnung AS Schuljahr  
+        FROM schueler 
+          INNER JOIN kalender 
+            ON kalender.Wochentag_Nr = schueler.Unterricht_Wochentag
+          INNER JOIN schuljahr 
+            ON kalender.Datum  BETWEEN schuljahr.Datum_Start AND schuljahr.Datum_Ende 
+          LEFT JOIN ferien 
+            ON ferien.SchuljahrID = schuljahr.ID  
+            AND kalender.Datum BETWEEN ferien.Datum_Start AND ferien.Datum_Ende 
+          LEFT JOIN feiertag 
+            ON feiertag.SchuljahrID = schuljahr.ID 
+            AND kalender.Datum = feiertag.Datum 
+        WHERE schueler.Aktiv =1  
+        "; 
+
+      if ($SchuelerID!='') {
+        $query.="AND schueler.ID=".$SchuelerID." ".PHP_EOL;  
+      }
+      if ($SchuljahrID!='') {
+        $query.="AND schuljahr.ID=".$SchuljahrID." ".PHP_EOL;  
+      }
+      if ($Eintrag!='') {
+        if($Eintrag==0) {
+          $query.="AND (ferien.ID IS NOT NULL OR feiertag.ID IS NOT NULL) ".PHP_EOL;  
+        }
+        if($Eintrag==1) {
+          $query.="AND (ferien.ID IS NULL AND feiertag.ID IS  NULL) ".PHP_EOL;  
+        }
+      }
+
+      $query.= " 
+        GROUP BY kalender.Datum, schueler.ID 
+        ORDER BY kalender.Datum, schueler.ID 
+    
+    "; 
     
     break;     
 
