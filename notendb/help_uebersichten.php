@@ -216,48 +216,62 @@ include_once('head.php');
             </ul>  
 
 
-    <h2 class="chapter-title chapter-title-h1" id="uebersichten_schueler-kalender-vorlage">Vorlage Schüler-Kalender</h2>
-        <p>Die Übersicht dient der Kontrolle vor dem Einlesen der Schüler-spezifischen Übungstage.  
-            Grundlage ist der beim Schüler festgelegte Unterrichts-Wochentag, Ausgeschlossen werden Ferien und Feiertage. 
-            Hinweis: Eingelesen werden alle Zeilen mit "Eintrag=1".  
-              
+    <h2 class="chapter-title chapter-title-h1" id="uebersichten_schueler-kalender-vorlage">Vorlage Übungstage ("Schüler Plan-Kalender")</h2>
+        <p>
+            Die Übersicht dient der - optionalen - Kontrolle vor dem XXXX Einlesen der Schüler-spezifischen Übungstage. 
+            Die Übersicht zeigt an, ob der Unterrichts-Tag des Schülers für die Übungstage verwendbar ist (Eintrag = 1) oder nicht (Eintrag = 0). 
+            Er ist dann nicht verwendbar, wenn er in eine Ferienzeit oder auf einen Feiertag. 
+            Für das spätere Einlesen in die Übungstage werden die Zeilen mit "Eintrag = 1" verwendet. 
+            
+            
+            <br><br>Die Übersicht ist ein Abfrage auf Grundlage folgender Daten: 
+            <br>* Schüler > "Unterricht Wochentag" 
+            <br>* Schuljahr 
+            <br>* Ferienzeiten
+            <br>* Feiertage
+            
+            <br> <br> 
+   
+
         </p>
+
         <p>Spalten: </p>
             <ul>       
-                Schüler	Datum	Wochentag	Eintrag		Schuljahr
                 <li>Schueler </li>
                 <li>Datum</li>
-                <li>Wochentag</li>
+                <li>Wochentag (= Unterrichts- Wochentag des Schülers)</li>
                 <li>Schuljahr</li>
                 <li>Eintrag (1=Ja, 0 = nein)   </li>
                 <li>Nicht-Eintrag Ausschlussgrund (Ferien, Feiertag)</li>
                 
 
             </ul>  
-            <p>(*) Der Eintrag aus der Vorlage wird für das Einlesen verwendet 
-                
-            </p>
-    
-            <!-- 
-            	
-   	
-             	
-             
-             	
-             	
-             	
-             
-             Anzahl_Uebungen	Info -->
-
-
-            <p>
-
-
-            </p>
 
 
 
-<hr />
+        <p>Filter: </p>
+            <ul>       
+                <li>Schuljahr</li>
+                <li>Schüler </li>
+                <li>Eintrag</li>
+            </ul>  
+
+
+
+    <h2 class="chapter-title chapter-title-h1" id="uebersichten_schuljahre">Übersicht Schuljahre</h2>
+            <p>Spalten: </p>
+            <ul>       
+                <li>ID</li>
+                <li>Bezeichnung</li>
+                <li>Datum von</li>
+                <li>Datum bis</li>
+                <li>Ferien (Auflistung) </li>
+                <li>Feiertage (Auflistung) </li>
+            </ul>  
+
+
+
+            <hr />
 
 	<p>&nbsp;</p>
 	<p>&nbsp;</p>

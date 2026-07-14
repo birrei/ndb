@@ -332,17 +332,14 @@ include_once('head.php');
                 bzw. 
                 Schülern zu Materialen 
                 verwendet werden </p>
-	<h2 class="chapter-title chapter-title-h2" id="erfassung_kalender">Stammdaten: Kalender</h2>
+	<h2 class="chapter-title chapter-title-h2" id="erfassung_kalender">Stammdaten: Kalender, Schuljahr, Ferien, Feiertage</h2>
+        <p> Kalender, Schuljahr, Ferien, Feiertage </p>
+
         <p>Editierbares Feld: "Unterricht geplant". Es kann verwendet werden,
              um einen Unterrichts-Tag als abschließend geplant zu kennzeichnen.
-            </p>
+            
 
-	<h2 class="chapter-title chapter-title-h2" id="erfassung_ferien">Stammdaten: Ferien</h2>
-        <p>     XXXX      </p>
- 
-	<h2 class="chapter-title chapter-title-h2" id="erfassung_feiertag">Stammdaten: Feiertage</h2>
-        <p>     XXXX      </p>
- 
+
 
 
 

@@ -12,6 +12,7 @@ $show_data=false;
 $ansicht=''; 
 $PageTitle=''; 
 $fehlertext=''; 
+$show_help_link=true; 
 
 if (isset($_REQUEST["ansicht"])) {
   $ansicht=$_REQUEST["ansicht"]; 
@@ -66,12 +67,19 @@ switch ($ansicht) // $PageTitle, $table_edit
     $PageTitle='Übersicht Feiertage';   
     break; 
   case 'schueler-kalender-vorlage'; 
-    $PageTitle='Vorlage Schüler-Kalender';   
+    $PageTitle='Vorlage Übungstage (Schüler Plan-Kalender) ';   
     break; 
   case 'bewertungen'; 
     $PageTitle='Bewertungen';   
     break; 
-
+  case 'info-alle-spieldauern'; 
+    $PageTitle='Verwendete Spieldauern';   
+    $show_help_link=false; 
+    break; 
+  case 'info-alle-tempobezeichnungen'; 
+    $PageTitle='Verwendete Tempobezeichnungen';   
+    $show_help_link=false; 
+    break; 
 
 }
 
@@ -83,7 +91,9 @@ if ($ansicht=='' OR $query='') {
 }
 
 echo '<h3 class="header-with-help-link">'.$PageTitle.'</h3>'.PHP_EOL; 
-echo '<a href="help_uebersichten.php?#uebersichten_'.$ansicht.'" target="_blank">Hilfe</a>';
+if ($show_help_link) {
+  echo '<a href="help_uebersichten.php?#uebersichten_'.$ansicht.'" target="_blank">Hilfe</a>';
+}
 
 echo '<p></p>'; 
 // XXXX Filter einschränken ermöglichen (es sollen nicht automatisch alle Zeilen einer Tabelle auf einmal angezeigt werden)
@@ -906,7 +916,7 @@ switch ($ansicht)  // setzen: $PageTitle, $table_edit
 
 
 
-  case 'schueler-kalender-vorlage': 
+  case 'schueler-kalender-vorlage': // "Vorlage Übungstage"  
     include_once("classes/class.schuljahr.php");
     $add_link_edit=false; 
     $table_edit='kalender'; // pro forma 
@@ -1005,10 +1015,62 @@ switch ($ansicht)  // setzen: $PageTitle, $table_edit
     
     break;     
 
+  case 'info-alle-spieldauern': // 
+
+    $add_link_edit=false; 
+    $table_edit='';   
+
+    $query="
+          select 
+          --  NULL as ID
+          distinct Spieldauer as `Spieldauer Sekunden` 
+          , concat(
+              case when length( Spieldauer DIV 60)=1 
+              then concat('0', (Spieldauer DIV 60)) 
+              else Spieldauer DIV 60
+              end
+              ,':'
+              , 
+              case when length( Spieldauer MOD 60)=1 
+              then concat('0', (Spieldauer MOD 60)) 
+              else Spieldauer MOD 60
+              end 
+              ) as Spieldauer_1
+
+          , concat(
+              Spieldauer DIV 60
+              ,''''
+              , 
+              Spieldauer MOD 60
+              , ''''''
+              ) as Spieldauer_2
+
+          from satz  
+          where Spieldauer is not null 
+          order by Spieldauer
 
 
 
+          "; 
 
+    break;    
+  case 'info-alle-tempobezeichnungen': // 
+
+    $add_link_edit=false; 
+    $table_edit='';   
+
+    $query="
+      SELECT DISTINCT Tempobezeichnung 
+      FROM satz  
+      WHERE Tempobezeichnung is not null 
+      AND Tempobezeichnung <> ''
+      ORDER BY Tempobezeichnung
+
+
+
+          "; 
+
+    break;  
 }
 
 
