@@ -76,44 +76,37 @@ a:hover {
        <b>Übergreifend: </b>  
       <a href="show_table4.php?ansicht=besonderheiten">Besonderheiten</a>, 
       <a href="show_table4.php?ansicht=lookuptypes">Besonderheit-Typen</a>, 
-
-    <a href="show_table2.php?table=v_status&sortcol=Name">Status Ausprägungen</a> <i>(Status Schüler Satz/Material-Zuordnung)</i>, 
- 
-    <a href="show_table2.php?table=v_abfragetyp&sortcol=Name">Abfrage-Typen</a> <br>
+      <a href="show_table2.php?table=v_status&sortcol=Name">Status Ausprägungen</a> <i>(Status Schüler Satz/Noten-Zuordnung)</i>, 
+      <!-- <a href="show_table2.php?table=v_abfragetyp&sortcol=Name">Abfrage-Typen</a> <br> -->
   </td>
 </tr>
 
-
-<tr> <td class="start"> <h3>Sonst</h3> </td>
-  <td class="start">
-    <a href="updates.php">Sammel-Updates</a> <br>   
-    <a href="show_table2.php?table=v_abfrage&sortcol=Name&add_link_show">Gespeicherte Abfragen</a> <br>
+<tr> <td class="start"> <h3>Abfragen</h3> </td>
+  <td class="start"> 
     <a href="show_table3.php">Verwendungszweck Planung</a> <i>(Anzeige Gesamt - Spieldauer) </i> <br>
     <a href="show_table4.php?ansicht=info-alle-spieldauern">Verwendete Spieldauern</a> <br>
     <a href="show_table4.php?ansicht=info-alle-tempobezeichnungen">Verwendete Tempobezeichnungen</a> <br>
 
-    <!-- XXXX 
+  </td>
+</tr>
 
-    <a href="show_table2.php?table=v2_info_Tempobezeichnungen&sortcol=Tempobezeichnung">Verwendete Tempobezeichnungen</a> <br>
-
-    <a href="tests.php?title=Tests">Vordefinierte Tests</a> 
-    
-    <br> -->
-
+<tr> <td class="start"> <h3>Standard-Tests</h3> </td>
+  <td class="start"> 
+    <a href="show_table4.php?ansicht=test-sammlungen-ohne-musikstueck">Sammlungen ohne Musikstück</a> <br>
+    <a href="show_table4.php?ansicht=test-musikstuecke-ohne-satz">Musikstücke ohne Satz</a> <br>
+    <a href="show_table4.php?ansicht=test-musikstuecke-ohne-besetzung">Musikstücke ohne Besetzung</a> <br>
+    <a href="show_table4.php?ansicht=test-saetze-ohne-schwierigkeitsgrad">Sätze ohne Schwierigkeitsgrad</a> <br>
 
   </td>
 </tr>
 
-
-<!-- <tr>
-  <td class="start"> <h3>Repository</h3> </td>
+<tr> <td class="start"> <h3>Sonst</h3> </td>
   <td class="start">
-    <a href="https://github.com/birrei/ndb/tree/main" tabindex="-1" target="_blank">GitHub Startseite</a><br>
-    <a href="https://github.com/birrei/ndb/blob/main/changelog.md" tabindex="-1" target="_blank">Changelog</a> <i>(Beschreibung neuer Funktionen, Information zu beseitigten Fehlern) </i><br>
-    <a href="https://github.com/birrei/ndb/commits/main/" tabindex="-1" target="_blank">Commits</a> <i>(vollständige techn. Änderungs-Historie)</i> <br>
-    <a href="https://github.com/birrei/ndb/blob/main/notes.md" tabindex="-1" target="_blank">Notizen</a> <i>(Sammlung von Erklärungen, die (noch) nicht auf der Hilfe-Seite zu finden sind) </i><br>
+    <a href="updates.php">Sammel-Updates</a> <br>   
+
+
   </td>
-</tr> -->
+</tr>
 
 
 </table>

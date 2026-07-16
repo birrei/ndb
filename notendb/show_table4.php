@@ -80,6 +80,26 @@ switch ($ansicht) // $PageTitle, $table_edit
     $PageTitle='Verwendete Tempobezeichnungen';   
     $show_help_link=false; 
     break; 
+  case 'test-sammlungen-ohne-musikstueck'; 
+    $PageTitle='Sammlungen ohne Musikstück';   
+    $show_help_link=false; 
+    break; 
+  case 'test-musikstuecke-ohne-satz'; 
+    $PageTitle='Musikstücke ohne Satz';   
+    $show_help_link=false; 
+    break; 
+  case 'test-musikstuecke-ohne-besetzung'; 
+    $PageTitle='Musikstücke ohne Besetzung';   
+    $show_help_link=false; 
+    break; 
+  case 'test-saetze-ohne-spieldauer'; 
+    $PageTitle='Sätze ohne Spieldauer';   
+    $show_help_link=false; 
+    break; 
+  case 'test-saetze-ohne-schwierigkeitsgrad'; 
+    $PageTitle='Sätze ohne Schwierigkeitsgrad';   
+    $show_help_link=false; 
+    break; 
 
 }
 
@@ -100,6 +120,7 @@ echo '<p></p>';
 
 switch ($ansicht)  // setzen: $PageTitle, $table_edit 
 {
+/***************** Daten ****************************** */  
   case 'sammlungen': 
     include_once("classes/class.standort.php");
 
@@ -162,7 +183,6 @@ switch ($ansicht)  // setzen: $PageTitle, $table_edit
     break; 
 
 
-/******** Besonderheiten *******************************************/
 
   case 'besonderheiten': 
     include_once("classes/class.lookup.php");
@@ -547,6 +567,7 @@ switch ($ansicht)  // setzen: $PageTitle, $table_edit
 
     break;   
 
+/***************** Stammdaten ****************************** */  
   case 'bewertungen': 
 
     $table_edit='bewertung';     
@@ -916,6 +937,7 @@ switch ($ansicht)  // setzen: $PageTitle, $table_edit
 
 
 
+  
   case 'schueler-kalender-vorlage': // "Vorlage Übungstage"  
     include_once("classes/class.schuljahr.php");
     $add_link_edit=false; 
@@ -1013,8 +1035,9 @@ switch ($ansicht)  // setzen: $PageTitle, $table_edit
     
     "; 
     
-    break;     
+    break;   
 
+/***************** Infosichten ****************************** */
   case 'info-alle-spieldauern': // 
 
     $add_link_edit=false; 
@@ -1071,6 +1094,113 @@ switch ($ansicht)  // setzen: $PageTitle, $table_edit
           "; 
 
     break;  
+
+/***************** Standard-Tests ****************************** */    
+  case 'test-sammlungen-ohne-musikstueck': // 
+
+    // XXXX noch: filter Standort
+    // XXXX noch: Suchfeld  
+
+    $add_link_edit=true; 
+    $table_edit='sammlung';   
+
+    $query="select 
+          standort.Name as Standort     
+          , s.Name as Sammlung
+          , s.ID
+      from sammlung s 
+      inner join standort on standort.ID= s.StandortID 
+      left join musikstueck m on s.ID = m.SammlungID 
+      where s.Erfasst=0
+      and m.ID is null 
+      order by standort.Name, s.Name
+      "; 
+
+    break;  
+
+  case 'test-musikstuecke-ohne-satz': // 
+
+    // XXXX noch: filter Standort
+    // XXXX noch: Suchfeld  
+
+    $add_link_edit=true; 
+    $table_edit='musikstueck';   
+
+    $query="select standort.Name as Standort 
+            , s.Name as Sammlung
+            , m.Nummer
+            , m.Name as Musikstueck
+            , m.ID
+        from musikstueck m 
+        inner join  sammlung s on s.ID = m.SammlungID 
+        inner join standort on standort.ID= s.StandortID 
+        left join satz sa on sa.MusikstueckID = m.ID 
+        where s.Erfasst=0
+        and sa.ID is null 
+        -- and m.ID is not nULL 
+        order by standort.Name, s.Name, m.Nummer 
+          "; 
+
+    break; 
+  case 'test-musikstuecke-ohne-besetzung': // 
+
+    // XXXX noch: filter Standort
+    // XXXX noch: Suchfeld  
+
+    $add_link_edit=true; 
+    $table_edit='musikstueck';   
+
+    $query="select
+            standort.Name as Standort 
+            , s.Name as Sammlung
+            , m.Nummer 
+            , m.Name as Musikstueck
+            , m.ID    
+        from sammlung s 
+        inner join standort on standort.ID= s.StandortID 
+        inner join musikstueck m on s.ID = m.SammlungID 
+        left join musikstueck_besetzung mb 
+        on m.ID = mb.MusikstueckID 
+        where s.Erfasst=0 
+        and mb.ID is null 
+        order by standort.Name, s.Name, m.Nummer 
+          "; 
+
+    break;     
+
+ case 'test-saetze-ohne-schwierigkeitsgrad': 
+
+    // XXXX noch: filter Standort
+    // XXXX noch: Suchfeld  
+
+    $add_link_edit=true; 
+    $table_edit='satz';   
+
+    $query="
+        select 
+            standort.Name as Standort 
+            , s.Name as Sammlung
+            , m.Nummer as MNr
+            , m.Name as Musikstueck
+                , sa.Nr as SatzNr
+                , sa.Name as Satz
+              , sa.ID        
+        from musikstueck m 
+            inner join  sammlung s on s.ID = m.SammlungID 
+            inner join standort on standort.ID= s.StandortID     
+            inner join satz sa on sa.MusikstueckID = m.ID 
+            left join satz_schwierigkeitsgrad on satz_schwierigkeitsgrad.SatzID = sa.ID 
+        where s.Erfasst=0
+        and satz_schwierigkeitsgrad.ID is NULL
+        order by standort.Name, s.Name, m.Nummer, sa.Nr
+
+          "; 
+
+    break;        
+
+
+
+
 }
 
 
