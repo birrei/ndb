@@ -53,6 +53,26 @@ switch ($ansicht) // $PageTitle, $table_edit
     $PageTitle='Übersicht Verlage';  
     $table_edit='verlag';     
     break; 
+  case 'komponisten'; 
+    $PageTitle='Übersicht Komponisten';  
+    break; 
+    
+  case 'besetzungen'; 
+    $PageTitle='Übersicht Besetzungen';  
+    break; 
+
+  case 'gattungen'; 
+    $PageTitle='Übersicht Gattungen';  
+    break; 
+
+  case 'epochen'; 
+    $PageTitle='Übersicht Epochen';  
+    break; 
+
+  case 'materialtypen'; 
+    $PageTitle='Übersicht Materialtypen';  
+    break; 
+
   case 'kalender'; 
     $PageTitle='Kalender';  
     $table_edit='kalender';     
@@ -118,7 +138,7 @@ if ($show_help_link) {
 echo '<p></p>'; 
 // XXXX Filter einschränken ermöglichen (es sollen nicht automatisch alle Zeilen einer Tabelle auf einmal angezeigt werden)
 
-switch ($ansicht)  // setzen: $PageTitle, $table_edit 
+switch ($ansicht)  // setzen: $PageTitle, $table_edit, $show_help_link
 {
 /***************** Daten ****************************** */  
   case 'sammlungen': 
@@ -698,9 +718,190 @@ switch ($ansicht)  // setzen: $PageTitle, $table_edit
 
     echo '<p><a href="edit_'.$table_edit.'.php?option=insert" target="_blank">Neu erfassen</a></p>';
 
-
     break;   
-    
+
+  case 'komponisten': // 
+    $table_edit='komponist'; 
+
+    $Suchtext=(isset($_REQUEST["Suchtext"])?$_REQUEST["Suchtext"]:'');   
+
+    echo '<form action="" method="get">'.PHP_EOL;  
+    echo ' Suchtext: <input type="text" id="Suchtext" name="Suchtext" size="30px" value="'.$Suchtext.'"> '; 
+    echo '<input type="submit" class="btnSave" name="senden" value="Suchen">';
+    echo '<input type="hidden" name="ansicht" value="'.$ansicht.'">'; 
+    echo '</form>';       
+
+    $query="SELECT
+              Vorname
+              , Nachname
+              , Geburtsjahr
+              , Sterbejahr
+              , Bemerkung 
+              , ID 
+            FROM komponist   
+            WHERE 1=1 
+            "; 
+
+    if($Suchtext!='') {
+      $query.="
+            AND ( komponist.Vorname LIKE '%".$Suchtext."%'  
+            OR komponist.Nachname LIKE '%".$Suchtext."%' 
+            OR komponist.Geburtsjahr LIKE '%".$Suchtext."%' 
+            OR komponist.Sterbejahr LIKE '%".$Suchtext."%' 
+            OR komponist.Bemerkung LIKE '%".$Suchtext."%' 
+
+            )
+      
+      ";          
+    }
+
+    $query.="ORDER BY komponist.Nachname, komponist.Vorname "; 
+
+
+    echo '<p><a href="edit_'.$table_edit.'.php?option=insert" target="_blank">Neu erfassen</a></p>';
+
+    break;  
+
+  case 'besetzungen': // XXXX 
+
+    $table_edit='besetzung'; 
+
+    $Suchtext=(isset($_REQUEST["Suchtext"])?$_REQUEST["Suchtext"]:'');   
+
+    echo '<form action="" method="get">'.PHP_EOL;  
+    echo ' Suchtext: <input type="text" id="Suchtext" name="Suchtext" size="30px" value="'.$Suchtext.'"> '; 
+    echo '<input type="submit" class="btnSave" name="senden" value="Suchen">';
+    echo '<input type="hidden" name="ansicht" value="'.$ansicht.'">'; 
+    echo '</form>';       
+
+    $query="SELECT ID, Name 
+            FROM besetzung   
+            WHERE 1=1 
+            "; 
+
+    if($Suchtext!='') {
+      $query.="AND besetzung.Name LIKE '%".$Suchtext."%'  ";          
+    }
+
+    $query.="ORDER BY besetzung.Name "; 
+
+
+    echo '<p><a href="edit_'.$table_edit.'.php?option=insert" target="_blank">Neu erfassen</a></p>';
+
+
+    break;  
+
+  case 'gattungen': // XXXX 
+
+    $table_edit='gattung'; 
+
+    $Suchtext=(isset($_REQUEST["Suchtext"])?$_REQUEST["Suchtext"]:'');   
+
+    echo '<form action="" method="get">'.PHP_EOL;  
+    echo ' Suchtext: <input type="text" id="Suchtext" name="Suchtext" size="30px" value="'.$Suchtext.'"> '; 
+    echo '<input type="submit" class="btnSave" name="senden" value="Suchen">';
+    echo '<input type="hidden" name="ansicht" value="'.$ansicht.'">'; 
+    echo '</form>';       
+
+    $query="SELECT ID, Name 
+            FROM gattung    
+            WHERE 1=1 
+            "; 
+
+    if($Suchtext!='') {
+      $query.="AND gattung.Name LIKE '%".$Suchtext."%'  ";          
+    }
+
+    $query.="ORDER BY gattung.Name "; 
+
+
+    echo '<p><a href="edit_'.$table_edit.'.php?option=insert" target="_blank">Neu erfassen</a></p>';
+
+    break;  
+
+  case 'epochen': // XXXX 
+
+    $table_edit='epoche'; 
+
+    $Suchtext=(isset($_REQUEST["Suchtext"])?$_REQUEST["Suchtext"]:'');   
+
+    echo '<form action="" method="get">'.PHP_EOL;  
+    echo ' Suchtext: <input type="text" id="Suchtext" name="Suchtext" size="30px" value="'.$Suchtext.'"> '; 
+    echo '<input type="submit" class="btnSave" name="senden" value="Suchen">';
+    echo '<input type="hidden" name="ansicht" value="'.$ansicht.'">'; 
+    echo '</form>';       
+
+    $query="SELECT ID, Name 
+            FROM epoche     
+            WHERE 1=1 
+            "; 
+
+    if($Suchtext!='') {
+      $query.="AND epoche.Name LIKE '%".$Suchtext."%'  ";          
+    }
+
+    $query.="ORDER BY epoche.Name "; 
+
+
+    echo '<p><a href="edit_'.$table_edit.'.php?option=insert" target="_blank">Neu erfassen</a></p>';
+
+    break;  
+
+  case 'materialtypen': // XXXX 
+
+    $table_edit='materialtyp'; 
+
+    $Suchtext=(isset($_REQUEST["Suchtext"])?$_REQUEST["Suchtext"]:'');   
+
+    echo '<form action="" method="get">'.PHP_EOL;  
+    echo ' Suchtext: <input type="text" id="Suchtext" name="Suchtext" size="30px" value="'.$Suchtext.'"> '; 
+    echo '<input type="submit" class="btnSave" name="senden" value="Suchen">';
+    echo '<input type="hidden" name="ansicht" value="'.$ansicht.'">'; 
+    echo '</form>';       
+
+    $query="SELECT ID, Name 
+            FROM materialtyp      
+            WHERE 1=1 
+            "; 
+
+    if($Suchtext!='') {
+      $query.="AND materialtyp.Name LIKE '%".$Suchtext."%'  ";          
+    }
+
+    $query.="ORDER BY materialtyp.Name "; 
+
+
+    echo '<p><a href="edit_'.$table_edit.'.php?option=insert" target="_blank">Neu erfassen</a></p>';
+
+    break;  
+
+
+  case 'Schwierigkeitsgrade': // XXXX 
+    break;  
+
+
+  case 'Instrumente': // XXXX 
+    break;  
+
+  case 'Erprobt': // XXXX 
+    break;  
+
+  case 'Status': // XXXX 
+    break;  
+
+  case 'UebungTypen': // XXXX 
+    break;  
+
+
+  case 'LinkTypen': // XXXX 
+    break;  
+
+
+  case 'AbfrageTypen': // XXXX 
+    break;  
+
+
+
   case 'lookuptypes': 
     include_once("classes/class.relation.php");    
 
@@ -844,92 +1045,7 @@ switch ($ansicht)  // setzen: $PageTitle, $table_edit
 
     break; 
 
-  case 'ferien': // XXXX löschen 
-    include_once("classes/class.schuljahr.php");
-
-    $table_edit='ferien';      
-
-    $SchuljahrID=(isset($_REQUEST["SchuljahrID"])?$_REQUEST["SchuljahrID"]:'');
-
-    if($SchuljahrID=='') {
-      $schuljahr= new Schuljahr(); 
-      $SchuljahrID= $schuljahr->getCurrentID(); 
-    }
-
-    echo '<form action="" method="get">'.PHP_EOL;  
-    $schuljahr = new Schuljahr(); 
-    echo 'Schuljahr: '.PHP_EOL; 
-    $schuljahr->print_preselect($SchuljahrID, '', false); 
-        // echo ' &#9475;';
-    // echo '<input type="submit" class="btnSave" name="senden" value="Suchen">';
-    echo '<input type="hidden" name="ansicht" value="'.$ansicht.'">
-          </form>';    
-
-    $query="SELECT f.ID 
-          , f.Bezeichnung 
-          , f.Datum_Start  AS `Datum von` 
-          , f.Datum_Ende  AS `Datum bis` 
-          , s.Bezeichnung AS Schuljahr 
-          , f.Bundesland 
-          -- , s.Datum_Start  as `Datum Schuljahr von` 
-          -- , s.Datum_Ende  as `Datum Schuljahr bis` 
-        FROM schuljahr s 
-          INNER JOIN  ferien f on f.SchuljahrID = s.ID 
-        WHERE 1=1 ".PHP_EOL; 
-    
-    if($SchuljahrID!='') {
-      $query.="AND s.ID='".$SchuljahrID."' ";  
-    }
-
-    $query.="ORDER BY s.Datum_Start, f.Datum_Start";     
-
-    echo '<p><a href="edit_'.$table_edit.'.php?option=insert&SchuljahrID='.$SchuljahrID.'" target="_blank">Neu erfassen</a></p>';
-
-    break; 
-
-  case 'feiertage': // XXXX löschen 
-    include_once("classes/class.schuljahr.php");
-
-    $add_link_edit=true; 
-    $table_edit='feiertag';      
-
-    $SchuljahrID=(isset($_REQUEST["SchuljahrID"])?$_REQUEST["SchuljahrID"]:'');
-
-    if($SchuljahrID=='') {
-      $schuljahr= new Schuljahr(); 
-      $SchuljahrID= $schuljahr->getCurrentID(); 
-    }
-
-    echo '<form action="" method="get">'.PHP_EOL;  
-    $schuljahr = new Schuljahr(); 
-    echo 'Schuljahr: '.PHP_EOL; 
-    $schuljahr->print_preselect($SchuljahrID, '', false); 
-        // echo ' &#9475;';
-    // echo '<input type="submit" class="btnSave" name="senden" value="Suchen">';
-    echo '<input type="hidden" name="ansicht" value="'.$ansicht.'">
-          </form>';    
-
-    $query="SELECT f.ID 
-          , f.Bezeichnung 
-          , f.Datum 
-          , s.Bezeichnung AS Schuljahr 
-          , f.Bundesland           
-        FROM schuljahr s 
-          INNER JOIN feiertag f on f.SchuljahrID = s.ID 
-        WHERE 1=1 ".PHP_EOL; 
-    
-    if($SchuljahrID!='') {
-      $query.="AND s.ID='".$SchuljahrID."' ";  
-    }
-
-    $query.="ORDER BY f.Datum";      
-
-    echo '<p><a href="edit_'.$table_edit.'.php?option=insert&SchuljahrID='.$SchuljahrID.'" target="_blank">Neu erfassen</a></p>';
-
-
-    break; 
-
-  
+ 
   
     case 'XXXX': 
 
@@ -1168,7 +1284,7 @@ switch ($ansicht)  // setzen: $PageTitle, $table_edit
 
     break;     
 
- case 'test-saetze-ohne-schwierigkeitsgrad': 
+  case 'test-saetze-ohne-schwierigkeitsgrad': 
 
     // XXXX noch: filter Standort
     // XXXX noch: Suchfeld  
@@ -1202,24 +1318,6 @@ switch ($ansicht)  // setzen: $PageTitle, $table_edit
 
 
 }
-
-
-/**
-
-Komponisten
-Besetzungen
-Gattungen
-Epochen
-Materialtypen
-Schwierigkeitsgrade, Instrumente
-Erprobt-Eigenschaften
-Besonderheiten, Besonderheit Typen
-Status Ausprägungen (Status Schüler Satz/Material-Zuordnung)
-Übung Typen
-Link-Typen
-Abfrage-Typen
-**/ 
-
 
 if($query=='') {
   $info->print_user_error('Es wurde keine Ansicht definiert.');   

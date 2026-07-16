@@ -46,7 +46,7 @@ switch($option) {
 }
 
 $info->print_screen_header($gattung->Title.' bearbeiten'); 
-$info->print_link_table($gattung->table_name, 'sortcol=Name', $gattung->Titles); 
+$info->print_link_table2('gattungen', true); 
 
 if (!$show_data) {goto pagefoot;}
 

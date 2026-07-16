@@ -56,7 +56,7 @@ switch($option) {
 }
 
 $info->print_screen_header($besetzung->Title.' bearbeiten'); 
-$info->print_link_table($besetzung->table_name, 'sortcol=Name', $besetzung->Titles); 
+$info->print_link_table2('besetzungen', true); 
 
 if (!$show_data) {goto pagefoot;}
 

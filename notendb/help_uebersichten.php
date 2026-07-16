@@ -191,7 +191,59 @@ include_once('head.php');
             <ul>       
                 <li>ID</li>
                 <li>Name</li>
-            </ul>  
+            </ul>
+            
+    <h2 class="chapter-title chapter-title-h1" id="uebersichten_besetzungen">Übersicht Besetzungen</h2>
+
+        <p>Spalten: </p>
+            <ul>       
+                <li>ID</li>
+                <li>Name</li>
+            </ul>
+            
+    <h2 class="chapter-title chapter-title-h1" id="uebersichten_gattungen">Übersicht Gattungen</h2>
+
+        <p>Spalten: </p>
+            <ul>       
+                <li>ID</li>
+                <li>Name</li>
+            </ul>
+            
+    <h2 class="chapter-title chapter-title-h1" id="uebersichten_epochen">Übersicht Epochen</h2>
+
+        <p>Spalten: </p>
+            <ul>       
+                <li>ID</li>
+                <li>Name</li>
+            </ul>
+            
+    <h2 class="chapter-title chapter-title-h1" id="uebersichten_epochen">Übersicht Material-Typen</h2>
+
+        <p>Spalten: </p>
+            <ul>       
+                <li>ID</li>
+                <li>Name</li>
+            </ul>
+            
+    <h2 class="chapter-title chapter-title-h1" id="uebersichten_komponisten">Übersicht Komponisten</h2>
+
+        <p>Spalten: </p>
+            <ul>       
+                <li>ID</li>
+                <li>Vorname</li>
+                <li>Nachname</li>
+                <li>Geburtsjahr</li>
+                <li>Sterbejahr</li>
+                <li>Bemerkung</li>
+            </ul>
+            
+                        
+       <p>Suche / Filter: </p>
+        
+            <ul>
+                <li>Suchtext (Suche in Vorname, Nachname, Geburtsjahr, Sterbejahr)</li>
+            </ul> 
+
     <h2 class="chapter-title chapter-title-h1" id="uebersichten_kalender">Übersicht Kalender</h2>
             <p>Spalten: </p>
             <ul>       

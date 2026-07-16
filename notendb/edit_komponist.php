@@ -54,7 +54,7 @@ switch($option) {
 }
 
 $info->print_screen_header($komponist->Title.' bearbeiten'); 
-$info->print_link_table($komponist->table_name, 'sortcol=Nachname,Vorname', $komponist->Titles); 
+$info->print_link_table2('komponisten'); 
 
 if (!$show_data) {goto pagefoot;}
 

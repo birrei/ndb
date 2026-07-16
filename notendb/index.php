@@ -60,13 +60,14 @@ a:hover {
     <a href="show_table4.php?ansicht=verlage">Verlage</a>, 
     <a href="show_table2.php?table=v_linktype&sortcol=Name">Link-Typen</a> <br>
     <hr> 
-        <b>Zu Musikstücken:</b> <a href="show_table2.php?table=v_komponist&sortcol=Name">Komponisten</a>, 
-        <a href="show_table2.php?table=v_besetzung&sortcol=Name">Besetzungen</a>, 
+        <b>Zu Musikstücken:</b> 
+        <a href="show_table4.php?ansicht=komponisten">Komponisten</a>, 
+        <a href="show_table4.php?ansicht=besetzungen">Besetzungen</a>, 
         <a href="show_table4.php?ansicht=verwendungszwecke">Verwendungszwecke</a>, 
-        <a href="show_table2.php?table=v_gattung&sortcol=Name">Gattungen</a>, 
-        <a href="show_table2.php?table=v_epoche&sortcol=Name">Epochen</a>, 
-        <a href="show_table2.php?table=v_materialtyp&sortcol=Name">Materialtypen</a>     
-    <hr> 
+        <a href="show_table4.php?ansicht=gattungen">Gattungen</a>, 
+        <a href="show_table4.php?ansicht=epochen">Epochen</a>, 
+        <a href="show_table4.php?ansicht=materialtypen">Material-Typen</a>
+        <hr> 
 
     <b>Zu Sätzen: </b><a href="show_table2.php?table=v_schwierigkeitsgrad&sortcol=Name">Schwierigkeitsgrade</a>, 
     <a href="show_table2.php?table=v_instrument&sortcol=Name">Instrumente</a>, 

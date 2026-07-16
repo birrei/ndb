@@ -48,7 +48,7 @@ switch($option) {
 
 
 $info->print_screen_header($materialtyp->Title.' bearbeiten'); 
-$info->print_link_table($materialtyp->table_name, 'sortcol=Name', $materialtyp->Titles); 
+$info->print_link_table2('materialtypen', true); 
 
 if (!$show_data) {goto pagefoot;}
 
