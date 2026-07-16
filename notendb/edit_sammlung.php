@@ -144,20 +144,23 @@ echo '
 ?>
   <tr> 
     <td class="form-edit form-edit-col1">Daten anzeigen: <br /> <br />
-                
-      <input type="radio" id="Standorte" name="target_form" value="Standorte" onclick="changeIframeSrc('subform1', 'edit_sammlung_standorte.php?SammlungID=<?php echo $sammlung->ID; ?>');" checked>
+      
+    <input type="radio" id="Musikstuecke" name="target_form" value="Musikstuecke" onclick="changeIframeSrc('subform1', 'edit_sammlung_musikstuecke.php?SammlungID=<?php echo $sammlung->ID; ?>');" checked>
+        <label for="Musikstuecke">Musikstuecke</label><br>
+
+      <input type="radio" id="Standorte" name="target_form" value="Standorte" onclick="changeIframeSrc('subform1', 'edit_sammlung_standorte.php?SammlungID=<?php echo $sammlung->ID; ?>');" >
         <label for="Standorte">Standorte</label><br>
 
-      <input type="radio" id="Musikstuecke" name="target_form" value="Musikstuecke" onclick="changeIframeSrc('subform1', 'edit_sammlung_musikstuecke.php?SammlungID=<?php echo $sammlung->ID; ?>');">
-        <label for="Musikstuecke">Musikstuecke</label><br>
       <input type="radio" id="Saetze" name="target_form" value="Saetze" onclick="changeIframeSrc('subform1', 'edit_sammlung_saetze.php?SammlungID=<?php echo $sammlung->ID; ?>');">
         <label for="Saetze">Sätze</label><br>     
+
       <input type="radio" id="Saetze_Schueler" name="target_form" value="Saetze_Schueler" onclick="changeIframeSrc('subform1', 'edit_sammlung_saetze_schueler.php?SammlungID=<?php echo $sammlung->ID; ?>');">
         <label for="Saetze_Schueler">Sätze + Schüler</label><br>     
 
 
       <input type="radio" id="Besonderheiten" name="target_form" value="Besonderheiten" onclick="changeIframeSrc('subform1', 'edit_sammlung_lookups.php?SammlungID=<?php echo $sammlung->ID; ?>');">
           <label for="Besonderheiten">Besonderheiten</label><br>
+          
       <input type="radio" id="Links" name="target_form" value="Links" onclick="changeIframeSrc('subform1', 'edit_sammlung_links.php?SammlungID=<?php echo $sammlung->ID; ?>');">
           <label for="Links">Links</label>
 
@@ -169,7 +172,7 @@ echo '
     </td>
     <td class="form-edit form-edit-col2">
 
-      <iframe src="edit_sammlung_standorte.php?SammlungID=<?php echo $sammlung->ID; ?>" height="450" name="subform1" id="subform1" class="form-iframe-var2"></iframe>
+      <iframe src="edit_sammlung_musikstuecke.php?SammlungID=<?php echo $sammlung->ID; ?>" height="450" name="subform1" id="subform1" class="form-iframe-var2"></iframe>
     </td>
   </tr> 
 
