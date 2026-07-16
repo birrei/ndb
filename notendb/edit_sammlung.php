@@ -74,7 +74,7 @@ $info->print_link_insert($sammlung->table_name, $sammlung->Title, false);
 
 if (!$show_data) {goto pagefoot;}
 
-echo '&nbsp; <a href="print_sammlung.php?ID='.$sammlung->ID.'" target="_blank">Drucken</a> (Entwurf, Beta)'; // XXXBETA
+// echo '&nbsp; <a href="print_sammlung.php?ID='.$sammlung->ID.'" target="_blank">Drucken</a> (Entwurf, Beta)'; // XXXX ? wie damit weiter? 
 
 echo '
 <form action="edit_sammlung.php" method="post">
