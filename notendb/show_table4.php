@@ -13,6 +13,7 @@ $ansicht='';
 $PageTitle=''; 
 $fehlertext=''; 
 $show_help_link=true; 
+$add_link_show = false; 
 
 if (isset($_REQUEST["ansicht"])) {
   $ansicht=$_REQUEST["ansicht"]; 
@@ -62,6 +63,9 @@ switch ($ansicht) // $PageTitle, $table_edit
     
   case 'besetzungen'; 
     $PageTitle='Übersicht Besetzungen';  
+    break; 
+  case 'status'; 
+    $PageTitle='Übersicht Status-Ausprägungen';  
     break; 
 
   case 'gattungen'; 
@@ -139,7 +143,13 @@ switch ($ansicht) // $PageTitle, $table_edit
     $PageTitle='Sätze ohne Schwierigkeitsgrad';   
     $show_help_link=false; 
     break; 
-
+  case 'abfragetypen'; 
+    $PageTitle='Übersicht Abfragetypen';  
+    break; 
+  case 'abfragen'; 
+    $PageTitle='Übersicht Gespeicherte Abfragen';  
+    $add_link_show = true;     
+    break; 
 }
 
 include_once('head.php'); 
@@ -937,7 +947,18 @@ switch ($ansicht)  // setzen: $PageTitle, $table_edit, $show_help_link
 
     break;      
 
-  case 'status': // XXXX 
+  case 'status':  
+
+    $table_edit='status'; 
+
+    $query="SELECT ID, Name 
+            FROM status         
+            WHERE 1=1 
+            "; 
+    $query.="ORDER BY status.Name "; 
+
+    echo '<p><a href="edit_'.$table_edit.'.php?option=insert" target="_blank">Neu erfassen</a></p>';
+
     break;  
 
   case 'uebungstypen': 
@@ -970,10 +991,70 @@ switch ($ansicht)  // setzen: $PageTitle, $table_edit, $show_help_link
     break;  
 
 
-  case 'abfragetypen': // XXXX 
+  case 'abfragetypen': 
+
+    $table_edit='abfragetyp'; 
+
+    $query="SELECT ID, Name 
+            FROM abfragetyp           
+            WHERE 1=1 
+            "; 
+    $query.="ORDER BY abfragetyp.Name "; 
+
+    echo '<p><a href="edit_'.$table_edit.'.php?option=insert" target="_blank">Neu erfassen</a></p>';
+
     break;  
 
+  case 'abfragen':  
 
+    include_once("classes/class.abfragetyp.php");
+
+    $table_edit='abfrage'; 
+    $add_link_edit=true; 
+ 
+    $AbfragetypID=(isset($_REQUEST["AbfragetypID"])?$_REQUEST["AbfragetypID"]:'');     
+    $Suchtext=(isset($_REQUEST["Suchtext"])?$_REQUEST["Suchtext"]:'');   
+
+    echo '<form action="" method="get">'.PHP_EOL;       
+
+    $abfragetyp = new Abfragetyp(); 
+    echo 'Abfrage-Typ: '.PHP_EOL; 
+    $abfragetyp->print_preselect($AbfragetypID); 
+
+
+    echo ' &#9475;';            
+    echo ' Suchtext: <input type="text" id="Suchtext" name="Suchtext" size="30px" value="'.$Suchtext.'"> '; 
+
+    echo '<input type="submit" class="btnSave" name="senden" value="Suchen">';
+    echo '<input type="hidden" name="ansicht" value="'.$ansicht.'">'; 
+    echo '</form>';           
+
+    $query="SELECT abfrage.ID
+            , abfrage.Name
+            , abfrage.Beschreibung
+            , abfragetyp.Name as Abfragetyp
+            -- , abfragetyp.ID as AbfragetypID
+          FROM abfrage 
+              LEFT JOIN 
+              abfragetyp on abfrage.AbfragetypID = abfragetyp.ID 
+          WHERE 1=1 ";  
+
+    if ($AbfragetypID!='') {
+      $query.="AND abfrage.AbfragetypID=".$AbfragetypID." ".PHP_EOL;  
+    }
+  
+
+    if($Suchtext!='') {
+      $query.="AND ( abfrage.Name LIKE '%".$Suchtext."%' 
+                     OR abfrage.Beschreibung LIKE '%".$Suchtext."%' 
+                    ) "; 
+    }     
+
+    $query.="ORDER BY abfrage.Name "; 
+
+    echo '<p><a href="edit_'.$table_edit.'.php?option=insert" target="_blank">Neu erfassen</a></p>';
+
+    break;  
 
   case 'lookuptypes': 
     include_once("classes/class.relation.php");    
@@ -1415,6 +1496,7 @@ try {
   $html->add_link_edit= $add_link_edit; 
   $html->edit_link_table=$table_edit; 
   $html->edit_link_open_newpage = true; 
+  $html->add_link_show=$add_link_show;   
   $html->show_row_count=true; 
   $html->print_table2(); 
 }

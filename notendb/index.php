@@ -49,8 +49,8 @@ a:hover {
       <a href="show_table4.php?ansicht=uebungstypen">Übung Typen</a>, 
       <a href="show_table4.php?ansicht=bewertungen">Bewertungen</a>, 
       <a href="show_table4.php?ansicht=kalender">Kalender</a>, 
-      <a href="show_table4.php?ansicht=schuljahre">Schuljahre</a> (inkl. Ferien + Feiertage), 
-      <a href="show_table4.php?ansicht=schueler-kalender-vorlage">Schüler-Kalender Vorlage</a> (BETA)<br>
+      <a href="show_table4.php?ansicht=schuljahre">Schuljahre</a> (inkl. Ferien + Feiertage) 
+      <!-- <a href="show_table4.php?ansicht=schueler-kalender-vorlage">Schüler-Kalender Vorlage</a> (BETA)<br> -->
 
     <hr>
     <b>Zu Sammlungen:</b> 
@@ -76,8 +76,7 @@ a:hover {
        <b>Übergreifend: </b>  
       <a href="show_table4.php?ansicht=besonderheiten">Besonderheiten</a>, 
       <a href="show_table4.php?ansicht=lookuptypes">Besonderheit-Typen</a>, 
-      <a href="show_table2.php?table=v_status&sortcol=Name">Status Ausprägungen</a> <i>(Status Schüler Satz/Noten-Zuordnung)</i>, 
-      <!-- <a href="show_table2.php?table=v_abfragetyp&sortcol=Name">Abfrage-Typen</a> <br> -->
+      <a href="show_table4.php?ansicht=status">Status-Ausprägungen</a> 
   </td>
 </tr>
 
@@ -102,8 +101,14 @@ a:hover {
 
 <tr> <td class="start"> <h3>Sonst</h3> </td>
   <td class="start">
-    <a href="updates.php">Sammel-Updates</a> <br>   
+    <a href="updates.php">Sammel-Updates</a> 
+  </td>
+</tr>
 
+<tr> <td class="start"> <h3>Admin</h3> </td>
+  <td class="start">
+      <a href="show_table4.php?ansicht=abfragetypen">Abfragetypen</a><br> 
+      <a href="show_table4.php?ansicht=abfragen">Gespeicherte Abfragen</a><br> 
 
   </td>
 </tr>

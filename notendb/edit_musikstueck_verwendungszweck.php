@@ -21,8 +21,7 @@ $info=new HTML_Info();
 </td>  
   <td class="eingabe2 eingabe2_3">
     <?php      
-      // $info->option_linktext=1; 
-      $info->print_link_table('verwendungszweck','sortcol=Name','Verwendungszwecke',true,'');       
+      $info->print_link_table2('verwendungszwecke',true);       
     ?>
   </td>    
 </tr>

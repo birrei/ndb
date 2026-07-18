@@ -60,7 +60,7 @@ switch($option) {
 }
 
 $info->print_screen_header($status->Title.' bearbeiten'); 
-$info->print_link_table('status', 'sortcol=Name', $status->Titles,false);
+$info->print_link_table2('status', true);
 
 if (!$show_data) {goto pagefoot;}
 

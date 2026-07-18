@@ -182,7 +182,7 @@ echo '
 echo ' </label>  
       '; 
       $info->print_link_edit($typ->table_name, $uebung->UebungtypID,$typ->Title, true); 
-      $info->print_link_table($typ->table_name,'sortcol=Name',$typ->Titles,true,'');    
+      $info->print_link_table2('uebungstypen',true); 
 echo '</td>
     </tr>'; 
 

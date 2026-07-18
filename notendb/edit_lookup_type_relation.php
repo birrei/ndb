@@ -24,7 +24,7 @@ $LookuptypeID=$_GET["LookuptypeID"];
 </td>  
   <td class="eingabe2 eingabe2_3">
     <?php      
-      // XXXX (nocht nicht vorhanden) $info->print_link_table('Relation','sortcol=Name','Relationen',true,'');       
+      // XXXX (nocht nicht vorhanden) $info->print_link_table2('Relation','sortcol=Name','Relationen',true,'');       
     ?>
   </td>    
 </tr>

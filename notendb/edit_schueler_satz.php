@@ -120,7 +120,8 @@ include_once('head_raw.php');
       $status ->print_select($StatusID);       
 
       $html->print_link_edit($status->table_name,$StatusID,true);         
-      $html->print_link_table($status->table_name,'sortcol=Name',$status->Titles,true,'');    
+              $html->print_link_table2('status', true); 
+  
       $html->print_link_insert($status->table_name,$status->Title,true);
     ?>
   </td>

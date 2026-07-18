@@ -76,7 +76,8 @@ if (!$show_data) {goto pagefoot;}
   <td class="eingabe2 eingabe2_3">
     <?php 
       // $info->option_linktext=1; 
-      $info->print_link_table('erprobt','sortcol=Name','Erprobt-Attribute',true,'');  
+      $html->print_link_table2('erprobt', true);    
+
     ?>
   </td>    
 </tr>

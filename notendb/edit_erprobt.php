@@ -48,7 +48,7 @@ switch($option) {
 }
 
 $info->print_screen_header($erprobt->Title.' bearbeiten'); 
-$info->print_link_table($erprobt->table_name, 'sortcol=Name', $erprobt->Titles); 
+$info->print_link_table2('erprobt', true); 
 
 if (!$show_data) {goto pagefoot;}
 

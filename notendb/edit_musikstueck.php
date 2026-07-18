@@ -131,9 +131,7 @@ echo '</tr></label>
   echo ' </label>  &nbsp;
       '; 
       $info->print_link_edit($materialtypen->table_name, $musikstueck->MaterialtypID,$materialtypen->Title, true); 
-      $info->print_link_table($materialtypen->table_name,'sortcol=Name',$materialtypen->Titles,true,'');    
-      // $info->print_link_insert($materialtypen->table_name,$materialtypen->Title,true); 
-
+      $info->print_link_table2('materialtypen', true);    
 
 echo '</td>
   </tr> 
@@ -148,7 +146,7 @@ echo '</td>
   echo  ' </label> &nbsp; '; 
   
   $info->print_link_edit($komponisten->table_name, $musikstueck->KomponistID, $komponisten->Title, true); 
-  $info->print_link_table($komponisten->table_name,'sortcol=Nachname,Vorname',$komponisten->Titles,true,'');    
+  $info->print_link_table2('komponisten',true);    
   $info->print_link_insert($komponisten->table_name,$komponisten->Title,true); 
 
 
@@ -180,7 +178,7 @@ echo '
       echo  ' </label>  &nbsp; ';
       
       $info->print_link_edit($epochen->table_name, $musikstueck->EpocheID, $epochen->Title, true); 
-      $info->print_link_table($epochen->table_name,'sortcol=Name',$epochen->Titles,true,'');    
+      $info->print_link_table2('epochen', true);    
       $info->print_link_insert($epochen->table_name,$epochen->Title,true); 
     
       echo '
@@ -198,7 +196,7 @@ echo '
     echo  '  </label>&nbsp; '; 
     
     $info->print_link_edit($gattungen->table_name, $musikstueck->GattungID, $gattungen->Title, true); 
-    $info->print_link_table($gattungen->table_name,'sortcol=Name',$gattungen->Titles,true,'');    
+    $info->print_link_table2('gattungen', true);    
     $info->print_link_insert($gattungen->table_name,$gattungen->Title,true); 
       
     echo '

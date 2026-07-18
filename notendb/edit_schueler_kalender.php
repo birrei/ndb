@@ -106,7 +106,6 @@ case 'insert':
 }
 
 $info->print_screen_header($uebungstag->Title.' bearbeiten'); 
-// $info->print_link_table($uebungstag->table_name, 'sortcol=Name', $uebungstag->Titles); 
 
 
 if (!$show_data) {goto pagefoot;}

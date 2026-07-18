@@ -21,8 +21,7 @@ $info = new HTML_Info();
   </td>  
   <td class="eingabe2 eingabe2_3">
       <?php
-            // $info->option_linktext=1; 
-            $info->print_link_table('instrument','sortcol=Name','Instrumente',true,''); 
+            $html->print_link_table2('instrumente', true); 
       ?>
   </td>    
 </tr>
@@ -38,7 +37,8 @@ $info = new HTML_Info();
   </td>  
   <td class="eingabe2 eingabe2_3">
       <?php
-       $info->print_link_table('schwierigkeitsgrad','sortcol=Name','Schwierigkeitsgrade',true,''); 
+       $info->print_link_table2('schwierigkeitsgrade',true); 
+       
       ?>
   </td>    
 </tr>

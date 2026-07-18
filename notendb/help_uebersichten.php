@@ -172,7 +172,29 @@ include_once('head.php');
                 <li>ID</li>
                 <li>Name</li>
             </ul>  
+    <h2 class="chapter-title chapter-title-h1" id="uebersichten_status">Übersicht Status-Ausprägungen</h2>
+            <p>Spalten: </p>
+            <ul>       
+                <li>ID</li>
+                <li>Name</li>
+            </ul> 
 
+    <h2 class="chapter-title chapter-title-h1" id="uebersichten_abfragetypen">Übersicht Abfrage-Typen</h2>
+            <p>Spalten: </p>
+            <ul>       
+                <li>ID</li>
+                <li>Name</li>
+            </ul>  
+    <h2 class="chapter-title chapter-title-h1" id="uebersichten_abfragen">Übersicht Abfragen</h2>
+            <p>Spalten: </p>
+            <ul>       
+                <li>ID</li>
+                <li>Name</li>
+                <li>Beschreibung</li>
+                <li>Abfragetyp</li>
+            </ul>  
+            <p>Filter: Abfragetyp </p>
+            
 	<h2 class="chapter-title chapter-title-h1" id="uebersichten_verwendungszwecke">Übersicht Verwendungszwecke</h2>
 
         <p>Spalten: </p>

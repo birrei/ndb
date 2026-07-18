@@ -59,7 +59,7 @@ $info->print_screen_header($abfrage->Title.' bearbeiten');
 
 echo '<a href="show_abfrage.php?ID='.$abfrage->ID.'&title=Abfrage&Name='.$abfrage->Name.'" class="form-link">Ergebnis anzeigen</a>'; 
 $info->print_link_edit2($abfrage->table_name, $abfrage->ID,'Abfrage-Text',false);  
-$info->print_link_table('v_abfrage', 'sortcol=Name&add_link_show&show_filter', $abfrage->Titles,false);
+$info->print_link_table2('abfragen', true);
 echo '</p>
 <form action="edit_abfrage.php" method="post">
 <table class="form-edit" width="100%"> 
@@ -83,7 +83,7 @@ echo '</p>
       '; 
 
   $info->print_link_edit($abfragtypen->table_name, $abfrage->AbfragetypID,$abfragtypen->Title, true); 
-  $info->print_link_table($abfragtypen->table_name,'sortcol=Name',$abfragtypen->Titles,true,'');    
+  $info->print_link_table2('abfragetypen', true);    
   $info->print_link_insert($abfragtypen->table_name,$abfragtypen->Title,true); 
 
 echo '

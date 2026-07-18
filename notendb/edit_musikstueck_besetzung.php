@@ -22,8 +22,7 @@ $info=new HTML_Info();
 </td>  
   <td class="eingabe2 eingabe2_3">
     <?php      
-      // $info->option_linktext=1; 
-      $info->print_link_table('besetzung','sortcol=Name','Besetzungen',true,'');       
+      $info->print_link_table2('besetzungen',true);       
     ?>
   </td>    
 </tr>
@@ -33,7 +32,6 @@ $info=new HTML_Info();
   <td class="eingabe2 eingabe2_2"> <input class="btnSave" type="submit" value="Speichern"></td>  
   <td class="eingabe2 eingabe2_3">
     <?php 
-      // $info->option_linktext=1; 
       $info->print_link_insert('besetzung','Besetzung', true);  
       ?>
   </td>    

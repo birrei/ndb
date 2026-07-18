@@ -73,7 +73,7 @@ if (!$show_data) {goto pagefoot;}
       ?>
       <?php
       $info->print_link_edit($linktyp->table_name, $link->LinktypeID, $linktyp->Title, true); 
-      $info->print_link_table($linktyp->table_name,'sortcol=Name',$linktyp->Titles,true,'');    
+      $info->print_link_table2('linktypen');    
       ?>
       </td>
    </label>

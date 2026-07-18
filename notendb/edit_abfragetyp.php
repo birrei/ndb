@@ -4,11 +4,9 @@ $PageTitle='Abfragetyp';
 include_once('head.php');
 include_once("classes/class.abfragetyp.php");
 include_once("classes/class.htmlinfo.php");
-include_once('dictionary.php');
+// include_once('dictionary.php');
 
-$objekt=$objekte["v_abfragetyp"]; // dictionary 
-$abfragetyp = new Abfragetyp($objekt);
-
+$abfragetyp = new Abfragetyp();
 $info= new HTML_Info(); 
 
 $show_data=true; 
@@ -50,7 +48,7 @@ switch($option) {
 }
 
 $info->print_screen_header($abfragetyp->Title.' bearbeiten'); 
-$info->print_link_table($abfragetyp->table_name, 'sortcol=Name', $abfragetyp->Titles); 
+$info->print_link_table2('abfragetypen', true); 
 
 if (!$show_data) {goto pagefoot;}
   

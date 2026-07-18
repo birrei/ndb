@@ -38,9 +38,7 @@ if (isset($_REQUEST["option"])) {
 }
 
 $info->print_screen_header($abfrage->Title.'-Text bearbeiten'); 
-// $info->print_link_table('v_abfrage', 'sortcol=Name', $abfrage->Titles,true); 
-// echo '<a href="show_table2.php?table=v_abfrage&sortcol=ID&sortorder=DESC&title=Abfragen&add_link_show" target="_blank">Übersicht Abfragen</a>'; 
-$info->print_link_table('v_abfrage', 'sortcol=Name&add_link_show&show_filter', $abfrage->Titles,true);
+$info->print_link_table2('abfragen',true);
 
 if ($show_data) {
 

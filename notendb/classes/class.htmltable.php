@@ -260,48 +260,7 @@ class HTML_Table {
         }
     }
 
-    
-//     function print_table_tablelist() {
-//         /* 
-//         Verwendung in list_tables.php
-//         einspaltige Tabelle mit Objekt-Namen, die als Link ausgegeben werden  
-//         */
- 
-//         $html = '';
-
-//         if ($this->count_cols > 0 & $this->count_rows > 0)
-//         {
-//             $html = '<table>';
-//             // header 
-//             $html .= '<thead>';
-//             $html .= '<tr>'. PHP_EOL;
-//             for($i = 0; $i < $this->count_cols; ++$i) {
-//                 $colmeta=$this->stmt->getColumnMeta($i); // assoz. array 
-//                 $html .= '<th>'.$colmeta['name'].'</th>';    
-//             }
-       
-//             $html .=  '</tr>'. PHP_EOL;
-//             $html .= '</thead>';
-//             // zeilen  
-//             if  ($this->count_rows > 0) {
-//                 foreach ($this->result as $row) {
-//                     $html .= '<tr>'. PHP_EOL;
-//                     foreach ($row as $key=>$cell){
-//                         // echo $key; 
-//                         $html .= '<td><a href="show_table2.php?table='.$cell.'">'.$cell.'</a></td>';                        
-
-//                     }
-                    
-//                     $html .= '</tr>'. PHP_EOL;
-//                 } 
-//             }
-//             $html .= '</table>'; 
-//         }
-//         else {
-//            $html .= '<p>Keine Daten vorhanden.</p> '; 
-//         }
-//         echo $html;
-//     }
+   
 
 
  }

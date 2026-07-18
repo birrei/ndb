@@ -14,11 +14,6 @@ class HTML_Info {
 
     /* Standard-Verlinkungen */
 
-
-    function print_link_table($target_table, $sortinfo, $target_title, $show_newtab=false, $additional_params='', $suffix='') {
-        echo '<a href="show_table2.php?table='.$target_table.'&'.$sortinfo.'&title='.$target_title.($additional_params!=''?$additional_params:'').'"'.($show_newtab?' target="_blank"':'').' tabindex="-1" class="form-link">Daten anzeigen</a>'.($suffix!=''?$suffix:'').($this->use_paragraph?'</p>':'');
-    }
-
     function print_link_table2($Ansicht, $show_newtab=false, $additional_params='', $suffix='') {
         echo '<a href="show_table4.php?ansicht='.$Ansicht.'" '.($show_newtab?' target="_blank"':'').' tabindex="-1" class="form-link">Daten anzeigen</a>'.($suffix!=''?$suffix:'').($this->use_paragraph?'</p>':'');
     }

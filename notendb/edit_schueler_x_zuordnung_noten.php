@@ -102,8 +102,7 @@ echo '<div style="float:left">
 
 echo 'Status: '; 
 $status->print_select($StatusID, '', true, false);   
-// $html->print_link_edit($status->table_name,$StatusID,true);         
-$info->print_link_table($status->table_name,'sortcol=Name',$status->Titles,true,'');    
+$info->print_link_table2('status',true);    
 
 echo '<br><br>';   
 
