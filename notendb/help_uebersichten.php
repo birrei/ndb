@@ -115,7 +115,8 @@ include_once('head.php');
             <br> Einfügen einer neuen Übung für den im Filter ausgewählten Schüler.
             <br> Falls im Filter ein Datum ausgewählt ist, wird dieses Datum als Vorgabe für die neue Übung übernommen. 
                 </p>
-	<h2 class="chapter-title chapter-title-h1" id="uebersichten_uebungstage">Übersicht Übungstage</h2>
+	
+                <h2 class="chapter-title chapter-title-h1" id="uebersichten_uebungstage">Übersicht Übungstage</h2>
 
         <p>Spalten: </p>
         <ul>
@@ -154,6 +155,18 @@ include_once('head.php');
             <br> Einfügen einer neuen Übung für den im Filter ausgewählten Schüler.</p>
                                 
     <h2 class="chapter-title chapter-title-h1" id="uebersichten_bewertungen">Übersicht Bewertungen</h2>
+            <p>Spalten: </p>
+            <ul>       
+                <li>ID</li>
+                <li>Name</li>
+            </ul>  
+    <h2 class="chapter-title chapter-title-h1" id="uebersichten_uebungstypen">Übersicht Übungstypen</h2>
+            <p>Spalten: </p>
+            <ul>       
+                <li>ID</li>
+                <li>Name</li>
+            </ul>  
+    <h2 class="chapter-title chapter-title-h1" id="uebersichten_linktypen">Übersicht Linktypen</h2>
             <p>Spalten: </p>
             <ul>       
                 <li>ID</li>
@@ -208,7 +221,7 @@ include_once('head.php');
                 <li>ID</li>
                 <li>Name</li>
             </ul>
-            
+
     <h2 class="chapter-title chapter-title-h1" id="uebersichten_epochen">Übersicht Epochen</h2>
 
         <p>Spalten: </p>
@@ -227,6 +240,7 @@ include_once('head.php');
             
     <h2 class="chapter-title chapter-title-h1" id="uebersichten_komponisten">Übersicht Komponisten</h2>
 
+
         <p>Spalten: </p>
             <ul>       
                 <li>ID</li>
@@ -243,7 +257,31 @@ include_once('head.php');
             <ul>
                 <li>Suchtext (Suche in Vorname, Nachname, Geburtsjahr, Sterbejahr)</li>
             </ul> 
+    <h2 class="chapter-title chapter-title-h1" id="uebersichten_schwierigkeitsgrade">Übersicht Schwierigkeitsgrade</h2>
 
+        <p>Spalten: </p>
+            <ul>       
+                <li>ID</li>
+                <li>Name</li>
+            </ul>
+                        
+    <h2 class="chapter-title chapter-title-h1" id="uebersichten_instrumente">Übersicht Instrumente</h2>
+
+        <p>Spalten: </p>
+            <ul>       
+                <li>ID</li>
+                <li>Name</li>
+            </ul>
+                        
+    <h2 class="chapter-title chapter-title-h1" id="uebersichten_erprobt">Übersicht Erprobt</h2>
+
+        <p>Spalten: </p>
+            <ul>       
+                <li>ID</li>
+                <li>Name</li>
+            </ul>
+                        
+        
     <h2 class="chapter-title chapter-title-h1" id="uebersichten_kalender">Übersicht Kalender</h2>
             <p>Spalten: </p>
             <ul>       
@@ -268,6 +306,8 @@ include_once('head.php');
             </ul>  
 
 
+
+ 
     <h2 class="chapter-title chapter-title-h1" id="uebersichten_schueler-kalender-vorlage">Vorlage Übungstage ("Schüler Plan-Kalender")</h2>
         <p>
             Die Übersicht dient der - optionalen - Kontrolle vor dem XXXX Einlesen der Schüler-spezifischen Übungstage. 

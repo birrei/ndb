@@ -36,11 +36,9 @@ a:hover {
     <td class="start">
       <a href="show_table4.php?ansicht=sammlungen">Übersicht Sammlungen</a><br>
       <a href="show_table4.php?ansicht=schueler">Übersicht Schüler</a><br>
-      <!-- <a href="show_table4.php?ansicht=uebungen&Datum=<?php echo date('Y-m-d');  ?>">Übersicht Übungen</a> -->
       <a href="show_table4.php?ansicht=uebungen">Übersicht Übungen</a><br>
       <a href="show_table4.php?ansicht=uebungstage">Übersicht Übungstage</a>
       <br>
-      <!-- <a href="show_table2.php?table=v_uebung&sortcol=ID&sortorder=DESC">Übungen</a> <br>  Übersicht nicht verwenden, Übungen werden über Schüler-Formular verwaltet   -->
   </td>
 </tr>
 
@@ -48,30 +46,31 @@ a:hover {
   <td class="start"> <h3>Stammdaten</h3></td>
   <td class="start">
     <b>Zu Übungen:</b> 
-    <a href="show_table2.php?table=v_uebungtyp&sortcol=Name">Übung Typen</a>, 
-    <a href="show_table4.php?ansicht=bewertungen">Bewertungen</a>, 
-
+      <a href="show_table4.php?ansicht=uebungstypen">Übung Typen</a>, 
+      <a href="show_table4.php?ansicht=bewertungen">Bewertungen</a>, 
       <a href="show_table4.php?ansicht=kalender">Kalender</a>, 
       <a href="show_table4.php?ansicht=schuljahre">Schuljahre</a> (inkl. Ferien + Feiertage), 
       <a href="show_table4.php?ansicht=schueler-kalender-vorlage">Schüler-Kalender Vorlage</a> (BETA)<br>
 
     <hr>
-    <b>Zu Sammlungen:</b> <a href="show_table4.php?ansicht=standorte">Standorte</a>, 
-    <a href="show_table4.php?ansicht=verlage">Verlage</a>, 
-    <a href="show_table2.php?table=v_linktype&sortcol=Name">Link-Typen</a> <br>
+    <b>Zu Sammlungen:</b> 
+      <a href="show_table4.php?ansicht=standorte">Standorte</a>, 
+      <a href="show_table4.php?ansicht=verlage">Verlage</a>, 
+      <a href="show_table4.php?ansicht=linktypen">Link-Typen</a>
     <hr> 
-        <b>Zu Musikstücken:</b> 
-        <a href="show_table4.php?ansicht=komponisten">Komponisten</a>, 
-        <a href="show_table4.php?ansicht=besetzungen">Besetzungen</a>, 
-        <a href="show_table4.php?ansicht=verwendungszwecke">Verwendungszwecke</a>, 
-        <a href="show_table4.php?ansicht=gattungen">Gattungen</a>, 
-        <a href="show_table4.php?ansicht=epochen">Epochen</a>, 
-        <a href="show_table4.php?ansicht=materialtypen">Material-Typen</a>
-        <hr> 
+    <b>Zu Musikstücken:</b> 
+      <a href="show_table4.php?ansicht=komponisten">Komponisten</a>, 
+      <a href="show_table4.php?ansicht=besetzungen">Besetzungen</a>, 
+      <a href="show_table4.php?ansicht=verwendungszwecke">Verwendungszwecke</a>, 
+      <a href="show_table4.php?ansicht=gattungen">Gattungen</a>, 
+      <a href="show_table4.php?ansicht=epochen">Epochen</a>, 
+      <a href="show_table4.php?ansicht=materialtypen">Material-Typen</a>
+      <hr> 
 
-    <b>Zu Sätzen: </b><a href="show_table2.php?table=v_schwierigkeitsgrad&sortcol=Name">Schwierigkeitsgrade</a>, 
-    <a href="show_table2.php?table=v_instrument&sortcol=Name">Instrumente</a>, 
-    <a href="show_table2.php?table=v_erprobt&sortcol=Name">Erprobt-Eigenschaften</a> <br>
+    <b>Zu Sätzen: </b>
+        <a href="show_table4.php?ansicht=schwierigkeitsgrade">Schwierigkeitsgrade</a>, 
+        <a href="show_table4.php?ansicht=instrumente">Instrumente</a>, 
+        <a href="show_table4.php?ansicht=erprobt">Erprobt</a>, 
 
     <hr> 
        <b>Übergreifend: </b>  

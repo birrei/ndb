@@ -46,7 +46,7 @@ switch($option) {
 }
 
 $info->print_screen_header($schwierigkeitsgrad->Title.' bearbeiten'); 
-$info->print_link_table($schwierigkeitsgrad->table_name, 'sortcol=Name', $schwierigkeitsgrad->Titles); 
+$info->print_link_table2('schwierigkeitsgrade', true); 
 
 if (!$show_data) {goto pagefoot;}
 

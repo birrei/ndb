@@ -49,6 +49,9 @@ switch ($ansicht) // $PageTitle, $table_edit
     $PageTitle='Übersicht Standorte';  
     $table_edit='standort';     
     break; 
+  case 'linktypen'; 
+    $PageTitle='Übersicht Linktypen';  
+    break; 
   case 'verlage'; 
     $PageTitle='Übersicht Verlage';  
     $table_edit='verlag';     
@@ -73,6 +76,17 @@ switch ($ansicht) // $PageTitle, $table_edit
     $PageTitle='Übersicht Materialtypen';  
     break; 
 
+  case 'schwierigkeitsgrade'; 
+    $PageTitle='Übersicht Schwierigkeitsgrade';  
+    break; 
+
+  case 'instrumente'; 
+    $PageTitle='Übersicht Instrumente';  
+    break; 
+  case 'erprobt'; 
+    $PageTitle='Übersicht Erprobt';  
+    break; 
+
   case 'kalender'; 
     $PageTitle='Kalender';  
     $table_edit='kalender';     
@@ -90,8 +104,13 @@ switch ($ansicht) // $PageTitle, $table_edit
     $PageTitle='Vorlage Übungstage (Schüler Plan-Kalender) ';   
     break; 
   case 'bewertungen'; 
-    $PageTitle='Bewertungen';   
+    $PageTitle='Übersicht Bewertungen';   
     break; 
+
+  case 'uebungstypen'; 
+    $PageTitle='Übersicht Übungstypen';   
+    break; 
+
   case 'info-alle-spieldauern'; 
     $PageTitle='Verwendete Spieldauern';   
     $show_help_link=false; 
@@ -720,7 +739,7 @@ switch ($ansicht)  // setzen: $PageTitle, $table_edit, $show_help_link
 
     break;   
 
-  case 'komponisten': // 
+  case 'komponisten':  
     $table_edit='komponist'; 
 
     $Suchtext=(isset($_REQUEST["Suchtext"])?$_REQUEST["Suchtext"]:'');   
@@ -762,7 +781,7 @@ switch ($ansicht)  // setzen: $PageTitle, $table_edit, $show_help_link
 
     break;  
 
-  case 'besetzungen': // XXXX 
+  case 'besetzungen': 
 
     $table_edit='besetzung'; 
 
@@ -791,7 +810,7 @@ switch ($ansicht)  // setzen: $PageTitle, $table_edit, $show_help_link
 
     break;  
 
-  case 'gattungen': // XXXX 
+  case 'gattungen':  
 
     $table_edit='gattung'; 
 
@@ -819,7 +838,7 @@ switch ($ansicht)  // setzen: $PageTitle, $table_edit, $show_help_link
 
     break;  
 
-  case 'epochen': // XXXX 
+  case 'epochen':  
 
     $table_edit='epoche'; 
 
@@ -847,7 +866,7 @@ switch ($ansicht)  // setzen: $PageTitle, $table_edit, $show_help_link
 
     break;  
 
-  case 'materialtypen': // XXXX 
+  case 'materialtypen': 
 
     $table_edit='materialtyp'; 
 
@@ -876,28 +895,82 @@ switch ($ansicht)  // setzen: $PageTitle, $table_edit, $show_help_link
     break;  
 
 
-  case 'Schwierigkeitsgrade': // XXXX 
+  case 'schwierigkeitsgrade': 
+
+    $table_edit='schwierigkeitsgrad'; 
+
+    $query="SELECT ID, Name 
+            FROM schwierigkeitsgrad       
+            WHERE 1=1 
+            "; 
+    $query.="ORDER BY schwierigkeitsgrad.Name "; 
+
+    echo '<p><a href="edit_'.$table_edit.'.php?option=insert" target="_blank">Neu erfassen</a></p>';
+
+    break;  
+
+  case 'instrumente': 
+
+    $table_edit='instrument'; 
+
+    $query="SELECT ID, Name 
+            FROM instrument       
+            WHERE 1=1 
+            "; 
+    $query.="ORDER BY instrument.Name "; 
+
+    echo '<p><a href="edit_'.$table_edit.'.php?option=insert" target="_blank">Neu erfassen</a></p>';
+
+    break;  
+
+  case 'erprobt': 
+
+    $table_edit='erprobt'; 
+
+    $query="SELECT ID, Name 
+            FROM erprobt        
+            WHERE 1=1 
+            "; 
+    $query.="ORDER BY erprobt.Name "; 
+
+    echo '<p><a href="edit_'.$table_edit.'.php?option=insert" target="_blank">Neu erfassen</a></p>';
+
+    break;      
+
+  case 'status': // XXXX 
+    break;  
+
+  case 'uebungstypen': 
+
+    $table_edit='uebungtyp'; 
+
+    $query="SELECT ID, Name, Einheit  
+            FROM uebungtyp         
+            WHERE 1=1 
+            "; 
+    $query.="ORDER BY uebungtyp.Name "; 
+
+    echo '<p><a href="edit_'.$table_edit.'.php?option=insert" target="_blank">Neu erfassen</a></p>';
+
     break;  
 
 
-  case 'Instrumente': // XXXX 
+  case 'linktypen': 
+
+    $table_edit='linktype'; 
+
+    $query="SELECT ID, Name 
+            FROM linktype          
+            WHERE 1=1 
+            "; 
+    $query.="ORDER BY linktype.Name "; 
+
+    echo '<p><a href="edit_'.$table_edit.'.php?option=insert" target="_blank">Neu erfassen</a></p>';
+
     break;  
 
-  case 'Erprobt': // XXXX 
-    break;  
 
-  case 'Status': // XXXX 
-    break;  
-
-  case 'UebungTypen': // XXXX 
-    break;  
-
-
-  case 'LinkTypen': // XXXX 
-    break;  
-
-
-  case 'AbfrageTypen': // XXXX 
+  case 'abfragetypen': // XXXX 
     break;  
 
 

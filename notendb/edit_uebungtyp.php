@@ -47,16 +47,10 @@ switch($option) {
     $show_data=false;       
 }
 
-
 $info->print_screen_header($uebungtyp->Title.' bearbeiten'); 
-
-$info->print_link_table('uebungtyp', 'sortcol=Name', $uebungtyp->Titles,false);
-
-// $info->print_form_inline('copy',$uebungtyp->ID,$uebungtyp->Title, 'kopieren'); 
-
+$info->print_link_table2('uebungstypen', true);
 
 if (!$show_data) {goto pagefoot;}
-
 
 echo '</p>
 <form action="edit_uebungtyp.php" method="post">

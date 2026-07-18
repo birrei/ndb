@@ -48,31 +48,8 @@ switch($option) {
 }
 
 
-
-// if (isset($_REQUEST["option"])) {
-//   switch($_REQUEST["option"]) {
-//     case 'edit': // über "Bearbeiten"-Link
-//       $instrument->ID=$_GET["ID"];
-//       if ($instrument->load_row()) {
-//         $show_data=true;       
-//       }
-//       break; 
-
-//     case 'insert': 
-//       $instrument->insert_row('');
-//       $show_data=true; 
-//       break; 
-    
-//     case 'update': 
-//       $instrument->ID = $_POST["ID"];    
-//       $instrument->update_row($_POST["Name"]); 
-//       $show_data=true;           
-//       break; 
-//   }
-// }
-
 $info->print_screen_header($instrument->Title.' bearbeiten'); 
-$info->print_link_table($instrument->table_name, 'sortcol=Name', $instrument->Titles); 
+$info->print_link_table2('instrumente', true); 
 
 
 if (!$show_data) {goto pagefoot;}

@@ -48,36 +48,8 @@ switch($option) {
     $show_data=false;      
 }
 
-
-
-
-
-
-// if (isset($_REQUEST["option"])) {
-//   switch($_REQUEST["option"]) {
-//     case 'edit': // geöffnet über einen "Bearbeiten"-Link
-//       $linktype->ID=$_GET["ID"]; 
-//       if ($linktype->load_row()) {
-//         $show_data=true;       
-//       }      
-//       break; 
-
-//     case 'insert': 
-//       $linktype->insert_row(''); 
-//       $show_data=true; 
-//       break; 
-    
-//     case 'update': 
-//       $linktype->ID = $_POST["ID"];    
-//       $linktype->update_row($_POST["Name"]); 
-//       $show_data=true;          
-//       break; 
-//   }
-
-// }
-
 $info->print_screen_header($linktype->Title.' bearbeiten'); 
-$info->print_link_table($linktype->table_name, 'sortcol=Name', $linktype->Titles); 
+$info->print_link_table2('linktypen', true); 
 
 if (!$show_data) {goto pagefoot;}
 
@@ -97,7 +69,6 @@ echo '<p>
     <td class="form-edit form-edit-col2"><input type="text" name="Name" value="'.$linktype->Name.'" size="45" maxlength="80" required="required" autofocus="autofocus" oninput="changeBackgroundColor(this)"></td>
     </label>
   </tr> 
-
 
   <tr> 
     <td class="form-edit form-edit-col1"></td> 
