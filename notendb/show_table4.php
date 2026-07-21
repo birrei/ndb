@@ -7,6 +7,7 @@ include_once("classes/class.wochentage.php");
 
 $info=new HTML_Info(); 
 
+$table_edit=''; 
 $query=''; 
 $show_data=false; 
 $ansicht=''; 
@@ -1482,7 +1483,7 @@ if($query=='') {
 /******************************* */
 // echo '<pre>'.$query.'</pre>'; // Test 
 
-echo '<pre style="font-size: 11px; display: none">'.$query .'</pre>'; // Test  
+// echo '<pre style="font-size: 11px; display: none">'.$query .'</pre>'; // Test  
     
 $conn = new DBConnection(); 
 $db=$conn->db; 
