@@ -101,7 +101,8 @@ a:hover {
 
 <tr> <td class="start"> <h3>Sonst</h3> </td>
   <td class="start">
-    <a href="updates.php">Sammel-Updates</a> 
+    <a href="updates.php">Sammel-Updates</a> <br> 
+    <a href="uebungstage_einlesen.php">Übungstage einlesen</a> 
   </td>
 </tr>
 

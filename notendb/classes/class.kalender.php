@@ -8,7 +8,7 @@ include_once("class.kalendertag.php");
 
 class Kalender {
 
-  public $table_name='kalender'; 
+  private $table_name='kalender'; 
 
   public $Title='Kalender Datum';
   public $Titles='Kalender';  
@@ -149,6 +149,7 @@ class SchuelerKalender extends Kalender {
 
   public string $SchuelerID; 
   public string $SchuelerName=''; 
+  private string $table_name='schueler_kalender'; 
 
   public function date_exists(string $str_date) {
     // print_r(func_get_args()); // Test 
@@ -185,6 +186,58 @@ class SchuelerKalender extends Kalender {
     $col=$stmt->fetchColumn(); 
     return $col;  
   } 
+
+  function insert_uebungstage($SchuljahrID) {
+
+    if($SchuljahrID=='') {
+      $this->info->print_user_error('Es wurde kein Schuljahr ausgewählt!.'); 
+      return; 
+    }
+    $query="INSERT INTO schueler_kalender (SchuelerID, Datum )           
+        SELECT schueler.ID AS SchuelerID, kalender.Datum
+        FROM schueler 
+          INNER JOIN kalender 
+            ON kalender.Wochentag_Nr = schueler.Unterricht_Wochentag
+          INNER JOIN schuljahr 
+            ON kalender.Datum  BETWEEN schuljahr.Datum_Start AND schuljahr.Datum_Ende 
+          LEFT JOIN (
+            SELECT schueler_kalender.SchuelerID , schueler_kalender.Datum 
+            FROM schueler_kalender 
+            INNER JOIN schuljahr 
+            ON schueler_kalender.Datum  BETWEEN schueler_kalender.Datum  AND schueler_kalender.Datum 
+            AND schuljahr.ID = :SchuljahrID 
+          ) AS  schueler_kalender_vorhanden 
+            ON schueler.ID = schueler_kalender_vorhanden.SchuelerID 
+            AND kalender.Datum  = schueler_kalender_vorhanden.Datum 
+          LEFT JOIN ferien 
+            ON kalender.Datum BETWEEN ferien.Datum_Start AND ferien.Datum_Ende 
+            AND ferien.SchuljahrID = schuljahr.ID  
+          LEFT JOIN feiertag 
+            ON kalender.Datum = feiertag.Datum 
+            AND  feiertag.SchuljahrID = schuljahr.ID 
+          WHERE schueler.Aktiv =1  
+          AND schueler_kalender_vorhanden.Datum IS NULL -- schon vorhandene (manuelle) Einträge ausschließen 
+          AND schuljahr.ID = :SchuljahrID 
+          AND  (ferien.ID IS NULL AND feiertag.ID IS  NULL) 
+          GROUP BY kalender.Datum, schueler.ID 
+          ORDER BY schueler.ID, kalender.Datum
+          "; 
+
+
+    $insert = $this->db->prepare($query);
+    $insert->bindParam(':SchuljahrID', $SchuljahrID, PDO::PARAM_INT);
+
+    try {
+      $insert->execute(); 
+      $this->info->print_info('Es wurden '.$insert->rowCount().' Übungstage eingefügt.'); 
+    }
+      catch (PDOException $e) {
+      $this->info->print_user_error(); 
+      $this->info->print_error($insert, $e);  ; 
+    }
+  }          
+
+
 
 }  
 

@@ -560,7 +560,7 @@ switch ($ansicht)  // setzen: $PageTitle, $table_edit, $show_help_link
           , feiertag.Bezeichnung AS Feiertag 
           , schuljahr.Bezeichnung AS Schuljahr
           , schueler_kalender.ID              
-    FROM  schueler_kalender
+    FROM  schueler_kalender 
           INNER JOIN schueler 
               ON schueler.ID= schueler_kalender.SchuelerID 
           INNER JOIN 
