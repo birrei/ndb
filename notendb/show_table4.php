@@ -563,16 +563,16 @@ switch ($ansicht)  // setzen: $PageTitle, $table_edit, $show_help_link
     FROM  schueler_kalender
           INNER JOIN schueler 
               ON schueler.ID= schueler_kalender.SchuelerID 
-          LEFT JOIN 
+          INNER JOIN 
               kalender ON schueler_kalender.Datum = kalender.Datum         
-          LEFT JOIN schuljahr 
+          INNER JOIN schuljahr 
             ON kalender.Datum  BETWEEN schuljahr.Datum_Start AND schuljahr.Datum_Ende 
           LEFT JOIN ferien 
-            -- ON kalender.Datum BETWEEN ferien.Datum_Start AND ferien.Datum_Ende 
-            ON schuljahr.ID = ferien.SchuljahrID 
+            ON kalender.Datum BETWEEN ferien.Datum_Start AND ferien.Datum_Ende 
+            -- ON schuljahr.ID = ferien.SchuljahrID 
           LEFT JOIN feiertag 
-            -- ON kalender.Datum = feiertag.Datum             
-            ON schuljahr.ID = feiertag.SchuljahrID             
+            ON kalender.Datum = feiertag.Datum             
+            -- ON schuljahr.ID = feiertag.SchuljahrID             
           LEFT JOIN uebung 
               ON schueler.ID = uebung.SchuelerID 
               AND schueler_kalender.Datum = uebung.Datum 
