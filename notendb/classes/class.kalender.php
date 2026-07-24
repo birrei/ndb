@@ -146,7 +146,7 @@ class Kalender {
 }
 
 class SchuelerKalender extends Kalender {
-
+  // aka "Übungstage" 
   public string $SchuelerID; 
   public string $SchuelerName=''; 
   private string $table_name='schueler_kalender'; 
@@ -187,12 +187,13 @@ class SchuelerKalender extends Kalender {
     return $col;  
   } 
 
-  function insert_uebungstage($SchuljahrID) {
+  function insert_rows($SchuljahrID, $SchuelerID='') {
 
     if($SchuljahrID=='') {
       $this->info->print_user_error('Es wurde kein Schuljahr ausgewählt!.'); 
       return; 
     }
+
     $query="INSERT INTO schueler_kalender (SchuelerID, Datum )           
         SELECT schueler.ID AS SchuelerID, kalender.Datum
         FROM schueler 
@@ -216,6 +217,7 @@ class SchuelerKalender extends Kalender {
             ON kalender.Datum = feiertag.Datum 
             AND  feiertag.SchuljahrID = schuljahr.ID 
           WHERE schueler.Aktiv =1  
+          AND schuljahr.Eingelesen = 0 
           AND schueler_kalender_vorhanden.Datum IS NULL -- schon vorhandene (manuelle) Einträge ausschließen 
           AND schuljahr.ID = :SchuljahrID 
           AND  (ferien.ID IS NULL AND feiertag.ID IS  NULL) 
@@ -237,6 +239,35 @@ class SchuelerKalender extends Kalender {
     }
   }          
 
+
+  function delete_rows($SchuljahrID, $SchuelerID='') {
+
+    if($SchuljahrID=='') {
+      $this->info->print_user_error('Es wurde kein Schuljahr ausgewählt!.'); 
+      return; 
+    }
+    // 
+    $query="DELETE schueler_kalender 
+            FROM schueler_kalender 
+                INNER JOIN 
+                schuljahr 
+                ON schueler_kalender.Datum  BETWEEN schuljahr.Datum_Start   AND schuljahr.Datum_Ende   
+            WHERE schuljahr.ID = :SchuljahrID
+            AND schuljahr.Eingelesen = 0  
+          "; 
+
+    $insert = $this->db->prepare($query);
+    $insert->bindParam(':SchuljahrID', $SchuljahrID, PDO::PARAM_INT);
+
+    try {
+      $insert->execute(); 
+      $this->info->print_info('Es wurden '.$insert->rowCount().' Übungstage gelöscht.'); 
+    }
+      catch (PDOException $e) {
+      $this->info->print_user_error(); 
+      $this->info->print_error($insert, $e);  ; 
+    }
+  }          
 
 
 }  
