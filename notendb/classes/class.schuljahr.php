@@ -8,7 +8,7 @@ include_once("class.htmltable.php");
 class Schuljahr {
 
   public $table_name='schuljahr'; 
-  public int $ID;
+  public string $ID;
   public string $Name;
   public string $Bezeichnung;
   public string $Datum_Start; // YYYY-MM-DD
@@ -20,7 +20,7 @@ class Schuljahr {
   public string $Datum_Start_ISO_8601; // YYYYMMDD   // ISO 8601
   public string $Datum_Ende_ISO_8601;
   
-  public int $Eingelesen; // Schuljahr kann verwendet werden (Ferien und Feiertage sind importiert / geprüft)
+  public int $Eingelesen; // Markieren, wenn Übungstage eingelesen sind  
 
     
   // public $titles_selected_list; 
@@ -57,6 +57,7 @@ class Schuljahr {
   function update_row($Name
                 , $Datum_Start
                 , $Datum_Ende
+                , $Eingelesen
     ) 
     {
       // XXXX Prüfung Datumswerte 
@@ -64,12 +65,14 @@ class Schuljahr {
                                     SET Bezeichnung = :Name
                                       , Datum_Start = :Datum_Start
                                       , Datum_Ende = :Datum_Ende
+                                      , Eingelesen = :Eingelesen 
                               WHERE `ID` = :ID"); 
 
       $update->bindParam(':ID', $this->ID, PDO::PARAM_INT);
       $update->bindParam(':Name', $Name);
       $update->bindParam(':Datum_Start', $Datum_Start);
       $update->bindParam(':Datum_Ende', $Datum_Ende);
+      $update->bindParam(':Eingelesen', $Eingelesen);
     try {
       $update->execute();
       $this->load_row();  

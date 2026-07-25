@@ -238,7 +238,10 @@ include_once('head.php');
 
     
         </pre>
-  
+
+  	<h2 class="chapter-title chapter-title-h2" id="erfassung_uebungstage_einlesen">Übungstage einlesen</h2>
+
+      <p>XXXX</p> 
 
     <h2 class="chapter-title chapter-title-h3" id="erfassung_uebung">Übung</h2>
 
@@ -332,8 +335,28 @@ include_once('head.php');
                 bzw. 
                 Schülern zu Materialen 
                 verwendet werden </p>
-	<h2 class="chapter-title chapter-title-h2" id="erfassung_kalender">Stammdaten: Kalender, Schuljahr, Ferien, Feiertage</h2>
-        <p> Kalender, Schuljahr, Ferien, Feiertage </p>
+
+
+
+	<h2 class="chapter-title chapter-title-h2" id="erfassung_schuljahr">Stammdaten: Schuljahr</h2>
+
+        <h3 class="chapter-title chapter-title-h3" id="erfassung_schuljahr_name">Name</h3>
+        <h3 class="chapter-title chapter-title-h3" id="erfassung_schuljahr_datum">Datum von / bis </h3>
+        <h3 class="chapter-title chapter-title-h3" id="erfassung_schuljahr_eingelesen">Eingelesen</h3>
+            <P> Bezieht sich auf das Kapitel <a href="#erfassung_uebungstage_einlesen">Übungstage einlesen</a> ... XXXX 
+
+        <h3 class="chapter-title chapter-title-h3" id="erfassung_schuljahr_ferien">Ferien</h3>
+        <h3 class="chapter-title chapter-title-h3" id="erfassung_schuljahr_feiertage">Feiertage</h3>
+
+
+
+
+
+    	<h2 class="chapter-title chapter-title-h2" id="erfassung_uebungstage_einlesen">Stammdaten: Kalender</h2>
+
+            
+
+            <p> XXXX</p>
 
         <p>Editierbares Feld: "Unterricht geplant". Es kann verwendet werden,
              um einen Unterrichts-Tag als abschließend geplant zu kennzeichnen.

@@ -10,11 +10,17 @@ $schuljahr = new Schuljahr();
 $info= new HTML_Info(); 
 
 $option=isset($_REQUEST["option"])?$_REQUEST["option"]:'edit';
+
 $show_data=true; 
+
 
 switch($option) {
 
   case 'edit': // über "Bearbeiten"-Link
+    if($_GET["ID"]=='') {
+      $info->print_user_error('Es wurde kein Schuljahr ausgewählt!'); 
+      goto pagefoot; 
+    }
     $schuljahr->ID=$_GET["ID"];
     $schuljahr->load_row(); 
     break; 
@@ -26,11 +32,13 @@ switch($option) {
     break; 
   
   case 'update': 
-    $schuljahr->ID = $_POST["ID"];    
+    $schuljahr->ID = $_POST["ID"];   
+    $Eingelesen=(isset($_POST["Eingelesen"])?1:0);      
     $schuljahr->update_row(
                 $_POST["Name"]
                 , $_POST["Datum_Start"]
                 , $_POST["Datum_Ende"] 
+                , $Eingelesen
                 ); 
     $show_data=true;           
     break; 
@@ -66,7 +74,10 @@ echo '
     <tr>    
     <label>
     <td class="form-edit form-edit-col1">ID:</td>  
-    <td class="form-edit form-edit-col2">'.$schuljahr->ID.'</td>
+    <td class="form-edit form-edit-col2">'.$schuljahr->ID.'  
+    
+    
+    </td>
     </label>
       </tr> 
     '; 
@@ -83,7 +94,7 @@ echo '
     
     <tr>    
       <label>
-      <td class="form-edit form-edit-col1">Zeitraum von:</td>  
+      <td class="form-edit form-edit-col1">Datum von:</td>  
       <td class="form-edit form-edit-col2">
             <input type="date" name="Datum_Start" value="'.$schuljahr->Datum_Start.'" oninput="changeBackgroundColor(this)" requested>
         </td>
@@ -91,12 +102,21 @@ echo '
     </tr> 
     <tr>    
       <label>
-      <td class="form-edit form-edit-col1">Zeitraum bis:</td>  
+      <td class="form-edit form-edit-col1">Datum bis:</td>  
       <td class="form-edit form-edit-col2">
             <input type="date" name="Datum_Ende" value="'.$schuljahr->Datum_Ende.'" oninput="changeBackgroundColor(this)" requested>
         </td>
       </label>
     </tr> 
+
+    <tr>    
+      <label>
+      <td class="form-edit form-edit-col1">Eingelesen:</td>  
+      <td class="form-edit form-edit-col2">
+             <label><input type="checkbox" name="Eingelesen" '.($schuljahr->Eingelesen==1?'checked':'').'> Eingelesen </label> 
+        </td>
+      </label>
+    </tr>     
 
     
     <tr> 
