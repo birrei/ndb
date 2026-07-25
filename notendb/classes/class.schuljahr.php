@@ -148,6 +148,23 @@ class Schuljahr {
       $tmpDeletable=false; 
     } 
 
+
+    $select = $this->db->prepare("SELECT * 
+                                  FROM schueler_kalender 
+                                  INNER JOIN  schuljahr 
+                                  ON schueler_kalender.Datum BETWEEN schuljahr.Datum_Start AND schuljahr.Datum_Ende 
+                                  WHERE schuljahr.ID=:SchuljahrID");
+    $select->bindValue(':SchuljahrID', $this->ID); 
+    $select->execute();  
+
+    if ($select->rowCount() > 0 ){
+      $this->info->print_warning('Das Schuljahr ID '.$this->ID.', Name: "'.$this->Name.'" kann nicht gelöscht werden. 
+                                  Es existieren '.$select->rowCount().' zugehörige Übungstage.<br>'); 
+      $tmpDeletable=false; 
+    } 
+
+
+
     return $tmpDeletable; 
 
   }

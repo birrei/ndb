@@ -114,6 +114,7 @@ echo '
       <td class="form-edit form-edit-col1">Eingelesen:</td>  
       <td class="form-edit form-edit-col2">
              <label><input type="checkbox" name="Eingelesen" '.($schuljahr->Eingelesen==1?'checked':'').'> Eingelesen </label> 
+            &nbsp; <i>Aktivieren, wenn Ferien, Feiertage und Übungstage-Grundlage für das Schuljahr hinterlegt sind. </i> 
         </td>
       </label>
     </tr>     
