@@ -21,7 +21,7 @@ $info = new HTML_Info();
   </td>  
   <td class="eingabe2 eingabe2_3">
       <?php
-        $html->print_link_table2('instrumente', true); 
+        $info->print_link_table2('instrumente', true); 
       ?>
   </td>    
 </tr>
@@ -37,7 +37,7 @@ $info = new HTML_Info();
   </td>  
   <td class="eingabe2 eingabe2_3">
       <?php
-        $html->print_link_table2('schwierigkeitsgrade', true); 
+        $info->print_link_table2('schwierigkeitsgrade', true); 
       ?>
   </td>    
 </tr>
