@@ -218,16 +218,25 @@ class SchuelerKalender extends Kalender {
             AND  feiertag.SchuljahrID = schuljahr.ID 
           WHERE schueler.Aktiv =1  
           AND schuljahr.Eingelesen = 0 
-          AND schueler_kalender_vorhanden.Datum IS NULL -- schon vorhandene (manuelle) Einträge ausschließen 
-          AND schuljahr.ID = :SchuljahrID 
           AND  (ferien.ID IS NULL AND feiertag.ID IS  NULL) 
-          GROUP BY kalender.Datum, schueler.ID 
+          AND schueler_kalender_vorhanden.Datum IS NULL -- schon vorhandene (manuelle) Einträge ausschließen 
+          AND schuljahr.ID = :SchuljahrID "; 
+
+    if($SchuelerID!='') {
+      $query.="AND schueler.ID=:SchuelerID "; 
+    }
+
+    $query.="GROUP BY kalender.Datum, schueler.ID 
           ORDER BY schueler.ID, kalender.Datum
           "; 
 
 
     $insert = $this->db->prepare($query);
     $insert->bindParam(':SchuljahrID', $SchuljahrID, PDO::PARAM_INT);
+
+    if($SchuelerID!='') {
+        $insert->bindParam(':SchuelerID', $SchuelerID, PDO::PARAM_INT);
+    }    
 
     try {
       $insert->execute(); 
@@ -242,30 +251,38 @@ class SchuelerKalender extends Kalender {
 
   function delete_rows($SchuljahrID, $SchuelerID='') {
 
+    // XXXX Prüfen auf bestehende Übungstage mit Übungen -> keine Löschung !! 
+    
     if($SchuljahrID=='') {
       $this->info->print_user_error('Es wurde kein Schuljahr ausgewählt!.'); 
       return; 
     }
-    // 
+    
     $query="DELETE schueler_kalender 
             FROM schueler_kalender 
                 INNER JOIN 
                 schuljahr 
                 ON schueler_kalender.Datum  BETWEEN schuljahr.Datum_Start   AND schuljahr.Datum_Ende   
-            WHERE schuljahr.ID = :SchuljahrID
-            AND schuljahr.Eingelesen = 0  
-          "; 
+            WHERE  schuljahr.Eingelesen = 0 
+            AND schuljahr.ID = :SchuljahrID "; 
 
-    $insert = $this->db->prepare($query);
-    $insert->bindParam(':SchuljahrID', $SchuljahrID, PDO::PARAM_INT);
+    if($SchuelerID!='') {
+      $query.="AND schueler_kalender.SchuelerID=:SchuelerID "; 
+    }
+
+    $delete = $this->db->prepare($query);
+    $delete->bindParam(':SchuljahrID', $SchuljahrID, PDO::PARAM_INT);
+    if($SchuelerID!='') {
+        $delete->bindParam(':SchuelerID', $SchuelerID, PDO::PARAM_INT);
+    }        
 
     try {
-      $insert->execute(); 
-      $this->info->print_info('Es wurden '.$insert->rowCount().' Übungstage gelöscht.'); 
+      $delete->execute(); 
+      $this->info->print_info('Es wurden '.$delete->rowCount().' Übungstage gelöscht.'); 
     }
       catch (PDOException $e) {
       $this->info->print_user_error(); 
-      $this->info->print_error($insert, $e);  ; 
+      $this->info->print_error($delete, $e);  ; 
     }
   }          
 

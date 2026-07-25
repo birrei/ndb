@@ -241,7 +241,7 @@ include_once('head.php');
 
   	<h2 class="chapter-title chapter-title-h2" id="erfassung_uebungstage_einlesen">Übungstage einlesen</h2>
 
-      <p>XXXX</p> 
+      <p>Hinweis: Übungstage können nur ingelesen bzw. gelöscht werden, sofern für das gewählte Schuljahr die Eigenschaft "Eingelesen = Nein" gesetzt ist. XXXX</p> 
 
     <h2 class="chapter-title chapter-title-h3" id="erfassung_uebung">Übung</h2>
 

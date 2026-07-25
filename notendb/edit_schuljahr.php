@@ -166,6 +166,8 @@ echo '
    '; 
     $info->print_form_inline('delete_1',$schuljahr->ID,$schuljahr->Title, 'löschen'); 
 
+    $info->print_link_overview('uebungstage_einlesen.php','SchuljahrID='.$schuljahr->ID, 'Übungstage einlesen'); 
+
   echo '     
     </td>
   </tr> 
