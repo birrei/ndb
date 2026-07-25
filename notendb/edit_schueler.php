@@ -176,6 +176,8 @@ echo '
 
 <p> 
 <a href="edit_uebung.php?SchuelerID=<?php echo $schueler->ID; ?>&option=insert" target="_blank" class="form-link form-link-switch">Übung hinzufügen</a>
+
+<a href="edit_schueler_kalender.php?SchuelerID=<?php echo $schueler->ID; ?>&option=insert" target="_blank" class="form-link form-link-switch">Übungstag hinzufügen</a>
 </p>
 
 <p>Übersichten:<br /> 
