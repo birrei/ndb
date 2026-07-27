@@ -159,3 +159,23 @@ SELECT schueler.Name AS `Schüler Name`
 ALTER TABLE schueler_kalender  ADD ts_update datetime ON UPDATE CURRENT_TIMESTAMP; 
 
 ALTER TABLE schueler_kalender  ADD ts_insert datetime DEFAULT CURRENT_TIMESTAMP; 
+
+
+
+
+/*
+
+SELECT * FROM schueler_kalender ORDER BY Datum 
+
+SELECT * FROM schueler_kalender WHERE Datum='0000-00-00' ORDER BY Datum 
+
+ALTER TABLE `schueler_kalender` MODIFY COLUMN `Datum` date DEFAULT NULL; 
+
+UPDATE schueler_kalender SET Datum = NULL WHERE Datum='0000-00-00'; 
+
+
+
+
+
+
+*/
