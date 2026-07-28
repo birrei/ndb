@@ -35,7 +35,7 @@ class Schuljahr {
   }
 
 
-  function insert_row ($Bezeichnung='') {
+  public function insert_row ($Bezeichnung='') {
     
     $insert = $this->db->prepare("INSERT INTO schuljahr  
               SET  Bezeichnung= :Bezeichnung " 
@@ -54,7 +54,7 @@ class Schuljahr {
     }
   }  
 
-  function update_row($Name
+  public function update_row($Name
                 , $Datum_Start
                 , $Datum_Ende
                 , $Eingelesen
@@ -83,8 +83,7 @@ class Schuljahr {
     }
   }
 
-
-  function load_row() {
+  public function load_row() {
 
     $select = $this->db->prepare("SELECT `ID`
                                   , Bezeichnung as `Name`
@@ -122,7 +121,7 @@ class Schuljahr {
     }
   }  
  
-  function is_deletable() {
+  public function is_deletable() {
     $tmpDeletable=true; 
 
     $this->load_row(); 
@@ -148,7 +147,6 @@ class Schuljahr {
       $tmpDeletable=false; 
     } 
 
-
     $select = $this->db->prepare("SELECT * 
                                   FROM schueler_kalender 
                                   INNER JOIN  schuljahr 
@@ -163,13 +161,11 @@ class Schuljahr {
       $tmpDeletable=false; 
     } 
 
-
-
     return $tmpDeletable; 
 
   }
 
-  function delete(){
+  public function delete(){
  
     $delete = $this->db->prepare("DELETE FROM schuljahr WHERE ID=:ID"); 
     $delete->bindValue(':ID', $this->ID);  
@@ -214,7 +210,7 @@ class Schuljahr {
     return $col;      
   }
 
-  function print_select(string $value_selected='', string $caption=''){
+  public function print_select(string $value_selected='', string $caption=''){
 
     $query="SELECT ID, Bezeichnung as Name 
             FROM `schuljahr` 
@@ -236,7 +232,7 @@ class Schuljahr {
     }
   }
 
-  function print_preselect(string $value_selected='', string $caption='', $add_null_option=false){
+  public function print_preselect(string $value_selected='', string $caption='', $add_null_option=false){
 
     $query="SELECT ID, Bezeichnung as Name 
             FROM `schuljahr` 
@@ -257,7 +253,7 @@ class Schuljahr {
     }
   }  
 
-  function print_table(){
+  public function print_table(){
 
     $query="SELECT * from epoche ORDER by Name"; 
 
@@ -278,7 +274,7 @@ class Schuljahr {
     }
   }
 
-  function print_table_ferien(){
+  public function print_table_ferien(){
 
     $query="SELECT f.ID 
           , f.Bezeichnung 
@@ -310,7 +306,7 @@ class Schuljahr {
     }
   }    
    
-  function print_table_feiertage(){
+  public function print_table_feiertage(){
 
     $query="SELECT f.ID 
         , f.Bezeichnung 
@@ -338,7 +334,8 @@ class Schuljahr {
       $this->info->print_user_error(); 
       $this->info->print_error($stmt, $e); 
     }
-  }    
+  }
+    
    
 }
 

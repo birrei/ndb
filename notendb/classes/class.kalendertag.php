@@ -169,9 +169,8 @@ class SchuelerKalendertag extends Kalendertag {
           ON kalender.Datum BETWEEN ferien.Datum_Start AND ferien.Datum_Ende 
         LEFT JOIN feiertag 
           ON kalender.Datum = feiertag.Datum    
-    WHERE schueler_kalender.ID = :ID"; 
-          
-
+    WHERE schueler_kalender.ID = :ID
+    "; 
 
     $select = $this->db->prepare($query);
 
@@ -379,6 +378,31 @@ class SchuelerKalendertag extends Kalendertag {
     $col=$stmt->fetchColumn(); 
     return $col;  
   }
+
+    // XXXX verworfen 
+    // public function SchuljahrEingelesen($Datum) {
+    //   // Prüft, ob das Schuljahr, in dem das übergebene Datum liegt, eingelesen ist 
+    //   // XXXX 
+    //   // $tmpDeletable=true; 
+
+    //   // $this->load_row(); 
+
+    //   $tmpReturn = true; 
+
+    //   $select = $this->db->prepare("SELECT * FROM schuljahr 
+    //                                 WHERE :Datum BETWEEN Datum_Start AND Datum_Ende 
+    //                                 AND Eingelesen=1 
+    //                                 ");
+    //   $select->bindValue(':Datum', $Datum); 
+    //   $select->execute();  
+
+    //   if ($select->rowCount() == 0 ){
+    //     $tmpReturn=false; 
+    //   } 
+
+    //   return $tmpReturn; 
+
+    // }  
 
 }
 

@@ -4,6 +4,7 @@ $PageTitle='Schüler Übungstag';
 include_once('head.php');
 include_once("classes/class.schueler.php");
 include_once("classes/class.kalender.php");
+include_once("classes/class.schuljahr.php");
 
 $option=isset($_REQUEST["option"])?$_REQUEST["option"]:'edit';
 $show_data=true; 
@@ -64,12 +65,22 @@ case 'insert':
       /** existiert das in Form gesetzte Datum bereits an einer anderen schueler_kalender.ID ?  */
       $datum_vorhanden = $uebungstag->date_exists($Datum); 
       if($datum_vorhanden) {
-        $info->print_user_error('Fehler: Das Datum '.$Datum_DE.' existiert bereits an einem anderen Übungstag!');
+        $info->print_user_error('Fehler: Ein Übungstag mit dem Datum '.$Datum_DE.' existiert bereits.');
         $Datum=$Datum_gespeichert_EN ;  
-        $Datum_DE=$Datum_gespeichert_EN;  
+        $Datum_DE=$Datum_gespeichert_DE;  
         $update_mode=2; 
         goto exec_update; 
       }
+
+      // verworfen, XXX löschen 
+      // if(!$uebungstag->SchuljahrEingelesen($Datum)) {
+      //   $info->print_user_error('Fehler: Das Datum '.$Datum_DE.' liegt nicht innerhalb eines eingelesenen Schuljahrs!');
+      //   $Datum=$Datum_gespeichert_EN ;  
+      //   $Datum_DE=$Datum_gespeichert_DE;  
+      //   $update_mode=2; 
+      //   goto exec_update;     
+      // }
+
     }
 
     exec_update: 

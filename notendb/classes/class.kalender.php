@@ -37,7 +37,6 @@ class Kalender {
     $this->info=new HTML_Info(); 
   }
    
-
   public function insert_new_date(DateTime $date) {
 
     $Datum = $date->format('Y-m-d'); 
@@ -82,7 +81,6 @@ class Kalender {
       }
     }
   }  
-
 
   public function date_exists(string $str_date) {
     $select = $this->db->prepare("SELECT * FROM kalender WHERE Datum = :Datum");
@@ -133,7 +131,6 @@ class Kalender {
     $col=$stmt->fetchColumn(); 
     return $col;  
   }  
-  
   
   public function getID (string $strDate) {
     $sql="SELECT MAX(ID) from kalender WHERE Datum='".$strDate."'" ; 
@@ -205,7 +202,7 @@ class SchuelerKalender extends Kalender {
             SELECT schueler_kalender.SchuelerID , schueler_kalender.Datum 
             FROM schueler_kalender 
             INNER JOIN schuljahr 
-            ON schueler_kalender.Datum  BETWEEN schueler_kalender.Datum  AND schueler_kalender.Datum 
+            ON schueler_kalender.Datum  BETWEEN schuljahr.Datum_Start  AND schuljahr.Datum_Ende 
             AND schuljahr.ID = :SchuljahrID 
           ) AS  schueler_kalender_vorhanden 
             ON schueler.ID = schueler_kalender_vorhanden.SchuelerID 
@@ -248,11 +245,8 @@ class SchuelerKalender extends Kalender {
     }
   }          
 
-
   function delete_rows($SchuljahrID, $SchuelerID='') {
 
-    // XXXX Prüfen auf bestehende Übungstage mit Übungen -> keine Löschung !! 
-    
     if($SchuljahrID=='') {
       $this->info->print_user_error('Es wurde kein Schuljahr ausgewählt!.'); 
       return; 
@@ -285,6 +279,7 @@ class SchuelerKalender extends Kalender {
       $this->info->print_error($delete, $e);  ; 
     }
   }          
+
 
 
 }  
