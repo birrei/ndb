@@ -16,11 +16,24 @@ $info= new HTML_Info();
 
 switch($option) {
 
-  case 'edit': // über "Bearbeiten"-Link
-    $uebungstag->ID=$_REQUEST["ID"];
+  case 'edit': 
+
+    if(isset($_REQUEST["ID"]))  {
+      $uebungstag->ID=$_REQUEST["ID"];  
+    }
+    if(isset($_REQUEST["SchuelerID"]) & isset($_REQUEST["Datum"]))  {
+      if(empty($_REQUEST["Datum"]) OR $_REQUEST["Datum"]=='0000-00-00' ) {
+          $info->print_user_error('Es wurde kein Datum ausgewählt!');
+          $show_data=false; 
+          goto pagefoot;  
+      }
+      $ID=$uebungstag->getID($_REQUEST["SchuelerID"], $_REQUEST["Datum"]); 
+      $uebungstag->ID = $ID; 
+    }
     $show_data = $uebungstag->load_row(); 
     $Datum = $uebungstag->Datum_EN; 
-    $Datum_DE = $uebungstag->Datum_DE; 
+    $Datum_DE = $uebungstag->Datum_DE;   
+        
     break; 
 
 case 'insert': 
@@ -30,6 +43,7 @@ case 'insert':
       $show_data=false; 
       goto pagefoot;  
     }
+
 
     $uebungstag->insert_row($_REQUEST["SchuelerID"]); 
     $uebungstag->load_row();    

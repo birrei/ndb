@@ -34,8 +34,8 @@ switch($option) {
       $show_data=false; 
       goto pagefoot;  
     }
-    $SchuelerID=$_REQUEST["SchuelerID"];  
-    $Datum=$_REQUEST["Datum"];  // immer gesetzt, kann ggf. aber leer sein 
+
+    $Datum=isset($_REQUEST["Datum"])?$_REQUEST["Datum"]:'';    
     $uebung->insert_row($SchuelerID, $Datum); 
     $show_data = $uebung->load_row();  
     $Datum = $uebung->Datum;   
@@ -140,6 +140,7 @@ echo '<tr>
      <td class="form-edit form-edit-col1"><br>Datum:</td>   
      <td class="form-edit form-edit-col2">
         <br><input type="date" name="Datum" value="'.$uebung->Datum.'" oninput="changeBackgroundColor(this)" requested> 
+         <a href="edit_schueler_kalender.php?SchuelerID='.$uebung->SchuelerID.'&Datum='.$uebung->Datum.'" target="_blank">Übungstag öffnen</a>,    
          <a href="edit_kalender.php?Datum='.$uebung->Datum.'" target="_blank">Kalenderdatum öffnen</a> 
         </td>
      </label>    

@@ -368,41 +368,30 @@ class SchuelerKalendertag extends Kalendertag {
     }
   }
 
-  private function getDatum() {
+  // private function getDatum() {
 
-    $sql="SELECT MAX(Datum) FROM schueler_kalender WHERE ID = :ID "; 
+  //   $sql="SELECT MAX(Datum) FROM schueler_kalender WHERE ID = :ID "; 
+  //   $stmt = $this->db->prepare($sql); 
+  //   $stmt->bindParam(':SchuelerID', $this->ID, PDO::PARAM_INT);
+  //   $stmt->execute(); 
+  //   // $stmt->debugDumpParams(); 
+  //   $col=$stmt->fetchColumn(); 
+  //   return $col;  
+  // }
+
+  public function getID($SchuelerID, $Datum) {
+
+    $sql="SELECT MAX(ID) as ID FROM schueler_kalender WHERE SchuelerID = :SchuelerID AND Datum=:Datum "; 
     $stmt = $this->db->prepare($sql); 
-    $stmt->bindParam(':SchuelerID', $this->ID, PDO::PARAM_INT);
+    $stmt->bindParam(':SchuelerID', $SchuelerID, PDO::PARAM_INT);
+    $stmt->bindParam(':Datum', $Datum);
     $stmt->execute(); 
     // $stmt->debugDumpParams(); 
     $col=$stmt->fetchColumn(); 
     return $col;  
   }
 
-    // XXXX verworfen 
-    // public function SchuljahrEingelesen($Datum) {
-    //   // Prüft, ob das Schuljahr, in dem das übergebene Datum liegt, eingelesen ist 
-    //   // XXXX 
-    //   // $tmpDeletable=true; 
 
-    //   // $this->load_row(); 
-
-    //   $tmpReturn = true; 
-
-    //   $select = $this->db->prepare("SELECT * FROM schuljahr 
-    //                                 WHERE :Datum BETWEEN Datum_Start AND Datum_Ende 
-    //                                 AND Eingelesen=1 
-    //                                 ");
-    //   $select->bindValue(':Datum', $Datum); 
-    //   $select->execute();  
-
-    //   if ($select->rowCount() == 0 ){
-    //     $tmpReturn=false; 
-    //   } 
-
-    //   return $tmpReturn; 
-
-    // }  
 
 }
 
