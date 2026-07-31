@@ -21,6 +21,8 @@ class Uebung {
   public $BewertungID; 
   public string $Bewertung; 
   public $Typ=''; 
+  public bool $Entwurf;
+
 
   public $titles_selected_list; 
   public $Title='Übung';
@@ -34,7 +36,6 @@ class Uebung {
   private $info; 
 
 
-
   public function __construct(){
     $conn=new DBConnection(); 
     $this->db=$conn->db; 
@@ -43,12 +44,23 @@ class Uebung {
 
   function insert_row (string $SchuelerID, string $Datum) {
 
-    $insert = $this->db->prepare("INSERT INTO `uebung` 
-              SET `SchuelerID`= :SchuelerID, Datum = :Datum " 
-          );
-          
-    $insert->bindParam(':SchuelerID', $SchuelerID,PDO::PARAM_INT);
-    $insert->bindParam(':Datum', $Datum);
+    // print_r(func_get_args()); // test 
+
+    if(empty($Datum)) {
+
+      $insert = $this->db->prepare("INSERT INTO `uebung` 
+                SET `SchuelerID`= :SchuelerID " 
+            );            
+      $insert->bindParam(':SchuelerID', $SchuelerID,PDO::PARAM_INT);
+    } else {
+      $insert = $this->db->prepare("INSERT INTO `uebung` 
+                SET `SchuelerID`= :SchuelerID, Datum = :Datum " 
+            );
+            
+      $insert->bindParam(':SchuelerID', $SchuelerID,PDO::PARAM_INT);
+      $insert->bindParam(':Datum', $Datum);
+
+    }
   
     try {
       $insert->execute(); 
@@ -78,6 +90,7 @@ class Uebung {
                             , schueler.Name as SchuelerName
                             , COALESCE(uebung.BewertungID, '') as BewertungID  
                             , COALESCE(bewertung.Name, '') as Bewertung  
+                            , uebung.Entwurf 
                           FROM  uebung 
                                 left join uebungtyp on uebung.UebungtypID = uebungtyp.ID 
                                 left join schueler on uebung.SchuelerID = schueler.ID 
@@ -103,6 +116,7 @@ class Uebung {
       $this->Reihenfolge=$row_data["Reihenfolge"];       
       $this->BewertungID=$row_data["BewertungID"];       
       $this->Bewertung=$row_data["Bewertung"];       
+      $this->Entwurf=$row_data["Entwurf"];       
       return true; 
     } 
     else {
@@ -165,7 +179,8 @@ class Uebung {
                       , $Anzahl
                       , $SatzID
                       , $Reihenfolge
-                      , $BewertungID   
+                      , $BewertungID 
+                      , $Entwurf  
                     ) {
 
     $update = $this->db->prepare("UPDATE uebung  
@@ -177,7 +192,8 @@ class Uebung {
                 , Anzahl=:Anzahl
                 , SatzID=:SatzID
                 , Reihenfolge=:Reihenfolge 
-                , BewertungID = :BewertungID 
+                , BewertungID = :BewertungID
+                , Entwurf = :Entwurf  
               WHERE ID=:ID"           
            );
 
@@ -191,6 +207,48 @@ class Uebung {
     $update->bindParam(':Reihenfolge', $Reihenfolge);
     $update->bindParam(':SatzID', $SatzID, ($SatzID=='' ? PDO::PARAM_NULL : PDO::PARAM_INT));
     $update->bindParam(':BewertungID', $BewertungID, ($BewertungID=='' ? PDO::PARAM_NULL : PDO::PARAM_INT));
+    $update->bindParam(':Entwurf', $Entwurf);
+
+    try {
+      $update->execute(); 
+      // $this->load_row();   
+    }
+      catch (PDOException $e) {  
+      $this->info->print_user_error(); 
+      $this->info->print_error($update, $e);  ; 
+    }
+  }  
+
+
+  function update_row_entwurf( $SchuelerID  
+                      , $Name
+                      , $Bemerkung
+                      , $UebungtypID                                                      
+                      , $Anzahl
+                      , $SatzID
+                      , $Entwurf  
+                    ) {
+
+    $update = $this->db->prepare("UPDATE uebung  
+              SET UebungtypID= :UebungtypID
+                , `Name`=:Name
+                , Bemerkung=:Bemerkung 
+                , SchuelerID=:SchuelerID 
+                , Anzahl=:Anzahl
+                , SatzID=:SatzID
+                , Entwurf = :Entwurf  
+                , Datum = NULL 
+              WHERE ID=:ID"           
+           );
+
+    $update->bindParam(':ID', $this->ID);
+    $update->bindParam(':Name', $Name);    
+    $update->bindParam(':UebungtypID', $UebungtypID, ($UebungtypID=='' ? PDO::PARAM_NULL : PDO::PARAM_INT));
+    $update->bindParam(':SchuelerID', $SchuelerID, ($SchuelerID=='' ? PDO::PARAM_NULL : PDO::PARAM_INT));
+    $update->bindParam(':Bemerkung', $Bemerkung);
+    $update->bindParam(':Anzahl', $Anzahl);
+    $update->bindParam(':SatzID', $SatzID, ($SatzID=='' ? PDO::PARAM_NULL : PDO::PARAM_INT));
+    $update->bindParam(':Entwurf', $Entwurf);
 
     try {
       $update->execute(); 
@@ -234,6 +292,7 @@ class Uebung {
                             , Datum
                             , Anzahl
                             , SatzID
+                            , Entwurf 
                             -- , BewertungID -- AG: nicht mitkopieren
                             )
           SELECT CONCAT(Name, ' (Kopie)') as Name 
@@ -243,7 +302,7 @@ class Uebung {
                             , Datum 
                             , Anzahl
                             , SatzID
-                            -- , BewertungID 
+                            , Entwurf 
           FROM uebung  
           WHERE ID=:ID 
 

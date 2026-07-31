@@ -157,9 +157,11 @@ echo '
 <tr> 
   <td class="form-edit form-edit-col1"> Daten erfassen / ansehen: <br /> 
 
-  <input type="radio" id="opt_Uebung" name="target_form" value="Uebungen" onclick="changeIframeSrc('subform1', 'edit_schueler_uebungen.php?SchuelerID=<?php echo $schueler->ID; ?>');" checked>
+  <input type="radio" id="opt_Uebung" name="target_form" value="Uebungen" onclick="changeIframeSrc('subform1', 'edit_schueler_uebungen.php?SchuelerID=<?php echo $schueler->ID; ?>&Entwurf=0');" checked>
   <label for="opt_Uebung">Übungen</label><br>
 
+  <input type="radio" id="opt_Uebung_Entwurf" name="target_form" value="UebungenEntwurf" onclick="changeIframeSrc('subform1', 'edit_schueler_uebungen.php?SchuelerID=<?php echo $schueler->ID; ?>&Entwurf=1');">
+  <label for="opt_Uebung_Entwurf">Übungsentwürfe</label><br>
 
   <input type="radio" id="opt_Uebung2" name="target_form" value="Uebungen2" onclick="changeIframeSrc('subform1', 'edit_schueler_uebungen2.php?SchuelerID=<?php echo $schueler->ID; ?>');">
   <label for="opt_Uebung2">Übungstage</label><br>

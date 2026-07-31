@@ -1,6 +1,11 @@
 
 <?php 
-$PageTitle='Übung'; 
+$Entwurf=(isset($_POST["Entwurf"])?1:0); 
+
+// $PageTitle='Übung';
+
+$PageTitle=$Entwurf==0?'Übung':'Übung Entwurf';
+
 include_once('head.php');
 include_once("classes/class.htmlinfo.php");
 include_once("classes/class.uebung.php");
@@ -12,6 +17,7 @@ include_once("classes/class.bewertung.php");
 $option=isset($_REQUEST["option"])?$_REQUEST["option"]:'edit';
 $show_data=true; 
 
+
 $uebung = new Uebung(); 
 $info= new HTML_Info(); 
 
@@ -20,7 +26,9 @@ switch($option) {
   
   case 'edit': // über "Bearbeiten"-Link    
     $uebung->ID=$_REQUEST["ID"];
-    $show_data = $uebung->load_row();   
+    $show_data = $uebung->load_row();
+    $Entwurf = $uebung->Entwurf;    
+
 
     break; 
 
@@ -39,51 +47,73 @@ switch($option) {
     $uebung->insert_row($SchuelerID, $Datum); 
     $show_data = $uebung->load_row();  
     $Datum = $uebung->Datum;   
+    $Entwurf = $uebung->Entwurf;        
 
     break; 
 
   case 'update':  
 
     $uebung->ID =$_REQUEST["ID"]; 
-    $uebung->load_row(); // bereits gespeicherte Werte zum Vergleich holen 
-    $Datum_gespeichert = $uebung->Datum; 
-    $Datum = $_REQUEST["Datum"]; 
+    
 
-    if(empty($Datum)) { 
-      $info->print_user_error('Das Datum darf nicht leer sein!'); 
-      $Datum = $Datum_gespeichert;
-      // $update_mode=2; 
-      // goto exec_update; 
-    } 
-  
-   if(!empty($Datum)) { 
+    if($Entwurf==0) {
 
-      $Datum_Date = new Datetime($Datum); 
-      $Datum_DE = $Datum_Date->format('d.m.Y');   
+      $uebung->load_row(); // bereits gespeicherte Werte zum Vergleich holen 
+      $Datum_gespeichert = $uebung->Datum; 
+      $Datum = $_REQUEST["Datum"]; 
 
-      $kalender = new SchuelerKalender(); 
-      $kalender -> SchuelerID = $_REQUEST["SchuelerID"]; 
+      // XXXX kann das wegbleiben? 
+      // if(empty($Datum)) { 
+      //   $info->print_user_error('Das Datum darf nicht leer sein!'); 
+      //   $Datum = $Datum_gespeichert;
+      //   // goto exec_update; 
+      // } 
+    
+      if(!empty($Datum)) { 
 
-      if (!$kalender->date_exists($Datum) ) {
-        $info->print_user_error('Das Datum "'.$Datum_DE.'" ist kein gültiger Übungstag für den Schüler. 
-                                      Das Datum wird auf den zuvor gespeicherten Wert zurückgesetzt.');            
-        $Datum = $Datum_gespeichert;  
+        $Datum_Date = new Datetime($Datum); 
+        $Datum_DE = $Datum_Date->format('d.m.Y');   
+
+        $kalender = new SchuelerKalender(); 
+        $kalender -> SchuelerID = $_REQUEST["SchuelerID"]; 
+
+        if (!$kalender->date_exists($Datum) ) {
+          $info->print_user_error('Das Datum "'.$Datum_DE.'" ist kein gültiger Übungstag für den Schüler. 
+                                        Das Datum wird auf den zuvor gespeicherten Wert zurückgesetzt.');            
+          $Datum = $Datum_gespeichert;  
+        }
       }
+
+      $uebung->update_row(
+        $_REQUEST["SchuelerID"],
+        $Datum, 
+        $_REQUEST["Name"], 
+        $_REQUEST["Bemerkung"], 
+        $_REQUEST["UebungtypID"], 
+        $_REQUEST["Anzahl"], 
+        $_REQUEST["SatzID"], 
+        $_REQUEST["Reihenfolge"], 
+        $_REQUEST["BewertungID"],
+        $Entwurf
+      ); 
+      $show_data = $uebung->load_row(); 
+      $Entwurf = $uebung->Entwurf;    
+
+    } elseif ($Entwurf==1) {
+
+      $uebung->update_row_entwurf(
+        $_REQUEST["SchuelerID"],
+        $_REQUEST["Name"], 
+        $_REQUEST["Bemerkung"], 
+        $_REQUEST["UebungtypID"], 
+        $_REQUEST["Anzahl"], 
+        $_REQUEST["SatzID"], 
+        $Entwurf
+      ); 
+      $show_data = $uebung->load_row(); 
+      $Entwurf = $uebung->Entwurf;    
+
     }
-
-  $uebung->update_row(
-      $_REQUEST["SchuelerID"],
-      $Datum, 
-      $_REQUEST["Name"], 
-      $_REQUEST["Bemerkung"], 
-      $_REQUEST["UebungtypID"], 
-      $_REQUEST["Anzahl"], 
-      $_REQUEST["SatzID"], 
-      $_REQUEST["Reihenfolge"], 
-      $_REQUEST["BewertungID"]
-    ); 
-    $show_data = $uebung->load_row(); 
-
     break; 
 
   case 'delete_1':        
@@ -106,12 +136,13 @@ switch($option) {
     $uebung->ID=$_REQUEST["ID"]; 
     $uebung->copy();   
     $uebung->load_row();   
+    $Entwurf = $uebung->Entwurf;        
     break; 
 }
 
 if (!$show_data) {goto pagefoot;}
 
-$info->print_screen_header($uebung->Title.' bearbeiten'); 
+$info->print_screen_header($PageTitle.' bearbeiten'); 
 
 $info->print_form_inline('delete_1',$uebung->ID,$uebung->Title, 'löschen'); 
 $info->print_form_inline('copy',$uebung->ID,$uebung->Title, 'kopieren'); 
@@ -121,7 +152,10 @@ echo '<form action="edit_uebung.php" method="post">
   <table class="form-edit" width="100%"> 
   <tr>
     <td class="form-edit form-edit-col1">ID:</td>  
-    <td class="form-edit form-edit-col2">'.$uebung->ID.'<br></td>
+    <td class="form-edit form-edit-col2">'.$uebung->ID.' 
+        &nbsp; <label><input type="checkbox" name="Entwurf" '.($Entwurf==1?'checked':'').' onchange="this.form.submit()" > Entwurf </label> 
+
+    <br><br></td>
   </tr> '; 
   
 echo '
@@ -135,31 +169,33 @@ echo '
    </td>
     </tr> '; 
 
-echo '<tr>    
-    <label>
-     <td class="form-edit form-edit-col1"><br>Datum:</td>   
-     <td class="form-edit form-edit-col2">
-        <br><input type="date" name="Datum" value="'.$uebung->Datum.'" oninput="changeBackgroundColor(this)" requested> 
-         <a href="edit_schueler_kalender.php?SchuelerID='.$uebung->SchuelerID.'&Datum='.$uebung->Datum.'" target="_blank">Übungstag öffnen</a>,    
-         <a href="edit_kalender.php?Datum='.$uebung->Datum.'" target="_blank">Kalenderdatum öffnen</a> 
-        </td>
-     </label>    
-  </tr> '; 
+if ($Entwurf==0) {
+  echo '<tr>    
+      <label>
+      <td class="form-edit form-edit-col1"><br>Datum:</td>   
+      <td class="form-edit form-edit-col2">
+          <br><input type="date" name="Datum" value="'.$uebung->Datum.'" oninput="changeBackgroundColor(this)" requested> 
+          <a href="edit_schueler_kalender.php?SchuelerID='.$uebung->SchuelerID.'&Datum='.$uebung->Datum.'" target="_blank">Übungstag öffnen</a>,    
+          <a href="edit_kalender.php?Datum='.$uebung->Datum.'" target="_blank">Kalenderdatum öffnen</a> 
+          </td>
+      </label>    
+    </tr> '; 
+}
 
 
-echo '
-  <tr>    
-    <label>
-    <td class="form-edit form-edit-col1">Übung Reihenfolge:</td>  
-    <td class="form-edit form-edit-col2">
-    <input type="number" name="Reihenfolge" value="'.$uebung->Reihenfolge.'" oninput="changeBackgroundColor(this)"> 
-      <i> (Reihenfolge innerhalb Schüler / Datum) </i> 
-    </td>
- 
-    </label>
-  </tr>     
-
-'; 
+if ($Entwurf==0) {
+  echo '
+    <tr>    
+      <label>
+      <td class="form-edit form-edit-col1">Übung Reihenfolge:</td>  
+      <td class="form-edit form-edit-col2">
+      <input type="number" name="Reihenfolge" value="'.$uebung->Reihenfolge.'" oninput="changeBackgroundColor(this)"> 
+        <i> (Reihenfolge innerhalb Schüler / Datum) </i> 
+      </td>
+      </label>
+    </tr>     
+  '; 
+}
 
 echo '
   <tr>    
@@ -212,23 +248,25 @@ echo '</td>
       </tr>'; 
 
 
-echo '
-  <tr>    
-  <label>  
-  <td class="form-edit form-edit-col1">Bewertung:</td>  
-  <td class="form-edit form-edit-col2">  
-        ';  
-        $bewertung=new Bewertung(); 
-        $bewertung->print_select($uebung->BewertungID); 
+if ($Entwurf==0) {
+            
+    echo '
+      <tr>    
+      <label>  
+      <td class="form-edit form-edit-col1">Bewertung:</td>  
+      <td class="form-edit form-edit-col2">  
+            ';  
+            $bewertung=new Bewertung(); 
+            $bewertung->print_select($uebung->BewertungID); 
 
-echo ' </label>  
-      '; 
-      $info->print_link_edit($bewertung->table_name, $uebung->BewertungID,$bewertung->Title, true); 
-      $info->print_link_table2('bewertungen'); 
+    echo ' </label>  
+          '; 
+          $info->print_link_edit($bewertung->table_name, $uebung->BewertungID,$bewertung->Title, true); 
+          $info->print_link_table2('bewertungen'); 
 
-echo '</td>
-    </tr>'; 
-    
+    echo '</td>
+        </tr>'; 
+}
     
       ?>
   <tr>    
@@ -260,6 +298,16 @@ echo '</td>
   <input type="hidden" name="SchuelerID" value="<?php echo $uebung->SchuelerID; ?>">  
   <input type="hidden" name="SchuelerName" value="<?php echo $uebung->SchuelerName; ?>">  
         
+<?php 
+
+if ($Entwurf==1) {
+    echo '  <input type="hidden" name="Datum" value="">'; 
+    echo '  <input type="hidden" name="BewertungID" value="">'; 
+    echo '  <input type="hidden" name="Reihenfolge" value="">'; 
+}
+
+?>
+
   </form>
 
   </table> 

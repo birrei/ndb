@@ -625,40 +625,73 @@ class Schueler {
     }
   }
 
-  function print_table_uebungen($Datum=''){
-
+  function print_table_uebungen($Datum='', $Entwurf){
+    // print_r(func_get_args()); // test 
+    
     $sql = new SQLPart(); 
-     
-    $query="SELECT uebung.Datum as `Datum`
-                  , uebung.Reihenfolge as `Reihen-folge`                   
-                  , uebung.Name as `Uebung Inhalt`  
-                  "; 
+    
+    if($Entwurf==0) {
 
-    $query.=", ".$sql->getSQL_COL_CONCAT_Noten(300); 
+      $query="SELECT uebung.Datum as `Datum`
+                    , uebung.Reihenfolge as `Reihen-folge`                   
+                    , uebung.Name as `Uebung Inhalt`  
+                    "; 
 
-    $query.="   , v_uebung_lookuptypes.LookupList2 as Besonderheiten   
-                  , uebung.Bemerkung  as `Übung Bemerkung`   
-                  , CONCAT(uebung.Anzahl, ' ', uebungtyp.Einheit) Dauer   
-                  , uebungtyp.Name as `Typ` 
-                  , bewertung.Name as Bewertung                
-                  , uebung.ID
-                ";                 
-    $query.="  
-          FROM  uebung 
-              left join uebungtyp on uebung.UebungtypID=uebungtyp.ID 
-              left join bewertung on bewertung.ID = uebung.BewertungID               
-              left join satz  on satz.ID=uebung.SatzID 
-              left join musikstueck on satz.MusikstueckID = musikstueck.ID
-              left JOIN sammlung on sammlung.ID = musikstueck.SammlungID  
-              left JOIN v_uebung_lookuptypes on v_uebung_lookuptypes.UebungID = uebung.ID 
-          WHERE uebung.SchuelerID = :ID "; 
+      $query.=", ".$sql->getSQL_COL_CONCAT_Noten(300); 
 
-    if (!empty($Datum)) {
-      $query.="AND uebung.Datum='".$Datum."'";  
+      $query.="   , v_uebung_lookuptypes.LookupList2 as Besonderheiten   
+                    , uebung.Bemerkung  as `Übung Bemerkung`   
+                    , CONCAT(uebung.Anzahl, ' ', uebungtyp.Einheit) Dauer   
+                    , uebungtyp.Name as `Typ` 
+                    , bewertung.Name as Bewertung                
+                    , uebung.ID
+                  ";                 
+      $query.="  
+            FROM  uebung 
+                left join uebungtyp on uebung.UebungtypID=uebungtyp.ID 
+                left join bewertung on bewertung.ID = uebung.BewertungID               
+                left join satz  on satz.ID=uebung.SatzID 
+                left join musikstueck on satz.MusikstueckID = musikstueck.ID
+                left JOIN sammlung on sammlung.ID = musikstueck.SammlungID  
+                left JOIN v_uebung_lookuptypes on v_uebung_lookuptypes.UebungID = uebung.ID 
+            WHERE uebung.Entwurf=0 
+            AND uebung.SchuelerID = :ID "; 
+
+      if (!empty($Datum)) {
+        $query.="AND uebung.Datum='".$Datum."'";  
+      }
+      $query.="  
+            ORDER BY uebung.Datum DESC, uebung.Reihenfolge DESC, uebung.Name DESC               
+          "; 
+
+    } else {
+
+      $query="SELECT uebung.Name as `Uebung Inhalt`  
+                    "; 
+
+      $query.=", ".$sql->getSQL_COL_CONCAT_Noten(300); 
+
+      $query.="   , v_uebung_lookuptypes.LookupList2 as Besonderheiten   
+                    , uebung.Bemerkung  as `Übung Bemerkung`   
+                    , CONCAT(uebung.Anzahl, ' ', uebungtyp.Einheit) Dauer   
+                    , uebungtyp.Name as `Typ` 
+                    , uebung.ID
+                  ";                 
+      $query.="  
+            FROM  uebung 
+                left join uebungtyp on uebung.UebungtypID=uebungtyp.ID 
+                left join satz  on satz.ID=uebung.SatzID 
+                left join musikstueck on satz.MusikstueckID = musikstueck.ID
+                left JOIN sammlung on sammlung.ID = musikstueck.SammlungID  
+                left JOIN v_uebung_lookuptypes on v_uebung_lookuptypes.UebungID = uebung.ID 
+            WHERE  uebung.Entwurf=1 
+            AND uebung.SchuelerID = :ID "; 
+      $query.="ORDER BY uebung.Name DESC               
+          "; 
+
+
     }
-    $query.="  
-          ORDER BY uebung.Datum DESC, uebung.Reihenfolge DESC, uebung.Name DESC               
-        "; 
+
 
     // echo '<pre>'.$query.'</pre>';
     $stmt = $this->db->prepare($query); 
