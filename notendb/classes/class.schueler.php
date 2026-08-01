@@ -625,7 +625,7 @@ class Schueler {
     }
   }
 
-  function print_table_uebungen($Datum='', $Entwurf){
+  function print_table_uebungen($Datum='', $Entwurf=0){
     // print_r(func_get_args()); // test 
     
     $sql = new SQLPart(); 

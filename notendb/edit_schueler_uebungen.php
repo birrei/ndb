@@ -7,8 +7,7 @@ echo '<div style="display: grid; grid-template-columns: auto auto;">';
 
 // $Datum=(isset($_REQUEST["Datum"])?$_REQUEST["Datum"]:date('Y-m-d')); 
 $Datum=(isset($_REQUEST["Datum"])?$_REQUEST["Datum"]:''); 
-
-$Entwurf=$_REQUEST["Entwurf"]; 
+$Entwurf=(isset($_REQUEST["Entwurf"])?$_REQUEST["Entwurf"]:0); 
 
 if($Entwurf==0) {
     echo '<form action="" method="post">'.PHP_EOL;       

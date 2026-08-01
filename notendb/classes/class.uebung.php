@@ -182,7 +182,7 @@ class Uebung {
                       , $BewertungID 
                       , $Entwurf  
                     ) {
-
+    // print_r(func_get_args()); 
     $update = $this->db->prepare("UPDATE uebung  
               SET UebungtypID= :UebungtypID
                 , `Name`=:Name
@@ -202,7 +202,8 @@ class Uebung {
     $update->bindParam(':UebungtypID', $UebungtypID, ($UebungtypID=='' ? PDO::PARAM_NULL : PDO::PARAM_INT));
     $update->bindParam(':SchuelerID', $SchuelerID, ($SchuelerID=='' ? PDO::PARAM_NULL : PDO::PARAM_INT));
     $update->bindParam(':Bemerkung', $Bemerkung);
-    $update->bindParam(':Datum', $Datum);      
+    // $update->bindParam(':Datum', $Datum);      
+    $update->bindParam(':Datum', $Datum, (empty($Datum)? PDO::PARAM_NULL : PDO::PARAM_STR));
     $update->bindParam(':Anzahl', $Anzahl);
     $update->bindParam(':Reihenfolge', $Reihenfolge);
     $update->bindParam(':SatzID', $SatzID, ($SatzID=='' ? PDO::PARAM_NULL : PDO::PARAM_INT));

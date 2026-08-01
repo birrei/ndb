@@ -62,12 +62,11 @@ switch($option) {
       $Datum_gespeichert = $uebung->Datum; 
       $Datum = $_REQUEST["Datum"]; 
 
-      // XXXX kann das wegbleiben? 
-      // if(empty($Datum)) { 
-      //   $info->print_user_error('Das Datum darf nicht leer sein!'); 
-      //   $Datum = $Datum_gespeichert;
-      //   // goto exec_update; 
-      // } 
+      if(empty($Datum)) { 
+        $info->print_user_error('Das Datum darf nicht leer sein!'); 
+        $Datum = $Datum_gespeichert;
+        // goto exec_update; 
+      } 
     
       if(!empty($Datum)) { 
 
@@ -164,9 +163,12 @@ echo '
   <td class="form-edit form-edit-col2"><b>'; 
     echo $uebung->SchuelerName; 
     echo '</b> &nbsp; &nbsp; '; 
-    $info->print_link_edit('schueler', $uebung->SchuelerID, 'Schueler', true);    
+    // $info->print_link_edit('schueler', $uebung->SchuelerID, 'Schueler', true);    
+    // XXXX  
    echo '
+    <a href="edit_schueler.php?ID='.$uebung->SchuelerID.'" target="_blank">Schüler öffnen</a>
    </td>
+  
     </tr> '; 
 
 if ($Entwurf==0) {

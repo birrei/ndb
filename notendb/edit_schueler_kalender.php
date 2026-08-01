@@ -28,6 +28,11 @@ switch($option) {
           goto pagefoot;  
       }
       $ID=$uebungstag->getID($_REQUEST["SchuelerID"], $_REQUEST["Datum"]); 
+      if (empty($ID)) {
+          $info->print_user_error('Das Datum existiert nicht!'); // sollte eigentlich nicht vorkommen 
+          $show_data=false; 
+          goto pagefoot;          
+      }
       $uebungstag->ID = $ID; 
     }
     $show_data = $uebungstag->load_row(); 
