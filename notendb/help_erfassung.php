@@ -235,8 +235,7 @@ include_once('head.php');
 
                 3) Wenn bereits Übungen zum Übungstag existieren 
                 In diesem Fall werden alle Übungen automatisch an das geänderte Datum angepasst. 
-
-    
+   
         </pre>
 
   	<h2 class="chapter-title chapter-title-h2" id="erfassung_uebungstage_einlesen">Übungstage einlesen</h2>
@@ -255,7 +254,13 @@ include_once('head.php');
                 <li>Über das Formular "Übungstag bearbeiten" (Button "Neue Übung einfügen")</li>
             </ul>
 
-        <h3 class="chapter-title chapter-title-h3" id="erfassung_uebung_inhalt">Übung Inhalt XXX</h3>
+  
+        <h3 class="chapter-title chapter-title-h3" id="erfassung_uebung_entwurf">Übung Entwurf</h3>
+            <p>Bei Aktivierung des Feldes wird die Übung als Entwurf gespeichert, bei Deaktivierung wieder als normale Übung. </p> 
+            <p>Wird die Übung als Entwurft gespeichert, werden die Felder "Datum", "Reihenfolge" und "Bewertung" entfernt. </p> 
+            <p>Hinweis: Beim Anlegen einer neuen Übung wird nicht standardmäßig die Eigenschaft "Entwurf" aktiviert - sie muss bei Bedarf explizit gesetzt werden.</p>
+            <p>Übungsentwürfe werden im Unterformular "Übungsentwürfe" aufgelistet. </p>
+        <h3 class="chapter-title chapter-title-h3" id="erfassung_uebung_inhalt">Übung Inhalt XXX</h3>            
         <h3 class="chapter-title chapter-title-h3" id="erfassung_uebung_typ">Übung Typ XXX</h3>
         <h3 class="chapter-title chapter-title-h3" id="erfassung_uebung_datum">Übung Datum</h3>
             <!-- XXXX in Arbeit -->

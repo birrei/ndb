@@ -77,12 +77,14 @@ include_once('head.php');
 
 	<h2 class="chapter-title chapter-title-h1" id="uebersichten_uebungen">Übersicht Übungen</h2>
 
+        <p> Einschränkungen: Es werden werden nur die Übungen aktiver Schüler angezeigt. </p> 
+
         <p>Spalten: </p>
             <ul>
                 <li>Schueler Name</li>
-                <li>Übung Datum</li>
+                <li>Übung Datum (bei Entwürfen leer) </li>
                 <li>Schüler Reihenfolge </li>
-                <li>Übung Reihenfolge </li>
+                <li>Übung Reihenfolge (Bei Entwürfen leer)</li>
                 <li>Uebung Inhalt</li>
                 <li>Noten (Sammlung / Musikstück / Satz Name)</li>
                 <li>Noten Bemerkung (Inhalte aus Musikstück / Satz Bemerkung) </li>
@@ -90,8 +92,7 @@ include_once('head.php');
                 <li>Übung Bemerkung</li>
                 <li>Übung Dauer</li>
                 <li>Uebung Typ</li>
-                <li>Bewertung</li>
-                <li>Unterrichtstag Geplant (Nein=Leer, Ja = X) </li>
+                <li>Bewertung (bei Enwürfen leer)</li>
                 <li>ID</li>
              
             </ul>  
@@ -99,14 +100,14 @@ include_once('head.php');
         <p>Suche / Filter: </p>
         
             <ul>
-                <li>Datum (Standard-Einstellung: Heutiges Datum) (Hinweis: über den Beschriftungslink kann das Datum geöffnet werden)</li>
+                <li>Datum (Standard-Einstellung: Heutiges Datum. Hinweis: über den Beschriftungslink kann das Datum geöffnet werden)</li>
                 <li>Schüler</li>
                 <li>Übung Typ</li>
                 <li>Bewertung</li>
+                <li>Entwurf (Standard-Einstellung: nein)</li>
                 <li>Suchtext. Durchsucht werden folgende Felder: 
                         Übung Name, Übung Bemerkung, Übung Typ Name, Sammlung Name / Bemerkung, 
                         Musikstück Name / Bemerkung, Satz Name / Bemerkung
-                <li>Geplant (Unterrichtsplanung für den Tag abgeschlossen: ja / nein)</li>    
             </li>
 
             </ul> 
@@ -116,7 +117,11 @@ include_once('head.php');
             <br> Falls im Filter ein Datum ausgewählt ist, wird dieses Datum als Vorgabe für die neue Übung übernommen. 
                 </p>
 	
-                <h2 class="chapter-title chapter-title-h1" id="uebersichten_uebungstage">Übersicht Übungstage</h2>
+    <h2 class="chapter-title chapter-title-h1" id="uebersichten_uebungstage">Übersicht Übungstage</h2>
+
+        <p> Einschränkungen: Es werden werden nur die Übungen aktiver Schüler angezeigt.
+            Es sind nur echte Übungen integriert, Übungsentwürfe werden ausgeblendet</p> 
+
 
         <p>Spalten: </p>
         <ul>
@@ -146,13 +151,12 @@ include_once('head.php');
                 <li>Schuljahr</li>
                 <li>Geplant </li>
                 <li>Protokolliert </li>
-                <li>Suchtext (Durchsucht werden "Schüler Bemerkung" und "Übungstag Bemerkung") 
-            </li>
+                <li>Suchtext (Durchsucht werden "Schüler Bemerkung" und "Übungstag Bemerkung") </li>
 
             </ul> 
 
         <p>Link "Neu erfassen": 
-            <br> Einfügen einer neuen Übung für den im Filter ausgewählten Schüler.</p>
+            <br> Einfügen einer neuen Übung für den im Filter ausgewählten Schüler. Sollte ein Datum ausgewählt sein, wird dieses für die neue Übung übernommen. </p>
                                 
     <h2 class="chapter-title chapter-title-h1" id="uebersichten_bewertungen">Übersicht Bewertungen</h2>
             <p>Spalten: </p>
@@ -328,60 +332,6 @@ include_once('head.php');
             </ul>  
 
 
-
- 
-    <h2 class="chapter-title chapter-title-h1" id="uebersichten_schueler-kalender-vorlage">Vorlage Übungstage ("Schüler Plan-Kalender")</h2>
-        <p>
-            Die Übersicht dient der - optionalen - Kontrolle vor dem XXXX Einlesen der Schüler-spezifischen Übungstage. 
-            Die Übersicht zeigt an, ob der Unterrichts-Tag des Schülers für die Übungstage verwendbar ist (Eintrag = 1) oder nicht (Eintrag = 0). 
-            Er ist dann nicht verwendbar, wenn er in eine Ferienzeit oder auf einen Feiertag. 
-            Für das spätere Einlesen in die Übungstage werden die Zeilen mit "Eintrag = 1" verwendet. 
-            
-            
-            <br><br>Die Übersicht ist ein Abfrage auf Grundlage folgender Daten: 
-            <br>* Schüler > "Unterricht Wochentag" 
-            <br>* Schuljahr 
-            <br>* Ferienzeiten
-            <br>* Feiertage
-            
-            <br> <br> 
-   
-
-        </p>
-
-        <p>Spalten: </p>
-            <ul>       
-                <li>Schueler </li>
-                <li>Datum</li>
-                <li>Wochentag (= Unterrichts- Wochentag des Schülers)</li>
-                <li>Schuljahr</li>
-                <li>Eintrag (1=Ja, 0 = nein)   </li>
-                <li>Nicht-Eintrag Ausschlussgrund (Ferien, Feiertag)</li>
-                
-
-            </ul>  
-
-
-
-        <p>Filter: </p>
-            <ul>       
-                <li>Schuljahr</li>
-                <li>Schüler </li>
-                <li>Eintrag</li>
-            </ul>  
-
-
-
-    <h2 class="chapter-title chapter-title-h1" id="uebersichten_schuljahre">Übersicht Schuljahre</h2>
-            <p>Spalten: </p>
-            <ul>       
-                <li>ID</li>
-                <li>Bezeichnung</li>
-                <li>Datum von</li>
-                <li>Datum bis</li>
-                <li>Ferien (Auflistung) </li>
-                <li>Feiertage (Auflistung) </li>
-            </ul>  
 
 
 

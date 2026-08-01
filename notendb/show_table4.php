@@ -393,6 +393,7 @@ switch ($ansicht)  // setzen: $PageTitle, $table_edit, $show_help_link
     $BewertungID=(isset($_REQUEST["BewertungID"])?$_REQUEST["BewertungID"]:'');    
     $Unterricht_Geplant=(isset($_REQUEST["Unterricht_Geplant"])?$_REQUEST["Unterricht_Geplant"]:'');  
     $Suchtext=(isset($_REQUEST["Suchtext"])?$_REQUEST["Suchtext"]:'');   
+    $Entwurf=(isset($_REQUEST["Entwurf"])?$_REQUEST["Entwurf"]:'0'); 
 
     echo '<form action="" method="get">'.PHP_EOL;       
     echo '<a href="edit_kalender.php?Datum='.$Datum.'&option=edit" target="_blank" title="Datum bearbeiten">Datum</a>: <input type="date" name="Datum" value="'.$Datum.'" onchange="this.form.submit()">'; 
@@ -413,6 +414,13 @@ switch ($ansicht)  // setzen: $PageTitle, $table_edit, $show_help_link
     echo ' Bewertung: '.PHP_EOL; 
     $bewertung->print_preselect($BewertungID); 
 
+    echo ' &#9475;';
+    echo ' Entwurf: <select id="Entwurf" name="Entwurf" onchange="this.form.submit()" >
+              <option value="" '.($Entwurf==''?'selected':'').'></option>
+              <option value="0" '.($Entwurf=='0'?'selected':'').'>Nein</option>
+              <option value="1" '.($Entwurf=='1'?'selected':'').'>Ja</option>
+          </select> ';       
+    echo ' &#9475;';
     echo ' Suchtext: <input type="text" id="Suchtext" name="Suchtext" size="30px" value="'.$Suchtext.'"> '; 
 
     echo '<input type="submit" class="btnSave" name="senden" value="Suchen">';
@@ -454,7 +462,9 @@ switch ($ansicht)  // setzen: $PageTitle, $table_edit, $show_help_link
     if ($Unterricht_Geplant!='') {
       $query.="AND kalender.Unterricht_Geplant=".$Unterricht_Geplant." ".PHP_EOL;  
     }            
-
+    if ($Entwurf!='') {
+      $query.="AND uebung.Entwurf=".$Entwurf." ".PHP_EOL;  
+    }   
     if (!empty($Datum)) {
       $query.="AND uebung.Datum='".$Datum."' ".PHP_EOL;  
     }
@@ -536,6 +546,8 @@ switch ($ansicht)  // setzen: $PageTitle, $table_edit, $show_help_link
               <option value="1" '.($Unterricht_Protokolliert=='1'?'selected':'').'>Ja</option>
           </select> '; 
 
+        
+
     echo ' &#9475;';            
     echo ' Suchtext: <input type="text" id="Suchtext" name="Suchtext" size="30px" value="'.$Suchtext.'"> '; 
 
@@ -580,6 +592,8 @@ switch ($ansicht)  // setzen: $PageTitle, $table_edit, $show_help_link
           LEFT join uebungtyp 
               ON uebung.UebungtypID=uebungtyp.ID 
             WHERE schueler.Aktiv=1 
+            AND uebung.Entwurf= 0 
+
         "; 
  
     if ($Unterricht_Geplant!='') {
@@ -588,7 +602,7 @@ switch ($ansicht)  // setzen: $PageTitle, $table_edit, $show_help_link
     if ($Unterricht_Protokolliert!='') {
       $query.="AND kalender.Unterricht_Protokolliert=".$Unterricht_Protokolliert." ".PHP_EOL;  
     }       
-
+  
     if (!empty($Datum)) {
       $query.="AND schueler_kalender.Datum='".$Datum."' ".PHP_EOL;  
     }
