@@ -191,42 +191,40 @@ class SchuelerKalender extends Kalender {
       return; 
     }
 
-    $query="INSERT INTO schueler_kalender (SchuelerID, Datum )           
-        SELECT schueler.ID AS SchuelerID, kalender.Datum
-        FROM schueler 
-          INNER JOIN kalender 
-            ON kalender.Wochentag_Nr = schueler.Unterricht_Wochentag
-          INNER JOIN schuljahr 
-            ON kalender.Datum  BETWEEN schuljahr.Datum_Start AND schuljahr.Datum_Ende 
-          LEFT JOIN (
-            SELECT schueler_kalender.SchuelerID , schueler_kalender.Datum 
-            FROM schueler_kalender 
+    $query="INSERT INTO schueler_kalender (SchuelerID, Datum, Eingelesen)           
+            SELECT schueler.ID AS SchuelerID, kalender.Datum, 1 as Eingelesen 
+            FROM schueler 
+            INNER JOIN kalender 
+              ON kalender.Wochentag_Nr = schueler.Unterricht_Wochentag
             INNER JOIN schuljahr 
-            ON schueler_kalender.Datum  BETWEEN schuljahr.Datum_Start  AND schuljahr.Datum_Ende 
-            AND schuljahr.ID = :SchuljahrID 
-          ) AS  schueler_kalender_vorhanden 
-            ON schueler.ID = schueler_kalender_vorhanden.SchuelerID 
-            AND kalender.Datum  = schueler_kalender_vorhanden.Datum 
-          LEFT JOIN ferien 
-            ON kalender.Datum BETWEEN ferien.Datum_Start AND ferien.Datum_Ende 
-            AND ferien.SchuljahrID = schuljahr.ID  
-          LEFT JOIN feiertag 
-            ON kalender.Datum = feiertag.Datum 
-            AND  feiertag.SchuljahrID = schuljahr.ID 
-          WHERE schueler.Aktiv =1  
-          AND schuljahr.Eingelesen = 0 
-          AND  (ferien.ID IS NULL AND feiertag.ID IS  NULL) 
-          AND schueler_kalender_vorhanden.Datum IS NULL -- schon vorhandene (manuelle) Einträge ausschließen 
-          AND schuljahr.ID = :SchuljahrID "; 
+              ON kalender.Datum  BETWEEN schuljahr.Datum_Start AND schuljahr.Datum_Ende 
+            LEFT JOIN (
+                SELECT schueler_kalender.SchuelerID , schueler_kalender.Datum 
+                FROM schueler_kalender 
+                INNER JOIN schuljahr 
+                ON schueler_kalender.Datum  BETWEEN schuljahr.Datum_Start  AND schuljahr.Datum_Ende 
+                AND schuljahr.ID = :SchuljahrID 
+            ) AS  schueler_kalender_vorhanden 
+              ON schueler.ID = schueler_kalender_vorhanden.SchuelerID 
+              AND kalender.Datum  = schueler_kalender_vorhanden.Datum 
+            LEFT JOIN ferien 
+              ON kalender.Datum BETWEEN ferien.Datum_Start AND ferien.Datum_Ende 
+              AND ferien.SchuljahrID = schuljahr.ID  
+            LEFT JOIN feiertag 
+              ON kalender.Datum = feiertag.Datum 
+              AND  feiertag.SchuljahrID = schuljahr.ID 
+            WHERE schueler.Aktiv =1  
+              AND  (ferien.ID IS NULL AND feiertag.ID IS  NULL) 
+              AND schueler_kalender_vorhanden.Datum IS NULL -- schon vorhandene (manuelle) Einträge ausschließen 
+              AND schuljahr.ID = :SchuljahrID "; 
 
     if($SchuelerID!='') {
       $query.="AND schueler.ID=:SchuelerID "; 
     }
 
     $query.="GROUP BY kalender.Datum, schueler.ID 
-          ORDER BY schueler.ID, kalender.Datum
+            ORDER BY schueler.ID, kalender.Datum
           "; 
-
 
     $insert = $this->db->prepare($query);
     $insert->bindParam(':SchuljahrID', $SchuljahrID, PDO::PARAM_INT);
@@ -253,12 +251,31 @@ class SchuelerKalender extends Kalender {
     }
     
     $query="DELETE schueler_kalender 
+			    -- SELECT * 
             FROM schueler_kalender 
+            INNER JOIN 
+            schuljahr 
+            ON schueler_kalender.Datum  BETWEEN schuljahr.Datum_Start   AND schuljahr.Datum_Ende  
+            LEFT JOIN 
+              ( 
+              SELECT schueler_kalender.SchuelerID, schueler_kalender.Datum, 'mit Uebung' AS Info 
+                FROM schueler_kalender
                 INNER JOIN 
-                schuljahr 
-                ON schueler_kalender.Datum  BETWEEN schuljahr.Datum_Start   AND schuljahr.Datum_Ende   
-            WHERE  schuljahr.Eingelesen = 0 
-            AND schuljahr.ID = :SchuljahrID "; 
+                uebung 
+                ON uebung.Datum = schueler_kalender.Datum 
+                and uebung.SchuelerID = schueler_kalender.SchuelerID                 
+                WHERE schueler_kalender.Eingelesen = 1 
+                UNION 
+                SELECT SchuelerID, Datum, 'manuell angelegt' AS Info 
+              FROM schueler_kalender
+              WHERE schueler_kalender.Eingelesen= 0            	
+            	) schueler_kalender_exclude 
+            ON schueler_kalender.Datum = schueler_kalender_exclude.Datum 
+            AND schueler_kalender.SchuelerID  = schueler_kalender_exclude.SchuelerID 
+            WHERE  1=1 
+            AND schueler_kalender_exclude.Datum IS NULL 
+            AND schuljahr.ID = :SchuljahrID
+            "; 
 
     if($SchuelerID!='') {
       $query.="AND schueler_kalender.SchuelerID=:SchuelerID "; 

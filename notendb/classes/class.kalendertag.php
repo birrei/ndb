@@ -145,6 +145,9 @@ class SchuelerKalendertag extends Kalendertag {
 
   public string $Title='Schüler Übungstag'; 
   public string $Bemerkung=''; 
+  public int $Eingelesen; // 1 wenn über Einlesen-Prozess hinzugefügt. 0 Wenn manuell angelegt. _
+                          // nur relevant bei insert, nicht bei updates. 
+
 
   public function load_row() {
 
@@ -157,7 +160,8 @@ class SchuelerKalendertag extends Kalendertag {
           , COALESCE(ferien.Bezeichnung,'') AS Ferien 
           , COALESCE(feiertag.Bezeichnung, '') AS Feiertag 
           , COALESCE(schuljahr.Bezeichnung, '') AS Schuljahr
-          , schueler.Name as SchuelerName   
+          , schueler.Name as SchuelerName
+          , schueler_kalender.Eingelesen    
     FROM schueler_kalender 
           INNER JOIN schueler 
             ON schueler.ID= schueler_kalender.SchuelerID           
@@ -198,6 +202,8 @@ class SchuelerKalendertag extends Kalendertag {
       $this->Schuljahr=$row_data["Schuljahr"]; 
       $this->SchuelerID=$row_data["SchuelerID"]; 
       $this->SchuelerName=$row_data["SchuelerName"]; 
+      $this->Eingelesen=$row_data["Eingelesen"];    
+
 
       return true; 
     } 
@@ -212,7 +218,8 @@ class SchuelerKalendertag extends Kalendertag {
     // print_r(func_get_args()); 
 
     $insert = $this->db->prepare("INSERT INTO schueler_kalender  
-                                  SET `SchuelerID` = :SchuelerID ");
+                                  SET `SchuelerID` = :SchuelerID
+                                      , Eingelesen=0 ");
           
     $insert->bindParam(':SchuelerID', $SchuelerID,PDO::PARAM_INT);
 

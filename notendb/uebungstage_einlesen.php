@@ -41,7 +41,7 @@ $schueler->print_preselect($SchuelerID);
 
 echo '</form>';           
 
-echo '<p><a href="show_table4.php?ansicht=uebungstage&SchuljahrID='.$SchuljahrID.'" target="_blank">Übungstage anzeigen </a> </p>'; 
+echo '<p><a href="show_table4.php?ansicht=uebungstage&SchuljahrID='.$SchuljahrID.'" target="_blank">Übersicht Übungstage anzeigen </a> </p>'; 
 // echo '<br><br>';
 
 echo '<hr>'; 
@@ -68,7 +68,9 @@ echo '</form>';
 echo '<p>Hinweise: 
   Das Schuljahr muss ausgewählt sein, optional kann ein Schüler ausgewählt werden. 
       Bereits bestehende Übungstage im Schuljahrzeitraum werden  gelöscht!
-      Falls bereits Übungstage mit zugeordnete Übungen vorhanden sind, ist keine Löschung möglich. 
+      <br>Nicht gelöscht werden: 
+      <br> * Allgemein Übungstage mit bereits zugeordneten Übungen. 
+      <br> * Übungstage, die manuell angelegt wurden (also nicht über den Einlesen-Vorgang erzeugt wurden) . 
 </p>'; 
 
 

@@ -20,9 +20,7 @@ class Schuljahr {
   public string $Datum_Start_ISO_8601; // YYYYMMDD   // ISO 8601
   public string $Datum_Ende_ISO_8601;
   
-  public int $Eingelesen; // Markieren, wenn Übungstage eingelesen sind  
 
-    
   // public $titles_selected_list; 
   public string $Title='Schuljahr';
   public string $Titles='Schuljahre';  
@@ -57,7 +55,6 @@ class Schuljahr {
   public function update_row($Name
                 , $Datum_Start
                 , $Datum_Ende
-                , $Eingelesen
     ) 
     {
       // XXXX Prüfung Datumswerte 
@@ -65,14 +62,12 @@ class Schuljahr {
                                     SET Bezeichnung = :Name
                                       , Datum_Start = :Datum_Start
                                       , Datum_Ende = :Datum_Ende
-                                      , Eingelesen = :Eingelesen 
                               WHERE `ID` = :ID"); 
 
       $update->bindParam(':ID', $this->ID, PDO::PARAM_INT);
       $update->bindParam(':Name', $Name);
       $update->bindParam(':Datum_Start', $Datum_Start);
       $update->bindParam(':Datum_Ende', $Datum_Ende);
-      $update->bindParam(':Eingelesen', $Eingelesen);
     try {
       $update->execute();
       $this->load_row();  
@@ -89,7 +84,6 @@ class Schuljahr {
                                   , Bezeichnung as `Name`
                                   , Datum_Start
                                   , Datum_Ende 
-                                  , Eingelesen
                           FROM `schuljahr` 
                           WHERE `ID` = :ID");
 
@@ -104,7 +98,6 @@ class Schuljahr {
       // $this->Datum_Start_EN=$row_data["Datum_Start"];    
       // $this->Datum_Ende_EN=$row_data["Datum_Ende"];    
       $this->Name=$row_data["Name"];    
-      $this->Eingelesen=$row_data["Eingelesen"];    
 
       // $Datum_Start = new Datetime($this->Datum_Start_EN); 
       // $Datum_Ende = new Datetime($this->Datum_Ende_EN); 

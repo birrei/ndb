@@ -379,6 +379,10 @@ switch ($ansicht)  // setzen: $PageTitle, $table_edit, $show_help_link
              ORDER BY schueler.Unterricht_Wochentag, schueler.Unterricht_Reihenfolge 
             "; 
 
+
+    echo '<p><a href="edit_'.$table_edit.'.php?option=insert" target="_blank">Neu erfassen</a></p>';
+
+
     break; 
 
 
@@ -588,11 +592,12 @@ switch ($ansicht)  // setzen: $PageTitle, $table_edit, $show_help_link
           LEFT JOIN uebung 
               ON schueler.ID = uebung.SchuelerID 
               AND schueler_kalender.Datum = uebung.Datum 
+              AND uebung.Entwurf= 0 
             -- LEFT JOIN wochentage ON wochentage.wochentag_nr = schueler.Unterricht_Wochentag                   
           LEFT join uebungtyp 
               ON uebung.UebungtypID=uebungtyp.ID 
             WHERE schueler.Aktiv=1 
-            AND uebung.Entwurf= 0 
+            
 
         "; 
  
@@ -1125,14 +1130,7 @@ switch ($ansicht)  // setzen: $PageTitle, $table_edit, $show_help_link
     $add_link_edit=true; 
     $table_edit='schuljahr';   
 
-    $Eingelesen=(isset($_REQUEST["Eingelesen"])?$_REQUEST["Eingelesen"]:'');
-
     echo '<form action="" method="get">'.PHP_EOL;       
-    echo ' Eingelesen <select id="Eingelesen" name="Eingelesen" onchange="this.form.submit()" >
-              <option value="" '.($Eingelesen==''?'selected':'').'></option>
-              <option value="1" '.($Eingelesen=='1'?'selected':'').'>Ja</option>
-              <option value="0" '.($Eingelesen=='0'?'selected':'').'>Nein</option>
-              </select> '; 
 
     // echo '<input type="submit" class="btnSave" name="senden" value="Suchen">';
     echo '<input type="hidden" name="ansicht" value="'.$ansicht.'">'; 
@@ -1144,17 +1142,12 @@ switch ($ansicht)  // setzen: $PageTitle, $table_edit, $show_help_link
           , schuljahr.Bezeichnung 
           , schuljahr.Datum_Start as `Datum von`
           , schuljahr.Datum_Ende as `Datum bis`
-          , schuljahr.Eingelesen 
           , GROUP_CONCAT(DISTINCT DATE_FORMAT(ferien.Datum_Start, '%d.%m.%Y'), ' - ', DATE_FORMAT(ferien.Datum_Ende, '%d.%m.%Y'),' ', ferien.Bezeichnung ORDER BY ferien.Datum_Start separator '<br>') AS Ferien 
            , GROUP_CONCAT(DISTINCT DATE_FORMAT(feiertag.Datum, '%d.%m.%Y'), ' ', feiertag.Bezeichnung ORDER BY feiertag.Datum separator '<br>') AS Feiertage  
         FROM schuljahr 
         LEFT JOIN ferien ON ferien.SchuljahrID=schuljahr.ID 
         LEFT JOIN feiertag ON feiertag.SchuljahrID=schuljahr.ID 
       WHERE 1=1 "; 
-
-    if ($Eingelesen!='') {
-      $query.="AND schuljahr.Eingelesen=".$Eingelesen." ".PHP_EOL;  
-    }    
 
     $query.="GROUP BY schuljahr.ID 
       ORDER BY schuljahr.Datum_Start DESC "; 

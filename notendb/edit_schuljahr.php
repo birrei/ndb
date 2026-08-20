@@ -33,12 +33,10 @@ switch($option) {
   
   case 'update': 
     $schuljahr->ID = $_POST["ID"];   
-    $Eingelesen=(isset($_POST["Eingelesen"])?1:0);      
     $schuljahr->update_row(
                 $_POST["Name"]
                 , $_POST["Datum_Start"]
                 , $_POST["Datum_Ende"] 
-                , $Eingelesen
                 ); 
     $show_data=true;           
     break; 
@@ -108,17 +106,6 @@ echo '
         </td>
       </label>
     </tr> 
-
-    <tr>    
-      <label>
-      <td class="form-edit form-edit-col1">Eingelesen:</td>  
-      <td class="form-edit form-edit-col2">
-             <label><input type="checkbox" name="Eingelesen" '.($schuljahr->Eingelesen==1?'checked':'').'> Eingelesen </label> 
-            &nbsp; <i>Aktivieren, wenn Ferien, Feiertage und Übungstage-Grundlage für das Schuljahr hinterlegt sind. </i> 
-        </td>
-      </label>
-    </tr>     
-
     
     <tr> 
       <td class="form-edit form-edit-col1"></td> 

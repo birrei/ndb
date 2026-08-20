@@ -240,7 +240,6 @@ include_once('head.php');
 
   	<h2 class="chapter-title chapter-title-h2" id="erfassung_uebungstage_einlesen">Übungstage einlesen</h2>
 
-      <p>Hinweis: Übungstage können nur ingelesen bzw. gelöscht werden, sofern für das gewählte Schuljahr die Eigenschaft "Eingelesen = Nein" gesetzt ist. XXXX</p> 
 
     <h2 class="chapter-title chapter-title-h3" id="erfassung_uebung">Übung</h2>
 
@@ -346,20 +345,18 @@ include_once('head.php');
 	<h2 class="chapter-title chapter-title-h2" id="erfassung_schuljahr">Stammdaten: Schuljahr</h2>
 
         <h3 class="chapter-title chapter-title-h3" id="erfassung_schuljahr_name">Name</h3>
+                    <p> XXXX</p>
+
         <h3 class="chapter-title chapter-title-h3" id="erfassung_schuljahr_datum">Datum von / bis </h3>
-        <h3 class="chapter-title chapter-title-h3" id="erfassung_schuljahr_eingelesen">Eingelesen</h3>
-            <P> Bezieht sich auf das Kapitel <a href="#erfassung_uebungstage_einlesen">Übungstage einlesen</a> ... XXXX 
+                    <p> XXXX</p>
 
         <h3 class="chapter-title chapter-title-h3" id="erfassung_schuljahr_ferien">Ferien</h3>
+                    <p> XXXX</p>
+
         <h3 class="chapter-title chapter-title-h3" id="erfassung_schuljahr_feiertage">Feiertage</h3>
+                    <p> XXXX</p>
 
-
-
-
-
-    	<h2 class="chapter-title chapter-title-h2" id="erfassung_uebungstage_einlesen">Stammdaten: Kalender</h2>
-
-            
+    <h2 class="chapter-title chapter-title-h2" id="erfassung_uebungstage_einlesen">Stammdaten: Kalender</h2>
 
             <p> XXXX</p>
 

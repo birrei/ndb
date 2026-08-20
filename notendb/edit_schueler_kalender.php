@@ -91,15 +91,6 @@ case 'insert':
         goto exec_update; 
       }
 
-      // verworfen, XXX löschen 
-      // if(!$uebungstag->SchuljahrEingelesen($Datum)) {
-      //   $info->print_user_error('Fehler: Das Datum '.$Datum_DE.' liegt nicht innerhalb eines eingelesenen Schuljahrs!');
-      //   $Datum=$Datum_gespeichert_EN ;  
-      //   $Datum_DE=$Datum_gespeichert_DE;  
-      //   $update_mode=2; 
-      //   goto exec_update;     
-      // }
-
     }
 
     exec_update: 
@@ -138,7 +129,11 @@ case 'insert':
 $info->print_screen_header($uebungstag->Title.' bearbeiten'); 
 
 
+
 if (!$show_data) {goto pagefoot;}
+
+$typeInfo = $uebungstag->Eingelesen==1?'Eingelesener Übungstag':'Manuell angelegter Übungstag'; 
+$info->print_info($typeInfo); 
 
 ?>
 
@@ -147,7 +142,10 @@ if (!$show_data) {goto pagefoot;}
 <table class="form-edit"> 
   <tr>
     <td class="form-edit form-edit-col1">ID:</td>  
-    <td class="form-edit form-edit-col2"><?php echo $uebungstag->ID; ?> <br></td>
+    <td class="form-edit form-edit-col2"><?php 
+        echo $uebungstag->ID; 
+
+    ?> <br></td>
   </tr> 
   <tr>    
   <label>
