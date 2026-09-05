@@ -30,15 +30,31 @@ include_once('head.php');
              <!-- (XXX). Hinweis: Die angezeigte Zahl unter "ID" ist nicht die ID aus der Standort-Tabelle, sondern die ID der Verknüpfungstabelle.  -->
             </p>
         <h3 class="chapter-title chapter-title-h3" id="erfassung_sammlung_musikstuecke">Sammlung: Untertabelle "Musikstücke"</h3>
-            <p> Die untergeordneten Musikstücke werden angezeigt. 
+            <p> Die untergeordneten Musikstücke werden sortiert nach Musikstück-Nummer angezeigt. 
                 Per Klick auf "Bearbeiten" öffnet sich das Musikstück im neuen Register. 
             </p>
+
+        <h3 class="chapter-title chapter-title-h3" id="erfassung_sammlung_musikstuecke_kompakt">Sammlung: Untertabelle "Musikstücke kompakt"</h3>
+            <p> Die untergeordneten Musikstücke werden sortiert nach Musikstück Name angezeigt. 
+                Es werden nur Spalten mit didaktisch relevanten Inhalten angezeigt. 
+
+                Per Klick auf "Bearbeiten" öffnet sich das Musikstück im neuen Register. 
+            </p>
+                               
                             
         <h3 class="chapter-title chapter-title-h3" id="erfassung_sammlung_saetze">Sammlung: Untertabelle "Sätze" </h3>
         
-            <p> Die untergeordneten Musikstücke und Sätze werden angezeigt. Es werden nur die Musikstücke angezeigt, für die Sätze angelegt wurden. 
+            <p> Die untergeordneten Musikstücke und Sätze werden jeweils sortiert nach Nummer angezeigt  
+                Es werden nur die Musikstücke angezeigt, für die Sätze angelegt wurden.  
                 Per Klick auf "Bearbeiten" öffnet sich der "Satz" in neuem Fenster.   </p>
-                    
+
+      <h3 class="chapter-title chapter-title-h3" id="erfassung_sammlung_saetze_kompakt">Sammlung: Untertabelle "Sätze kompakt" </h3>
+        
+            <p> Die untergeordneten Musikstücke und Sätze werden jeweils sortiert nach Name angezeigt  
+                Es werden nur die Musikstücke angezeigt, für die Sätze angelegt wurden. 
+                 Es werden nur Spalten mit didaktisch relevanten Inhalten angezeigt.                
+                Per Klick auf "Bearbeiten" öffnet sich der "Satz" in neuem Fenster.   </p>
+                                        
         <h3 class="chapter-title chapter-title-h3" id="erfassung_sammlung_saetze_schueler">Sammlung: Untertabelle "Sätze + Schüler" </h3>
         
             <p> Die untergeordneten Musikstücke und Sätze mit Schülerverknüpfungen werden angezeigt. 

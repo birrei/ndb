@@ -837,6 +837,41 @@ include_once('class.link.php');
   }  
 
 
+  function print_table_musikstuecke_kompakt(){
+
+    $query="SELECT musikstueck.ID 
+            , musikstueck.Nummer 
+            , musikstueck.Name
+            , materialtyp.Name as Materialtyp             
+            , GROUP_CONCAT(DISTINCT satz.Nr order by satz.Nr SEPARATOR ', ') Saetze
+            , musikstueck.Bemerkung                                                      
+    from musikstueck 
+      left join satz on satz.MusikstueckID = musikstueck.ID 
+      left join materialtyp on musikstueck.MaterialtypID = materialtyp.ID
+    WHERE musikstueck.SammlungID = :SammlungID 
+    GROUP BY musikstueck.ID 
+    ORDER by musikstueck.Name
+    "; 
+
+    $stmt = $this->db->prepare($query); 
+    $stmt->bindParam(':SammlungID', $this->ID, PDO::PARAM_INT); 
+      
+    try {
+      $stmt->execute(); 
+            
+      $html = new HTML_Table($stmt); 
+      $html->edit_link_table='musikstueck'; 
+      $html->edit_link_title='Musikstück'; 
+      $html->edit_link_open_newpage=true; 
+      $html->print_table2(); 
+
+    }
+    catch (PDOException $e) {
+      $this->info->print_user_error(); 
+      $this->info->print_error($stmt, $e); 
+    }
+  }  
+
 
 
     
@@ -878,6 +913,45 @@ include_once('class.link.php');
     WHERE musikstueck.SammlungID = :SammlungID 
     GROUP BY musikstueck.ID, satz.ID  
     ORDER by musikstueck.Nummer, musikstueck.Name, satz.Nr, satz.Name"; 
+
+    $stmt = $this->db->prepare($query); 
+    $stmt->bindParam(':SammlungID', $this->ID, PDO::PARAM_INT); 
+      
+    try {
+      $stmt->execute(); 
+            
+      $html = new HTML_Table($stmt); 
+      $html->edit_link_table='satz'; 
+      $html->edit_link_title='Satz'; 
+      $html->edit_link_open_newpage=true; 
+      $html->print_table2(); 
+
+    }
+    catch (PDOException $e) {
+      $this->info->print_user_error(); 
+      $this->info->print_error($stmt, $e); 
+    }
+  }  
+
+  function print_table_satze_kompakt(){
+
+    $query="SELECT satz.ID 
+            , musikstueck.Nummer `M. Nr`
+            , musikstueck.Name as `Musikstueck Name`
+              , satz.Nr as `Satz Nr`
+              , satz.Name as `Satz Name`
+              , GROUP_CONCAT(DISTINCT concat(instrument.Name, ': ', schwierigkeitsgrad.Name)  order by schwierigkeitsgrad.Name SEPARATOR ', ') `Schwierigkeits-grade`  
+              , v_satz_lookuptypes.LookupList as `Satz Besonderheiten`              
+              , satz.Bemerkung as `Satz Bemerkung`                                     
+    from musikstueck 
+      INNER join satz on satz.MusikstueckID = musikstueck.ID
+      LEFT JOIN satz_schwierigkeitsgrad on satz_schwierigkeitsgrad.SatzID = satz.ID 
+      LEFT JOIN schwierigkeitsgrad on schwierigkeitsgrad.ID = satz_schwierigkeitsgrad.SchwierigkeitsgradID 
+      LEFT JOIN instrument on instrument.ID = satz_schwierigkeitsgrad.InstrumentID 
+      LEFT join v_satz_lookuptypes on v_satz_lookuptypes.SatzID = satz.ID 
+    WHERE musikstueck.SammlungID = :SammlungID 
+    GROUP BY musikstueck.ID, satz.ID  
+    ORDER by musikstueck.Name, satz.Name"; 
 
     $stmt = $this->db->prepare($query); 
     $stmt->bindParam(':SammlungID', $this->ID, PDO::PARAM_INT); 
