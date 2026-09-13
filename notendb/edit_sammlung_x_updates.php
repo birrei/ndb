@@ -103,7 +103,6 @@ if (isset($_POST["form-sended"])){
             $MaterialtypID=isset($_POST["MaterialtypID"])?$_POST["MaterialtypID"]:'';                             
             $sammlung = new Sammlung(); 
             $sammlung->ID=$SammlungID; 
-            // $sammlung->add_verwendungszweck($VerwendungszweckID);
             if (isset($_POST["sammlung_delete_verwendungszweck"])) {          
                 $sammlung->delete_verwendungszweck($VerwendungszweckID);
             }
@@ -161,6 +160,19 @@ if (isset($_POST["form-sended"])){
           }
           break; 
 
+      case 'sammlung-besetzung-aus-instrumenten':
+        // XXXX NDB: Funktion Sammelupdate - Besetzungen aus Instrumenten generieren
+
+          // if (!empty($_POST["Instrumente"]) & !empty($_POST["BesetzungID"])) {     
+          //     include_once('classes/class.sammlung.php');                     
+          //     $SammlungID=$_POST["SammlungID"]; 
+          //     $LookupID=$_POST["LookupID"];                 
+          //     $sammlung = new Sammlung(); 
+          //     $sammlung->ID=$SammlungID; 
+          //     $sammlung->add_satz_lookup($LookupID);  
+          //     echo '<p>Updates wurden abgeschlossen.</p>';                    
+          // }
+          break; 
 
 
     }
@@ -173,6 +185,7 @@ echo '</pre>';
   <option value="">Formular auswählen ... </option>
   <option value="sammlung-verwendungszweck" <?php echo ($form_selected=='sammlung-verwendungszweck'?'selected':''); ?>>Sammlung: Verwendungszweck hinzufügen</option>                
   <option value="sammlung-besetzung" <?php echo ($form_selected=='sammlung-besetzung'?'selected':''); ?>>Sammlung: Besetzung hinzufügen</option>   
+  <option value="sammlung-besetzung-aus-instrumenten" <?php echo ($form_selected=='sammlung-besetzung-aus-instrumenten'?'selected':''); ?>>Sammlung: Besetzung aus Schwierigkeitsgrad/Instrumenten hinzufügen</option>   
   <option value="sammlung-schwierigkeitsgrad" <?php echo ($form_selected=='sammlung-schwierigkeitsgrad'?'selected':''); ?>>Sammlung: Schwierigkeitsgrad hinzufügen</option>   
   <option value="sammlung-komponist" <?php echo ($form_selected=='sammlung-komponist'?'selected':''); ?>>Sammlung: Komponist hinzufügen</option>   
   <option value="sammlung-epoche" <?php echo ($form_selected=='sammlung-epoche'?'selected':''); ?>>Sammlung: Epoche hinzufügen</option>   
@@ -306,6 +319,39 @@ if ($form_selected!='') {
         </form>
       <?php 
       break; 
+      
+
+    case 'sammlung-besetzung-aus-instrumenten': // XXXX 
+
+  
+      ?>
+
+        <h3> Sammlung: Besetzung aus Instrumenten ergänzen</h3>
+
+        <form action="" method="post" name="sammlung-besetzung-aus-instrumenten">
+        <input type="hidden" name="SammlungID" value="<?php echo $SammlungID; ?>">
+        <?php
+        include_once('classes/class.besetzung.php'); 
+        include_once('classes/class.instrument.php'); 
+
+        $auswahl_instrumente = new Instrument(); 
+        $auswahl_instrumente->print_select_multi();  // XXX Beschriftung  
+
+
+        $auswahl_besetzung = new Besetzung(); 
+        $auswahl_besetzung->print_select('', '',$auswahl_besetzung->Title);  // XXX Beschriftung  
+
+        ?>
+        <input class="btnSave" type="submit" name="submit" value="ausführen">    
+        <input type="hidden" name="form-sended" value="sammlung-besetzung">  
+        <input type="hidden" name="form-selected" value="<?php echo $form_selected; ?>">           
+
+
+        </form>
+      <?php 
+      break; 
+      
+      
     case 'sammlung-verwendungszweck': 
       ?>
       <h3>Sammlung: Verwendungszweck ergänzen / entfernen </h3>

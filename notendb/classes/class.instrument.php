@@ -202,7 +202,8 @@ include_once("class.htmltable.php");
       $stmt->execute(); 
       $html = new HTML_Select($stmt); 
      //  $html->print_select_multi('Instrument', 'Instrumente[]', $options_selected, 'Instrument(e):');
-     $html->print_select_multi('Instrument', 'Instrumente[]', $options_selected, 'Schwierigkeitsgrad Instrument(e):');
+     $html->visible_rows=5; 
+     $html->print_select_multi('Instrument', 'Instrumente[]', $options_selected, 'Instrument(e):');
       $this->titles_selected_list = $html->titles_selected_list;        
     }
     catch (PDOException $e) {
