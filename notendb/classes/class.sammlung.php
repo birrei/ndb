@@ -482,6 +482,29 @@ include_once('class.link.php');
      
   } 
 
+ function add_materialtyp($MaterialtypID){
+
+    $query="SELECT ID FROM `musikstueck` WHERE SammlungID=:ID AND COALESCE(MaterialtypID,'')='' "; 
+    
+    $select = $this->db->prepare($query); 
+ 
+    $select->bindValue(':ID', $this->ID);  
+ 
+    $select->execute(); 
+ 
+    $res = $select->fetchAll(PDO::FETCH_ASSOC);
+
+    foreach ($res as $row=>$value) {
+      $musikstueck = new Musikstueck(); 
+      $musikstueck->ID = $value["ID"]; 
+
+      $musikstueck->update_materialtyp($MaterialtypID);
+    }
+     
+    echo '<p>'.count($res). ' Musikstücke wurden geändert. </p>';  
+     
+  } 
+
   function add_bearbeiter($Bearbeiter){
     // dataclearing: Verwendungszweck bei allen Musikstücken ergänzen  
 

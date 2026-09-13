@@ -124,6 +124,17 @@ if (isset($_POST["form-sended"])){
         }
         break;
 
+      case 'sammlung-materialtyp': 
+        if (!empty($_POST["SammlungID"]) & !empty($_POST["MaterialtypID"])) {
+            include_once('classes/class.sammlung.php');                     
+            $SammlungID=$_POST["SammlungID"]; 
+            $MaterialtypID=$_POST["MaterialtypID"];    
+            $sammlung = new Sammlung(); 
+            $sammlung->ID=$SammlungID; 
+            $sammlung->add_materialtyp($MaterialtypID);                     
+        }
+        break;
+
       case 'sammlung-epoche': 
         if (!empty($_POST["SammlungID"]) & !empty($_POST["EpocheID"])) {
             include_once('classes/class.sammlung.php');                     
@@ -188,6 +199,7 @@ echo '</pre>';
   <option value="sammlung-besetzung-aus-instrumenten" <?php echo ($form_selected=='sammlung-besetzung-aus-instrumenten'?'selected':''); ?>>Sammlung: Besetzung aus Schwierigkeitsgrad/Instrumenten hinzufügen</option>   
   <option value="sammlung-schwierigkeitsgrad" <?php echo ($form_selected=='sammlung-schwierigkeitsgrad'?'selected':''); ?>>Sammlung: Schwierigkeitsgrad hinzufügen</option>   
   <option value="sammlung-komponist" <?php echo ($form_selected=='sammlung-komponist'?'selected':''); ?>>Sammlung: Komponist hinzufügen</option>   
+  <option value="sammlung-materialtyp" <?php echo ($form_selected=='sammlung-materialtyp'?'selected':''); ?>>Sammlung: Materialtyp hinzufügen</option>   
   <option value="sammlung-epoche" <?php echo ($form_selected=='sammlung-epoche'?'selected':''); ?>>Sammlung: Epoche hinzufügen</option>   
   <option value="sammlung-bearbeiter" <?php echo ($form_selected=='sammlung-bearbeiter'?'selected':''); ?>>Sammlung: Bearbeiter hinzufügen</option>   
   <option value="sammlung-erprobt" <?php echo ($form_selected=='sammlung-erprobt'?'selected':''); ?>>Sammlung: Erprobt-Eintrag hinzufügen</option>   
@@ -195,7 +207,7 @@ echo '</pre>';
   <option value="sammlung-musikstueck-order" <?php echo ($form_selected=='sammlung-musikstueck-order'?'selected':''); ?>>Sammlung: Reihenfolge Musikstücke schieben</option>   
   <option value="sammlung-satz-besonderheit" <?php echo ($form_selected=='sammlung-satz-besonderheit'?'selected':''); ?>>Sammlung: Besonderheit zu allen Sätzen hinzufügen</option>   
   <option value="sammlung-saetze-besonderheit" <?php echo ($form_selected=='sammlung-saetze-besonderheit'?'selected':''); ?>>Sammlung: Besonderheit zu ausgewählten Sätzen hinzufügen</option>   
-    
+        
   
   <input type="hidden" name="SammlungID" value="<?php echo $SammlungID; ?>">  
 </select>
@@ -239,7 +251,8 @@ if ($form_selected!='') {
         include_once('classes/class.lookup.php'); 
         $auswahl = new Lookup(); 
         $auswahl->LookupTypeRelation='Satz'; 
-        $auswahl->print_select('', $auswahl->Title,'Besonderheit Satz'); 
+        // $auswahl->print_select('', $auswahl->Title,'Besonderheit Satz'); 
+        $auswahl->print_select('', $auswahl->Title); 
         ?>
       <input class="btnSave" type="submit" name="submit" value="ausführen">    
       <input type="hidden" name="form-sended" value="sammlung-satz-besonderheit">  
@@ -291,6 +304,27 @@ if ($form_selected!='') {
       <?php
 
       break; 
+
+
+    case 'sammlung-materialtyp': 
+
+      ?>
+      <h3> Sammlung: Materialtyp ergänzen </h3>
+      <form action="" method="post" name="sammlung-materialtyp">
+      <input type="hidden" name="SammlungID" value="<?php echo $SammlungID; ?>">
+      <?php
+        include_once('classes/class.materialtyp.php'); 
+        $auswahl = new Materialtyp(); 
+        $auswahl->print_select('', $auswahl->Title); 
+
+        ?>
+      <input class="btnSave" type="submit" name="submit" value="ausführen">    
+      <input type="hidden" name="form-sended" value="sammlung-materialtyp">  
+      <input type="hidden" name="form-selected" value="<?php echo $form_selected; ?>">           
+      </form>
+      <?php
+
+      break;       
 
     case 'sammlung-besetzung': 
       ?>
@@ -434,6 +468,27 @@ if ($form_selected!='') {
 
         <input class="btnSave" type="submit" name="submit" value="ausführen">    
         <input type="hidden" name="form-sended" value="sammlung-erprobt">    
+        <input type="hidden" name="form-selected" value="<?php echo $form_selected; ?>">                    
+
+      </form>
+
+
+      <?php       
+      break;   
+
+    case 'sammlung-materialtyp': 
+      ?>
+      <h3>Sammlung: Materialtyp ergänzen  </h3>
+        <form action="" method="post" name="sammlung-materialtyp">
+        <input type="hidden" name="SammlungID" value="<?php echo $SammlungID; ?>">
+        <?php
+        include_once('classes/class.materialtyp.php'); 
+        $auswahl = new Materialtyp(); 
+        $auswahl->print_select('', $auswahl->Title);  
+        ?>
+
+        <input class="btnSave" type="submit" name="submit" value="ausführen">    
+        <input type="hidden" name="form-sended" value="sammlung-materialtyp">    
         <input type="hidden" name="form-selected" value="<?php echo $form_selected; ?>">                    
 
       </form>

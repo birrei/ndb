@@ -764,6 +764,24 @@ function move_order(int $offset=1 ) {
     }  
   }
 
+  function update_materialtyp($MaterialtypID){
+
+    $update = $this->db->prepare("UPDATE musikstueck 
+                            SET MaterialtypID = :MaterialtypID
+                            WHERE ID = :ID");
+
+    $update->bindValue(':ID', $this->ID);
+    $update->bindValue(':MaterialtypID', $MaterialtypID);
+
+    try {
+      $update->execute(); 
+    }
+    catch (PDOException $e) {
+      $this->info->print_user_error(); 
+      $this->info->print_error($update, $e);   
+    }  
+  }  
+
   function update_epoche ($EpocheID){
 
     $update = $this->db->prepare("UPDATE musikstueck 
