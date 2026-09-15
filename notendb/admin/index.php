@@ -9,6 +9,8 @@ include_once('head.php');
 
 <p><a href="phpinfo.php">PHP Info</a> </p>
 
+<p><a href="backup/backup.php">DB Backup</a> </p>
+
 <p><a href="import/index.php">Datenimport</a> </p>
 
 <p><a href="install/exec.php">Datenbank-Objekte installieren</a> </p>
