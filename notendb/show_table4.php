@@ -279,8 +279,10 @@ switch ($ansicht)  // setzen: $PageTitle, $table_edit, $show_help_link
     break;     
   case 'schueler':  
     include_once("classes/class.status.php");
+    include_once("classes/class.lookup.php");
 
     $StatusID=(isset($_REQUEST["StatusID"])?$_REQUEST["StatusID"]:'');
+    $LookupID=(isset($_REQUEST["LookupID"])?$_REQUEST["LookupID"]:'');
     $Status_Umkehr=(isset($_REQUEST["Status_Umkehr"])?true:false);    
     $Datum=(isset($_REQUEST["Datum"])?$_REQUEST["Datum"]:'');
     $Unterricht_Wochentag =(isset($_REQUEST["wochentag_nr"])?$_REQUEST["wochentag_nr"]:0);
@@ -304,6 +306,13 @@ switch ($ansicht)  // setzen: $PageTitle, $table_edit, $show_help_link
     echo ' &#9475; Unterricht Wochentag: '; 
     $wochentage = new Wochentage(); 
     $wochentage->print_preselect($Unterricht_Wochentag); 
+
+
+    $lookups=new Lookup(); 
+    $lookups->LookupTypeRelation='schueler';
+    echo ' &#9475; Besonderheit: ';    
+    $lookups->print_preselect($LookupID); 
+
         
     echo '<input type="hidden" name="ansicht" value="'.$ansicht.'">'; 
     echo '<input type="hidden" name="Filter" value="gesetzt">'; // Nur beim Erstaufruf der Seite nicht gesetzt 
@@ -331,8 +340,7 @@ switch ($ansicht)  // setzen: $PageTitle, $table_edit, $show_help_link
     $query.=", IF(COUNT(distinct uebung.Datum) > 0, COUNT(distinct uebung.Datum), NULL) as `Übung Anzahl Tage`  
           , MAX(uebung.Datum) as `Datum letzte Übung`           
           "; 
-                   
-
+     
 
     $query.="
         FROM schueler 
@@ -374,6 +382,8 @@ switch ($ansicht)  // setzen: $PageTitle, $table_edit, $show_help_link
     if (!empty($Datum)) {
       $query.="AND uebung.Datum='".$Datum."' ";  
     }
+
+    $query.=($LookupID!=''?'AND schueler.ID IN (SELECT SchuelerID FROM schueler_lookup WHERE LookupID='.$LookupID.') '.PHP_EOL:''); 
 
     $query.="GROUP By schueler.ID 
              ORDER BY schueler.Unterricht_Wochentag, schueler.Unterricht_Reihenfolge 
