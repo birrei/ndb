@@ -172,17 +172,17 @@ if (isset($_POST["form-sended"])){
           break; 
 
       case 'sammlung-besetzung-aus-instrumenten':
-        // XXXX NDB: Funktion Sammelupdate - Besetzungen aus Instrumenten generieren
-
-          // if (!empty($_POST["Instrumente"]) & !empty($_POST["BesetzungID"])) {     
-          //     include_once('classes/class.sammlung.php');                     
-          //     $SammlungID=$_POST["SammlungID"]; 
-          //     $LookupID=$_POST["LookupID"];                 
-          //     $sammlung = new Sammlung(); 
-          //     $sammlung->ID=$SammlungID; 
-          //     $sammlung->add_satz_lookup($LookupID);  
-          //     echo '<p>Updates wurden abgeschlossen.</p>';                    
-          // }
+        
+          if (!empty($_POST["Instrumente"]) & !empty($_POST["BesetzungID"])) {     
+              include_once('classes/class.sammlung.php');                     
+              $SammlungID=$_POST["SammlungID"]; 
+              $BesetzungID=$_POST["BesetzungID"]; 
+              $Instrumente=$_POST["Instrumente"];  // array 
+              $sammlung = new Sammlung(); 
+              $sammlung->ID=$SammlungID; 
+              $sammlung->add_besetzung_from_instrumente($Instrumente, $BesetzungID);  
+              echo '<p>Updates wurden abgeschlossen.</p>';                    
+          }
           break; 
 
 
@@ -203,7 +203,7 @@ echo '</pre>';
   <option value="sammlung-epoche" <?php echo ($form_selected=='sammlung-epoche'?'selected':''); ?>>Sammlung: Epoche hinzufügen</option>   
   <option value="sammlung-bearbeiter" <?php echo ($form_selected=='sammlung-bearbeiter'?'selected':''); ?>>Sammlung: Bearbeiter hinzufügen</option>   
   <option value="sammlung-erprobt" <?php echo ($form_selected=='sammlung-erprobt'?'selected':''); ?>>Sammlung: Erprobt-Eintrag hinzufügen</option>   
-  <option value="sammlung-epoche" <?php echo ($form_selected=='sammlung-epoche'?'selected':''); ?>>Sammlung: Epoche hinzufügen</option>   
+  <!-- <option value="sammlung-epoche" <?php echo ($form_selected=='sammlung-epoche'?'selected':''); ?>>Sammlung: Epoche hinzufügen</option>    -->
   <option value="sammlung-musikstueck-order" <?php echo ($form_selected=='sammlung-musikstueck-order'?'selected':''); ?>>Sammlung: Reihenfolge Musikstücke schieben</option>   
   <option value="sammlung-satz-besonderheit" <?php echo ($form_selected=='sammlung-satz-besonderheit'?'selected':''); ?>>Sammlung: Besonderheit zu allen Sätzen hinzufügen</option>   
   <option value="sammlung-saetze-besonderheit" <?php echo ($form_selected=='sammlung-saetze-besonderheit'?'selected':''); ?>>Sammlung: Besonderheit zu ausgewählten Sätzen hinzufügen</option>   
@@ -356,10 +356,8 @@ if ($form_selected!='') {
       
 
     case 'sammlung-besetzung-aus-instrumenten': // XXXX 
-
   
       ?>
-
         <h3> Sammlung: Besetzung aus Instrumenten ergänzen</h3>
 
         <form action="" method="post" name="sammlung-besetzung-aus-instrumenten">
@@ -377,7 +375,7 @@ if ($form_selected!='') {
 
         ?>
         <input class="btnSave" type="submit" name="submit" value="ausführen">    
-        <input type="hidden" name="form-sended" value="sammlung-besetzung">  
+        <input type="hidden" name="form-sended" value="sammlung-besetzung-aus-instrumenten">  
         <input type="hidden" name="form-selected" value="<?php echo $form_selected; ?>">           
 
 
