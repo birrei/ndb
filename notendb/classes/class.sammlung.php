@@ -305,7 +305,6 @@ include_once('class.link.php');
 
 
   function add_besetzung($BesetzungID, $MaterialtypID){
-    // dataclearing: Besetzung bei allen Musikstücken ergänzen  
 
     include_once("class.musikstueck.php");    // XXX? (hier nötig?)
 
@@ -321,6 +320,35 @@ include_once('class.link.php');
       $select->bindValue(':MaterialtypID', $MaterialtypID, PDO::PARAM_INT);  
     }  
  
+    $select->execute(); 
+
+    $res = $select->fetchAll(PDO::FETCH_ASSOC);
+
+    foreach ($res as $row=>$value) {
+      $musikstueck = new Musikstueck(); 
+      $musikstueck->ID = $value["ID"]; 
+      $musikstueck->add_besetzung($BesetzungID);
+    }    
+    echo '<p>'.count($res). ' Musikstücke wurden geändert. </p>';      
+
+  } 
+
+  function add_besetzung_from_instrumente(array $Instrumente, $BesetzungID){
+
+    include_once("class.musikstueck.php");   
+
+    $query="SELECT musikstueck.ID 
+            FROM  musikstueck 
+            INNER JOIN satz ON satz.MusikstueckID= musikstueck.ID 
+            WHERE SammlungID=:ID 
+            AND satz.ID IN (SELECT SatzID 
+                            FROM satz_schwierigkeitsgrad 
+                            WHERE InstrumentID IN (".implode(',', $Instrumente).") ) ";  
+    
+    $select = $this->db->prepare($query); 
+ 
+    $select->bindValue(':ID', $this->ID);  
+
     $select->execute(); 
 
     $res = $select->fetchAll(PDO::FETCH_ASSOC);
@@ -497,7 +525,6 @@ include_once('class.link.php');
     foreach ($res as $row=>$value) {
       $musikstueck = new Musikstueck(); 
       $musikstueck->ID = $value["ID"]; 
-
       $musikstueck->update_materialtyp($MaterialtypID);
     }
      
