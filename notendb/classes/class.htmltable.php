@@ -5,6 +5,7 @@ class HTML_Table {
     public $result; 
     public $count_cols; 
     public $count_rows; 
+    public $group_col=''; 
 
     public $add_link_edit=true; // Spalte mit "Bearbeiten"-Link anzeigen. Nur Für Tabellen mit Spalte "ID" verwenden.   
     public $edit_link_table=''; // Tabelle, die bearbeitet werden soll 
@@ -54,6 +55,9 @@ class HTML_Table {
     
     function print_table2() {
 
+        $tmp_value='';
+        $tmp_value_saved=''; 
+
         $html = ''. PHP_EOL;
 
         $html.= $this->caption!=''?'<h4>'.$this->caption.'</h4>':'';         
@@ -84,7 +88,15 @@ class HTML_Table {
                 border: 1px solid black;    
                 padding: 2px;   
             }
+
+            tr.resultset_row {
+              border: 1px solid black;   
             } 
+
+            tr.resultset_row_group_start {
+              border-top: 5px solid grey;    
+            } 
+             
             </style>'. PHP_EOL;   
 
             $html.= '<table class="resultset">'. PHP_EOL;
@@ -118,7 +130,22 @@ class HTML_Table {
             if  ($this->count_rows > 0) {
                 $html .= '<tbody>';                
                 foreach ($this->result as $row) {
+                    if(array_key_exists($this->group_col, $row)) {
+                        $tmp_value=$row[$this->group_col]; 
+
+                        if($tmp_value!=$tmp_value_saved) { 
+                            // Gruppe geändert = Formatierung der Reihe für Gruppen-Start  
+                            $html .= '<tr class="resultset_row_group_start">'; 
+                        } else {
+                            // Gruppe nicht geändert = normale ormatierung der Reihe
+                           $html .= '<tr class="resultset_row">';                             
+                        }
+                        $tmp_value_saved=$tmp_value; 
+                        $tmp_value=''; 
+                    }
+
                     $html .= '<tr>'. PHP_EOL;
+                    
                     foreach ($row as $key=>$cell){
                         if ($key=="URL") {
                             $html .= '<td class="resultset"><a href="'.$cell.'" target="_blank">'.$cell.'</a></td>'. PHP_EOL; 

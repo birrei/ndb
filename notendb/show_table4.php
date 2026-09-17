@@ -15,6 +15,7 @@ $PageTitle='';
 $fehlertext=''; 
 $show_help_link=true; 
 $add_link_show = false; 
+$group_col=''; // XXXXX erklärung 
 
 if (isset($_REQUEST["ansicht"])) {
   $ansicht=$_REQUEST["ansicht"]; 
@@ -509,6 +510,8 @@ switch ($ansicht)  // setzen: $PageTitle, $table_edit, $show_help_link
     $query.="ORDER BY uebung.Datum DESC, schueler.Unterricht_Reihenfolge, uebung.Reihenfolge, uebung.Name "; 
 
     echo '<p><a href="edit_'.$table_edit.'.php?option=insert&SchuelerID='.$SchuelerID.'&Datum='.$Datum.'" target="_blank">Neu erfassen</a></p>';
+
+    $group_col='Schueler'; 
 
     break; 
 
@@ -1432,6 +1435,7 @@ try {
   $html->edit_link_open_newpage = true; 
   $html->add_link_show=$add_link_show;   
   $html->show_row_count=true; 
+  $html->group_col=$group_col; /// XXX Erklärung 
   $html->print_table2(); 
 }
 catch (PDOException $e) {
