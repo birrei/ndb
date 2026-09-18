@@ -153,7 +153,10 @@ include_once('head.php');
         <p>Suche / Filter: </p>
         
             <ul>
-                <li>Datum (Standard-Einstellung: Heutiges Datum) (Hinweis: über den Beschriftungslink kann das Datum geöffnet werden)</li>
+                <li>Datum (Standard-Einstellung: Heutiges Datum) (*)</li>
+                <li>Datum bis 
+                        <br> * bei Auswahl zusammen mit "Datum": Filterwirkung "Zeitraum von bis"
+                        <br> * bei Auswahl ohne "Datum": Filterwirkung "Zeitraum bis"
                 <li>Schüler</li>
                 <li>Schuljahr</li>
                 <li>Geplant </li>
@@ -161,6 +164,8 @@ include_once('head.php');
                 <li>Suchtext (Durchsucht werden "Schüler Bemerkung" und "Übungstag Bemerkung") </li>
 
             </ul> 
+
+            <p>(*)  Hinweis: über den Beschriftungslink kann das Datum geöffnet werden</p> 
 
         <p>Link "Neu erfassen": 
             <br> Einfügen einer neuen Übung für den im Filter ausgewählten Schüler. Sollte ein Datum ausgewählt sein, wird dieses für die neue Übung übernommen. </p>
