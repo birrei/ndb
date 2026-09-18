@@ -146,10 +146,10 @@ echo '
     <td class="form-edit form-edit-col1">Daten anzeigen: <br /> <br />
       
     <input type="radio" id="Musikstuecke" name="target_form" value="Musikstuecke" onclick="changeIframeSrc('subform1', 'edit_sammlung_musikstuecke.php?SammlungID=<?php echo $sammlung->ID; ?>');" checked>
-        <label for="Musikstuecke">Musikstuecke</label><br>
+        <label for="Musikstuecke">Musikstücke</label><br>
 
     <input type="radio" id="Musikstuecke_kompakt" name="target_form" value="Musikstuecke_kompakt" onclick="changeIframeSrc('subform1', 'edit_sammlung_musikstuecke_kompakt.php?SammlungID=<?php echo $sammlung->ID; ?>');">
-        <label for="Musikstuecke_kompakt">Musikstuecke kompakt</label><br>
+        <label for="Musikstuecke_kompakt">Musikstücke kompakt</label><br>
 
       <input type="radio" id="Standorte" name="target_form" value="Standorte" onclick="changeIframeSrc('subform1', 'edit_sammlung_standorte.php?SammlungID=<?php echo $sammlung->ID; ?>');" >
         <label for="Standorte">Standorte</label><br>
