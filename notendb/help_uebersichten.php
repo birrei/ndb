@@ -78,7 +78,10 @@ include_once('head.php');
 	<h2 class="chapter-title chapter-title-h1" id="uebersichten_uebungen">Übersicht Übungen</h2>
 
         <p> Einschränkungen: Es werden werden nur die Übungen aktiver Schüler angezeigt. </p> 
-
+                <p> Hinweis: Je nach Filtereinstellung werden verstärkte Zeilenrahmen angezeigt, 
+                    die eine optische Gruppierung bieten (z.B. erscheint bei Filter nach Datum 
+                    eine verstärkte Linie über der ersten Übung eines Schülers). 
+                </p> 
         <p>Spalten: </p>
             <ul>
                 <li>Schueler Name</li>
@@ -98,9 +101,10 @@ include_once('head.php');
             </ul>  
 
         <p>Suche / Filter: </p>
-        
+
             <ul>
-                <li>Datum (Standard-Einstellung: Heutiges Datum. Hinweis: über den Beschriftungslink kann das Datum geöffnet werden)</li>
+                <li>Datum (Standard-Einstellung: Heutiges Datum). 
+                    <br>Hinweis: über den Beschriftungslink kann das Datum geöffnet werden)</li>
                 <li>Schüler</li>
                 <li>Übung Typ</li>
                 <li>Bewertung</li>

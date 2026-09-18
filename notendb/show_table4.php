@@ -15,7 +15,7 @@ $PageTitle='';
 $fehlertext=''; 
 $show_help_link=true; 
 $add_link_show = false; 
-$group_col=''; // XXXXX erklärung 
+$group_col=''; 
 
 if (isset($_REQUEST["ansicht"])) {
   $ansicht=$_REQUEST["ansicht"]; 
@@ -473,24 +473,30 @@ switch ($ansicht)  // setzen: $PageTitle, $table_edit, $show_help_link
 
     $query.="      WHERE 1=1 "; 
 
-
-    if ($Unterricht_Geplant!='') {
-      $query.="AND kalender.Unterricht_Geplant=".$Unterricht_Geplant." ".PHP_EOL;  
-    }            
-    if ($Entwurf!='') {
-      $query.="AND uebung.Entwurf=".$Entwurf." ".PHP_EOL;  
-    }   
     if (!empty($Datum)) {
       $query.="AND uebung.Datum='".$Datum."' ".PHP_EOL;  
+      $group_col='Schueler';       
+      
     }
     if ($SchuelerID!='') {
       $query.="AND uebung.SchuelerID=".$SchuelerID." ";  
+      $group_col='Datum';      
     }
+
+    if ($Unterricht_Geplant!='') {
+      $query.="AND kalender.Unterricht_Geplant=".$Unterricht_Geplant." ".PHP_EOL;  
+    }
+                
+    if ($Entwurf!='') {
+      $query.="AND uebung.Entwurf=".$Entwurf." ".PHP_EOL;  
+    }   
+
     if ($UebungtypID!='') {
       $query.="AND uebung.UebungtypID=".$UebungtypID." ";  
     }
     if ($BewertungID!='') {
       $query.="AND uebung.BewertungID=".$BewertungID." ";  
+      $group_col='Schueler';            
     }
     if($Suchtext!='') {
       $query.="AND ( uebung.Name LIKE '%".$Suchtext."%' 
@@ -511,7 +517,7 @@ switch ($ansicht)  // setzen: $PageTitle, $table_edit, $show_help_link
 
     echo '<p><a href="edit_'.$table_edit.'.php?option=insert&SchuelerID='.$SchuelerID.'&Datum='.$Datum.'" target="_blank">Neu erfassen</a></p>';
 
-    $group_col='Schueler'; 
+
 
     break; 
 
