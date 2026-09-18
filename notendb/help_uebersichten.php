@@ -123,9 +123,12 @@ include_once('head.php');
 	
     <h2 class="chapter-title chapter-title-h1" id="uebersichten_uebungstage">Übersicht Übungstage</h2>
 
-        <p> Einschränkungen: Es werden werden nur die Übungen aktiver Schüler angezeigt.
-            Es sind nur echte Übungen integriert, Übungsentwürfe werden ausgeblendet</p> 
+        <p> Einschränkungen: Es werden werden nur die Übungen aktiver Schüler angezeigt.</p> 
 
+        <p> Hinweis: Je nach Filtereinstellung werden verstärkte Zeilenrahmen angezeigt, 
+            die eine optische Gruppierung bieten (z.B. erscheint  
+            eine verstärkte Linie über dem ersten Schüler / Datum, wenn nur nach Schuljahr gefiltert wird). 
+        </p>             
 
         <p>Spalten: </p>
         <ul>
@@ -138,7 +141,7 @@ include_once('head.php');
         <li>Anzahl Übungen</li>
         <li>Summe Minuten</li>
         <li>Abweichung Dauer</li>
-        <li>Übungen Inhalte</li>
+        <li>Übungen Inhalte (nur echte Übungen, keine Übungsentwürfe)</li>
         <li>Unterricht geplant</li>
         <li>Unterricht protokolliert</li>
         <li>Ferientag</li>

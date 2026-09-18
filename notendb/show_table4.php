@@ -167,7 +167,6 @@ if ($show_help_link) {
 }
 
 echo '<p></p>'; 
-// XXXX Filter einschränken ermöglichen (es sollen nicht automatisch alle Zeilen einer Tabelle auf einmal angezeigt werden)
 
 switch ($ansicht)  // setzen: $PageTitle, $table_edit, $show_help_link
 {
@@ -574,6 +573,8 @@ switch ($ansicht)  // setzen: $PageTitle, $table_edit, $show_help_link
     echo ' &#9475;';            
     echo ' Suchtext: <input type="text" id="Suchtext" name="Suchtext" size="30px" value="'.$Suchtext.'"> '; 
 
+    
+
     echo '<input type="submit" class="btnSave" name="senden" value="Suchen">';
     echo '<input type="hidden" name="ansicht" value="'.$ansicht.'">'; 
     echo '</form>';           
@@ -620,22 +621,31 @@ switch ($ansicht)  // setzen: $PageTitle, $table_edit, $show_help_link
 
         "; 
  
+  
+    if ($SchuljahrID!='') {
+      $query.="AND schuljahr.ID=".$SchuljahrID." ".PHP_EOL; 
+      
+      if (empty($Datum) & $SchuelerID=='') {
+        $group_col='Datum'; 
+      }
+    }
+
+    if (!empty($Datum)) {
+      $query.="AND schueler_kalender.Datum='".$Datum."' ".PHP_EOL;  
+   
+    }
+    
+    if ($SchuelerID!='') {
+      $query.="AND schueler.ID=".$SchuelerID." ".PHP_EOL;  
+    }
+
     if ($Unterricht_Geplant!='') {
       $query.="AND kalender.Unterricht_Geplant=".$Unterricht_Geplant." ".PHP_EOL;  
     }       
     if ($Unterricht_Protokolliert!='') {
       $query.="AND kalender.Unterricht_Protokolliert=".$Unterricht_Protokolliert." ".PHP_EOL;  
     }       
-  
-    if (!empty($Datum)) {
-      $query.="AND schueler_kalender.Datum='".$Datum."' ".PHP_EOL;  
-    }
-     if ($SchuelerID!='') {
-      $query.="AND schueler.ID=".$SchuelerID." ".PHP_EOL;  
-    }
-     if ($SchuljahrID!='') {
-      $query.="AND schuljahr.ID=".$SchuljahrID." ".PHP_EOL;  
-    }
+
 
     // if ($Unterricht_Wochentag > 0 ) {
     //   $query.="AND schueler.Unterricht_Wochentag=".$Unterricht_Wochentag." ".PHP_EOL;  
