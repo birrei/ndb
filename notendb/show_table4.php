@@ -526,8 +526,11 @@ switch ($ansicht)  // setzen: $PageTitle, $table_edit, $show_help_link
 
     $table_edit='schueler_kalender'; 
     $add_link_edit=true; 
+
+    $Datum_heute = date('Y-m-d');
  
     $Datum=(isset($_REQUEST["Datum"])?$_REQUEST["Datum"]:date('Y-m-d')); 
+    $Datum_bis=(isset($_REQUEST["Datum_bis"])?$_REQUEST["Datum_bis"]:''); 
     $SchuelerID=(isset($_REQUEST["SchuelerID"])?$_REQUEST["SchuelerID"]:'');    
     $Unterricht_Wochentag =(isset($_REQUEST["wochentag_nr"])?$_REQUEST["wochentag_nr"]:0);
     $Unterricht_Geplant=(isset($_REQUEST["Unterricht_Geplant"])?$_REQUEST["Unterricht_Geplant"]:''); 
@@ -542,7 +545,12 @@ switch ($ansicht)  // setzen: $PageTitle, $table_edit, $show_help_link
     }
 
     echo '<form action="" method="get">'.PHP_EOL;       
-    echo '<a href="edit_kalender.php?Datum='.$Datum.'&option=edit" target="_blank" title="Datum bearbeiten">Datum</a>: <input type="date" name="Datum" value="'.$Datum.'" onchange="this.form.submit()">'; 
+    echo '<a href="edit_kalender.php?Datum='.$Datum.'&option=edit" target="_blank" title="Datum bearbeiten">Datum</a>: 
+          <input type="date" name="Datum" value="'.$Datum.'" onchange="this.form.submit()">
+           Datum bis 
+          <input type="date" name="Datum_bis" value="'.$Datum_bis.'" onchange="this.form.submit()">          
+          '; 
+          // wenn "Datum_Bis" ausgewählt ist, wird "Datum" als "Datum von" interpretiert und damit nach dem Zeitraum gefiltert 
 
     $schueler = new Schueler(); 
         echo ' &#9475;';    
@@ -572,8 +580,6 @@ switch ($ansicht)  // setzen: $PageTitle, $table_edit, $show_help_link
 
     echo ' &#9475;';            
     echo ' Suchtext: <input type="text" id="Suchtext" name="Suchtext" size="30px" value="'.$Suchtext.'"> '; 
-
-    
 
     echo '<input type="submit" class="btnSave" name="senden" value="Suchen">';
     echo '<input type="hidden" name="ansicht" value="'.$ansicht.'">'; 
@@ -624,17 +630,24 @@ switch ($ansicht)  // setzen: $PageTitle, $table_edit, $show_help_link
   
     if ($SchuljahrID!='') {
       $query.="AND schuljahr.ID=".$SchuljahrID." ".PHP_EOL; 
-      
       if (empty($Datum) & $SchuelerID=='') {
         $group_col='Datum'; 
       }
     }
 
-    if (!empty($Datum)) {
+    if (!empty($Datum) & empty($Datum_bis)) {
       $query.="AND schueler_kalender.Datum='".$Datum."' ".PHP_EOL;  
-   
     }
-    
+    if (!empty($Datum) & !empty($Datum_bis)) {
+      $query.="AND schueler_kalender.Datum BETWEEN '".$Datum."' AND '".$Datum_bis."' ".PHP_EOL; 
+      $group_col='Datum';        
+    }
+    if (empty($Datum) & !empty($Datum_bis)) {
+      $query.="AND schueler_kalender.Datum <= '".$Datum_bis."' ".PHP_EOL;
+      $group_col='Datum';         
+    }
+
+
     if ($SchuelerID!='') {
       $query.="AND schueler.ID=".$SchuelerID." ".PHP_EOL;  
     }
@@ -643,10 +656,10 @@ switch ($ansicht)  // setzen: $PageTitle, $table_edit, $show_help_link
       $query.="AND kalender.Unterricht_Geplant=".$Unterricht_Geplant." ".PHP_EOL;  
     }       
     if ($Unterricht_Protokolliert!='') {
-      $query.="AND kalender.Unterricht_Protokolliert=".$Unterricht_Protokolliert." ".PHP_EOL;  
+      $query.="AND kalender.Unterricht_Protokolliert=".$Unterricht_Protokolliert." ".PHP_EOL; 
     }       
 
-
+    // XXXX 
     // if ($Unterricht_Wochentag > 0 ) {
     //   $query.="AND schueler.Unterricht_Wochentag=".$Unterricht_Wochentag." ".PHP_EOL;  
     // }
