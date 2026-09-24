@@ -1,7 +1,6 @@
 
 <?php 
 
-
 include_once("classes/class.schueler.php");
 include_once("classes/class.wochentage.php"); 
 include_once("classes/class.htmlinfo.php");
@@ -12,14 +11,24 @@ $info= new HTML_Info();
 $option=isset($_REQUEST["option"])?$_REQUEST["option"]:'edit';
 $show_data=true; 
 
+$SchuelerName=''; // separater Parameter (erforderlich wegen Anzeige Schüler-Name in Seitentitel)
+
+$fehler_ID_fehlt=false; 
+
 switch($option) {
   case 'edit': // über "Bearbeiten"-Link
+    if (empty($_GET["ID"])) {
+        $fehler_ID_fehlt=true; 
+        goto pagehead; 
+    }
     $schueler->ID=$_GET["ID"];
     $show_data = $schueler->load_row();  
+    $SchuelerName=$schueler->Name; 
     break; 
 
   case 'insert': 
     $schueler->insert_row('');
+    $SchuelerName=$schueler->Name;     
     break; 
   
   case 'update': 
@@ -34,12 +43,14 @@ switch($option) {
           , $_POST["Unterricht_Dauer"]   
           , $_POST["Geburtsdatum"]   
           , $_POST["Unterricht_Seit"]   
-          );        
+          );   
+    $SchuelerName=$schueler->Name;                 
     break; 
 
   case 'delete_1': 
     $schueler->ID = $_REQUEST["ID"];  
     $schueler->load_row(); 
+    $SchuelerName=$schueler->Name;      
     if($schueler->is_deletable()) {
       $info->print_form_delete_confirm(basename(__FILE__), $schueler->Title, $schueler->ID, $schueler->Name);   
     }      
@@ -48,6 +59,7 @@ switch($option) {
   case 'delete_2': 
     $schueler->ID = $_POST["ID"];  
     $schueler->delete(); 
+    $SchuelerName='';      
     $show_data=false;     
     break;          
 
@@ -55,24 +67,27 @@ switch($option) {
     $ID_ref=$_REQUEST["ID"]; 
     $schueler->ID=$ID_ref; 
     $schueler->copy();   
-    $schueler->load_row();       
+    $schueler->load_row();  
+    $SchuelerName=$schueler->Name;           
     $info->print_info_copy($schueler->Title, $ID_ref, $schueler->ID, 'edit_schueler'); 
     break;          
 
   default: 
     $show_data=false;     
-
 }
-// $PageTitle='Schüler'; 
-$PageTitle=$schueler->Name.' | Schüler'; 
+
+pagehead: 
+$PageTitle=$SchuelerName!=''?$SchuelerName.' | Schüler bearbeiten':'Schüler bearbeiten'; 
+
 include_once('head.php');
 
-$info->print_screen_header($schueler->Title.' bearbeiten'); 
+$info->print_screen_header('Schüler bearbeiten'); 
 $info->print_link_table2('schueler'); 
 
-
-
-if (!$show_data) {goto pagefoot;}
+if ($fehler_ID_fehlt) {
+    $info->print_user_error('Es wurde kein Schüler ausgewählt!'); 
+    goto pagefoot;
+    }
   
 echo '
 <form action="edit_schueler.php" method="post">
