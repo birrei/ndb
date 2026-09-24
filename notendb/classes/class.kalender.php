@@ -184,7 +184,7 @@ class SchuelerKalender extends Kalender {
     return $col;  
   } 
 
-  function insert_rows($SchuljahrID, $SchuelerID='') {
+  function insert_rows($SchuljahrID, $SchuelerID='', $Datum_ab='') {
 
     if($SchuljahrID=='') {
       $this->info->print_user_error('Es wurde kein Schuljahr ausgewählt!.'); 
@@ -203,8 +203,14 @@ class SchuelerKalender extends Kalender {
                 FROM schueler_kalender 
                 INNER JOIN schuljahr 
                 ON schueler_kalender.Datum  BETWEEN schuljahr.Datum_Start  AND schuljahr.Datum_Ende 
-                AND schuljahr.ID = :SchuljahrID 
-            ) AS  schueler_kalender_vorhanden 
+                AND schuljahr.ID = :SchuljahrID "; 
+
+    if($SchuelerID!='') {
+      $query.="AND schueler_kalender.SchuelerID=:SchuelerID "; 
+    }                
+    
+    $query.="
+              ) AS  schueler_kalender_vorhanden 
               ON schueler.ID = schueler_kalender_vorhanden.SchuelerID 
               AND kalender.Datum  = schueler_kalender_vorhanden.Datum 
             LEFT JOIN ferien 
@@ -218,8 +224,12 @@ class SchuelerKalender extends Kalender {
               AND schueler_kalender_vorhanden.Datum IS NULL -- schon vorhandene (manuelle) Einträge ausschließen 
               AND schuljahr.ID = :SchuljahrID "; 
 
+
     if($SchuelerID!='') {
       $query.="AND schueler.ID=:SchuelerID "; 
+    }
+    if($Datum_ab!='') {
+      $query.="AND kalender.Datum >= :Datum_ab "; 
     }
 
     $query.="GROUP BY kalender.Datum, schueler.ID 
@@ -232,9 +242,13 @@ class SchuelerKalender extends Kalender {
     if($SchuelerID!='') {
         $insert->bindParam(':SchuelerID', $SchuelerID, PDO::PARAM_INT);
     }    
+    if($SchuelerID!='') {
+        $insert->bindParam(':Datum_ab', $Datum_ab);
+    }    
 
     try {
       $insert->execute(); 
+      // $insert->debugDumpParams(); // Test 
       $this->info->print_info('Es wurden '.$insert->rowCount().' Übungstage eingefügt.'); 
     }
       catch (PDOException $e) {
@@ -243,12 +257,17 @@ class SchuelerKalender extends Kalender {
     }
   }          
 
-  function delete_rows($SchuljahrID, $SchuelerID='') {
+  function delete_rows($SchuljahrID, $SchuelerID) {
 
     if($SchuljahrID=='') {
       $this->info->print_user_error('Es wurde kein Schuljahr ausgewählt!.'); 
       return; 
     }
+
+    if($SchuelerID=='') {
+      $this->info->print_user_error('Es wurde kein Schüler ausgewählt!.'); 
+      return; 
+    }    
     
     $query="DELETE schueler_kalender 
 			    -- SELECT * 
@@ -267,13 +286,14 @@ class SchuelerKalender extends Kalender {
                 WHERE schueler_kalender.Eingelesen = 1 
                 UNION 
                 SELECT SchuelerID, Datum, 'manuell angelegt' AS Info 
-              FROM schueler_kalender
-              WHERE schueler_kalender.Eingelesen= 0            	
+                FROM schueler_kalender
+                WHERE schueler_kalender.Eingelesen= 0            	
             	) schueler_kalender_exclude 
             ON schueler_kalender.Datum = schueler_kalender_exclude.Datum 
             AND schueler_kalender.SchuelerID  = schueler_kalender_exclude.SchuelerID 
             WHERE  1=1 
             AND schueler_kalender_exclude.Datum IS NULL 
+            AND COALESCE(schueler_kalender.Bemerkung, '')='' 
             AND schuljahr.ID = :SchuljahrID
             "; 
 
