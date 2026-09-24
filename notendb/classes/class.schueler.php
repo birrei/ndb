@@ -22,6 +22,7 @@ class Schueler {
   public string $Title='Schüler';
   public string $Titles='Schüler';  
   public string $infotext=''; 
+  public string $fehlertext=''; 
   
   // private $db; 
   // private $info; 
@@ -232,7 +233,7 @@ class Schueler {
 
     $select->bindValue(':SchuelerID', $this->ID);  
     $select->bindValue(':SchwierigkeitsgradID', $SchwierigkeitsgradID);  
-     $select->bindValue(':InstrumentID', $InstrumentID);  
+    $select->bindValue(':InstrumentID', $InstrumentID);  
 
 
     $select->execute(); 
@@ -485,7 +486,8 @@ class Schueler {
 
     try {
       $delete->execute(); 
-      $this->info->print_info('Der Schüler wurde gelöscht.');        
+      // $this->info->print_info('Der Schüler wurde gelöscht.'); 
+      $this->infotext = 'Der Schüler wurde gelöscht.';     // XXX überall so machen 
       return true;                
     }
     catch (PDOException $e) {  
@@ -503,12 +505,23 @@ class Schueler {
 
     if ($select->rowCount() > 0 ){
       $this->load_row(); 
-      $this->info->print_warning('Der Schüler ID '.$this->ID.', Name: "'.$this->Name.'" kann nicht gelöscht werden. 
-                                  Es existieren '.$select->rowCount().' zugeordnete Übungen.<br>'); 
+         // XXX überall so machen, anstelle print 
+      $this->infotext='SchülerID '.$this->ID.', Name: "'.$this->Name.'" kann nicht gelöscht werden, da noch '.$select->rowCount().' Übungen vorhanden sind.'; 
       return false;       
-    } else {
-      return true; 
-    }
+    } 
+
+    $select = $this->db->prepare("SELECT * from schueler_kalender WHERE SchuelerID=:SchuelerID");
+    $select->bindValue(':SchuelerID', $this->ID); 
+    $select->execute();  
+
+    if ($select->rowCount() > 0 ){
+      $this->load_row(); 
+      $this->infotext='SchülerID '.$this->ID.', Name: "'.$this->Name.'" kann nicht gelöscht werden, da noch '.$select->rowCount().'  Übungstage vorhanden sind.'; 
+      return false;       
+    } 
+
+    return true; 
+
   }
 
   function copy(){

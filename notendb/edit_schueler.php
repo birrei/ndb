@@ -12,8 +12,9 @@ $option=isset($_REQUEST["option"])?$_REQUEST["option"]:'edit';
 $show_data=true; 
 
 $SchuelerName=''; // separater Parameter (erforderlich wegen Anzeige Schüler-Name in Seitentitel)
-
 $fehler_ID_fehlt=false; 
+$Infotext= ''; 
+$print_form_delete_confirm=false; 
 
 switch($option) {
   case 'edit': // über "Bearbeiten"-Link
@@ -50,15 +51,20 @@ switch($option) {
   case 'delete_1': 
     $schueler->ID = $_REQUEST["ID"];  
     $schueler->load_row(); 
-    $SchuelerName=$schueler->Name;      
-    if($schueler->is_deletable()) {
-      $info->print_form_delete_confirm(basename(__FILE__), $schueler->Title, $schueler->ID, $schueler->Name);   
+    $SchuelerName=$schueler->Name;  
+    if(!$schueler->is_deletable()) {
+      $Infotext=$schueler->infotext; 
+      goto pagehead; 
+    } else {
+      $print_form_delete_confirm=true; 
+      goto pagehead;       
     }      
     break;      
   
   case 'delete_2': 
     $schueler->ID = $_POST["ID"];  
     $schueler->delete(); 
+    $Infotext=$schueler->infotext; 
     $SchuelerName='';      
     $show_data=false;     
     break;          
@@ -87,8 +93,18 @@ $info->print_link_table2('schueler');
 if ($fehler_ID_fehlt) {
     $info->print_user_error('Es wurde kein Schüler ausgewählt!'); 
     goto pagefoot;
-    }
-  
+}
+
+if($Infotext!='') {
+  $info->print_warning($Infotext); 
+}
+if($print_form_delete_confirm) {
+  $info->print_form_delete_confirm(basename(__FILE__), $schueler->Title, $schueler->ID, $schueler->Name); 
+}
+
+if(!$show_data) {goto pagefoot; }
+
+
 echo '
 <form action="edit_schueler.php" method="post">
 <table class="form-edit"> 
