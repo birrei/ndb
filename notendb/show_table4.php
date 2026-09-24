@@ -554,7 +554,7 @@ switch ($ansicht)  // setzen: $PageTitle, $table_edit, $show_help_link
 
     $schueler = new Schueler(); 
         echo ' &#9475;';    
-    echo ' Schüler: '.PHP_EOL; 
+    echo '<a href="edit_schueler.php?ID='.$SchuelerID.'&option=edit" target="_blank" title="Schüler bearbeiten">Schüler:</a>'.PHP_EOL; 
     $schueler->print_preselect($SchuelerID); 
 
     $schuljahr = new Schuljahr(); 
