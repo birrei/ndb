@@ -169,6 +169,10 @@ include_once('head.php');
 
         <p>Link "Neu erfassen": 
             <br> Einfügen einer neuen Übung für den im Filter ausgewählten Schüler. Sollte ein Datum ausgewählt sein, wird dieses für die neue Übung übernommen. </p>
+         
+    <h2 class="chapter-title chapter-title-h1" id="uebersichten_aufgaben">Übersicht Aufgaben</h2>
+
+        <p> XXXX </p> 
                                 
     <h2 class="chapter-title chapter-title-h1" id="uebersichten_bewertungen">Übersicht Bewertungen</h2>
             <p>Spalten: </p>

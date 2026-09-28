@@ -98,6 +98,26 @@ class Schueler {
     }
   }
 
+
+  function print_select2($selected_SchuelerID=''){
+    // einfache Version 
+    $query='SELECT ID, Name FROM `schueler` WHERE Aktiv=1 ORDER BY Name';
+    $stmt = $this->db->prepare($query); 
+
+    try {
+      $stmt->execute(); 
+      // $stmt->debugDumpParams(); // Test 
+      $html = new HTML_Select($stmt); 
+      $html->autofocus=false;      
+      $html->print_select("SchuelerID", $selected_SchuelerID, true); 
+    }
+    catch (PDOException $e) {
+      $this->info->print_user_error(); 
+      $this->info->print_error($stmt, $e); 
+    }
+  }
+
+
   public function print_preselect(string $selected_SchuelerID=''){
 
     $query='SELECT ID, Name FROM schueler WHERE Aktiv=1 ORDER BY Name '; 
@@ -975,27 +995,6 @@ class Schueler {
       $this->info->print_error($stmt, $e); 
     }
   } 
-  
-  // public function getQuery(string $version) {
-    //     $strSQL=''; 
-    //     switch($version) {
-    //       case 'kalender_vorlage': 
-    //         /// XXXX
-    //         $strSQL="
-            
-
-    //         SELECT * FROM v_schueler_kalender_vorlage WHERE SchuelerID=".$this->ID." ORDER BY Datum 
-            
-            
-    //         "; 
-      
-    //         break; 
-          
-
-    //     }
-    //     return $strSQL; 
-
-  // }
 
   function print_table_lookups($target_file, $LookupTypeID=0){
     $query="SELECT lookup.ID
@@ -1070,6 +1069,52 @@ class Schueler {
       $this->info->print_error($delete, $e);  
     }  
   }
+
+  function print_table_aufgaben($Erledigt=-1){
+      
+   
+
+    $query="SELECT ID
+                , Datum
+                , Beschreibung
+                , Erledigt  
+            FROM aufgabe 
+            WHERE SchuelerID=:SchuelerID "; 
+
+    switch($Erledigt) {
+        case -1: 
+            // kein Filter 
+          break; 
+        case 0: 
+          $query.="AND Erledigt=0 ";             
+          break; 
+        case 1: 
+          $query.="AND Erledigt=1 ";
+          break; 
+    } 
+
+    $query.="ORDER BY Datum DESC, Beschreibung ASC ";             
+  
+    $stmt = $this->db->prepare($query); 
+    $stmt->bindParam(':SchuelerID', $this->ID, PDO::PARAM_INT);   
+
+    try {
+      $stmt->execute(); 
+            
+      $html = new HTML_Table($stmt); 
+      $html->add_link_edit=true;      
+      // $html->edit_link_table='aufgabe'; 
+      $html->edit_link_filename='edit_schueler_aufgabe.php'; // Bearbeitung innerhalb iframe
+      // $html->edit_link_open_newpage=true; 
+      // $html->show_missing_data_message=false;      
+      $html->print_table2(); 
+
+    }
+    catch (PDOException $e) {
+      $this->info->print_user_error(); 
+      $this->info->print_error($stmt, $e); 
+    }
+  }    
 
 }
 

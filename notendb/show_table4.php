@@ -152,6 +152,9 @@ switch ($ansicht) // $PageTitle, $table_edit
     $PageTitle='Übersicht Gespeicherte Abfragen';  
     $add_link_show = true;     
     break; 
+  case 'aufgaben'; 
+    $PageTitle='Übersicht Aufgaben';  
+    break;     
 }
 
 include_once('head.php'); 
@@ -276,7 +279,72 @@ switch ($ansicht)  // setzen: $PageTitle, $table_edit, $show_help_link
     $query.="ORDER by lookup.Name 
             "; 
     echo '<p><a href="edit_'.$table_edit.'.php?option=insert" target="_blank">Neu erfassen</a></p>';
-    break;     
+    break;   
+
+  case 'aufgaben': 
+    include_once("classes/class.aufgabe.php");
+    include_once("classes/class.schueler.php");
+
+    $table_edit='aufgabe'; 
+
+    $Datum=(isset($_REQUEST["Datum"])?$_REQUEST["Datum"]:'');
+    $SchuelerID=(isset($_REQUEST["SchuelerID"])?$_REQUEST["SchuelerID"]:'');
+    $Unterricht_Wochentag =(isset($_REQUEST["wochentag_nr"])?$_REQUEST["wochentag_nr"]:0);
+    $Suchtext=(isset($_REQUEST["Suchtext"])?$_REQUEST["Suchtext"]:'');    
+
+    echo '<form action="" method="get">'.PHP_EOL; 
+
+    echo 'Datum: <input type="date" name="Datum" value="'.$Datum.'" onchange="this.form.submit()">'; 
+    
+    $schueler = new Schueler(); 
+        echo ' &#9475;';    
+    echo '<a href="edit_schueler.php?ID='.$SchuelerID.'&option=edit" target="_blank" title="Schüler bearbeiten">Schüler:</a>'.PHP_EOL; 
+    $schueler->print_preselect($SchuelerID); 
+
+    echo ' &#9475; Unterricht Wochentag: '; 
+    $wochentage = new Wochentage(); 
+    $wochentage->print_preselect($Unterricht_Wochentag); 
+
+    echo ' &#9475;'; 
+    echo ' Suchtext: <input type="text" id="Suchtext" name="Suchtext" size="30px" value="'.$Suchtext.'"> '; 
+    echo '<input type="submit" class="btnSave" name="senden" value="Suchen">';
+    echo '<input type="hidden" name="ansicht" value="'.$ansicht.'">
+          </form>';  
+  
+    $query="SELECT aufgabe.ID 
+        , schueler.Name as `Schüler`
+        , aufgabe.Beschreibung as `Aufgabe Beschreibung` 
+        , aufgabe.Datum as `Datum Aufgabe` 
+      FROM aufgabe 
+        INNER JOIN 
+        schueler ON schueler.ID = aufgabe.SchuelerID 
+      WHERE schueler.Aktiv=1 "; 
+
+    if ($SchuelerID!='') {
+      $query.="AND schueler.ID=".$SchuelerID." ".PHP_EOL;  
+    }
+
+    if ($Unterricht_Wochentag > 0 ) {
+      $query.="AND schueler.Unterricht_Wochentag=".$Unterricht_Wochentag." ";  
+    }
+
+    if (!empty($Datum)) {
+      $query.="AND aufgabe.Datum='".$Datum."' ";  
+    }
+
+    if($Suchtext!='') {
+      $query.="AND ( aufgabe.Beschreibung LIKE '%".$Suchtext."%' 
+              ) "; 
+    }
+
+    $query.="ORDER by schueler.Unterricht_Wochentag, schueler.Name, aufgabe.Datum DESC "; 
+
+    // echo '<p><a href="edit_'.$table_edit.'.php?option=insert" target="_blank">Neu erfassen</a></p>';
+    echo '<p><a href="edit_'.$table_edit.'.php?option=insert&SchuelerID='.$SchuelerID.'&Datum='.$Datum.'" target="_blank">Neu erfassen</a></p>';
+
+
+    break;    
+
   case 'schueler':  
     include_once("classes/class.status.php");
     include_once("classes/class.lookup.php");
@@ -301,8 +369,10 @@ switch ($ansicht)  // setzen: $PageTitle, $table_edit, $show_help_link
     $status->print_preselect($StatusID); 
 
     echo '<label><input type="checkbox" name="Status_Umkehr" onchange="this.form.submit()" '.($Status_Umkehr?'checked':'').'>Umkehrsuche</label>'; 
+    
     echo ' &#9475;'; 
     echo 'Datum: <input type="date" name="Datum" value="'.$Datum.'" onchange="this.form.submit()">'; 
+    
     echo ' &#9475; Unterricht Wochentag: '; 
     $wochentage = new Wochentage(); 
     $wochentage->print_preselect($Unterricht_Wochentag); 

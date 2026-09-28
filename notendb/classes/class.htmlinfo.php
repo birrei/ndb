@@ -167,7 +167,7 @@ class HTML_Info {
     }
 
     function print_form_delete_confirm($filename, $Bezeichnung, $ID, $Name) {
-
+        // $_POST-Formular
         $tmpText='Soll '.$Bezeichnung.' ID '.$ID.' '; 
         $tmpText.=($Name!=''?', "'.$Name.'" ':' ');
         $tmpText.='wirklich gelöscht werden?'; 
@@ -175,6 +175,25 @@ class HTML_Info {
         echo '<p style="color: red;">'.$tmpText.'<br>
         <form action="'.$filename.'" method="post">
         <input type="hidden" name="ID" value="' . $ID. '">
+        <input type="hidden" name="option" value="delete_2">      
+        <input type="submit" name="senden" value="Löschung bestätigen"  style="color:red">             
+        </form>
+        </p>
+        '; 
+    }    
+
+
+    function print_form_delete_confirm2($filename, $Bezeichnung, $ID, $Name, $ParentID_Key, $ParentID_Value) {
+        // $_GET-Parameter, EXtra: Parent-Paramter Name, Parent-Paramter Wert 
+        // Geeignet für Bearbeitungs-Formulare in iFrames, nach Löschung soll auf Liste Liste zurückgeleitet werden  
+        $tmpText='Soll '.$Bezeichnung.' ID '.$ID.' '; 
+        $tmpText.=($Name!=''?', "'.$Name.'" ':' ');
+        $tmpText.='wirklich gelöscht werden?'; 
+        
+        echo '<p style="color: red;">'.$tmpText.'<br>
+        <form action="'.$filename.'" method="get">
+        <input type="hidden" name="ID" value="' . $ID. '">
+        <input type="hidden" name="'.$ParentID_Key.'" value="'.$ParentID_Value.'">        
         <input type="hidden" name="option" value="delete_2">      
         <input type="submit" name="senden" value="Löschung bestätigen"  style="color:red">             
         </form>

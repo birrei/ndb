@@ -37,7 +37,8 @@ a:hover {
       <a href="show_table4.php?ansicht=sammlungen">Übersicht Sammlungen</a><br>
       <a href="show_table4.php?ansicht=schueler">Übersicht Schüler</a><br>
       <a href="show_table4.php?ansicht=uebungen">Übersicht Übungen</a><br>
-      <a href="show_table4.php?ansicht=uebungstage">Übersicht Übungstage</a>
+      <a href="show_table4.php?ansicht=uebungstage">Übersicht Übungstage</a><br>
+      <a href="show_table4.php?ansicht=aufgaben">Übersicht Aufgaben</a>
       <br>
   </td>
 </tr>
