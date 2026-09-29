@@ -291,6 +291,7 @@ switch ($ansicht)  // setzen: $PageTitle, $table_edit, $show_help_link
     $SchuelerID=(isset($_REQUEST["SchuelerID"])?$_REQUEST["SchuelerID"]:'');
     $Unterricht_Wochentag =(isset($_REQUEST["wochentag_nr"])?$_REQUEST["wochentag_nr"]:0);
     $Suchtext=(isset($_REQUEST["Suchtext"])?$_REQUEST["Suchtext"]:'');    
+    $Erledigt=(isset($_REQUEST["Erledigt"])?$_REQUEST["Erledigt"]:'0'); 
 
     echo '<form action="" method="get">'.PHP_EOL; 
 
@@ -305,6 +306,13 @@ switch ($ansicht)  // setzen: $PageTitle, $table_edit, $show_help_link
     $wochentage = new Wochentage(); 
     $wochentage->print_preselect($Unterricht_Wochentag); 
 
+    echo ' &#9475;';
+    echo ' Erledigt <select id="Erledigt" name="Erledigt" onchange="this.form.submit()" >
+            <option value="" '.($Erledigt==''?'selected':'').'></option>
+            <option value="0" '.($Erledigt=='0'?'selected':'').'>Nein</option>
+            <option value="1" '.($Erledigt=='1'?'selected':'').'>Ja</option>
+        </select> '; 
+
     echo ' &#9475;'; 
     echo ' Suchtext: <input type="text" id="Suchtext" name="Suchtext" size="30px" value="'.$Suchtext.'"> '; 
     echo '<input type="submit" class="btnSave" name="senden" value="Suchen">';
@@ -312,13 +320,13 @@ switch ($ansicht)  // setzen: $PageTitle, $table_edit, $show_help_link
           </form>';  
   
     $query="SELECT aufgabe.ID 
-        , schueler.Name as `Schüler`
-        , aufgabe.Beschreibung as `Aufgabe Beschreibung` 
-        , aufgabe.Datum as `Datum Aufgabe` 
-      FROM aufgabe 
-        INNER JOIN 
-        schueler ON schueler.ID = aufgabe.SchuelerID 
-      WHERE schueler.Aktiv=1 "; 
+            , schueler.Name as `Schüler`
+            , aufgabe.Beschreibung as `Aufgabe Beschreibung` 
+            , aufgabe.Datum as `Datum Aufgabe` 
+          FROM aufgabe 
+            INNER JOIN 
+            schueler ON schueler.ID = aufgabe.SchuelerID 
+          WHERE schueler.Aktiv=1 "; 
 
     if ($SchuelerID!='') {
       $query.="AND schueler.ID=".$SchuelerID." ".PHP_EOL;  
@@ -332,12 +340,15 @@ switch ($ansicht)  // setzen: $PageTitle, $table_edit, $show_help_link
       $query.="AND aufgabe.Datum='".$Datum."' ";  
     }
 
+    if ($Erledigt!='') {
+      $query.="AND aufgabe.Erledigt=".$Erledigt." ".PHP_EOL;  
+    }       
     if($Suchtext!='') {
       $query.="AND ( aufgabe.Beschreibung LIKE '%".$Suchtext."%' 
               ) "; 
     }
 
-    $query.="ORDER by schueler.Unterricht_Wochentag, schueler.Name, aufgabe.Datum DESC "; 
+    $query.="ORDER by schueler.Name, aufgabe.Datum DESC "; 
 
     // echo '<p><a href="edit_'.$table_edit.'.php?option=insert" target="_blank">Neu erfassen</a></p>';
     echo '<p><a href="edit_'.$table_edit.'.php?option=insert&SchuelerID='.$SchuelerID.'&Datum='.$Datum.'" target="_blank">Neu erfassen</a></p>';
@@ -728,11 +739,6 @@ switch ($ansicht)  // setzen: $PageTitle, $table_edit, $show_help_link
     if ($Unterricht_Protokolliert!='') {
       $query.="AND kalender.Unterricht_Protokolliert=".$Unterricht_Protokolliert." ".PHP_EOL; 
     }       
-
-    // XXXX 
-    // if ($Unterricht_Wochentag > 0 ) {
-    //   $query.="AND schueler.Unterricht_Wochentag=".$Unterricht_Wochentag." ".PHP_EOL;  
-    // }
 
     if($Suchtext!='') {
       $query.="AND ( schueler.Bemerkung LIKE '%".$Suchtext."%' 
