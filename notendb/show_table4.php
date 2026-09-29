@@ -334,7 +334,6 @@ switch ($ansicht)  // setzen: $PageTitle, $table_edit, $show_help_link
 
     if ($Unterricht_Wochentag > 0 ) {
       $query.="AND schueler.Unterricht_Wochentag=".$Unterricht_Wochentag." ";  
-      $group_col='Schüler'; 
     }
 
     if (!empty($Datum)) {
@@ -354,6 +353,7 @@ switch ($ansicht)  // setzen: $PageTitle, $table_edit, $show_help_link
     // echo '<p><a href="edit_'.$table_edit.'.php?option=insert" target="_blank">Neu erfassen</a></p>';
     echo '<p><a href="edit_'.$table_edit.'.php?option=insert&SchuelerID='.$SchuelerID.'&Datum='.$Datum.'" target="_blank">Neu erfassen</a></p>';
 
+      $group_col='Schüler';     
 
     break;    
 
