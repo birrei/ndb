@@ -334,6 +334,7 @@ switch ($ansicht)  // setzen: $PageTitle, $table_edit, $show_help_link
 
     if ($Unterricht_Wochentag > 0 ) {
       $query.="AND schueler.Unterricht_Wochentag=".$Unterricht_Wochentag." ";  
+      $group_col='Schüler'; 
     }
 
     if (!empty($Datum)) {
