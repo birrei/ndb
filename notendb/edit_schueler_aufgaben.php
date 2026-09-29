@@ -42,15 +42,41 @@ if (isset($_REQUEST["option"])) {
 
 }
 
-echo '<div style="display: grid; grid-template-columns: auto auto; float:left;">'; 
-
 $schueler=new Schueler();
 $schueler->ID=$_REQUEST["SchuelerID"]; 
-$schueler->print_table_aufgaben(); 
+
+$Erledigt=(isset($_REQUEST["Erledigt"])?$_REQUEST["Erledigt"]:0); 
+
+
+// echo '<div style="display: grid; grid-template-columns: auto auto auto auto;">'; 
+
+// style="float:left"
+echo '<div style="float:left">'; 
+
+echo '<form action="" method="post">'.PHP_EOL;  
+echo  'Erledigt &nbsp; </span>'; 
+echo '<select id="Erledigt" name="Erledigt" onchange="this.form.submit()">
+    <option value="" '.($Erledigt=='-1'?'selected':'').'></option>
+    <option value="0" '.($Erledigt=='0'?'selected':'').'>Nein</option>
+    <option value="1" '.($Erledigt=='1'?'selected':'').'>Ja</option>
+</select> '; 
+echo '</form>';  
+echo '</div>'; 
+
+echo '<div>'; 
+echo '&nbsp;<a href="edit_schueler_aufgabe.php?SchuelerID='.$schueler->ID.'&option=insert" class="form-link" >Hinzufügen</a>'; 
 
 echo '</div>'; 
 
-echo '&nbsp;<a href="edit_schueler_aufgabe.php?SchuelerID='.$schueler->ID.'&option=insert" class="form-link" >Hinzufügen</a>'; 
+
+
+
+echo '<div style="display: grid; grid-template-columns: auto auto;clear:left">'; 
+
+$schueler->print_table_aufgaben($Erledigt); 
+
+echo '</div>'; 
+
 
 include_once('foot_raw.php');
 
