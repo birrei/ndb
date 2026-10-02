@@ -67,7 +67,7 @@ switch($option) {
     break; 
 
   case 'copy': 
-    // unset($_GET); ? XXXX 
+    unset($_GET); // XXXX 
     $aufgabe->ID=$_REQUEST["ID"]; 
     $aufgabe->copy();   
     $aufgabe->load_row();   
@@ -178,11 +178,4 @@ echo '
 pagefoot: 
 include_once('foot.php');
 
-  // <tr>    
-  //   <label>
-  //   <td class="form-edit form-edit-col1">Bezeichnung:</td>  
-  //   <td class="form-edit form-edit-col2"><input type="text" name="Name" value="'.$aufgabe->Name.'" size="45" maxlength="80" required="required" autofocus="autofocus" oninput="changeBackgroundColor(this)"> 
-  //       </td>
-  //   </label>
-  // </tr> 
 ?>

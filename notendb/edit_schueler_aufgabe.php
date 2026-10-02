@@ -44,6 +44,14 @@ switch($option) {
       }     
       break; 
 
+  case 'copy': 
+    unset($_GET); // XXXX 
+    $aufgabe->ID=$_REQUEST["ID"]; 
+    $aufgabe->copy();   
+    $aufgabe->load_row();   
+    $Erledigt = $aufgabe->Erledigt;   
+    break;     
+
   default: 
       $show_data=false;       
 }
@@ -107,7 +115,8 @@ switch($option) {
     <td class="form-edit form-edit-col1"></td> 
     <td class="form-edit form-edit-col2"><br>
       <?php 
-          $info->print_form_inline('delete_1',$aufgabe->ID,$aufgabe->Title, 'löschen'); 
+      $info->print_form_inline('delete_1',$aufgabe->ID,$aufgabe->Title, 'löschen');
+       $info->print_form_inline('copy',$aufgabe->ID,$aufgabe->Title, 'kopieren');            
       ?>     
     </td>
   </tr> 
