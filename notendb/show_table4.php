@@ -416,7 +416,7 @@ switch ($ansicht)  // setzen: $PageTitle, $table_edit, $show_help_link
           , v_schueler_lookuptypes.LookupList as Besonderheiten 
           "         
           ; 
-    if ($StatusID!='') {
+    if ($StatusID!='' & !$Status_Umkehr) {
         $query.=', '.$sqlpart->getSQL_COL_CONCAT_Noten(200); 
     }
     $query.=", IF(COUNT(distinct uebung.Datum) > 0, COUNT(distinct uebung.Datum), NULL) as `Übung Anzahl Tage`  
@@ -443,11 +443,13 @@ switch ($ansicht)  // setzen: $PageTitle, $table_edit, $show_help_link
       WHERE 1=1 
       ";
 
-      // if ($Status_Umkehr) {
-      //   $query.=($StatusID!=''?'AND schueler.ID NOT IN (SELECT SchuelerID FROM schueler_satz WHERE StatusID='.$StatusID.')  '.PHP_EOL:' ');
-      // } else {
-      //   $query.=($StatusID!=''?'AND schueler.ID IN (SELECT SchuelerID FROM schueler_satz WHERE StatusID='.$StatusID.')  '.PHP_EOL:' ');
-      // }
+      // $query.=($StatusID!=''?'AND schueler.ID IN (SELECT SchuelerID FROM schueler_satz WHERE StatusID='.$StatusID.')  '.PHP_EOL:' ');
+
+      if ($Status_Umkehr) {
+        $query.=($StatusID!=''?'AND schueler.ID NOT IN (SELECT SchuelerID FROM schueler_satz WHERE StatusID='.$StatusID.')  '.PHP_EOL:' ');
+      } else {
+        $query.=($StatusID!=''?'AND schueler.ID IN (SELECT SchuelerID FROM schueler_satz WHERE StatusID='.$StatusID.')  '.PHP_EOL:' ');
+      }
     
     $query.=($Aktiv==1?"AND schueler.Aktiv=1 ".PHP_EOL:"AND schueler.Aktiv=0 "); 
 

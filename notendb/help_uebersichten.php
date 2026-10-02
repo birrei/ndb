@@ -59,7 +59,7 @@ include_once('head.php');
                 <li>Unterricht Tag Reihenfolge</li>
                 <li>Unterricht Dauer</li>
                 <li>Geburtsdatum</li>
-                <li>Verknüpfte Noten (Falls im Filter ein passender Status ausgewählt ist)</li>
+                <li>Verknüpfte Noten (Anzeige nur, falls Filter "Status Satz Verknüpfung" ausgewählt ist und Checkbox "Umkehrsuche" nicht ausgewählt ist)</li>
                 <li>Uebung Tage (Anzahl der Übungs-Tage)  </li>
                 <li>Uebung zuletzt (Datum der neuesten Übung) </li>        
             </ul>  
@@ -68,11 +68,10 @@ include_once('head.php');
         
             <ul>
                 <li>Aktiv</li>
-                <li>Status Satz Verknüpfung (+ Umkehrsuche)</li>
+                <li>Status Satz Verknüpfung: Findet Schüler, denen Noten mit dem gewählten Status zugeordnet sind 
+                <br> ... dazu: Umkehrsuche: Findet Schüler, denen kein Stück mit dem gewählten Status zugeordnet ist </li>
                 <li>Übung Datum</li>
                 <li>Unterricht Wochentag</li>
-    
-
             </ul> 
 
 	<h2 class="chapter-title chapter-title-h1" id="uebersichten_uebungen">Übersicht Übungen</h2>
