@@ -1116,6 +1116,69 @@ class Schueler {
     }
   }    
 
+  function print_table_auswertung_uebungstage(string $SchuljahrID){
+
+    $query="SELECT 
+            schuljahr.Bezeichnung AS Schuljahr
+            , COUNT(schueler_kalender.Datum) Anzahl_Uebungstage
+            -- , COUNT(schueler_kalender.Datum) * schueler.Unterricht_Dauer AS Uebungen_Summe_Minuten_Plan
+            -- , SUM(schueler.Unterricht_Dauer) Uebungen_Summe_Minuten_Plan
+             , SEC_TO_TIME( (COUNT(schueler_kalender.Datum) * schueler.Unterricht_Dauer) * 60)  AS `Stunden geplant`
+            -- , SUM(uebung.Anzahl) AS Uebungen_Summe_Minuten_Protokoll  
+            , SEC_TO_TIME(SUM(uebung.Anzahl)  * 60)  AS `Stunden gegeben` 
+            -- chueler.ID 
+        FROM  schueler_kalender
+            INNER JOIN 
+            kalender 
+              ON schueler_kalender.Datum = kalender.Datum         
+        INNER JOIN schueler 
+            ON schueler.ID= schueler_kalender.SchuelerID 
+        LEFT JOIN schuljahr 
+          ON kalender.Datum  BETWEEN schuljahr.Datum_Start AND schuljahr.Datum_Ende            
+        LEFT JOIN uebung 
+            ON schueler.ID = uebung.SchuelerID 
+            AND schueler_kalender.Datum = uebung.Datum                  
+        WHERE schueler.ID = :ID 
+
+        "; 
+        
+
+    if($SchuljahrID!='') {
+      $query.="AND schuljahr.ID = :SchuljahrID";  
+    }
+
+    $query.="
+    GROUP BY schuljahr.ID, schueler.ID  
+    ORDER BY schuljahr.Bezeichnung DESC 
+    "; 
+
+
+
+    // echo '<pre>'.$query.'</pre>';
+    $stmt = $this->db->prepare($query); 
+    $stmt->bindParam(':ID', $this->ID, PDO::PARAM_INT);
+    if($SchuljahrID!='') {
+      $stmt->bindParam(':SchuljahrID', $SchuljahrID, PDO::PARAM_INT); 
+    } 
+
+    try {
+      $stmt->execute(); 
+      $html = new HTML_Table($stmt); 
+      $html->add_link_edit=false;      
+      // $html->edit_link_table='schueler_kalender'; 
+      // $html->edit_link_title='Übung'; 
+      $html->edit_link_open_newpage=true; 
+      $html->show_missing_data_message=false;      
+      $html->print_table2(); 
+
+    }
+    catch (PDOException $e) {
+      $this->info->print_user_error(); 
+      $this->info->print_error($stmt, $e); 
+    }
+  }    
+
+
 }
 
  
