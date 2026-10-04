@@ -495,12 +495,58 @@ class Schueler {
     }  
   }
 
+  function delete_uebungstage(){
+
+    $delete = $this->db->prepare("DELETE FROM schueler_kalender WHERE SchuelerID=:ID"); 
+    $delete->bindValue(':ID', $this->ID);  
+
+    try {
+      $delete->execute(); 
+    }
+    catch (PDOException $e) {
+      $this->info->print_user_error(); 
+      $this->info->print_error($delete, $e);  
+    }  
+  }  
+
+  function delete_aufgaben(){
+
+    $delete = $this->db->prepare("DELETE FROM aufgabe WHERE SchuelerID=:ID"); 
+    $delete->bindValue(':ID', $this->ID);  
+
+    try {
+      $delete->execute(); 
+    }
+    catch (PDOException $e) {
+      $this->info->print_user_error(); 
+      $this->info->print_error($delete, $e);  
+    }  
+  }  
+
+  function delete_lookups(){
+
+    $delete = $this->db->prepare("DELETE FROM schueler_lookup WHERE SchuelerID=:ID"); 
+    $delete->bindValue(':ID', $this->ID);  
+
+    try {
+      $delete->execute(); 
+    }
+    catch (PDOException $e) {
+      $this->info->print_user_error(); 
+      $this->info->print_error($delete, $e);  
+    }  
+  }  
+
   function delete(){
 
     $this->delete_satze(); 
     $this->delete_schwierigkeitsgrade(); 
-    $this->delete_uebungen();     
-      
+    $this->delete_lookups(); 
+
+    // $this->delete_uebungen();     // s. is_deletable 
+    // $this->delete_uebungstage();          // s. is_deletable 
+    // $this->delete_aufgaben();          // s. is_deletable 
+
     $delete = $this->db->prepare("DELETE FROM `schueler` WHERE ID=:ID"); 
     $delete->bindValue(':ID', $this->ID);  
 
@@ -540,6 +586,18 @@ class Schueler {
       return false;       
     } 
 
+
+    $select = $this->db->prepare("SELECT * from aufgabe WHERE SchuelerID=:SchuelerID");
+    $select->bindValue(':SchuelerID', $this->ID); 
+    $select->execute();  
+
+    if ($select->rowCount() > 0 ){
+      $this->load_row(); 
+      $this->infotext='SchülerID '.$this->ID.', Name: "'.$this->Name.'" kann nicht gelöscht werden, da noch '.$select->rowCount().'  Aufgaben vorhanden sind.'; 
+      return false;       
+    } 
+
+
     return true; 
 
   }
@@ -572,8 +630,8 @@ class Schueler {
       $insert->execute(); 
       $ID_New = $this->db->lastInsertId();    
 
-      $this->copy_schwierigkeitsgrade($ID_New); 
-      $this->copy_saetze($ID_New); 
+      // $this->copy_schwierigkeitsgrade($ID_New); 
+      // $this->copy_saetze($ID_New); 
 
       $this->ID =  $ID_New; // Stabübergabe (Objekt-Instanz übernimmt neue ID-Kopie )
     }

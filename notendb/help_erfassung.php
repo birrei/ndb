@@ -208,12 +208,23 @@ include_once('head.php');
                         (weitere Informationen zu Eigenschaften einer Verknüpfung siehe dort)</p>
 
         <h3 class="chapter-title chapter-title-h3" id="erfassung_schueler_kopieren">Schüler kopieren</h3>
-            <p>Die Daten eines Schüler werden inklusive Instrumente/Schwierigkeitsgrade sowie aller Material- und Satzverknüpfungen kopiert. </p>
-
-
+            <p>Die Daten eines Schüler werden kopiert (ohne Verknüpfungen und Zuordnungen). </p>
 
         <h3 class="chapter-title chapter-title-h3" id="erfassung_schueler_loeschen">Schüler löschen</h3>
-            <p>Die Daten eines Schüler werden inklusive Instrumente/Schwierigkeitsgrade sowie aller Material- und Satzverknüpfungen gelöscht. </p>
+            <p>Die Daten eines Schülers werden gelöscht, inklusive folgender Verküpfungen: </p>
+            <ul>    
+                <li>Notenverknüpfungen</li>
+                <li>Intrumente/Schwierigkeitsgrade</li>
+                <li>Besonderheiten</li>    
+            </ul>
+
+            <p>Die Daten eines Schülers können nicht gelöscht werden, falls noch folgende Verknüpfungen vorhanden sind: </p>
+            <ul>    
+                <li>Übungstage</li>
+                <li>Übungen</li>
+                <li>Aufgaben</li>    
+            </ul>
+
 
         <h3 class="chapter-title chapter-title-h3" id="erfassung_schueler_noten_schnellzuordnung">Notenmaterial Schnellzuordnung</h3>
 
