@@ -86,7 +86,9 @@ a:hover {
     <a href="show_table3.php">Verwendungszweck Planung</a> <i>(Anzeige Gesamt - Spieldauer) </i> <br>
     <a href="show_table4.php?ansicht=info-alle-spieldauern">Verwendete Spieldauern</a> <br>
     <a href="show_table4.php?ansicht=info-alle-tempobezeichnungen">Verwendete Tempobezeichnungen</a> <br>
-
+    <hr> 
+     <a href="show_table4.php?ansicht=abfragetypen">Abfragetypen</a><br> 
+      <a href="show_table4.php?ansicht=abfragen">Gespeicherte Abfragen</a><br> 
   </td>
 </tr>
 
@@ -102,18 +104,11 @@ a:hover {
 
 <tr> <td class="start"> <h3>Sonst</h3> </td>
   <td class="start">
-    <a href="updates.php">Sammel-Updates</a> <br> 
-    <a href="uebungstage_einlesen.php">Übungstage einlesen</a> 
+    <a href="updates.php">Sammel-Updates allgemein</a> <br> 
+    <!-- <a href="uebungstage_einlesen.php">Übungstage einlesen</a>  -->
   </td>
 </tr>
 
-<tr> <td class="start"> <h3>Admin</h3> </td>
-  <td class="start">
-      <a href="show_table4.php?ansicht=abfragetypen">Abfragetypen</a><br> 
-      <a href="show_table4.php?ansicht=abfragen">Gespeicherte Abfragen</a><br> 
-
-  </td>
-</tr>
 
 
 </table>
