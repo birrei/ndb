@@ -104,8 +104,34 @@ class SQLPart {
       return $tmpSQL; 
 
   }
+ 
+  public function getSQL_schueler_lookuptypes($LookupID='')       {
 
+      $tmpSQL="SELECT SchuelerID
+                , GROUP_CONCAT(LookupList SEPARATOR ' / ') LookupList
+                , GROUP_CONCAT(LookupList2 SEPARATOR '<br /><br />') LookupList2
+              FROM 
+              (
+                  SELECT schueler_lookup.SchuelerID 
+                      , lookup_type.ID as LookupTypeID
+                      , concat(lookup_type.Name,': ', GROUP_CONCAT(DISTINCT lookup.Name  order by lookup.Name SEPARATOR ', ')) LookupList          
+                      , concat(lookup_type.Name,':<br />', GROUP_CONCAT(DISTINCT lookup.Name  order by lookup.Name SEPARATOR ',<br >')) LookupList2       
+                  FROM schueler_lookup 
+                      left join lookup on lookup.ID = schueler_lookup.LookupID 
+                      left join lookup_type on lookup_type.ID = lookup.LookupTypeID
+                  WHERE 1=1 ".PHP_EOL; 
+      
+      $tmpSQL.= $LookupID!=''?"AND schueler_lookup.LookupID=".$LookupID." ".PHP_EOL:" ".PHP_EOL; 
+    
+      $tmpSQL.="GROUP BY schueler_lookup.SchuelerID ,  lookup_type.ID 
+                ORDER BY schueler_lookup.SchuelerID, lookup_type.type_key
+                ) schueler_lookuptype 
+            GROUP BY SchuelerID ".PHP_EOL ; 
 
+      return $tmpSQL;         
+             
+  }
+  
 }
 
  

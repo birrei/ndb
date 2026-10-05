@@ -413,25 +413,27 @@ switch ($ansicht)  // setzen: $PageTitle, $table_edit, $show_help_link
           , TIMESTAMPDIFF(YEAR, schueler.Unterricht_Seit, CURDATE()) as `Unterricht seit Jahre`           
           , schueler.Geburtsdatum 
           , TIMESTAMPDIFF(YEAR, schueler.Geburtsdatum, CURDATE()) as `Alter` 
-          , v_schueler_lookuptypes.LookupList as Besonderheiten 
-          "         
+          , schueler_lookuptypes.LookupList as Besonderheiten 
+          " 
           ; 
+
     if ($StatusID!='' & !$Status_Umkehr) {
         $query.=', '.$sqlpart->getSQL_COL_CONCAT_Noten(200); 
     }
+
     $query.=", IF(COUNT(distinct uebung.Datum) > 0, COUNT(distinct uebung.Datum), NULL) as `Übung Anzahl Tage`  
           , MAX(uebung.Datum) as `Datum letzte Übung`           
           "; 
      
-
     $query.="
         FROM schueler 
           LEFT JOIN  v_schueler_instrumente ON v_schueler_instrumente.SchuelerID = schueler.ID 
           LEFT JOIN uebung ON schueler.ID = uebung.SchuelerID
           LEFT JOIN schueler_satz on  schueler_satz.SchuelerID= schueler.ID 
           LEFT JOIN wochentage ON wochentage.wochentag_nr = schueler.Unterricht_Wochentag 
-          LEFT JOIN v_schueler_lookuptypes on v_schueler_lookuptypes.SchuelerID = schueler.ID  
+          LEFT JOIN (".$sqlpart->getSQL_schueler_lookuptypes($LookupID).") schueler_lookuptypes ON schueler_lookuptypes.SchuelerID = schueler.ID  
       ";
+
 
     $query.="
 

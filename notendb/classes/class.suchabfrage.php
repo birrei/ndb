@@ -7,6 +7,7 @@ include_once("class.htmltable.php");
 include_once("class.abfragetyp.php");
 include_once("class.lookuptype.php");
 include_once("class.lookup.php");
+// include_once('class.sqlpart.php');
 
 class Suchabfrage {
 
@@ -146,6 +147,8 @@ class Suchabfrage {
  
   private function getSQL_AbfrageKomplett() {
     include_once('classes/class.sqlpart.php');
+    $sqlpart = new SQLPart(); 
+
     $strTmp=''; 
 
   /** SELECT  */
@@ -240,7 +243,7 @@ class Suchabfrage {
         , schueler.Unterricht_Seit  as `Datum Unterricht Seit`       
         , schueler.Geburtsdatum           
         , v_schueler_instrumente.Instrumente as `Instrumente / Schwierigkeitsgrade`
-        , v_schueler_lookuptypes.LookupList as Besonderheiten         
+        , schueler_lookuptypes.LookupList as Besonderheiten         
         ".PHP_EOL; 
         
         break; 
@@ -341,20 +344,18 @@ class Suchabfrage {
 
         break; 
 
-
-
       case 'Schueler': // AnsichtGruppe  
 
         $strTmp.="FROM schueler    
-        LEFT join schueler_satz on schueler_satz.SchuelerID  = schueler.ID 
-        LEFT join status as status_s on status_s.ID = schueler_satz.StatusID
-        LEFT JOIN wochentage ON wochentage.wochentag_nr = schueler.Unterricht_Wochentag
-        LEFT join satz on satz.ID = schueler_satz.SatzID 
-        LEFT join musikstueck on musikstueck.ID = satz.MusikstueckID
-        LEFT join sammlung on sammlung.ID = musikstueck.SammlungID    
-        LEFT join v_schueler_instrumente on v_schueler_instrumente.SchuelerID = schueler.ID 
-        LEFT JOIN v_schueler_lookuptypes on v_schueler_lookuptypes.SchuelerID = schueler.ID          
-        ". PHP_EOL;         
+                  LEFT join schueler_satz on schueler_satz.SchuelerID  = schueler.ID 
+                  LEFT join status as status_s on status_s.ID = schueler_satz.StatusID
+                  LEFT JOIN wochentage ON wochentage.wochentag_nr = schueler.Unterricht_Wochentag
+                  LEFT join satz on satz.ID = schueler_satz.SatzID 
+                  LEFT join musikstueck on musikstueck.ID = satz.MusikstueckID
+                  LEFT join sammlung on sammlung.ID = musikstueck.SammlungID    
+                  LEFT join v_schueler_instrumente on v_schueler_instrumente.SchuelerID = schueler.ID 
+                  LEFT JOIN (".$sqlpart->getSQL_schueler_lookuptypes('').") schueler_lookuptypes ON schueler_lookuptypes.SchuelerID = schueler.ID                              
+                  ". PHP_EOL;         
 
         
         break; 
@@ -362,17 +363,17 @@ class Suchabfrage {
       case 'Uebungen': // AnsichtGruppe  
 
         $strTmp.="FROM uebung 
-                      INNER join schueler on schueler.ID=uebung.SchuelerID
-                                    and schueler.Aktiv=1
-                      LEFT jOIN schueler_kalender on schueler_kalender.SchuelerID=schueler.ID 
-                                              AND uebung.Datum=schueler_kalender.Datum 
-                      LEFT JOIN schuljahr ON schueler_kalender.Datum BETWEEN schuljahr.Datum_Start AND schuljahr.Datum_Ende 
-                      left join uebungtyp on uebung.UebungtypID=uebungtyp.ID 
-                      left join bewertung on bewertung.ID = uebung.BewertungID
-                      left join satz  on satz.ID=uebung.SatzID 
-                      left join musikstueck on satz.MusikstueckID = musikstueck.ID
-                      left JOIN sammlung on sammlung.ID = musikstueck.SammlungID
-                      left join v_uebung_lookuptypes on v_uebung_lookuptypes.UebungID=uebung.ID ".PHP_EOL;
+                  INNER join schueler on schueler.ID=uebung.SchuelerID
+                                and schueler.Aktiv=1
+                  LEFT jOIN schueler_kalender on schueler_kalender.SchuelerID=schueler.ID 
+                                          AND uebung.Datum=schueler_kalender.Datum 
+                  LEFT JOIN schuljahr ON schueler_kalender.Datum BETWEEN schuljahr.Datum_Start AND schuljahr.Datum_Ende 
+                  left join uebungtyp on uebung.UebungtypID=uebungtyp.ID 
+                  left join bewertung on bewertung.ID = uebung.BewertungID
+                  left join satz  on satz.ID=uebung.SatzID 
+                  left join musikstueck on satz.MusikstueckID = musikstueck.ID
+                  left JOIN sammlung on sammlung.ID = musikstueck.SammlungID
+                  left join v_uebung_lookuptypes on v_uebung_lookuptypes.UebungID=uebung.ID ".PHP_EOL;
         break; 
     }      
 
