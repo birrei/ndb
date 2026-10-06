@@ -89,6 +89,11 @@ include_once('head.php');
 
 $info->print_screen_header('Schüler bearbeiten'); 
 $info->print_link_table2('schueler'); 
+$info->print_link_overview('show_table4.php','ansicht=uebungen&SchuelerID='.$schueler->ID, 'Übersicht Übungen'); 
+$info->print_link_overview('show_table4.php','ansicht=uebungstage&SchuelerID='.$schueler->ID, 'Übersicht Übungstage'); 
+$info->print_link_overview('show_table4.php','ansicht=aufgaben&SchuelerID='.$schueler->ID, 'Übersicht Aufgaben'); 
+
+
 
 if ($fehler_ID_fehlt) {
     $info->print_user_error('Es wurde kein Schüler ausgewählt!'); 
@@ -260,6 +265,7 @@ echo '
     $info->print_form_inline('delete_1',$schueler->ID,$schueler->Title, 'löschen'); 
     $info->print_form_inline('copy',$schueler->ID,$schueler->Title, 'kopieren');   
     $info->print_link_overview('edit_schueler_x_zuordnung_noten.php','ID='.$schueler->ID, 'Notenmaterial Schnellzuordnung'); 
+
     echo '     
     </td>
   </tr> 
