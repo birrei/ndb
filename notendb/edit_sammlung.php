@@ -200,15 +200,15 @@ echo '
             <label><input type="checkbox" name="copy_lookups">Besonderheiten mitkopieren</label>   
             </form>
     ';  
-  
-  echo '<a href=edit_sammlung_x_updates.php?SammlungID='.$sammlung->ID.' target="_blank" class="form-link">Sammel-Updates</a> ';  
-  echo '<a href=edit_sammlung_x_musikstuecke_uebersicht.php?SammlungID='.$sammlung->ID.' target="_blank" class="form-link">Musikstücke Übersicht</a>'; 
+
+  $info->print_link_overview('edit_sammlung_x_musikstuecke_uebersicht.php','SammlungID='.$sammlung->ID, 'Musikstücke Übersicht'); 
+  $info->print_link_overview('edit_sammlung_x_updates.php','SammlungID='.$sammlung->ID, 'Sammel-Updates'); 
 
   echo '     
-  </td>
-</tr> 
-</table>     
-'; 
+    </td>
+  </tr> 
+  </table>     
+  '; 
 
 pagefoot: 
 
