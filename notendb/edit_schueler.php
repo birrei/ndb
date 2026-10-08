@@ -265,6 +265,10 @@ echo '
     $info->print_form_inline('delete_1',$schueler->ID,$schueler->Title, 'löschen'); 
     $info->print_form_inline('copy',$schueler->ID,$schueler->Title, 'kopieren');   
     $info->print_link_overview('edit_schueler_x_zuordnung_noten.php','ID='.$schueler->ID, 'Notenmaterial Schnellzuordnung'); 
+    $info->print_link_overview('edit_schueler_x_updates.php','SchuelerID='.$schueler->ID, 'Sammel-Updates'); 
+  
+    // echo '<a href=edit_sammlung_x_updates.php?SammlungID='.$sammlung->ID.' target="_blank" class="form-link">Sammel-Updates</a> ';  
+
 
     echo '     
     </td>

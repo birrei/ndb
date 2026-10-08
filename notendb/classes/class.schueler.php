@@ -99,8 +99,11 @@ class Schueler {
   }
 
 
-  function print_select2($selected_SchuelerID=''){
-    // einfache Version 
+  function print_select2($selected_SchuelerID='', $select_name=''){
+    // einfache Version; der Name des Select-Elements kann mit $select_name vorgegeben werden
+    
+    $select_form_name=$select_name!=''?$select_name:'SchuelerID';
+
     $query='SELECT ID, Name FROM `schueler` WHERE Aktiv=1 ORDER BY Name';
     $stmt = $this->db->prepare($query); 
 
@@ -109,14 +112,13 @@ class Schueler {
       // $stmt->debugDumpParams(); // Test 
       $html = new HTML_Select($stmt); 
       $html->autofocus=false;      
-      $html->print_select("SchuelerID", $selected_SchuelerID, true); 
+      $html->print_select($select_form_name, $selected_SchuelerID, true); 
     }
     catch (PDOException $e) {
       $this->info->print_user_error(); 
       $this->info->print_error($stmt, $e); 
     }
   }
-
 
   public function print_preselect(string $selected_SchuelerID=''){
 
@@ -1236,11 +1238,81 @@ class Schueler {
     }
   }    
 
+  function copy_uebungen_from_schueler($SchuelerID_ref, $Datum_ref, $Datum){
+
+      $select_uebungen = $this->db->prepare("SELECT * FROM uebung WHERE SchuelerID=:SchuelerID_ref AND Datum = :Datum_ref"); 
+
+      $select_uebungen->bindValue(':SchuelerID_ref', $SchuelerID_ref);  
+      $select_uebungen->bindValue(':Datum_ref', $Datum_ref);  
+      $select_uebungen->execute(); 
+
+      $res_uebungen = $select_uebungen->fetchAll(PDO::FETCH_ASSOC);
+
+      foreach ($res_uebungen as $row=>$value) {
+          // BewertungID  soll nicht mitkopiert werden 
+        $insert_uebung = $this->db->prepare("INSERT INTO uebung (  
+                                 `Name`  
+                                , Bemerkung
+                                , UebungtypID
+                                , SchuelerID
+                                , Datum
+                                , Anzahl
+                                , SatzID
+                                , Reihenfolge 
+                                , Entwurf 
+                                )
+              SELECT            CONCAT('(Kopie) ', `Name`) 
+                                , Bemerkung
+                                , UebungtypID
+                                , :SchuelerID -- neu 
+                                , :Datum  -- neu 
+                                , Anzahl
+                                , SatzID
+                                , Reihenfolge 
+                                , Entwurf
+              FROM uebung  
+              WHERE ID=:ID "); 
+
+        
+
+        $insert_uebung->bindValue(':ID', $value["ID"]);  
+        $insert_uebung->bindValue(':SchuelerID', $this->ID);  
+        $insert_uebung->bindValue(':Datum', $Datum);  
+        $insert_uebung->execute(); 
+        // $insert_uebung->debugDumpParams(); 
+        $UebungID_Neu = $this->db->lastInsertId();  
+
+        // Besonderheiten kopieren 
+        include_once('class.uebung.php');         
+        $uebung = new Uebung(); 
+        $uebung->ID = $value["ID"] ;
+        $uebung->copy_lookups( $UebungID_Neu); 
+
+
+      }
+
+  } 
+
+  function Uebungstag_exists(string $Datum) {
+    // print_r(func_get_args()); // Test 
+
+    $select = $this->db->prepare("SELECT * FROM schueler_kalender 
+                WHERE Datum = :Datum 
+                AND SchuelerID = :SchuelerID 
+                ");
+    $select->bindParam(':SchuelerID', $this->ID, PDO::PARAM_INT);
+    $select->bindParam(':Datum', $Datum);
+    $select->execute(); 
+    $result = $select->fetchAll(PDO::FETCH_ASSOC);
+    if (count($result) > 0) {
+        return true; 
+    } else {
+      return false; 
+    }
+
+  }
 
 }
-
- 
-
 
 
 ?>
