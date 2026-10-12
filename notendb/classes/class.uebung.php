@@ -5,6 +5,7 @@ include_once("class.htmlinfo.php");
 include_once("class.htmlselect.php"); 
 include_once("class.kalender.php"); 
 include_once("class.kalendertag.php"); 
+include_once("class.schueler.php"); 
 
 class Uebung {
 
@@ -74,6 +75,9 @@ class Uebung {
     }
   }  
   
+
+  
+
   function load_row() {  
 
     $select = $this->db->prepare("SELECT 
@@ -500,7 +504,51 @@ class Uebung {
     $col=$stmt->fetchColumn(); 
     return $col;  
   } 
-}
+
+  function insert_row_default (int $SchuelerID, string $Datum) {
+    /* Eine Übung mit Vorgabewerten anlegen
+        Dauer: schueler.Unterricht_Dauer
+        Datum: Datum des Übungstags 
+        Name: "(nicht dokumentiert)" 
+      */
+
+      // print_r(func_get_args()); // test 
+
+
+      $schueler = new Schueler(); 
+      $schueler->ID = $SchuelerID; 
+      $schueler->load_row(); 
+
+      $Dauer = $schueler->Unterricht_Dauer; 
+      $Inhalt = '(Ohne Dokumentation)'; 
+
+      $insert = $this->db->prepare("INSERT INTO `uebung` 
+                      SET `SchuelerID`= :SchuelerID, 
+                          Datum = :Datum, 
+                          Anzahl = :Dauer, 
+                          `Name`= :Inhalt  
+                          " 
+            );
+
+      $insert->bindParam(':SchuelerID', $SchuelerID,PDO::PARAM_INT);
+      $insert->bindParam(':Datum', $Datum);    
+      $insert->bindParam(':Dauer', $Dauer, PDO::PARAM_INT);
+      $insert->bindParam(':Inhalt', $Inhalt);
+      
+      try {
+        $insert->execute(); 
+        // $insert->debugDumpParams(); 
+        $this->ID=$this->db->lastInsertId(); 
+        $this->load_row();        
+      }
+        catch (PDOException $e) {
+        $this->info->print_user_error(); 
+        $this->info->print_error($insert, $e);  ; 
+      }
+
+    }
+
+  }
 
  
 

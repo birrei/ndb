@@ -734,7 +734,7 @@ class Schueler {
 
       $query.="   , v_uebung_lookuptypes.LookupList2 as Besonderheiten   
                     , uebung.Bemerkung  as `Übung Bemerkung`   
-                    , CONCAT(uebung.Anzahl, ' ', uebungtyp.Einheit) Dauer   
+                    , CONCAT(uebung.Anzahl, ' min') Dauer 
                     , uebungtyp.Name as `Typ` 
                     , bewertung.Name as Bewertung                
                     , uebung.ID

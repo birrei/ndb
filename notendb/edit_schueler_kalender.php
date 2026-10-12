@@ -194,7 +194,6 @@ $info->print_info($typeInfo);
 
 <input type="hidden" name="option" value="update">        
 <input type="hidden" name="ID" value="<?php echo $uebungstag->ID; ?>">
-<input type="hidden" name="SchuelerID" value="<?php echo $uebungstag->SchuelerID; ?>">
 
 
 </form>
@@ -209,7 +208,10 @@ if(!empty($Datum)) {
     <a href="edit_schueler_kalender_uebungen.php?SchuelerID=<?php echo $uebungstag->SchuelerID.'&Datum='.$Datum; ?>" target="iframe_Uebungen">Übungen: </a>
     <p>
         <br><a href="edit_uebung.php?SchuelerID=<?php echo $uebungstag->SchuelerID.'&Datum='.$uebungstag->Datum_EN.'&option=insert"'; ?> target="_blank" class="form-link form-link-switch">Übung hinzufügen</a>
-    </p>
+        <br>
+        <br><a href="edit_schueler_kalender_uebungen.php?SchuelerID=<?php echo $uebungstag->SchuelerID.'&Datum='.$Datum.'&option=insert_uebung_default'; ?>" target="iframe_Uebungen" class="form-link form-link-switch">Übung Vorgabe</a>
+
+  </p>
   </td> 
   <td class="form-edit form-edit-col2">
       <iframe src="edit_schueler_kalender_uebungen.php?SchuelerID=<?php echo $uebungstag->SchuelerID.'&Datum='.$Datum; ?>&source=iframe" height="300" id="subform1" name="iframe_Uebungen" class="form-iframe-var1"></iframe>
@@ -229,7 +231,10 @@ if(!empty($Datum)) {
   <td class="form-edit form-edit-col2"><br>
     <?php 
     $info->print_form_inline('delete_1',$uebungstag->ID,$uebungstag->Title, 'löschen'); 
-    ?>      
+    $info->print_form_inline('insert_default',$uebungstag->SchuelerID,'', 'Übungtag '); 
+    ?>  
+    
+    
   </td>
 </tr> 
 
