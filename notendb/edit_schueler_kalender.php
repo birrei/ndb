@@ -209,7 +209,7 @@ if(!empty($Datum)) {
     <p>
         <br><a href="edit_uebung.php?SchuelerID=<?php echo $uebungstag->SchuelerID.'&Datum='.$uebungstag->Datum_EN.'&option=insert"'; ?> target="_blank" class="form-link form-link-switch">Übung hinzufügen</a>
         <br>
-        <br><a href="edit_schueler_kalender_uebungen.php?SchuelerID=<?php echo $uebungstag->SchuelerID.'&Datum='.$Datum.'&option=insert_uebung_default'; ?>" target="iframe_Uebungen" class="form-link form-link-switch">Übung Vorgabe</a>
+        <br><a href="edit_schueler_kalender_uebungen.php?SchuelerID=<?php echo $uebungstag->SchuelerID.'&Datum='.$Datum.'&option=insert_uebung_default'; ?>" target="iframe_Uebungen" class="form-link form-link-switch">Übung ohne Doku</a>
 
   </p>
   </td> 

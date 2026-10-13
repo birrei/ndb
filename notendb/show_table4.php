@@ -539,7 +539,7 @@ switch ($ansicht)  // setzen: $PageTitle, $table_edit, $show_help_link
     $query.=", ".$sqlpart->getSQL_COL_CONCAT_Noten(300); 
     $query.=", v_uebung_lookuptypes.LookupList2 as Besonderheiten   
                   , uebung.Bemerkung  as `Übung Bemerkung`   
-                  , CONCAT(uebung.Anzahl, ' ', uebungtyp.Einheit) Dauer   
+                  , CONCAT(uebung.Anzahl, ' min') Dauer   
                   , uebungtyp.Name as `Uebung Typ` 
                   , bewertung.Name as Bewertung                
                   , uebung.ID
