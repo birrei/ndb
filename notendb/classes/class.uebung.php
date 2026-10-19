@@ -36,7 +36,6 @@ class Uebung {
   private $db; 
   private $info; 
 
-
   public function __construct(){
     $conn=new DBConnection(); 
     $this->db=$conn->db; 
@@ -75,9 +74,6 @@ class Uebung {
     }
   }  
   
-
-  
-
   function load_row() {  
 
     $select = $this->db->prepare("SELECT 
@@ -223,7 +219,6 @@ class Uebung {
       $this->info->print_error($update, $e);  ; 
     }
   }  
-
 
   function update_row_entwurf( $SchuelerID  
                       , $Name
@@ -388,7 +383,6 @@ class Uebung {
     }  
   }
 
-
   function delete_lookup($ID){
 
     $delete = $this->db->prepare("DELETE FROM `uebung_lookup` 
@@ -435,7 +429,6 @@ class Uebung {
     $insert->execute();  
 
   }
-
 
   function print_table_satz_lookups_checklist(){
     // lookups aus dem der Übung zugeordneten Satz 
@@ -551,7 +544,4 @@ class Uebung {
   }
 
  
-
-
-
 ?>

@@ -6,9 +6,7 @@ include_once("class.htmlselect.php");
 include_once("class.htmltable.php"); 
 include_once("class.kalender.php"); 
 
-
 class Kalendertag {
-
   public int $ID; 
   public DateTime $Datum;
   public string $Datum_DE;
@@ -139,15 +137,16 @@ class Feiertag extends Kalendertag {
 }
 
 class SchuelerKalendertag extends Kalendertag {
+  // aka "Übungstag" / Tabelle "schueler_kalender" 
 
   public int $SchuelerID; 
   public string $SchuelerName=''; 
 
   public string $Title='Schüler Übungstag'; 
   public string $Bemerkung=''; 
-  public int $Eingelesen; // 1 wenn über Einlesen-Prozess hinzugefügt. 0 Wenn manuell angelegt. _
-                          // nur relevant bei insert, nicht bei updates. 
-
+  public int $Eingelesen; // 1 wenn über Einlesen-Prozess hinzugefügt. 0 Wenn manuell angelegt. Nur relevant bei insert, nicht bei updates. 
+  public string $table_name='schueler_kalender'; 
+  public bool $Berechnen = true; // DB: defa
 
   public function load_row() {
 
@@ -161,7 +160,8 @@ class SchuelerKalendertag extends Kalendertag {
           , COALESCE(feiertag.Bezeichnung, '') AS Feiertag 
           , COALESCE(schuljahr.Bezeichnung, '') AS Schuljahr
           , schueler.Name as SchuelerName
-          , schueler_kalender.Eingelesen    
+          , schueler_kalender.Eingelesen
+          , schueler_kalender.Berechnen 
     FROM schueler_kalender 
           INNER JOIN schueler 
             ON schueler.ID= schueler_kalender.SchuelerID           
@@ -203,7 +203,7 @@ class SchuelerKalendertag extends Kalendertag {
       $this->SchuelerID=$row_data["SchuelerID"]; 
       $this->SchuelerName=$row_data["SchuelerName"]; 
       $this->Eingelesen=$row_data["Eingelesen"];    
-
+      $this->Berechnen=$row_data["Berechnen"];    
 
       return true; 
     } 
@@ -234,15 +234,17 @@ class SchuelerKalendertag extends Kalendertag {
     }
   }  
   
-  public function update_row2(string $Bemerkung) {
+  public function update_row2(string $Bemerkung, bool $Berechnen=true) {
     // Update ohne Datum
 
     $update = $this->db->prepare("UPDATE schueler_kalender  
-                                  SET Bemerkung    = :Bemerkung 
+                                  SET Bemerkung    = :Bemerkung, 
+                                      Berechnen = :Berechnen 
                                   WHERE `ID` = :ID"); 
 
     $update->bindParam(':ID', $this->ID, PDO::PARAM_INT);
     $update->bindParam(':Bemerkung', $Bemerkung);
+    $update->bindParam(':Berechnen', $Berechnen, PDO::PARAM_BOOL);
 
     try {
       $update->execute(); 
@@ -254,19 +256,21 @@ class SchuelerKalendertag extends Kalendertag {
     }
   }
 
-  public function update_row(string $Datum, string $Bemerkung ) {
+  public function update_row(string $Datum, string $Bemerkung, bool $Berechnen=true ) {
 
     // print_r(func_get_args()); // Test 
     $this->updateUebungen($Datum); 
 
     $update = $this->db->prepare("UPDATE schueler_kalender  
                                   SET Bemerkung    = :Bemerkung, 
+                                      Berechnen = :Berechnen,  
                                       Datum        = :Datum 
                                   WHERE `ID` = :ID"); 
 
     $update->bindParam(':ID', $this->ID, PDO::PARAM_INT);
     $update->bindParam(':Bemerkung', $Bemerkung);
     $update->bindParam(':Datum', $Datum);
+    $update->bindParam(':Berechnen', $Berechnen, PDO::PARAM_BOOL);
 
     try {
       $update->execute(); 
@@ -375,17 +379,6 @@ class SchuelerKalendertag extends Kalendertag {
     }
   }
 
-  // private function getDatum() {
-
-  //   $sql="SELECT MAX(Datum) FROM schueler_kalender WHERE ID = :ID "; 
-  //   $stmt = $this->db->prepare($sql); 
-  //   $stmt->bindParam(':SchuelerID', $this->ID, PDO::PARAM_INT);
-  //   $stmt->execute(); 
-  //   // $stmt->debugDumpParams(); 
-  //   $col=$stmt->fetchColumn(); 
-  //   return $col;  
-  // }
-
   public function getID($SchuelerID, $Datum) {
 
     $sql="SELECT MAX(ID) as ID FROM schueler_kalender WHERE SchuelerID = :SchuelerID AND Datum=:Datum "; 
@@ -399,6 +392,16 @@ class SchuelerKalendertag extends Kalendertag {
   }
 
 
+  // private function getDatum() {
+
+  //   $sql="SELECT MAX(Datum) FROM schueler_kalender WHERE ID = :ID "; 
+  //   $stmt = $this->db->prepare($sql); 
+  //   $stmt->bindParam(':SchuelerID', $this->ID, PDO::PARAM_INT);
+  //   $stmt->execute(); 
+  //   // $stmt->debugDumpParams(); 
+  //   $col=$stmt->fetchColumn(); 
+  //   return $col;  
+  // }
 
 }
 

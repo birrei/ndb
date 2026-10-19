@@ -671,22 +671,39 @@ switch ($ansicht)  // setzen: $PageTitle, $table_edit, $show_help_link
     echo '<input type="hidden" name="ansicht" value="'.$ansicht.'">'; 
     echo '</form>';           
 
-    $query="
-      SELECT schueler.Name AS `Schüler Name`
+    $query="SELECT schueler.Name AS `Schüler Name`
           , schueler.Bemerkung `Schueler Bemerkung` 
           , schueler_kalender.Datum     
           , kalender.Wochentag_Name `Kalender Wochentag`  
           , schueler_kalender.Bemerkung `Übungstag Bemerkung`                  
+          , GROUP_CONCAT(DISTINCT uebung.Reihenfolge, '. ', uebung.Name, ' (', coalesce(uebungtyp.Name, ''), ')'  order by uebung.Reihenfolge separator '<br>') `Übungen Inhalte`            
           , schueler.Unterricht_Reihenfolge as `Unterricht Reihenfolge` 
           , COUNT(distinct uebung.ID) as `Anzahl Übungen` 
-          , SUM(uebung.Anzahl ) as `Summe Minuten` 
+          -- , SUM(uebung.Anzahl ) as `Summe Minuten` 
+          , TIME_FORMAT(SEC_TO_TIME(( 
+              SUM(
+              CASE 
+	            WHEN schueler_kalender.Berechnen = 1 
+                    AND kalender.Unterricht_Protokolliert = 1 
+	                THEN  
+	                  CASE 
+                      WHEN uebung.ID IS NOT NULL 
+	                    THEN uebung.Anzahl
+	                  	ELSE schueler.Unterricht_Dauer
+	                  	END 
+              ELSE 
+                  0 
+              END
+                ))  
+                 * 60 
+                ), '%H:%i') AS `Stunden berechnet`          
           , (SUM(uebung.Anzahl ) - schueler.Unterricht_Dauer ) as `Abweichung Dauer` 
-          , GROUP_CONCAT(DISTINCT uebung.Reihenfolge, '. ', uebung.Name, ' (', coalesce(uebungtyp.Name, ''), ')'  order by uebung.Reihenfolge separator '<br>') `Übungen Inhalte`  
-          , IF(kalender.Unterricht_Geplant=1, 'X' , '') as `Unterricht geplant`   
-          , IF(kalender.Unterricht_Protokolliert=1, 'X' , '') as `Unterricht protokolliert`   
           , ferien.Bezeichnung AS Ferientag 
           , feiertag.Bezeichnung AS Feiertag 
           , schuljahr.Bezeichnung AS Schuljahr
+          , IF(kalender.Unterricht_Geplant=1, 'X' , '') as `Unterricht geplant`   
+          , IF(kalender.Unterricht_Protokolliert=1, 'X' , '') as `Unterricht protokolliert`   
+          , IF(schueler_kalender.Berechnen=1, 'X' , '') as `Berechnen`             
           , schueler_kalender.ID              
     FROM  schueler_kalender 
           INNER JOIN schueler 

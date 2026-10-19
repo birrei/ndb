@@ -1,18 +1,19 @@
-
 <?php 
 $PageTitle='Schüler Übungstag'; 
 include_once('head.php');
 include_once("classes/class.schueler.php");
 include_once("classes/class.kalender.php");
+include_once("classes/class.kalendertag.php"); // Schüler Kalendertag, aka "Übungstag" 
 include_once("classes/class.schuljahr.php");
 
+// print_r($_REQUEST); // test 
+
 $option=isset($_REQUEST["option"])?$_REQUEST["option"]:'edit';
+$Berechnen=(isset($_POST["Berechnen"])?1:0); 
 $show_data=true; 
 
 $uebungstag = new SchuelerKalendertag();
 $info= new HTML_Info(); 
-
-// print_r($_REQUEST); // test 
 
 switch($option) {
 
@@ -38,6 +39,7 @@ switch($option) {
     $show_data = $uebungstag->load_row(); 
     $Datum = $uebungstag->Datum_EN; 
     $Datum_DE = $uebungstag->Datum_DE;   
+    $Berechnen = $uebungstag->Berechnen; 
         
     break; 
 
@@ -49,11 +51,11 @@ case 'insert':
       goto pagefoot;  
     }
 
-
     $uebungstag->insert_row($_REQUEST["SchuelerID"]); 
     $uebungstag->load_row();    
     $Datum = $uebungstag->Datum_EN;   
     $Datum_DE = $uebungstag->Datum_DE;     
+    $Berechnen = $uebungstag->Berechnen; 
 
     break; 
   
@@ -96,14 +98,16 @@ case 'insert':
     exec_update: 
     switch($update_mode) {
       case 1: 
-        $uebungstag->update_row($_POST["Datum"], $_POST["Bemerkung"]); 
+        $uebungstag->update_row($_POST["Datum"], $_POST["Bemerkung"], $Berechnen); 
       break; 
       case 2: 
-        $uebungstag->update_row2($_POST["Bemerkung"]); 
+        $uebungstag->update_row2($_POST["Bemerkung"], $Berechnen); 
       break;       
     }
     
     $uebungstag->load_row();   
+    $Berechnen=$uebungstag->Berechnen; 
+
            
     break; 
 
@@ -126,9 +130,9 @@ case 'insert':
     $show_data=false;   
 }
 
+// print_r(get_object_vars($uebungstag)); // test 
+
 $info->print_screen_header($uebungstag->Title.' bearbeiten'); 
-
-
 
 if (!$show_data) {goto pagefoot;}
 
@@ -142,40 +146,32 @@ $info->print_info($typeInfo);
 <table class="form-edit"> 
   <tr>
     <td class="form-edit form-edit-col1">ID:</td>  
-    <td class="form-edit form-edit-col2"><?php 
-        echo $uebungstag->ID; 
-
-    ?> <br></td>
+    <td class="form-edit form-edit-col2">
+        <?php echo $uebungstag->ID; ?> &nbsp; <label><input type="checkbox" name="Berechnen" <?php echo ($Berechnen==1?'checked':''); ?>>Berechnen</label>   
+        <br><br>
+  </td>
   </tr> 
   <tr>    
   <label>
   <td class="form-edit form-edit-col1">Schüler:</td>  
-  <td class="form-edit form-edit-col2"><b><?php echo $uebungstag->SchuelerName; ?> </b></td>
-  </label>
-    </tr> 
-
-  <tr>    
-  <label>
-  <td class="form-edit form-edit-col1">Datum:</td>  
-  <td class="form-edit form-edit-col2"> 
-    <input type="date" name="Datum" value="<?php echo $Datum ; ?>" oninput="changeBackgroundColor(this)" requested> 
-            <b> <?php echo $uebungstag->Wochentag; ?></b>
-          </td>
+  <td class="form-edit form-edit-col2"><b><?php echo $uebungstag->SchuelerName; ?> </b> <a href="edit_schueler.php?ID=<?php echo $uebungstag->SchuelerID; ?>" target="_blank">Schüler öffnen</a>
+<br><br></td>
   </label>
     </tr> 
 
   <tr>    
     <label>
-    <td class="form-edit form-edit-col1">Info:</td>  
-    <td class="form-edit form-edit-col2">
-
-      <b>Schuljahr:</b> <?php echo $uebungstag->Schuljahr; ?>
+    <td class="form-edit form-edit-col1">Datum:</td>  
+    <td class="form-edit form-edit-col2"> 
+    <input type="date" name="Datum" value="<?php echo $Datum ; ?>" oninput="changeBackgroundColor(this)" requested> 
+           
+            <b> <?php echo $uebungstag->Wochentag; ?></b>
+    </label>- <b>Schuljahr:</b> <?php echo $uebungstag->Schuljahr; ?>
           <?php echo $uebungstag->Ferien!=''?' / Ferien: '.$uebungstag->Ferien:''; ?>
-          <?php echo $uebungstag->Feiertag!=''?' / Feiertag '.$uebungstag->Feiertag:''; ?>
-  </td>
-    </label>
+          <?php echo $uebungstag->Feiertag!=''?' / Feiertag '.$uebungstag->Feiertag:''; ?>  
+ <a href="edit_kalender.php?Datum=<?php echo $Datum ; ?>" target="_blank">Kalenderdatum öffnen</a>                     
+    </td>
   </tr> 
-
 
   <tr>    
     <label>

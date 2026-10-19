@@ -98,7 +98,6 @@ class Schueler {
     }
   }
 
-
   function print_select2($selected_SchuelerID='', $select_name=''){
     // einfache Version; der Name des Select-Elements kann mit $select_name vorgegeben werden
     
@@ -809,20 +808,40 @@ class Schueler {
   }    
 
   function print_table_uebungen_datum(string $SchuljahrID){
-
-    $query="
-      SELECT 
+    // Übungstage 
+    $query="SELECT 
           schueler_kalender.Datum 
           , schueler_kalender.Bemerkung       
           , kalender.Wochentag_Name as Wochentag     
           , COUNT(distinct uebung.ID) as `Anzahl Übungen` 
-          , SUM(uebung.Anzahl ) as `Summe Minuten` 
+          -- , SUM(uebung.Anzahl ) as `Summe Minuten` 
+         -- , TIME_FORMAT(SEC_TO_TIME( SUM(uebung.Anzahl) * 60), '%H:%i')  as `Stunden Übung`     
+          , TIME_FORMAT(SEC_TO_TIME(( 
+              SUM(
+              CASE 
+	            WHEN schueler_kalender.Berechnen = 1 
+                    AND kalender.Unterricht_Protokolliert = 1 
+	                THEN  
+	                  CASE 
+                      WHEN uebung.ID IS NOT NULL 
+	                    THEN uebung.Anzahl
+	                  	ELSE schueler.Unterricht_Dauer
+	                  	END 
+              ELSE 
+                  0 
+              END
+                ))  
+                 * 60 
+                ), '%H:%i') AS `Stunden berechnet`
           , (SUM(uebung.Anzahl ) - schueler.Unterricht_Dauer ) as `Abweichung Dauer` 
           , GROUP_CONCAT(uebung.Reihenfolge, '. ', uebung.Name, ' (', coalesce(uebungtyp.Name, ''), ')'  order by uebung.Reihenfolge separator '<br>') `Übungen Inhalte`  
-          , IF(kalender.Unterricht_Geplant=1, 'X' , '') as `Unterrichtstag Geplant`   
+          -- , IF(kalender.Unterricht_Geplant=1, 'X' , '') as `Unterrichtstag Geplant`   
           , ferien.Bezeichnung AS Ferientag 
           , feiertag.Bezeichnung AS Feiertag 
           , schuljahr.Bezeichnung AS Schuljahr
+          , IF(kalender.Unterricht_Geplant=1, 'X' , '') as `Unterricht geplant`   
+          , IF(kalender.Unterricht_Protokolliert=1, 'X' , '') as `Unterricht protokolliert`  
+          , IF(schueler_kalender.Berechnen=1, 'X' , '') as `Berechnen`                     
           , schueler_kalender.ID                           
     FROM  schueler_kalender
     		INNER JOIN 
@@ -1177,31 +1196,52 @@ class Schueler {
   }    
 
   function print_table_auswertung_uebungstage(string $SchuljahrID){
-
-    $query="SELECT 
-            schuljahr.Bezeichnung AS Schuljahr
-            , COUNT(schueler_kalender.Datum) Anzahl_Uebungstage
-            -- , COUNT(schueler_kalender.Datum) * schueler.Unterricht_Dauer AS Uebungen_Summe_Minuten_Plan
-            -- , SUM(schueler.Unterricht_Dauer) Uebungen_Summe_Minuten_Plan
-             , SEC_TO_TIME( (COUNT(schueler_kalender.Datum) * schueler.Unterricht_Dauer) * 60)  AS `Stunden geplant`
-            -- , SUM(uebung.Anzahl) AS Uebungen_Summe_Minuten_Protokoll  
-            , SEC_TO_TIME(SUM(uebung.Anzahl)  * 60)  AS `Stunden gegeben` 
-            -- chueler.ID 
+    // XXXX 
+    $query="SELECT schuljahr.Bezeichnung AS Schuljahr 
+            , COUNT(schueler_kalender.Datum) `Anzahl Übungstage Plan`
+            , TIME_FORMAT(SEC_TO_TIME( (COUNT(schueler_kalender.Datum) * schueler.Unterricht_Dauer) * 60), '%H:%i')   AS `Stunden Plan`
+            -- , TIME_FORMAT(SEC_TO_TIME(SUM(uebung.Anzahl)  * 60), '%H:%i')  AS `Stunden aus Übungen` 
+            -- , SUM(uebung.Anzahl) as Uebung_minuten 
+            , TIME_FORMAT(SEC_TO_TIME(( 
+              SUM(
+              CASE 
+	            WHEN schueler_kalender.Berechnen = 1 
+	                THEN  
+	                  CASE 
+                      WHEN uebung.ID IS NOT NULL 
+	                    THEN uebung.Anzahl
+	                  	ELSE schueler_kalender_protokolliert.Unterricht_Dauer
+	                  	END 
+              ELSE 
+                  0 
+              END
+                ))  
+                 * 60 
+                ), '%H:%i') AS `Stunden berechnet`
         FROM  schueler_kalender
-            INNER JOIN 
-            kalender 
-              ON schueler_kalender.Datum = kalender.Datum         
-        INNER JOIN schueler 
-            ON schueler.ID= schueler_kalender.SchuelerID 
-        LEFT JOIN schuljahr 
-          ON kalender.Datum  BETWEEN schuljahr.Datum_Start AND schuljahr.Datum_Ende            
+    		INNER JOIN schueler 
+        	ON schueler.ID= schueler_kalender.SchuelerID 
+        	INNER JOIN kalender ON kalender.Datum = schueler_kalender.Datum 
+	        LEFT JOIN schuljahr 
+	          ON schueler_kalender.Datum  BETWEEN schuljahr.Datum_Start AND schuljahr.Datum_Ende 
+	        LEFT JOIN (
+                SELECT schueler_kalender.SchuelerID, schueler_kalender.Datum, schueler_kalender.Berechnen 
+                    ,schueler.Unterricht_Dauer
+                FROM schueler_kalender
+                  INNER JOIN kalender ON schueler_kalender.Datum = kalender.Datum 
+                  INNER JOIN schueler ON schueler_kalender.SchuelerID  = schueler.ID 
+                WHERE kalender.Unterricht_Protokolliert = 1
+                AND schueler.ID = :ID         
+        	) schueler_kalender_protokolliert --  
+        ON schueler_kalender_protokolliert.SchuelerID= schueler_kalender.SchuelerID 
+         AND schueler_kalender_protokolliert.Datum = schueler_kalender.Datum 
         LEFT JOIN uebung 
             ON schueler.ID = uebung.SchuelerID 
             AND schueler_kalender.Datum = uebung.Datum                  
-        WHERE schueler.ID = :ID 
-
+        WHERE 1=1 
+        -- AND kalender.Unterricht_Protokolliert =1  
+        AND schueler.ID = :ID 
         "; 
-        
 
     if($SchuljahrID!='') {
       $query.="AND schuljahr.ID = :SchuljahrID";  
