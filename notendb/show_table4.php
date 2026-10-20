@@ -679,6 +679,8 @@ switch ($ansicht)  // setzen: $PageTitle, $table_edit, $show_help_link
           , GROUP_CONCAT(DISTINCT uebung.Reihenfolge, '. ', uebung.Name, ' (', coalesce(uebungtyp.Name, ''), ')'  order by uebung.Reihenfolge separator '<br>') `Übungen Inhalte`            
           , schueler.Unterricht_Reihenfolge as `Unterricht Reihenfolge` 
           , COUNT(distinct uebung.ID) as `Anzahl Übungen` 
+          -- ,  SUM(uebung.Anzahl ) 
+          , TIME_FORMAT(SEC_TO_TIME(SUM(uebung.Anzahl )  * 60), '%H:%i') as `Stunden Übung` 
           -- , SUM(uebung.Anzahl ) as `Summe Minuten` 
           , TIME_FORMAT(SEC_TO_TIME(( 
               SUM(

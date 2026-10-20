@@ -815,7 +815,7 @@ class Schueler {
           , kalender.Wochentag_Name as Wochentag     
           , COUNT(distinct uebung.ID) as `Anzahl Übungen` 
           -- , SUM(uebung.Anzahl ) as `Summe Minuten` 
-         -- , TIME_FORMAT(SEC_TO_TIME( SUM(uebung.Anzahl) * 60), '%H:%i')  as `Stunden Übung`     
+          , TIME_FORMAT(SEC_TO_TIME( SUM(uebung.Anzahl) * 60), '%H:%i')  as `Stunden Übung`     
           , TIME_FORMAT(SEC_TO_TIME(( 
               SUM(
               CASE 
