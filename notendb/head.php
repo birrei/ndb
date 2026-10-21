@@ -1,70 +1,10 @@
 <?php 
-
 $title_base='Notendatenbank'; 
-$title_page=''; 
-
-if (isset($PageTitle)) {
- // Paramter $PageTitle in aufrufender Datei vor den include-Aufruf setzen. Vorlage: dataclearing.php XXX 
-  $title_page=$PageTitle; 
-} 
-
-if ( isset($_REQUEST["title"]) ){
-  $title_page=$_REQUEST["title"]; 
-}
-if ( isset($_GET["Name"]) ){
-  $title_page=$_GET["Name"]; 
-}
-
-// echo '$title_page: '.$title_page; 
-// echo basename($_SERVER['SCRIPT_FILENAME']); 
-
-if ($title_page=='') 
-{
-  switch(basename($_SERVER['SCRIPT_FILENAME'])) {
-    case 'index.php':
-      $title_page='Start'; 
-      break; 
-    case 'admin.php':
-      $title_page='Admin'; 
-      break; 
-    case 'hilfe.php':
-      $title_page='Hilfe'; 
-      break; 
-    case 'suche.php':
-      $title_page='Suche'; 
-      break; 
-    case 'suche_schueler.php':
-        $title_page='Suche Schüler'; 
-        break;       
-    case 'abfragen.php':
-      $title_page='Abfragen'; 
-      break; 
-    case 'list_tables.php':
-      $title_page='Objekte'; 
-      break; 
-    case 'sqlexec.php':
-      $title_page='SQL Query Box'; 
-      break;                                                                                       
-    case 'test.php':
-      $title_page='Test'; 
-      break;                                                                                       
-    case 'dataclearing.php':
-        $title_page='Sammel-Updates'; 
-        break;                   
-    } 
-}
-
-// echo '$title_page: '.$title_page; 
-
+$title_page=isset($PageTitle)?$PageTitle:''; // Variable $PageTitle muss in aufrufender Seite dirket vor include-Anweisung ausgegeben werden  
 $title_complete=($title_page!=''?$title_page.' - '.$title_base:$title_base); 
-
-// echo '$title_complete: '.$title_complete; 
-
-
 ?> 
 <!DOCTYPE html>
 <html lang="de">
-
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -78,17 +18,11 @@ $title_complete=($title_page!=''?$title_page.' - '.$title_base:$title_base);
     <link rel='stylesheet' type='text/css' href='style.css'/>
 </head>
 <body>
-    
-    
 <a href="index.php" tabindex="-1">Startseite</a> | 
     <a href="suche.php" tabindex="-1">Suche</a> | 
     <a href="help.php" tabindex="-1">Hilfe</a>
 
 <hr>
-<?php 
-
-?>
-
 
 <?php 
 ?> 
