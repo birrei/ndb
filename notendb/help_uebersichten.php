@@ -121,12 +121,11 @@ include_once('head.php');
                 </p>
 	
     <h2 class="chapter-title chapter-title-h1" id="uebersichten_uebungstage">Übersicht Übungstage</h2>
-
+        <!-- XXXX  -->
         <p> Einschränkungen: Es werden werden nur die Übungen aktiver Schüler angezeigt.</p> 
 
         <p> Hinweis: Je nach Filtereinstellung werden verstärkte Zeilenrahmen angezeigt, 
-            die eine optische Gruppierung bieten (z.B. erscheint  
-            eine verstärkte Linie über dem ersten Schüler / Datum, wenn nur nach Schuljahr gefiltert wird). 
+            die eine optische Gruppierung bieten (z.B. erscheint  eine verstärkte Linie über dem ersten Schüler / Datum, wenn nur nach Schuljahr gefiltert wird). 
         </p>             
 
         <p>Spalten: </p>
@@ -138,16 +137,25 @@ include_once('head.php');
         <li>Übungstag Bemerkung</li>
         <li>Unterricht Reihenfolge</li>
         <li>Anzahl Übungen</li>
-        <li>Summe Minuten</li>
+        <li>Stunden Übungen </li>
+        <li>Stunden berechnet (*) </li>
         <li>Abweichung Dauer</li>
         <li>Übungen Inhalte (nur echte Übungen, keine Übungsentwürfe)</li>
         <li>Unterricht geplant</li>
         <li>Unterricht protokolliert</li>
+        <li>Berechnen</li>
         <li>Ferientag</li>
         <li>Feiertag</li>
         <li>Schuljahr</li>
         <li>Übungstag ID</li>
         </ul>
+
+        <p>(*) Erklärung zu "Stunden berechnet": Berechnung aus "Stunden Übung" 
+            bzw (falls keine Übungen vorhanden sind) Schüler > "Unterricht Dauer". 
+            Eine Berechnung erfolgt nur, wenn wenn der Kalendertag als "Protokolliert" gekennzeichnet ist.
+              
+
+        </p>
 
         <p>Suche / Filter: </p>
         

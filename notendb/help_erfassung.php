@@ -109,10 +109,6 @@ include_once('head.php');
                 
             </p>
 
-    
-            <!-- <h3 class="chapter-title chapter-title-h3" id="erfassung_musikstueck_verwendungszweck">Musikstück: Verwendungszwecke</h3>    -->
-
-
 
 	<h2 class="chapter-title chapter-title-h2" id="erfassung_satz">Satz</h2>
         <h3 class="chapter-title chapter-title-h3" id="erfassung_satz_spieldauer">Satz: Spieldauer</h3>
@@ -134,7 +130,7 @@ include_once('head.php');
         
         
 
-        <p>XXX</p>
+            <p>XXX</p>
 
         <h3 class="chapter-title chapter-title-h3" id="erfassung_satz_besonderheiten">Satz: Besonderheiten</h3>
             <p> XXX </p>
@@ -238,36 +234,47 @@ include_once('head.php');
 
             <p>(*) Sucht in Feldern Sammlung Name, Sammlung Bemerkung, Musikstück Name, Musikstück Bemerkung, Komponist Vorname, Komponist Nachname, Satz Name, Satz Bemerkung  </p>
 
-    <h2 class="chapter-title chapter-title-h2" id="erfassung_uebungsdatum">Übungstag</h2>
+    <h2 class="chapter-title chapter-title-h2" id="erfassung_schueler_kalender">Übungstag</h2>
 
-        <h3 class="chapter-title chapter-title-h3" id="erfassung_uebungstag_neu">Neuen Übungstag anlegen</h3>
+        <h3 class="chapter-title chapter-title-h3" id="erfassung_schueler_kalender_neu">Neuen Übungstag anlegen</h3>
 
-          <pre> XXXX 
+                <!-- 
+                        <pre> XXXX 
 
-            A) Ein neuer Übungstag soll angelegt werden 
+                            A) Ein neuer Übungstag soll angelegt werden 
 
-                <p> Die Anlage erfolgt über "Übersicht Übungstage" > Link "neu einfügen"</p>  
+                                <p> Die Anlage erfolgt über "Übersicht Übungstage" > Link "neu einfügen"</p>  
 
-                Formular öffnet sich leer, Schüler und (leeres) Datum werden gespeichert.  
-                Untertabelle "Übungen" wird bei leerem Datum nicht angezeigt. 
+                                Formular öffnet sich leer, Schüler und (leeres) Datum werden gespeichert.  
+                                Die Untertabelle "Übungen" wird bei leerem Datum nicht angezeigt. 
 
-            B) Das Datum eines bestehenden Übungstages soll geändert werden: 
+                            B) Das Datum eines bestehenden Übungstages soll geändert werden: 
 
-                1) Wenn das Datum bereits an einem anderen Übungstag vorhanden ist, kann das Datum nicht geändert werden. 
-                Die Anpassung im Formular wird dann nicht übernommen, dort wird zurückgesetzt auf den zuletzt gespeicherten Wert. 
+                                1) Wenn das Datum bereits an einem anderen Übungstag vorhanden ist, kann das Datum nicht geändert werden. 
+                                Die Anpassung im Formular wird dann nicht übernommen, dort wird zurückgesetzt auf den zuletzt gespeicherten Wert. 
 
-                2) Wenn das Datum leer gespeichert wird: 
-                Ein Übungstag mit leerem Datum kann zwar gespeichert werden, ist jedoch nicht verwendbar. 
-                (falls ein solcher Eintrag gesucht wird: in "Übersicht Übungen" rutscht er ganz nach unten) 
+                                2) Wenn das Datum leer gespeichert wird: 
+                                Ein Übungstag mit leerem Datum kann zwar gespeichert werden, ist jedoch nicht verwendbar. 
+                                (falls ein solcher Eintrag gesucht wird: in "Übersicht Übungen" rutscht er ganz nach unten) 
 
-                3) Wenn bereits Übungen zum Übungstag existieren 
-                In diesem Fall werden alle Übungen automatisch an das geänderte Datum angepasst. 
-   
-        </pre>
+                                3) Wenn bereits Übungen zum Übungstag existieren 
+                                In diesem Fall werden alle Übungen automatisch an das geänderte Datum angepasst. 
+                
+                            </pre> -->
+
+
+
+        <h3 class="chapter-title chapter-title-h3" id="erfassung_schueler_kalender_datum">übungstag: Datum</h3>
+            <p>XXX </p>
+        <h3 class="chapter-title chapter-title-h3" id="erfassung_schueler_kalender_bemerkung">übungstag: Bemerkung</h3>
+            <p>XXX </p>
+        <h3 class="chapter-title chapter-title-h3" id="erfassung_schueler_kalender_berechnen">übungstag: Berechnen</h3>
+            <p>XXX </p>
+        
 
   	<h2 class="chapter-title chapter-title-h2" id="erfassung_uebungstage_einlesen">Übungstage einlesen</h2>
 
-
+        <p>XXX </p>
     <h2 class="chapter-title chapter-title-h3" id="erfassung_uebung">Übung</h2>
 
         <h3 class="chapter-title chapter-title-h3" id="erfassung_uebung_neu">Hinweise zum Anlegen einer neuen Übung</h3>        
