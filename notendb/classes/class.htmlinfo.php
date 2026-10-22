@@ -73,20 +73,34 @@ class HTML_Info {
     
     }
 
+ /** Links  */   
+
     function print_link_reload() {
         echo ($this->use_paragraph?'<p>':'').'<a href="" tabindex="-1" class="form-link">Formular neu laden</a>'.($this->use_paragraph?'</p>':''); 
     }
 
-
     function print_link_overview($target_file, $target_params, $target_title, $use_paragraph=false) {
         echo ($use_paragraph?'<p>':'').'<a href="'.$target_file.'?'.$target_params.'" target="_blank" tabindex="-1" class="form-link">'.$target_title.'</a>'.($use_paragraph?'</p>':'');
     }        
+
+    function print_link_hilfe_erfassung($kapitel_suffix) {
+        // Aufbau: erfassung_$kapitel_praefix
+        echo '<a href="help_erfassung.php#erfassung_'.$kapitel_suffix.'" target="_blank" tabindex="-1"">Hilfe</a>'; 
+    }        
+
 
 /* Seiten-Überschriften */   
 
     function print_screen_header($header_text, $suffix='') {
         echo '<span style="font-size:15pt;font-weight:bold;padding-top: 10px;margin-right: 20px;">'.$header_text.($suffix!=''?$suffix:'').'</span>';
     }
+
+    function print_screen_header_with_help_link($header_text, $suffix='') {
+        echo '<span style="font-size:15pt;font-weight:bold;padding-top: 10px;margin-right: 20px; display:inline">'.$header_text.($suffix!=''?$suffix:'').'</span>';
+    }
+
+
+// echo '<h3 class="header-with-help-link">'.$PageTitle.'</h3>'.PHP_EOL; 
 
 
  /* Info-Texte */   

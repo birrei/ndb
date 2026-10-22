@@ -7,13 +7,14 @@ include_once('head.php');
 
 <div class="doc-toc" id="inhaltsverzeichnis"></div>
 
+<hr> 
 <div class="doc-body"> 
-	<h2 class="chapter-title chapter-title-h2" id="erfassung_sammlung">Screen "Sammlung"</h2>  
-        <h3 class="chapter-title chapter-title-h3" id="erfassung_sammlung_info">Was ist eine "Sammlung?"</h3>    
+	<h2 class="chapter-title chapter-title-h2" id="erfassung_sammlung">Sammlung</h2>  
+        <h3 class="chapter-title chapter-title-h3" id="erfassung_sammlung_info">Was ist eine Sammlung?</h3>    
 
             <p> Eine Sammlung kann sein: Ein Heft mit Musikstücken, ein Buch (Lehrwerk), ein Ordner im Dateisystem ... XXX </p>
 
-        <h3 class="chapter-title chapter-title-h3" id="erfassung_sammlung_name">Sammlung: Name XXX</h3>    
+        <h3 class="chapter-title chapter-title-h3" id="erfassung_sammlung_name">Sammlung: Name </h3>    
 
         <h3 class="chapter-title chapter-title-h3" id="erfassung_sammlung_erfasst">Sammlung: Erfasst</h3>
 
@@ -21,9 +22,9 @@ include_once('head.php');
             <p> Hinweis: Die Datenprüfungen unter <a href="tests.php?title=Tests">Tests</a> enthalten nur Abfragen auf vollständig erfasste Sammlungen. </p>
             .... 
 
-        <h3 class="chapter-title chapter-title-h3" id="erfassung_sammlung_verlag">Sammlung: Verlag XXX</h3>        
+        <h3 class="chapter-title chapter-title-h3" id="erfassung_sammlung_verlag">Sammlung: Verlag </h3>        
 
-        <h3 class="chapter-title chapter-title-h3" id="erfassung_sammlung_bemerkung">Sammlung: Bemerkung XXX</h3>
+        <h3 class="chapter-title chapter-title-h3" id="erfassung_sammlung_bemerkung">Sammlung: Bemerkung</h3>
 
         <h3 class="chapter-title chapter-title-h3" id="erfassung_sammlung_musikstuecke">Sammlung: Standorte</h3>
             <p> Die zugeordneten Standorte werden angezeigt. 
@@ -135,38 +136,28 @@ include_once('head.php');
         <h3 class="chapter-title chapter-title-h3" id="erfassung_satz_besonderheiten">Satz: Besonderheiten</h3>
             <p> XXX </p>
 
-        <h3 class="chapter-title chapter-title-h3" id="erfassung_satz_schueler">Satz: Schüler</h3>
-    
-                <p>Im Unterformular werden die mit dem Satz verknüpften Schüler angezeigt.</p>
-
-                <p>Über "hinzufügen" kann eine neue Verknüpfung zu einem Schüler erstellt werden, 
-                    über "Schnell-Zuordnung" können mehrere Schüler in einem Arbeitsgang zugeordnet werden.</p>
-                    
-                <p>Die erstellten Verknüpfungen sind auch im <a href="#erfassung_schueler_noten">Schüler-Formular, Unterformular "Verknüpfte Noten"</a> sichtbar. </p>
-
-                <p>Eigenschaften der Schüler-Satz - Verknüpfung: 
-                    <ul>    
-                            <li>Status (Auswahl aus den unter <a href="#erfassung_status">Stammdaten: Status</a> erfassten Einträgen). 
-                                    Bei der "Schnell-Zuordnung" wird automatisch der Status mit der niedrigsten ID als Vorgabe gespeichert. 
-                            </li>
-                            <li>Datum von</li>
-                            <li>Datum bis</li>
-                            <li>Bemerkung</li>
-                    </ul>
-                    </p>
+        <h3 class="chapter-title chapter-title-h3" id="erfassung_satz_schueler">Satz: Schüler</h3> 
+            <p>Im Unterformular werden die mit dem Satz verknüpften Schüler angezeigt.</p>
+            <p>Über "hinzufügen" kann eine neue Verknüpfung zu einem Schüler erstellt werden, über "Schnell-Zuordnung" können mehrere Schüler in einem Arbeitsgang zugeordnet werden.</p>                
+            <p>Die erstellten Verknüpfungen sind auch im <a href="#erfassung_schueler_noten">Schüler-Formular, Unterformular "Verknüpfte Noten"</a> sichtbar. </p> 
+            <p>Eigenschaften der Schüler-Satz - Verknüpfung: 
+                <ul>    
+                    <li>Status (Auswahl aus den unter <a href="#erfassung_status">Stammdaten: Status</a> erfassten Einträgen). 
+                        Bei der "Schnell-Zuordnung" wird automatisch der Status mit der niedrigsten ID als Vorgabe gespeichert. 
+                    </li>
+                    <li>Datum von</li>
+                    <li>Datum bis</li>
+                    <li>Bemerkung</li>
+                </ul>
+            </p>
                                 
         <h3 class="chapter-title chapter-title-h3" id="erfassung_satz_kopieren">Satz kopieren</h3>
-
             <p>Button "Satz kopieren": Der Satz inklusive Eigenschaften und Untereinheiten wird kopiert. 
                 Ausnahme: Schüler und Besonderheiten werden nur mitkopiert, wenn die entsprechenden Checkboxen aktiviert sind. 
                 Die Kopie wird im aktuellen Formular geöffnet. Am Zusatz "(Kopie)" im Feld "Name" ist die Kopie erkennbar. 
                 Im Seitenkopf erscheint ein Hinweis auf den Kopiervorgang (Neue ID, alte ID mit Link).
                 Über den Link kann bei Bedarf die Quelle in neuem Fenster geöffnet werden.  
-            </p>     
-
-
-      
-											
+            </p>     											
 
     <h2 class="chapter-title chapter-title-h2" id="erfassung_schueler">Schüler</h2>
 
@@ -222,7 +213,7 @@ include_once('head.php');
             </ul>
 
 
-        <h3 class="chapter-title chapter-title-h3" id="erfassung_schueler_noten_schnellzuordnung">Notenmaterial Schnellzuordnung</h3>
+        <h3 class="chapter-title chapter-title-h3" id="erfassung_schueler_noten_schnellzuordnung">Schüler: Notenmaterial Schnellzuordnung</h3>
 
             <p>Das Formular öffnet sich in einem neuen Fenster. Filter: </p>
         <ul>    
@@ -234,47 +225,63 @@ include_once('head.php');
 
             <p>(*) Sucht in Feldern Sammlung Name, Sammlung Bemerkung, Musikstück Name, Musikstück Bemerkung, Komponist Vorname, Komponist Nachname, Satz Name, Satz Bemerkung  </p>
 
-    <h2 class="chapter-title chapter-title-h2" id="erfassung_schueler_kalender">Übungstag</h2>
+    <h2 class="chapter-title chapter-title-h2" id="erfassung_uebungstag">Übungstag</h2>
 
-        <h3 class="chapter-title chapter-title-h3" id="erfassung_schueler_kalender_neu">Neuen Übungstag anlegen</h3>
-
-                <!-- 
-                        <pre> XXXX 
-
-                            A) Ein neuer Übungstag soll angelegt werden 
-
-                                <p> Die Anlage erfolgt über "Übersicht Übungstage" > Link "neu einfügen"</p>  
-
-                                Formular öffnet sich leer, Schüler und (leeres) Datum werden gespeichert.  
-                                Die Untertabelle "Übungen" wird bei leerem Datum nicht angezeigt. 
-
-                            B) Das Datum eines bestehenden Übungstages soll geändert werden: 
-
-                                1) Wenn das Datum bereits an einem anderen Übungstag vorhanden ist, kann das Datum nicht geändert werden. 
-                                Die Anpassung im Formular wird dann nicht übernommen, dort wird zurückgesetzt auf den zuletzt gespeicherten Wert. 
-
-                                2) Wenn das Datum leer gespeichert wird: 
-                                Ein Übungstag mit leerem Datum kann zwar gespeichert werden, ist jedoch nicht verwendbar. 
-                                (falls ein solcher Eintrag gesucht wird: in "Übersicht Übungen" rutscht er ganz nach unten) 
-
-                                3) Wenn bereits Übungen zum Übungstag existieren 
-                                In diesem Fall werden alle Übungen automatisch an das geänderte Datum angepasst. 
+        <h3 class="chapter-title chapter-title-h3" id="erfassung_schueler_kalender_neu">Übungstag anlegen</h3>
+            <p>Die Übungstage werden i.d.R. zu Beginn des Schuljahrs für das komplette Schuljahr eingelesen, siehe Kapitel XXXX. </p>
+            <p>Sollten zusätzliche Übungstage erforderlich sein, kann die Anlage an zwei Stellen vorgenommen werden: 
+                <ul>
+                    <li> Screen "Übersicht Übungstage" über den Link "neu anlegen"</li>
+                    <li> Screen "Schüler bearbeiten" über den Button "Übungstag hinzufügen"</li>
+                </ul>
+            </p>
+        <h3 class="chapter-title chapter-title-h3" id="erfassung_schueler_kalender_update">Übungstag bearbeiten</h3>
+          <p>XXX </p>
+            <!-- XXXX 
                 
-                            </pre> -->
+               ... wenn das Datum eines eingelesenen Übungstages geändert wird, muss sich der Hinweis unter "Entstehung" anpassen
 
 
+                A) Ein neuer Übungstag soll angelegt werden 
 
-        <h3 class="chapter-title chapter-title-h3" id="erfassung_schueler_kalender_datum">übungstag: Datum</h3>
+                    <p> Die Anlage erfolgt über "Übersicht Übungstage" > Link "neu einfügen"</p>  
+
+                    Formular öffnet sich leer, Schüler und (leeres) Datum werden gespeichert.  
+                    Die Untertabelle "Übungen" wird bei leerem Datum nicht angezeigt. 
+
+                B) Das Datum eines bestehenden Übungstages soll geändert werden: 
+
+                    1) Wenn das Datum bereits an einem anderen Übungstag vorhanden ist, kann das Datum nicht geändert werden. 
+                    Die Anpassung im Formular wird dann nicht übernommen, dort wird zurückgesetzt auf den zuletzt gespeicherten Wert. 
+
+                    2) Wenn das Datum leer gespeichert wird: 
+                    Ein Übungstag mit leerem Datum kann zwar gespeichert werden, ist jedoch nicht verwendbar. 
+                    (falls ein solcher Eintrag gesucht wird: in "Übersicht Übungen" rutscht er ganz nach unten) 
+
+                    3) Wenn bereits Übungen zum Übungstag existieren 
+                    In diesem Fall werden alle Übungen automatisch an das geänderte Datum angepasst. 
+            -->
+
+
+        <h3 class="chapter-title chapter-title-h3" id="erfassung_schueler_kalender_datum">Übungstag: Datum</h3>
             <p>XXX </p>
-        <h3 class="chapter-title chapter-title-h3" id="erfassung_schueler_kalender_bemerkung">übungstag: Bemerkung</h3>
+        <h3 class="chapter-title chapter-title-h3" id="erfassung_schueler_kalender_bemerkung">Übungstag: Bemerkung</h3>
             <p>XXX </p>
-        <h3 class="chapter-title chapter-title-h3" id="erfassung_schueler_kalender_berechnen">übungstag: Berechnen</h3>
-            <p>XXX </p>
+        <h3 class="chapter-title chapter-title-h3" id="erfassung_schueler_kalender_berechnen">Übungstag: Berechnen</h3>
+            <p>Legt fest, ob der Übungstag berechnet werden soll (Standard: aktiviert). Das wirkt sich auf folgende Werte aus: 
+                <ul>
+                    <li> Screen "Übersicht Übungstage": Spalte "Stunden berechnet" </li>
+                    <li> Screen "Schüler bearbeiten": Untertabelle "Übungtage", Spalte  "Stunden berechnet" </li>
+                    <li> Screen "Schüler bearbeiten": Untertabelle "Auswertung Schuljahr Übungstage", Spalte  "Stunden berechnet" </li>
+                </ul>
+            </p>
         
+        <h3 class="chapter-title chapter-title-h3" id="erfassung_schueler_kalender_berechnen">Übungstag: Entstehung</h3>
+            <!-- Ableitung aus Tabelle schueler_kalender.Eingelesen 1/0  -->
+            <p> Zwei mögliche Informationen:
+                     <br>* "Eingelesener Übungstag": Ein aus dem Einlesevorgang stammender Übungstag  
+                     <br>* "Manuell angelegter Übungstag": Ein manuell angelegter Übungstag 
 
-  	<h2 class="chapter-title chapter-title-h2" id="erfassung_uebungstage_einlesen">Übungstage einlesen</h2>
-
-        <p>XXX </p>
     <h2 class="chapter-title chapter-title-h3" id="erfassung_uebung">Übung</h2>
 
         <h3 class="chapter-title chapter-title-h3" id="erfassung_uebung_neu">Hinweise zum Anlegen einer neuen Übung</h3>        
@@ -378,17 +385,19 @@ include_once('head.php');
 
 	<h2 class="chapter-title chapter-title-h2" id="erfassung_schuljahr">Stammdaten: Schuljahr</h2>
 
-        <h3 class="chapter-title chapter-title-h3" id="erfassung_schuljahr_name">Name</h3>
+        <h3 class="chapter-title chapter-title-h3" id="erfassung_schuljahr_name">Schuljahr: Name</h3>
                     <p> XXXX</p>
 
-        <h3 class="chapter-title chapter-title-h3" id="erfassung_schuljahr_datum">Datum von / bis </h3>
+        <h3 class="chapter-title chapter-title-h3" id="erfassung_schuljahr_datum">Schuljahr: Datum von / bis </h3>
                     <p> XXXX</p>
 
-        <h3 class="chapter-title chapter-title-h3" id="erfassung_schuljahr_ferien">Ferien</h3>
+        <h3 class="chapter-title chapter-title-h3" id="erfassung_schuljahr_ferien">Schuljahr: Ferien</h3>
                     <p> XXXX</p>
 
-        <h3 class="chapter-title chapter-title-h3" id="erfassung_schuljahr_feiertage">Feiertage</h3>
+        <h3 class="chapter-title chapter-title-h3" id="erfassung_schuljahr_feiertage">Schuljahr: Feiertage</h3>
                     <p> XXXX</p>
+  	    <h3 class="chapter-title chapter-title-h3" id="erfassung_schuljahr_uebungstage_einlesen">Schuljahr: Übungstage einlesen</h2>
+                    <p>XXX </p>
 
     <h2 class="chapter-title chapter-title-h2" id="erfassung_uebungstage_einlesen">Stammdaten: Kalender</h2>
 

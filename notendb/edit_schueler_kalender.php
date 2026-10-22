@@ -132,12 +132,13 @@ case 'insert':
 
 // print_r(get_object_vars($uebungstag)); // test 
 
-$info->print_screen_header($uebungstag->Title.' bearbeiten'); 
+$info->print_screen_header_with_help_link($uebungstag->Title.' bearbeiten'); 
+$info->print_link_hilfe_erfassung('uebungstag'); 
 
 if (!$show_data) {goto pagefoot;}
 
-$typeInfo = $uebungstag->Eingelesen==1?'Eingelesener Übungstag':'Manuell angelegter Übungstag'; 
-$info->print_info($typeInfo); 
+
+
 
 ?>
 
@@ -154,8 +155,10 @@ $info->print_info($typeInfo);
   <tr>    
   <label>
   <td class="form-edit form-edit-col1">Schüler:</td>  
-  <td class="form-edit form-edit-col2"><b><?php echo $uebungstag->SchuelerName; ?> </b> <a href="edit_schueler.php?ID=<?php echo $uebungstag->SchuelerID; ?>" target="_blank">Schüler öffnen</a>
-<br><br></td>
+  <td class="form-edit form-edit-col2"><b><?php echo $uebungstag->SchuelerName; ?> &nbsp; &nbsp; </b> 
+      <?php $info->print_link_edit('schueler', $uebungstag->SchuelerID);  ?>
+      <br><br>
+    </td>
   </label>
     </tr> 
 
@@ -164,13 +167,14 @@ $info->print_info($typeInfo);
     <td class="form-edit form-edit-col1">Datum:</td>  
     <td class="form-edit form-edit-col2"> 
     <input type="date" name="Datum" value="<?php echo $Datum ; ?>" oninput="changeBackgroundColor(this)" requested> 
-           
-            <b> <?php echo $uebungstag->Wochentag; ?></b>
-    </label>- <b>Schuljahr:</b> <?php echo $uebungstag->Schuljahr; ?>
-          <?php echo $uebungstag->Ferien!=''?' / Ferien: '.$uebungstag->Ferien:''; ?>
-          <?php echo $uebungstag->Feiertag!=''?' / Feiertag '.$uebungstag->Feiertag:''; ?>  
- <a href="edit_kalender.php?Datum=<?php echo $Datum ; ?>" target="_blank">Kalenderdatum öffnen</a>                     
-    </td>
+     </label>
+       <a href="edit_kalender.php?Datum=<?php echo $Datum ; ?>" target="_blank"  class="form-link">Kalenderdatum bearbeiten</a>  
+            Wochentag: <?php echo $uebungstag->Wochentag; ?> / 
+            Schuljahr: <?php echo $uebungstag->Schuljahr; ?>
+            <?php echo $uebungstag->Ferien!=''?' / Ferien: '.$uebungstag->Ferien:''; ?>
+            <?php echo $uebungstag->Feiertag!=''?' / Feiertag '.$uebungstag->Feiertag:''; ?>  
+    
+          </td>
   </tr> 
 
   <tr>    
@@ -197,7 +201,7 @@ $info->print_info($typeInfo);
 <?php 
 
 if(!empty($Datum)) {
-
+  // XXXX ändern. 
   ?>
 <tr> 
   <td class="form-edit form-edit-col1">
@@ -213,8 +217,21 @@ if(!empty($Datum)) {
       <iframe src="edit_schueler_kalender_uebungen.php?SchuelerID=<?php echo $uebungstag->SchuelerID.'&Datum='.$Datum; ?>&source=iframe" height="300" id="subform1" name="iframe_Uebungen" class="form-iframe-var1"></iframe>
   </td>
 </tr> 
+  <tr>
+    <td class="form-edit form-edit-col1"><br>Entstehung:</td>  
+    <td class="form-edit form-edit-col2"> 
+        <?php 
+        $typeInfo = $uebungstag->Eingelesen==1?'Eingelesener Übungstag':'Manuell angelegter Übungstag'; 
+        $info->print_info($typeInfo); 
+        ?>
+
+  </td>
+  </tr> 
+
 
   <?php 
+
+
 }
 
 ?>
@@ -227,7 +244,6 @@ if(!empty($Datum)) {
   <td class="form-edit form-edit-col2"><br>
     <?php 
     $info->print_form_inline('delete_1',$uebungstag->ID,$uebungstag->Title, 'löschen'); 
-    $info->print_form_inline('insert_default',$uebungstag->SchuelerID,'', 'Übungtag '); 
     ?>  
     
     

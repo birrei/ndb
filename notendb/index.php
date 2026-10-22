@@ -1,4 +1,5 @@
 <?php
+$PageTitle='Start'; 
 include_once('head.php');
 ?>
 
