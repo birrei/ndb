@@ -1,6 +1,5 @@
 
 <?php 
-
 include_once("dbconn/class.db.php"); 
 include_once("class.htmlinfo.php"); 
 include_once("class.htmlselect.php"); 
@@ -8,7 +7,7 @@ include_once("class.htmltable.php");
 include_once("class.abfragetyp.php");
 
 class Abfrage {
-
+  // in Tabelle "abfrage" gespeicherte (SQL) Abfrage 
   public $table_name='abfrage'; 
   public $ID;
   public $Name;
