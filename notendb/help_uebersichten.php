@@ -138,8 +138,8 @@ include_once('head.php');
         <li>Unterricht Reihenfolge</li>
         <li>Anzahl Übungen</li>
         <li>Stunden Übungen </li>
-        <li>Stunden berechnet (*) </li>
-        <li>Abweichung Dauer</li>
+        <li>Abweichung Stunden Übung (Abweichung Übungsstunden von der Standard-Unterrichtsdauer des Schülers)</li>
+        <li>Stunden berechnet (= Schüler "Unterricht Dauer", wird angegeben falls "Unterricht Protokolliert" = Ja, "Berechnen" = Ja ) </li>
         <li>Übungen Inhalte (nur echte Übungen, keine Übungsentwürfe)</li>
         <li>Unterricht geplant</li>
         <li>Unterricht protokolliert</li>
@@ -150,10 +150,12 @@ include_once('head.php');
         <li>Übungstag ID</li>
         </ul>
 
-        <p>(*) Erklärung zu "Stunden berechnet": Berechnung aus "Stunden Übung" 
+
+
+        <!-- <p>(*) Erklärung zu "Stunden berechnet": Berechnung aus "Stunden Übung" 
             bzw (falls keine Übungen vorhanden sind) Schüler > "Unterricht Dauer". 
             Eine Berechnung erfolgt nur, wenn wenn der Kalendertag als "Protokolliert" gekennzeichnet ist.
-              
+               -->
 
         </p>
 

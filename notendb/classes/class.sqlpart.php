@@ -1,5 +1,6 @@
 <?php 
 class SQLPart {
+  // XXXX -> in Klasse "class.query.php" integrieren ! 
 
   public function getSQL_COL_CONCAT_Noten($type=1, $add_linkebreak=false) {
 

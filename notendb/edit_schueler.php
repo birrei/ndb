@@ -241,7 +241,7 @@ echo '
 
 <!-- Auswertung 5: Schuljahr Übungstage  -->
   <input type="radio" id="opt_Auswertung5" name="target_form" value="Uebungen" onclick="changeIframeSrc('subform1', 'edit_schueler_auswertung_uebungstage.php?SchuelerID=<?php echo $schueler->ID; ?>');">
-  <label for="opt_Auswertung5">Auswertung Schuljahr Übungstage</label><br>    
+  <label for="opt_Auswertung5">Auswertung Übungstage / Schuljahr</label><br>    
 
   <input type="radio" id="opt_Saetze_Lookups" name="target_form" value="Saetze_Lookups" onclick="changeIframeSrc('subform1', 'edit_schueler_saetze_lookups.php?SchuelerID=<?php echo $schueler->ID; ?>');">
   <label for="opt_Saetze_Lookups">Verknüpfte Noten + Besonderheiten</label><br>

@@ -1,18 +1,16 @@
 
 <?php 
-$Entwurf=(isset($_POST["Entwurf"])?1:0); 
-
-// $PageTitle='Übung';
-
-$PageTitle=$Entwurf==0?'Übung':'Übung Entwurf';
-
-include_once('head.php');
 include_once("classes/class.htmlinfo.php");
 include_once("classes/class.uebung.php");
 include_once("classes/class.kalendertag.php");
 include_once("classes/class.uebungtyp.php");
 include_once("classes/class.schueler.php");
 include_once("classes/class.bewertung.php");
+
+$Entwurf=(isset($_POST["Entwurf"])?1:0); 
+$PageTitle=$Entwurf==0?'Übung':'Übung Entwurf';
+include_once('head.php');
+
 
 $option=isset($_REQUEST["option"])?$_REQUEST["option"]:'edit';
 $show_data=true; 
@@ -163,12 +161,10 @@ echo '
   <td class="form-edit form-edit-col2"><b>'; 
     echo $uebung->SchuelerName; 
     echo '</b> &nbsp; &nbsp; '; 
-    // $info->print_link_edit('schueler', $uebung->SchuelerID, 'Schueler', true);    
-    // XXXX  
-   echo '
-    <a href="edit_schueler.php?ID='.$uebung->SchuelerID.'" target="_blank">Schüler öffnen</a>
+    $info->print_link_edit('schueler', $uebung->SchuelerID);
+
+echo '
    </td>
-  
     </tr> '; 
 
 if ($Entwurf==0) {
@@ -177,13 +173,12 @@ if ($Entwurf==0) {
       <td class="form-edit form-edit-col1"><br>Datum:</td>   
       <td class="form-edit form-edit-col2">
           <br><input type="date" name="Datum" value="'.$uebung->Datum.'" oninput="changeBackgroundColor(this)" requested> 
-          <a href="edit_schueler_kalender.php?SchuelerID='.$uebung->SchuelerID.'&Datum='.$uebung->Datum.'" target="_blank">Übungstag öffnen</a>,    
-          <a href="edit_kalender.php?Datum='.$uebung->Datum.'" target="_blank">Kalenderdatum öffnen</a> 
+          <a href="edit_schueler_kalender.php?SchuelerID='.$uebung->SchuelerID.'&Datum='.$uebung->Datum.'" target="_blank" class="form-link">Übungstag öffnen</a>     
+          <a href="edit_kalender.php?Datum='.$uebung->Datum.'" target="_blank" class="form-link">Kalenderdatum öffnen</a> 
           </td>
       </label>    
     </tr> '; 
 }
-
 
 if ($Entwurf==0) {
   echo '

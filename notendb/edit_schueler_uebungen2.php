@@ -24,7 +24,7 @@ echo '</form><br>';
 
 $schueler=new Schueler();
 $schueler->ID=$_REQUEST["SchuelerID"]; 
-$schueler->print_table_uebungen_datum($SchuljahrID); 
+$schueler->print_table_uebungen_datum2($SchuljahrID); 
 
 echo '</div>'; 
     

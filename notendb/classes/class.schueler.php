@@ -3,6 +3,7 @@ include_once("dbconn/class.db.php");
 include_once("class.htmlinfo.php"); 
 include_once("class.htmlselect.php"); 
 include_once("class.htmltable.php"); 
+include_once("class.query.php"); 
 include_once("class.sqlpart.php");
 
 class Schueler {
@@ -807,98 +808,16 @@ class Schueler {
     }
   }    
 
-  function print_table_uebungen_datum(string $SchuljahrID){
-    // Übungstage 
-    $query="SELECT 
-          schueler_kalender.Datum 
-          , schueler_kalender.Bemerkung       
-          , kalender.Wochentag_Name as Wochentag     
-          , COUNT(distinct uebung.ID) as `Anzahl Übungen` 
-          -- , SUM(uebung.Anzahl ) as `Summe Minuten` 
-          , TIME_FORMAT(SEC_TO_TIME( SUM(uebung.Anzahl) * 60), '%H:%i')  as `Stunden Übung`     
-          , TIME_FORMAT(SEC_TO_TIME(( 
-              SUM(
-              CASE 
-	            WHEN schueler_kalender.Berechnen = 1 
-                    AND kalender.Unterricht_Protokolliert = 1 
-	                THEN  
-	                  CASE 
-                      WHEN uebung.ID IS NOT NULL 
-	                    THEN uebung.Anzahl
-	                  	ELSE schueler.Unterricht_Dauer
-	                  	END 
-              ELSE 
-                  0 
-              END
-                ))  
-                 * 60 
-                ), '%H:%i') AS `Stunden berechnet`
-          , (SUM(uebung.Anzahl ) - schueler.Unterricht_Dauer ) as `Abweichung Dauer` 
-          , GROUP_CONCAT(uebung.Reihenfolge, '. ', uebung.Name, ' (', coalesce(uebungtyp.Name, ''), ')'  order by uebung.Reihenfolge separator '<br>') `Übungen Inhalte`  
-          -- , IF(kalender.Unterricht_Geplant=1, 'X' , '') as `Unterrichtstag Geplant`   
-          , ferien.Bezeichnung AS Ferientag 
-          , feiertag.Bezeichnung AS Feiertag 
-          , schuljahr.Bezeichnung AS Schuljahr
-          , IF(kalender.Unterricht_Geplant=1, 'X' , '') as `Unterricht geplant`   
-          , IF(kalender.Unterricht_Protokolliert=1, 'X' , '') as `Unterricht protokolliert`  
-          , IF(schueler_kalender.Berechnen=1, 'X' , '') as `Berechnen`                     
-          , schueler_kalender.ID                           
-    FROM  schueler_kalender
-    		INNER JOIN 
-    		kalender 
-            ON schueler_kalender.Datum = kalender.Datum         
-        INNER JOIN schueler 
-            ON schueler.ID= schueler_kalender.SchuelerID 
-        LEFT JOIN schuljahr 
-          ON kalender.Datum  BETWEEN schuljahr.Datum_Start AND schuljahr.Datum_Ende 
-        LEFT JOIN ferien 
-          ON kalender.Datum BETWEEN ferien.Datum_Start AND ferien.Datum_Ende 
-        LEFT JOIN feiertag 
-          ON kalender.Datum = feiertag.Datum             
-        LEFT JOIN uebung 
-            ON schueler.ID = uebung.SchuelerID 
-            AND schueler_kalender.Datum = uebung.Datum                  
-        LEFT join uebungtyp 
-            ON uebung.UebungtypID=uebungtyp.ID 
-        WHERE schueler.ID = :ID
-        "; 
-        
-    
-        if($SchuljahrID!='') {
-          $query.="AND schuljahr.ID = :SchuljahrID";  
-        }
 
-        $query.="
-        GROUP BY schueler.ID, schueler_kalender.Datum  
-        ORDER BY schueler_kalender.Datum DESC, schueler.Unterricht_Reihenfolge, uebung.Name            
-        "; 
+  function print_table_uebungen_datum2($SchuljahrID) {
+    $query = new Query();
+    $query->table_edit='schueler_kalender'; 
+    $query->SchuelerID=$this->ID; 
+    $query->SchuljahrID=$SchuljahrID; 
+    $query->print_schueler_uebungstage2(); 
 
-
-
-    // echo '<pre>'.$query.'</pre>';
-    $stmt = $this->db->prepare($query); 
-    $stmt->bindParam(':ID', $this->ID, PDO::PARAM_INT);
-    if($SchuljahrID!='') {
-      $stmt->bindParam(':SchuljahrID', $SchuljahrID, PDO::PARAM_INT); 
-    } 
-
-    try {
-      $stmt->execute(); 
-            
-      $html = new HTML_Table($stmt); 
-      $html->add_link_edit=true;      
-      $html->edit_link_table='schueler_kalender'; 
-      // $html->edit_link_title='Übung'; 
-      $html->edit_link_open_newpage=true; 
-      $html->show_missing_data_message=false;      
-      $html->print_table2(); 
-
-    }
-    catch (PDOException $e) {
-      $this->info->print_user_error(); 
-      $this->info->print_error($stmt, $e); 
-    }
   }    
+
 
   function print_table_auswertung_uebungen($AuswertungNr=1){
     // XXXX 
@@ -918,6 +837,7 @@ class Schueler {
                   left join satz  on satz.ID=uebung.SatzID     
             WHERE uebung.SchuelerID = :ID 
             AND UebungtypID  is not null 
+            and uebung.Entwurf = 0 
             GROUP by uebung.SchuelerID
                  , uebung.UebungtypID 
             ORDER BY `Datum Zuletzt` DESC              
@@ -943,6 +863,7 @@ class Schueler {
                   LEFT JOIN lookup_type ON lookup_type.ID = lookup.LookupTypeID 
             WHERE uebung.SchuelerID = :ID 
             AND uebung_lookup.ID  is not null 
+            and uebung.Entwurf = 0 
             GROUP by uebung.SchuelerID
                  , uebung_lookup.LookupID
             -- ORDER BY `Datum Zuletzt` DESC
@@ -982,6 +903,7 @@ class Schueler {
                   left join uebungtyp on uebung.UebungtypID=uebungtyp.ID 
             WHERE uebung.SchuelerID = :ID 
             AND bewertung.ID  is not null 
+            and uebung.Entwurf = 0 
             GROUP by uebung.SchuelerID
                  , uebung.BewertungID  
             ORDER BY `Datum Zuletzt` DESC              
@@ -1196,86 +1118,15 @@ class Schueler {
   }    
 
   function print_table_auswertung_uebungstage(string $SchuljahrID){
-    // XXXX 
-    $query="SELECT schuljahr.Bezeichnung AS Schuljahr 
-            , COUNT(schueler_kalender.Datum) `Anzahl Übungstage Plan`
-            , TIME_FORMAT(SEC_TO_TIME( (COUNT(schueler_kalender.Datum) * schueler.Unterricht_Dauer) * 60), '%H:%i')   AS `Stunden Plan`
-            -- , TIME_FORMAT(SEC_TO_TIME(SUM(uebung.Anzahl)  * 60), '%H:%i')  AS `Stunden aus Übungen` 
-            -- , SUM(uebung.Anzahl) as Uebung_minuten 
-            , TIME_FORMAT(SEC_TO_TIME(( 
-              SUM(
-              CASE 
-	            WHEN schueler_kalender.Berechnen = 1 
-	                THEN  
-	                  CASE 
-                      WHEN uebung.ID IS NOT NULL 
-	                    THEN uebung.Anzahl
-	                  	ELSE schueler_kalender_protokolliert.Unterricht_Dauer
-	                  	END 
-              ELSE 
-                  0 
-              END
-                ))  
-                 * 60 
-                ), '%H:%i') AS `Stunden berechnet`
-        FROM  schueler_kalender
-    		INNER JOIN schueler 
-        	ON schueler.ID= schueler_kalender.SchuelerID 
-        	INNER JOIN kalender ON kalender.Datum = schueler_kalender.Datum 
-	        LEFT JOIN schuljahr 
-	          ON schueler_kalender.Datum  BETWEEN schuljahr.Datum_Start AND schuljahr.Datum_Ende 
-	        LEFT JOIN (
-                SELECT schueler_kalender.SchuelerID, schueler_kalender.Datum, schueler_kalender.Berechnen 
-                    ,schueler.Unterricht_Dauer
-                FROM schueler_kalender
-                  INNER JOIN kalender ON schueler_kalender.Datum = kalender.Datum 
-                  INNER JOIN schueler ON schueler_kalender.SchuelerID  = schueler.ID 
-                WHERE kalender.Unterricht_Protokolliert = 1
-                AND schueler.ID = :ID         
-        	) schueler_kalender_protokolliert --  
-        ON schueler_kalender_protokolliert.SchuelerID= schueler_kalender.SchuelerID 
-         AND schueler_kalender_protokolliert.Datum = schueler_kalender.Datum 
-        LEFT JOIN uebung 
-            ON schueler.ID = uebung.SchuelerID 
-            AND schueler_kalender.Datum = uebung.Datum                  
-        WHERE 1=1 
-        -- AND kalender.Unterricht_Protokolliert =1  
-        AND schueler.ID = :ID 
-        "; 
 
-    if($SchuljahrID!='') {
-      $query.="AND schuljahr.ID = :SchuljahrID";  
-    }
-
-    $query.="
-    GROUP BY schuljahr.ID, schueler.ID  
-    ORDER BY schuljahr.Bezeichnung DESC 
-    "; 
+    $query = new Query();
+    // $query->table_edit='schueler_kalender'; #
+    $query->SchuelerID=$this->ID; 
+    // $query->SchuljahrID=$SchuljahrID; 
+    $query->add_link_edit=false; 
+    $query->print_schueler_auswertung_uebungstage(); 
 
 
-
-    // echo '<pre>'.$query.'</pre>';
-    $stmt = $this->db->prepare($query); 
-    $stmt->bindParam(':ID', $this->ID, PDO::PARAM_INT);
-    if($SchuljahrID!='') {
-      $stmt->bindParam(':SchuljahrID', $SchuljahrID, PDO::PARAM_INT); 
-    } 
-
-    try {
-      $stmt->execute(); 
-      $html = new HTML_Table($stmt); 
-      $html->add_link_edit=false;      
-      // $html->edit_link_table='schueler_kalender'; 
-      // $html->edit_link_title='Übung'; 
-      $html->edit_link_open_newpage=true; 
-      $html->show_missing_data_message=false;      
-      $html->print_table2(); 
-
-    }
-    catch (PDOException $e) {
-      $this->info->print_user_error(); 
-      $this->info->print_error($stmt, $e); 
-    }
   }    
 
   function copy_uebungen_from_schueler($SchuelerID_ref, $Datum_ref, $Datum){

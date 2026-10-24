@@ -179,7 +179,19 @@ include_once('head.php');
             <p> Unterricht Dauer: Übliche Unterrichtsdauer in Minuten  </p>    
 
         <h3 class="chapter-title chapter-title-h3" id="erfassung_schueler_geburtsdatum">Schüler: Geburtsdatum</h3>
+
             <p>Geburtdatum (Hintergrund: Altersklasse Wettbewerbe) </p>    
+        <h3 class="chapter-title chapter-title-h3" id="erfassung_schueler_uebungen">Schüler: Übungen</h3>
+            <p>XXX </p>
+            <p>Aufbau wie "Übersicht Übungen" </p>
+
+        <h3 class="chapter-title chapter-title-h3" id="erfassung_schueler_uebungsentwuerfe">Schüler: Übungsentwürfe</h3>
+            <p>XXX </p>
+            <p>Aufbau wie "Übersicht Übungen" </p>
+
+            <h3 class="chapter-title chapter-title-h3" id="erfassung_schueler_uebungstage">Schüler: Übungstage</h3>
+            <p>XXX  </p>
+            <p>Aufbau wie "Übersicht Übungstage" </p>
 
         <h3 class="chapter-title chapter-title-h3" id="erfassung_schueler_schwierigkeitsgrade">Schüler: Instrumente und Schwierigkeitsgrade</h3>
             <p>Optionen: </p>

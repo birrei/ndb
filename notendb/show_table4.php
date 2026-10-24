@@ -1,7 +1,8 @@
 <?php
-include_once('classes/class.htmlinfo.php');
-include_once('classes/class.sqlpart.php');
 include_once("classes/dbconn/class.db.php");
+include_once('classes/class.htmlinfo.php');
+include_once('classes/class.query.php');
+include_once('classes/class.sqlpart.php');
 include_once("classes/class.schueler.php");
 include_once("classes/class.wochentage.php");
 
@@ -16,6 +17,8 @@ $fehlertext='';
 $show_help_link=true; 
 $add_link_show = false; 
 $group_col=''; 
+$execute_query_inside=true; // nein, wenn SQL über Query-Klasse ausgeführt werden soll 
+
 
 if (isset($_REQUEST["ansicht"])) {
   $ansicht=$_REQUEST["ansicht"]; 
@@ -608,11 +611,8 @@ switch ($ansicht)  // setzen: $PageTitle, $table_edit, $show_help_link
     break; 
 
 
-  case 'uebungstage': // aka "Übungstage" ************************************
+  case 'uebungstage_alt': // aka "Übungstage" ALT, löschen XXXX ************************************
     include_once("classes/class.schuljahr.php");
-
-    $table_edit='schueler_kalender'; 
-    $add_link_edit=true; 
 
     $Datum_heute = date('Y-m-d');
  
@@ -753,7 +753,6 @@ switch ($ansicht)  // setzen: $PageTitle, $table_edit, $show_help_link
       $group_col='Datum';         
     }
 
-
     if ($SchuelerID!='') {
       $query.="AND schueler.ID=".$SchuelerID." ".PHP_EOL;  
     }
@@ -776,6 +775,89 @@ switch ($ansicht)  // setzen: $PageTitle, $table_edit, $show_help_link
         ORDER BY schueler_kalender.Datum DESC, schueler.Unterricht_Reihenfolge, uebung.Name                     
              "; 
     echo '<p><a href="edit_'.$table_edit.'.php?option=insert&SchuelerID='.$SchuelerID.'" target="_blank">Neu erfassen</a></p>';
+
+  // XXXX 
+    break; 
+
+  case 'uebungstage': // aka "Übungstage" ************************************
+    include_once("classes/class.schuljahr.php");
+
+    $Datum_heute = date('Y-m-d');
+ 
+    $Datum=(isset($_REQUEST["Datum"])?$_REQUEST["Datum"]:date('Y-m-d')); 
+    $Datum_bis=(isset($_REQUEST["Datum_bis"])?$_REQUEST["Datum_bis"]:''); 
+    $SchuelerID=(isset($_REQUEST["SchuelerID"])?$_REQUEST["SchuelerID"]:'');    
+    $Unterricht_Wochentag =(isset($_REQUEST["wochentag_nr"])?$_REQUEST["wochentag_nr"]:0);
+    $Unterricht_Geplant=(isset($_REQUEST["Unterricht_Geplant"])?$_REQUEST["Unterricht_Geplant"]:''); 
+    $Unterricht_Protokolliert=(isset($_REQUEST["Unterricht_Protokolliert"])?$_REQUEST["Unterricht_Protokolliert"]:''); 
+    $Suchtext=(isset($_REQUEST["Suchtext"])?$_REQUEST["Suchtext"]:'');   
+
+    $SchuljahrID=(isset($_REQUEST["SchuljahrID"])?$_REQUEST["SchuljahrID"]:'');
+
+    if(!isset($_REQUEST["SchuljahrID"])) {
+      $schuljahr= new Schuljahr(); 
+      $SchuljahrID= $schuljahr->getCurrentID(); 
+    }
+
+    echo '<form action="" method="get">'.PHP_EOL;       
+    echo '<a href="edit_kalender.php?Datum='.$Datum.'&option=edit" target="_blank" title="Datum bearbeiten">Datum</a>: 
+          <input type="date" name="Datum" value="'.$Datum.'" onchange="this.form.submit()">
+           Datum bis 
+          <input type="date" name="Datum_bis" value="'.$Datum_bis.'" onchange="this.form.submit()">          
+          '; 
+          // wenn "Datum_Bis" ausgewählt ist, wird "Datum" als "Datum von" interpretiert und damit nach dem Zeitraum gefiltert 
+
+    $schueler = new Schueler(); 
+        echo ' &#9475;';    
+    echo '<a href="edit_schueler.php?ID='.$SchuelerID.'&option=edit" target="_blank" title="Schüler bearbeiten">Schüler:</a>'.PHP_EOL; 
+    $schueler->print_preselect($SchuelerID); 
+
+    $schuljahr = new Schuljahr(); 
+        echo ' &#9475;';        
+    echo 'Schuljahr: '.PHP_EOL; 
+    $schuljahr->print_preselect($SchuljahrID, '', true); 
+
+    echo ' &#9475;';
+    echo ' Geplant <select id="Unterricht_Geplant" name="Unterricht_Geplant" onchange="this.form.submit()" >
+              <option value="" '.($Unterricht_Geplant==''?'selected':'').'></option>
+              <option value="0" '.($Unterricht_Geplant=='0'?'selected':'').'>Nein</option>
+              <option value="1" '.($Unterricht_Geplant=='1'?'selected':'').'>Ja</option>
+          </select> '; 
+
+    echo ' &#9475;';
+    echo ' Protokolliert <select id="Unterricht_Protokolliert" name="Unterricht_Protokolliert" onchange="this.form.submit()" >
+              <option value="" '.($Unterricht_Protokolliert==''?'selected':'').'></option>
+              <option value="0" '.($Unterricht_Protokolliert=='0'?'selected':'').'>Nein</option>
+              <option value="1" '.($Unterricht_Protokolliert=='1'?'selected':'').'>Ja</option>
+          </select> '; 
+
+        
+
+    echo ' &#9475;';            
+    echo ' Suchtext: <input type="text" id="Suchtext" name="Suchtext" size="30px" value="'.$Suchtext.'"> '; 
+
+    echo '<input type="submit" class="btnSave" name="senden" value="Suchen">';
+    echo '<input type="hidden" name="ansicht" value="'.$ansicht.'">'; 
+    echo '</form>';           
+
+    echo '<p><a href="edit_'.$table_edit.'.php?option=insert&SchuelerID='.$SchuelerID.'" target="_blank">Neu erfassen</a></p>';
+
+    
+    $abfrage = new Query();
+    $abfrage->table_edit='schueler_kalender'; 
+    $abfrage->SchuelerID=$SchuelerID; 
+    $abfrage->SchuljahrID=$SchuljahrID; 
+    $abfrage->Datum=$Datum; 
+    $abfrage->Datum_bis=$Datum_bis; 
+    $abfrage->wochentag_nr=$Unterricht_Wochentag; 
+    $abfrage->Unterricht_Geplant=$Unterricht_Geplant; 
+    $abfrage->Unterricht_Protokolliert=$Unterricht_Protokolliert; 
+    $abfrage->Suchtext=$Suchtext; 
+    $abfrage->print_schueler_uebungstage2(true); 
+    
+    $execute_query_inside=false; 
+
+
 
     break;   
 
@@ -1540,39 +1622,36 @@ switch ($ansicht)  // setzen: $PageTitle, $table_edit, $show_help_link
 
 }
 
-if($query=='') {
-  $info->print_user_error('Es wurde keine Ansicht definiert.');   
-  goto pagefoot;
-}
-
-
 /******************************* */
 // echo '<pre>'.$query.'</pre>'; // Test 
 
 // echo '<pre style="font-size: 11px; display: none">'.$query .'</pre>'; // Test  
-    
-$conn = new DBConnection(); 
-$db=$conn->db; 
 
-$select = $db->prepare($query); 
-  
-try {
-  $select->execute(); 
-  include_once("classes/class.htmltable.php");      
-  $html = new HTML_Table($select); 
-  $html->add_link_edit= $add_link_edit; 
-  $html->edit_link_table=$table_edit; 
-  $html->edit_link_open_newpage = true; 
-  $html->add_link_show=$add_link_show;   
-  $html->show_row_count=true; 
-  $html->group_col=$group_col; /// XXX Erklärung 
-  $html->print_table2(); 
+if($execute_query_inside) {
+  $conn = new DBConnection(); 
+  $db=$conn->db; 
+
+  $select = $db->prepare($query); 
+    
+  try {
+    $select->execute(); 
+    include_once("classes/class.htmltable.php");      
+    $html = new HTML_Table($select); 
+    $html->add_link_edit= $add_link_edit; 
+    $html->edit_link_table=$table_edit; 
+    $html->edit_link_open_newpage = true; 
+    $html->add_link_show=$add_link_show;   
+    $html->show_row_count=true; 
+    $html->group_col=$group_col; 
+    $html->print_table2(); 
+  }
+  catch (PDOException $e) {
+    $info = new HTML_Info();      
+    $info->print_user_error(); 
+    $info->print_error($select, $e); 
+  }
 }
-catch (PDOException $e) {
-  $info = new HTML_Info();      
-  $info->print_user_error(); 
-  $info->print_error($select, $e); 
-}
+
 
 pagefoot: 
 

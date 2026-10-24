@@ -3,7 +3,7 @@ $PageTitle='Schüler Übungstag';
 include_once('head.php');
 include_once("classes/class.schueler.php");
 include_once("classes/class.kalender.php");
-include_once("classes/class.kalendertag.php"); // Schüler Kalendertag, aka "Übungstag" 
+include_once("classes/class.kalendertag.php"); // Kalendertag > Schüler Kalendertag, aka "Übungstag" 
 include_once("classes/class.schuljahr.php");
 
 // print_r($_REQUEST); // test 
@@ -43,21 +43,21 @@ switch($option) {
         
     break; 
 
-case 'insert': 
+  case 'insert': 
 
-  if(empty($_REQUEST["SchuelerID"])) {
-      $info->print_user_error('Es wurde kein Schüler ausgewählt!');
-      $show_data=false; 
-      goto pagefoot;  
-    }
+    if(empty($_REQUEST["SchuelerID"])) {
+        $info->print_user_error('Es wurde kein Schüler ausgewählt!');
+        $show_data=false; 
+        goto pagefoot;  
+      }
 
-    $uebungstag->insert_row($_REQUEST["SchuelerID"]); 
-    $uebungstag->load_row();    
-    $Datum = $uebungstag->Datum_EN;   
-    $Datum_DE = $uebungstag->Datum_DE;     
-    $Berechnen = $uebungstag->Berechnen; 
+      $uebungstag->insert_row($_REQUEST["SchuelerID"]); 
+      $uebungstag->load_row();    
+      $Datum = $uebungstag->Datum_EN;   
+      $Datum_DE = $uebungstag->Datum_DE;     
+      $Berechnen = $uebungstag->Berechnen; 
 
-    break; 
+      break; 
   
   case 'update': 
 
@@ -137,9 +137,6 @@ $info->print_link_hilfe_erfassung('uebungstag');
 
 if (!$show_data) {goto pagefoot;}
 
-
-
-
 ?>
 
 
@@ -168,7 +165,7 @@ if (!$show_data) {goto pagefoot;}
     <td class="form-edit form-edit-col2"> 
     <input type="date" name="Datum" value="<?php echo $Datum ; ?>" oninput="changeBackgroundColor(this)" requested> 
      </label>
-       <a href="edit_kalender.php?Datum=<?php echo $Datum ; ?>" target="_blank"  class="form-link">Kalenderdatum bearbeiten</a>  
+       <a href="edit_kalender.php?Datum=<?php echo $Datum ; ?>" target="_blank" class="form-link">Kalenderdatum bearbeiten</a>  
             Wochentag: <?php echo $uebungstag->Wochentag; ?> / 
             Schuljahr: <?php echo $uebungstag->Schuljahr; ?>
             <?php echo $uebungstag->Ferien!=''?' / Ferien: '.$uebungstag->Ferien:''; ?>
