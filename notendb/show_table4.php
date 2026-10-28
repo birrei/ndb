@@ -412,6 +412,7 @@ switch ($ansicht)  // setzen: $PageTitle, $table_edit, $show_help_link
           , IF(schueler.Unterricht_Wochentag=0, '', wochentage.wochentag_name) as   `Unterricht Wochentag` 
           , IF(schueler.Unterricht_Reihenfolge=0, '', schueler.Unterricht_Reihenfolge) as `Unterricht Tag Reihenfolge` 
           , IF(schueler.Unterricht_Dauer=0, '', schueler.Unterricht_Dauer) as `Unterricht Dauer` 
+          , IF(schueler.Unterricht_Gewichtung=0, '', schueler.Unterricht_Gewichtung) as `Unterricht Gewichtung`  
           , schueler.Unterricht_Seit  as `Datum Unterricht Seit`  
           , TIMESTAMPDIFF(YEAR, schueler.Unterricht_Seit, CURDATE()) as `Unterricht seit Jahre`           
           , schueler.Geburtsdatum 

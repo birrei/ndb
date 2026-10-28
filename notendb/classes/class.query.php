@@ -141,7 +141,7 @@ class Query {
                     0 
                 END
                 ) 
-                 * 60 
+                 * 60  * schueler.Unterricht_Gewichtung 
                 ), '%H:%i') AS `Stunden berechnet`
           , GROUP_CONCAT(uebung.Reihenfolge, '. ', uebung.Name, ' (', coalesce(uebungtyp.Name, ''), ')'  order by uebung.Reihenfolge separator '<br>') `Übungen Inhalte`  
           , ferien.Bezeichnung AS Ferientag 
@@ -243,7 +243,7 @@ class Query {
               , schuljahr.ID AS SchuljahrID 
               , schuljahr.Bezeichnung  AS Schuljahr 
               , COUNT(DISTINCT schueler_kalender.Datum) AS Tage
-                  ,  TIME_FORMAT(SEC_TO_TIME( (COUNT(schueler_kalender.Datum) * schueler.Unterricht_Dauer) * 60), '%H:%i')   AS Stunden
+              , TIME_FORMAT(SEC_TO_TIME( (COUNT(schueler_kalender.Datum) * schueler.Unterricht_Dauer) * 60 * schueler.Unterricht_Gewichtung), '%H:%i')   AS Stunden
           FROM schueler_kalender
           INNER JOIN kalender ON schueler_kalender.Datum = kalender.Datum 
           INNER JOIN schueler ON schueler_kalender.SchuelerID  = schueler.ID
@@ -258,7 +258,7 @@ class Query {
           SELECT schueler_kalender.SchuelerID
               , schuljahr.ID AS SchuljahrID  
               , COUNT(DISTINCT schueler_kalender.Datum) AS Tage 
-                  ,  TIME_FORMAT(SEC_TO_TIME( (COUNT(schueler_kalender.Datum) * schueler.Unterricht_Dauer) * 60), '%H:%i')   AS Stunden
+              ,  TIME_FORMAT(SEC_TO_TIME( (COUNT(schueler_kalender.Datum) * schueler.Unterricht_Dauer) * 60), '%H:%i')   AS Stunden
           FROM schueler_kalender
           INNER JOIN kalender ON schueler_kalender.Datum = kalender.Datum 
           INNER JOIN schueler ON schueler_kalender.SchuelerID  = schueler.ID

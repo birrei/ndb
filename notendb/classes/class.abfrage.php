@@ -7,7 +7,7 @@ include_once("class.htmltable.php");
 include_once("class.abfragetyp.php");
 
 class Abfrage {
-  // in Tabelle "abfrage" gespeicherte (SQL) Abfrage 
+  // in Tabelle "abfrage" gespeicherte Abfragen 
   public $table_name='abfrage'; 
   public $ID;
   public $Name;

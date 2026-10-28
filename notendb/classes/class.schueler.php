@@ -13,9 +13,9 @@ class Schueler {
   public string $Name; // Praxis: nur Vorname, aus Datenschutzgründen kein Nachname 
   public string $Bemerkung;
   public int $Aktiv=1; // Aktiv=0 für abgemeldete Schüler. //   true/false, tinyint 1/0 for mysql 
-  public int $Unterricht_Wochentag=0; // 1 - 7 (Montag - Sonntag)
-  public int $Unterricht_Reihenfolge=0; // Reihenfolge im Ablauf eines Unterrichtstages 
-  public int $Unterricht_Dauer=0; // Wie lange (in Minuten) hat Schüler normalerweise Unterricht 
+  public ?int $Unterricht_Wochentag=0; // 1 - 7 (Montag - Sonntag)
+  public ?int $Unterricht_Reihenfolge=0; // Reihenfolge im Ablauf eines Unterrichtstages 
+  public ?int $Unterricht_Dauer=0; // Wie lange (in Minuten) hat Schüler normalerweise Unterricht 
   public string $Geburtsdatum; // Ermöglicht Altersberechnung für Wettbewerbe 
   public $Unterricht_Seit; // Seit wann ist die Person Schüler bei der Musikschule  
 
@@ -136,7 +136,16 @@ class Schueler {
     }
   }
  
-  function update_row($Name, $Bemerkung, $Aktiv, $Unterricht_Wochentag, $Unterricht_Reihenfolge, $Unterricht_Dauer, $Geburtsdatum, $Unterricht_Seit) {
+  function update_row($Name
+            , $Bemerkung
+            , $Aktiv
+            , $Unterricht_Wochentag
+            , $Unterricht_Reihenfolge
+            , $Unterricht_Dauer
+            , $Unterricht_Gewichtung 
+            , $Geburtsdatum
+            , $Unterricht_Seit
+            ) {
 
     // $Geburtsdatum = $Geburtsdatum ?? null; 
     // echo empty($Geburtsdatum); 
@@ -149,6 +158,7 @@ class Schueler {
                               Unterricht_Wochentag = :Unterricht_Wochentag, 
                               Unterricht_Reihenfolge = :Unterricht_Reihenfolge, 
                               Unterricht_Dauer = :Unterricht_Dauer, 
+                              Unterricht_Gewichtung = :Unterricht_Gewichtung, 
                               Geburtsdatum = :Geburtsdatum, 
                               Unterricht_Seit = :Unterricht_Seit 
                             WHERE `ID` = :ID"); 
@@ -160,6 +170,7 @@ class Schueler {
     $update->bindParam(':Unterricht_Wochentag', $Unterricht_Wochentag, PDO::PARAM_INT);    
     $update->bindParam(':Unterricht_Reihenfolge', $Unterricht_Reihenfolge, PDO::PARAM_INT);    
     $update->bindParam(':Unterricht_Dauer', $Unterricht_Dauer);    
+    $update->bindParam(':Unterricht_Gewichtung', $Unterricht_Gewichtung);    
     $update->bindParam(':Geburtsdatum', $Geburtsdatum, (empty($Geburtsdatum)? PDO::PARAM_NULL : PDO::PARAM_STR));
     $update->bindParam(':Unterricht_Seit', $Unterricht_Seit, (empty($Unterricht_Seit)? PDO::PARAM_NULL : PDO::PARAM_STR));
 
@@ -182,6 +193,7 @@ class Schueler {
                           , Unterricht_Wochentag  
                           , Unterricht_Reihenfolge  
                           , Unterricht_Dauer  
+                          , Unterricht_Gewichtung   
                           , COALESCE(Geburtsdatum, '')   Geburtsdatum
                           , Unterricht_Seit   
                           FROM `schueler`
@@ -196,6 +208,7 @@ class Schueler {
       $this->Aktiv=$row_data["Aktiv"];             
       $this->Unterricht_Wochentag=$row_data["Unterricht_Wochentag"];             
       $this->Unterricht_Reihenfolge=$row_data["Unterricht_Reihenfolge"];             
+      $this->Unterricht_Gewichtung=$row_data["Unterricht_Gewichtung"];             
       $this->Unterricht_Dauer=$row_data["Unterricht_Dauer"];             
       $this->Geburtsdatum=$row_data["Geburtsdatum"];             
       $this->Unterricht_Seit=$row_data["Unterricht_Seit"];             

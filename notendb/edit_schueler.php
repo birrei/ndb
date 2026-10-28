@@ -42,6 +42,7 @@ switch($option) {
           , $_POST["wochentag_nr"]
           , $_POST["Unterricht_Reihenfolge"]
           , $_POST["Unterricht_Dauer"]   
+          , $_POST["Unterricht_Gewichtung"]   
           , $_POST["Geburtsdatum"]   
           , $_POST["Unterricht_Seit"]   
           );   
@@ -144,11 +145,14 @@ echo '
     $wochentage->print_select($schueler->Unterricht_Wochentag); 
 
     echo '<label><b>Reihenfolge: </b> 
-          <input type="text" name="Unterricht_Reihenfolge" value="'.$schueler->Unterricht_Reihenfolge.'" size="5" oninput="changeBackgroundColor(this)">
+          <input type="text" name="Unterricht_Reihenfolge" value="'.$schueler->Unterricht_Reihenfolge.'" size="3" oninput="changeBackgroundColor(this)">
           </label>
 
           <label><b>Dauer (min): </b> 
-          <input type="text" name="Unterricht_Dauer" value="'.$schueler->Unterricht_Dauer.'" size="5" oninput="changeBackgroundColor(this)">
+          <input type="text" name="Unterricht_Dauer" value="'.$schueler->Unterricht_Dauer.'" size="3" oninput="changeBackgroundColor(this)">
+          </label>          
+          <label><b>Gewichtung: </b> 
+          <input type="text" name="Unterricht_Gewichtung" value="'.$schueler->Unterricht_Gewichtung.'" size="3" oninput="changeBackgroundColor(this)">
           </label>          
     
           <label><b>Geburtsdatum: </b> 
