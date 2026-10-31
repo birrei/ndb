@@ -821,7 +821,6 @@ class Schueler {
     }
   }    
 
-
   function print_table_uebungen_datum2($SchuljahrID) {
     $query = new Query();
     $query->table_edit='schueler_kalender'; 
@@ -830,7 +829,6 @@ class Schueler {
     $query->print_schueler_uebungstage2(); 
 
   }    
-
 
   function print_table_auswertung_uebungen($AuswertungNr=1){
     // XXXX 

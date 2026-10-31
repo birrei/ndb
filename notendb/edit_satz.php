@@ -177,14 +177,17 @@ echo
   <tr> 
   <td class="form-edit form-edit-col1">Daten anzeigen: <br /> <br />
   <input type="radio" id="opt_Schwierigkeitsgrad" name="target_form" value="Schwierigkeitsgrad" onclick="changeIframeSrc('subform1', 'edit_satz_schwierigkeitsgrade.php?SatzID=<?php echo $satz->ID; ?>');" checked>
-  <label for="opt_Schwierigkeitsgrad">Schwierigkeitsgrad</label><br>
+    <label for="opt_Schwierigkeitsgrad">Schwierigkeitsgrad</label><br>
   <input type="radio" id="opt_Besonderheiten" name="target_form" value="Besonderheiten" onclick="changeIframeSrc('subform1', 'edit_satz_lookups.php?SatzID=<?php echo $satz->ID; ?>');">
-  <label for="opt_Besonderheiten">Besonderheiten</label><br>
+    <label for="opt_Besonderheiten">Besonderheiten</label><br>
   <input type="radio" id="opt_Erprobt" name="target_form" value="Erprobt" onclick="changeIframeSrc('subform1', 'edit_satz_erprobte.php?SatzID=<?php echo $satz->ID; ?>');">
-  <label for="opt_Erprobt">Erprobt</label>
+    <label for="opt_Erprobt">Erprobt</label>
   <br/>
   <input type="radio" id="opt_Schueler" name="target_form" value="Schueler" onclick="changeIframeSrc('subform1', 'edit_satz_schuelers.php?SatzID=<?php echo $satz->ID; ?>');">
-  <label for="opt_Schueler">Schüler</label>
+    <label for="opt_Schueler">Schüler</label>
+<br/>
+  <input type="radio" id="opt_Abschnitte" name="target_form" value="Abschnitte" onclick="changeIframeSrc('subform1', 'edit_satz_abschnitte.php?SatzID=<?php echo $satz->ID; ?>');">
+    <label for="opt_Abschnitte">Abschnitte</label>
 
   </td> 
   <td class="form-edit form-edit-col2">

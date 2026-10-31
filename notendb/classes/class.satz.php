@@ -730,7 +730,31 @@ class Satz {
       $this->info->print_error($stmt, $e); 
     }
   }    
-    
+  
+ 
+  function print_table_abschnitte(){
+    $query="SELECT ID, Name, Bemerkung FROM abschnitt WHERE SatzID=:SatzID ORDER BY Name  "; 
+
+    $stmt = $this->db->prepare($query); 
+    $stmt->bindParam(':SatzID', $this->ID, PDO::PARAM_INT); 
+
+    try {
+      $stmt->execute(); 
+            
+      $html = new HTML_Table($stmt); 
+      $html->add_link_edit=true; 
+      $html->edit_link_table='abschnitt'; 
+      $html->edit_link_open_newpage=false; 
+      $html->show_missing_data_message=false;      
+      $html->table_width='100%'; 
+      $html->print_table2(); 
+
+    }
+    catch (PDOException $e) {
+      $this->info->print_user_error(); 
+      $this->info->print_error($stmt, $e); 
+    }
+  }     
   function delete_schuelers(){
 
     $delete = $this->db->prepare("DELETE FROM `schueler_satz` WHERE SatzID=:ID"); 
