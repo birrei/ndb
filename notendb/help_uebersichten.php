@@ -156,7 +156,7 @@ include_once('head.php');
         <!-- <p>(*) Erklärung zu "Stunden berechnet": Berechnung aus "Stunden Übung" 
             bzw (falls keine Übungen vorhanden sind) Schüler > "Unterricht Dauer". 
             Eine Berechnung erfolgt nur, wenn wenn der Kalendertag als "Protokolliert" gekennzeichnet ist.
-               -->
+        -->
 
         </p>
 
@@ -169,8 +169,10 @@ include_once('head.php');
                         <br> * bei Auswahl ohne "Datum": Filterwirkung "Zeitraum bis"
                 <li>Schüler</li>
                 <li>Schuljahr</li>
+                <li>Wochentag</li>
                 <li>Geplant </li>
                 <li>Protokolliert </li>
+                <li>Berechnen</li>
                 <li>Suchtext (Durchsucht werden "Schüler Bemerkung" und "Übungstag Bemerkung") </li>
 
             </ul> 

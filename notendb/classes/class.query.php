@@ -181,6 +181,10 @@ class Query {
     if($this->SchuljahrID!='') {
       $query.="AND schuljahr.ID = :SchuljahrID ";  
     }
+    
+    if($this->wochentag_nr!='') {
+      $query.="AND kalender.Wochentag_Nr=".$this->wochentag_nr." ".PHP_EOL;   
+    }
 
     if ($this->Unterricht_Geplant!='') {
       $query.="AND kalender.Unterricht_Geplant=".$this->Unterricht_Geplant." ".PHP_EOL;  

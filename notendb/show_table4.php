@@ -819,6 +819,11 @@ switch ($ansicht)  // setzen: $PageTitle, $table_edit, $show_help_link
     echo 'Schuljahr: '.PHP_EOL; 
     $schuljahr->print_preselect($SchuljahrID, '', true); 
 
+    echo ' &#9475; Wochentag: '; 
+    $wochentage = new Wochentage(); 
+    $wochentage->print_preselect($Unterricht_Wochentag);     
+
+
     echo ' &#9475;';
     echo ' Geplant <select id="Unterricht_Geplant" name="Unterricht_Geplant" onchange="this.form.submit()" >
               <option value="" '.($Unterricht_Geplant==''?'selected':'').'></option>
