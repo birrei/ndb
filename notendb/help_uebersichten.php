@@ -58,6 +58,7 @@ include_once('head.php');
                 <li>Unterricht Wochentag</li>
                 <li>Unterricht Tag Reihenfolge</li>
                 <li>Unterricht Dauer</li>
+                <li>Unterricht Gewichtung</li>
                 <li>Geburtsdatum</li>
                 <li>Verknüpfte Noten (Anzeige nur, falls Filter "Status Satz Verknüpfung" ausgewählt ist und Checkbox "Umkehrsuche" nicht ausgewählt ist)</li>
                 <li>Uebung Tage (Anzahl der Übungs-Tage)  </li>

@@ -177,6 +177,12 @@ include_once('head.php');
 
         <h3 class="chapter-title chapter-title-h3" id="erfassung_schueler_dauer">Schüler: Unterricht Dauer</h3>
             <p> Unterricht Dauer: Übliche Unterrichtsdauer in Minuten  </p>    
+        <h3 class="chapter-title chapter-title-h3" id="erfassung_schueler_dauer">Schüler: Unterricht Gewichtung</h3>
+            <p> Dieser Wert ermöglicht die Aufteilung der Unterrichts-Dauer auf mehrere Schüler.  </p>
+            <p> Der Standard-Wert ist 1, der Wert ist passend für Schüler mit Einzelunterricht. 
+                Bei Schülern mit Gruppenunterricht muss der Wert angepasst werden. Wird ein Schüler z.B. in einer Zweitergruppe 
+                unterrichtet, muss der Wert 0.5 eingetragen werden. 
+            </p>    
 
         <h3 class="chapter-title chapter-title-h3" id="erfassung_schueler_geburtsdatum">Schüler: Geburtsdatum</h3>
 
@@ -228,12 +234,12 @@ include_once('head.php');
         <h3 class="chapter-title chapter-title-h3" id="erfassung_schueler_noten_schnellzuordnung">Schüler: Notenmaterial Schnellzuordnung</h3>
 
             <p>Das Formular öffnet sich in einem neuen Fenster. Filter: </p>
-        <ul>    
-            <li>Materialtyp (Auswahl startet Suchvorgang) </li>
-            <li>Suchtext (Eingabetaste startet Suchvorgang) (*) </li>
-            <li>Instrument / Schwierigkeitsgrad berücksichtigen (Checkbox aktivieren, um nur zum Schwierigkeitsgrad/Instrument des Schülers passende Noten zu finden)</li>    
+            <ul>    
+                <li>Materialtyp (Auswahl startet Suchvorgang) </li>
+                <li>Suchtext (Eingabetaste startet Suchvorgang) (*) </li>
+                <li>Instrument / Schwierigkeitsgrad berücksichtigen (Checkbox aktivieren, um nur zum Schwierigkeitsgrad/Instrument des Schülers passende Noten zu finden)</li>    
 
-        </ul>
+            </ul>
 
             <p>(*) Sucht in Feldern Sammlung Name, Sammlung Bemerkung, Musikstück Name, Musikstück Bemerkung, Komponist Vorname, Komponist Nachname, Satz Name, Satz Bemerkung  </p>
 
