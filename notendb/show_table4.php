@@ -791,6 +791,7 @@ switch ($ansicht)  // setzen: $PageTitle, $table_edit, $show_help_link
     $Unterricht_Wochentag =(isset($_REQUEST["wochentag_nr"])?$_REQUEST["wochentag_nr"]:0);
     $Unterricht_Geplant=(isset($_REQUEST["Unterricht_Geplant"])?$_REQUEST["Unterricht_Geplant"]:''); 
     $Unterricht_Protokolliert=(isset($_REQUEST["Unterricht_Protokolliert"])?$_REQUEST["Unterricht_Protokolliert"]:''); 
+    $Berechnen=(isset($_REQUEST["Berechnen"])?$_REQUEST["Berechnen"]:''); 
     $Suchtext=(isset($_REQUEST["Suchtext"])?$_REQUEST["Suchtext"]:'');   
 
     $SchuljahrID=(isset($_REQUEST["SchuljahrID"])?$_REQUEST["SchuljahrID"]:'');
@@ -832,6 +833,12 @@ switch ($ansicht)  // setzen: $PageTitle, $table_edit, $show_help_link
               <option value="1" '.($Unterricht_Protokolliert=='1'?'selected':'').'>Ja</option>
           </select> '; 
 
+    echo ' &#9475;';
+    echo ' Berechnet <select id="Berechnen" name="Berechnen" onchange="this.form.submit()" >
+              <option value="" '.($Berechnen==''?'selected':'').'></option>
+              <option value="0" '.($Berechnen=='0'?'selected':'').'>Nein</option>
+              <option value="1" '.($Berechnen=='1'?'selected':'').'>Ja</option>
+          </select> '; 
         
 
     echo ' &#9475;';            
@@ -852,6 +859,7 @@ switch ($ansicht)  // setzen: $PageTitle, $table_edit, $show_help_link
     $abfrage->Datum_bis=$Datum_bis; 
     $abfrage->wochentag_nr=$Unterricht_Wochentag; 
     $abfrage->Unterricht_Geplant=$Unterricht_Geplant; 
+    $abfrage->Berechnen=$Berechnen; 
     $abfrage->Unterricht_Protokolliert=$Unterricht_Protokolliert; 
     $abfrage->Suchtext=$Suchtext; 
     $abfrage->print_schueler_uebungstage2(true); 

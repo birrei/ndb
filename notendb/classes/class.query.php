@@ -16,9 +16,9 @@ class Query {
   public string $Datum_bis=''; 
   public string $Unterricht_Geplant=''; 
   public string $Unterricht_Protokolliert=''; 
+  public string $Berechnen=''; 
   public string $Berechnet=''; 
   public string $Suchtext=''; 
-
 
   public string $wochentag_nr=''; 
 
@@ -188,6 +188,9 @@ class Query {
 
     if ($this->Unterricht_Protokolliert!='') {
       $query.="AND kalender.Unterricht_Protokolliert=".$this->Unterricht_Protokolliert." ".PHP_EOL; 
+    }       
+    if ($this->Berechnen!='') {
+      $query.="AND schueler_kalender.Berechnen=".$this->Berechnen." ".PHP_EOL; 
     }       
 
     if($this->Suchtext!='') {
