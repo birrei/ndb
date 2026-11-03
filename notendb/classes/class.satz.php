@@ -26,7 +26,8 @@ class Satz {
 
   public $Title='Satz';
   public $Titles='Sätze';  
-  // public $autoupdate = false; // verworfen 
+  public $Infotext=''; 
+  public $Infotype=0; 
   
   private $db; 
   private $info; 
@@ -730,7 +731,6 @@ class Satz {
       $this->info->print_error($stmt, $e); 
     }
   }    
-  
  
   function print_table_abschnitte(){
     $query="SELECT ID, Name, Bemerkung FROM abschnitt WHERE SatzID=:SatzID ORDER BY Name  "; 
@@ -755,6 +755,7 @@ class Satz {
       $this->info->print_error($stmt, $e); 
     }
   }     
+
   function delete_schuelers(){
 
     $delete = $this->db->prepare("DELETE FROM `schueler_satz` WHERE SatzID=:ID"); 
@@ -813,7 +814,6 @@ class Satz {
     return $strtmp; 
   }
   
-
   function print($mode){
     /** 
      *  mode 1: nur eine Zeile
@@ -890,7 +890,7 @@ class Satz {
 
   }
 
-function move_order(int $offset=1 ) {
+  function move_order(int $offset=1 ) {
 
     $select = $this->db->prepare("SELECT `Nr` FROM `satz` WHERE `ID` = :ID");
 
@@ -914,7 +914,46 @@ function move_order(int $offset=1 ) {
     }
   }
 
+  function insert_uebungen_from_abschnitte($UebungtypID){         
 
+    if($UebungtypID=='') {
+      $this->Infotext='Bitte Übungstyp festlegen!'; 
+      $this->Infotype=1; 
+      return; 
+    }
+    $insert = $this->db->prepare("
+                        INSERT INTO uebung (Name, Bemerkung, SchuelerID, SatzID, UebungtypID, Entwurf) 
+                        SELECT 
+                            abschnitt.Name AS Uebung_Name  
+                          , abschnitt.Bemerkung  AS Uebung_Bemerkung 
+                          , schueler_satz.SchuelerID 
+                          , schueler_satz.SatzID 
+                          , :UebungtypID as UebungtypID
+                          , 1 AS Entwurf 
+                        FROM schueler 
+                          INNER JOIN schueler_satz ON schueler.ID = schueler_satz.SchuelerID 
+                          INNER JOIN abschnitt   ON abschnitt.SatzID = schueler_satz.SatzID 
+                          LEFT JOIN uebung ON abschnitt.Name = uebung.Name 
+                            AND abschnitt.Bemerkung = uebung.Bemerkung 
+                            AND schueler_satz.SchuelerID = uebung.SchuelerID 
+                            AND schueler_satz.SatzID = uebung.SatzID  
+                        WHERE schueler_satz.SatzID = :SatzID 
+                        AND uebung.ID IS NULL ");
+
+    $insert->bindValue(':SatzID', $this->ID, PDO::PARAM_INT);
+    $insert->bindValue(':UebungtypID', $UebungtypID);
+
+    try {
+      $insert->execute(); 
+      // $insert->debugDumpParams(); 
+      $this->Infotext='Es wurden '.$insert->rowCount().' Zeilen eingefügt. '; 
+      $this->Infotype=0;       
+    }
+    catch (PDOException $e) {
+      $this->info->print_user_error(); 
+      $this->info->print_error($insert, $e);  
+    } 
+  }
    
 }
 

@@ -30,9 +30,7 @@ class Abschnitt {
 
   function insert_row ($SatzID) {
 
-    $insert = $this->db->prepare("INSERT INTO `abschnitt` 
-              SET SatzID = :SatzID "  
-           );
+    $insert = $this->db->prepare("INSERT INTO `abschnitt` SET SatzID = :SatzID " );
 
     $insert->bindParam(':SatzID', $SatzID, PDO::PARAM_INT);
 
@@ -144,7 +142,6 @@ class Abschnitt {
 
     try {
       $delete->execute(); 
-      $this->info->print_info('Der Abschnitt wurde gelöscht');     
       return true;         
     }
     catch (PDOException $e) {

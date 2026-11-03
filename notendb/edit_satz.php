@@ -212,6 +212,9 @@ echo '
           </form>
   '; 
 
+  $info->print_link_overview('edit_satz_x_updates.php','SatzID='.$satz->ID, 'Sammel-Updates'); 
+
+
   echo '     
   </td>
 </tr> 

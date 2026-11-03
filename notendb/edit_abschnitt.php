@@ -13,15 +13,15 @@ $abschnitt = new Abschnitt();
 
 switch($option) {
 
-  case 'edit': 
+  case 'edit': // aus "edit_satz_abschnitte.php" > "Bearbeiten"
+    
     $abschnitt->ID =  $_REQUEST["ID"]; 
     $abschnitt->load_row();  
     $SatzID=$abschnitt->SatzID; 
 
-  break; 
+    break; 
 
-  case 'update': // aus "edit_satz_schuelers.php" > "Bearbeiten"
-    
+  case 'update': 
     $abschnitt->ID =  $_REQUEST["ID"]; 
     $abschnitt->update_row(
         $_REQUEST["Name"], 
@@ -30,89 +30,40 @@ switch($option) {
     ); 
     $abschnitt->load_row(); 
     header('Location: edit_satz_abschnitte.php?SatzID='.$abschnitt->SatzID);
-  break; 
+    break; 
 
-
-  case 'insert': // aus "edit_satz_schuelers.php" > "Hinzufügen"
+  case 'insert': // aus "edit_satz_abschnitte.php" > "Hinzufügen"
     $SatzID= $_REQUEST["SatzID"]; 
     $abschnitt->insert_row($SatzID); 
     $abschnitt->load_row(); 
 
-  break;
+    break;
 
   case "delete_1": 
-    // $ID = $_REQUEST["ID"]; 
-    // $schueler_satz=new SchuelerSatz(); 
-    // $schueler_satz->ID=$ID; 
-    // $schueler_satz->load_row(); 
-    // $SatzID=$schueler_satz->SatzID; 
-    // $SchuelerID=$schueler_satz->SchuelerID; 
-    // $StatusID=$schueler_satz->StatusID;        
-    // $DatumVon=$schueler_satz->DatumVon; 
-    // $DatumBis=$schueler_satz->DatumBis;  
-    // $Bemerkung=$schueler_satz->Bemerkung;   
-    
-    // $option='delete_2'; 
-    // $nurAktiv=false;
+    $abschnitt->ID =  $_REQUEST["ID"]; 
+    $abschnitt->load_row(); 
+    $option='delete_2'; 
 
-  break; 
+    break; 
 
-  // case 'delete_2': 
-  //   $ID = $_REQUEST["ID"]; 
-  //   $schueler_satz=new SchuelerSatz(); 
-  //   $schueler_satz->ID=$ID; 
-  //   $schueler_satz->load_row(); 
-  //   $SatzID= $schueler_satz->SatzID; 
-  //   $schueler_satz->delete(); 
-        
-  //   header('Location: edit_satz_schuelers.php?SatzID='.$SatzID);
+  case 'delete_2': 
+    $abschnitt->ID =  $_REQUEST["ID"];  
+    $abschnitt->load_row(); 
+    $abschnitt->delete(); 
+    header('Location: edit_satz_abschnitte.php?SatzID='.$abschnitt->SatzID);
 
-  //   exit;
-
-  //   break;
-
-  // case 'update1':   // insert new row 
-  //   $SatzID= $_POST["SatzID"]; 
-  //   $SchuelerID= $_POST["SchuelerID"];    
-  //   $StatusID= $_POST["StatusID"];         
-  //   $DatumVon= $_POST["DatumVon"];     
-  //   $DatumBis= $_POST["DatumBis"];     
-  //   $Bemerkung= $_POST["Bemerkung"];     
-
-  //   $schueler_satz=new SchuelerSatz(); 
-  //   $schueler_satz->update_row($SchuelerID, $SatzID, $DatumVon, $DatumBis, $Bemerkung, $StatusID); 
-    
-  //   header('Location: edit_satz_schuelers.php?SatzID='.$SatzID);
-
-  //   exit;
-  //   break;
-
-  // case 'update2':   // update existing row 
-  //   $ID = $_POST["ID"];    
-  //   $SatzID= $_POST["SatzID"]; 
-  //   $SchuelerID= $_POST["SchuelerID"];    
-  //   $StatusID= $_POST["StatusID"];        
-  //   $DatumVon= $_POST["DatumVon"];     
-  //   $DatumBis= $_POST["DatumBis"];     
-  //   $Bemerkung= $_POST["Bemerkung"];  
-
-  //   $schueler_satz=new SchuelerSatz(); 
-  //   $schueler_satz->ID = $ID; 
-  //   $schueler_satz->update_row($SchuelerID, $SatzID, $DatumVon, $DatumBis, $Bemerkung, $StatusID); 
-    
-  //   header('Location: edit_satz_schuelers.php?SatzID='.$SatzID);
-
-  //   exit;
-
-  break;
+    break;
 
 }
 
-include_once('head_raw.php');
+include_once('head_raw.php'); // Postition hierher geändert, darf nicht vor header- Anweisung stehen 
 
-// if ($option=='delete_2') {
-//   $html->print_form_confirm('edit_satz_schueler.php', $ID,$option,'Löschung'); 
-// }
+if ($option=='delete_2') {
+  if($abschnitt->is_deletable()) {
+    $html->print_form_delete_confirm(basename(__FILE__), $abschnitt->Title, $abschnitt->ID, $abschnitt->Name);   
+  } 
+
+}
 ?> 
 <form action="#" method="POST">
 <table class="eingabe2">
@@ -138,6 +89,21 @@ include_once('head_raw.php');
  <input type="hidden" name="option" value="update">
 
 </form>
+
+<tr>
+  <td class="eingabe2 eingabe2_1"></td>
+  <td class="eingabe2 eingabe2_2">
+
+    <?php 
+    $html->print_form_inline('delete_1',$abschnitt->ID,$abschnitt->Title, 'löschen'); 
+    $html->print_form_inline('copy',$abschnitt->ID,$abschnitt->Title, 'kopieren'); 
+
+    ?>
+
+  </td>  
+  <td class="eingabe2 eingabe2_3"></td>    
+</tr>
+
 
 </table>
 

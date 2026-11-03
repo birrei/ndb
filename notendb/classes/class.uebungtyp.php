@@ -137,7 +137,6 @@ class UebungTyp {
     }
   }
 
-
   function print_preselect($value_selected=''){
 
     $query="SELECT ID, Name FROM `uebungtyp` order by `Name`"; 

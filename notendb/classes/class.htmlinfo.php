@@ -123,8 +123,20 @@ class HTML_Info {
         echo $this->html; 
     }
 
-    function print_info($text) {
-        echo '<p class="info">'.$text.'</p>'.PHP_EOL;   
+    function print_info($text, $type=0) {
+        $css_class=''; 
+        switch ($type) {
+            case 0: 
+                $css_class='info'; 
+                break; 
+            case 1: 
+                $css_class='warning'; 
+                break; 
+            case 2: 
+                $css_class='error'; 
+                break; 
+        }
+        echo '<p class="'.$css_class.'">'.$text.'</p>'.PHP_EOL;   
     }
     
     function print_warning($text) {
