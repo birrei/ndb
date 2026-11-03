@@ -150,6 +150,9 @@ include_once('head.php');
                     <li>Bemerkung</li>
                 </ul>
             </p>
+
+        <h3 class="chapter-title chapter-title-h3" id="erfassung_satz_abschnitte">Satz: Abschnitte</h3> 
+            <p>Dem Satz können Abschnitte zugordnet werden. </p>
                                 
         <h3 class="chapter-title chapter-title-h3" id="erfassung_satz_kopieren">Satz kopieren</h3>
             <p>Button "Satz kopieren": Der Satz inklusive Eigenschaften und Untereinheiten wird kopiert. 
@@ -158,6 +161,9 @@ include_once('head.php');
                 Im Seitenkopf erscheint ein Hinweis auf den Kopiervorgang (Neue ID, alte ID mit Link).
                 Über den Link kann bei Bedarf die Quelle in neuem Fenster geöffnet werden.  
             </p>     											
+
+        <h3 class="chapter-title chapter-title-h3" id="erfassung_satz_sammelupdates">Satz Sammelupdates</h3>
+            <p> Die Anleitung für die jeweiligen Aufgabe wird nach Auswahl angezeigt. </p> 
 
     <h2 class="chapter-title chapter-title-h2" id="erfassung_schueler">Schüler</h2>
 

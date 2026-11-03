@@ -54,6 +54,13 @@ switch($option) {
 
     break;
 
+  case 'copy': 
+    unset($_GET); // XXXX 
+    $abschnitt->ID=$_REQUEST["ID"]; 
+    $abschnitt->copy();   
+    $abschnitt->load_row();   
+    break;     
+
 }
 
 include_once('head_raw.php'); // Postition hierher geändert, darf nicht vor header- Anweisung stehen 

@@ -155,6 +155,35 @@ class Abschnitt {
     return true; 
   }
 
+  function copy(){
+
+    $sql="INSERT INTO abschnitt (Name
+                            , Bemerkung 
+                            , SatzID
+                            )
+          SELECT CONCAT(Name, ' (Kopie)') as Name 
+                           , Bemerkung 
+                           , SatzID
+          FROM abschnitt    
+          WHERE ID=:ID 
+          ";
+
+    $insert = $this->db->prepare($sql); 
+    $insert->bindValue(':ID', $this->ID);  
+
+    try {
+      $insert->execute(); 
+      $ID_New = $this->db->lastInsertId();    
+      $this->ID =  $ID_New; // Stabübergabe (Objekt-Instanz übernimmt neue ID-Kopie )
+      $this->infotext='Der Datensatz wurde kopiert.';
+      $this->info->print_info($this->infotext);        
+    }
+    catch (PDOException $e) {     
+      $this->info->print_user_error(); 
+      $this->info->print_error($insert, $e);  
+    }  
+  }    
+
 }
 
  
