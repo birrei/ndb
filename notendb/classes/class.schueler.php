@@ -822,6 +822,7 @@ class Schueler {
   }    
 
   function print_table_uebungen_datum2($SchuljahrID) {
+    // Übungstage 
     $query = new Query();
     $query->table_edit='schueler_kalender'; 
     $query->SchuelerID=$this->ID; 
@@ -830,6 +831,16 @@ class Schueler {
 
   }    
 
+  function print_table_uebungen2($SchuljahrID, $Datum) {
+    // Übungen + Übungstage 
+    $query = new Query();
+    // $query->table_edit='schueler_kalender'; // hier nicht
+    $query->SchuelerID=$this->ID; 
+    $query->SchuljahrID=$SchuljahrID; 
+    $query->Datum = $Datum; 
+    $query->print_schueler_uebungen2(); 
+
+  }     
   function print_table_auswertung_uebungen($AuswertungNr=1){
     // XXXX 
     $query=''; 

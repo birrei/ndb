@@ -1,30 +1,31 @@
 <?php 
-$PageTitle='Hilfe Suche - Beispiele';  
-include_once('head.php');
+    $PageTitle='Hilfe Suche - Beispiele';  
+    include_once('head.php');
 ?>
 
-<p class="doc"><b>Kapitel:</b> </p>
+<p class="doc-header"><b>FAQ Kapitel:</b> </p>
 
-<div class="body-doc-toc" id="inhaltsverzeichnis"></div>
+<div class="doc-toc" id="inhaltsverzeichnis"></div>
 
-<div class="body-doc"> 
+<div class="doc-body"> 
 
+
+<h1 class="chapter-title chapter-title-h1" id="suche">Suche</h1>
 <!-- <h1 class="chapter-title chapter-title-h1" id="suche_beispiele">Übungs-Beispiele zur Suche</h1> -->
-    <!-- <p> Die folgenden Beispiele stammen aus dem Datenbestand des Initial-Projektes. Die verwendeten Suchbegriffe können in anderen Datenbeständen ggf. abweichen.  </p>  -->
+<!-- <p> Die folgenden Beispiele stammen aus dem Datenbestand des Initial-Projektes. Die verwendeten Suchbegriffe können in anderen Datenbeständen ggf. abweichen.  </p>  -->
 
-<h2 class="chapter-title chapter-title-h2" id="suche-besonderheiten-kombi">Übung Mehrfach-Auswahl / Einschluss-Suche / Ausschluss-Suche </h2>
+
+<h2 class="chapter-title chapter-title-h2" id="suche-besonderheiten-kombi">Wie verwende ich Mehrfach-Auswahl / Einschluss-Suche / Ausschluss-Suche? (Beispiele?) </h2>
     <p> Annahme: Es gibt eine Besonderheiten-Kategorie "Notenwerte" und dort die Einträge "Viertel" und "Achtel"
-
-    <p> Suche Aufgaben: 
+    <p> Fragen: 
     <ol>
         <li>Suche Noten, wo Notenwert "Achtel" vorkommt  </li>
         <li>Suche Noten, wo NUR Notenwert "Achtel" vorkommt  (andere "Notenwerte" dürfen nicht vorkommen)</li>
         <li>Suche Noten, wo Notenwerte "Achtel" ODER "Viertel" vorkommen</li>
         <li>Suche Noten, wo Notenwerte "Achtel" UND "Viertel" vorkommen</li>
         <li>Suche Noten, wo NUR Notenwerte "Achtel" ODER "Viertel" vorkommen</li>
-        <li>Suche Noten, wo NUR Notenwerte "Achtel" UND "Viertel" vorkommen</li>
-
-</ol>
+        <li>Suche Noten, wo NUR Notenwerte "Achtel" UND "Viertel" vorkommen</li> 
+    </ol>
     </p>
 
     <p> Antworten: 
@@ -39,16 +40,22 @@ include_once('head.php');
     </ol>
     </p> 
 
-
-
-  <h2 class="chapter-title chapter-title-h2" id="suche-trick-browsersuche">Filter nach Besonderheit, aber Besonderheit Typ vergessen </h2>
+   <h2 class="chapter-title chapter-title-h2" id="suche-trick-browsersuche">Ich will nach einer Besonderheit filtern, weiß aber grade nicht auswändig in welchem Auswahlkästchen die drin steckt?</h2>
     <p>Annahme: Du weisst den Namen der Besonderheit, hast aber vergessen, zu welchem Typ die Besonderheit gehört. 
         Trick: Nutze die Browsersuche (Aufruf: STRG + F) 
     </p>
     
-
-    
     <p></p>
+
+<h1 class="chapter-title chapter-title-h1" id="uebersichten">Übersichten</h1>
+
+  <h2 class="chapter-title chapter-title-h2" id="uebersichten_tage_nicht_protokolliert">Wie kann ich noch nicht protokollierte Übungstage finden?</h2>
+        
+    <p>Gehe zu <a href="show_table4.php?ansicht=uebungstage">Übersicht Übungstage</a>.
+        <br> - Filter: Schuljahr (bzw. voreingestelltes Schuljahr belassen)
+        <br> - Filter: Auswahl "Protokolliert" = "nein" 
+        <br> - Alle anderen Filter entfernen 
+    </p> 
     
 <!-- 
 XXXX 
@@ -68,8 +75,6 @@ XXXX
 
 
  -->
-
-            
             
     <!-- 
     <h2 class="chapter-title chapter-title-h2" id="suche-schueler-alle-noten">Verwendung von Ansichten: Suche Schüler mit zugeordneten Noten</h2>

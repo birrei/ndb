@@ -40,6 +40,7 @@ class HTML_Table {
     public $show_missing_data_message=true; 
     public $show_row_count=false; 
     public $in_iframe=false; 
+    public $show_ID=true; // Spalte "ID" kann ausgeblendet werden (z.B. aus Platzgründen)
 
     public $table_width='100%'; // 
 
@@ -105,7 +106,17 @@ class HTML_Table {
             $html.= '<tr>'. PHP_EOL;
             for($i = 0; $i < $this->count_cols; ++$i) {
                 $colmeta=$this->stmt->getColumnMeta($i); // assoz. array 
-                $html .= '<th class="resultset">'.$colmeta['name'].'</th>'. PHP_EOL;    
+                $colname = $colmeta['name']; 
+                switch ($colname) {
+                    case 'edit_table': 
+                        break; 
+                    case 'ID': 
+                        $html .= $this->show_ID?'<th class="resultset">'.$colname.'</th>':'';
+                        break;                         
+                    default: 
+                        $html .= '<th class="resultset">'.$colname.'</th>'. PHP_EOL;
+
+                }
             }
             if ($this->add_link_edit) {
                 $html .= '<th class="resultset">Aktion</th>'. PHP_EOL;                     
@@ -118,7 +129,7 @@ class HTML_Table {
             }
             if ($this->add_link_edit2) {
                 $html .= '<th class="resultset">Aktion</th>'. PHP_EOL;                     
-            }
+            } 
                         
             if ($this->add_links_order) {
                 $html .= '<th class="resultset">Sortierung</th><th class="resultset">Sortierung</th>'. PHP_EOL;                     
@@ -137,7 +148,7 @@ class HTML_Table {
                             // Gruppe geändert = Formatierung der Reihe für Gruppen-Start  
                             $html .= '<tr class="resultset_row_group_start">'; 
                         } else {
-                            // Gruppe nicht geändert = normale ormatierung der Reihe
+                            // Gruppe nicht geändert = normale Formatierung der Reihe
                            $html .= '<tr class="resultset_row">';                             
                         }
                         $tmp_value_saved=$tmp_value; 
@@ -147,16 +158,27 @@ class HTML_Table {
                     $html .= '<tr>'. PHP_EOL;
                     
                     foreach ($row as $key=>$cell){
-                        if ($key=="URL") {
-                            $html .= '<td class="resultset"><a href="'.$cell.'" target="_blank">'.$cell.'</a></td>'. PHP_EOL; 
-                        }
-                        // elseif( substr($key, 0,5)=='Datum'){
-                        elseif( stripos($key, 'datum')!==false){
-                            $html .= '<td class="resultset">'.$this->getFormattedDate($cell).'</td>'. PHP_EOL; 
-                        } else {                     
-                            $html .= '<td class="resultset">'.$cell.'</td>'. PHP_EOL; 
+                        
+                        switch ($key) {
+                            case 'URL':
+                                $html .= '<td class="resultset"><a href="'.$cell.'" target="_blank">'.$cell.'</a></td>'. PHP_EOL;                                  
+                                break; 
+                            case 'edit_table':
+                                $this->edit_link_table=$cell;                      
+                                break; 
+                            case 'ID':
+                                $html.= $this->show_ID?'<td class="resultset">'.$cell.'</td>':'';                  
+                                break; 
+                            default: 
+                                if( stripos($key, 'datum')!==false){
+                                    $html .= '<td class="resultset">'.$this->getFormattedDate($cell).'</td>'. PHP_EOL; 
+                                } else {                     
+                                    $html .= '<td class="resultset">'.$cell.'</td>'. PHP_EOL; 
+                                }
+                            break; 
                         }
                     }
+                    // Spalte für Bearbeiten-Link 
                     if ($this->add_link_edit) {
                         if ($this->edit_link_filename!='') {
                             $html .= '<td class="resultset"><a href="'.$this->edit_link_filename.'?ID='.$row["ID"].'&option=edit';

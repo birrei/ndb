@@ -3,6 +3,7 @@ include_once("dbconn/class.db.php");
 include_once("class.htmlinfo.php"); 
 include_once("class.htmlselect.php"); 
 include_once("class.htmltable.php"); 
+include_once('class.sqlpart.php');
 
 class Query {
 
@@ -12,6 +13,10 @@ class Query {
   // filter
   public string $SchuljahrID=''; 
   public string $SchuelerID=''; 
+  public string $UebungtypID=''; 
+  public string $BewertungID=''; 
+  public string $Entwurf=''; // Tabelle "uebung" 
+
   public string $Datum=''; 
   public string $Datum_bis=''; 
   public string $Unterricht_Geplant=''; 
@@ -23,8 +28,9 @@ class Query {
   public string $wochentag_nr=''; 
 
 
+  /* Parameter für Tabellen-Anzeige */
   public string $groupcol=''; 
-
+  public bool $show_ID=true; 
 
   public bool $add_link_edit=true; 
 
@@ -126,7 +132,7 @@ class Query {
     }
 
     $query.="schueler_kalender.Datum 
-          , schueler_kalender.Bemerkung       
+          , schueler_kalender.Bemerkung `Übungstag Bemerkung`       
           , kalender.Wochentag_Name as Wochentag     
           , COUNT(distinct uebung.ID) as `Anzahl Übungen` 
           , TIME_FORMAT(SEC_TO_TIME( SUM(uebung.Anzahl) * 60), '%H:%i')  as `Stunden Übung`  
@@ -153,23 +159,15 @@ class Query {
           , schueler_kalender.ID                           
       FROM 
         schueler_kalender
-    		INNER JOIN 
-    		kalender 
-            ON schueler_kalender.Datum = kalender.Datum         
-        INNER JOIN schueler 
-            ON schueler.ID= schueler_kalender.SchuelerID 
-        LEFT JOIN schuljahr 
-          ON kalender.Datum  BETWEEN schuljahr.Datum_Start AND schuljahr.Datum_Ende 
-        LEFT JOIN ferien 
-          ON kalender.Datum BETWEEN ferien.Datum_Start AND ferien.Datum_Ende 
-        LEFT JOIN feiertag 
-          ON kalender.Datum = feiertag.Datum             
-        LEFT JOIN uebung 
-            ON schueler.ID = uebung.SchuelerID 
+    		INNER JOIN kalender ON schueler_kalender.Datum = kalender.Datum         
+        INNER JOIN schueler ON schueler.ID= schueler_kalender.SchuelerID 
+        LEFT JOIN schuljahr ON kalender.Datum  BETWEEN schuljahr.Datum_Start AND schuljahr.Datum_Ende 
+        LEFT JOIN ferien ON kalender.Datum BETWEEN ferien.Datum_Start AND ferien.Datum_Ende 
+        LEFT JOIN feiertag ON kalender.Datum = feiertag.Datum             
+        LEFT JOIN uebung ON schueler.ID = uebung.SchuelerID 
             AND schueler_kalender.Datum = uebung.Datum                  
-        LEFT join uebungtyp 
-            ON uebung.UebungtypID=uebungtyp.ID 
-        WHERE schueler.Aktiv=1 "; 
+        LEFT join uebungtyp ON uebung.UebungtypID=uebungtyp.ID 
+      WHERE schueler.Aktiv=1 "; 
  
     if($this->SchuelerID!='') {
       $query.="AND schueler.ID = :SchuelerID " ;  
@@ -236,6 +234,116 @@ class Query {
     
   }
 
+  public function print_schueler_uebungen2($is_overview=false) {
+
+    $sqlpart = new SQLPart(); 
+
+    $query="SELECT "; 
+
+    if($is_overview) {
+      $query.="schueler.Name AS `Schüler Name`, "; 
+    }
+
+    $query.="schueler_kalender.Datum as `Datum`,        
+                  schueler_kalender.Bemerkung AS `Übungstag Bemerkung`  ,                               
+                  schueler.Unterricht_Reihenfolge as `Schüler Reihen-folge`,  
+                  uebung.Reihenfolge as `Übung Reihen-folge`,  
+                  uebung.Name as `Uebung Inhalt`  ,  
+                  "; 
+    $query.=$sqlpart->getSQL_COL_CONCAT_Noten(300).","; 
+    $query.="     v_uebung_lookuptypes.LookupList2 as `Übung Besonderheiten`,   
+                  uebung.Bemerkung  as `Übung Bemerkung`   , 
+                  CONCAT(uebung.Anzahl, ' min') Dauer   , 
+                  uebungtyp.Name as `Uebung Typ` , 
+                  bewertung.Name as Bewertung   ,           
+                  COALESCE(uebung.ID, schueler_kalender.ID) as ID, 
+                  CASE WHEN uebung.ID IS NOT NULL THEN 'uebung' ELSE 'schueler_kalender' END as edit_table  
+                "; 
+
+    $query.="FROM schueler_kalender 
+                  INNER JOIN kalender ON schueler_kalender.Datum = kalender.Datum  
+                  INNER JOIN schuljahr ON kalender.Datum  BETWEEN schuljahr.Datum_Start AND schuljahr.Datum_Ende                     
+                  INNER JOIN schueler on schueler.ID=schueler_kalender.SchuelerID
+         		      LEFT JOIN uebung ON schueler_kalender.Datum = uebung.Datum
+         		  				AND schueler_kalender.Datum = uebung.Datum 
+         		  				AND schueler_kalender.SchuelerID  = uebung.SchuelerID "; 
+
+    $query.=" LEFT JOIN uebungtyp on uebung.UebungtypID=uebungtyp.ID 
+              LEFT JOIN bewertung on bewertung.ID = uebung.BewertungID 
+              LEFT JOIN satz  on satz.ID=uebung.SatzID 
+              LEFT JOIN musikstueck on satz.MusikstueckID = musikstueck.ID
+              LEFT JOIN sammlung on sammlung.ID = musikstueck.SammlungID
+              LEFT JOIN v_uebung_lookuptypes on v_uebung_lookuptypes.UebungID=uebung.ID     
+    "; 
+
+    $query.="WHERE 1=1 AND schueler.Aktiv=1 "; 
+
+    if($this->SchuljahrID!='') {
+      $query.="AND schuljahr.ID = :SchuljahrID ";  
+    }
+
+
+    if (!empty($this->Datum) & empty($this->Datum_bis)) {
+      $query.="AND schueler_kalender.Datum='".$this->Datum."' ".PHP_EOL; 
+      $this->group_col='Schueler';   
+    }
+    if (!empty($this->Datum) & !empty($this->Datum_bis)) {
+      $query.="AND schueler_kalender.Datum BETWEEN '".$this->Datum."' AND '".$this->Datum_bis."' ".PHP_EOL; 
+      $this->groupcol='Datum';  
+    }
+    if (empty($this->Datum) & !empty($this->Datum_bis)) {
+      $query.="AND schueler_kalender.Datum <= '".$this->Datum_bis."' ".PHP_EOL;
+      $this->groupcol='Datum';         
+    }    
+
+    // if (!empty($this->Datum)) {
+    //   $query.="AND schueler_kalender.Datum='".$this->Datum."' ".PHP_EOL;  
+    //   $this->group_col='Schueler';       
+    // }
+
+    if ($this->SchuelerID!='') {
+      $query.="AND schueler_kalender.SchuelerID=:SchuelerID ";  
+      $this->group_col='Datum';      
+    }
+    if ($this->UebungtypID!='') {
+        $query.="AND uebung.UebungtypID=".$this->UebungtypID." ";  
+    }      
+    if ($this->BewertungID!='') {
+      $query.="AND uebung.BewertungID=".$this->BewertungID." ";  
+      $this->group_col='Schueler';            
+    }    
+                
+    if($this->Suchtext!='') {
+      $query.="AND ( schueler_kalender.Bemerkung  LIKE '%".$this->Suchtext."%' 
+                  AND uebung.Name LIKE '%".$this->Suchtext."%' 
+                  OR uebung.Bemerkung LIKE '%".$this->Suchtext."%' 
+                  OR v_uebung_lookuptypes.LookupList LIKE '%".$this->Suchtext."%' 
+                  OR satz.Name LIKE '%".$this->Suchtext."%' 
+                  OR satz.Bemerkung LIKE '%".$this->Suchtext."%' 
+                  OR musikstueck.Name LIKE '%".$this->Suchtext."%' 
+                  OR musikstueck.Bemerkung LIKE '%".$this->Suchtext."%' 
+                  OR sammlung.Name LIKE '%".$this->Suchtext."%' 
+                  OR sammlung.Bemerkung LIKE '%".$this->Suchtext."%' ) "; 
+    }    
+
+    $query.="ORDER BY schueler_kalender.Datum DESC, schueler.Unterricht_Reihenfolge, schueler.Name, uebung.Reihenfolge";  
+
+    // echo '<pre>'.$query.'</pre>'; // test 
+
+    $stmt = $this->db->prepare($query); 
+
+    if($this->SchuljahrID!=''){
+      $stmt->bindParam(':SchuljahrID', $this->SchuljahrID, PDO::PARAM_INT); 
+    } 
+    if($this->SchuelerID!=''){
+      $stmt->bindParam(':SchuelerID', $this->SchuelerID, PDO::PARAM_INT); 
+    }     
+
+    $this->show_ID=false; 
+    $this->print_table($stmt); 
+    
+  }
+
   public function print_schueler_auswertung_uebungstage($is_overview=false) {
 
     $query="SELECT stunden_plan.SchuljahrID
@@ -296,15 +404,13 @@ class Query {
     
   }
 
-
-
-
-
   private function print_table($stmt) {
 
     try {
       $stmt->execute(); 
-            
+      // echo '<pre>'; 
+      // $stmt->DebugDumpParams(); // Test    
+      // echo '</pre>';          
       $html = new HTML_Table($stmt); 
       $html->add_link_edit=$this->add_link_edit;      
       $html->edit_link_table=$this->table_edit; 
@@ -312,6 +418,7 @@ class Query {
       $html->show_missing_data_message=false;      
       $html->group_col=$this->groupcol; 
       // $html->show_row_count=true; 
+      $html->show_ID= $this->show_ID; 
       $html->print_table2(); 
 
     }

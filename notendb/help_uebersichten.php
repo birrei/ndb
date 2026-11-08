@@ -8,7 +8,6 @@ include_once('head.php');
 <div class="doc-toc" id="inhaltsverzeichnis"></div>
 
 <div class="doc-body"> 
-
 	<h2 class="chapter-title chapter-title-h1" id="uebersichten_sammlungen">Übersicht Sammlungen</h2>  
 
         <p>Spalten: </p>
@@ -77,7 +76,7 @@ include_once('head.php');
 
 	<h2 class="chapter-title chapter-title-h1" id="uebersichten_uebungen">Übersicht Übungen</h2>
 
-        <p> Einschränkungen: Es werden werden nur die Übungen aktiver Schüler angezeigt. </p> 
+        <p> Einschränkungen: Es werden nur die Übungen aktiver Schüler angezeigt. </p> 
                 <p> Hinweis: Je nach Filtereinstellung werden verstärkte Zeilenrahmen angezeigt, 
                     die eine optische Gruppierung bieten (z.B. erscheint bei Filter nach Datum 
                     eine verstärkte Linie über der ersten Übung eines Schülers). 
@@ -85,7 +84,7 @@ include_once('head.php');
         <p>Spalten: </p>
             <ul>
                 <li>Schueler Name</li>
-                <li>Übung Datum (bei Entwürfen leer) </li>
+                <li>Übungstag Datum (bei Entwürfen leer) </li>
                 <li>Schüler Reihenfolge </li>
                 <li>Übung Reihenfolge (Bei Entwürfen leer)</li>
                 <li>Uebung Inhalt</li>
@@ -96,7 +95,8 @@ include_once('head.php');
                 <li>Übung Dauer</li>
                 <li>Uebung Typ</li>
                 <li>Bewertung (bei Enwürfen leer)</li>
-                <li>ID</li>
+                <li>Aktion</li>
+
              
             </ul>  
 
@@ -121,6 +121,15 @@ include_once('head.php');
             <br> Falls im Filter ein Datum ausgewählt ist, wird dieses Datum als Vorgabe für die neue Übung übernommen. 
                 </p>
 	
+	<h2 class="chapter-title chapter-title-h1" id="uebersichten_uebungen2">Übersicht Übungstage + Übungen</h2>
+        <p>Ausgabe auf Übungstag-Ebene (eine Zeile pro Übungstag), bei vorhandenen Übungen auf Übungs-Ebene (eine Zeile pro Übung) </p>  
+        <p> Entspricht im Aufbau "<a href="#uebersichten_uebungen">Übersicht Übungen</a>" - Unterschiede: 
+            <br> - Zusätzliche Spalte "Übungstag Bemerkung". 
+            <br> - Übungsentwürfe können nicht angezeigt werden, Filter "Entwurf" nicht verfügbar. 
+            <br> - Tabelle "Aktion", Bearbeiten-Link: Öffnet Übung, falls vorhanden. Öffnet Übungstag, falls keine Übung vorhanden. 
+        </p>
+        <!-- XXXX Inhalte aus "Übungen" übernehmen und anpassen  -->
+
     <h2 class="chapter-title chapter-title-h1" id="uebersichten_uebungstage">Übersicht Übungstage</h2>
         <!-- XXXX  -->
         <p> Einschränkungen: Es werden werden nur die Übungen aktiver Schüler angezeigt.</p> 

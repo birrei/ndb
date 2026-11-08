@@ -25,6 +25,11 @@ if (isset($_REQUEST["ansicht"])) {
   $show_data=true; 
 } 
 
+$preset_date=true; // nur externer Aufruf 
+if (isset($_GET["preset_date"])) {
+  $preset_date=$_GET["preset_date"]=='true'?true:false; 
+} 
+
 $add_link_edit=true; 
 
 switch ($ansicht) // $PageTitle, $table_edit 
@@ -45,10 +50,9 @@ switch ($ansicht) // $PageTitle, $table_edit
     $table_edit='uebung';     
     break; 
   case 'uebungen2'; 
-    $PageTitle='Übersicht Übungen ';  
-    $table_edit='uebung';     
-    break;     
-  case 'uebungstage'; // aka "Übungstage / alt: Übungen / Datum 
+    $PageTitle='Übersicht Übungstage und Übungen ';  
+    break;      
+  case 'uebungstage'; 
     $PageTitle='Übersicht Übungstage';  
     break;     
   case 'verwendungszwecke'; 
@@ -494,7 +498,9 @@ switch ($ansicht)  // setzen: $PageTitle, $table_edit, $show_help_link
     include_once("classes/class.uebungtyp.php");
     include_once("classes/class.bewertung.php");
 
-    $Datum=(isset($_REQUEST["Datum"])?$_REQUEST["Datum"]:date('Y-m-d')); 
+    $Datum_Standard = $preset_date?date('Y-m-d'):'';    
+
+    $Datum=(isset($_REQUEST["Datum"])?$_REQUEST["Datum"]:$Datum_Standard); 
 
     $SchuelerID=(isset($_REQUEST["SchuelerID"])?$_REQUEST["SchuelerID"]:'');    
     $UebungtypID=(isset($_REQUEST["UebungtypID"])?$_REQUEST["UebungtypID"]:'');    
@@ -613,23 +619,39 @@ switch ($ansicht)  // setzen: $PageTitle, $table_edit, $show_help_link
 
     break; 
 
-  // xxxx 
 
-  case 'uebungen2': 
+
+
+
+  case 'uebungen2': // "Übungstage und Übungen"   
     include_once("classes/class.uebungtyp.php");
     include_once("classes/class.bewertung.php");
+    include_once("classes/class.schuljahr.php");
 
-    $Datum=(isset($_REQUEST["Datum"])?$_REQUEST["Datum"]:date('Y-m-d')); 
+    $Datum_Heute=date('Y-m-d');     
+
+    if ($preset_date) {
+        $Datum=(isset($_REQUEST["Datum"])?$_REQUEST["Datum"]:$Datum_Heute); 
+        $Datum_bis=(isset($_REQUEST["Datum_bis"])?$_REQUEST["Datum_bis"]:'');         
+    } else {
+        $Datum=(isset($_REQUEST["Datum"])?$_REQUEST["Datum"]:''); 
+        $Datum_bis=(isset($_REQUEST["Datum_bis"])?$_REQUEST["Datum_bis"]:$Datum_Heute);   
+    }
 
     $SchuelerID=(isset($_REQUEST["SchuelerID"])?$_REQUEST["SchuelerID"]:'');    
     $UebungtypID=(isset($_REQUEST["UebungtypID"])?$_REQUEST["UebungtypID"]:'');    
     $BewertungID=(isset($_REQUEST["BewertungID"])?$_REQUEST["BewertungID"]:'');    
-    $Unterricht_Geplant=(isset($_REQUEST["Unterricht_Geplant"])?$_REQUEST["Unterricht_Geplant"]:'');  
     $Suchtext=(isset($_REQUEST["Suchtext"])?$_REQUEST["Suchtext"]:'');   
-    $Entwurf=(isset($_REQUEST["Entwurf"])?$_REQUEST["Entwurf"]:'0'); 
 
-    echo '<form action="" method="get">'.PHP_EOL;       
+    $schuljahr = new Schuljahr(); 
+    $SchuljahrID_akt= $schuljahr->getCurrentID(); 
+    $SchuljahrID=(isset($_REQUEST["SchuljahrID"])?$_REQUEST["SchuljahrID"]:$SchuljahrID_akt);    
+    $SchuljahrID=$SchuljahrID==''?$SchuljahrID_akt:$SchuljahrID;    
+
+    echo '<form action="" method="get">'.PHP_EOL; 
+    echo '<input type="hidden" name="ansicht" value="'.$ansicht.'">';           
     echo '<a href="edit_kalender.php?Datum='.$Datum.'&option=edit" target="_blank" title="Datum bearbeiten">Datum</a>: <input type="date" name="Datum" value="'.$Datum.'" onchange="this.form.submit()">'; 
+    echo 'Datum bis <input type="date" name="Datum_bis" value="'.$Datum_bis.'" onchange="this.form.submit()">';          
 
     $schueler = new Schueler(); 
         echo ' &#9475;';    
@@ -647,117 +669,61 @@ switch ($ansicht)  // setzen: $PageTitle, $table_edit, $show_help_link
     echo ' Bewertung: '.PHP_EOL; 
     $bewertung->print_preselect($BewertungID); 
 
-    echo ' &#9475;';
-    echo ' Entwurf: <select id="Entwurf" name="Entwurf" onchange="this.form.submit()" >
-              <option value="" '.($Entwurf==''?'selected':'').'></option>
-              <option value="0" '.($Entwurf=='0'?'selected':'').'>Nein</option>
-              <option value="1" '.($Entwurf=='1'?'selected':'').'>Ja</option>
-          </select> ';       
-    echo ' &#9475;';
+    $schuljahr = new Schuljahr(); 
+        echo ' &#9475;';        
+    echo 'Schuljahr: '.PHP_EOL; 
+    $schuljahr->print_preselect($SchuljahrID, '', true);     
+
     echo ' Suchtext: <input type="text" id="Suchtext" name="Suchtext" size="30px" value="'.$Suchtext.'"> '; 
 
     echo '<input type="submit" class="btnSave" name="senden" value="Suchen">';
-    echo '<input type="hidden" name="ansicht" value="'.$ansicht.'">'; 
     echo '</form>';           
-
-    $sqlpart = new SQLPart(); 
-
-    $query="SELECT  schueler.Name as Schueler
-                  , uebung.Datum as `Datum`       
-                  , schueler_kalender.Bemerkung AS `Übungstag Bemerkung`                               
-                  , schueler.Unterricht_Reihenfolge as `Schüler Reihen-folge`
-                  , uebung.Reihenfolge as `Übung Reihen-folge`
-                  , uebung.Name as `Uebung Inhalt`  
-                  "; 
-
-    $query.=", ".$sqlpart->getSQL_COL_CONCAT_Noten(300); 
-    $query.=", v_uebung_lookuptypes.LookupList2 as Besonderheiten   
-                  , uebung.Bemerkung  as `Übung Bemerkung`   
-                  , CONCAT(uebung.Anzahl, ' min') Dauer   
-                  , uebungtyp.Name as `Uebung Typ` 
-                  , bewertung.Name as Bewertung                
-                  , uebung.ID
-                "; 
-
-    $query.="FROM 
-                  schueler_kalender 
-                  INNER JOIN schueler on schueler.ID=schueler_kalender.SchuelerID
-         		      LEFT JOIN uebung ON schueler_kalender.Datum = uebung.Datum
-         		  				AND schueler_kalender.Datum = uebung.Datum 
-         		  				AND uebung.SchuelerID  = schueler.ID "; 
-    if ($Entwurf!='') {
-          $query.="AND uebung.Entwurf=".$Entwurf." ".PHP_EOL;  
-    }   
-    if ($UebungtypID!='') {
-          $query.="AND uebung.UebungtypID=".$UebungtypID." ";  
-    }    
-    if ($BewertungID!='') {
-      $query.="AND uebung.BewertungID=".$BewertungID." ";  
-      $group_col='Schueler';            
-    }
-    $query.="LEFT join uebungtyp on uebung.UebungtypID=uebungtyp.ID 
-                  left join bewertung on bewertung.ID = uebung.BewertungID 
-                  left join satz  on satz.ID=uebung.SatzID 
-                  left join musikstueck on satz.MusikstueckID = musikstueck.ID
-                  left JOIN sammlung on sammlung.ID = musikstueck.SammlungID
-                  left join v_uebung_lookuptypes on v_uebung_lookuptypes.UebungID=uebung.ID
-                  LEFT JOIN kalender ON uebung.Datum = kalender.Datum        
-    "; 
-
-    $query.="WHERE 1=1 AND schueler.Aktiv=1 "; 
-
-    if (!empty($Datum)) {
-      $query.="AND schueler_kalender.Datum='".$Datum."' ".PHP_EOL;  
-      $group_col='Schueler';       
-      
-    }
-    if ($SchuelerID!='') {
-      $query.="AND schueler_kalender.SchuelerID=".$SchuelerID." ";  
-      $group_col='Datum';      
-    }
-                
-    if($Suchtext!='') {
-      $query.="AND ( schueler_kalender.Bemerkung  LIKE '%".$Suchtext."%' 
-                  AND uebung.Name LIKE '%".$Suchtext."%' 
-                  OR uebung.Bemerkung LIKE '%".$Suchtext."%' 
-                  OR v_uebung_lookuptypes.LookupList LIKE '%".$Suchtext."%' 
-                  OR satz.Name LIKE '%".$Suchtext."%' 
-                  OR satz.Bemerkung LIKE '%".$Suchtext."%' 
-                  OR musikstueck.Name LIKE '%".$Suchtext."%' 
-                  OR musikstueck.Bemerkung LIKE '%".$Suchtext."%' 
-                  OR sammlung.Name LIKE '%".$Suchtext."%' 
-                  OR sammlung.Bemerkung LIKE '%".$Suchtext."%' 
-                            ) "; 
-
-    }    
-
-    $query.="ORDER BY schueler_kalender.Datum DESC, schueler.Unterricht_Reihenfolge, schueler.Name, uebung.Reihenfolge";  
-
+    
     echo '<p><a href="edit_'.$table_edit.'.php?option=insert&SchuelerID='.$SchuelerID.'&Datum='.$Datum.'" target="_blank">Neu erfassen</a></p>';
 
-    break; 
+    
+    $abfrage = new Query();
+    // $abfrage->table_edit='schueler_kalender'; // hier nicht, s. query print_schueler_uebungen(). 
+    $abfrage->SchuelerID = $SchuelerID; 
+    $abfrage->Datum = $Datum; 
+    $abfrage->Datum_bis = $Datum_bis; 
+    $abfrage->SchuljahrID = $SchuljahrID; 
+    $abfrage->UebungtypID = $UebungtypID; 
+    $abfrage->BewertungID = $BewertungID; 
+    $abfrage->Suchtext=$Suchtext;
 
+    $abfrage->print_schueler_uebungen2(true); 
+    
+    $execute_query_inside=false; 
+
+
+    break; 
 
   case 'uebungstage': // aka ************************************
     include_once("classes/class.schuljahr.php");
 
-    $Datum_heute = date('Y-m-d');
- 
-    $Datum=(isset($_REQUEST["Datum"])?$_REQUEST["Datum"]:date('Y-m-d')); 
-    $Datum_bis=(isset($_REQUEST["Datum_bis"])?$_REQUEST["Datum_bis"]:''); 
+    $Datum_Heute=date('Y-m-d'); 
+
+    if ($preset_date) {
+        $Datum=(isset($_REQUEST["Datum"])?$_REQUEST["Datum"]:$Datum_Heute); 
+        $Datum_bis=(isset($_REQUEST["Datum_bis"])?$_REQUEST["Datum_bis"]:'');         
+    } else {
+        $Datum=(isset($_REQUEST["Datum"])?$_REQUEST["Datum"]:''); 
+        $Datum_bis=(isset($_REQUEST["Datum_bis"])?$_REQUEST["Datum_bis"]:$Datum_Heute);   
+    }
+
     $SchuelerID=(isset($_REQUEST["SchuelerID"])?$_REQUEST["SchuelerID"]:'');    
-    $Unterricht_Wochentag =(isset($_REQUEST["wochentag_nr"])?$_REQUEST["wochentag_nr"]:0);
+    $Unterricht_Wochentag =(isset($_REQUEST["wochentag_nr"])?$_REQUEST["wochentag_nr"]:'');
     $Unterricht_Geplant=(isset($_REQUEST["Unterricht_Geplant"])?$_REQUEST["Unterricht_Geplant"]:''); 
     $Unterricht_Protokolliert=(isset($_REQUEST["Unterricht_Protokolliert"])?$_REQUEST["Unterricht_Protokolliert"]:''); 
     $Berechnen=(isset($_REQUEST["Berechnen"])?$_REQUEST["Berechnen"]:''); 
     $Suchtext=(isset($_REQUEST["Suchtext"])?$_REQUEST["Suchtext"]:'');   
 
-    $SchuljahrID=(isset($_REQUEST["SchuljahrID"])?$_REQUEST["SchuljahrID"]:'');
+    $schuljahr = new Schuljahr(); 
+    $SchuljahrID_akt= $schuljahr->getCurrentID(); 
+    $SchuljahrID=(isset($_REQUEST["SchuljahrID"])?$_REQUEST["SchuljahrID"]:$SchuljahrID_akt);    
+    $SchuljahrID=$SchuljahrID==''?$SchuljahrID_akt:$SchuljahrID;    
 
-    if(!isset($_REQUEST["SchuljahrID"])) {
-      $schuljahr= new Schuljahr(); 
-      $SchuljahrID= $schuljahr->getCurrentID(); 
-    }
 
     echo '<form action="" method="get">'.PHP_EOL;       
     echo '<a href="edit_kalender.php?Datum='.$Datum.'&option=edit" target="_blank" title="Datum bearbeiten">Datum</a>: 
@@ -765,7 +731,6 @@ switch ($ansicht)  // setzen: $PageTitle, $table_edit, $show_help_link
            Datum bis 
           <input type="date" name="Datum_bis" value="'.$Datum_bis.'" onchange="this.form.submit()">          
           '; 
-          // wenn "Datum_Bis" ausgewählt ist, wird "Datum" als "Datum von" interpretiert und damit nach dem Zeitraum gefiltert 
 
     $schueler = new Schueler(); 
         echo ' &#9475;';    

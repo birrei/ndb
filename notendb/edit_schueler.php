@@ -90,11 +90,10 @@ include_once('head.php');
 
 $info->print_screen_header('Schüler bearbeiten'); 
 $info->print_link_table2('schueler'); 
-$info->print_link_overview('show_table4.php','ansicht=uebungen&SchuelerID='.$schueler->ID, 'Übersicht Übungen'); 
-$info->print_link_overview('show_table4.php','ansicht=uebungstage&SchuelerID='.$schueler->ID, 'Übersicht Übungstage'); 
+$info->print_link_overview('show_table4.php','ansicht=uebungen&SchuelerID='.$schueler->ID.'&preset_date=false', 'Übersicht Übungen'); 
+$info->print_link_overview('show_table4.php','ansicht=uebungen2&SchuelerID='.$schueler->ID.'&preset_date=false', 'Übersicht Übungen + Übungstage'); 
+$info->print_link_overview('show_table4.php','ansicht=uebungstage&SchuelerID='.$schueler->ID.'&preset_date=false', 'Übersicht Übungstage'); 
 $info->print_link_overview('show_table4.php','ansicht=aufgaben&SchuelerID='.$schueler->ID, 'Übersicht Aufgaben'); 
-
-
 
 if ($fehler_ID_fehlt) {
     $info->print_user_error('Es wurde kein Schüler ausgewählt!'); 
@@ -204,7 +203,10 @@ echo '
   <label for="opt_Uebung_Entwurf">Übungsentwürfe</label><br>
 
   <input type="radio" id="opt_Uebung2" name="target_form" value="Uebungen2" onclick="changeIframeSrc('subform1', 'edit_schueler_uebungen2.php?SchuelerID=<?php echo $schueler->ID; ?>');">
-  <label for="opt_Uebung2">Übungstage</label><br>
+  <label for="opt_Uebung2">Übungen + Übungstage</label><br>
+
+  <input type="radio" id="opt_Uebungstage" name="target_form" value="Uebungenstage" onclick="changeIframeSrc('subform1', 'edit_schueler_uebungstage.php?SchuelerID=<?php echo $schueler->ID; ?>');">
+  <label for="opt_Uebungstage">Übungstage</label><br>
 
 
   <input type="radio" id="opt_Schwierigkeitsgrad" name="target_form" value="Schwierigkeitsgrad" onclick="changeIframeSrc('subform1', 'edit_schueler_schwierigkeitsgrade.php?SchuelerID=<?php echo $schueler->ID; ?>');">

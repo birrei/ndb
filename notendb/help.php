@@ -4,16 +4,26 @@ include_once('head.php');
 ?>
 
 
+<p class="doc-header"><b>Übersichten Kapitel:</b> </p>
+
+<div class="doc-toc" id="inhaltsverzeichnis"></div>
+
+<div class="doc-body"> 
+
+
+
+
 <h3>Hilfe-Seiten: </h3>
 
 <p> <a href="help_erfassung.php">Erfassung</a></p>
 
 <p> <a href="help_uebersichten.php">Übersichten</a></p>
 
-<p> <a href="help_suche.php">Suche</a></p>
+<p> <a href="help_suche.php">Suche</a>, <a href="help_suche_logik.php">Suchlogiken allgemein</a></p>
 
-<p> <a href="help_suche_logik.php">Suchlogiken allgemein</a></p>
+<p> <a href="help_faq.php">FAQ, Beispiele</a></p>
 
+</div> 
 
 <!-- <p> <a href="help_suche_beispiele.php">Hilfe zur Suche: Tips & Tricks, Beispiele, Übungen</a></p> -->
 
