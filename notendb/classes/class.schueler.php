@@ -827,7 +827,7 @@ class Schueler {
     $query->table_edit='schueler_kalender'; 
     $query->SchuelerID=$this->ID; 
     $query->SchuljahrID=$SchuljahrID; 
-    $query->print_schueler_uebungstage2(); 
+    $query->print_schueler_uebungstage(); 
 
   }    
 

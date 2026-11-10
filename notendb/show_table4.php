@@ -790,7 +790,7 @@ switch ($ansicht)  // setzen: $PageTitle, $table_edit, $show_help_link
     $abfrage->Berechnen=$Berechnen; 
     $abfrage->Unterricht_Protokolliert=$Unterricht_Protokolliert; 
     $abfrage->Suchtext=$Suchtext; 
-    $abfrage->print_schueler_uebungstage2(true); 
+    $abfrage->print_schueler_uebungstage(true); 
     
     $execute_query_inside=false; 
 
