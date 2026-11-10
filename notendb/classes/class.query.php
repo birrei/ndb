@@ -40,88 +40,6 @@ class Query {
     $this->info=new HTML_Info(); 
   }
 
-  // public function print_schueler_uebungstage() {
-  //   // Variante bezieht für "Stunden berechnet" die Übungszeit (Summe aus uebung.Anzahl = Übung Minuten ) mit ein.  
-  //   // Zeigt die Übungszeit   
-  //   $query="SELECT 
-  //         schueler_kalender.Datum 
-  //         , schueler_kalender.Bemerkung       
-  //         , kalender.Wochentag_Name as Wochentag     
-  //         , COUNT(distinct uebung.ID) as `Anzahl Übungen` 
-  //         -- , SUM(uebung.Anzahl ) as `Summe Minuten` 
-  //         , TIME_FORMAT(SEC_TO_TIME( SUM(uebung.Anzahl) * 60), '%H:%i')  as `Stunden Übung`     
-  //         , TIME_FORMAT(SEC_TO_TIME(( 
-  //             SUM(
-  //             CASE 
-	//             WHEN schueler_kalender.Berechnen = 1 
-  //                   AND kalender.Unterricht_Protokolliert = 1 
-	//                 THEN  
-	//                   CASE 
-  //                     WHEN uebung.ID IS NOT NULL 
-	//                     THEN uebung.Anzahl
-	//                   	ELSE schueler.Unterricht_Dauer
-	//                   	END 
-  //             ELSE 
-  //                 0 
-  //             END
-  //               ))  
-  //                * 60 
-  //               ), '%H:%i') AS `Stunden berechnet`
-  //         , (SUM(uebung.Anzahl ) - schueler.Unterricht_Dauer ) as `Abweichung Dauer` 
-  //         , GROUP_CONCAT(uebung.Reihenfolge, '. ', uebung.Name, ' (', coalesce(uebungtyp.Name, ''), ')'  order by uebung.Reihenfolge separator '<br>') `Übungen Inhalte`  
-  //         , ferien.Bezeichnung AS Ferientag 
-  //         , feiertag.Bezeichnung AS Feiertag 
-  //         , schuljahr.Bezeichnung AS Schuljahr
-  //         , IF(kalender.Unterricht_Geplant=1, 'X' , '') as `Unterricht geplant`   
-  //         , IF(kalender.Unterricht_Protokolliert=1, 'X' , '') as `Unterricht protokolliert`  
-  //         , IF(schueler_kalender.Berechnen=1, 'X' , '') as `Berechnen`                     
-  //         , schueler_kalender.ID                           
-  //   FROM  schueler_kalender
-  //   		INNER JOIN 
-  //   		kalender 
-  //           ON schueler_kalender.Datum = kalender.Datum         
-  //       INNER JOIN schueler 
-  //           ON schueler.ID= schueler_kalender.SchuelerID 
-  //       LEFT JOIN schuljahr 
-  //         ON kalender.Datum  BETWEEN schuljahr.Datum_Start AND schuljahr.Datum_Ende 
-  //       LEFT JOIN ferien 
-  //         ON kalender.Datum BETWEEN ferien.Datum_Start AND ferien.Datum_Ende 
-  //       LEFT JOIN feiertag 
-  //         ON kalender.Datum = feiertag.Datum             
-  //       LEFT JOIN uebung 
-  //           ON schueler.ID = uebung.SchuelerID 
-  //           AND schueler_kalender.Datum = uebung.Datum                  
-  //       LEFT join uebungtyp 
-  //           ON uebung.UebungtypID=uebungtyp.ID 
-  //       WHERE 1=1 "; 
-    
-  //       if($this->SchuelerID!='') {
-  //         $query.="AND schueler.ID = :SchuelerID " ;  
-  //       }
-
-  //       if($this->SchuljahrID!='') {
-  //         $query.="AND schuljahr.ID = :SchuljahrID ";  
-  //       }
-
-  //   $query.="
-  //       GROUP BY schueler.ID, schueler_kalender.Datum  
-  //       ORDER BY schueler_kalender.Datum DESC, schueler.Unterricht_Reihenfolge, uebung.Name            
-  //       "; 
-
-  //   $stmt = $this->db->prepare($query); 
-
-  //   if($this->SchuelerID!=''){
-  //     $stmt->bindParam(':SchuelerID', $this->SchuelerID, PDO::PARAM_INT); 
-  //   } 
-
-  //   if($this->SchuljahrID!=''){
-  //     $stmt->bindParam(':SchuljahrID', $this->SchuljahrID, PDO::PARAM_INT); 
-  //   } 
-
-  //   $this->print_table($stmt); 
-  
-  // }
-
   public function print_schueler_uebungstage2($is_overview=false) {
 
     $query="SELECT "; 
@@ -295,11 +213,6 @@ class Query {
       $query.="AND schueler_kalender.Datum <= '".$this->Datum_bis."' ".PHP_EOL;
       $this->groupcol='Datum';         
     }    
-
-    // if (!empty($this->Datum)) {
-    //   $query.="AND schueler_kalender.Datum='".$this->Datum."' ".PHP_EOL;  
-    //   $this->group_col='Schueler';       
-    // }
 
     if ($this->SchuelerID!='') {
       $query.="AND schueler_kalender.SchuelerID=:SchuelerID ";  

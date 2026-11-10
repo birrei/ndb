@@ -699,7 +699,7 @@ switch ($ansicht)  // setzen: $PageTitle, $table_edit, $show_help_link
 
     break; 
 
-  case 'uebungstage': // aka ************************************
+  case 'uebungstage': 
     include_once("classes/class.schuljahr.php");
 
     $Datum_Heute=date('Y-m-d'); 
@@ -828,7 +828,7 @@ switch ($ansicht)  // setzen: $PageTitle, $table_edit, $show_help_link
 
     break;         
 
-  case 'verwendungszwecke': // ************************************
+  case 'verwendungszwecke': 
 
     $Suchtext=(isset($_REQUEST["Suchtext"])?$_REQUEST["Suchtext"]:'');   
 
@@ -1318,7 +1318,7 @@ switch ($ansicht)  // setzen: $PageTitle, $table_edit, $show_help_link
 
     break;     
 
-  case 'kalender': /*********************************************** */
+  case 'kalender': 
     include_once("classes/class.schuljahr.php");
 
     $SchuljahrID=(isset($_REQUEST["SchuljahrID"])?$_REQUEST["SchuljahrID"]:'');
@@ -1387,11 +1387,6 @@ switch ($ansicht)  // setzen: $PageTitle, $table_edit, $show_help_link
 
     break; 
 
- 
-  
-    case 'XXXX': 
-
-    break; 
 
 /***************** Infosichten ****************************** */
   case 'info-alle-spieldauern': // 
