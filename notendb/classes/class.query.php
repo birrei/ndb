@@ -40,7 +40,7 @@ class Query {
     $this->info=new HTML_Info(); 
   }
 
-  public function print_schueler_uebungstage2($is_overview=false) {
+  public function print_schueler_uebungstage($is_overview=false) {
 
     $query="SELECT "; 
 
