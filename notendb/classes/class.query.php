@@ -148,6 +148,7 @@ class Query {
       $stmt->bindParam(':SchuljahrID', $this->SchuljahrID, PDO::PARAM_INT); 
     } 
 
+    $this->show_ID=false; 
     $this->print_table($stmt); 
     
   }
@@ -199,7 +200,6 @@ class Query {
     if($this->SchuljahrID!='') {
       $query.="AND schuljahr.ID = :SchuljahrID ";  
     }
-
 
     if (!empty($this->Datum) & empty($this->Datum_bis)) {
       $query.="AND schueler_kalender.Datum='".$this->Datum."' ".PHP_EOL; 
@@ -264,104 +264,95 @@ class Query {
     $query="SELECT "; 
 
     if($is_overview) {
-      $query.="schueler.Name AS `Schüler Name`, "; 
+      $query.="schueler.Name AS `Schueler`, "; 
     }
 
-    $query.="schueler_kalender.Datum as `Datum`,        
-                  schueler_kalender.Bemerkung AS `Übungstag Bemerkung`  ,                               
-                  schueler.Unterricht_Reihenfolge as `Schüler Reihen-folge`,  
-                  uebung.Reihenfolge as `Übung Reihen-folge`,  
-                  uebung.Name as `Uebung Inhalt`  ,  
+
+    $query.="uebung.Datum as `Datum`,                    
+              schueler.Unterricht_Reihenfolge as `Schüler Reihen-folge`,
+              uebung.Reihenfolge as `Übung Reihen-folge`,
+              uebung.Name as `Uebung Inhalt`  ,
                   "; 
-    $query.=$sqlpart->getSQL_COL_CONCAT_Noten(300).","; 
-    $query.="     v_uebung_lookuptypes.LookupList2 as `Übung Besonderheiten`,   
-                  uebung.Bemerkung  as `Übung Bemerkung`   , 
-                  CONCAT(uebung.Anzahl, ' min') Dauer   , 
-                  uebungtyp.Name as `Uebung Typ` , 
-                  bewertung.Name as Bewertung   ,           
-                  COALESCE(uebung.ID, schueler_kalender.ID) as ID, 
-                  CASE WHEN uebung.ID IS NOT NULL THEN 'uebung' ELSE 'schueler_kalender' END as edit_table  
+
+    $query.=$sqlpart->getSQL_COL_CONCAT_Noten(300).',  '; 
+    $query.="v_uebung_lookuptypes.LookupList2 as Besonderheiten ,  
+                  uebung.Bemerkung  as `Übung Bemerkung`  , 
+                   CONCAT(uebung.Anzahl, ' min') Dauer  , 
+                   uebungtyp.Name as `Uebung Typ` ,
+                   bewertung.Name as Bewertung    ,            
+                   uebung.ID
                 "; 
 
-    $query.="FROM schueler_kalender 
-                  INNER JOIN kalender ON schueler_kalender.Datum = kalender.Datum  
-                  INNER JOIN schuljahr ON kalender.Datum  BETWEEN schuljahr.Datum_Start AND schuljahr.Datum_Ende                     
-                  INNER JOIN schueler on schueler.ID=schueler_kalender.SchuelerID
-         		      LEFT JOIN uebung ON schueler_kalender.Datum = uebung.Datum
-         		  				AND schueler_kalender.Datum = uebung.Datum 
-         		  				AND schueler_kalender.SchuelerID  = uebung.SchuelerID "; 
+    $query.="FROM uebung 
+                  INNER join schueler on schueler.ID=uebung.SchuelerID
+                                and schueler.Aktiv=1
+                  left join uebungtyp on uebung.UebungtypID=uebungtyp.ID 
+                  left join bewertung on bewertung.ID = uebung.BewertungID 
+                  left join satz  on satz.ID=uebung.SatzID 
+                  left join musikstueck on satz.MusikstueckID = musikstueck.ID
+                  left JOIN sammlung on sammlung.ID = musikstueck.SammlungID
+                  left join v_uebung_lookuptypes on v_uebung_lookuptypes.UebungID=uebung.ID
+                  LEFT JOIN kalender ON uebung.Datum = kalender.Datum  "; 
 
-    $query.=" LEFT JOIN uebungtyp on uebung.UebungtypID=uebungtyp.ID 
-              LEFT JOIN bewertung on bewertung.ID = uebung.BewertungID 
-              LEFT JOIN satz  on satz.ID=uebung.SatzID 
-              LEFT JOIN musikstueck on satz.MusikstueckID = musikstueck.ID
-              LEFT JOIN sammlung on sammlung.ID = musikstueck.SammlungID
-              LEFT JOIN v_uebung_lookuptypes on v_uebung_lookuptypes.UebungID=uebung.ID     
-    "; 
-
-    $query.="WHERE 1=1 AND schueler.Aktiv=1 "; 
-
-    if($this->SchuljahrID!='') {
-      $query.="AND schuljahr.ID = :SchuljahrID ";  
-    }
-
+    $query.="      WHERE 1=1 "; 
 
     if (!empty($this->Datum) & empty($this->Datum_bis)) {
-      $query.="AND schueler_kalender.Datum='".$this->Datum."' ".PHP_EOL; 
-      $this->group_col='Schueler';   
+      $query.="AND uebung.Datum='".$this->Datum."' ".PHP_EOL;  
     }
     if (!empty($this->Datum) & !empty($this->Datum_bis)) {
-      $query.="AND schueler_kalender.Datum BETWEEN '".$this->Datum."' AND '".$this->Datum_bis."' ".PHP_EOL; 
+      $query.="AND uebung.Datum BETWEEN '".$this->Datum."' AND '".$this->Datum_bis."' ".PHP_EOL; 
       $this->groupcol='Datum';  
     }
     if (empty($this->Datum) & !empty($this->Datum_bis)) {
-      $query.="AND schueler_kalender.Datum <= '".$this->Datum_bis."' ".PHP_EOL;
+      $query.="AND uebung.Datum <= '".$this->Datum_bis."' ".PHP_EOL;
       $this->groupcol='Datum';         
-    }    
+    }
 
     if ($this->SchuelerID!='') {
-      $query.="AND schueler_kalender.SchuelerID=:SchuelerID ";  
+      $query.="AND uebung.SchuelerID=".$this->SchuelerID." ";  
       $this->group_col='Datum';      
     }
+
+    if ($this->Unterricht_Geplant!='') {
+      $query.="AND kalender.Unterricht_Geplant=".$this->Unterricht_Geplant." ".PHP_EOL;  
+    }
+                
+    if ($this->Entwurf!='') {
+      $query.="AND uebung.Entwurf=".$this->Entwurf." ".PHP_EOL;  
+    }   
+
     if ($this->UebungtypID!='') {
-        $query.="AND uebung.UebungtypID=".$this->UebungtypID." ";  
-    }      
+      $query.="AND uebung.UebungtypID=".$this->UebungtypID." ";  
+    }
     if ($this->BewertungID!='') {
       $query.="AND uebung.BewertungID=".$this->BewertungID." ";  
       $this->group_col='Schueler';            
-    }    
-                
+    }
     if($this->Suchtext!='') {
-      $query.="AND ( schueler_kalender.Bemerkung  LIKE '%".$this->Suchtext."%' 
-                  AND uebung.Name LIKE '%".$this->Suchtext."%' 
+      $query.="AND ( uebung.Name LIKE '%".$this->Suchtext."%' 
                   OR uebung.Bemerkung LIKE '%".$this->Suchtext."%' 
+                  OR uebungtyp.Name LIKE '%".$this->Suchtext."%' 
                   OR v_uebung_lookuptypes.LookupList LIKE '%".$this->Suchtext."%' 
                   OR satz.Name LIKE '%".$this->Suchtext."%' 
                   OR satz.Bemerkung LIKE '%".$this->Suchtext."%' 
                   OR musikstueck.Name LIKE '%".$this->Suchtext."%' 
                   OR musikstueck.Bemerkung LIKE '%".$this->Suchtext."%' 
                   OR sammlung.Name LIKE '%".$this->Suchtext."%' 
-                  OR sammlung.Bemerkung LIKE '%".$this->Suchtext."%' ) "; 
+                  OR sammlung.Bemerkung LIKE '%".$this->Suchtext."%' 
+                            ) "; 
+
     }    
 
-    $query.="ORDER BY schueler_kalender.Datum DESC, schueler.Unterricht_Reihenfolge, schueler.Name, uebung.Reihenfolge";  
+    $query.="ORDER BY uebung.Datum DESC, schueler.Unterricht_Reihenfolge, schueler.Name, uebung.Reihenfolge";  
 
-    // echo '<pre>'.$query.'</pre>'; // test 
+    // $this->print_query($query); // test 
 
     $stmt = $this->db->prepare($query); 
 
-    if($this->SchuljahrID!=''){
-      $stmt->bindParam(':SchuljahrID', $this->SchuljahrID, PDO::PARAM_INT); 
-    } 
-    if($this->SchuelerID!=''){
-      $stmt->bindParam(':SchuelerID', $this->SchuelerID, PDO::PARAM_INT); 
-    }     
-
     $this->show_ID=false; 
     $this->print_table($stmt); 
-    
-  }
 
+  }
 
   public function print_schueler_auswertung_uebungstage($is_overview=false) {
 
@@ -423,13 +414,15 @@ class Query {
     
   }
 
-  private function print_table($stmt) {
+  private function print_table($stmt, $test=false) {
 
     try {
       $stmt->execute(); 
-      // echo '<pre>'; 
-      // $stmt->DebugDumpParams(); // Test    
-      // echo '</pre>';          
+      if ($test) {
+        echo '<pre>'; 
+        $stmt->DebugDumpParams(); // Test    
+        echo '</pre>'; 
+      }
       $html = new HTML_Table($stmt); 
       $html->add_link_edit=$this->add_link_edit;      
       $html->edit_link_table=$this->table_edit; 
@@ -447,6 +440,11 @@ class Query {
     }
 
   }
+
+  public function print_query($sql) { 
+    echo '<pre>'.$sql.'</pre>'; 
+  }
+
 
 }
 

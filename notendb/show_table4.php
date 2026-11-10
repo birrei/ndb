@@ -497,20 +497,35 @@ switch ($ansicht)  // setzen: $PageTitle, $table_edit, $show_help_link
   case 'uebungen': 
     include_once("classes/class.uebungtyp.php");
     include_once("classes/class.bewertung.php");
+    include_once("classes/class.schuljahr.php");
 
-    $Datum_Standard = $preset_date?date('Y-m-d'):'';    
+    $Datum_Heute=date('Y-m-d');     
 
-    $Datum=(isset($_REQUEST["Datum"])?$_REQUEST["Datum"]:$Datum_Standard); 
+    if ($preset_date) {
+        $Datum=(isset($_REQUEST["Datum"])?$_REQUEST["Datum"]:$Datum_Heute); 
+        $Datum_bis=(isset($_REQUEST["Datum_bis"])?$_REQUEST["Datum_bis"]:'');         
+    } else {
+        $Datum=(isset($_REQUEST["Datum"])?$_REQUEST["Datum"]:''); 
+        $Datum_bis=(isset($_REQUEST["Datum_bis"])?$_REQUEST["Datum_bis"]:$Datum_Heute);   
+    }
 
     $SchuelerID=(isset($_REQUEST["SchuelerID"])?$_REQUEST["SchuelerID"]:'');    
     $UebungtypID=(isset($_REQUEST["UebungtypID"])?$_REQUEST["UebungtypID"]:'');    
     $BewertungID=(isset($_REQUEST["BewertungID"])?$_REQUEST["BewertungID"]:'');    
-    $Unterricht_Geplant=(isset($_REQUEST["Unterricht_Geplant"])?$_REQUEST["Unterricht_Geplant"]:'');  
+    // $Unterricht_Geplant=(isset($_REQUEST["Unterricht_Geplant"])?$_REQUEST["Unterricht_Geplant"]:'');  
     $Suchtext=(isset($_REQUEST["Suchtext"])?$_REQUEST["Suchtext"]:'');   
     $Entwurf=(isset($_REQUEST["Entwurf"])?$_REQUEST["Entwurf"]:'0'); 
 
-    echo '<form action="" method="get">'.PHP_EOL;       
+    $schuljahr = new Schuljahr(); 
+    $SchuljahrID_akt= $schuljahr->getCurrentID(); 
+    $SchuljahrID=(isset($_REQUEST["SchuljahrID"])?$_REQUEST["SchuljahrID"]:$SchuljahrID_akt);    
+    $SchuljahrID=$SchuljahrID==''?$SchuljahrID_akt:$SchuljahrID;    
+
+    echo '<form action="" method="get">'.PHP_EOL; 
+    echo '<input type="hidden" name="ansicht" value="'.$ansicht.'">';           
     echo '<a href="edit_kalender.php?Datum='.$Datum.'&option=edit" target="_blank" title="Datum bearbeiten">Datum</a>: <input type="date" name="Datum" value="'.$Datum.'" onchange="this.form.submit()">'; 
+    echo ' Datum bis <input type="date" name="Datum_bis" value="'.$Datum_bis.'" onchange="this.form.submit()">';          
+
 
     $schueler = new Schueler(); 
         echo ' &#9475;';    
@@ -528,94 +543,38 @@ switch ($ansicht)  // setzen: $PageTitle, $table_edit, $show_help_link
     echo ' Bewertung: '.PHP_EOL; 
     $bewertung->print_preselect($BewertungID); 
 
-    echo ' &#9475;';
     echo ' Entwurf: <select id="Entwurf" name="Entwurf" onchange="this.form.submit()" >
               <option value="" '.($Entwurf==''?'selected':'').'></option>
               <option value="0" '.($Entwurf=='0'?'selected':'').'>Nein</option>
               <option value="1" '.($Entwurf=='1'?'selected':'').'>Ja</option>
           </select> ';       
-    echo ' &#9475;';
+
+    $schuljahr = new Schuljahr();        
+    echo 'Schuljahr: '.PHP_EOL; 
+    $schuljahr->print_preselect($SchuljahrID, '', true);    
+
     echo ' Suchtext: <input type="text" id="Suchtext" name="Suchtext" size="30px" value="'.$Suchtext.'"> '; 
 
     echo '<input type="submit" class="btnSave" name="senden" value="Suchen">';
-    echo '<input type="hidden" name="ansicht" value="'.$ansicht.'">'; 
     echo '</form>';           
 
-    $sqlpart = new SQLPart(); 
-
-    $query="SELECT  schueler.Name as Schueler
-                  , uebung.Datum as `Datum`                   
-                  , schueler.Unterricht_Reihenfolge as `Schüler Reihen-folge`
-                  , uebung.Reihenfolge as `Übung Reihen-folge`
-                  , uebung.Name as `Uebung Inhalt`  
-                  "; 
-
-    $query.=", ".$sqlpart->getSQL_COL_CONCAT_Noten(300); 
-    $query.=", v_uebung_lookuptypes.LookupList2 as Besonderheiten   
-                  , uebung.Bemerkung  as `Übung Bemerkung`   
-                  , CONCAT(uebung.Anzahl, ' min') Dauer   
-                  , uebungtyp.Name as `Uebung Typ` 
-                  , bewertung.Name as Bewertung                
-                  , uebung.ID
-                "; 
-
-    $query.="FROM uebung 
-                  INNER join schueler on schueler.ID=uebung.SchuelerID
-                                and schueler.Aktiv=1
-                  left join uebungtyp on uebung.UebungtypID=uebungtyp.ID 
-                  left join bewertung on bewertung.ID = uebung.BewertungID 
-                  left join satz  on satz.ID=uebung.SatzID 
-                  left join musikstueck on satz.MusikstueckID = musikstueck.ID
-                  left JOIN sammlung on sammlung.ID = musikstueck.SammlungID
-                  left join v_uebung_lookuptypes on v_uebung_lookuptypes.UebungID=uebung.ID
-                  LEFT JOIN kalender ON uebung.Datum = kalender.Datum  "; 
-
-    $query.="      WHERE 1=1 "; 
-
-    if (!empty($Datum)) {
-      $query.="AND uebung.Datum='".$Datum."' ".PHP_EOL;  
-      $group_col='Schueler';       
-      
-    }
-    if ($SchuelerID!='') {
-      $query.="AND uebung.SchuelerID=".$SchuelerID." ";  
-      $group_col='Datum';      
-    }
-
-    if ($Unterricht_Geplant!='') {
-      $query.="AND kalender.Unterricht_Geplant=".$Unterricht_Geplant." ".PHP_EOL;  
-    }
-                
-    if ($Entwurf!='') {
-      $query.="AND uebung.Entwurf=".$Entwurf." ".PHP_EOL;  
-    }   
-
-    if ($UebungtypID!='') {
-      $query.="AND uebung.UebungtypID=".$UebungtypID." ";  
-    }
-    if ($BewertungID!='') {
-      $query.="AND uebung.BewertungID=".$BewertungID." ";  
-      $group_col='Schueler';            
-    }
-    if($Suchtext!='') {
-      $query.="AND ( uebung.Name LIKE '%".$Suchtext."%' 
-                  OR uebung.Bemerkung LIKE '%".$Suchtext."%' 
-                  OR uebungtyp.Name LIKE '%".$Suchtext."%' 
-                  OR v_uebung_lookuptypes.LookupList LIKE '%".$Suchtext."%' 
-                  OR satz.Name LIKE '%".$Suchtext."%' 
-                  OR satz.Bemerkung LIKE '%".$Suchtext."%' 
-                  OR musikstueck.Name LIKE '%".$Suchtext."%' 
-                  OR musikstueck.Bemerkung LIKE '%".$Suchtext."%' 
-                  OR sammlung.Name LIKE '%".$Suchtext."%' 
-                  OR sammlung.Bemerkung LIKE '%".$Suchtext."%' 
-                            ) "; 
-
-    }    
-
-    // $query.="ORDER BY uebung.Datum DESC, schueler.Unterricht_Reihenfolge, uebung.Reihenfolge, uebung.Name "; 
-    $query.="ORDER BY uebung.Datum DESC, schueler.Unterricht_Reihenfolge, schueler.Name, uebung.Reihenfolge";  
-
     echo '<p><a href="edit_'.$table_edit.'.php?option=insert&SchuelerID='.$SchuelerID.'&Datum='.$Datum.'" target="_blank">Neu erfassen</a></p>';
+
+    $abfrage = new Query();
+    $abfrage->table_edit='uebung'; // hier nicht, s. query print_schueler_uebungen(). 
+    $abfrage->SchuelerID = $SchuelerID; 
+    $abfrage->Datum = $Datum; 
+    $abfrage->Datum_bis = $Datum_bis; 
+    $abfrage->SchuljahrID = $SchuljahrID; 
+    $abfrage->UebungtypID = $UebungtypID; 
+    $abfrage->BewertungID = $BewertungID; 
+    $abfrage->Suchtext=$Suchtext;
+    $abfrage->Entwurf = $Entwurf; 
+
+    $abfrage->print_schueler_uebungen(true); 
+    
+    $execute_query_inside=false; 
+
 
     break; 
 
