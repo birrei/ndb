@@ -203,7 +203,7 @@ class Query {
 
     if (!empty($this->Datum) & empty($this->Datum_bis)) {
       $query.="AND schueler_kalender.Datum='".$this->Datum."' ".PHP_EOL; 
-      $this->group_col='Schueler';   
+      $this->groupcol='Schueler';   
     }
     if (!empty($this->Datum) & !empty($this->Datum_bis)) {
       $query.="AND schueler_kalender.Datum BETWEEN '".$this->Datum."' AND '".$this->Datum_bis."' ".PHP_EOL; 
@@ -216,14 +216,14 @@ class Query {
 
     if ($this->SchuelerID!='') {
       $query.="AND schueler_kalender.SchuelerID=:SchuelerID ";  
-      $this->group_col='Datum';      
+      $this->groupcol='Datum';      
     }
     if ($this->UebungtypID!='') {
         $query.="AND uebung.UebungtypID=".$this->UebungtypID." ";  
     }      
     if ($this->BewertungID!='') {
       $query.="AND uebung.BewertungID=".$this->BewertungID." ";  
-      $this->group_col='Schueler';            
+      $this->groupcol='Schueler';            
     }    
                 
     if($this->Suchtext!='') {
@@ -275,6 +275,7 @@ class Query {
                   "; 
 
     $query.=$sqlpart->getSQL_COL_CONCAT_Noten(300).',  '; 
+
     $query.="v_uebung_lookuptypes.LookupList2 as Besonderheiten ,  
                   uebung.Bemerkung  as `Übung Bemerkung`  , 
                    CONCAT(uebung.Anzahl, ' min') Dauer  , 
@@ -296,21 +297,21 @@ class Query {
 
     $query.="      WHERE 1=1 "; 
 
+    $this->groupcol='Schueler';         
+    
     if (!empty($this->Datum) & empty($this->Datum_bis)) {
       $query.="AND uebung.Datum='".$this->Datum."' ".PHP_EOL;  
     }
     if (!empty($this->Datum) & !empty($this->Datum_bis)) {
       $query.="AND uebung.Datum BETWEEN '".$this->Datum."' AND '".$this->Datum_bis."' ".PHP_EOL; 
-      $this->groupcol='Datum';  
     }
     if (empty($this->Datum) & !empty($this->Datum_bis)) {
-      $query.="AND uebung.Datum <= '".$this->Datum_bis."' ".PHP_EOL;
-      $this->groupcol='Datum';         
+      $query.="AND uebung.Datum <= '".$this->Datum_bis."' ".PHP_EOL;             
     }
 
     if ($this->SchuelerID!='') {
       $query.="AND uebung.SchuelerID=".$this->SchuelerID." ";  
-      $this->group_col='Datum';      
+      $this->groupcol='Datum';      
     }
 
     if ($this->Unterricht_Geplant!='') {
@@ -325,8 +326,7 @@ class Query {
       $query.="AND uebung.UebungtypID=".$this->UebungtypID." ";  
     }
     if ($this->BewertungID!='') {
-      $query.="AND uebung.BewertungID=".$this->BewertungID." ";  
-      $this->group_col='Schueler';            
+      $query.="AND uebung.BewertungID=".$this->BewertungID." ";          
     }
     if($this->Suchtext!='') {
       $query.="AND ( uebung.Name LIKE '%".$this->Suchtext."%' 
