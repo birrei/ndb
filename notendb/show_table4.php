@@ -526,7 +526,6 @@ switch ($ansicht)  // setzen: $PageTitle, $table_edit, $show_help_link
     echo '<a href="edit_kalender.php?Datum='.$Datum.'&option=edit" target="_blank" title="Datum bearbeiten">Datum</a>: <input type="date" name="Datum" value="'.$Datum.'" onchange="this.form.submit()">'; 
     echo ' Datum bis <input type="date" name="Datum_bis" value="'.$Datum_bis.'" onchange="this.form.submit()">';          
 
-
     $schueler = new Schueler(); 
         echo ' &#9475;';    
     echo ' Schüler: '.PHP_EOL; 
@@ -575,11 +574,7 @@ switch ($ansicht)  // setzen: $PageTitle, $table_edit, $show_help_link
     
     $execute_query_inside=false; 
 
-
     break; 
-
-
-
 
 
   case 'uebungen2': // "Übungstage und Übungen"   

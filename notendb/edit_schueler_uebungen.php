@@ -2,15 +2,23 @@
 <?php 
 include_once('head_raw.php');
 include_once("classes/class.schueler.php");
+include_once("classes/class.schuljahr.php");
 
 echo '<div style="display: grid; grid-template-columns: auto auto;">'; 
 
-// $Datum=(isset($_REQUEST["Datum"])?$_REQUEST["Datum"]:date('Y-m-d')); 
-$Datum=(isset($_REQUEST["Datum"])?$_REQUEST["Datum"]:''); 
-$Entwurf=(isset($_REQUEST["Entwurf"])?$_REQUEST["Entwurf"]:0); 
+$Entwurf=(isset($_REQUEST["Entwurf"])?$_REQUEST["Entwurf"]:0); // wird beim Aufruf des Unterformulars übergeben  
 
 if($Entwurf==0) {
-    echo '<form action="" method="post">'.PHP_EOL;       
+    $Datum=(isset($_REQUEST["Datum"])?$_REQUEST["Datum"]:''); 
+    // $Datum=(isset($_REQUEST["Datum"])?$_REQUEST["Datum"]:date('Y-m-d')); 
+    $schuljahr = new Schuljahr(); 
+    $SchuljahrID_akt= $schuljahr->getCurrentID(); 
+    $SchuljahrID=(isset($_REQUEST["SchuljahrID"])?$_REQUEST["SchuljahrID"]:$SchuljahrID_akt);    
+    $SchuljahrID=$SchuljahrID==''?$SchuljahrID_akt:$SchuljahrID;    
+
+    echo '<form action="" method="post">'.PHP_EOL;     
+    echo 'Schuljahr: '.PHP_EOL; 
+    $schuljahr->print_preselect($SchuljahrID, '', false);       
     echo 'Übung Datum: <input type="date" name="Datum" value="'.$Datum.'" onchange="this.form.submit()">'; 
     echo '</form><br>';       
 }
@@ -18,7 +26,7 @@ if($Entwurf==0) {
 $schueler=new Schueler();
 $schueler->ID=$_GET["SchuelerID"]; 
 
-$schueler->print_table_uebungen($Datum, $Entwurf); 
+$schueler->print_table_uebungen($SchuljahrID, $Datum, $Entwurf); 
 
 echo '</div>'; 
     

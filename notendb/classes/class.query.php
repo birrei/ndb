@@ -7,7 +7,6 @@ include_once('class.sqlpart.php');
 
 class Query {
 
-
   public string $table_edit=''; // Tabelle, die über den "Bearbeiten"- Link geöffnet werden soll 
 
   // filter
@@ -154,7 +153,7 @@ class Query {
   }
 
   public function print_schueler_uebungen2($is_overview=false) {
-
+    // Übungstage und Übungen 
     $sqlpart = new SQLPart(); 
 
     $query="SELECT "; 
@@ -285,6 +284,7 @@ class Query {
                 "; 
 
     $query.="FROM uebung 
+                  INNER JOIN schuljahr ON uebung.Datum  BETWEEN schuljahr.Datum_Start AND schuljahr.Datum_Ende       
                   INNER join schueler on schueler.ID=uebung.SchuelerID
                                 and schueler.Aktiv=1
                   left join uebungtyp on uebung.UebungtypID=uebungtyp.ID 
@@ -298,6 +298,10 @@ class Query {
     $query.="      WHERE 1=1 "; 
 
     $this->groupcol='Schueler';         
+
+    if($this->SchuljahrID!='') {
+      $query.="AND schuljahr.ID = :SchuljahrID ";  
+    }    
     
     if (!empty($this->Datum) & empty($this->Datum_bis)) {
       $query.="AND uebung.Datum='".$this->Datum."' ".PHP_EOL;  
@@ -349,6 +353,10 @@ class Query {
 
     $stmt = $this->db->prepare($query); 
 
+    if($this->SchuljahrID!=''){
+      $stmt->bindParam(':SchuljahrID', $this->SchuljahrID, PDO::PARAM_INT); 
+    } 
+        
     $this->show_ID=false; 
     $this->print_table($stmt); 
 

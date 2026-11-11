@@ -731,7 +731,11 @@ class Schueler {
     }
   }
 
-  function print_table_uebungen($Datum='', $Entwurf=0){
+
+
+
+  function print_table_uebungen_ALT($Datum='', $Entwurf=0){
+    // XXXX löschen 
     // print_r(func_get_args()); // test 
     
     $sql = new SQLPart(); 
@@ -820,6 +824,17 @@ class Schueler {
       $this->info->print_error($stmt, $e); 
     }
   }    
+  
+  function print_table_uebungen($SchuljahrID, $Datum='', $Entwurf=0){
+    // print_r(func_get_args()); // test 
+    $query = new Query();
+    $query->table_edit='uebung'; 
+    $query->SchuelerID=$this->ID; 
+    $query->SchuljahrID=$SchuljahrID; 
+    $query->Datum=$Datum; 
+    $query->Entwurf=$Entwurf; 
+    $query->print_schueler_uebungen(); 
+  }    
 
   function print_table_uebungen_datum2($SchuljahrID) {
     // Übungstage 
@@ -832,7 +847,7 @@ class Schueler {
   }    
 
   function print_table_uebungen2($SchuljahrID, $Datum) {
-    // Übungen + Übungstage 
+    // Übungstage + Übungen  
     $query = new Query();
     // $query->table_edit='schueler_kalender'; // hier nicht
     $query->SchuelerID=$this->ID; 
@@ -841,6 +856,9 @@ class Schueler {
     $query->print_schueler_uebungen2(); 
 
   }     
+
+  
+
   function print_table_auswertung_uebungen($AuswertungNr=1){
     // XXXX 
     $query=''; 
