@@ -128,8 +128,6 @@ include_once('head.php');
             </p> 
 
         <h3 class="chapter-title chapter-title-h3" id="erfassung_satz_schwierigkeitsgrad">Satz: Instrument/Schwierigkeitsgrad</h3>
-        
-        
 
             <p>XXX</p>
 
@@ -191,8 +189,9 @@ include_once('head.php');
             </p>    
 
         <h3 class="chapter-title chapter-title-h3" id="erfassung_schueler_geburtsdatum">Schüler: Geburtsdatum</h3>
-
             <p>Geburtdatum (Hintergrund: Altersklasse Wettbewerbe) </p>    
+
+            <!-- Unterformulare  "Daten erfassen und ansehen  -->
         <h3 class="chapter-title chapter-title-h3" id="erfassung_schueler_uebungen">Schüler: Übungen</h3>
             <p>XXX </p>
             <p>Aufbau wie "Übersicht Übungen" </p>
@@ -204,7 +203,7 @@ include_once('head.php');
             <h3 class="chapter-title chapter-title-h3" id="erfassung_schueler_uebungstage">Schüler: Übungstage</h3>
             <p>XXX  </p>
             <p>Aufbau wie "Übersicht Übungstage" </p>
-
+        <h3 class="chapter-title chapter-title-h3" id="erfassung_schueler_uebungstage">Schüler: Übungen + Übungstage XXX</h3>
         <h3 class="chapter-title chapter-title-h3" id="erfassung_schueler_schwierigkeitsgrade">Schüler: Instrumente und Schwierigkeitsgrade</h3>
             <p>Optionen: </p>
             <ul>
@@ -217,9 +216,31 @@ include_once('head.php');
                     <p> Die Verknüpfungen können im Unterformular bearbeitet werden, das hinzufügen neuer Verknüpfungen muss jedoch über 
                         über <a href="#erfassung_satz_schueler">das "Satz"-Formular / Unterformular "Schüler"</a> erfolgen 
                         (weitere Informationen zu Eigenschaften einer Verknüpfung siehe dort)</p>
+        <h3 class="chapter-title chapter-title-h3" id="erfassung_schueler_besonderheiten">Schüler: Besonderheiten XXX</h3>
+        <h3 class="chapter-title chapter-title-h3" id="erfassung_schueler_aufgaben">Schüler: Aufgaben XXX</h3> 
 
+            <!-- Unterformulare  "Übersichten  -->
+
+        <h3 class="chapter-title chapter-title-h3" id="erfassung_schueler_auswertung_uebungen_bewertung">Schüler:  Auswertung Übungen / Bewertung XXX</h3>
+        <h3 class="chapter-title chapter-title-h3" id="erfassung_schueler_auswertung_uebungen_uebungstypen">Schüler:  Auswertung Übungen / Typ XXX</h3>
+        <h3 class="chapter-title chapter-title-h3" id="erfassung_schueler_auswertung_uebungen_besonderheiten">Schüler:  Auswertung Übungen / Besonderheit XXX</h3>
+        <h3 class="chapter-title chapter-title-h3" id="erfassung_schueler_auswertung_uebungen_noten">Schüler: Auswertung Übungen / Noten XXX </h3>
+        <h3 class="chapter-title chapter-title-h3" id="erfassung_schueler_auswertung_unterrichtszeiten">Schüler: Auswertung Unterrichtszeit XXXX</h3>
+            <p>Spalten </p>
+            <ul>
+                <li>Schuljahr</li>
+                <li>Tage Plan (Anzahl geplante Übungstage im Schuljahr)</li>
+                <li>Stunden Plan (Anzahl geplante Übungstage  x Schüler Unterrichts-Dauer) </li>
+                <li>Tage berechnet	(Anzahl protokollierte Übungstage x Schüler Unterrichts-Dauer)</li>
+                <li>Stunden berechnet	(Anzahl protokollierte Übungstage  x Schüler Unterrichts-Dauer)  </li>
+                <li>Stunden Übung (Summe Übungsstunden) </li>
+
+            </ul>
+        <h3 class="chapter-title chapter-title-h3" id="erfassung_schueler_noten_besonderheiten">Schüler:  Verknüpfte Noten + Besonderheiten XXX</h3>
+        <h3 class="chapter-title chapter-title-h3" id="erfassung_schueler_besonderheiten_aus_noten">Schüler:  Besonderheiten aus verknüpften Noten XXX</h3>
         <h3 class="chapter-title chapter-title-h3" id="erfassung_schueler_kopieren">Schüler kopieren</h3>
             <p>Die Daten eines Schüler werden kopiert (ohne Verknüpfungen und Zuordnungen). </p>
+
 
         <h3 class="chapter-title chapter-title-h3" id="erfassung_schueler_loeschen">Schüler löschen</h3>
             <p>Die Daten eines Schülers werden gelöscht, inklusive folgender Verküpfungen: </p>
