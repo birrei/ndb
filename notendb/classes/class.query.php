@@ -364,59 +364,96 @@ class Query {
 
   public function print_schueler_auswertung_uebungstage($is_overview=false) {
 
-    $query="SELECT stunden_plan.SchuljahrID
-              , stunden_plan.Schuljahr
-              , stunden_plan.Tage AS `Tage Plan`
-              , stunden_plan.Stunden AS `Stunden Plan` 
-              , stunden_ist.Tage AS `Tage Ist`
-              , stunden_ist.Stunden AS 'Stunden Ist' 
+    $query="SELECT "; 
+
+    if($is_overview) {
+      $query.="schueler.Name AS `Schueler`, "; 
+    }
+
+    $query.="stunden_plan.Schuljahr, 
+              stunden_plan.Tage AS `Tage Plan` , 
+              stunden_plan.Stunden AS `Stunden Plan` , 
+              stunden_uebungstage.Tage AS `Tage berechnet`, 
+              stunden_uebungstage.Stunden_berechnet AS 'Stunden berechnet',  
+              stunden_uebung.Stunden_uebung 'Stunden Übung' 
           FROM 
           (
           SELECT schueler_kalender.SchuelerID
               , schuljahr.ID AS SchuljahrID 
               , schuljahr.Bezeichnung  AS Schuljahr 
               , COUNT(DISTINCT schueler_kalender.Datum) AS Tage
-              , TIME_FORMAT(SEC_TO_TIME( (COUNT(schueler_kalender.Datum) * schueler.Unterricht_Dauer) * 60 * schueler.Unterricht_Gewichtung), '%H:%i')   AS Stunden
+              , TIME_FORMAT(SEC_TO_TIME( (COUNT(DISTINCT schueler_kalender.Datum) * schueler.Unterricht_Dauer) * 60 * schueler.Unterricht_Gewichtung), '%H:%i')   AS Stunden
           FROM schueler_kalender
           INNER JOIN kalender ON schueler_kalender.Datum = kalender.Datum 
           INNER JOIN schueler ON schueler_kalender.SchuelerID  = schueler.ID
           INNER JOIN schuljahr ON schueler_kalender.Datum  BETWEEN schuljahr.Datum_Start AND schuljahr.Datum_Ende 
-          WHERE 1=1 
-          -- AND kalender.Unterricht_Protokolliert = 1
-          AND schueler.ID = :SchuelerID              
-          GROUP BY schueler_kalender.SchuelerID, schuljahr.ID 
+          WHERE 1=1 "; 
+
+          if($this->SchuelerID!=''){
+            $query.="AND schueler.ID = :SchuelerID "; 
+          } 
+          if($this->SchuljahrID!=''){
+            $query.="AND schuljahr.ID = :SchuljahrID "; 
+          } 
+          
+    $query.="GROUP BY schueler_kalender.SchuelerID, schuljahr.ID 
           ) stunden_plan 
           LEFT JOIN 
           ( 
           SELECT schueler_kalender.SchuelerID
               , schuljahr.ID AS SchuljahrID  
               , COUNT(DISTINCT schueler_kalender.Datum) AS Tage 
-              ,  TIME_FORMAT(SEC_TO_TIME( (COUNT(schueler_kalender.Datum) * schueler.Unterricht_Dauer) * 60), '%H:%i')   AS Stunden
+              ,  TIME_FORMAT(SEC_TO_TIME( (COUNT(schueler_kalender.Datum) * schueler.Unterricht_Dauer) * 60), '%H:%i')   AS Stunden_berechnet  
           FROM schueler_kalender
           INNER JOIN kalender ON schueler_kalender.Datum = kalender.Datum 
           INNER JOIN schueler ON schueler_kalender.SchuelerID  = schueler.ID
           INNER JOIN schuljahr ON schueler_kalender.Datum  BETWEEN schuljahr.Datum_Start AND schuljahr.Datum_Ende 
           WHERE 1=1 
           AND kalender.Unterricht_Protokolliert = 1
-          AND schueler_kalender.Berechnen = 1 
-          AND schueler.ID = :SchuelerID        
-          GROUP BY schueler_kalender.SchuelerID, schuljahr.ID 
-          ) AS stunden_ist 
-          ON stunden_plan.SchuljahrID = stunden_ist.SchuljahrID 
-          AND stunden_plan.SchuelerID = stunden_ist.SchuelerID  
+          AND schueler_kalender.Berechnen = 1  "; 
+          if($this->SchuelerID!=''){
+            $query.="AND schueler.ID = :SchuelerID "; 
+          } 
+          if($this->SchuljahrID!=''){
+            $query.="AND schuljahr.ID = :SchuljahrID "; 
+          }                    
+          $query.="GROUP BY schueler_kalender.SchuelerID, schuljahr.ID 
+          ) AS stunden_uebungstage 
+          ON stunden_plan.SchuljahrID = stunden_uebungstage.SchuljahrID 
+          AND stunden_plan.SchuelerID = stunden_uebungstage.SchuelerID  
+          LEFT JOIN 
+          ( 
+          SELECT uebung.SchuelerID
+              , schuljahr.ID AS SchuljahrID  
+              ,  TIME_FORMAT(SEC_TO_TIME( SUM(uebung.Anzahl) * 60), '%H:%i')  Stunden_Uebung 
+          FROM uebung 
+          INNER JOIN schueler ON uebung.SchuelerID  = schueler.ID
+          INNER JOIN schuljahr ON uebung.Datum  BETWEEN schuljahr.Datum_Start AND schuljahr.Datum_Ende 
+          WHERE 1=1 "; 
+          if($this->SchuelerID!=''){
+            $query.="AND schueler.ID = :SchuelerID "; 
+          } 
+          if($this->SchuljahrID!=''){
+            $query.="AND schuljahr.ID = :SchuljahrID "; 
+          }  
+    $query.="AND Datum IN (SELECT Datum FROM kalender WHERE Unterricht_Protokolliert =1 ) 
+          GROUP BY uebung.SchuelerID, schuljahr.ID 
+          ) AS stunden_uebung 
+          ON stunden_plan.SchuljahrID = stunden_uebung.SchuljahrID 
+          AND stunden_plan.SchuelerID = stunden_uebung.SchuelerID            
         ORDER BY Schuljahr DESC "; 
 
-    // echo '<pre>'.$query.'</pre>'; // test 
-
+    // $this->print_query($query); // test 
+    
     $stmt = $this->db->prepare($query); 
 
     if($this->SchuelerID!=''){
       $stmt->bindParam(':SchuelerID', $this->SchuelerID, PDO::PARAM_INT); 
     } 
 
-    // if($this->SchuljahrID!=''){
-    //   $stmt->bindParam(':SchuljahrID', $this->SchuljahrID, PDO::PARAM_INT); 
-    // } 
+    if($this->SchuljahrID!=''){
+      $stmt->bindParam(':SchuljahrID', $this->SchuljahrID, PDO::PARAM_INT); 
+    } 
 
     $this->print_table($stmt); 
     

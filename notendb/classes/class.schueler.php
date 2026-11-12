@@ -857,8 +857,6 @@ class Schueler {
 
   }     
 
-  
-
   function print_table_auswertung_uebungen($AuswertungNr=1){
     // XXXX 
     $query=''; 
