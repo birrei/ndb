@@ -1162,7 +1162,7 @@ class Schueler {
     $query->SchuelerID=$this->ID; 
     // $query->SchuljahrID=$SchuljahrID; 
     $query->add_link_edit=false; 
-    $query->print_schueler_auswertung_uebungstage(); 
+    $query->print_auswertung_uebungstage(); 
 
 
   }    

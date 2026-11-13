@@ -8,7 +8,8 @@ include_once('head.php');
 <div class="doc-toc" id="inhaltsverzeichnis"></div>
 
 <div class="doc-body"> 
-	<h2 class="chapter-title chapter-title-h1" id="uebersichten_sammlungen">Übersicht Sammlungen</h2>  
+<h1 class="chapter-title chapter-title-h1" id="uebersichten">Übersichten</h1>      
+	<h2 class="chapter-title chapter-title-h2" id="uebersichten_sammlungen">Übersicht Sammlungen</h2>  
 
         <p>Spalten: </p>
             <ul>
@@ -29,7 +30,7 @@ include_once('head.php');
                 <li>Suchtext (Suche in Sammlung Name, Sammlung Bemerkung, Verlag, Sammlung Besonderheiten) </li>
             </ul> 
 
-	<h2 class="chapter-title chapter-title-h1" id="uebersichten_besonderheiten">Übersicht Besonderheiten</h2>  
+	<h2 class="chapter-title chapter-title-h2" id="uebersichten_besonderheiten">Übersicht Besonderheiten</h2>  
 
         <p>Spalten: </p>
             <ul>
@@ -46,7 +47,7 @@ include_once('head.php');
                 <li>Suchtext (Sucht in Besonderheit Name) (sucht nicht in Lookuptyp-Name!) </li>
             </ul> 
 
-	<h2 class="chapter-title chapter-title-h1" id="uebersichten_schueler">Übersicht Schüler</h2>
+	<h2 class="chapter-title chapter-title-h2" id="uebersichten_schueler">Übersicht Schüler</h2>
 
         <p>Spalten: </p>
             <ul>
@@ -74,7 +75,7 @@ include_once('head.php');
                 <li>Unterricht Wochentag</li>
             </ul> 
 
-	<h2 class="chapter-title chapter-title-h1" id="uebersichten_uebungen">Übersicht Übungen</h2>
+	<h2 class="chapter-title chapter-title-h2" id="uebersichten_uebungen">Übersicht Übungen</h2>
 
         <p> Einschränkungen: Es werden nur die Übungen aktiver Schüler angezeigt. </p> 
                 <p> Hinweis: Je nach Filtereinstellung werden verstärkte Zeilenrahmen angezeigt, 
@@ -84,9 +85,9 @@ include_once('head.php');
         <p>Spalten: </p>
             <ul>
                 <li>Schueler Name</li>
-                <li>Übungstag Datum (bei Entwürfen leer) </li>
+                <li>Übungstag Datum (bei Filter "Entwurf" = "ja" nicht sichtbar) </li>
                 <li>Schüler Reihenfolge </li>
-                <li>Übung Reihenfolge (Bei Entwürfen leer)</li>
+                <li>Übung Reihenfolge (bei Filter "Entwurf" = "ja" nicht sichtbar) </li>
                 <li>Uebung Inhalt</li>
                 <li>Noten (Sammlung / Musikstück / Satz Name)</li>
                 <li>Noten Bemerkung (Inhalte aus Musikstück / Satz Bemerkung) </li>
@@ -94,7 +95,7 @@ include_once('head.php');
                 <li>Übung Bemerkung</li>
                 <li>Übung Dauer</li>
                 <li>Uebung Typ</li>
-                <li>Bewertung (bei Enwürfen leer)</li>
+                <li>Bewertung (bei Filter "Entwurf" = "ja" nicht sichtbar) </li>
                 <li>Aktion</li>
 
              
@@ -104,11 +105,14 @@ include_once('head.php');
 
             <ul>
                 <li>Datum (Standard-Einstellung: Heutiges Datum). 
-                    <br>Hinweis: über den Beschriftungslink kann das Datum geöffnet werden)</li>
+                    <br>Hinweis: über den Beschriftungslink kann das Datum geöffnet werden)
+                    (ohne Wirkung, falls "Entwurf" = "ja" ausgewählt ist)  </li>
+                <li>Datum bis (ohne Wirkung, falls "Entwurf" = "ja" ausgewählt ist) </li>
+                <li>Schuljahr (ohne Wirkung, falls "Entwurf" = "ja" ausgewählt ist) </li>
                 <li>Schüler</li>
                 <li>Übung Typ</li>
                 <li>Bewertung</li>
-                <li>Entwurf (Standard-Einstellung: nein)</li>
+                <li>Entwurf (Mögliche Auswahl: "Ja" oder "Nein". Standard-Einstellung: "Nein")</li>
                 <li>Suchtext. Durchsucht werden folgende Felder: 
                         Übung Name, Übung Bemerkung, Übung Typ Name, Sammlung Name / Bemerkung, 
                         Musikstück Name / Bemerkung, Satz Name / Bemerkung
@@ -121,7 +125,7 @@ include_once('head.php');
             <br> Falls im Filter ein Datum ausgewählt ist, wird dieses Datum als Vorgabe für die neue Übung übernommen. 
                 </p>
 	
-	<h2 class="chapter-title chapter-title-h1" id="uebersichten_uebungen2">Übersicht Übungstage + Übungen</h2>
+	<h2 class="chapter-title chapter-title-h2" id="uebersichten_uebungen2">Übersicht Übungstage + Übungen</h2>
         <p>Ausgabe auf Übungstag-Ebene (eine Zeile pro Übungstag), bei vorhandenen Übungen auf Übungs-Ebene (eine Zeile pro Übung) </p>  
         <p> Entspricht im Aufbau "<a href="#uebersichten_uebungen">Übersicht Übungen</a>" - Unterschiede: 
             <br> - Zusätzliche Spalte "Übungstag Bemerkung". 
@@ -130,7 +134,7 @@ include_once('head.php');
         </p>
         <!-- XXXX Inhalte aus "Übungen" übernehmen und anpassen  -->
 
-    <h2 class="chapter-title chapter-title-h1" id="uebersichten_uebungstage">Übersicht Übungstage</h2>
+    <h2 class="chapter-title chapter-title-h2" id="uebersichten_uebungstage">Übersicht Übungstage</h2>
         <!-- XXXX  -->
         <p> Einschränkungen: Es werden werden nur die Übungen aktiver Schüler angezeigt.</p> 
 
@@ -191,42 +195,42 @@ include_once('head.php');
         <p>Link "Neu erfassen": 
             <br> Einfügen einer neuen Übung für den im Filter ausgewählten Schüler. Sollte ein Datum ausgewählt sein, wird dieses für die neue Übung übernommen. </p>
          
-    <h2 class="chapter-title chapter-title-h1" id="uebersichten_aufgaben">Übersicht Aufgaben</h2>
+    <h2 class="chapter-title chapter-title-h2" id="uebersichten_aufgaben">Übersicht Aufgaben</h2>
 
         <p> XXXX </p> 
                                 
-    <h2 class="chapter-title chapter-title-h1" id="uebersichten_bewertungen">Übersicht Bewertungen</h2>
+    <h2 class="chapter-title chapter-title-h2" id="uebersichten_bewertungen">Übersicht Bewertungen</h2>
             <p>Spalten: </p>
             <ul>       
                 <li>ID</li>
                 <li>Name</li>
             </ul>  
-    <h2 class="chapter-title chapter-title-h1" id="uebersichten_uebungstypen">Übersicht Übungstypen</h2>
+    <h2 class="chapter-title chapter-title-h2" id="uebersichten_uebungstypen">Übersicht Übungstypen</h2>
             <p>Spalten: </p>
             <ul>       
                 <li>ID</li>
                 <li>Name</li>
             </ul>  
-    <h2 class="chapter-title chapter-title-h1" id="uebersichten_linktypen">Übersicht Linktypen</h2>
+    <h2 class="chapter-title chapter-title-h2" id="uebersichten_linktypen">Übersicht Linktypen</h2>
             <p>Spalten: </p>
             <ul>       
                 <li>ID</li>
                 <li>Name</li>
             </ul>  
-    <h2 class="chapter-title chapter-title-h1" id="uebersichten_status">Übersicht Status-Ausprägungen</h2>
+    <h2 class="chapter-title chapter-title-h2" id="uebersichten_status">Übersicht Status-Ausprägungen</h2>
             <p>Spalten: </p>
             <ul>       
                 <li>ID</li>
                 <li>Name</li>
             </ul> 
 
-    <h2 class="chapter-title chapter-title-h1" id="uebersichten_abfragetypen">Übersicht Abfrage-Typen</h2>
+    <h2 class="chapter-title chapter-title-h2" id="uebersichten_abfragetypen">Übersicht Abfrage-Typen</h2>
             <p>Spalten: </p>
             <ul>       
                 <li>ID</li>
                 <li>Name</li>
             </ul>  
-    <h2 class="chapter-title chapter-title-h1" id="uebersichten_abfragen">Übersicht Abfragen</h2>
+    <h2 class="chapter-title chapter-title-h2" id="uebersichten_abfragen">Übersicht Abfragen</h2>
             <p>Spalten: </p>
             <ul>       
                 <li>ID</li>
@@ -236,7 +240,7 @@ include_once('head.php');
             </ul>  
             <p>Filter: Abfragetyp </p>
             
-	<h2 class="chapter-title chapter-title-h1" id="uebersichten_verwendungszwecke">Übersicht Verwendungszwecke</h2>
+	<h2 class="chapter-title chapter-title-h2" id="uebersichten_verwendungszwecke">Übersicht Verwendungszwecke</h2>
 
         <p>Spalten: </p>
             <ul>       
@@ -252,7 +256,7 @@ include_once('head.php');
                 <li>Summe Spieldauer </li>
             </ul>  
 	
-    <h2 class="chapter-title chapter-title-h1" id="uebersichten_standorte">Übersicht Standorte</h2>
+    <h2 class="chapter-title chapter-title-h2" id="uebersichten_standorte">Übersicht Standorte</h2>
 
         <p>Spalten: </p>
             <ul>       
@@ -261,7 +265,7 @@ include_once('head.php');
             </ul>  
 
 
-    <h2 class="chapter-title chapter-title-h1" id="uebersichten_verlage">Übersicht Verlage</h2>
+    <h2 class="chapter-title chapter-title-h2" id="uebersichten_verlage">Übersicht Verlage</h2>
 
         <p>Spalten: </p>
             <ul>       
@@ -269,7 +273,7 @@ include_once('head.php');
                 <li>Name</li>
             </ul>
             
-    <h2 class="chapter-title chapter-title-h1" id="uebersichten_besetzungen">Übersicht Besetzungen</h2>
+    <h2 class="chapter-title chapter-title-h2" id="uebersichten_besetzungen">Übersicht Besetzungen</h2>
 
         <p>Spalten: </p>
             <ul>       
@@ -277,7 +281,7 @@ include_once('head.php');
                 <li>Name</li>
             </ul>
             
-    <h2 class="chapter-title chapter-title-h1" id="uebersichten_gattungen">Übersicht Gattungen</h2>
+    <h2 class="chapter-title chapter-title-h2" id="uebersichten_gattungen">Übersicht Gattungen</h2>
 
         <p>Spalten: </p>
             <ul>       
@@ -285,15 +289,7 @@ include_once('head.php');
                 <li>Name</li>
             </ul>
 
-    <h2 class="chapter-title chapter-title-h1" id="uebersichten_epochen">Übersicht Epochen</h2>
-
-        <p>Spalten: </p>
-            <ul>       
-                <li>ID</li>
-                <li>Name</li>
-            </ul>
-            
-    <h2 class="chapter-title chapter-title-h1" id="uebersichten_epochen">Übersicht Material-Typen</h2>
+    <h2 class="chapter-title chapter-title-h2" id="uebersichten_epochen">Übersicht Epochen</h2>
 
         <p>Spalten: </p>
             <ul>       
@@ -301,7 +297,15 @@ include_once('head.php');
                 <li>Name</li>
             </ul>
             
-    <h2 class="chapter-title chapter-title-h1" id="uebersichten_komponisten">Übersicht Komponisten</h2>
+    <h2 class="chapter-title chapter-title-h2" id="uebersichten_epochen">Übersicht Material-Typen</h2>
+
+        <p>Spalten: </p>
+            <ul>       
+                <li>ID</li>
+                <li>Name</li>
+            </ul>
+            
+    <h2 class="chapter-title chapter-title-h2" id="uebersichten_komponisten">Übersicht Komponisten</h2>
 
 
         <p>Spalten: </p>
@@ -320,7 +324,7 @@ include_once('head.php');
             <ul>
                 <li>Suchtext (Suche in Vorname, Nachname, Geburtsjahr, Sterbejahr)</li>
             </ul> 
-    <h2 class="chapter-title chapter-title-h1" id="uebersichten_schwierigkeitsgrade">Übersicht Schwierigkeitsgrade</h2>
+    <h2 class="chapter-title chapter-title-h2" id="uebersichten_schwierigkeitsgrade">Übersicht Schwierigkeitsgrade</h2>
 
         <p>Spalten: </p>
             <ul>       
@@ -328,7 +332,7 @@ include_once('head.php');
                 <li>Name</li>
             </ul>
                         
-    <h2 class="chapter-title chapter-title-h1" id="uebersichten_instrumente">Übersicht Instrumente</h2>
+    <h2 class="chapter-title chapter-title-h2" id="uebersichten_instrumente">Übersicht Instrumente</h2>
 
         <p>Spalten: </p>
             <ul>       
@@ -336,7 +340,7 @@ include_once('head.php');
                 <li>Name</li>
             </ul>
                         
-    <h2 class="chapter-title chapter-title-h1" id="uebersichten_erprobt">Übersicht Erprobt</h2>
+    <h2 class="chapter-title chapter-title-h2" id="uebersichten_erprobt">Übersicht Erprobt</h2>
 
         <p>Spalten: </p>
             <ul>       
@@ -345,7 +349,7 @@ include_once('head.php');
             </ul>
                         
         
-    <h2 class="chapter-title chapter-title-h1" id="uebersichten_kalender">Übersicht Kalender</h2>
+    <h2 class="chapter-title chapter-title-h2" id="uebersichten_kalender">Übersicht Kalender</h2>
             <p>Spalten: </p>
             <ul>       
                 <li>ID</li>
@@ -357,7 +361,8 @@ include_once('head.php');
             </ul>  
 
 
-    <h2 class="chapter-title chapter-title-h1" id="uebersichten_schuljahre">Übersicht Schuljahre</h2>
+    <h2 class="chapter-title chapter-title-h2" id="uebersichten_schuljahre">Übersicht Schuljahre</h2>
+
             <p>Spalten: </p>
             <ul>       
                 <li>ID</li>
@@ -368,9 +373,18 @@ include_once('head.php');
                 <li>Feiertage (Auflistung) </li>
             </ul>  
 
+<h1 class="chapter-title chapter-title-h1" id="uebersichten2">Auswertungen</h1>  
+    <h2 class="chapter-title chapter-title-h2" id="uebersichten_auswertung_uebungstage">Auswertung Übungstage</h2>
+            <p>Spalten </p>
+            <ul>
+                <li>Schuljahr</li>
+                <li>Tage Plan (Anzahl geplante Übungstage im Schuljahr)</li>
+                <li>Stunden Plan (Anzahl geplante Übungstage  x Schüler Unterrichts-Dauer) </li>
+                <li>Tage berechnet	(Anzahl protokollierte Übungstage x Schüler Unterrichts-Dauer)</li>
+                <li>Stunden berechnet	(Anzahl protokollierte Übungstage  x Schüler Unterrichts-Dauer)  </li>
+                <li>Stunden Übung (Summe Übungsstunden) </li>
 
-
-
+            </ul>
 
             <hr />
 

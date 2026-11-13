@@ -59,7 +59,7 @@ a:hover {
     <b>Zu Sammlungen:</b> 
       <a href="show_table4.php?ansicht=standorte">Standorte</a>, 
       <a href="show_table4.php?ansicht=verlage">Verlage</a>, 
-      <a href="show_table4.php?ansicht=linktypen">Link-Typen</a>
+      <a href="show_table4.php?ansicht=linktypen">Link-Typen</a><br>
     <hr> 
     <b>Zu Musikstücken:</b> 
       <a href="show_table4.php?ansicht=komponisten">Komponisten</a>, 
@@ -67,34 +67,43 @@ a:hover {
       <a href="show_table4.php?ansicht=verwendungszwecke">Verwendungszwecke</a>, 
       <a href="show_table4.php?ansicht=gattungen">Gattungen</a>, 
       <a href="show_table4.php?ansicht=epochen">Epochen</a>, 
-      <a href="show_table4.php?ansicht=materialtypen">Material-Typen</a>
+      <a href="show_table4.php?ansicht=materialtypen">Material-Typen</a><br>
       <hr> 
 
     <b>Zu Sätzen: </b>
         <a href="show_table4.php?ansicht=schwierigkeitsgrade">Schwierigkeitsgrade</a>, 
         <a href="show_table4.php?ansicht=instrumente">Instrumente</a>, 
-        <a href="show_table4.php?ansicht=erprobt">Erprobt</a>, 
+        <a href="show_table4.php?ansicht=erprobt">Erprobt</a> <br>
 
     <hr> 
        <b>Übergreifend: </b>  
       <a href="show_table4.php?ansicht=besonderheiten">Besonderheiten</a>, 
       <a href="show_table4.php?ansicht=lookuptypes">Besonderheit-Typen</a>, 
       <a href="show_table4.php?ansicht=status">Status-Ausprägungen</a> 
+      <br>
+  </td>
+</tr>
+
+
+<tr> <td class="start"> <h3>Auswertungen</h3> </td>
+  <td class="start"> 
+    <a href="show_table4.php?ansicht=auswertung_uebungstage">Auswertung Übungstage und Übungen</a> <br>
+    <a href="show_table3.php">Verwendungszwecke mit Spieldauer-Anzeige</a> <br>    
+    <a href="show_table4.php?ansicht=info-alle-spieldauern">Verwendete Spieldauern</a> <br>
+    <a href="show_table4.php?ansicht=info-alle-tempobezeichnungen">Verwendete Tempobezeichnungen</a> <br>
+
+    
   </td>
 </tr>
 
 <tr> <td class="start"> <h3>Abfragen</h3> </td>
   <td class="start"> 
-    <a href="show_table3.php">Verwendungszweck Planung</a> <i>(Anzeige Gesamt - Spieldauer) </i> <br>
-    <a href="show_table4.php?ansicht=info-alle-spieldauern">Verwendete Spieldauern</a> <br>
-    <a href="show_table4.php?ansicht=info-alle-tempobezeichnungen">Verwendete Tempobezeichnungen</a> <br>
-    <hr> 
-     <a href="show_table4.php?ansicht=abfragetypen">Abfragetypen</a><br> 
-      <a href="show_table4.php?ansicht=abfragen">Gespeicherte Abfragen</a><br> 
+      <a href="show_table4.php?ansicht=abfragen">Gespeicherte Abfragen</a> <br> 
+      <a href="show_table4.php?ansicht=abfragetypen">Abfragetypen</a>
   </td>
 </tr>
 
-<tr> <td class="start"> <h3>Standard-Tests</h3> </td>
+<tr> <td class="start"> <h3>Tests</h3> </td>
   <td class="start"> 
     <a href="show_table4.php?ansicht=test-sammlungen-ohne-musikstueck">Sammlungen ohne Musikstück</a> <br>
     <a href="show_table4.php?ansicht=test-musikstuecke-ohne-satz">Musikstücke ohne Satz</a> <br>

@@ -166,6 +166,12 @@ switch ($ansicht) // $PageTitle, $table_edit
   case 'aufgaben'; 
     $PageTitle='Übersicht Aufgaben';  
     break;     
+
+  case 'auswertung_uebungstage'; 
+    $PageTitle='Auswertung Übungstage';  
+    break;     
+
+    
 }
 
 include_once('head.php'); 
@@ -543,7 +549,6 @@ switch ($ansicht)  // setzen: $PageTitle, $table_edit, $show_help_link
     $bewertung->print_preselect($BewertungID); 
 
     echo ' Entwurf: <select id="Entwurf" name="Entwurf" onchange="this.form.submit()" >
-              <option value="" '.($Entwurf==''?'selected':'').'></option>
               <option value="0" '.($Entwurf=='0'?'selected':'').'>Nein</option>
               <option value="1" '.($Entwurf=='1'?'selected':'').'>Ja</option>
           </select> ';       
@@ -1341,6 +1346,47 @@ switch ($ansicht)  // setzen: $PageTitle, $table_edit, $show_help_link
 
     break; 
 
+
+/***************** Auswertungen ****************************** */
+ case 'auswertung_uebungstage': 
+    include_once("classes/class.schuljahr.php");
+
+    $SchuelerID=(isset($_REQUEST["SchuelerID"])?$_REQUEST["SchuelerID"]:'');    
+
+    $schuljahr = new Schuljahr(); 
+    $SchuljahrID_akt= $schuljahr->getCurrentID(); 
+    $SchuljahrID=(isset($_REQUEST["SchuljahrID"])?$_REQUEST["SchuljahrID"]:$SchuljahrID_akt);    
+    // $SchuljahrID=$SchuljahrID==''?$SchuljahrID_akt:$SchuljahrID;    
+
+
+    echo '<form action="" method="get">'.PHP_EOL;       
+
+    $schueler = new Schueler(); 
+    echo '<a href="edit_schueler.php?ID='.$SchuelerID.'&option=edit" target="_blank" title="Schüler bearbeiten">Schüler:</a>'.PHP_EOL; 
+    $schueler->print_preselect($SchuelerID); 
+
+    $schuljahr = new Schuljahr(); 
+        echo ' &#9475;';        
+    echo 'Schuljahr: '.PHP_EOL; 
+    $schuljahr->print_preselect($SchuljahrID, '', true); 
+
+
+    echo '<input type="submit" class="btnSave" name="senden" value="Suchen">';
+    echo '<input type="hidden" name="ansicht" value="'.$ansicht.'">'; 
+    echo '</form>';           
+    
+    $abfrage = new Query();
+    $abfrage->table_edit='schueler_kalender'; 
+    $abfrage->SchuelerID=$SchuelerID; 
+    $abfrage->SchuljahrID=$SchuljahrID; 
+
+    $abfrage->print_auswertung_uebungstage(true); 
+    
+    $execute_query_inside=false; 
+
+
+
+    break; 
 
 /***************** Infosichten ****************************** */
   case 'info-alle-spieldauern': // 

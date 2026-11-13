@@ -7,9 +7,11 @@ include_once("classes/class.schuljahr.php");
 echo '<div style="display: grid; grid-template-columns: auto auto;">'; 
 
 $Entwurf=(isset($_REQUEST["Entwurf"])?$_REQUEST["Entwurf"]:0); // wird beim Aufruf des Unterformulars übergeben  
+$Datum=(isset($_REQUEST["Datum"])?$_REQUEST["Datum"]:''); 
+$SchuljahrID=(isset($_REQUEST["SchuljahrID"])?$_REQUEST["SchuljahrID"]:''); 
 
 if($Entwurf==0) {
-    $Datum=(isset($_REQUEST["Datum"])?$_REQUEST["Datum"]:''); 
+
     // $Datum=(isset($_REQUEST["Datum"])?$_REQUEST["Datum"]:date('Y-m-d')); 
     $schuljahr = new Schuljahr(); 
     $SchuljahrID_akt= $schuljahr->getCurrentID(); 
@@ -25,7 +27,6 @@ if($Entwurf==0) {
 
 $schueler=new Schueler();
 $schueler->ID=$_GET["SchuelerID"]; 
-
 $schueler->print_table_uebungen($SchuljahrID, $Datum, $Entwurf); 
 
 echo '</div>'; 

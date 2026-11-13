@@ -225,17 +225,11 @@ include_once('head.php');
         <h3 class="chapter-title chapter-title-h3" id="erfassung_schueler_auswertung_uebungen_uebungstypen">Schüler:  Auswertung Übungen / Typ XXX</h3>
         <h3 class="chapter-title chapter-title-h3" id="erfassung_schueler_auswertung_uebungen_besonderheiten">Schüler:  Auswertung Übungen / Besonderheit XXX</h3>
         <h3 class="chapter-title chapter-title-h3" id="erfassung_schueler_auswertung_uebungen_noten">Schüler: Auswertung Übungen / Noten XXX </h3>
-        <h3 class="chapter-title chapter-title-h3" id="erfassung_schueler_auswertung_unterrichtszeiten">Schüler: Auswertung Unterrichtszeit XXXX</h3>
-            <p>Spalten </p>
-            <ul>
-                <li>Schuljahr</li>
-                <li>Tage Plan (Anzahl geplante Übungstage im Schuljahr)</li>
-                <li>Stunden Plan (Anzahl geplante Übungstage  x Schüler Unterrichts-Dauer) </li>
-                <li>Tage berechnet	(Anzahl protokollierte Übungstage x Schüler Unterrichts-Dauer)</li>
-                <li>Stunden berechnet	(Anzahl protokollierte Übungstage  x Schüler Unterrichts-Dauer)  </li>
-                <li>Stunden Übung (Summe Übungsstunden) </li>
+        <h3 class="chapter-title chapter-title-h3" id="erfassung_schueler_auswertung_uebungstage">Schüler: Auswertung Übungstage XXXX</h3>
+            
+            <p>Info zur Berechnung siehe Übersicht <a href="help_uebersichten.php#uebersichten_auswertung_uebungstage">Auswertung Übungstage</a></p>
 
-            </ul>
+        
         <h3 class="chapter-title chapter-title-h3" id="erfassung_schueler_noten_besonderheiten">Schüler:  Verknüpfte Noten + Besonderheiten XXX</h3>
         <h3 class="chapter-title chapter-title-h3" id="erfassung_schueler_besonderheiten_aus_noten">Schüler:  Besonderheiten aus verknüpften Noten XXX</h3>
         <h3 class="chapter-title chapter-title-h3" id="erfassung_schueler_kopieren">Schüler kopieren</h3>

@@ -258,136 +258,213 @@ class Query {
 
   public function print_schueler_uebungen($is_overview=false) {
 
-    $sqlpart = new SQLPart(); 
+    $query=''; 
 
-    $query="SELECT "; 
+    switch ($this->Entwurf) {
+      case 0: // Übungen mit Datum, keine Entwürfe 
+        $sqlpart = new SQLPart(); 
 
-    if($is_overview) {
-      $query.="schueler.Name AS `Schueler`, "; 
-    }
+        $query="SELECT "; 
 
+        if($is_overview) {
+          $query.="schueler.Name AS `Schueler`, "; 
+        }
 
-    $query.="uebung.Datum as `Datum`,                    
-              schueler.Unterricht_Reihenfolge as `Schüler Reihen-folge`,
-              uebung.Reihenfolge as `Übung Reihen-folge`,
-              uebung.Name as `Uebung Inhalt`  ,
-                  "; 
+        $query.="uebung.Datum as `Datum`,                    
+                  schueler.Unterricht_Reihenfolge as `Schüler Reihen-folge`,
+                  uebung.Reihenfolge as `Übung Reihen-folge`,
+                  uebung.Name as `Uebung Inhalt`  ,
+                      "; 
 
-    $query.=$sqlpart->getSQL_COL_CONCAT_Noten(300).',  '; 
+        $query.=$sqlpart->getSQL_COL_CONCAT_Noten(300).',  '; 
 
-    $query.="v_uebung_lookuptypes.LookupList2 as Besonderheiten ,  
+        $query.="v_uebung_lookuptypes.LookupList2 as Besonderheiten ,  
+                      uebung.Bemerkung  as `Übung Bemerkung`  , 
+                      CONCAT(uebung.Anzahl, ' min') Dauer  , 
+                      uebungtyp.Name as `Uebung Typ` ,
+                      bewertung.Name as Bewertung    ,            
+                      uebung.ID
+                    "; 
+
+        $query.="FROM uebung 
+                      INNER JOIN schuljahr ON uebung.Datum  BETWEEN schuljahr.Datum_Start AND schuljahr.Datum_Ende       
+                      INNER join schueler on schueler.ID=uebung.SchuelerID
+                                    and schueler.Aktiv=1
+                      left join uebungtyp on uebung.UebungtypID=uebungtyp.ID 
+                      left join bewertung on bewertung.ID = uebung.BewertungID 
+                      left join satz  on satz.ID=uebung.SatzID 
+                      left join musikstueck on satz.MusikstueckID = musikstueck.ID
+                      left JOIN sammlung on sammlung.ID = musikstueck.SammlungID
+                      left join v_uebung_lookuptypes on v_uebung_lookuptypes.UebungID=uebung.ID
+                      LEFT JOIN kalender ON uebung.Datum = kalender.Datum  "; 
+
+        $query.="      WHERE 1=1 "; 
+
+        $this->groupcol='Schueler';         
+
+        if($this->SchuljahrID!='') {
+          $query.="AND schuljahr.ID = :SchuljahrID ";  
+        }    
+        
+        if (!empty($this->Datum) & empty($this->Datum_bis)) {
+          $query.="AND uebung.Datum='".$this->Datum."' ".PHP_EOL;  
+        }
+        if (!empty($this->Datum) & !empty($this->Datum_bis)) {
+          $query.="AND uebung.Datum BETWEEN '".$this->Datum."' AND '".$this->Datum_bis."' ".PHP_EOL; 
+        }
+        if (empty($this->Datum) & !empty($this->Datum_bis)) {
+          $query.="AND uebung.Datum <= '".$this->Datum_bis."' ".PHP_EOL;             
+        }
+
+        if ($this->SchuelerID!='') {
+          $query.="AND uebung.SchuelerID=".$this->SchuelerID." ";  
+          $this->groupcol='Datum';      
+        }
+
+        if ($this->Unterricht_Geplant!='') {
+          $query.="AND kalender.Unterricht_Geplant=".$this->Unterricht_Geplant." ".PHP_EOL;  
+        }
+                    
+        if ($this->Entwurf!='') {
+          $query.="AND uebung.Entwurf=".$this->Entwurf." ".PHP_EOL;  
+        }   
+
+        if ($this->UebungtypID!='') {
+          $query.="AND uebung.UebungtypID=".$this->UebungtypID." ";  
+        }
+        if ($this->BewertungID!='') {
+          $query.="AND uebung.BewertungID=".$this->BewertungID." ";          
+        }
+        if($this->Suchtext!='') {
+          $query.="AND ( uebung.Name LIKE '%".$this->Suchtext."%' 
+                      OR uebung.Bemerkung LIKE '%".$this->Suchtext."%' 
+                      OR uebungtyp.Name LIKE '%".$this->Suchtext."%' 
+                      OR v_uebung_lookuptypes.LookupList LIKE '%".$this->Suchtext."%' 
+                      OR satz.Name LIKE '%".$this->Suchtext."%' 
+                      OR satz.Bemerkung LIKE '%".$this->Suchtext."%' 
+                      OR musikstueck.Name LIKE '%".$this->Suchtext."%' 
+                      OR musikstueck.Bemerkung LIKE '%".$this->Suchtext."%' 
+                      OR sammlung.Name LIKE '%".$this->Suchtext."%' 
+                      OR sammlung.Bemerkung LIKE '%".$this->Suchtext."%' 
+                                ) "; 
+
+        }    
+
+        $query.="ORDER BY uebung.Datum DESC, schueler.Unterricht_Reihenfolge, schueler.Name, uebung.Reihenfolge";  
+
+        $stmt = $this->db->prepare($query); 
+
+        if($this->SchuljahrID!=''){
+          $stmt->bindParam(':SchuljahrID', $this->SchuljahrID, PDO::PARAM_INT); 
+        } 
+
+        break; 
+
+      case 1: // Übungsentwürfe (ohne Einbindung Kalender-Tabellen, einige Spalten nicht eingeblendet) 
+
+        $sqlpart = new SQLPart(); 
+
+        $query="SELECT "; 
+
+        if($is_overview) {
+          $query.="schueler.Name AS `Schueler`, "; 
+        }
+
+        $query.="uebung.Name as `Uebung Inhalt`  ,
+                      "; 
+        $query.=$sqlpart->getSQL_COL_CONCAT_Noten(300).',  '; 
+
+        $query.=" v_uebung_lookuptypes.LookupList2 as Besonderheiten ,  
                   uebung.Bemerkung  as `Übung Bemerkung`  , 
-                   CONCAT(uebung.Anzahl, ' min') Dauer  , 
-                   uebungtyp.Name as `Uebung Typ` ,
-                   bewertung.Name as Bewertung    ,            
-                   uebung.ID
-                "; 
+                  CONCAT(uebung.Anzahl, ' min') Dauer  , 
+                  uebungtyp.Name as `Uebung Typ` ,      
+                  uebung.ID
+                    "; 
 
-    $query.="FROM uebung 
-                  INNER JOIN schuljahr ON uebung.Datum  BETWEEN schuljahr.Datum_Start AND schuljahr.Datum_Ende       
-                  INNER join schueler on schueler.ID=uebung.SchuelerID
-                                and schueler.Aktiv=1
-                  left join uebungtyp on uebung.UebungtypID=uebungtyp.ID 
-                  left join bewertung on bewertung.ID = uebung.BewertungID 
-                  left join satz  on satz.ID=uebung.SatzID 
-                  left join musikstueck on satz.MusikstueckID = musikstueck.ID
-                  left JOIN sammlung on sammlung.ID = musikstueck.SammlungID
-                  left join v_uebung_lookuptypes on v_uebung_lookuptypes.UebungID=uebung.ID
-                  LEFT JOIN kalender ON uebung.Datum = kalender.Datum  "; 
+        $query.="FROM uebung 
+                      INNER join schueler on schueler.ID=uebung.SchuelerID
+                                    and schueler.Aktiv=1
+                      left join uebungtyp on uebung.UebungtypID=uebungtyp.ID 
+                      left join satz  on satz.ID=uebung.SatzID 
+                      left join musikstueck on satz.MusikstueckID = musikstueck.ID
+                      left JOIN sammlung on sammlung.ID = musikstueck.SammlungID
+                      left join v_uebung_lookuptypes on v_uebung_lookuptypes.UebungID=uebung.ID  "; 
 
-    $query.="      WHERE 1=1 "; 
+        $query.="      WHERE 1=1 "; 
 
-    $this->groupcol='Schueler';         
+        $this->groupcol='Schueler';         
+        
+        if ($this->SchuelerID!='') {
+          $query.="AND uebung.SchuelerID=".$this->SchuelerID." ";  
+          $this->groupcol='';               
+        }
+                    
+        if ($this->Entwurf!='') {
+          $query.="AND uebung.Entwurf=".$this->Entwurf." ".PHP_EOL;  
+        }   
 
-    if($this->SchuljahrID!='') {
-      $query.="AND schuljahr.ID = :SchuljahrID ";  
-    }    
-    
-    if (!empty($this->Datum) & empty($this->Datum_bis)) {
-      $query.="AND uebung.Datum='".$this->Datum."' ".PHP_EOL;  
+        if ($this->UebungtypID!='') {
+          $query.="AND uebung.UebungtypID=".$this->UebungtypID." ";  
+        }
+
+        if($this->Suchtext!='') {
+          $query.="AND ( uebung.Name LIKE '%".$this->Suchtext."%' 
+                      OR uebung.Bemerkung LIKE '%".$this->Suchtext."%' 
+                      OR uebungtyp.Name LIKE '%".$this->Suchtext."%' 
+                      OR v_uebung_lookuptypes.LookupList LIKE '%".$this->Suchtext."%' 
+                      OR satz.Name LIKE '%".$this->Suchtext."%' 
+                      OR satz.Bemerkung LIKE '%".$this->Suchtext."%' 
+                      OR musikstueck.Name LIKE '%".$this->Suchtext."%' 
+                      OR musikstueck.Bemerkung LIKE '%".$this->Suchtext."%' 
+                      OR sammlung.Name LIKE '%".$this->Suchtext."%' 
+                      OR sammlung.Bemerkung LIKE '%".$this->Suchtext."%' 
+                                ) "; 
+        }    
+
+        $query.="ORDER BY uebung.Name";  
+
+        $stmt = $this->db->prepare($query); 
+
+        break; 
+            
+
     }
-    if (!empty($this->Datum) & !empty($this->Datum_bis)) {
-      $query.="AND uebung.Datum BETWEEN '".$this->Datum."' AND '".$this->Datum_bis."' ".PHP_EOL; 
-    }
-    if (empty($this->Datum) & !empty($this->Datum_bis)) {
-      $query.="AND uebung.Datum <= '".$this->Datum_bis."' ".PHP_EOL;             
-    }
-
-    if ($this->SchuelerID!='') {
-      $query.="AND uebung.SchuelerID=".$this->SchuelerID." ";  
-      $this->groupcol='Datum';      
-    }
-
-    if ($this->Unterricht_Geplant!='') {
-      $query.="AND kalender.Unterricht_Geplant=".$this->Unterricht_Geplant." ".PHP_EOL;  
-    }
-                
-    if ($this->Entwurf!='') {
-      $query.="AND uebung.Entwurf=".$this->Entwurf." ".PHP_EOL;  
-    }   
-
-    if ($this->UebungtypID!='') {
-      $query.="AND uebung.UebungtypID=".$this->UebungtypID." ";  
-    }
-    if ($this->BewertungID!='') {
-      $query.="AND uebung.BewertungID=".$this->BewertungID." ";          
-    }
-    if($this->Suchtext!='') {
-      $query.="AND ( uebung.Name LIKE '%".$this->Suchtext."%' 
-                  OR uebung.Bemerkung LIKE '%".$this->Suchtext."%' 
-                  OR uebungtyp.Name LIKE '%".$this->Suchtext."%' 
-                  OR v_uebung_lookuptypes.LookupList LIKE '%".$this->Suchtext."%' 
-                  OR satz.Name LIKE '%".$this->Suchtext."%' 
-                  OR satz.Bemerkung LIKE '%".$this->Suchtext."%' 
-                  OR musikstueck.Name LIKE '%".$this->Suchtext."%' 
-                  OR musikstueck.Bemerkung LIKE '%".$this->Suchtext."%' 
-                  OR sammlung.Name LIKE '%".$this->Suchtext."%' 
-                  OR sammlung.Bemerkung LIKE '%".$this->Suchtext."%' 
-                            ) "; 
-
-    }    
-
-    $query.="ORDER BY uebung.Datum DESC, schueler.Unterricht_Reihenfolge, schueler.Name, uebung.Reihenfolge";  
 
     // $this->print_query($query); // test 
 
-    $stmt = $this->db->prepare($query); 
-
-    if($this->SchuljahrID!=''){
-      $stmt->bindParam(':SchuljahrID', $this->SchuljahrID, PDO::PARAM_INT); 
-    } 
-        
     $this->show_ID=false; 
     $this->print_table($stmt); 
 
   }
 
-  public function print_schueler_auswertung_uebungstage($is_overview=false) {
+  public function print_auswertung_uebungstage($is_overview=false) {
 
-    $query="SELECT "; 
+    $query="SELECT stunden_plan.Schuljahr, "; 
 
     if($is_overview) {
-      $query.="schueler.Name AS `Schueler`, "; 
+      $query.="stunden_plan.Schueler, "; 
     }
 
-    $query.="stunden_plan.Schuljahr, 
-              stunden_plan.Tage AS `Tage Plan` , 
+    $query.=" stunden_plan.Tage AS `Tage Plan` , 
               stunden_plan.Stunden AS `Stunden Plan` , 
               stunden_uebungstage.Tage AS `Tage berechnet`, 
               stunden_uebungstage.Stunden_berechnet AS 'Stunden berechnet',  
-              stunden_uebung.Stunden_uebung 'Stunden Übung' 
+              stunden_uebung.Stunden_uebung 'Stunden Übung', 
+              stunden_plan.SchuljahrID as ID  
           FROM 
           (
           SELECT schueler_kalender.SchuelerID
+               , schueler.Name as Schueler
               , schuljahr.ID AS SchuljahrID 
               , schuljahr.Bezeichnung  AS Schuljahr 
               , COUNT(DISTINCT schueler_kalender.Datum) AS Tage
               , TIME_FORMAT(SEC_TO_TIME( (COUNT(DISTINCT schueler_kalender.Datum) * schueler.Unterricht_Dauer) * 60 * schueler.Unterricht_Gewichtung), '%H:%i')   AS Stunden
+          
           FROM schueler_kalender
           INNER JOIN kalender ON schueler_kalender.Datum = kalender.Datum 
           INNER JOIN schueler ON schueler_kalender.SchuelerID  = schueler.ID
           INNER JOIN schuljahr ON schueler_kalender.Datum  BETWEEN schuljahr.Datum_Start AND schuljahr.Datum_Ende 
-          WHERE 1=1 "; 
+          WHERE 1=1 AND schueler.Aktiv=1 "; 
 
           if($this->SchuelerID!=''){
             $query.="AND schueler.ID = :SchuelerID "; 
@@ -441,7 +518,7 @@ class Query {
           ) AS stunden_uebung 
           ON stunden_plan.SchuljahrID = stunden_uebung.SchuljahrID 
           AND stunden_plan.SchuelerID = stunden_uebung.SchuelerID            
-        ORDER BY Schuljahr DESC "; 
+        ORDER BY stunden_plan.Schueler  ASC "; 
 
     // $this->print_query($query); // test 
     
@@ -455,7 +532,10 @@ class Query {
       $stmt->bindParam(':SchuljahrID', $this->SchuljahrID, PDO::PARAM_INT); 
     } 
 
+    $this->show_ID=false; 
+    $this->add_link_edit=false; 
     $this->print_table($stmt); 
+
     
   }
 
